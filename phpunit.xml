@@ -8,8 +8,11 @@
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory suffix=".php">./src</directory>
         </whitelist>
+        <blacklist>
+            <file>./src/Kernel.php</file>
+        </blacklist>
     </filter>
 </phpunit>
