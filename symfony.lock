@@ -2,6 +2,15 @@
     "doctrine/instantiator": {
         "version": "1.1.0"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "myclabs/deep-copy": {
         "version": "1.7.0"
     },
@@ -10,6 +19,9 @@
     },
     "phar-io/version": {
         "version": "1.0.1"
+    },
+    "php-coveralls/php-coveralls": {
+        "version": "v2.0.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -55,6 +67,9 @@
     },
     "psr/container": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/log": {
         "version": "1.0.2"
@@ -169,6 +184,9 @@
             "version": "4.0",
             "ref": "cda8b550123383d25827705d05a42acf6819fe4e"
         }
+    },
+    "symfony/stopwatch": {
+        "version": "v4.0.8"
     },
     "symfony/yaml": {
         "version": "v4.0.8"

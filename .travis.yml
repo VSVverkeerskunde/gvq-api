@@ -5,3 +5,5 @@ install: composer install
 script:
 - ./vendor/bin/phpcs
 - ./vendor/bin/phpunit
+after_success:
+- php vendor/bin/coveralls -v
