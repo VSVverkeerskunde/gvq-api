@@ -1,6 +1,20 @@
 {
+    "name": "vsv-verkeerskunde/gvq-api",
+    "description": "API for GVQ",
     "type": "project",
-    "license": "proprietary",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Wim Robberechts",
+            "email": "wim.robberechts@vsv.be",
+            "role": "Product Owner"
+        },
+        {
+            "name": "Luc Wollants",
+            "email": "luc.wollants@apptite.be",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "ext-iconv": "*",
