@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace VSV\GVQ_API;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

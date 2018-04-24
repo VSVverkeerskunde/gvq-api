@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "VSV\\GVQ_API\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "VSV\\GVQ_API\\Tests\\": "tests/"
         }
     },
     "replace": {
