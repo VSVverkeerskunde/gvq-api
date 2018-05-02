@@ -13,9 +13,10 @@ class AnswerTest extends TestCase
 
     protected function setUp()
     {
+        $text = new NotEmptyString('This is the first answer.');
         $this->answer = new Answer(
             1,
-            'This is the first answer.'
+            $text
         );
     }
 

@@ -10,17 +10,17 @@ class Answer
     private $id;
 
     /**
-     * @var string
+     * @var NotEmptyString
      */
     private $text;
 
     /**
      * @param int $id
-     * @param string $text
+     * @param NotEmptyString $text
      */
     public function __construct(
         int $id,
-        string $text
+        NotEmptyString $text
     ) {
         $this->id = $id;
         $this->text = $text;
@@ -39,6 +39,6 @@ class Answer
      */
     public function getText(): string
     {
-        return $this->text;
+        return $this->text->__toString();
     }
 }
