@@ -12,7 +12,10 @@ class Language
     /**
      * @var string[]
      */
-    private $supportedLanguages = ['nl', 'fr'];
+    private $supportedLanguages = [
+        'nl',
+        'fr',
+    ];
 
     /**
      * @param string $value
