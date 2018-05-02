@@ -55,4 +55,37 @@ class YearTest extends TestCase
     {
         $this->assertSame((string)$this->value, $this->year->__toString());
     }
+
+    /**
+     * @test
+     *
+     * @dataProvider yearsProvider
+     *
+     * @param Year $year
+     * @param Year $otherYear
+     * @param bool $expected
+     */
+    public function it_supports_equal_function(
+        Year $year,
+        Year $otherYear,
+        bool $expected
+    ) {
+        $this->assertEquals($expected, $year->equals($otherYear));
+    }
+
+    public function yearsProvider()
+    {
+        return [
+            [
+                new Year(2050),
+                new Year(2050),
+                true,
+            ],
+            [
+                new Year(2050),
+                new Year(2051),
+                false,
+            ],
+        ];
+    }
 }

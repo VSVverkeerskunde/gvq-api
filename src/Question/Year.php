@@ -38,4 +38,13 @@ class Year
     {
         return (string)$this->value;
     }
+
+    /**
+     * @param Year $year
+     * @return bool
+     */
+    public function equals(Year $year): bool
+    {
+        return $this->toNative() === $year->toNative();
+    }
 }
