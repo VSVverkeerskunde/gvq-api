@@ -22,4 +22,20 @@ class Year
 
         $this->value = $value;
     }
+
+    /**
+     * @return int
+     */
+    public function toNative(): int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string)$this->value;
+    }
 }
