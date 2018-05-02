@@ -12,14 +12,13 @@ class LanguageTest extends TestCase
      */
     private $language;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->language = new Language('nl');
     }
 
     /**
      * @test
-     *
      * @dataProvider languageProvider
      * @param string $languageAsString
      */
@@ -72,9 +71,7 @@ class LanguageTest extends TestCase
 
     /**
      * @test
-     *
      * @dataProvider languagesProvider
-     *
      * @param Language $language
      * @param Language $otherLanguage
      * @param bool $expected

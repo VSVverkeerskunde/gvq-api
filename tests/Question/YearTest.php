@@ -16,7 +16,7 @@ class YearTest extends TestCase
      */
     private $value = 2050;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->year = new Year($this->value);
     }
@@ -62,9 +62,7 @@ class YearTest extends TestCase
 
     /**
      * @test
-     *
      * @dataProvider yearsProvider
-     *
      * @param Year $year
      * @param Year $otherYear
      * @param bool $expected
