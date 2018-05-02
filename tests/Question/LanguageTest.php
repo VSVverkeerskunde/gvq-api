@@ -69,4 +69,40 @@ class LanguageTest extends TestCase
     {
         $this->assertEquals('nl', $this->language->__toString());
     }
+
+    /**
+     * @test
+     *
+     * @dataProvider languagesProvider
+     *
+     * @param Language $language
+     * @param Language $otherLanguage
+     * @param bool $expected
+     */
+    public function it_supports_equals_function(
+        Language $language,
+        Language $otherLanguage,
+        bool $expected
+    ) {
+        $this->assertEquals(
+            $expected,
+            $language->equals($otherLanguage)
+        );
+    }
+
+    public function languagesProvider()
+    {
+        return [
+            [
+                new Language('nl'),
+                new Language('nl'),
+                true,
+            ],
+            [
+                new Language('nl'),
+                new Language('fr'),
+                false,
+            ],
+        ];
+    }
 }

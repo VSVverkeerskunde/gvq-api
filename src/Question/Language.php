@@ -46,4 +46,14 @@ class Language
     {
         return $this->toNative();
     }
+
+    /**
+     * @param Language $language
+     *
+     * @return bool
+     */
+    public function equals(Language $language): bool
+    {
+        return $this->toNative() === $language->toNative();
+    }
 }
