@@ -8,6 +8,16 @@ class LanguageTest extends TestCase
 {
 
     /**
+     * @var Language
+     */
+    private $language;
+
+    public function setUp()
+    {
+        $this->language = new Language('nl');
+    }
+
+    /**
      * @test
      *
      * @dataProvider languageProvider
@@ -42,5 +52,21 @@ class LanguageTest extends TestCase
         );
 
         new Language('ge');
+    }
+
+    /**
+     * @test
+     */
+    public function it_supports_to_native()
+    {
+        $this->assertEquals('nl', $this->language->toNative());
+    }
+
+    /**
+     * @test
+     */
+    public function it_supports_to_string()
+    {
+        $this->assertEquals('nl', $this->language->__toString());
     }
 }

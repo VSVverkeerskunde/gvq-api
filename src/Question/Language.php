@@ -30,4 +30,20 @@ class Language
 
         $this->value = $value;
     }
+
+    /**
+     * @return string
+     */
+    public function toNative(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toNative();
+    }
 }
