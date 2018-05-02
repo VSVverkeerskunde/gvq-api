@@ -19,4 +19,29 @@ class NotEmptyString
         }
         $this->text = $text;
     }
+
+    /**
+     * @return string
+     */
+    public function toNative(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toNative();
+    }
+
+    /**
+     * @param NotEmptyString $notEmptyString
+     * @return bool
+     */
+    public function equals(NotEmptyString $notEmptyString): bool
+    {
+        return $this->toNative() === $notEmptyString->toNative();
+    }
 }
