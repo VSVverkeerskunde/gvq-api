@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class LanguageTest extends TestCase
 {
-
     /**
      * @var Language
      */
@@ -15,18 +14,6 @@ class LanguageTest extends TestCase
     protected function setUp()
     {
         $this->language = new Language('nl');
-    }
-
-    /**
-     * @test
-     * @dataProvider languageProvider
-     * @param string $languageAsString
-     */
-    public function it_only_accepts_supported_languages(string $languageAsString)
-    {
-        $language = new Language($languageAsString);
-
-        $this->assertNotNull($language);
     }
 
     /**

@@ -14,6 +14,7 @@ class NotEmptyString
      */
     public function __construct(string $text)
     {
+        $text = trim($text);
         if ($text === '') {
             throw new \InvalidArgumentException('Text argument cannot be empty.');
         }

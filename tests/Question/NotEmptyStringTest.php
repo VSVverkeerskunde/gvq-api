@@ -11,36 +11,37 @@ class NotEmptyStringTest extends TestCase
      */
     private $notEmptyString;
 
-    /**
-     * @var string
-     */
-    private $value = 'text';
-
-
     protected function setUp()
     {
-        $this->notEmptyString = new NotEmptyString($this->value);
+        $this->notEmptyString = new NotEmptyString('text');
     }
 
     /**
      * @test
+     * @dataProvider stringProvider
+     * @param string $string
      */
-    public function it_only_accepts_non_empty_argument()
-    {
-        $notEmptyString = new NotEmptyString('text');
-
-        $this->assertNotNull($notEmptyString);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_on_empty_argument()
+    public function it_throws_on_empty_argument(string $string)
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Text argument cannot be empty.');
 
-        new NotEmptyString('');
+        new NotEmptyString($string);
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function stringProvider(): array
+    {
+        return [
+            'spaces' => [
+                ' ',
+            ],
+            'empty' => [
+                '',
+            ],
+        ];
     }
 
     /**
@@ -48,7 +49,10 @@ class NotEmptyStringTest extends TestCase
      */
     public function it_supports_to_native()
     {
-        $this->assertEquals($this->value, $this->notEmptyString->toNative());
+        $this->assertEquals(
+            'text',
+            $this->notEmptyString->toNative()
+        );
     }
 
     /**
@@ -56,7 +60,10 @@ class NotEmptyStringTest extends TestCase
      */
     public function it_supports_to_string()
     {
-        $this->assertEquals($this->value, $this->notEmptyString->__toString());
+        $this->assertEquals(
+            'text',
+            $this->notEmptyString->__toString()
+        );
     }
 
     /**
@@ -71,7 +78,10 @@ class NotEmptyStringTest extends TestCase
         NotEmptyString $otherNotEmptyString,
         bool $expected
     ) {
-        $this->assertEquals($expected, $notEmptyString->equals($otherNotEmptyString));
+        $this->assertEquals(
+            $expected,
+            $notEmptyString->equals($otherNotEmptyString)
+        );
     }
 
     /**
@@ -82,6 +92,11 @@ class NotEmptyStringTest extends TestCase
         return [
             [
                 new NotEmptyString('text'),
+                new NotEmptyString('text'),
+                true,
+            ],
+            [
+                new NotEmptyString(' text '),
                 new NotEmptyString('text'),
                 true,
             ],

@@ -37,10 +37,10 @@ class Answer
     }
 
     /**
-     * @return string
+     * @return NotEmptyString
      */
-    public function getText(): string
+    public function getText(): NotEmptyString
     {
-        return $this->text->__toString();
+        return $this->text;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Question;
 
@@ -11,37 +11,39 @@ class YearTest extends TestCase
      */
     private $year;
 
-    /**
-     * @var int
-     */
-    private $value = 2050;
-
     protected function setUp()
     {
-        $this->year = new Year($this->value);
+        $this->year = new Year(2050);
     }
 
     /**
      * @test
+     * @dataProvider yearProvider
+     * @param int $year
      */
-    public function it_only_accepts_supported_values()
-    {
-        $year = new Year(2050);
-
-        $this->assertNotNull($year);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_for_unsupported_values()
+    public function it_throws_for_unsupported_values(int $year)
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Invalid value 2101 for year, value has to be above 2018 and below 2100'
+            'Invalid value '.$year.' for year, value has to be above 2018 and below 2100'
         );
 
-        new Year(2101);
+        new Year($year);
+    }
+
+    /**
+     * @return int[][]
+     */
+    public function yearProvider(): array
+    {
+        return [
+            [
+                2017,
+            ],
+            [
+                2100,
+            ],
+        ];
     }
 
     /**
@@ -49,7 +51,10 @@ class YearTest extends TestCase
      */
     public function it_supports_to_native()
     {
-        $this->assertSame($this->value, $this->year->toNative());
+        $this->assertSame(
+            2050,
+            $this->year->toNative()
+        );
     }
 
     /**
@@ -57,7 +62,10 @@ class YearTest extends TestCase
      */
     public function it_supports_to_string()
     {
-        $this->assertSame((string)$this->value, $this->year->__toString());
+        $this->assertSame(
+            '2050',
+            $this->year->__toString()
+        );
     }
 
     /**
@@ -72,9 +80,15 @@ class YearTest extends TestCase
         Year $otherYear,
         bool $expected
     ) {
-        $this->assertEquals($expected, $year->equals($otherYear));
+        $this->assertEquals(
+            $expected,
+            $year->equals($otherYear)
+        );
     }
 
+    /**
+     * @return array[]
+     */
     public function yearsProvider()
     {
         return [
