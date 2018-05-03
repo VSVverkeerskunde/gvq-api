@@ -45,15 +45,10 @@ class LanguageTest extends TestCase
      */
     public function it_supports_to_native()
     {
-        $this->assertEquals('nl', $this->language->toNative());
-    }
-
-    /**
-     * @test
-     */
-    public function it_supports_to_string()
-    {
-        $this->assertEquals('nl', $this->language->__toString());
+        $this->assertEquals(
+            'nl',
+            $this->language->toNative()
+        );
     }
 
     /**

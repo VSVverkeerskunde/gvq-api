@@ -59,17 +59,6 @@ class YearTest extends TestCase
 
     /**
      * @test
-     */
-    public function it_supports_to_string()
-    {
-        $this->assertSame(
-            '2050',
-            $this->year->__toString()
-        );
-    }
-
-    /**
-     * @test
      * @dataProvider yearsProvider
      * @param Year $year
      * @param Year $otherYear

@@ -40,14 +40,6 @@ class Language
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->toNative();
-    }
-
-    /**
      * @param Language $language
      *
      * @return bool

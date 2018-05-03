@@ -30,14 +30,6 @@ class NotEmptyString
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->toNative();
-    }
-
-    /**
      * @param NotEmptyString $notEmptyString
      * @return bool
      */

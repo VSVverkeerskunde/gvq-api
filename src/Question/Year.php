@@ -32,14 +32,6 @@ class Year
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string)$this->value;
-    }
-
-    /**
      * @param Year $year
      * @return bool
      */

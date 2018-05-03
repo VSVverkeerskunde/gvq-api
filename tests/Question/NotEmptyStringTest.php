@@ -57,17 +57,6 @@ class NotEmptyStringTest extends TestCase
 
     /**
      * @test
-     */
-    public function it_supports_to_string()
-    {
-        $this->assertEquals(
-            'text',
-            $this->notEmptyString->__toString()
-        );
-    }
-
-    /**
-     * @test
      * @dataProvider notEmptyStringsProvider
      * @param NotEmptyString $notEmptyString
      * @param NotEmptyString $otherNotEmptyString
