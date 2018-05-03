@@ -10,7 +10,7 @@ class AnswersTest extends TestCase
     /**
      * @test
      * @dataProvider answerProvider
-     * @param Answer[] $answers
+     * @param Answer ...$answers
      */
     public function it_throws_on_wrong_number_of_arguments(Answer ...$answers)
     {
@@ -20,7 +20,7 @@ class AnswersTest extends TestCase
     }
 
     /**
-     * @return Answer[]
+     * @return Answer[][]
      */
     public function answerProvider(): array
     {
@@ -71,7 +71,7 @@ class AnswersTest extends TestCase
         $answerArray = [$answer1, $answer2];
 
         $answers = new Answers($answer1, $answer2);
-        
+
         $iteratedArray = [];
         foreach ($answers as $answer) {
             array_push($iteratedArray, $answer);
