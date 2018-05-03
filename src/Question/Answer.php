@@ -2,10 +2,12 @@
 
 namespace VSV\GVQ_API\Question;
 
+use Ramsey\Uuid\UuidInterface;
+
 class Answer
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     private $id;
 
@@ -15,11 +17,11 @@ class Answer
     private $text;
 
     /**
-     * @param int $id
+     * @param UuidInterface $id
      * @param NotEmptyString $text
      */
     public function __construct(
-        int $id,
+        UuidInterface $id,
         NotEmptyString $text
     ) {
         $this->id = $id;
@@ -27,9 +29,9 @@ class Answer
     }
 
     /**
-     * @return int
+     * @return UuidInterface
      */
-    public function getId(): int
+    public function getId(): UuidInterface
     {
         return $this->id;
     }

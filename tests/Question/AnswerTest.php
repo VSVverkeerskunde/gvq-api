@@ -3,6 +3,8 @@
 namespace VSV\GVQ_API\Question;
 
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class AnswerTest extends TestCase
 {
@@ -11,11 +13,17 @@ class AnswerTest extends TestCase
      */
     private $answer;
 
+    /**
+     * @var UuidInterface
+     */
+    private $uuid;
+
     protected function setUp()
     {
         $text = new NotEmptyString('This is the first answer.');
+        $this->uuid = Uuid::uuid4();
         $this->answer = new Answer(
-            1,
+            $this->uuid,
             $text
         );
     }
@@ -26,7 +34,7 @@ class AnswerTest extends TestCase
     public function it_stores_an_id()
     {
         $this->assertEquals(
-            1,
+            $this->uuid,
             $this->answer->getId()
         );
     }
