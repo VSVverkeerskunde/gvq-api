@@ -24,7 +24,7 @@ class Language
     {
         if (!in_array($value, $this->supportedLanguages)) {
             throw new \InvalidArgumentException(
-                'Given language ' . $value . ' is not supported, only nl en fr are allowed.'
+                'Given language '.$value.' is not supported, only nl en fr are allowed.'
             );
         }
 
