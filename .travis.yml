@@ -3,6 +3,7 @@ php:
 - 7.2
 install: composer install
 script:
+- ./check_strict_types.sh
 - ./vendor/bin/phpcs
 - ./vendor/bin/phpunit
 after_success:
