@@ -9,20 +9,21 @@ class AnswersTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider answerProvider
+     * @dataProvider answersProvider
      * @param Answer ...$answers
      */
     public function it_throws_on_wrong_number_of_arguments(Answer ...$answers)
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Amount of answers must be 2 or 3.');
+
         new Answers(...$answers);
     }
 
     /**
      * @return Answer[][]
      */
-    public function answerProvider(): array
+    public function answersProvider(): array
     {
         $answer1 = new Answer(
             Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
@@ -68,16 +69,19 @@ class AnswersTest extends TestCase
             new NotEmptyString('text')
         );
 
-        $answerArray = [$answer1, $answer2];
+        $expectedArray = [
+            $answer1,
+            $answer2,
+        ];
 
-        $answers = new Answers($answer1, $answer2);
+        $answers = new Answers(...$expectedArray);
 
-        $iteratedArray = [];
+        $actualArray = [];
         foreach ($answers as $answer) {
-            array_push($iteratedArray, $answer);
+            $actualArray[] = $answer;
         }
 
         $this->assertInstanceOf(\IteratorAggregate::class, $answers);
-        $this->assertEquals($answerArray, $iteratedArray);
+        $this->assertEquals($expectedArray, $actualArray);
     }
 }
