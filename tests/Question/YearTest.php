@@ -18,7 +18,7 @@ class YearTest extends TestCase
 
     /**
      * @test
-     * @dataProvider yearProvider
+     * @dataProvider invalidYearProvider
      * @param int $year
      */
     public function it_throws_for_unsupported_values(int $year)
@@ -34,7 +34,7 @@ class YearTest extends TestCase
     /**
      * @return int[][]
      */
-    public function yearProvider(): array
+    public function invalidYearProvider(): array
     {
         return [
             [
@@ -42,6 +42,36 @@ class YearTest extends TestCase
             ],
             [
                 2100,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider validYearProvider
+     * @param int $year
+     */
+    public function it_supports_values_between_boundaries(int $year)
+    {
+        $this->assertNotNull(
+            new Year($year)
+        );
+    }
+
+    /**
+     * @return int[][]
+     */
+    public function validYearProvider(): array
+    {
+        return [
+            [
+                2018,
+            ],
+            [
+                2050,
+            ],
+            [
+                2099,
             ],
         ];
     }
