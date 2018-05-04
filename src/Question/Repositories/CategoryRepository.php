@@ -8,13 +8,13 @@ use VSV\GVQ_API\Question\Models\Category;
 
 interface CategoryRepository
 {
-    public function save(Category $question): void;
+    public function save(Category $category): void;
 
-    public function update(Category $question): void;
+    public function update(Category $category): void;
 
-    public function delete(Category $question): void;
+    public function delete(Category $category): void;
 
-    public function getById(UuidInterface $id): ?Categories;
+    public function getById(UuidInterface $id): ?Category;
 
-    public function getAll(): ?Category;
+    public function getAll(): ?Categories;
 }
