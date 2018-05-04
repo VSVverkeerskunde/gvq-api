@@ -22,6 +22,10 @@ class QuestionTest extends TestCase
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
@@ -78,6 +82,20 @@ class QuestionTest extends TestCase
         $this->assertEquals(
             new Year(2018),
             $this->question->getYear()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_a_category()
+    {
+        $this->assertEquals(
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            $this->question->getCategory()
         );
     }
 

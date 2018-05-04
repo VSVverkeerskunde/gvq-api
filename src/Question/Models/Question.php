@@ -26,6 +26,11 @@ class Question
     private $year;
 
     /**
+     * @var Category
+     */
+    private $category;
+
+    /**
      * @var NotEmptyString
      */
     private $questionText;
@@ -49,6 +54,7 @@ class Question
      * @param UuidInterface $id
      * @param Language $language
      * @param Year $year
+     * @param Category $category
      * @param NotEmptyString $questionText
      * @param Uri $pictureUri
      * @param Answers $answers
@@ -58,6 +64,7 @@ class Question
         UuidInterface $id,
         Language $language,
         Year $year,
+        Category $category,
         NotEmptyString $questionText,
         Uri $pictureUri,
         Answers $answers,
@@ -66,6 +73,7 @@ class Question
         $this->id = $id;
         $this->language = $language;
         $this->year = $year;
+        $this->category = $category;
         $this->questionText = $questionText;
         $this->pictureUri = $pictureUri;
         $this->answers = $answers;
@@ -94,6 +102,14 @@ class Question
     public function getYear(): Year
     {
         return $this->year;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory(): Category
+    {
+        return $this->category;
     }
 
     /**
