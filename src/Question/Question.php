@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question;
 
+use League\Uri\Interfaces\Uri;
 use Ramsey\Uuid\UuidInterface;
 
 class Question
@@ -27,6 +28,11 @@ class Question
     private $questionText;
 
     /**
+     * @var Uri
+     */
+    private $pictureUri;
+
+    /**
      * @var Answers
      */
     private $answers;
@@ -41,6 +47,7 @@ class Question
      * @param Language $language
      * @param Year $year
      * @param NotEmptyString $questionText
+     * @param Uri $pictureUri
      * @param Answers $answers
      * @param NotEmptyString $feedback
      */
@@ -49,6 +56,7 @@ class Question
         Language $language,
         Year $year,
         NotEmptyString $questionText,
+        Uri $pictureUri,
         Answers $answers,
         NotEmptyString $feedback
     ) {
@@ -56,6 +64,7 @@ class Question
         $this->language = $language;
         $this->year = $year;
         $this->questionText = $questionText;
+        $this->pictureUri = $pictureUri;
         $this->answers = $answers;
         $this->feedback = $feedback;
     }
@@ -90,6 +99,14 @@ class Question
     public function getQuestionText(): NotEmptyString
     {
         return $this->questionText;
+    }
+
+    /**
+     * @return Uri
+     */
+    public function getPictureUri(): Uri
+    {
+        return $this->pictureUri;
     }
 
     /**
