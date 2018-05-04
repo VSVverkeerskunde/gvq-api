@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question;
+namespace VSV\GVQ_API\Question\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 
 class Answer
 {
