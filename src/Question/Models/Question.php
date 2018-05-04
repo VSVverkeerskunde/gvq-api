@@ -51,6 +51,11 @@ class Question
     private $feedback;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $archivedOn;
+
+    /**
      * @param UuidInterface $id
      * @param Language $language
      * @param Year $year
@@ -142,5 +147,35 @@ class Question
     public function getFeedback(): NotEmptyString
     {
         return $this->feedback;
+    }
+
+    /**
+     * @param \DateTimeImmutable $archiveOn
+     */
+    public function archiveOn(\DateTimeImmutable $archiveOn): void
+    {
+        if ($this->archivedOn !== null) {
+            throw new \DomainException(
+                'The question with id: "'.$this->getId()->toString().'" was already archived.'
+            );
+        }
+
+        $this->archivedOn = $archiveOn;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchived(): bool
+    {
+        return $this->archivedOn !== null;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getArchivedOn(): ?\DateTimeImmutable
+    {
+        return $this->archivedOn;
     }
 }

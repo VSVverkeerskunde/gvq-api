@@ -161,4 +161,53 @@ class QuestionTest extends TestCase
             $this->question->getFeedback()
         );
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_be_archived()
+    {
+        $archivedOn = new \DateTimeImmutable('2018-10-12T12:02:53+00:00');
+
+        $this->question->archiveOn($archivedOn);
+
+        $this->assertEquals(
+            new \DateTimeImmutable('2018-10-12T12:02:53+00:00'),
+            $this->question->getArchivedOn()
+        );
+        $this->assertTrue(
+            $this->question->isArchived()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_created_as_not_archived()
+    {
+        $this->assertFalse(
+            $this->question->isArchived()
+        );
+        $this->assertNull(
+            $this->question->getArchivedOn()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_not_be_archived_twice()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage(
+            'The question with id: "448c6bd8-0075-4302-a4de-fe34d1554b8d" was already archived.'
+        );
+
+        $archivedOn = new \DateTimeImmutable('2018-10-12T12:02:53+00:00');
+
+        $this->question->archiveOn($archivedOn);
+        $this->question->archiveOn($archivedOn);
+    }
 }
