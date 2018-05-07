@@ -26,9 +26,7 @@ class CategoryDoctrineRepository implements CategoryRepository
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->objectRepository = $this->entityManager->getRepository(
-            CategoryEntity::class
-        );
+        $this->objectRepository = $this->entityManager->getRepository(Category::class);
     }
 
     /**
@@ -38,9 +36,7 @@ class CategoryDoctrineRepository implements CategoryRepository
      */
     public function save(Category $category): void
     {
-        $this->entityManager->persist(
-            CategoryEntity::fromCategory($category)
-        );
+        $this->entityManager->persist($category);
         $this->entityManager->flush();
     }
 
@@ -51,9 +47,7 @@ class CategoryDoctrineRepository implements CategoryRepository
      */
     public function update(Category $category): void
     {
-        $this->entityManager->merge(
-            CategoryEntity::fromCategory($category)
-        );
+        $this->entityManager->merge($category);
         $this->entityManager->flush();
     }
 
@@ -64,10 +58,8 @@ class CategoryDoctrineRepository implements CategoryRepository
      */
     public function delete(Category $category): void
     {
-        $categoryEntity = $this->entityManager->merge(
-            CategoryEntity::fromCategory($category)
-        );
-        $this->entityManager->remove($categoryEntity);
+        $category = $this->entityManager->merge($category);
+        $this->entityManager->remove($category);
         $this->entityManager->flush();
     }
 
@@ -77,18 +69,14 @@ class CategoryDoctrineRepository implements CategoryRepository
      */
     public function getById(UuidInterface $id): ?Category
     {
-        /** @var CategoryEntity|null $categoryEntity */
-        $categoryEntity = $this->objectRepository->findOneBy(
+        /** @var Category|null $category */
+        $category = $this->objectRepository->findOneBy(
             [
                 'id' => $id
             ]
         );
 
-        if ($categoryEntity === null) {
-            return null;
-        }
-
-        return $categoryEntity->toCategory();
+        return $category;
     }
 
     /**
@@ -96,19 +84,13 @@ class CategoryDoctrineRepository implements CategoryRepository
      */
     public function getAll(): ?Categories
     {
-        $categoryEntities = $this->objectRepository->findAll();
+        /** @var Category[] $categories */
+        $categories = $this->objectRepository->findAll();
 
-        if (empty($categoryEntities)) {
+        if (empty($categories)) {
             return null;
         }
 
-        return new Categories(
-            ...array_map(
-                function (CategoryEntity $categoryEntity) {
-                    return $categoryEntity->toCategory();
-                },
-                $categoryEntities
-            )
-        );
+        return new Categories(...$categories);
     }
 }

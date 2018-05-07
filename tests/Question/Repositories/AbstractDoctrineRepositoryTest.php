@@ -19,14 +19,11 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
      */
     protected function setUp()
     {
-        $configuration = Setup::createAnnotationMetadataConfiguration(
+        $configuration = Setup::createYAMLMetadataConfiguration(
             [
-                __DIR__ . '/../../../src',
+                __DIR__ . '/../../../src/Question/Repositories/Mappings',
             ],
-            true,
-            null,
-            null,
-            false
+            true
         );
 
         $connection = [
