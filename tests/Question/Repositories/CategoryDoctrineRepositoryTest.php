@@ -16,6 +16,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function setUp()
     {
@@ -29,6 +30,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      *
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -41,6 +43,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->categoryDoctrineRepository->save($category);
 
+        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
@@ -51,6 +54,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      *
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -68,6 +72,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->update($updatedCategory);
 
+        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
@@ -105,6 +110,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      *
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_can_get_a_category_by_id()
     {
@@ -114,6 +120,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->save($category);
 
+        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
@@ -128,6 +135,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      *
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_returns_null_when_category_not_found_by_id()
     {
@@ -137,6 +145,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->save($category);
 
+        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b')
         );
@@ -148,6 +157,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      *
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_can_get_all_categories()
     {
@@ -163,6 +173,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->save($category2);
 
+        $this->entityManager->clear();
         $foundCategories = $this->categoryDoctrineRepository->getAll();
 
         $this->assertEquals(

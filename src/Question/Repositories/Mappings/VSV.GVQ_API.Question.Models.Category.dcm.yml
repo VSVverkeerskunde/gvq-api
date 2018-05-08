@@ -3,7 +3,7 @@ VSV\GVQ_API\Question\Models\Category:
   table: category
   id:
     id:
-      type: guid
+      type: ramsey_uuid
   embedded:
     name:
       class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString

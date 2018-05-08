@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
@@ -16,6 +17,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
 
     /**
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function setUp()
     {
@@ -35,6 +37,10 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
             $connection,
             $configuration
         );
+
+        if(!Type::hasType('ramsey_uuid')) {
+            Type::addType('ramsey_uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+        }
 
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool = new SchemaTool($this->entityManager);
