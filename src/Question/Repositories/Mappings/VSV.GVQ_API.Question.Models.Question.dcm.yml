@@ -23,4 +23,20 @@ VSV\GVQ_API\Question\Models\Question:
       fetch: EAGER
       joinColumn:
         nullable: false
-
+        name: category_id
+        referencedColumnName: id
+  manyToMany:
+    answers:
+      targetEntity: VSV\GVQ_API\Question\Models\Answer
+      fetch: EAGER
+      joinTable:
+        name: questions_answers
+        joinColumns:
+          question_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          answer_id:
+            referencedColumnNames: id
+            unique: true
+      cascade:
+        - all
