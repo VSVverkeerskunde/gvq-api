@@ -33,8 +33,10 @@ class UriType extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         $uri = Uri::createFromString($value);
-        //call toString method to solve side effect in Uri lib because the data
-        //property gets created on calling this getter method
+
+        // Call toString method to solve side effect in Uri lib because the data
+        // property gets created on calling this getter method.
+        // @see https://github.com/thephpleague/uri-schemes/issues/10
         $uri->__toString();
 
         return $uri;
@@ -49,6 +51,12 @@ class UriType extends Type
         if ($value instanceof Uri) {
             return $value->__toString();
         }
-        throw ConversionException::conversionFailed($value, self::NAME);
+        throw ConversionException::conversionFailedInvalidType(
+            $value,
+            Uri::class,
+            [
+                Uri::class,
+            ]
+        );
     }
 }

@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Question\Repositories;
 use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\Models\Answer;
-use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\ValueObjects\Language;
