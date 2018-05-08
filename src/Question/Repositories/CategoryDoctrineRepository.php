@@ -2,31 +2,18 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 
-class CategoryDoctrineRepository implements CategoryRepository
+class CategoryDoctrineRepository extends AbstractDoctrineRepository implements CategoryRepository
 {
     /**
-     * @var EntityManager
+     * @inheritdoc
      */
-    private $entityManager;
-
-    /**
-     * @var ObjectRepository
-     */
-    private $objectRepository;
-
-    /**
-     * @param EntityManager $entityManager
-     */
-    public function __construct(EntityManager $entityManager)
+    public function getRepositoryName(): string
     {
-        $this->entityManager = $entityManager;
-        $this->objectRepository = $this->entityManager->getRepository(Category::class);
+        return Category::class;
     }
 
     /**
@@ -72,7 +59,7 @@ class CategoryDoctrineRepository implements CategoryRepository
         /** @var Category|null $category */
         $category = $this->objectRepository->findOneBy(
             [
-                'id' => $id
+                'id' => $id,
             ]
         );
 
