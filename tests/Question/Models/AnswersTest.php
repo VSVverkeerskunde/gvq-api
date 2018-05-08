@@ -28,19 +28,23 @@ class AnswersTest extends TestCase
     {
         $answer1 = new Answer(
             Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            false
         );
         $answer2 = new Answer(
             Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            false
         );
         $answer3 = new Answer(
             Uuid::fromString('822dd8f9-c86b-4531-be92-b35627a21ba4'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            false
         );
         $answer4 = new Answer(
             Uuid::fromString('50f0551b-a239-4554-96dc-4f4778e8d63a'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            true
         );
 
         return [
@@ -63,11 +67,13 @@ class AnswersTest extends TestCase
     {
         $answer1 = new Answer(
             Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            false
         );
         $answer2 = new Answer(
             Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
-            new NotEmptyString('text')
+            new NotEmptyString('text'),
+            false
         );
 
         $expectedArray = [

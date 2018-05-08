@@ -35,15 +35,18 @@ class QuestionTest extends TestCase
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new NotEmptyString('Oui, mais uniquement en agglomération.')
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.')
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new NotEmptyString('Non.')
+                    new NotEmptyString('Non.'),
+                    true
                 )
             ),
             new NotEmptyString(
@@ -134,15 +137,18 @@ class QuestionTest extends TestCase
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new NotEmptyString('Oui, mais uniquement en agglomération.')
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.')
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new NotEmptyString('Non.')
+                    new NotEmptyString('Non.'),
+                    true
                 )
             ),
             $this->question->getAnswers()

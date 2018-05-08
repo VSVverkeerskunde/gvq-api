@@ -17,7 +17,8 @@ class AnswerTest extends TestCase
     {
         $this->answer = new Answer(
             Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
-            new NotEmptyString('This is the first answer.')
+            new NotEmptyString('This is the first answer.'),
+            true
         );
     }
 
@@ -41,5 +42,13 @@ class AnswerTest extends TestCase
             new NotEmptyString('This is the first answer.'),
             $this->answer->getText()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_an_is_correct_flag()
+    {
+        $this->assertTrue($this->answer->isCorrect());
     }
 }

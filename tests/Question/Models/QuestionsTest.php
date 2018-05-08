@@ -33,15 +33,18 @@ class QuestionsTest extends TestCase
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new NotEmptyString('Oui, mais uniquement en agglomération.')
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.')
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new NotEmptyString('Non.')
+                    new NotEmptyString('Non.'),
+                    true
                 )
             ),
             new NotEmptyString(
@@ -66,15 +69,18 @@ class QuestionsTest extends TestCase
             new Answers(
                 new Answer(
                     Uuid::fromString('c4d5fa4d-b5bc-4d92-a201-a84abb0e3253'),
-                    new NotEmptyString('Les habitants de cette maison.')
+                    new NotEmptyString('Les habitants de cette maison.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('1ae8ea74-87f9-4e65-9458-d605888c3a54'),
-                    new NotEmptyString('Personne.')
+                    new NotEmptyString('Personne.'),
+                    false
                 ),
                 new Answer(
                     Uuid::fromString('a33daadb-be3f-4625-b1ae-368611680bde'),
-                    new NotEmptyString('Les habitants de cette maison et leurs visiteurs.')
+                    new NotEmptyString('Les habitants de cette maison et leurs visiteurs.'),
+                    true
                 )
             ),
             new NotEmptyString(

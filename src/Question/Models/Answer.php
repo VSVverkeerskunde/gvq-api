@@ -18,15 +18,23 @@ class Answer
     private $text;
 
     /**
+     * @var bool
+     */
+    private $correct;
+
+    /**
      * @param UuidInterface $id
      * @param NotEmptyString $text
+     * @param bool $correct
      */
     public function __construct(
         UuidInterface $id,
-        NotEmptyString $text
+        NotEmptyString $text,
+        bool $correct
     ) {
         $this->id = $id;
         $this->text = $text;
+        $this->correct = $correct;
     }
 
     /**
@@ -43,5 +51,13 @@ class Answer
     public function getText(): NotEmptyString
     {
         return $this->text;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCorrect(): bool
+    {
+        return $this->correct;
     }
 }
