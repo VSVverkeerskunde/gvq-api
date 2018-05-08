@@ -38,7 +38,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
             $configuration
         );
 
-        if(!Type::hasType('ramsey_uuid')) {
+        if (!Type::hasType('ramsey_uuid')) {
             Type::addType('ramsey_uuid', 'Ramsey\Uuid\Doctrine\UuidType');
         }
 
