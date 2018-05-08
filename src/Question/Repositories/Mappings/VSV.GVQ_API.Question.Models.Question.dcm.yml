@@ -1,0 +1,26 @@
+VSV\GVQ_API\Question\Models\Question:
+  type: entity
+  table: question
+  id:
+    id:
+      type: ramsey_uuid
+  fields:
+    pictureUri:
+      column: picture_uri
+      type: league_uri
+  embedded:
+    language:
+      class: VSV\GVQ_API\Question\ValueObjects\Language
+    year:
+      class: VSV\GVQ_API\Question\ValueObjects\Year
+    questionText:
+      class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString
+    feedback:
+      class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString
+  manyToOne:
+    category:
+      targetEntity: VSV\GVQ_API\Question\Models\Category
+      fetch: EAGER
+      joinColumn:
+        nullable: false
+

@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Doctrine\UuidType;
+use VSV\GVQ_API\Question\Repositories\Mappings\UriType;
 
 abstract class AbstractDoctrineRepositoryTest extends TestCase
 {
@@ -39,7 +41,11 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
         );
 
         if (!Type::hasType('ramsey_uuid')) {
-            Type::addType('ramsey_uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+            Type::addType('ramsey_uuid', UuidType::class);
+        }
+
+        if (!Type::hasType('league_uri')) {
+            Type::addType('league_uri', UriType::class);
         }
 
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
