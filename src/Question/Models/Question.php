@@ -75,6 +75,10 @@ class Question
         NotEmptyString $feedback,
         Answer ...$answers
     ) {
+        if (count($answers) < 2 || count($answers) > 3) {
+            throw new \InvalidArgumentException('Amount of answers must be 2 or 3.');
+        }
+
         $this->id = $id;
         $this->language = $language;
         $this->year = $year;

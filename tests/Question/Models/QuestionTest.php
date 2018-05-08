@@ -157,6 +157,76 @@ class QuestionTest extends TestCase
 
     /**
      * @test
+     * @dataProvider answersProvider
+     * @param Answer ...$answers
+     */
+    public function it_throws_on_wrong_number_of_answers(Answer ...$answers)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Amount of answers must be 2 or 3.');
+
+        new Question(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            new Language('fr'),
+            new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new NotEmptyString(
+                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
+            ),
+            Uri::createFromString(
+                'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            ),
+            ...$answers
+        );
+    }
+
+    /**
+     * @return Answer[][]
+     */
+    public function answersProvider(): array
+    {
+        $answer1 = new Answer(
+            Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
+            new NotEmptyString('text'),
+            false
+        );
+        $answer2 = new Answer(
+            Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+            new NotEmptyString('text'),
+            false
+        );
+        $answer3 = new Answer(
+            Uuid::fromString('822dd8f9-c86b-4531-be92-b35627a21ba4'),
+            new NotEmptyString('text'),
+            false
+        );
+        $answer4 = new Answer(
+            Uuid::fromString('50f0551b-a239-4554-96dc-4f4778e8d63a'),
+            new NotEmptyString('text'),
+            true
+        );
+
+        return [
+            [
+                $answer1,
+                $answer2,
+                $answer3,
+                $answer4,
+            ],
+            [
+                $answer1,
+            ],
+        ];
+    }
+
+    /**
+     * @test
      */
     public function it_stores_feedback()
     {
