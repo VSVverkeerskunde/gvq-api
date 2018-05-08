@@ -41,7 +41,7 @@ class Question
     private $pictureUri;
 
     /**
-     * @var Answers
+     * @var Answer[]
      */
     private $answers;
 
@@ -62,8 +62,8 @@ class Question
      * @param Category $category
      * @param NotEmptyString $questionText
      * @param Uri $pictureUri
-     * @param Answers $answers
      * @param NotEmptyString $feedback
+     * @param Answer ...$answers
      */
     public function __construct(
         UuidInterface $id,
@@ -72,8 +72,8 @@ class Question
         Category $category,
         NotEmptyString $questionText,
         Uri $pictureUri,
-        Answers $answers,
-        NotEmptyString $feedback
+        NotEmptyString $feedback,
+        Answer ...$answers
     ) {
         $this->id = $id;
         $this->language = $language;
@@ -138,7 +138,7 @@ class Question
      */
     public function getAnswers(): Answers
     {
-        return $this->answers;
+        return new Answers(...$this->answers);
     }
 
     /**

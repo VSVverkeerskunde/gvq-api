@@ -57,7 +57,10 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
             ),
-            new Answers(
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            ),
+            ...[
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
@@ -72,11 +75,8 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
                     new NotEmptyString('Non.'),
                     true
-                )
-            ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
+                ),
+            ]
         );
     }
 
@@ -96,6 +96,14 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d')
         );
 
-        $this->assertEquals($this->question, $foundQuestion);
+        $this->assertEquals(
+            $this->question,
+            $foundQuestion,
+            '',
+            0.0,
+            10,
+            true,
+            false
+        );
     }
 }
