@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Question\Repositories\Mappings;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use League\Uri\Uri;
@@ -23,7 +24,6 @@ class UriTypeTest extends TestCase
 
     /**
      * @throws \Doctrine\DBAL\DBALException
-     * @throws \ReflectionException
      */
     protected function setUp(): void
     {
@@ -33,9 +33,7 @@ class UriTypeTest extends TestCase
 
         $this->uriType = Type::getType('league_uri');
 
-        /** @var AbstractPlatform platform */
-        $platform = $this->getMockForAbstractClass(AbstractPlatform::class);
-        $this->platform = $platform;
+        $this->platform =  new MySqlPlatform();
     }
 
     /**
@@ -44,7 +42,7 @@ class UriTypeTest extends TestCase
     public function it_has_sql_type_string()
     {
         $this->assertEquals(
-            Type::STRING,
+            'VARCHAR(255)',
             $this->uriType->getSQLDeclaration(
                 [],
                 $this->platform
@@ -83,7 +81,6 @@ class UriTypeTest extends TestCase
 
     /**
      * @test
-     * @throws \Doctrine\DBAL\Types\ConversionException
      */
     public function it_converts_to_sql_type_string()
     {
@@ -98,7 +95,6 @@ class UriTypeTest extends TestCase
 
     /**
      * @test
-     * @throws ConversionException
      */
     public function it_throws_on_conversion_to_sql_type_string_when_not_uri()
     {

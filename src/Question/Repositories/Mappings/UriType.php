@@ -16,7 +16,7 @@ class UriType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return Type::STRING;
+        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
     }
 
     /**
