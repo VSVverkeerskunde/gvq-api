@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 

@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Question\Models;
 
 use League\Uri\Uri;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\ValueObjects\Language;
 use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
