@@ -87,7 +87,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function it_can_save_a_question()
+    public function it_can_save_a_question(): void
     {
         $this->questionDoctrineRepository->save($this->question);
 

@@ -11,7 +11,7 @@ class LanguageTest extends TestCase
      */
     private $language;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->language = new Language('nl');
     }
@@ -19,7 +19,7 @@ class LanguageTest extends TestCase
     /**
      * @return string[][]
      */
-    public function languageProvider()
+    public function languageProvider(): array
     {
         return [
             ['nl'],
@@ -30,7 +30,7 @@ class LanguageTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_for_unsupported_languages()
+    public function it_throws_for_unsupported_languages(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -43,7 +43,7 @@ class LanguageTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_to_native()
+    public function it_supports_to_native(): void
     {
         $this->assertEquals(
             'nl',
@@ -62,14 +62,17 @@ class LanguageTest extends TestCase
         Language $language,
         Language $otherLanguage,
         bool $expected
-    ) {
+    ): void {
         $this->assertEquals(
             $expected,
             $language->equals($otherLanguage)
         );
     }
 
-    public function languagesProvider()
+    /**
+     * @return array
+     */
+    public function languagesProvider(): array
     {
         return [
             [

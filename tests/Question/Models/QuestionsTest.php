@@ -14,7 +14,7 @@ class QuestionsTest extends TestCase
     /**
      * @test
      */
-    public function it_can_iterate_over_questions()
+    public function it_can_iterate_over_questions(): void
     {
         $question1 = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),

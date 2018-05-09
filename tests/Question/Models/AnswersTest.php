@@ -39,7 +39,7 @@ class AnswersTest extends TestCase
     /**
      * @test
      */
-    public function it_can_iterate_over_answers()
+    public function it_can_iterate_over_answers(): void
     {
         $actualArray = [];
         foreach ($this->answers as $answer) {
@@ -53,7 +53,7 @@ class AnswersTest extends TestCase
     /**
      * @test
      */
-    public function it_can_be_counted()
+    public function it_can_be_counted(): void
     {
         $this->assertInstanceOf(\Countable::class, $this->answers);
         $this->assertEquals(2, count($this->answers));
@@ -62,7 +62,7 @@ class AnswersTest extends TestCase
     /**
      * @test
      */
-    public function it_can_be_converted_to_an_array()
+    public function it_can_be_converted_to_an_array(): void
     {
         $this->assertEquals(
             $this->answersArray,

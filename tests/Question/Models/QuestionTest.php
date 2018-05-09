@@ -58,7 +58,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_an_id()
+    public function it_stores_an_id(): void
     {
         $this->assertEquals(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -69,7 +69,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_language()
+    public function it_stores_a_language(): void
     {
         $this->assertEquals(
             new Language('fr'),
@@ -80,7 +80,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_year()
+    public function it_stores_a_year(): void
     {
         $this->assertEquals(
             new Year(2018),
@@ -91,7 +91,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_category()
+    public function it_stores_a_category(): void
     {
         $this->assertEquals(
             new Category(
@@ -105,7 +105,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_question_text()
+    public function it_stores_a_question_text(): void
     {
         $this->assertEquals(
             new NotEmptyString(
@@ -118,7 +118,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_picture_uri()
+    public function it_stores_a_picture_uri(): void
     {
         $this->assertEquals(
             Uri::createFromString(
@@ -131,7 +131,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_answers()
+    public function it_stores_answers(): void
     {
         $this->assertEquals(
             new Answers(
@@ -160,7 +160,7 @@ class QuestionTest extends TestCase
      * @dataProvider answersProvider
      * @param Answers $answers
      */
-    public function it_throws_on_wrong_number_of_answers(Answers $answers)
+    public function it_throws_on_wrong_number_of_answers(Answers $answers): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Amount of answers must be 2 or 3.');
@@ -232,7 +232,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_feedback()
+    public function it_stores_feedback(): void
     {
         $this->assertEquals(
             new NotEmptyString(
@@ -246,7 +246,7 @@ class QuestionTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_be_archived()
+    public function it_can_be_archived(): void
     {
         $archivedOn = new \DateTimeImmutable('2018-10-12T12:02:53+00:00');
 
@@ -264,7 +264,7 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_created_as_not_archived()
+    public function it_gets_created_as_not_archived(): void
     {
         $this->assertFalse(
             $this->question->isArchived()
@@ -278,7 +278,7 @@ class QuestionTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_not_be_archived_twice()
+    public function it_can_not_be_archived_twice(): void
     {
         $this->expectException(\DomainException::class);
         $this->expectExceptionMessage(

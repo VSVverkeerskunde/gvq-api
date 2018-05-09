@@ -10,7 +10,7 @@ class CategoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array
     {
         /** @var Category $object */
         return [
@@ -22,7 +22,7 @@ class CategoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return ($data instanceof Category) && ($format === 'json');
     }

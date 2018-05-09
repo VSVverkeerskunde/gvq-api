@@ -11,7 +11,7 @@ class NotEmptyStringTest extends TestCase
      */
     private $notEmptyString;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->notEmptyString = new NotEmptyString('text');
     }
@@ -21,7 +21,7 @@ class NotEmptyStringTest extends TestCase
      * @dataProvider stringProvider
      * @param string $string
      */
-    public function it_throws_on_empty_argument(string $string)
+    public function it_throws_on_empty_argument(string $string): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Text argument cannot be empty.');
@@ -47,7 +47,7 @@ class NotEmptyStringTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_to_native()
+    public function it_supports_to_native(): void
     {
         $this->assertEquals(
             'text',
@@ -66,7 +66,7 @@ class NotEmptyStringTest extends TestCase
         NotEmptyString $notEmptyString,
         NotEmptyString $otherNotEmptyString,
         bool $expected
-    ) {
+    ): void {
         $this->assertEquals(
             $expected,
             $notEmptyString->equals($otherNotEmptyString)
@@ -76,7 +76,7 @@ class NotEmptyStringTest extends TestCase
     /**
      * @return array[]
      */
-    public function notEmptyStringsProvider()
+    public function notEmptyStringsProvider(): array
     {
         return [
             [

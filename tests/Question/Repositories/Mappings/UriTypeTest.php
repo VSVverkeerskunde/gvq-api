@@ -39,7 +39,7 @@ class UriTypeTest extends TestCase
     /**
      * @test
      */
-    public function it_has_sql_type_string()
+    public function it_has_sql_type_string(): void
     {
         $this->assertEquals(
             'VARCHAR(255)',
@@ -53,7 +53,7 @@ class UriTypeTest extends TestCase
     /**
      * @test
      */
-    public function it_has_name_league_uri()
+    public function it_has_name_league_uri(): void
     {
         $this->assertEquals(
             'league_uri',
@@ -64,7 +64,7 @@ class UriTypeTest extends TestCase
     /**
      * @test
      */
-    public function it_converts_to_php_type_uri()
+    public function it_converts_to_php_type_uri(): void
     {
         $uri = Uri::createFromString('https://github.com/VSVverkeerskunde/gvq-api');
         // @see https://github.com/thephpleague/uri-schemes/issues/10
@@ -82,7 +82,7 @@ class UriTypeTest extends TestCase
     /**
      * @test
      */
-    public function it_converts_to_sql_type_string()
+    public function it_converts_to_sql_type_string(): void
     {
         $this->assertEquals(
             'https://github.com/VSVverkeerskunde/gvq-api',
@@ -96,7 +96,7 @@ class UriTypeTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_on_conversion_to_sql_type_string_when_not_uri()
+    public function it_throws_on_conversion_to_sql_type_string_when_not_uri(): void
     {
         $this->expectException(ConversionException::class);
         $this->expectExceptionMessage(

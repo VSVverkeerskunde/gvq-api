@@ -21,7 +21,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = Setup::createYAMLMetadataConfiguration(
             [

@@ -11,7 +11,7 @@ class YearTest extends TestCase
      */
     private $year;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->year = new Year(2050);
     }
@@ -21,7 +21,7 @@ class YearTest extends TestCase
      * @dataProvider invalidYearProvider
      * @param int $year
      */
-    public function it_throws_for_unsupported_values(int $year)
+    public function it_throws_for_unsupported_values(int $year): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -51,7 +51,7 @@ class YearTest extends TestCase
      * @dataProvider validYearProvider
      * @param int $year
      */
-    public function it_supports_values_between_boundaries(int $year)
+    public function it_supports_values_between_boundaries(int $year): void
     {
         $this->assertNotNull(
             new Year($year)
@@ -79,7 +79,7 @@ class YearTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_to_native()
+    public function it_supports_to_native(): void
     {
         $this->assertSame(
             2050,
@@ -98,7 +98,7 @@ class YearTest extends TestCase
         Year $year,
         Year $otherYear,
         bool $expected
-    ) {
+    ): void {
         $this->assertEquals(
             $expected,
             $year->equals($otherYear)
@@ -108,7 +108,7 @@ class YearTest extends TestCase
     /**
      * @return array[]
      */
-    public function yearsProvider()
+    public function yearsProvider(): array
     {
         return [
             [

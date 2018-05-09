@@ -13,7 +13,7 @@ class AnswerTest extends TestCase
      */
     private $answer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->answer = new Answer(
             Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
@@ -25,7 +25,7 @@ class AnswerTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_an_id()
+    public function it_stores_an_id(): void
     {
         $this->assertEquals(
             Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
@@ -36,7 +36,7 @@ class AnswerTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_text()
+    public function it_stores_a_text(): void
     {
         $this->assertEquals(
             new NotEmptyString('This is the first answer.'),
@@ -47,7 +47,7 @@ class AnswerTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_an_is_correct_flag()
+    public function it_stores_an_is_correct_flag(): void
     {
         $this->assertTrue($this->answer->isCorrect());
     }

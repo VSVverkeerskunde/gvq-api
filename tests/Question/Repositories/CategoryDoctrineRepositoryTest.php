@@ -18,7 +18,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,7 +34,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function it_can_save_a_category()
+    public function it_can_save_a_category(): void
     {
         $category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -58,7 +58,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function it_can_update_a_category()
+    public function it_can_update_a_category(): void
     {
         $category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -89,7 +89,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function it_can_delete_a_category()
+    public function it_can_delete_a_category(): void
     {
         $category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -112,7 +112,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
-    public function it_can_get_a_category_by_id()
+    public function it_can_get_a_category_by_id(): void
     {
         $category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -137,7 +137,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
-    public function it_returns_null_when_category_not_found_by_id()
+    public function it_returns_null_when_category_not_found_by_id(): void
     {
         $category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -159,7 +159,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
-    public function it_can_get_all_categories()
+    public function it_can_get_all_categories(): void
     {
         $category1 = new Category(
             Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
@@ -188,7 +188,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
-    public function it_returns_null_when_no_categories_present()
+    public function it_returns_null_when_no_categories_present(): void
     {
         $foundCategories = $this->categoryDoctrineRepository->getAll();
 

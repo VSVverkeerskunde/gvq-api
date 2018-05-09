@@ -24,7 +24,7 @@ class CategoryTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_an_id()
+    public function it_stores_an_id(): void
     {
         $this->assertEquals(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -35,7 +35,7 @@ class CategoryTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_name()
+    public function it_stores_a_name(): void
     {
         $this->assertEquals(
             new NotEmptyString('EHBO/Ongeval/Verzekering'),

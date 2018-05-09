@@ -39,7 +39,7 @@ class CategorySerializerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_serialize_to_json()
+    public function it_can_serialize_to_json(): void
     {
         $actualJson = $this->serializer->serialize(
             $this->category,
@@ -55,7 +55,7 @@ class CategorySerializerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_deserialize_to_category()
+    public function it_can_deserialize_to_category(): void
     {
         $actualCategory = $this->serializer->deserialize(
             $this->categoryAsJson,

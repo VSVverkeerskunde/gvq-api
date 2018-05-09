@@ -14,7 +14,7 @@ class UriType extends Type
     /**
      * @inheritdoc
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
     }
@@ -22,7 +22,7 @@ class UriType extends Type
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return self::NAME;
     }
@@ -30,7 +30,7 @@ class UriType extends Type
     /**
      * @inheritdoc
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): Uri
     {
         $uri = Uri::createFromString($value);
 
@@ -46,11 +46,12 @@ class UriType extends Type
      * @inheritdoc
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
         if ($value instanceof Uri) {
             return $value->__toString();
         }
+
         throw ConversionException::conversionFailedInvalidType(
             $value,
             Uri::class,

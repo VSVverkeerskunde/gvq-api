@@ -11,7 +11,7 @@ class CategoriesTest extends TestCase
     /**
      * @test
      */
-    public function it_can_iterate_over_categories()
+    public function it_can_iterate_over_categories(): void
     {
         $category1 = new Category(
             Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
