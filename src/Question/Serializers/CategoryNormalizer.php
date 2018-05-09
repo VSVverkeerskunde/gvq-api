@@ -10,12 +10,12 @@ class CategoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function normalize($object, $format = null, array $context = []): array
+    public function normalize($category, $format = null, array $context = []): array
     {
-        /** @var Category $object */
+        /** @var Category $category */
         return [
-            'id' => $object->getId()->toString(),
-            'name' => $object->getName()->toNative(),
+            'id' => $category->getId()->toString(),
+            'name' => $category->getName()->toNative(),
         ];
     }
 
