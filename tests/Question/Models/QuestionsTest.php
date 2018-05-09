@@ -30,10 +30,7 @@ class QuestionsTest extends TestCase
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
             ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            ),
-            ...[
+            new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
@@ -48,8 +45,11 @@ class QuestionsTest extends TestCase
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
                     new NotEmptyString('Non.'),
                     true
-                ),
-            ]
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
         );
 
         $question2 = new Question(
@@ -66,10 +66,7 @@ class QuestionsTest extends TestCase
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6ablj-4'
             ),
-            new NotEmptyString(
-                'Il est interdit de stationner devant l’entrée des propriétés.'
-            ),
-            ...[
+            new Answers(
                 new Answer(
                     Uuid::fromString('c4d5fa4d-b5bc-4d92-a201-a84abb0e3253'),
                     new NotEmptyString('Les habitants de cette maison.'),
@@ -84,8 +81,11 @@ class QuestionsTest extends TestCase
                     Uuid::fromString('a33daadb-be3f-4625-b1ae-368611680bde'),
                     new NotEmptyString('Les habitants de cette maison et leurs visiteurs.'),
                     true
-                ),
-            ]
+                )
+            ),
+            new NotEmptyString(
+                'Il est interdit de stationner devant l’entrée des propriétés.'
+            )
         );
 
         $expectedAnswers = [

@@ -62,8 +62,8 @@ class Question
      * @param Category $category
      * @param NotEmptyString $questionText
      * @param Uri $pictureUri
+     * @param Answers $answers
      * @param NotEmptyString $feedback
-     * @param Answer ...$answers
      */
     public function __construct(
         UuidInterface $id,
@@ -72,8 +72,8 @@ class Question
         Category $category,
         NotEmptyString $questionText,
         Uri $pictureUri,
-        NotEmptyString $feedback,
-        Answer ...$answers
+        Answers $answers,
+        NotEmptyString $feedback
     ) {
         if (count($answers) < 2 || count($answers) > 3) {
             throw new \InvalidArgumentException('Amount of answers must be 2 or 3.');
@@ -85,7 +85,7 @@ class Question
         $this->category = $category;
         $this->questionText = $questionText;
         $this->pictureUri = $pictureUri;
-        $this->answers = $answers;
+        $this->answers = $answers->toArray();
         $this->feedback = $feedback;
     }
 

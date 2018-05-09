@@ -9,34 +9,64 @@ use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 class AnswersTest extends TestCase
 {
     /**
+     * @var Answer[]
+     */
+    private $answersArray;
+
+    /**
+     * @var Answers
+     */
+    private $answers;
+
+    protected function setUp(): void
+    {
+        $this->answersArray = [
+            new Answer(
+                Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
+                new NotEmptyString('text'),
+                false
+            ),
+            new Answer(
+                Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+                new NotEmptyString('text'),
+                false
+            ),
+        ];
+
+        $this->answers = new Answers(...$this->answersArray);
+    }
+
+    /**
      * @test
      */
     public function it_can_iterate_over_answers()
     {
-        $answer1 = new Answer(
-            Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
-            new NotEmptyString('text'),
-            false
-        );
-        $answer2 = new Answer(
-            Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
-            new NotEmptyString('text'),
-            false
-        );
-
-        $expectedArray = [
-            $answer1,
-            $answer2,
-        ];
-
-        $answers = new Answers(...$expectedArray);
-
         $actualArray = [];
-        foreach ($answers as $answer) {
+        foreach ($this->answers as $answer) {
             $actualArray[] = $answer;
         }
 
-        $this->assertInstanceOf(\IteratorAggregate::class, $answers);
-        $this->assertEquals($expectedArray, $actualArray);
+        $this->assertInstanceOf(\IteratorAggregate::class, $this->answers);
+        $this->assertEquals($this->answersArray, $actualArray);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_counted()
+    {
+        $this->assertInstanceOf(\Countable::class, $this->answers);
+        $this->assertEquals(2, count($this->answers));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_converted_to_an_array()
+    {
+        $this->assertEquals(
+            $this->answersArray,
+            $this->answers->toArray()
+        );
     }
 }

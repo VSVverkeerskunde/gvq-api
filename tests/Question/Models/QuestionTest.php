@@ -16,7 +16,7 @@ class QuestionTest extends TestCase
      */
     private $question;
 
-    protected function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    protected function setUp(): void
     {
         $this->question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -32,10 +32,7 @@ class QuestionTest extends TestCase
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
             ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            ),
-            ...[
+            new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
@@ -50,8 +47,11 @@ class QuestionTest extends TestCase
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
                     new NotEmptyString('Non.'),
                     true
-                ),
-            ]
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
         );
     }
 
@@ -158,9 +158,9 @@ class QuestionTest extends TestCase
     /**
      * @test
      * @dataProvider answersProvider
-     * @param Answer ...$answers
+     * @param Answers $answers
      */
-    public function it_throws_on_wrong_number_of_answers(Answer ...$answers)
+    public function it_throws_on_wrong_number_of_answers(Answers $answers)
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Amount of answers must be 2 or 3.');
@@ -179,15 +179,15 @@ class QuestionTest extends TestCase
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
             ),
+            $answers,
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            ),
-            ...$answers
+            )
         );
     }
 
     /**
-     * @return Answer[][]
+     * @return Answers[][]
      */
     public function answersProvider(): array
     {
@@ -214,13 +214,17 @@ class QuestionTest extends TestCase
 
         return [
             [
-                $answer1,
-                $answer2,
-                $answer3,
-                $answer4,
+                new Answers(
+                    $answer1,
+                    $answer2,
+                    $answer3,
+                    $answer4
+                ),
             ],
             [
-                $answer1,
+                new Answers(
+                    $answer1
+                ),
             ],
         ];
     }

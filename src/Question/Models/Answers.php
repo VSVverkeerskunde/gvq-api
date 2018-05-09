@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Answers implements \IteratorAggregate
+class Answers implements \IteratorAggregate, \Countable
 {
     /**
      * @var Answer[]
@@ -20,8 +20,24 @@ class Answers implements \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->answers);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->answers);
+    }
+
+    /**
+     * @return Answer[]
+     */
+    public function toArray(): array
+    {
+        return $this->answers;
     }
 }
