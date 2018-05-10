@@ -18,18 +18,25 @@
     "require": {
         "php": "^7.2.4",
         "ext-iconv": "*",
+        "doctrine/orm": "^2.6",
+        "league/uri": "^5.3",
+        "ramsey/uuid": "^3.7",
+        "ramsey/uuid-doctrine": "^1.4",
         "symfony/console": "^4.0",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/lts": "^4@dev",
+        "symfony/orm-pack": "^1.0",
+        "symfony/serializer": "^4.0",
+        "symfony/web-server-bundle": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.0",
-        "phpstan/phpstan": "^0.9.2",
         "phpunit/phpunit": "^7.1",
         "squizlabs/php_codesniffer": "^3.2",
-        "symfony/dotenv": "^4.0"
+        "symfony/dotenv": "^4.0",
+        "symfony/maker-bundle": "^1.4"
     },
     "config": {
         "preferred-install": {

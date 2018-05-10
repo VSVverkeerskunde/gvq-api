@@ -1,0 +1,9 @@
+VSV\GVQ_API\Question\Models\Category:
+  type: entity
+  table: category
+  id:
+    id:
+      type: ramsey_uuid
+  embedded:
+    name:
+      class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString
