@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Question\Repositories;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use PHPUnit\Framework\TestCase;
@@ -23,12 +24,13 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
      */
     protected function setUp(): void
     {
-        $configuration = Setup::createYAMLMetadataConfiguration(
+        $configuration = Setup::createConfiguration(true);
+        $simplifiedYmlDriver = new SimplifiedYamlDriver(
             [
-                __DIR__ . '/../../../src/Question/Repositories/Mappings',
-            ],
-            true
+                __DIR__.'/../../../src/Question/Repositories/Mappings' => 'VSV\GVQ_API',
+            ]
         );
+        $configuration->setMetadataDriverImpl($simplifiedYmlDriver);
 
         $connection = [
             'driver' => 'pdo_sqlite',
