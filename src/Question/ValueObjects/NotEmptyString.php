@@ -7,18 +7,18 @@ class NotEmptyString
     /**
      * @var string
      */
-    private $text;
+    private $value;
 
     /**
-     * @param string $text
+     * @param string $value
      */
-    public function __construct(string $text)
+    public function __construct(string $value)
     {
-        $text = trim($text);
-        if ($text === '') {
-            throw new \InvalidArgumentException('Text argument cannot be empty.');
+        $value = trim($value);
+        if ($value === '') {
+            throw new \InvalidArgumentException('The string value cannot be empty.');
         }
-        $this->text = $text;
+        $this->value = $value;
     }
 
     /**
@@ -26,7 +26,7 @@ class NotEmptyString
      */
     public function toNative(): string
     {
-        return $this->text;
+        return $this->value;
     }
 
     /**

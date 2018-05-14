@@ -1,5 +1,5 @@
 VSV\GVQ_API\Question\ValueObjects\NotEmptyString:
   type: embeddable
   fields:
-    text:
+    value:
       type: string

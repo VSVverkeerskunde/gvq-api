@@ -24,7 +24,7 @@ class NotEmptyStringTest extends TestCase
     public function it_throws_on_empty_argument(string $string): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Text argument cannot be empty.');
+        $this->expectExceptionMessage('The string value cannot be empty.');
 
         new NotEmptyString($string);
     }
