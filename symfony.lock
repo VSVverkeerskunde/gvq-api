@@ -101,7 +101,19 @@
             "ref": "f7895777cd673fcefbc321a9063077a24e5df646"
         }
     },
+    "symfony/process": {
+        "version": "v4.0.9"
+    },
     "symfony/serializer": {
         "version": "v4.0.9"
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     }
 }
