@@ -65,7 +65,7 @@ class QuestionDenormalizer implements DenormalizerInterface
             new Language($data['language']),
             new Year($data['year']),
             $category,
-            new NotEmptyString($data['questionText']),
+            new NotEmptyString($data['text']),
             Uri::createFromString($data['pictureUri']),
             new Answers(...$answers),
             new NotEmptyString($data['feedback'])

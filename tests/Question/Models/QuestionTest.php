@@ -111,7 +111,7 @@ class QuestionTest extends TestCase
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
-            $this->question->getQuestionText()
+            $this->question->getText()
         );
     }
 

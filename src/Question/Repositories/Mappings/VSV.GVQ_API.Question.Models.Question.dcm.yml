@@ -13,7 +13,7 @@ VSV\GVQ_API\Question\Models\Question:
       class: VSV\GVQ_API\Question\ValueObjects\Language
     year:
       class: VSV\GVQ_API\Question\ValueObjects\Year
-    questionText:
+    text:
       class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString
     feedback:
       class: VSV\GVQ_API\Question\ValueObjects\NotEmptyString

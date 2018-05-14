@@ -33,7 +33,7 @@ class Question
     /**
      * @var NotEmptyString
      */
-    private $questionText;
+    private $text;
 
     /**
      * @var Uri
@@ -60,7 +60,7 @@ class Question
      * @param Language $language
      * @param Year $year
      * @param Category $category
-     * @param NotEmptyString $questionText
+     * @param NotEmptyString $text
      * @param Uri $pictureUri
      * @param Answers $answers
      * @param NotEmptyString $feedback
@@ -70,7 +70,7 @@ class Question
         Language $language,
         Year $year,
         Category $category,
-        NotEmptyString $questionText,
+        NotEmptyString $text,
         Uri $pictureUri,
         Answers $answers,
         NotEmptyString $feedback
@@ -83,7 +83,7 @@ class Question
         $this->language = $language;
         $this->year = $year;
         $this->category = $category;
-        $this->questionText = $questionText;
+        $this->text = $text;
         $this->pictureUri = $pictureUri;
         $this->answers = $answers->toArray();
         $this->feedback = $feedback;
@@ -124,9 +124,9 @@ class Question
     /**
      * @return NotEmptyString
      */
-    public function getQuestionText(): NotEmptyString
+    public function getText(): NotEmptyString
     {
-        return $this->questionText;
+        return $this->text;
     }
 
     /**
