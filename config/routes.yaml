@@ -1,3 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+categories_get_all:
+  path: /categories
+  controller: VSV\GVQ_API\Question\Controllers\CategoryController::getAll
+  methods: [GET]
