@@ -3,12 +3,12 @@
 namespace VSV\GVQ_API\Question\Repositories;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 abstract class AbstractDoctrineRepository
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
@@ -18,9 +18,9 @@ abstract class AbstractDoctrineRepository
     protected $objectRepository;
 
     /**
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->objectRepository = $this->entityManager->getRepository(
