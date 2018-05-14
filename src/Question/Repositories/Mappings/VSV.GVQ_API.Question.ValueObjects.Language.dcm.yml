@@ -3,3 +3,4 @@ VSV\GVQ_API\Question\ValueObjects\Language:
   fields:
     value:
       type: string
+      length: 2

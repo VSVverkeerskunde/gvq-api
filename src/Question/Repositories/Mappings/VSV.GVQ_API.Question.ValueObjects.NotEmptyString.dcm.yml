@@ -3,3 +3,4 @@ VSV\GVQ_API\Question\ValueObjects\NotEmptyString:
   fields:
     value:
       type: string
+      length: 1024
