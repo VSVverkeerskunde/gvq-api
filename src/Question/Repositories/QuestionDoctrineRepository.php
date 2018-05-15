@@ -51,7 +51,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
      */
     public function getById(UuidInterface $id): ?Question
     {
-        /** @var QuestionEntity|null $question */
+        /** @var QuestionEntity|null $questionEntity */
         $questionEntity = $this->objectRepository->findOneBy(
             [
                 'id' => $id,

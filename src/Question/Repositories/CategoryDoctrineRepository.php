@@ -57,7 +57,7 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function getById(UuidInterface $id): ?Category
     {
-        /** @var CategoryEntity|null $category */
+        /** @var CategoryEntity|null $categoryEntity */
         $categoryEntity = $this->objectRepository->findOneBy(
             [
                 'id' => $id,
@@ -81,10 +81,10 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
 
         return new Categories(
             ...array_map(
-               function (CategoryEntity $categoryEntity) {
-                   return $categoryEntity->toCategory();
-               },
-               $categoryEntities
+                function (CategoryEntity $categoryEntity) {
+                    return $categoryEntity->toCategory();
+                },
+                $categoryEntities
             )
         );
     }

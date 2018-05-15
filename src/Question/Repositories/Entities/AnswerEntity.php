@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Question\Repositories\Entities;
+
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\Models\Answer;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Question\Repositories\Entities;
 
@@ -140,7 +140,7 @@ class QuestionEntity extends Entity
     {
         $answers = new Answers(
             ...array_map(
-                function(AnswerEntity $answerEntity) {
+                function (AnswerEntity $answerEntity) {
                     return $answerEntity->toAnswer();
                 },
                 $this->getAnswerEntities()->toArray()
