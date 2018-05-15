@@ -41,7 +41,7 @@ class QuestionNormalizer implements NormalizerInterface
         );
 
         $answers = array_map(
-            function(Answer $answer) use ($format) {
+            function (Answer $answer) use ($format) {
                 return $this->answerNormalizer->normalize(
                     $answer,
                     $format
