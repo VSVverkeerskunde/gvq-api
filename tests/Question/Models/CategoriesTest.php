@@ -9,32 +9,62 @@ use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 class CategoriesTest extends TestCase
 {
     /**
+     * @var Category[]
+     */
+    private $categoriesArray;
+
+    /**
+     * @var Categories
+     */
+    private $categories;
+
+    protected function setUp(): void
+    {
+        $this->categoriesArray = [
+            new Category(
+                Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new Category(
+                Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
+                new NotEmptyString('Algemene verkeersregels')
+            )
+        ];
+
+        $this->categories = new Categories(...$this->categoriesArray);
+    }
+
+    /**
      * @test
      */
     public function it_can_iterate_over_categories(): void
     {
-        $category1 = new Category(
-            Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
-
-        $category2 = new Category(
-            Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
-            new NotEmptyString('Algemene verkeersregels')
-        );
-
-        $expectedCategories = [
-            $category1,
-            $category2,
-        ];
-
-        $categories = new Categories(...$expectedCategories);
-
         $actualCategories = [];
-        foreach ($categories as $category) {
+        foreach ($this->categories as $category) {
             $actualCategories[] = $category;
         }
 
-        $this->assertEquals($expectedCategories, $actualCategories);
+        $this->assertInstanceOf(\IteratorAggregate::class, $this->categories);
+        $this->assertEquals($this->categoriesArray, $actualCategories);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_counted(): void
+    {
+        $this->assertInstanceOf(\Countable::class, $this->categories);
+        $this->assertEquals(2, count($this->categories));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_converted_to_an_array(): void
+    {
+        $this->assertEquals(
+            $this->categoriesArray,
+            $this->categories->toArray()
+        );
     }
 }

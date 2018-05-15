@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Categories implements \IteratorAggregate
+class Categories implements \IteratorAggregate, \Countable
 {
     /**
      * @var Category[]
@@ -23,5 +23,21 @@ class Categories implements \IteratorAggregate
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->categories);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->categories);
+    }
+
+    /**
+     * @return Category[]
+     */
+    public function toArray(): array
+    {
+        return $this->categories;
     }
 }
