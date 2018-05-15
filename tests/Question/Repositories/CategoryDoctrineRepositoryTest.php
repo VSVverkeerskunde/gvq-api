@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Repositories;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
+use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
 use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 
 class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
@@ -16,7 +17,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     protected function getRepositoryName(): string
     {
-        return Category::class;
+        return CategoryEntity::class;
     }
 
     /**
@@ -47,7 +47,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->categoryDoctrineRepository->save($category);
 
-        $foundCategory = $this->findById(
+        $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
@@ -63,7 +63,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->save($category);
+        $this->categoryDoctrineRepository->save($category);
 
         $updatedCategory = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -71,14 +71,11 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->update($updatedCategory);
 
-        $foundCategory = $this->findById(
+        $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
-        $this->assertEquals(
-            $updatedCategory,
-            $foundCategory
-        );
+        $this->assertEquals($updatedCategory, $foundCategory);
     }
 
     /**
@@ -90,11 +87,11 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->save($category);
+        $this->categoryDoctrineRepository->save($category);
 
         $this->categoryDoctrineRepository->delete($category);
 
-        $foundCategory = $this->findById(
+        $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
@@ -110,16 +107,13 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->save($category);
+        $this->categoryDoctrineRepository->save($category);
 
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
-        $this->assertEquals(
-            $category,
-            $foundCategory
-        );
+        $this->assertEquals($category, $foundCategory);
     }
 
     /**
@@ -143,21 +137,18 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->save($category1);
+        $this->categoryDoctrineRepository->save($category1);
 
         $category2 = new Category(
             Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
             new NotEmptyString('Algemene verkeersregels')
         );
-        $this->save($category2);
+        $this->categoryDoctrineRepository->save($category2);
 
         $foundCategories = $this->categoryDoctrineRepository->getAll();
 
         $this->assertEquals(
-            new Categories(
-                $category1,
-                $category2
-            ),
+            new Categories($category1, $category2),
             $foundCategories
         );
     }

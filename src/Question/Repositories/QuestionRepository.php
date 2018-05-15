@@ -9,5 +9,7 @@ interface QuestionRepository
 {
     public function save(Question $question): void;
 
+    public function update(Question $question): void;
+
     public function getById(UuidInterface $id): ?Question;
 }

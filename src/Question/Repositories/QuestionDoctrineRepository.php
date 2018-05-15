@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\Question\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
+use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
 {
@@ -12,17 +14,34 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
      */
     public function getRepositoryName(): string
     {
-        return Question::class;
+        return QuestionEntity::class;
     }
 
     /**
      * @param Question $question
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function save(Question $question): void
     {
-        $this->entityManager->persist($question);
+        $questionEntity = QuestionEntity::fromQuestion($question);
+
+        /** @var CategoryEntity $categoryEntity */
+        $categoryEntity = $this->entityManager->merge(
+            $questionEntity->getCategoryEntity()
+        );
+        $questionEntity->setCategoryEntity($categoryEntity);
+
+        $this->entityManager->persist($questionEntity);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Question $question
+     */
+    public function update(Question $question): void
+    {
+        $this->entityManager->merge(
+            QuestionEntity::fromQuestion($question)
+        );
         $this->entityManager->flush();
     }
 
@@ -32,13 +51,13 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
      */
     public function getById(UuidInterface $id): ?Question
     {
-        /** @var Question|null $question */
-        $question = $this->objectRepository->findOneBy(
+        /** @var QuestionEntity|null $question */
+        $questionEntity = $this->objectRepository->findOneBy(
             [
                 'id' => $id,
             ]
         );
 
-        return $question;
+        return $questionEntity ? $questionEntity->toQuestion() : null;
     }
 }

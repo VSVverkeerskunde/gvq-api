@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Repositories;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
+use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
 
 class CategoryDoctrineRepository extends AbstractDoctrineRepository implements CategoryRepository
 {
@@ -13,7 +14,7 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function getRepositoryName(): string
     {
-        return Category::class;
+        return CategoryEntity::class;
     }
 
     /**
@@ -21,7 +22,9 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function save(Category $category): void
     {
-        $this->entityManager->persist($category);
+        $this->entityManager->persist(
+            CategoryEntity::fromCategory($category)
+        );
         $this->entityManager->flush();
     }
 
@@ -30,7 +33,9 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function update(Category $category): void
     {
-        $this->entityManager->merge($category);
+        $this->entityManager->merge(
+            CategoryEntity::fromCategory($category)
+        );
         $this->entityManager->flush();
     }
 
@@ -39,7 +44,9 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function delete(Category $category): void
     {
-        $category = $this->entityManager->merge($category);
+        $category = $this->entityManager->merge(
+            CategoryEntity::fromCategory($category)
+        );
         $this->entityManager->remove($category);
         $this->entityManager->flush();
     }
@@ -50,14 +57,14 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function getById(UuidInterface $id): ?Category
     {
-        /** @var Category|null $category */
-        $category = $this->objectRepository->findOneBy(
+        /** @var CategoryEntity|null $category */
+        $categoryEntity = $this->objectRepository->findOneBy(
             [
                 'id' => $id,
             ]
         );
 
-        return $category;
+        return $categoryEntity ? $categoryEntity->toCategory() : null;
     }
 
     /**
@@ -65,13 +72,20 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function getAll(): ?Categories
     {
-        /** @var Category[] $categories */
-        $categories = $this->objectRepository->findAll();
+        /** @var CategoryEntity[] $categories */
+        $categoryEntities = $this->objectRepository->findAll();
 
-        if (empty($categories)) {
+        if (empty($categoryEntities)) {
             return null;
         }
 
-        return new Categories(...$categories);
+        return new Categories(
+            ...array_map(
+               function (CategoryEntity $categoryEntity) {
+                   return $categoryEntity->toCategory();
+               },
+               $categoryEntities
+            )
+        );
     }
 }
