@@ -41,7 +41,7 @@ class Question
     private $pictureUri;
 
     /**
-     * @var Answer[]
+     * @var Answers
      */
     private $answers;
 
@@ -85,7 +85,7 @@ class Question
         $this->category = $category;
         $this->text = $text;
         $this->pictureUri = $pictureUri;
-        $this->answers = $answers->toArray();
+        $this->answers = $answers;
         $this->feedback = $feedback;
     }
 
@@ -142,7 +142,7 @@ class Question
      */
     public function getAnswers(): Answers
     {
-        return new Answers(...$this->answers);
+        return $this->answers;
     }
 
     /**
