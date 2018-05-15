@@ -9,6 +9,8 @@ use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 
 class CategorySerializerTest extends TestCase
 {
+    use ExpectedJsonTrait;
+
     /**
      * @var CategorySerializer
      */
@@ -28,7 +30,7 @@ class CategorySerializerTest extends TestCase
     {
         $this->serializer = new CategorySerializer();
 
-        $this->categoryAsJson = $this->getExpectedJson();
+        $this->categoryAsJson = $this->getExpectedJson('category.json');
 
         $this->category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -67,15 +69,5 @@ class CategorySerializerTest extends TestCase
             $this->category,
             $actualCategory
         );
-    }
-
-    /**
-     * @return string
-     */
-    private function getExpectedJson(): string
-    {
-        $jsonWithFormatting = file_get_contents(__DIR__ . '/Samples/category.json');
-        $jsonAsArray = json_decode($jsonWithFormatting, true);
-        return json_encode($jsonAsArray);
     }
 }

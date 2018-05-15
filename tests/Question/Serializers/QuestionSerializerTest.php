@@ -15,6 +15,8 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionSerializerTest extends TestCase
 {
+    use ExpectedJsonTrait;
+
     /**
      * @var QuestionSerializer
      */
@@ -34,7 +36,7 @@ class QuestionSerializerTest extends TestCase
     {
         $this->serializer = new QuestionSerializer();
 
-        $this->questionAsJson = $this->getExpectedJson();
+        $this->questionAsJson = $this->getExpectedJson('question.json');
 
         $this->question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -104,15 +106,5 @@ class QuestionSerializerTest extends TestCase
             $this->question,
             $actualQuestion
         );
-    }
-
-    /**
-     * @return string
-     */
-    private function getExpectedJson(): string
-    {
-        $jsonWithFormatting = file_get_contents(__DIR__ . '/Samples/question.json');
-        $jsonAsArray = json_decode($jsonWithFormatting, true);
-        return json_encode($jsonAsArray);
     }
 }
