@@ -174,27 +174,11 @@ class QuestionEntity extends Entity
     }
 
     /**
-     * @param string $language
-     */
-    public function setLanguage(string $language): void
-    {
-        $this->language = $language;
-    }
-
-    /**
      * @return int
      */
     public function getYear(): int
     {
         return $this->year;
-    }
-
-    /**
-     * @param int $year
-     */
-    public function setYear(int $year): void
-    {
-        $this->year = $year;
     }
 
     /**
@@ -222,27 +206,11 @@ class QuestionEntity extends Entity
     }
 
     /**
-     * @param string $text
-     */
-    public function setText(string $text): void
-    {
-        $this->text = $text;
-    }
-
-    /**
      * @return string
      */
     public function getPictureUri(): string
     {
         return $this->pictureUri;
-    }
-
-    /**
-     * @param string $pictureUri
-     */
-    public function setPictureUri(string $pictureUri): void
-    {
-        $this->pictureUri = $pictureUri;
     }
 
     /**
@@ -254,26 +222,10 @@ class QuestionEntity extends Entity
     }
 
     /**
-     * @param Collection $answerEntities
-     */
-    public function setAnswerEntities(Collection $answerEntities): void
-    {
-        $this->answerEntities = $answerEntities;
-    }
-
-    /**
      * @return string
      */
     public function getFeedback(): string
     {
         return $this->feedback;
-    }
-
-    /**
-     * @param string $feedback
-     */
-    public function setFeedback(string $feedback): void
-    {
-        $this->feedback = $feedback;
     }
 }

@@ -85,27 +85,11 @@ class AnswerEntity extends Entity
     }
 
     /**
-     * @param string $text
-     */
-    public function setText(string $text): void
-    {
-        $this->text = $text;
-    }
-
-    /**
      * @return bool
      */
     public function isCorrect(): bool
     {
         return $this->correct;
-    }
-
-    /**
-     * @param bool $correct
-     */
-    public function setCorrect(bool $correct): void
-    {
-        $this->correct = $correct;
     }
 
     /**
