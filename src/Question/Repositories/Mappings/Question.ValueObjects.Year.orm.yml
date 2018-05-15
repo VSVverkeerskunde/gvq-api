@@ -1,5 +1,0 @@
-VSV\GVQ_API\Question\ValueObjects\Year:
-  type: embeddable
-  fields:
-    value:
-      type: smallint

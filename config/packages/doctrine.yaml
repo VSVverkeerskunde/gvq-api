@@ -14,11 +14,7 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
-
         url: '%env(resolve:DATABASE_URL)%'
-        types:
-          ramsey_uuid: Ramsey\Uuid\Doctrine\UuidType
-          league_uri: VSV\GVQ_API\Question\Repositories\Mappings\UriType
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -26,7 +22,7 @@ doctrine:
         mappings:
             Question:
                 is_bundle: false
-                type: yml
-                dir: '%kernel.project_dir%/src/Question/Repositories/Mappings'
+                type: annotation
+                dir: '%kernel.project_dir%/src/Question/Repositories/Entities'
                 prefix: 'VSV\GVQ_API'
                 alias: Question

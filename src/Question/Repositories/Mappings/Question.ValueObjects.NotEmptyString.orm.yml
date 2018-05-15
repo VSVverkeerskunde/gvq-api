@@ -1,6 +1,0 @@
-VSV\GVQ_API\Question\ValueObjects\NotEmptyString:
-  type: embeddable
-  fields:
-    value:
-      type: string
-      length: 1024
