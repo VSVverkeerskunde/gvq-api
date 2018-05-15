@@ -2,21 +2,29 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Doctrine\UuidType;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Repositories\Mappings\UriType;
 
 abstract class AbstractDoctrineRepositoryTest extends TestCase
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
+
+    /**
+     * @var ObjectRepository
+     */
+    protected $objectRepository;
 
     /**
      * @throws \Doctrine\ORM\ORMException
@@ -37,9 +45,14 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
             'memory' => true,
         ];
 
+        /** @var  entityManager */
         $this->entityManager = EntityManager::create(
             $connection,
             $configuration
+        );
+
+        $this->objectRepository = $this->entityManager->getRepository(
+            $this->getRepositoryName()
         );
 
         if (!Type::hasType('ramsey_uuid')) {
@@ -53,5 +66,37 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->createSchema($metadata);
+    }
+
+    abstract protected function getRepositoryName(): string;
+
+    /**
+     * @param mixed $entity
+     */
+    protected function save($entity)
+    {
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+
+        // Make sure to detach the saved entity.
+        $this->entityManager->clear();
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return mixed
+     */
+    protected function findById(UuidInterface $id)
+    {
+        // Make sure to detach the entity to search
+        $this->entityManager->clear();
+
+        $entity = $this->objectRepository->findOneBy(
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $entity;
     }
 }

@@ -28,9 +28,16 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getRepositoryName(): string
+    {
+        return Category::class;
+    }
+
+    /**
      * @test
      *
-     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -43,8 +50,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->categoryDoctrineRepository->save($category);
 
-        $this->entityManager->clear();
-        $foundCategory = $this->categoryDoctrineRepository->getById(
+        $foundCategory = $this->findById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
@@ -54,7 +60,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      *
-     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -64,7 +69,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->categoryDoctrineRepository->save($category);
+        $this->save($category);
 
         $updatedCategory = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -72,8 +77,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
         $this->categoryDoctrineRepository->update($updatedCategory);
 
-        $this->entityManager->clear();
-        $foundCategory = $this->categoryDoctrineRepository->getById(
+        $foundCategory = $this->findById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
@@ -95,11 +99,11 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->categoryDoctrineRepository->save($category);
+        $this->save($category);
 
         $this->categoryDoctrineRepository->delete($category);
 
-        $foundCategory = $this->categoryDoctrineRepository->getById(
+        $foundCategory = $this->findById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
 
@@ -108,9 +112,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_can_get_a_category_by_id(): void
     {
@@ -118,9 +119,8 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->categoryDoctrineRepository->save($category);
+        $this->save($category);
 
-        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0')
         );
@@ -133,19 +133,9 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_returns_null_when_category_not_found_by_id(): void
     {
-        $category = new Category(
-            Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
-        $this->categoryDoctrineRepository->save($category);
-
-        $this->entityManager->clear();
         $foundCategory = $this->categoryDoctrineRepository->getById(
             Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b')
         );
@@ -155,9 +145,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\Common\Persistence\Mapping\MappingException
      */
     public function it_can_get_all_categories(): void
     {
@@ -165,15 +152,14 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
-        $this->categoryDoctrineRepository->save($category1);
+        $this->save($category1);
 
         $category2 = new Category(
             Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
             new NotEmptyString('Algemene verkeersregels')
         );
-        $this->categoryDoctrineRepository->save($category2);
+        $this->save($category2);
 
-        $this->entityManager->clear();
         $foundCategories = $this->categoryDoctrineRepository->getAll();
 
         $this->assertEquals(

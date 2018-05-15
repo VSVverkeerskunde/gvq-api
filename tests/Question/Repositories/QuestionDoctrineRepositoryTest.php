@@ -81,6 +81,14 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getRepositoryName(): string
+    {
+        return Question::class;
+    }
+
+    /**
      * @test
      *
      * @throws \Doctrine\Common\Persistence\Mapping\MappingException
