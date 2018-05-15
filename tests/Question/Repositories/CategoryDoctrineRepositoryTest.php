@@ -37,9 +37,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function it_can_save_a_category(): void
     {
@@ -59,9 +56,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function it_can_update_a_category(): void
     {
@@ -89,9 +83,6 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function it_can_delete_a_category(): void
     {

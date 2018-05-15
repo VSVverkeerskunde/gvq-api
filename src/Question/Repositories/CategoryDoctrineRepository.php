@@ -18,8 +18,6 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
 
     /**
      * @param Category $category
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function save(Category $category): void
     {
@@ -29,8 +27,6 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
 
     /**
      * @param Category $category
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Category $category): void
     {
@@ -40,8 +36,6 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
 
     /**
      * @param Category $category
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(Category $category): void
     {
