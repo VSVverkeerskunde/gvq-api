@@ -93,14 +93,6 @@ class AnswerEntity extends Entity
     }
 
     /**
-     * @return QuestionEntity
-     */
-    public function getQuestionEntity(): QuestionEntity
-    {
-        return $this->questionEntity;
-    }
-
-    /**
      * @param QuestionEntity $questionEntity
      */
     public function setQuestionEntity(QuestionEntity $questionEntity): void
