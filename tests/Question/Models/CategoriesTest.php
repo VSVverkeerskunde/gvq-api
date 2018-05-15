@@ -22,7 +22,7 @@ class CategoriesTest extends TestCase
     {
         $this->categoriesArray = [
             new Category(
-                Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
                 new NotEmptyString('EHBO/Ongeval/Verzekering')
             ),
             new Category(

@@ -162,7 +162,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     public function it_can_get_all_categories(): void
     {
         $category1 = new Category(
-            Uuid::fromString('0b62cb1d-06a1-43c8-a282-6589d40c9b93'),
+            Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
         $this->categoryDoctrineRepository->save($category1);
