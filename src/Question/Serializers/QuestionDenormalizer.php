@@ -50,7 +50,7 @@ class QuestionDenormalizer implements DenormalizerInterface
         );
 
         $answers = array_map(
-            function (array $answer) use ($format) {
+            function(array $answer) use ($format) {
                 return $this->answerDenormalizer->denormalize(
                     $answer,
                     Answer::class,

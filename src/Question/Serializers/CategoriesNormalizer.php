@@ -28,7 +28,7 @@ class CategoriesNormalizer implements NormalizerInterface
     {
         /** @var Categories $categories */
         return array_map(
-            function (Category $category) use ($format, $context) {
+            function(Category $category) use ($format, $context) {
                 return $this->categoryNormalizer->normalize($category, $format, $context);
             },
             $categories->toArray()
