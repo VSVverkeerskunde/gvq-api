@@ -31,7 +31,7 @@ class CategoriesSerializerTest extends TestCase
     {
         $this->serializer = new CategoriesSerializer();
 
-        $this->categoriesAsJson = $this->getExpectedJson('categories.json');
+        $this->categoriesAsJson = $this->getExpectedJson(__DIR__ . '/Samples/categories.json');
 
         $this->categories = new Categories(
             new Category(

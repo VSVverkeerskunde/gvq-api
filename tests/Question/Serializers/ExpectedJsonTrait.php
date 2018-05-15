@@ -5,12 +5,12 @@ namespace VSV\GVQ_API\Question\Serializers;
 trait ExpectedJsonTrait
 {
     /**
-     * @param string $file
+     * @param string $fullPath
      * @return string
      */
-    private function getExpectedJson(string $file): string
+    private function getExpectedJson(string $fullPath): string
     {
-        $jsonWithFormatting = file_get_contents(__DIR__ . '/Samples/'.$file);
+        $jsonWithFormatting = file_get_contents($fullPath);
         $jsonAsArray = json_decode($jsonWithFormatting, true);
         return json_encode($jsonAsArray);
     }

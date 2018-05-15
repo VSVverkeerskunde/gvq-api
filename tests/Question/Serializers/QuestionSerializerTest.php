@@ -36,7 +36,7 @@ class QuestionSerializerTest extends TestCase
     {
         $this->serializer = new QuestionSerializer();
 
-        $this->questionAsJson = $this->getExpectedJson('question.json');
+        $this->questionAsJson = $this->getExpectedJson(__DIR__ . '/Samples/question.json');
 
         $this->question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),

@@ -30,7 +30,7 @@ class CategorySerializerTest extends TestCase
     {
         $this->serializer = new CategorySerializer();
 
-        $this->categoryAsJson = $this->getExpectedJson('category.json');
+        $this->categoryAsJson = $this->getExpectedJson(__DIR__ . '/Samples/category.json');
 
         $this->category = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
