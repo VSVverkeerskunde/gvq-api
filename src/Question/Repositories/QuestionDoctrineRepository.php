@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
@@ -19,15 +20,22 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
 
     /**
      * @param Question $question
+     * @throws EntityNotFoundException
      */
     public function save(Question $question): void
     {
         $questionEntity = QuestionEntity::fromQuestion($question);
 
         /** @var CategoryEntity $categoryEntity */
-        $categoryEntity = $this->entityManager->merge(
-            $questionEntity->getCategoryEntity()
+        $categoryEntity = $this->entityManager->find(
+            CategoryEntity::class,
+            $questionEntity->getCategoryEntity()->getId()
         );
+
+        if ($categoryEntity == null) {
+            throw new EntityNotFoundException("Invalid category supplied");
+        }
+
         $questionEntity->setCategoryEntity($categoryEntity);
 
         $this->entityManager->persist($questionEntity);
