@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use Doctrine\ORM\EntityNotFoundException;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
@@ -20,7 +20,6 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
 
     /**
      * @param Question $question
-     * @throws EntityNotFoundException
      */
     public function save(Question $question): void
     {
@@ -33,7 +32,13 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         );
 
         if ($categoryEntity == null) {
-            throw new EntityNotFoundException("Invalid category supplied");
+            throw new InvalidArgumentException(
+                'Category with id: ' .
+                $questionEntity->getCategoryEntity()->getId() .
+                ' and name: ' .
+                $questionEntity->getCategoryEntity()->getName() .
+                ' not found.'
+            );
         }
 
         $questionEntity->setCategoryEntity($categoryEntity);

@@ -90,7 +90,6 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     * @throws EntityNotFoundException
      */
     public function it_can_save_a_question(): void
     {
@@ -105,18 +104,18 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
-     * @throws EntityNotFoundException
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
+        $category = new Category(
+            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
         $question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            new Category(
-                Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-                new NotEmptyString('EHBO/Ongeval/Verzekering')
-            ),
+            $category,
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
@@ -145,15 +144,19 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             )
         );
 
-        $this->expectException(EntityNotFoundException::class);
-        $this->expectExceptionMessage("Invalid category supplied");
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Category with id: ' .
+            $category->getId()->toString() .
+            ' and name: ' .
+            $category->getName()->toNative() .
+            ' not found.');
 
         $this->questionDoctrineRepository->save($question);
     }
 
     /**
      * @test
-     * @throws EntityNotFoundException
      */
     public function it_can_update_a_question(): void
     {
