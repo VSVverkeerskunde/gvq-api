@@ -99,6 +99,10 @@ class QuestionEntity extends Entity
         $this->pictureUri = $pictureUri;
         $this->answerEntities = $answerEntities;
         $this->feedback = $feedback;
+
+        foreach ($answerEntities as $answerEntity) {
+            $answerEntity->setQuestionEntity($this);
+        }
     }
 
     /**
@@ -125,10 +129,6 @@ class QuestionEntity extends Entity
             new ArrayCollection($answerEntities),
             $question->getFeedback()->toNative()
         );
-
-        foreach ($answerEntities as $answerEntity) {
-            $answerEntity->setQuestionEntity($questionEntity);
-        }
 
         return $questionEntity;
     }
