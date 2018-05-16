@@ -55,7 +55,7 @@ class QuestionControllerTest extends TestCase
             ->expects($this->once())
             ->method('save')
             ->with($question);
-        $expectedResponse = new Response('{"id":'.$question->getId()->toString().' }');
+        $expectedResponse = new Response('{"id":"'.$question->getId()->toString().'"}');
         $expectedResponse->headers->set('Content-Type', 'application/json');
 
         $actualResponse = $this->questionController->save($request);

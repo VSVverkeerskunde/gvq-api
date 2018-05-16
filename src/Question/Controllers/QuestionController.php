@@ -43,7 +43,7 @@ class QuestionController
         $question = $this->questionSerializer->deserialize($json, Question::class, 'json');
         $this->questionRepository->save($question);
 
-        $response = new Response('{"id":'.$question->getId()->toString().' }');
+        $response = new Response('{"id":"'.$question->getId()->toString().'"}');
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
