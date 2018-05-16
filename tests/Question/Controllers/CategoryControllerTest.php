@@ -43,7 +43,7 @@ class CategoryControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_a_response()
+    public function it_returns_a_response(): void
     {
         $category1 = new Category(
             Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
@@ -65,20 +65,24 @@ class CategoryControllerTest extends TestCase
         $actualResponse = $this->categoryController->getAll();
 
         $expectedResponse = new Response(
-            $this->getExpectedJson(__DIR__ . '/../Serializers/Samples/categories.json')
+            $this->getExpectedJson(__DIR__.'/../Serializers/Samples/categories.json')
         );
         $expectedResponse->headers->set('Content-Type', 'application/json');
 
         $this->assertEquals(
-            $expectedResponse,
-            $actualResponse
+            $expectedResponse->getContent(),
+            $actualResponse->getContent()
+        );
+        $this->assertEquals(
+            $expectedResponse->headers,
+            $actualResponse->headers
         );
     }
 
     /**
      * @test
      */
-    public function it_returns_an_empty_response_when_no_categories_found()
+    public function it_returns_an_empty_response_when_no_categories_found(): void
     {
         $this->categoryRepository
             ->expects($this->once())
@@ -91,8 +95,12 @@ class CategoryControllerTest extends TestCase
         $expectedResponse->headers->set('Content-Type', 'application/json');
 
         $this->assertEquals(
-            $expectedResponse,
-            $actualResponse
+            $expectedResponse->getContent(),
+            $actualResponse->getContent()
+        );
+        $this->assertEquals(
+            $expectedResponse->headers->get('Content-Type'),
+            $actualResponse->headers->get('Content-Type')
         );
     }
 }

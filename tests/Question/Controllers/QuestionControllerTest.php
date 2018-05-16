@@ -48,19 +48,25 @@ class QuestionControllerTest extends TestCase
         $questionJson = $this->getExpectedJson(__DIR__.'/../Serializers/Samples/question.json');
         $request = new Request([], [], [], [], [], [], $questionJson);
         $questionSerializer = new QuestionSerializer();
+        /** @var Question $question */
         $question = $questionSerializer->deserialize($questionJson, Question::class, 'json');
 
         $this->questionRepository
             ->expects($this->once())
             ->method('save')
             ->with($question);
+        $expectedResponse = new Response('{"id":'.$question->getId()->toString().' }');
+        $expectedResponse->headers->set('Content-Type', 'application/json');
 
-        $expectedResponse = new Response('Succeeded');
         $actualResponse = $this->questionController->save($request);
 
         $this->assertEquals(
-            $expectedResponse,
-            $actualResponse
+            $expectedResponse->getContent(),
+            $actualResponse->getContent()
+        );
+        $this->assertEquals(
+            $expectedResponse->headers->get('Content-Type'),
+            $actualResponse->headers->get('Content-Type')
         );
     }
 }
