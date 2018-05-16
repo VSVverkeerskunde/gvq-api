@@ -9,8 +9,8 @@ use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Question\ValueObjects\Language;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDenormalizer implements DenormalizerInterface

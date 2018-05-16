@@ -5,7 +5,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\Models\Category;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class CategorySerializerTest extends TestCase
 {

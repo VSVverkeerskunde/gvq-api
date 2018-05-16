@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Question\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class NotEmptyStringTest extends TestCase
 {

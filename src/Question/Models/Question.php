@@ -4,8 +4,8 @@ namespace VSV\GVQ_API\Question\Models;
 
 use League\Uri\Interfaces\Uri;
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Question\ValueObjects\Language;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class Question

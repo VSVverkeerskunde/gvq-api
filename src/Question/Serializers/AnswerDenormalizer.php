@@ -5,7 +5,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use VSV\GVQ_API\Question\Models\Answer;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class AnswerDenormalizer implements DenormalizerInterface
 {
