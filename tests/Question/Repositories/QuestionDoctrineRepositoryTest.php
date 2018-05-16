@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use Doctrine\ORM\EntityNotFoundException;
 use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Question\Models\Answer;
