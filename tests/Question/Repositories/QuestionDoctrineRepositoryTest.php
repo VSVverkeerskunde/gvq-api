@@ -146,11 +146,12 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Category with id: ' .
-            $category->getId()->toString() .
-            ' and name: ' .
-            $category->getName()->toNative() .
-            ' not found.');
+            'Category with id: '.
+            $category->getId()->toString().
+            ' and name: '.
+            $category->getName()->toNative().
+            ' not found.'
+        );
 
         $this->questionDoctrineRepository->save($question);
     }

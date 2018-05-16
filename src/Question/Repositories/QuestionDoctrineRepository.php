@@ -33,10 +33,10 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
 
         if ($categoryEntity == null) {
             throw new InvalidArgumentException(
-                'Category with id: ' .
-                $questionEntity->getCategoryEntity()->getId() .
-                ' and name: ' .
-                $questionEntity->getCategoryEntity()->getName() .
+                'Category with id: '.
+                $questionEntity->getCategoryEntity()->getId().
+                ' and name: '.
+                $questionEntity->getCategoryEntity()->getName().
                 ' not found.'
             );
         }
