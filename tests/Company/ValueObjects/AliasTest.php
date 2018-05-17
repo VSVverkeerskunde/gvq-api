@@ -4,16 +4,16 @@ namespace VSV\GVQ_API\Company\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
 
-class AliasStringTest extends TestCase
+class AliasTest extends TestCase
 {
     /**
-     * @var AliasString
+     * @var Alias
      */
     private $aliasString;
 
     protected function setUp(): void
     {
-        $this->aliasString = new AliasString('abc-123');
+        $this->aliasString = new Alias('abc-123');
     }
 
     /**
@@ -25,11 +25,11 @@ class AliasStringTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Invalid value: '.$value.' for AliasString. '.
+            'Invalid value: '.$value.' for TranslatedAlias. '.
             'Value should be between 4 and 20 characters long and consist only of lowercase letters, numbers and "-"'
         );
 
-        new AliasString($value);
+        new Alias($value);
     }
 
     /**
@@ -64,7 +64,7 @@ class AliasStringTest extends TestCase
     public function it_supports_valid_values(string $value): void
     {
         $this->assertNotNull(
-            new AliasString($value)
+            new Alias($value)
         );
     }
 
@@ -100,13 +100,13 @@ class AliasStringTest extends TestCase
     /**
      * @test
      * @dataProvider AliasStringsProvider
-     * @param AliasString $aliasString
-     * @param AliasString $otherAliasString
+     * @param Alias $aliasString
+     * @param Alias $otherAliasString
      * @param bool $expected
      */
     public function it_supports_equals_function(
-        AliasString $aliasString,
-        AliasString $otherAliasString,
+        Alias $aliasString,
+        Alias $otherAliasString,
         bool $expected
     ): void {
         $this->assertEquals(
@@ -122,13 +122,13 @@ class AliasStringTest extends TestCase
     {
         return [
             [
-                new AliasString('abc-123'),
-                new AliasString('abc-123'),
+                new Alias('abc-123'),
+                new Alias('abc-123'),
                 true,
             ],
             [
-                new AliasString('abc-123'),
-                new AliasString('abc-1234'),
+                new Alias('abc-123'),
+                new Alias('abc-1234'),
                 false,
             ],
         ];
