@@ -19,16 +19,16 @@ class Company
     private $name;
 
     /**
-     * @var Alias[]
+     * @var TranslatedAliases
      */
     private $aliases;
 
     /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
-     * @param Alias[] $aliases
+     * @param TranslatedAliases $aliases
      */
-    public function __construct(UuidInterface $id, NotEmptyString $name, array $aliases)
+    public function __construct(UuidInterface $id, NotEmptyString $name, TranslatedAliases $aliases)
     {
         $this->id = $id;
         $this->name = $name;
@@ -52,9 +52,9 @@ class Company
     }
 
     /**
-     * @return Alias[]
+     * @return TranslatedAliases
      */
-    public function getAliases(): array
+    public function getAliases(): TranslatedAliases
     {
         return $this->aliases;
     }
