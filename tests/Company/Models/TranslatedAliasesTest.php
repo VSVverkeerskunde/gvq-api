@@ -3,9 +3,7 @@
 namespace VSV\GVQ_API\Company\Models;
 
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
-use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\Factory\ModelsFactory;
 
 class TranslatedAliasesTest extends TestCase
 {
@@ -22,16 +20,8 @@ class TranslatedAliasesTest extends TestCase
     protected function setUp(): void
     {
         $this->translatedAliasArray = [
-            new TranslatedAlias(
-                Uuid::fromString('2459ef4f-036e-41ee-8881-6254c706a7e3'),
-                new Alias('abc-123'),
-                new Language('nl')
-            ),
-            new TranslatedAlias(
-                Uuid::fromString('174bc4b2-2282-485a-94ae-ff02ef12f24e'),
-                new Alias('def-123'),
-                new Language('nl')
-            ),
+            ModelsFactory::createNlAlias(),
+            ModelsFactory::createFrAlias(),
         ];
 
         $this->translatedAliases = new TranslatedAliases(...$this->translatedAliasArray);

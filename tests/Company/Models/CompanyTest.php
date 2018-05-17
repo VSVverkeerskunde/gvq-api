@@ -4,9 +4,8 @@ namespace VSV\GVQ_API\Company\Models;
 
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
-use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\Factory\ModelsFactory;
 
 class CompanyTest extends TestCase
 {
@@ -17,22 +16,7 @@ class CompanyTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->company = new Company(
-            Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
-            new NotEmptyString('Company Name'),
-            new TranslatedAliases(
-                new TranslatedAlias(
-                    Uuid::fromString('827a7945-ffd0-433e-b843-721c98ab72b8'),
-                    new Alias('company-name-nl'),
-                    new Language('nl')
-                ),
-                new TranslatedAlias(
-                    Uuid::fromString('f99c7747-7c27-4388-b0ec-dba380363d23'),
-                    new Alias('company-name-fr'),
-                    new Language('fr')
-                )
-            )
-        );
+        $this->company = ModelsFactory::createCompany();
     }
 
     /**
@@ -63,18 +47,7 @@ class CompanyTest extends TestCase
     public function it_can_store_aliases(): void
     {
         $this->assertEquals(
-            new TranslatedAliases(
-                new TranslatedAlias(
-                    Uuid::fromString('827a7945-ffd0-433e-b843-721c98ab72b8'),
-                    new Alias('company-name-nl'),
-                    new Language('nl')
-                ),
-                new TranslatedAlias(
-                    Uuid::fromString('f99c7747-7c27-4388-b0ec-dba380363d23'),
-                    new Alias('company-name-fr'),
-                    new Language('fr')
-                )
-            ),
+            ModelsFactory::createTranslatedAliases(),
             $this->company->getAliases()
         );
     }

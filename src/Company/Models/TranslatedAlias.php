@@ -28,11 +28,11 @@ class TranslatedAlias
      * @param Alias $alias
      * @param Language $language
      */
-    public function __construct(UuidInterface $id, Alias $alias, Language $language)
+    public function __construct(UuidInterface $id, Language $language, Alias $alias)
     {
         $this->id = $id;
-        $this->alias = $alias;
         $this->language = $language;
+        $this->alias = $alias;
     }
 
     /**

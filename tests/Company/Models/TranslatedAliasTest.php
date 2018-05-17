@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\Factory\ModelsFactory;
 
 class TranslatedAliasTest extends TestCase
 {
@@ -16,11 +17,7 @@ class TranslatedAliasTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->translatedAlias = new TranslatedAlias(
-            Uuid::fromString('2459ef4f-036e-41ee-8881-6254c706a7e3'),
-            new Alias('abc-123'),
-            new Language('nl')
-        );
+        $this->translatedAlias = ModelsFactory::createNlAlias();
     }
 
     /**
@@ -29,7 +26,7 @@ class TranslatedAliasTest extends TestCase
     public function it_stores_an_id(): void
     {
         $this->assertEquals(
-            Uuid::fromString('2459ef4f-036e-41ee-8881-6254c706a7e3'),
+            Uuid::fromString('827a7945-ffd0-433e-b843-721c98ab72b8'),
             $this->translatedAlias->getId()
         );
     }
@@ -40,7 +37,7 @@ class TranslatedAliasTest extends TestCase
     public function it_stores_an_alias(): void
     {
         $this->assertEquals(
-            new Alias('abc-123'),
+            new Alias('company-name-nl'),
             $this->translatedAlias->getAlias()
         );
     }
