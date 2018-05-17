@@ -46,8 +46,8 @@ class CompanySerializerTest extends TestCase
         );
 
         $this->assertEquals(
-          $this->companyAsJson,
-          $actualJson
+            $this->companyAsJson,
+            $actualJson
         );
     }
 
@@ -57,14 +57,14 @@ class CompanySerializerTest extends TestCase
     public function it_can_deserialize_to_company(): void
     {
         $actualCompany = $this->serializer->deserialize(
-          $this->companyAsJson,
-          Company::class,
-          'json'
+            $this->companyAsJson,
+            Company::class,
+            'json'
         );
 
         $this->assertEquals(
-          $this->company,
-          $actualCompany
+            $this->company,
+            $actualCompany
         );
     }
 }
