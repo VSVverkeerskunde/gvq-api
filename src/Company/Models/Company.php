@@ -79,10 +79,9 @@ class Company
         foreach ($aliases as $alias) {
             $languages[] = $alias->getLanguage()->toNative();
         }
+
         $freqs = array_count_values($languages);
-        $freqNl = isset($freqs['nl']) ? $freqs['nl'] : 0;
-        $freqFr = isset($freqs['fr']) ? $freqs['fr'] : 0;
-        if ($freqFr === 1 && $freqNl === 1) {
+        if ($freqs['nl'] === 1 && $freqs['fr'] === 1) {
             return true;
         }
 
