@@ -10,7 +10,7 @@ use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Serializers\CategoriesSerializer;
-use VSV\GVQ_API\Question\Serializers\ExpectedJsonTrait;
+use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class CategoryControllerTest extends TestCase

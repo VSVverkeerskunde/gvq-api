@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 use League\Uri\Uri;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;

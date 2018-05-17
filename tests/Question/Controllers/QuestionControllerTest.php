@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Question\Serializers\ExpectedJsonTrait;
+use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
 
 class QuestionControllerTest extends TestCase

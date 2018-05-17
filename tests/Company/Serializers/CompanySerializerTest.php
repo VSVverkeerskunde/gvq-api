@@ -5,7 +5,7 @@ namespace VSV\GVQ_API\Company\Serializers;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Question\Serializers\ExpectedJsonTrait;
+use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 
 class CompanySerializerTest extends TestCase
 {
