@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Company\Models;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
-use VSV\GVQ_API\Company\ValueObjects\Alias;
 
 class Company
 {
@@ -30,6 +29,17 @@ class Company
      */
     public function __construct(UuidInterface $id, NotEmptyString $name, TranslatedAliases $aliases)
     {
+        if ($aliases->count() !== 2 || !$this->hasValidValues($aliases)) {
+            $suppliedValues = '';
+            foreach ($aliases as $alias) {
+                $suppliedValues .= $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative().', ';
+            }
+
+            throw new \InvalidArgumentException(
+                'Invalid value(s) for aliases: '.$suppliedValues.
+                'exactly one alias per language (nl and fr) required.'
+            );
+        }
         $this->id = $id;
         $this->name = $name;
         $this->aliases = $aliases;
@@ -57,5 +67,25 @@ class Company
     public function getAliases(): TranslatedAliases
     {
         return $this->aliases;
+    }
+
+    /**
+     * @param TranslatedAliases $aliases
+     * @return bool
+     */
+    public function hasValidValues(TranslatedAliases $aliases): bool
+    {
+        $languages = [];
+        foreach ($aliases as $alias) {
+            $languages[] = $alias->getLanguage()->toNative();
+        }
+        $freqs = array_count_values($languages);
+        $freqNl = isset($freqs['nl']) ? $freqs['nl'] : 0;
+        $freqFr = isset($freqs['fr']) ? $freqs['fr'] : 0;
+        if ($freqFr === 1 && $freqNl === 1) {
+            return true;
+        }
+
+        return false;
     }
 }
