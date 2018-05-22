@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Question\Repositories;
 
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\Repositories;
+namespace VSV\GVQ_API\Common\Repositories;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
@@ -29,6 +29,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
         $configuration = Setup::createAnnotationMetadataConfiguration(
             [
                 __DIR__ . '/../../../src/Question/Repositories/Entities',
+                __DIR__ . '/../../../src/User/Repositories/Entities',
             ],
             true,
             null,
@@ -39,6 +40,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
         $connection = [
             'driver' => 'pdo_sqlite',
             'memory' => true,
+            //'path' => __DIR__.'/db.sqlite',
         ];
 
         /** @var  entityManager */

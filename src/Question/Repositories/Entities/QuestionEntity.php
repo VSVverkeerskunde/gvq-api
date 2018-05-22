@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;

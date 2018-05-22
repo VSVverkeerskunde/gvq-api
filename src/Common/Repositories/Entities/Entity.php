@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\Repositories\Entities;
+namespace VSV\GVQ_API\Common\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
