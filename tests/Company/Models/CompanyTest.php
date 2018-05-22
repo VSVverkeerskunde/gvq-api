@@ -26,13 +26,13 @@ class CompanyTest extends TestCase
      */
     public function it_throws_on_invalid_aliases(TranslatedAliases $invalidAliases): void
     {
-        $suppliedValues = '';
+        $suppliedValues = [];
         foreach ($invalidAliases as $alias) {
-            $suppliedValues .= $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative().', ';
+            $suppliedValues[] = $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative();
         }
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid value(s) for aliases: '.$suppliedValues.
+        $this->expectExceptionMessage('Invalid value(s) for aliases: '.implode($suppliedValues).
             'exactly one alias per language (nl and fr) required.');
 
         new Company(

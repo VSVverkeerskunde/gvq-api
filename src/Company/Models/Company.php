@@ -29,17 +29,8 @@ class Company
      */
     public function __construct(UuidInterface $id, NotEmptyString $name, TranslatedAliases $aliases)
     {
-        if ($aliases->count() !== 2 || !$this->hasValidValues($aliases)) {
-            $suppliedValues = '';
-            foreach ($aliases as $alias) {
-                $suppliedValues .= $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative().', ';
-            }
+        $this->guardTranslatedAliases($aliases);
 
-            throw new \InvalidArgumentException(
-                'Invalid value(s) for aliases: '.$suppliedValues.
-                'exactly one alias per language (nl and fr) required.'
-            );
-        }
         $this->id = $id;
         $this->name = $name;
         $this->aliases = $aliases;
@@ -71,20 +62,25 @@ class Company
 
     /**
      * @param TranslatedAliases $aliases
-     * @return bool
      */
-    public function hasValidValues(TranslatedAliases $aliases): bool
+    private function guardTranslatedAliases(TranslatedAliases $aliases): void
     {
         $languages = [];
         foreach ($aliases as $alias) {
             $languages[] = $alias->getLanguage()->toNative();
         }
+        $languageCount = array_count_values($languages);
 
-        $freqs = array_count_values($languages);
-        if ($freqs['nl'] === 1 && $freqs['fr'] === 1) {
-            return true;
+        if ($aliases->count() !== 2 || !($languageCount['nl'] === 1 && $languageCount['fr'] === 1)) {
+            $suppliedAliases = [];
+            foreach ($aliases as $alias) {
+                $suppliedAliases[] = $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative();
+            }
+
+            throw new \InvalidArgumentException(
+                'Invalid value(s) for aliases: '.implode($suppliedAliases).
+                'exactly one alias per language (nl and fr) required.'
+            );
         }
-
-        return false;
     }
 }
