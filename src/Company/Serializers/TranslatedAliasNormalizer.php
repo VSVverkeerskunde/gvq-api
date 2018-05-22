@@ -9,10 +9,10 @@ class TranslatedAliasNormalizer implements NormalizerInterface
 {
     /**
      * @inheritdoc
+     * @param TranslatedAlias $translatedAlias
      */
     public function normalize($translatedAlias, $format = null, array $context = array()): array
     {
-        /** @var TranslatedAlias $translatedAlias */
         return [
             'id' => $translatedAlias->getId()->toString(),
             'language' => $translatedAlias->getLanguage()->toNative(),

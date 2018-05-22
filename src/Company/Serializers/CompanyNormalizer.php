@@ -24,11 +24,10 @@ class CompanyNormalizer implements NormalizerInterface
 
     /**
      * @inheritdoc
+     * @param Company $company
      */
     public function normalize($company, $format = null, array $context = array()): array
     {
-        /** @var Company $company */
-
         $aliases = array_map(
             function (TranslatedAlias $translatedAlias) use ($format) {
                 return $this->translatedAliasNormalizer->normalize(
@@ -38,7 +37,6 @@ class CompanyNormalizer implements NormalizerInterface
             },
             $company->getAliases()->toArray()
         );
-
 
         return [
             'id' => $company->getId()->toString(),
