@@ -6,16 +6,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Serializers\CategoriesSerializer;
-use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class CategoryControllerTest extends TestCase
 {
-    use ExpectedJsonTrait;
     /**
      * @var CategoryRepository|MockObject
      */
@@ -65,7 +64,7 @@ class CategoryControllerTest extends TestCase
         $actualResponse = $this->categoryController->getAll();
 
         $expectedResponse = new Response(
-            $this->getExpectedJson(__DIR__.'/../Serializers/Samples/categories.json')
+            ModelsFactory::createJson('categories')
         );
         $expectedResponse->headers->set('Content-Type', 'application/json');
 

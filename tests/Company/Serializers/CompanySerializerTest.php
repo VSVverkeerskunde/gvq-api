@@ -5,12 +5,9 @@ namespace VSV\GVQ_API\Company\Serializers;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 
 class CompanySerializerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var CompanySerializer
      */
@@ -30,7 +27,7 @@ class CompanySerializerTest extends TestCase
     {
         $this->serializer = new CompanySerializer();
 
-        $this->companyAsJson = $this->getExpectedJson(__DIR__.'/../../Factory/Samples/company.json');
+        $this->companyAsJson = ModelsFactory::createJson('company');
 
         $this->company = ModelsFactory::createCompany();
     }

@@ -6,15 +6,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Factory\ExpectedJsonTrait;
 use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
 
 class QuestionControllerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var QuestionRepository|MockObject
      */
@@ -45,7 +43,7 @@ class QuestionControllerTest extends TestCase
      */
     public function it_saves_a_question(): void
     {
-        $questionJson = $this->getExpectedJson(__DIR__.'/../Serializers/Samples/question.json');
+        $questionJson = ModelsFactory::createJson('question');
         $request = new Request([], [], [], [], [], [], $questionJson);
         $questionSerializer = new QuestionSerializer();
         /** @var Question $question */

@@ -5,7 +5,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 use League\Uri\Uri;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use VSV\GVQ_API\Factory\ExpectedJsonTrait;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
@@ -16,8 +16,6 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionSerializerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var QuestionSerializer
      */
@@ -37,7 +35,7 @@ class QuestionSerializerTest extends TestCase
     {
         $this->serializer = new QuestionSerializer();
 
-        $this->questionAsJson = $this->getExpectedJson(__DIR__ . '/Samples/question.json');
+        $this->questionAsJson = ModelsFactory::createJson('question');
 
         $this->question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),

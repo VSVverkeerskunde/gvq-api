@@ -58,4 +58,15 @@ class ModelsFactory
             new Alias('company-name-fr')
         );
     }
+
+    /**
+     * @param string $model
+     * @return string
+     */
+    public static function createJson(string $model): string
+    {
+        $jsonWithFormatting = file_get_contents(__DIR__.'/Samples/'.$model.'.json');
+        $jsonAsArray = json_decode($jsonWithFormatting, true);
+        return json_encode($jsonAsArray);
+    }
 }
