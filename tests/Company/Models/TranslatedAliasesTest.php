@@ -30,7 +30,7 @@ class TranslatedAliasesTest extends TestCase
     /**
      * @test
      */
-    public function it_can_iterate_over_answers(): void
+    public function it_can_iterate_over_translated_aliases(): void
     {
         $actualArray = [];
         foreach ($this->translatedAliases as $translatedAlias) {
