@@ -56,6 +56,6 @@ class Password
      */
     public function verifies(string $inputPassword): bool
     {
-        return password_verify($inputPassword, $this->value);
+        return password_verify($inputPassword, $this->toNative());
     }
 }
