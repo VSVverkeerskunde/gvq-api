@@ -25,9 +25,9 @@ class SeedCategoriesCommandTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->categoriesRepository = $this->createMock(
-            CategoryRepository::class
-        );
+        /** @var CategoryRepository|MockObject $categoriesRepository */
+        $categoriesRepository = $this->createMock(CategoryRepository::class);
+        $this->categoriesRepository = $categoriesRepository;
 
         $this->seedCategoriesCommand = new SeedCategoriesCommand(
             $this->categoriesRepository
@@ -65,9 +65,11 @@ class SeedCategoriesCommandTest extends TestCase
         $this->categoriesRepository->expects($this->exactly(8))
             ->method('save');
 
-        $this->seedCategoriesCommand->run(
-            $this->createMock(InputInterface::class),
-            $this->createMock(OutputInterface::class)
-        );
+        /** @var InputInterface|MockObject $inputInterface */
+        $inputInterface = $this->createMock(InputInterface::class);
+        /** @var OutputInterface|MockObject $outputInterface */
+        $outputInterface = $this->createMock(OutputInterface::class);
+
+        $this->seedCategoriesCommand->run($inputInterface, $outputInterface);
     }
 }
