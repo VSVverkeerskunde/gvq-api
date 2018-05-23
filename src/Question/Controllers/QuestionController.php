@@ -58,6 +58,9 @@ class QuestionController
         return $response;
     }
 
+    /**
+     * @return Response
+     */
     public function getAll(): Response
     {
         $questions = $this->questionRepository->getAll();
