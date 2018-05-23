@@ -26,14 +26,15 @@ class CompanyTest extends TestCase
      */
     public function it_throws_on_invalid_aliases(TranslatedAliases $invalidAliases): void
     {
-        $suppliedValues = [];
+        $suppliedValuesString = '';
         foreach ($invalidAliases as $alias) {
-            $suppliedValues[] = $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative();
+            $suppliedValuesString .= $alias->getAlias()->toNative().' ('.$alias->getLanguage()->toNative().'), ';
         }
-
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid value(s) for aliases: '.implode($suppliedValues).
-            'exactly one alias per language (nl and fr) required.');
+        $this->expectExceptionMessage(
+            'Invalid value(s) for aliases: '.substr($suppliedValuesString, 0, -2).
+            '. Exactly one alias per language (nl and fr) required.'
+        );
 
         new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
@@ -62,7 +63,6 @@ class CompanyTest extends TestCase
             ],
         ];
     }
-
 
     /**
      * @test

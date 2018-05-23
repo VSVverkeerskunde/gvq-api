@@ -94,12 +94,12 @@ class Company
         if ($aliases->count() !== 2 || $languageCount['nl'] !== 1 || $languageCount['fr'] !== 1) {
             $suppliedAliases = [];
             foreach ($aliases as $alias) {
-                $suppliedAliases[] = $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative();
+                $suppliedAliases[] = $alias->getAlias()->toNative().' ('.$alias->getLanguage()->toNative().')';
             }
 
             throw new \InvalidArgumentException(
-                'Invalid value(s) for aliases: '.implode($suppliedAliases).
-                'exactly one alias per language (nl and fr) required.'
+                'Invalid value(s) for aliases: '.implode(', ', $suppliedAliases).
+                '. Exactly one alias per language (nl and fr) required.'
             );
         }
     }
