@@ -4,13 +4,9 @@ namespace VSV\GVQ_API\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use VSV\GVQ_API\Question\Models\Categories;
-use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 
 class SeedCategoriesCommandTest extends TestCase
 {
