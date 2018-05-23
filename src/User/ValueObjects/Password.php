@@ -51,11 +51,11 @@ class Password
     }
 
     /**
-     * @param string $inputPassword
+     * @param string $plainTextValue
      * @return bool
      */
-    public function verifies(string $inputPassword): bool
+    public function verifies(string $plainTextValue): bool
     {
-        return password_verify($inputPassword, $this->toNative());
+        return password_verify($plainTextValue, $this->toNative());
     }
 }

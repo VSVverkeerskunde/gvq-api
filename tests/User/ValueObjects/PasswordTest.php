@@ -96,13 +96,13 @@ class PasswordTest extends TestCase
     /**
      * @test
      * @dataProvider inputPasswordProvider
-     * @param string $inputPassword
+     * @param string $plainTextPassword
      * @param bool $expected
      */
-    public function it_verifies_an_input_password(string $inputPassword, bool $expected): void
+    public function it_verifies_a_plain_text_password(string $plainTextPassword, bool $expected): void
     {
         $this->assertEquals(
-            $this->password->verifies($inputPassword),
+            $this->password->verifies($plainTextPassword),
             $expected
         );
     }
