@@ -8,6 +8,8 @@ use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
+use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\Serializers\UserDenormalizer;
 
 class CompanyDenormalizer implements DenormalizerInterface
 {
@@ -17,11 +19,20 @@ class CompanyDenormalizer implements DenormalizerInterface
     private $translatedAliasDenormalizer;
 
     /**
-     * @param TranslatedAliasDenormalizer $translatedAliasDenormalizer
+     * @var UserDenormalizer
      */
-    public function __construct(TranslatedAliasDenormalizer $translatedAliasDenormalizer)
-    {
+    private $userDenormalizer;
+
+    /**
+     * @param TranslatedAliasDenormalizer $translatedAliasDenormalizer
+     * @param UserDenormalizer $userDenormalizer
+     */
+    public function __construct(
+        TranslatedAliasDenormalizer $translatedAliasDenormalizer,
+        UserDenormalizer $userDenormalizer
+    ) {
         $this->translatedAliasDenormalizer = $translatedAliasDenormalizer;
+        $this->userDenormalizer = $userDenormalizer;
     }
 
     /**
@@ -40,6 +51,12 @@ class CompanyDenormalizer implements DenormalizerInterface
             $data['aliases']
         );
 
+        $user = $this->userDenormalizer->denormalize(
+            $data['user'],
+            User::class,
+            $format
+        );
+
         // TODO: Better to use decorator and inject uuid generator.
         if (!isset($data['id'])) {
             $data['id'] = Uuid::uuid4();
@@ -48,7 +65,8 @@ class CompanyDenormalizer implements DenormalizerInterface
         return new Company(
             Uuid::fromString($data['id']),
             new NotEmptyString($data['name']),
-            new TranslatedAliases(...$translatedAliases)
+            new TranslatedAliases(...$translatedAliases),
+            $user
         );
     }
 

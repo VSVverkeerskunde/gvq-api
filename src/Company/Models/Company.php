@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Company\Models;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\User\Models\User;
 
 class Company
 {
@@ -23,17 +24,28 @@ class Company
     private $aliases;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
      * @param TranslatedAliases $aliases
+     * @param User $user
      */
-    public function __construct(UuidInterface $id, NotEmptyString $name, TranslatedAliases $aliases)
-    {
+    public function __construct(
+        UuidInterface $id,
+        NotEmptyString $name,
+        TranslatedAliases $aliases,
+        User $user
+    ) {
         $this->guardTranslatedAliases($aliases);
 
         $this->id = $id;
         $this->name = $name;
         $this->aliases = $aliases;
+        $this->user = $user;
     }
 
     /**
@@ -58,6 +70,14 @@ class Company
     public function getAliases(): TranslatedAliases
     {
         return $this->aliases;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     /**

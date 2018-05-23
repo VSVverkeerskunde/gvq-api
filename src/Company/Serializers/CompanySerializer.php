@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\Company\Serializers;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+use VSV\GVQ_API\User\Serializers\UserDenormalizer;
+use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
 class CompanySerializer extends Serializer
 {
@@ -11,10 +13,12 @@ class CompanySerializer extends Serializer
     {
         $normalizers = [
             new CompanyNormalizer(
-                new TranslatedAliasNormalizer()
+                new TranslatedAliasNormalizer(),
+                new UserNormalizer()
             ),
             new CompanyDenormalizer(
-                new TranslatedAliasDenormalizer()
+                new TranslatedAliasDenormalizer(),
+                new UserDenormalizer()
             ),
         ];
         $encoders = [

@@ -38,7 +38,8 @@ class CompanyTest extends TestCase
         new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Company Name'),
-            $invalidAliases
+            $invalidAliases,
+            ModelsFactory::createUser()
         );
     }
 

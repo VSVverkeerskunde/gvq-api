@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Company\Serializers;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
+use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
 class CompanyNormalizer implements NormalizerInterface
 {
@@ -14,12 +15,20 @@ class CompanyNormalizer implements NormalizerInterface
     private $translatedAliasNormalizer;
 
     /**
+     * @var UserNormalizer
+     */
+    private $userNormalizer;
+
+    /**
      * @param TranslatedAliasNormalizer $translatedAliasNormalizer
+     * @param UserNormalizer $userNormalizer
      */
     public function __construct(
-        TranslatedAliasNormalizer $translatedAliasNormalizer
+        TranslatedAliasNormalizer $translatedAliasNormalizer,
+        UserNormalizer $userNormalizer
     ) {
         $this->translatedAliasNormalizer = $translatedAliasNormalizer;
+        $this->userNormalizer = $userNormalizer;
     }
 
     /**
@@ -38,10 +47,16 @@ class CompanyNormalizer implements NormalizerInterface
             $company->getAliases()->toArray()
         );
 
+        $user = $this->userNormalizer->normalize(
+            $company->getUser(),
+            $format
+        );
+
         return [
             'id' => $company->getId()->toString(),
             'name' => $company->getName()->toNative(),
             'aliases' => $aliases,
+            'user' => $user,
         ];
     }
 
