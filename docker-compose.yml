@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
+      gvq-api:
+        aliases:
+          - "mysql.gvq-api.test"
+    ports:
+      - "33066:3306"
+
+  web:
+    image: 2dotstwice/nginx-php72-symfony-dev
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+    networks:
+      gvq-api:
+        aliases:
+          - "gvq-api.test"
+    ports:
+      - "8000:8000"
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+      gvq-api:
+        aliases:
+          - "mailhog.gvq-api.test"
+    ports:
+      - "8025:8025"
+
+networks:
+  gvq-api:
+    driver: bridge
