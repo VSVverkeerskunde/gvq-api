@@ -64,4 +64,21 @@ class UserSerializerTest extends TestCase
             $actualUser
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_deserialize_to_user_when_ids_are_missing(): void
+    {
+        $userAsJson = ModelsFactory::createJson('userWithoutIds');
+
+        /** @var User $actualUser */
+        $actualUser = $this->serializer->deserialize(
+            $userAsJson,
+            User::class,
+            'json'
+        );
+
+        $this->assertNotNull($actualUser->getId());
+    }
 }

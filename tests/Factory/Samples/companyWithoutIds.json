@@ -1,0 +1,13 @@
+{
+  "name": "Company Name",
+  "aliases": [
+    {
+      "language": "nl",
+      "alias": "company-name-nl"
+    },
+    {
+      "language": "fr",
+      "alias": "company-name-fr"
+    }
+  ]
+}

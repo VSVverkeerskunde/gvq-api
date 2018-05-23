@@ -40,6 +40,11 @@ class CompanyDenormalizer implements DenormalizerInterface
             $data['aliases']
         );
 
+        // TODO: Better to use decorator and inject uuid generator.
+        if (!isset($data['id'])) {
+            $data['id'] = Uuid::uuid4();
+        }
+
         return new Company(
             Uuid::fromString($data['id']),
             new NotEmptyString($data['name']),

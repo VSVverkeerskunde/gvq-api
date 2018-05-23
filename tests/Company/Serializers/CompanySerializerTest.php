@@ -64,4 +64,24 @@ class CompanySerializerTest extends TestCase
             $actualCompany
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_deserialize_to_company_when_ids_are_missing(): void
+    {
+        $companyAsJson = ModelsFactory::createJson('companyWithoutIds');
+
+        /** @var Company $actualCompany */
+        $actualCompany = $this->serializer->deserialize(
+            $companyAsJson,
+            Company::class,
+            'json'
+        );
+
+        $this->assertNotNull($actualCompany->getId());
+        foreach ($actualCompany->getAliases() as $alias) {
+            $this->assertNotNull($alias->getId());
+        }
+    }
 }

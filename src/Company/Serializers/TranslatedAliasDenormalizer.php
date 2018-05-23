@@ -15,6 +15,11 @@ class TranslatedAliasDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = array()): TranslatedAlias
     {
+        // TODO: Better to use decorator and inject uuid generator.
+        if (!isset($data['id'])) {
+            $data['id'] = Uuid::uuid4();
+        }
+
         return new TranslatedAlias(
             Uuid::fromString($data['id']),
             new Language($data['language']),

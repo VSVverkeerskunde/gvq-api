@@ -17,6 +17,11 @@ class UserDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = array()): User
     {
+        // TODO: Better to use decorator and inject uuid generator.
+        if (!isset($data['id'])) {
+            $data['id'] = Uuid::uuid4();
+        }
+
         return new User(
             Uuid::fromString($data['id']),
             new Email($data['email']),
