@@ -1,0 +1,24 @@
+0:
+  id: 'a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'
+  name: 'Algemene verkeersregels'
+1:
+  id: '15530c78-2b1c-4820-bcfb-e04c5e2224b9'
+  name: 'Kwetsbare weggebruikers'
+2:
+  id: '67844067-82ca-4698-a713-b5fbd4c729c5'
+  name: 'Verkeerstekens'
+3:
+  id: '58ee6bd3-a3f4-42bc-ba81-82491cec55b9'
+  name: 'Voorrang'
+4:
+  id: '1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'
+  name: 'EHBO/Ongeval/Verzekering'
+5:
+  id: '9677995d-5fc5-48cd-a251-565b626cb7c1'
+  name: 'Voertuig/Techniek'
+6:
+  id: 'fce11f3c-24ad-4aed-b00d-0069e3404749'
+  name: 'Openbaar vervoer/Milieu'
+7:
+  id: '6f0c9e04-1e84-4ba4-be54-ab5747111754'
+  name: 'Verkeersveiligheid'
