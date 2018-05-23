@@ -30,7 +30,7 @@ services:
         aliases:
           - gvq-api.test
     ports:
-      - 8000:8000
+      - 8000:80
 
   mailhog:
     image: mailhog/mailhog
