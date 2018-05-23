@@ -12,9 +12,9 @@ services:
     networks:
       gvq-api:
         aliases:
-          - "mysql.gvq-api.test"
+          - mysql.gvq-api.test
     ports:
-      - "33066:3306"
+      - 33066:3306
 
   web:
     image: 2dotstwice/nginx-php72-symfony-dev
@@ -28,18 +28,18 @@ services:
     networks:
       gvq-api:
         aliases:
-          - "gvq-api.test"
+          - gvq-api.test
     ports:
-      - "8000:8000"
+      - 8000:8000
 
   mailhog:
     image: mailhog/mailhog
     networks:
       gvq-api:
         aliases:
-          - "mailhog.gvq-api.test"
+          - mailhog.gvq-api.test
     ports:
-      - "8025:8025"
+      - 8025:8025
 
 networks:
   gvq-api:
