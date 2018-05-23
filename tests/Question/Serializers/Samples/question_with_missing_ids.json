@@ -1,0 +1,25 @@
+{
+  "language": "fr",
+  "year": 2018,
+  "category": {
+    "id": "1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0",
+    "name": "EHBO\/Ongeval\/Verzekering"
+  },
+  "text": "La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?",
+  "pictureUri": "https:\/\/vragendatabank.s3-eu-west-1.amazonaws.com\/styles\/verkeersquiz_430x1\/s3\/01.07.jpg?itok=6-35lj-4",
+  "answers": [
+    {
+      "text": "Oui, mais uniquement en agglomération.",
+      "correct": false
+    },
+    {
+      "text": "Non, on ne peut jamais rouler sur une voie ferrée.",
+      "correct": false
+    },
+    {
+      "text": "Non.",
+      "correct": true
+    }
+  ],
+  "feedback": "La voie publique située entre les deux lignes blanches continues est un site spécial franchissable."
+}
