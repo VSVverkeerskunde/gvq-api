@@ -91,7 +91,7 @@ class Company
         }
         $languageCount = array_count_values($languages);
 
-        if ($aliases->count() !== 2 || !($languageCount['nl'] === 1 && $languageCount['fr'] === 1)) {
+        if ($aliases->count() !== 2 || $languageCount['nl'] !== 1 || $languageCount['fr'] !== 1) {
             $suppliedAliases = [];
             foreach ($aliases as $alias) {
                 $suppliedAliases[] = $alias->getAlias()->toNative().' - '.$alias->getLanguage()->toNative();
