@@ -8,6 +8,7 @@ use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 use VSV\GVQ_API\Question\ValueObjects\Language;
 use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
@@ -204,5 +205,68 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($updatedQuestion, $foundQuestion);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_questions(): void
+    {
+        $this->questionDoctrineRepository->save($this->question);
+
+        $question2 = new Question(
+            Uuid::fromString('5ffcac55-74e3-4836-a890-3e89a8a1cc15'),
+            new Language('fr'),
+            new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new NotEmptyString(
+                'Qui peut stationner devant ce garage?'
+            ),
+            Uri::createFromString(
+                'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6ablj-4'
+            ),
+            new Answers(
+                new Answer(
+                    Uuid::fromString('c4d5fa4d-b5bc-4d92-a201-a84abb0e3253'),
+                    new NotEmptyString('Les habitants de cette maison.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('1ae8ea74-87f9-4e65-9458-d605888c3a54'),
+                    new NotEmptyString('Personne.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('a33daadb-be3f-4625-b1ae-368611680bde'),
+                    new NotEmptyString('Les habitants de cette maison et leurs visiteurs.'),
+                    true
+                )
+            ),
+            new NotEmptyString(
+                'Il est interdit de stationner devant l’entrée des propriétés.'
+            )
+        );
+
+        $this->questionDoctrineRepository->save($question2);
+
+        $foundQuestions = $this->questionDoctrineRepository->getAll();
+
+        $this->assertEquals(
+            new Questions($this->question, $question2),
+            $foundQuestions
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_questions_present(): void
+    {
+        $foundQuestions = $this-$this->questionDoctrineRepository->getAll();
+
+        $this->assertNull($foundQuestions);
     }
 }
