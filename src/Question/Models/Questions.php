@@ -25,4 +25,12 @@ class Questions implements \IteratorAggregate
     {
         return new \ArrayIterator($this->questions);
     }
+
+    /**
+     * @return Question[]
+     */
+    public function toArray(): array
+    {
+        return $this->questions;
+    }
 }

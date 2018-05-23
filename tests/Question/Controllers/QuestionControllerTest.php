@@ -10,6 +10,7 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\Serializers\ExpectedJsonTrait;
 use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
+use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
 
 class QuestionControllerTest extends TestCase
 {
@@ -36,7 +37,8 @@ class QuestionControllerTest extends TestCase
 
         $this->questionController = new QuestionController(
             $this->questionRepository,
-            new QuestionSerializer()
+            new QuestionSerializer(),
+            new QuestionsSerializer()
         );
     }
 

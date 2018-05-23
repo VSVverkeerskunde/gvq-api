@@ -265,7 +265,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_returns_null_when_no_questions_present(): void
     {
-        $foundQuestions = $this-$this->questionDoctrineRepository->getAll();
+        $foundQuestions = $this->questionDoctrineRepository->getAll();
 
         $this->assertNull($foundQuestions);
     }
