@@ -93,7 +93,7 @@ class CompanyTest extends TestCase
     {
         $this->assertEquals(
             ModelsFactory::createTranslatedAliases(),
-            $this->company->getAliases()
+            $this->company->getTranslatedAliases()
         );
     }
 }

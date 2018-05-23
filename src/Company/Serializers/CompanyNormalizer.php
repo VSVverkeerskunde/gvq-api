@@ -44,7 +44,7 @@ class CompanyNormalizer implements NormalizerInterface
                     $format
                 );
             },
-            $company->getAliases()->toArray()
+            $company->getTranslatedAliases()->toArray()
         );
 
         $user = $this->userNormalizer->normalize(

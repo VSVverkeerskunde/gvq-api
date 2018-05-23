@@ -21,7 +21,7 @@ class Company
     /**
      * @var TranslatedAliases
      */
-    private $aliases;
+    private $translatedAliases;
 
     /**
      * @var User
@@ -31,20 +31,20 @@ class Company
     /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
-     * @param TranslatedAliases $aliases
+     * @param TranslatedAliases $translatedAliases
      * @param User $user
      */
     public function __construct(
         UuidInterface $id,
         NotEmptyString $name,
-        TranslatedAliases $aliases,
+        TranslatedAliases $translatedAliases,
         User $user
     ) {
-        $this->guardTranslatedAliases($aliases);
+        $this->guardTranslatedAliases($translatedAliases);
 
         $this->id = $id;
         $this->name = $name;
-        $this->aliases = $aliases;
+        $this->translatedAliases = $translatedAliases;
         $this->user = $user;
     }
 
@@ -67,9 +67,9 @@ class Company
     /**
      * @return TranslatedAliases
      */
-    public function getAliases(): TranslatedAliases
+    public function getTranslatedAliases(): TranslatedAliases
     {
-        return $this->aliases;
+        return $this->translatedAliases;
     }
 
     /**

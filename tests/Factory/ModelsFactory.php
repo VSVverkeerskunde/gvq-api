@@ -28,6 +28,18 @@ class ModelsFactory
             self::createUser()
         );
     }
+/**
+     * @return Company
+     */
+    public static function createCompanyWithAlternateUser(): Company
+    {
+        return new Company(
+            Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
+            new NotEmptyString('Company Name'),
+            self::createTranslatedAliases(),
+            self::createAlternateUser()
+        );
+    }
 
     /**
      * @return TranslatedAliases
@@ -71,6 +83,21 @@ class ModelsFactory
     {
         return new User(
             Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
+            new Email('admin@gvq.be'),
+            Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO'),
+            new NotEmptyString('Doe'),
+            new NotEmptyString('John'),
+            new Role('admin')
+        );
+    }
+
+    /**
+     * @return User
+     */
+    public static function createAlternateUser(): User
+    {
+        return new User(
+            Uuid::fromString('0ffc0f85-78ee-496b-bc61-17be1326c768'),
             new Email('admin@gvq.be'),
             Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO'),
             new NotEmptyString('Doe'),

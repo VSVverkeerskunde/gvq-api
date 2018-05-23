@@ -30,6 +30,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
             [
                 __DIR__.'/../../../src/Question/Repositories/Entities',
                 __DIR__.'/../../../src/User/Repositories/Entities',
+                __DIR__.'/../../../src/Company/Repositories/Entities',
             ],
             true,
             null,
@@ -40,7 +41,6 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
         $connection = [
             'driver' => 'pdo_sqlite',
             'memory' => true,
-            //'path' => __DIR__.'/db.sqlite',
         ];
 
         /** @var  entityManager */

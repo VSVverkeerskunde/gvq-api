@@ -80,7 +80,7 @@ class CompanySerializerTest extends TestCase
         );
 
         $this->assertNotNull($actualCompany->getId());
-        foreach ($actualCompany->getAliases() as $alias) {
+        foreach ($actualCompany->getTranslatedAliases() as $alias) {
             $this->assertNotNull($alias->getId());
         }
     }
