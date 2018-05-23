@@ -39,6 +39,10 @@ class QuestionsSerializerTest extends TestCase
 
         $this->questionsAsJson = $this->getExpectedJson(__DIR__ . '/Samples/questions.json');
 
+        // TODO: Replace with ModelsFactory.
+        $feedback = new NotEmptyString(
+            'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+        );
         $this->questions = new Questions(
             new Question(
                 Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -71,9 +75,7 @@ class QuestionsSerializerTest extends TestCase
                         true
                     )
                 ),
-                new NotEmptyString(
-                    'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-                )
+                $feedback
             ),
             new Question(
                 Uuid::fromString('5ffcac55-74e3-4836-a890-3e89a8a1cc15'),
