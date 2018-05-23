@@ -56,6 +56,10 @@ class CompanyEntity extends Entity
         $this->name = $name;
         $this->translatedAliasEntities = $translatedAliasEntities;
         $this->userEntity = $user;
+
+        foreach ($translatedAliasEntities as $translatedAliasEntity) {
+            $translatedAliasEntity->setCompanyEntity($this);
+        }
     }
 
     /**

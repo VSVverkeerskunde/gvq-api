@@ -28,6 +28,13 @@ class TranslatedAliasEntity extends Entity
     private $language;
 
     /**
+     * @var CompanyEntity
+     * @ORM\ManyToOne(targetEntity="CompanyEntity", inversedBy="translatedAliasEntities")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     */
+    private $companyEntity;
+
+    /**
      * @param string $id
      * @param string $language
      * @param string $alias
@@ -82,5 +89,21 @@ class TranslatedAliasEntity extends Entity
     public function getLanguage(): string
     {
         return $this->language;
+    }
+
+    /**
+     * @return CompanyEntity
+     */
+    public function getCompanyEntity(): CompanyEntity
+    {
+        return $this->companyEntity;
+    }
+
+    /**
+     * @param CompanyEntity $companyEntity
+     */
+    public function setCompanyEntity(CompanyEntity $companyEntity): void
+    {
+        $this->companyEntity = $companyEntity;
     }
 }
