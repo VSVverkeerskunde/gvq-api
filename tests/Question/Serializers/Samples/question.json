@@ -4,10 +4,10 @@
   "year": 2018,
   "category": {
     "id": "1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0",
-    "name": "EHBO\/Ongeval\/Verzekering"
+    "name": "EHBO/Ongeval/Verzekering"
   },
   "text": "La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?",
-  "pictureUri": "https:\/\/vragendatabank.s3-eu-west-1.amazonaws.com\/styles\/verkeersquiz_430x1\/s3\/01.07.jpg?itok=6-35lj-4",
+  "pictureUri": "https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4",
   "answers": [
     {
       "id": "73e6a2d0-3a50-4089-b84a-208092aeca8e",
