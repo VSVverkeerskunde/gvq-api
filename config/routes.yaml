@@ -10,3 +10,7 @@ questions_get_all:
   path: /questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
   methods: [GET]
+images_upload:
+  path: /images
+  controller: VSV\GVQ_API\Image\Controllers\ImageController::upload
+  methods: [POST]
