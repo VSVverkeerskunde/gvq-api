@@ -6,3 +6,7 @@ question_save:
   path: /questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::save
   methods: [POST]
+user_login:
+  path: /login
+  controller: VSV\GVQ_API\User\Controllers\UserController::login
+  methods: [POST]

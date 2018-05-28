@@ -20,9 +20,10 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            Question:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Question/Repositories/Entities'
-                prefix: 'VSV\GVQ_API'
-                alias: Question
+          GVQ:
+            is_bundle: false
+            type: annotation
+            dir: '%kernel.project_dir%/src/'
+            prefix: 'VSV\GVQ_API'
+            alias: GVQ
+
