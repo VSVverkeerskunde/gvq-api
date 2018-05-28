@@ -26,6 +26,11 @@ Edit the your host file and add the following:
 127.0.0.1	mysql.gvq-api.test
 ```
 
+Install sources by running:
+```
+$ composer install
+```
+
 Start docker by running:
 ```
 $ docker-compose up -d
