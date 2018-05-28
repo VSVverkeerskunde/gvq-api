@@ -17,14 +17,14 @@ services:
       - 33066:3306
 
   web:
-    image: 2dotstwice/nginx-php72-symfony-dev
+    image: 2dotstwice/nginx-php72-symfony4-dev
     environment:
       - DB_HOST=mysql
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
     volumes:
-      - .:/usr/share/nginx/html
+      - .:/usr/share/nginx/html:cached
     networks:
       gvq-api:
         aliases:
