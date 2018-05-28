@@ -16,3 +16,42 @@ Create the tables inside this database with:
 Adding all fixed categories can be done with the following custom command:
 
 `$ ./bin/console gvq:seed-categories`
+
+## Docker
+### Basics
+Edit the your host file and add the following:
+```
+127.0.0.1	gvq-api.test
+127.0.0.1	mailhog.gvq-api.test
+127.0.0.1	mysql.gvq-api.test
+```
+
+Install sources by running:
+```
+$ composer install
+```
+
+Start docker by running:
+```
+$ docker-compose up -d
+```
+
+Connect to api on: http://gvq-api.test:8000/
+
+Connect to mailhog on: http://mailhog.gvq-api.test:8025/
+
+Connect to MySQL on: mysql.gvq-api.test:33066
+
+### Database
+Create the schema with (make sure to have correct `DATABASE_URL` string inside `.env`):
+```
+$ docker-compose exec web bash -c "./bin/console doctrine:schema:create"
+```
+Example of `DATABASE_URL` with values inside `.env`:
+```
+DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:3306/$DB_NAME
+```
+Seeding categories
+```
+$ docker-compose exec web bash -c "./bin/console gvq:seed-categories"
+```
