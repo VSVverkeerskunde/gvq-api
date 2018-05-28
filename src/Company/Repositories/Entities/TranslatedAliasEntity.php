@@ -92,14 +92,6 @@ class TranslatedAliasEntity extends Entity
     }
 
     /**
-     * @return CompanyEntity
-     */
-    public function getCompanyEntity(): CompanyEntity
-    {
-        return $this->companyEntity;
-    }
-
-    /**
      * @param CompanyEntity $companyEntity
      */
     public function setCompanyEntity(CompanyEntity $companyEntity): void
