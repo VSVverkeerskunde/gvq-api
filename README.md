@@ -49,7 +49,7 @@ $ docker-compose exec web bash -c "./bin/console doctrine:schema:create"
 ```
 Example of `DATABASE_URL` with values inside `.env`:
 ```
-DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@mysql:3306/$DB_NAME
+DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:3306/$DB_NAME
 ```
 Seeding categories
 ```
