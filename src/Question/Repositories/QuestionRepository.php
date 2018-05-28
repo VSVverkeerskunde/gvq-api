@@ -20,6 +20,11 @@ interface QuestionRepository
 
     /**
      * @param UuidInterface $id
+     */
+    public function delete(UuidInterface $id): void;
+
+    /**
+     * @param UuidInterface $id
      * @return null|Question
      */
     public function getById(UuidInterface $id): ?Question;
