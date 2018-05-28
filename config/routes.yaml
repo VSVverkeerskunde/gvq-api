@@ -8,5 +8,9 @@ question_save:
   methods: [POST]
 user_login:
   path: /login
-  controller: VSV\GVQ_API\User\Controllers\UserController::login
+  controller: VSV\GVQ_API\User\Controllers\UserAccountController::login
+  methods: [POST]
+user_register:
+  path: /register
+  controller: VSV\GVQ_API\User\Controllers\UserAccountController::register
   methods: [POST]

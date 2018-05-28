@@ -75,47 +75,4 @@ class UserControllerTest extends TestCase
             $actualResponse->headers->get('Content-Type')
         );
     }
-
-    /**
-     * @test
-     * @dataProvider loginDetailsProvider
-     * @param string $input
-     * @param string $expectedResponse
-     */
-    public function it_can_verify_login(string $input, string $expectedResponse): void
-    {
-        //$userJson = ModelsFactory::createJson('user');
-        $user = ModelsFactory::createUser();
-
-        $this->userRepository
-            ->expects($this->once())
-            ->method('getByEmail')
-            ->with($user->getEmail())
-            ->willReturn($user);
-
-        $request = new Request([], [], [], [], [], [], $input);
-        $actualResponse = $this->userController->login($request);
-
-        $this->assertEquals(
-            $expectedResponse,
-            $actualResponse->getContent()
-        );
-    }
-
-    /**
-     * @return array[]
-     */
-    public function loginDetailsProvider(): array
-    {
-        return [
-            [
-                ModelsFactory::createJson('login_details_correct'),
-                ModelsFactory::createJson('user'),
-            ],
-            [
-                ModelsFactory::createJson('login_details_incorrect'),
-                '{"id":"null"}',
-            ],
-        ];
-    }
 }
