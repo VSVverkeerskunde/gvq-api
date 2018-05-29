@@ -43,16 +43,10 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $this->entityManager
         );
         $categoryDoctrineRepository->save(
-            new Category(
-                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-                new NotEmptyString('EHBO/Ongeval/Verzekering')
-            )
+            ModelsFactory::createAccidentCategory()
         );
         $categoryDoctrineRepository->save(
-            new Category(
-                Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
-                new NotEmptyString('Algemene verkeersregels')
-            )
+            ModelsFactory::createGeneralCategory()
         );
 
         $this->question = ModelsFactory::createAccidentQuestion();
@@ -145,10 +139,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            new Category(
-                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-                new NotEmptyString('EHBO/Ongeval/Verzekering')
-            ),
+            ModelsFactory::createAccidentCategory(),
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),

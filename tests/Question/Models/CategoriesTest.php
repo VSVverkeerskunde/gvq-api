@@ -3,8 +3,7 @@
 namespace VSV\GVQ_API\Question\Models;
 
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Factory\ModelsFactory;
 
 class CategoriesTest extends TestCase
 {
@@ -21,14 +20,8 @@ class CategoriesTest extends TestCase
     protected function setUp(): void
     {
         $this->categoriesArray = [
-            new Category(
-                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-                new NotEmptyString('EHBO/Ongeval/Verzekering')
-            ),
-            new Category(
-                Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
-                new NotEmptyString('Algemene verkeersregels')
-            )
+            ModelsFactory::createAccidentCategory(),
+            ModelsFactory::createGeneralCategory(),
         ];
 
         $this->categories = new Categories(...$this->categoriesArray);

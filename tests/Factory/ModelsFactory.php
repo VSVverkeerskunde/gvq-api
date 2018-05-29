@@ -12,6 +12,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
+use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
@@ -119,6 +120,39 @@ class ModelsFactory
             new NotEmptyString('Doe'),
             new NotEmptyString('Jane'),
             new Role('admin')
+        );
+    }
+
+    /**
+     * @return Category
+     */
+    public static function createAccidentCategory(): Category
+    {
+        return new Category(
+            Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
+    }
+
+    /**
+     * @return Category
+     */
+    public static function createGeneralCategory(): Category
+    {
+        return new Category(
+            Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
+            new NotEmptyString('Algemene verkeersregels')
+        );
+    }
+
+    /**
+     * @return Categories
+     */
+    public static function createCategories(): Categories
+    {
+        return new Categories(
+            self::createAccidentCategory(),
+            self::createGeneralCategory()
         );
     }
 
