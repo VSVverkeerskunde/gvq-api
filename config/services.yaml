@@ -28,3 +28,28 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    local_adapter:
+      class: League\Flysystem\Adapter\Local
+      arguments:
+        $root: '%kernel.project_dir%/public/uploads'
+
+    local_fly_system:
+      class: League\Flysystem\Filesystem
+      arguments:
+        $adapter: '@local_adapter'
+
+    image_validator:
+      class: VSV\GVQ_API\Image\Validation\ImageValidator
+      arguments:
+        $maxFileSize: 2097152
+        $supportedMimeTypes: ['image/jpeg', 'image/png']
+
+    uuid_factory:
+      class: Ramsey\Uuid\UuidFactory
+
+    VSV\GVQ_API\Image\Controllers\ImageController:
+      arguments:
+        $fileSystem: '@local_fly_system'
+        $imageValidator: '@image_validator'
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']

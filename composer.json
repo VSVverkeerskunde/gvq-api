@@ -19,6 +19,7 @@
         "php": "^7.2.4",
         "ext-iconv": "*",
         "doctrine/orm": "^2.6",
+        "league/flysystem": "^1.0",
         "league/uri": "^5.3",
         "ramsey/uuid": "^3.7",
         "ramsey/uuid-doctrine": "^1.4",
