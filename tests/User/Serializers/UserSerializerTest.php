@@ -70,7 +70,7 @@ class UserSerializerTest extends TestCase
      */
     public function it_can_deserialize_to_user_when_ids_are_missing(): void
     {
-        $userAsJson = ModelsFactory::createJson('userWithoutIds');
+        $userAsJson = ModelsFactory::createJson('user_without_id');
 
         /** @var User $actualUser */
         $actualUser = $this->serializer->deserialize(

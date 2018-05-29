@@ -41,21 +41,15 @@ class UserAccountControllerTest extends TestCase
     protected function setUp(): void
     {
         /** @var UserRepository|MockObject $userRepository */
-        $userRepository = $this->createMock(
-            UserRepository::class
-        );
+        $userRepository = $this->createMock(UserRepository::class);
         $this->userRepository = $userRepository;
 
         /** @var CompanyRepository|MockObject $companyRepository */
-        $companyRepository = $this->createMock(
-            CompanyRepository::class
-        );
+        $companyRepository = $this->createMock(CompanyRepository::class);
         $this->companyRepository = $companyRepository;
 
         /** @var CompanySerializer|MockObject $companySerializer */
-        $companySerializer = $this->createMock(
-            CompanySerializer::class
-        );
+        $companySerializer = $this->createMock(CompanySerializer::class);
         $this->companySerializer = $companySerializer;
 
         $this->userAccountController = new UserAccountController(
@@ -120,12 +114,10 @@ class UserAccountControllerTest extends TestCase
      */
     public function it_can_register_a_new_user(): void
     {
-        $companyJson = ModelsFactory::createJson('companyWithoutIds');
+        $companyJson = ModelsFactory::createJson('company_without_ids');
         $companySerializer = new CompanySerializer();
         /** @var Company $company */
         $company = $companySerializer->deserialize($companyJson, Company::class, 'json');
-
-        $user = $company->getUser();
 
         $expectedResponse = new Response('{"id":"'.$company->getId()->toString().'"}');
         $expectedResponse->headers->set('Content-Type', 'application/json');
