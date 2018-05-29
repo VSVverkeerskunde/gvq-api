@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\ValueObjects;
+namespace VSV\GVQ_API\User\ValueObjects;
 
-class NotEmptyString
+class Email
 {
     /**
      * @var string
@@ -14,10 +14,10 @@ class NotEmptyString
      */
     public function __construct(string $value)
     {
-        $value = trim($value);
-        if ($value === '') {
-            throw new \InvalidArgumentException('The string value cannot be empty.');
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Invalid value '.$value.' for email');
         }
+
         $this->value = $value;
     }
 
@@ -30,11 +30,11 @@ class NotEmptyString
     }
 
     /**
-     * @param NotEmptyString $notEmptyString
+     * @param Email $email
      * @return bool
      */
-    public function equals(NotEmptyString $notEmptyString): bool
+    public function equals(Email $email): bool
     {
-        return $this->toNative() === $notEmptyString->toNative();
+        return $this->toNative() === $email->toNative();
     }
 }

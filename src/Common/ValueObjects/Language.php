@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\ValueObjects;
+namespace VSV\GVQ_API\Common\ValueObjects;
 
 class Language
 {

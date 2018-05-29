@@ -5,18 +5,17 @@ namespace VSV\GVQ_API\Question\Serializers;
 use League\Uri\Uri;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Question\ValueObjects\Language;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionSerializerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var QuestionSerializer
      */
@@ -36,7 +35,7 @@ class QuestionSerializerTest extends TestCase
     {
         $this->serializer = new QuestionSerializer();
 
-        $this->questionAsJson = $this->getExpectedJson(__DIR__ . '/Samples/question.json');
+        $this->questionAsJson = ModelsFactory::createJson('question');
 
         $this->question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -113,9 +112,7 @@ class QuestionSerializerTest extends TestCase
      */
     public function it_can_deserialize_to_question_when_ids_are_missing(): void
     {
-        $questionAsJson = $this->getExpectedJson(
-            __DIR__ . '/Samples/question_with_missing_ids.json'
-        );
+        $questionAsJson = ModelsFactory::createJson('question_with_missing_ids');
 
         /** @var Question $actualQuestion */
         $actualQuestion = $this->serializer->deserialize(

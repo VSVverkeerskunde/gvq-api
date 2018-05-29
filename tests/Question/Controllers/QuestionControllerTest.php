@@ -8,23 +8,21 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Question\Serializers\ExpectedJsonTrait;
 use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
 use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
-use VSV\GVQ_API\Question\ValueObjects\Language;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionControllerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var QuestionRepository|MockObject
      */
@@ -56,7 +54,7 @@ class QuestionControllerTest extends TestCase
      */
     public function it_saves_a_question(): void
     {
-        $questionJson = $this->getExpectedJson(__DIR__.'/../Serializers/Samples/question.json');
+        $questionJson = ModelsFactory::createJson('question');
         $request = new Request([], [], [], [], [], [], $questionJson);
         $questionSerializer = new QuestionSerializer();
         /** @var Question $question */
@@ -167,7 +165,7 @@ class QuestionControllerTest extends TestCase
             ->method('getAll')
             ->willReturn($questions);
 
-        $questionsJson = $this->getExpectedJson(__DIR__.'/../Serializers/Samples/questions.json');
+        $questionsJson = ModelsFactory::createJson('questions');
         $expectedResponse = new Response($questionsJson);
         $expectedResponse->headers->set('Content-Type', 'application/json');
 
