@@ -6,12 +6,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
-use VSV\GVQ_API\Company\Serializers\CompanySerializer;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\User\Serializers\UserSerializer;
 
 class UserAccountControllerTest extends TestCase
 {
@@ -21,12 +20,17 @@ class UserAccountControllerTest extends TestCase
     private $userRepository;
 
     /**
+     * @var SerializerInterface|MockObject
+     */
+    private $userSerializer;
+
+    /**
      * @var CompanyRepository|MockObject
      */
     private $companyRepository;
 
     /**
-     * @var CompanySerializer|MockObject
+     * @var SerializerInterface|MockObject
      */
     private $companySerializer;
 
@@ -44,19 +48,23 @@ class UserAccountControllerTest extends TestCase
         $userRepository = $this->createMock(UserRepository::class);
         $this->userRepository = $userRepository;
 
+        /** @var SerializerInterface|MockObject $userSerializer */
+        $userSerializer = $this->createMock(SerializerInterface::class);
+        $this->userSerializer = $userSerializer;
+
         /** @var CompanyRepository|MockObject $companyRepository */
         $companyRepository = $this->createMock(CompanyRepository::class);
         $this->companyRepository = $companyRepository;
 
-        /** @var CompanySerializer|MockObject $companySerializer */
-        $companySerializer = $this->createMock(CompanySerializer::class);
+        /** @var SerializerInterface|MockObject $companySerializer */
+        $companySerializer = $this->createMock(SerializerInterface::class);
         $this->companySerializer = $companySerializer;
 
         $this->userAccountController = new UserAccountController(
             $this->userRepository,
-            new UserSerializer(),
+            $this->userSerializer,
             $this->companyRepository,
-            new CompanySerializer()
+            $this->companySerializer
         );
     }
 
@@ -69,14 +77,17 @@ class UserAccountControllerTest extends TestCase
     public function it_can_verify_login(string $input, Response $expectedResponse): void
     {
         $user = ModelsFactory::createUser();
-
-        $expectedResponse->headers->set('Content-Type', 'application/json');
+        $userJson = ModelsFactory::createJson('user');
 
         $this->userRepository
             ->expects($this->once())
             ->method('getByEmail')
             ->with($user->getEmail())
             ->willReturn($user);
+
+        $this->userSerializer
+            ->method('serialize')
+            ->willReturn($userJson);
 
         $request = new Request([], [], [], [], [], [], $input);
         $actualResponse = $this->userAccountController->login($request);
@@ -87,7 +98,7 @@ class UserAccountControllerTest extends TestCase
         );
 
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }
@@ -114,16 +125,31 @@ class UserAccountControllerTest extends TestCase
      */
     public function it_can_register_a_new_user(): void
     {
-        $companyJson = ModelsFactory::createJson('company_without_ids');
-        $companySerializer = new CompanySerializer();
-        /** @var Company $company */
-        $company = $companySerializer->deserialize($companyJson, Company::class, 'json');
+        $companyJsonWithoutIs = ModelsFactory::createJson('company_without_ids');
+        $company = ModelsFactory::createCompany();
 
-        $expectedResponse = new Response('{"id":"'.$company->getId()->toString().'"}');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
+        $this->companySerializer->expects($this->once())
+            ->method('deserialize')
+            ->with(
+                $companyJsonWithoutIs,
+                Company::class,
+                'json'
+            )
+            ->willReturn($company);
 
-        $request = new Request([], [], [], [], [], [], $companyJson);
+        $this->userRepository->expects($this->once())
+            ->method('save')
+            ->with($company->getUser());
+
+        $this->companyRepository->expects($this->once())
+            ->method('save')
+            ->with($company);
+
+        $request = new Request([], [], [], [], [], [], $companyJsonWithoutIs);
         $actualResponse = $this->userAccountController->register($request);
+
+        $expectedResponse = new Response('{"id":"'.$company->getUser()->getId()->toString().'"}');
+        $expectedResponse->headers->set('Content-Type', 'application/json');
 
         $this->assertEquals(
             $expectedResponse->getContent(),
