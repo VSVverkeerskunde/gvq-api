@@ -32,6 +32,7 @@ class QuestionNormalizer implements NormalizerInterface
 
     /**
      * @inheritdoc
+     * @param Question $question
      */
     public function normalize($question, $format = null, array $context = []): array
     {
@@ -50,7 +51,6 @@ class QuestionNormalizer implements NormalizerInterface
             $question->getAnswers()->toArray()
         );
 
-        /** @var Question $question */
         return [
             'id' => $question->getId()->toString(),
             'language' => $question->getLanguage()->toNative(),

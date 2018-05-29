@@ -22,6 +22,9 @@ services:
     VSV\GVQ_API\Question\Controllers\:
         resource: '../src/Question/Controllers'
         tags: ['controller.service_arguments']
+    VSV\GVQ_API\User\Controllers\:
+        resource: '../src/User/Controllers'
+        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

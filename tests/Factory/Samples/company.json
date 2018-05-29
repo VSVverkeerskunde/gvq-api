@@ -1,0 +1,23 @@
+{
+  "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
+  "name": "Company Name",
+  "aliases": [
+    {
+      "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
+      "language": "nl",
+      "alias": "company-name-nl"
+    },
+    {
+      "id": "f99c7747-7c27-4388-b0ec-dba380363d23",
+      "language": "fr",
+      "alias": "company-name-fr"
+    }
+  ],
+  "user": {
+    "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+    "email": "admin@gvq.be",
+    "lastName": "Doe",
+    "firstName": "John",
+    "role": "admin"
+  }
+}

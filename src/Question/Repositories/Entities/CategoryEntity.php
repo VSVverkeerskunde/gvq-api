@@ -4,8 +4,9 @@ namespace VSV\GVQ_API\Question\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use VSV\GVQ_API\Question\Models\Category;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 /**
  * @ORM\Entity()
