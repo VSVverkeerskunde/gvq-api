@@ -4,9 +4,9 @@ namespace VSV\GVQ_API\Company\Controllers;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
-use VSV\GVQ_API\Company\Serializers\CompanySerializer;
 
 class CompanyController
 {
@@ -16,18 +16,20 @@ class CompanyController
     private $companyRepository;
 
     /**
-     * @var CompanySerializer
+     * @var SerializerInterface
      */
-    private $companySerlializer;
+    private $companySerializer;
 
     /**
      * @param CompanyRepository $companyRepository
-     * @param CompanySerializer $companySerlializer
+     * @param SerializerInterface $companySerializer
      */
-    public function __construct(CompanyRepository $companyRepository, CompanySerializer $companySerlializer)
-    {
+    public function __construct(
+        CompanyRepository $companyRepository,
+        SerializerInterface $companySerializer
+    ) {
         $this->companyRepository = $companyRepository;
-        $this->companySerlializer = $companySerlializer;
+        $this->companySerializer = $companySerializer;
     }
 
     /**
@@ -38,7 +40,8 @@ class CompanyController
     {
         $json = $request->getContent();
         /** @var Company $company */
-        $company = $this->companySerlializer->deserialize($json, Company::class, 'json');
+        $company = $this->companySerializer->deserialize($json, Company::class, 'json');
+
         $this->companyRepository->save($company);
 
         $response = new Response('{"id":"'.$company->getId()->toString().'"}');
