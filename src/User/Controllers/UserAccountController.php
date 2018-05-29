@@ -18,11 +18,6 @@ class UserAccountController
     private $userRepository;
 
     /**
-     * @var SerializerInterface
-     */
-    private $userSerializer;
-
-    /**
      * @var CompanyRepository
      */
     private $companyRepository;
@@ -30,24 +25,21 @@ class UserAccountController
     /**
      * @var SerializerInterface
      */
-    private $companySerializer;
+    private $serializer;
 
     /**
      * @param UserRepository $userRepository
-     * @param SerializerInterface $userSerializer
      * @param CompanyRepository $companyRepository
-     * @param SerializerInterface $companySerializer
+     * @param SerializerInterface $serializer
      */
     public function __construct(
         UserRepository $userRepository,
-        SerializerInterface $userSerializer,
         CompanyRepository $companyRepository,
-        SerializerInterface $companySerializer
+        SerializerInterface $serializer
     ) {
-        $this->userSerializer = $userSerializer;
         $this->userRepository = $userRepository;
-        $this->companySerializer = $companySerializer;
         $this->companyRepository = $companyRepository;
+        $this->serializer = $serializer;
     }
 
 
@@ -62,16 +54,17 @@ class UserAccountController
 
         $user = $this->userRepository->getByEmail($loginDetails->getEmail());
         if ($user === null) {
-            throw new \InvalidArgumentException('No user found');
+            throw new \InvalidArgumentException('Login failed.');
         }
 
-        if ($user->getPassword() && $user->getPassword()->verifies($loginDetails->getPassword())) {
-            $response = new Response(
-                $this->userSerializer->serialize($user, 'json')
-            );
-        } else {
-            $response = new Response('{"id":"null"}');
+        if (!$user->getPassword() ||
+            !$user->getPassword()->verifies($loginDetails->getPassword())) {
+            throw new \InvalidArgumentException('Login failed.');
         }
+
+        $response = new Response(
+            $this->serializer->serialize($user, 'json')
+        );
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -85,7 +78,7 @@ class UserAccountController
     {
         $json = $request->getContent();
         /** @var Company $company */
-        $company = $this->companySerializer->deserialize(
+        $company = $this->serializer->deserialize(
             $json,
             Company::class,
             'json',

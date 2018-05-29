@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class UserAccountControllerTest extends TestCase
 {
@@ -20,11 +21,6 @@ class UserAccountControllerTest extends TestCase
     private $userRepository;
 
     /**
-     * @var SerializerInterface|MockObject
-     */
-    private $userSerializer;
-
-    /**
      * @var CompanyRepository|MockObject
      */
     private $companyRepository;
@@ -32,7 +28,7 @@ class UserAccountControllerTest extends TestCase
     /**
      * @var SerializerInterface|MockObject
      */
-    private $companySerializer;
+    private $serializer;
 
     /**
      * @var UserAccountController
@@ -48,52 +44,51 @@ class UserAccountControllerTest extends TestCase
         $userRepository = $this->createMock(UserRepository::class);
         $this->userRepository = $userRepository;
 
-        /** @var SerializerInterface|MockObject $userSerializer */
-        $userSerializer = $this->createMock(SerializerInterface::class);
-        $this->userSerializer = $userSerializer;
-
         /** @var CompanyRepository|MockObject $companyRepository */
         $companyRepository = $this->createMock(CompanyRepository::class);
         $this->companyRepository = $companyRepository;
 
-        /** @var SerializerInterface|MockObject $companySerializer */
-        $companySerializer = $this->createMock(SerializerInterface::class);
-        $this->companySerializer = $companySerializer;
+        /** @var SerializerInterface|MockObject $serializer */
+        $serializer = $this->createMock(SerializerInterface::class);
+        $this->serializer = $serializer;
 
         $this->userAccountController = new UserAccountController(
             $this->userRepository,
-            $this->userSerializer,
             $this->companyRepository,
-            $this->companySerializer
+            $this->serializer
         );
     }
 
     /**
      * @test
-     * @dataProvider loginDetailsProvider
-     * @param string $input
-     * @param Response $expectedResponse
      */
-    public function it_can_verify_login(string $input, Response $expectedResponse): void
+    public function it_can_verify_login(): void
     {
-        $user = ModelsFactory::createUserWithPassword();
-        $userJson = ModelsFactory::createJson('user_with_password');
+        $userWithPassword = ModelsFactory::createUserWithPassword();
+        $userJson = ModelsFactory::createJson('user');
 
-        $this->userRepository
-            ->expects($this->once())
+        $loginDetails = ModelsFactory::createJson('login_details_correct');
+        $request = new Request([], [], [], [], [], [], $loginDetails);
+
+        $this->userRepository->expects($this->once())
             ->method('getByEmail')
-            ->with($user->getEmail())
-            ->willReturn($user);
+            ->with(new Email('admin@gvq.be'))
+            ->willReturn($userWithPassword);
 
-        $this->userSerializer
+        $this->serializer->expects($this->once())
             ->method('serialize')
-            ->willReturn($userJson);
+            ->with(
+                $userWithPassword,
+                'json'
+            )
+            ->willReturn(
+                $userJson
+            );
 
-        $request = new Request([], [], [], [], [], [], $input);
         $actualResponse = $this->userAccountController->login($request);
 
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            $userJson,
             $actualResponse->getContent()
         );
 
@@ -104,20 +99,41 @@ class UserAccountControllerTest extends TestCase
     }
 
     /**
-     * @return array[]
+     * @test
      */
-    public function loginDetailsProvider(): array
+    public function it_throws_when_no_user_found(): void
     {
-        return [
-            [
-                ModelsFactory::createJson('login_details_correct'),
-                new Response(ModelsFactory::createJson('user_with_password')),
-            ],
-            [
-                ModelsFactory::createJson('login_details_incorrect'),
-                new Response('{"id":"null"}'),
-            ],
-        ];
+        $loginDetails = ModelsFactory::createJson('login_details_correct');
+        $request = new Request([], [], [], [], [], [], $loginDetails);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Login failed.');
+
+        $this->userRepository->expects($this->once())
+            ->method('getByEmail')
+            ->with(new Email('admin@gvq.be'))
+            ->willReturn(null);
+
+        $this->userAccountController->login($request);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_on_wrong_login_details(): void
+    {
+        $loginDetails = ModelsFactory::createJson('login_details_incorrect');
+        $request = new Request([], [], [], [], [], [], $loginDetails);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Login failed.');
+
+        $this->userRepository->expects($this->once())
+            ->method('getByEmail')
+            ->with(new Email('admin@gvq.be'))
+            ->willReturn(ModelsFactory::createUser());
+
+        $this->userAccountController->login($request);
     }
 
     /**
@@ -128,7 +144,7 @@ class UserAccountControllerTest extends TestCase
         $companyJsonWithoutIs = ModelsFactory::createJson('company_without_ids');
         $company = ModelsFactory::createCompany();
 
-        $this->companySerializer->expects($this->once())
+        $this->serializer->expects($this->once())
             ->method('deserialize')
             ->with(
                 $companyJsonWithoutIs,
