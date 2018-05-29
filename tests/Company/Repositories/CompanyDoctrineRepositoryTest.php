@@ -4,15 +4,10 @@ namespace VSV\GVQ_API\Company\Repositories;
 
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserDoctrineRepository;
-use VSV\GVQ_API\User\ValueObjects\Email;
-use VSV\GVQ_API\User\ValueObjects\Password;
-use VSV\GVQ_API\User\ValueObjects\Role;
 
 class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
