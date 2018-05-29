@@ -90,4 +90,24 @@ class ImageValidatorTest extends TestCase
 
         $this->imageValidator->validate($this->uploadedFile);
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_throw_for_valid_image()
+    {
+        $this->uploadedFile->expects($this->once())
+            ->method('isValid')
+            ->willReturn(true);
+
+        $this->uploadedFile->expects($this->once())
+            ->method('getClientSize')
+            ->willReturn(1.5 * 1024 * 1024);
+
+        $this->uploadedFile->expects($this->once())
+            ->method('getMimeType')
+            ->willReturn('image/png');
+
+        $this->imageValidator->validate($this->uploadedFile);
+    }
 }
