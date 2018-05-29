@@ -19,9 +19,6 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    VSV\GVQ_API\Question\Controllers\:
-        resource: '../src/Question/Controllers'
-        tags: ['controller.service_arguments']
     VSV\GVQ_API\User\Controllers\:
         resource: '../src/User/Controllers'
         tags: ['controller.service_arguments']
@@ -51,5 +48,10 @@ services:
       arguments:
         $fileSystem: '@local_fly_system'
         $imageValidator: '@image_validator'
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Question\Controllers\QuestionController:
+      arguments:
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']

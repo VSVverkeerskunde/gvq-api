@@ -2,24 +2,16 @@
 
 namespace VSV\GVQ_API\Question\Controllers;
 
-use League\Uri\Uri;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Question\Models\Answer;
-use VSV\GVQ_API\Question\Models\Answers;
-use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
-use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
-use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionControllerTest extends TestCase
 {
@@ -27,6 +19,16 @@ class QuestionControllerTest extends TestCase
      * @var QuestionRepository|MockObject
      */
     private $questionRepository;
+
+    /**
+     * @var SerializerInterface|MockObject
+     */
+    private $serializer;
+
+    /**
+     * @var UuidFactoryInterface|MockObject
+     */
+    private $uuidFactory;
 
     /**
      * @var QuestionController
@@ -42,10 +44,18 @@ class QuestionControllerTest extends TestCase
         $questionRepository = $this->createMock(QuestionRepository::class);
         $this->questionRepository = $questionRepository;
 
+        /** @var SerializerInterface|MockObject $serializer */
+        $serializer = $this->createMock(SerializerInterface::class);
+        $this->serializer = $serializer;
+
+        /** @var UuidFactoryInterface|MockObject $uuidFactory */
+        $uuidFactory = $this->createMock(UuidFactoryInterface::class);
+        $this->uuidFactory = $uuidFactory;
+
         $this->questionController = new QuestionController(
             $this->questionRepository,
-            new QuestionSerializer(),
-            new QuestionsSerializer()
+            $this->serializer,
+            $this->uuidFactory
         );
     }
 
@@ -54,28 +64,64 @@ class QuestionControllerTest extends TestCase
      */
     public function it_saves_a_question(): void
     {
+        $question = ModelsFactory::createAccidentQuestion();
         $questionJson = ModelsFactory::createJson('question');
-        $request = new Request([], [], [], [], [], [], $questionJson);
-        $questionSerializer = new QuestionSerializer();
-        /** @var Question $question */
-        $question = $questionSerializer->deserialize($questionJson, Question::class, 'json');
+
+        $this->serializer->expects($this->once())
+            ->method('deserialize')
+            ->with(
+                $questionJson,
+                Question::class,
+                'json'
+            )
+            ->willReturn(
+                $question
+            );
 
         $this->questionRepository
             ->expects($this->once())
             ->method('save')
             ->with($question);
 
-        $expectedResponse = new Response('{"id":"'.$question->getId()->toString().'"}');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
+        $request = new Request([], [], [], [], [], [], $questionJson);
         $actualResponse = $this->questionController->save($request);
+
+        $expectedResponse = new Response('{"id":"'.$question->getId()->toString().'"}');
 
         $this->assertEquals(
             $expectedResponse->getContent(),
             $actualResponse->getContent()
         );
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
+            $actualResponse->headers->get('Content-Type')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_delete_a_question(): void
+    {
+        $uuid = Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d');
+
+        $this->uuidFactory->expects($this->once())
+            ->method('fromString')
+            ->with('448c6bd8-0075-4302-a4de-fe34d1554b8d')
+            ->willReturn($uuid);
+
+        $this->questionRepository->expects($this->once())
+            ->method('delete')
+            ->with($uuid);
+
+        $actualResponse = $this->questionController->delete($uuid->toString());
+
+        $this->assertEquals(
+            '{"id":"448c6bd8-0075-4302-a4de-fe34d1554b8d"}',
+            $actualResponse->getContent()
+        );
+        $this->assertEquals(
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }
@@ -85,98 +131,54 @@ class QuestionControllerTest extends TestCase
      */
     public function it_can_get_all_questions(): void
     {
-        // TODO: Replace with ModelsFactory.
-        $feedback = new NotEmptyString(
-            'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-        );
-        $questions = new Questions(
-            new Question(
-                Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-                new Language('fr'),
-                new Year(2018),
-                new Category(
-                    Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-                    new NotEmptyString('EHBO/Ongeval/Verzekering')
-                ),
-                new NotEmptyString(
-                    'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
-                ),
-                Uri::createFromString(
-                    'https://vragendatabank.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
-                ),
-                new Answers(
-                    new Answer(
-                        Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                        new NotEmptyString('Oui, mais uniquement en agglomération.'),
-                        false
-                    ),
-                    new Answer(
-                        Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                        new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
-                        false
-                    ),
-                    new Answer(
-                        Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                        new NotEmptyString('Non.'),
-                        true
-                    )
-                ),
-                $feedback
-            ),
-            new Question(
-                Uuid::fromString('5ffcac55-74e3-4836-a890-3e89a8a1cc15'),
-                new Language('fr'),
-                new Year(2018),
-                new Category(
-                    Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
-                    new NotEmptyString('Algemene verkeersregels')
-                ),
-                new NotEmptyString(
-                    'Qui peut stationner devant ce garage?'
-                ),
-                Uri::createFromString(
-                    'https://vragendatabank.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6ablj-4'
-                ),
-                new Answers(
-                    new Answer(
-                        Uuid::fromString('c4d5fa4d-b5bc-4d92-a201-a84abb0e3253'),
-                        new NotEmptyString('Les habitants de cette maison.'),
-                        false
-                    ),
-                    new Answer(
-                        Uuid::fromString('1ae8ea74-87f9-4e65-9458-d605888c3a54'),
-                        new NotEmptyString('Personne.'),
-                        false
-                    ),
-                    new Answer(
-                        Uuid::fromString('a33daadb-be3f-4625-b1ae-368611680bde'),
-                        new NotEmptyString('Les habitants de cette maison et leurs visiteurs.'),
-                        true
-                    )
-                ),
-                new NotEmptyString(
-                    'Il est interdit de stationner devant l’entrée des propriétés.'
-                )
-            )
-        );
+        $questions = ModelsFactory::createQuestions();
+        $questionsJson = ModelsFactory::createJson('questions');
 
         $this->questionRepository
             ->expects($this->once())
             ->method('getAll')
             ->willReturn($questions);
 
-        $questionsJson = ModelsFactory::createJson('questions');
-        $expectedResponse = new Response($questionsJson);
-        $expectedResponse->headers->set('Content-Type', 'application/json');
+        $this->serializer->expects($this->once())
+            ->method('serialize')
+            ->with(
+                $questions,
+                'json'
+            )
+            ->willReturn(
+                $questionsJson
+            );
 
         $actualResponse = $this->questionController->getAll();
 
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            $questionsJson,
             $actualResponse->getContent()
         );
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
+            $actualResponse->headers->get('Content-Type')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_an_empty_array_when_no_questions_found(): void
+    {
+        $this->questionRepository
+            ->expects($this->once())
+            ->method('getAll')
+            ->willReturn(null);
+
+        $actualResponse = $this->questionController->getAll();
+
+        $this->assertEquals(
+            '[]',
+            $actualResponse->getContent()
+        );
+        $this->assertEquals(
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }
