@@ -21,11 +21,6 @@ class User
     private $email;
 
     /**
-     * @var Password
-     */
-    private $password;
-
-    /**
      * @var NotEmptyString
      */
     private $lastName;
@@ -41,9 +36,13 @@ class User
     private $role;
 
     /**
+     * @var Password|null
+     */
+    private $password;
+
+    /**
      * @param UuidInterface $id
      * @param Email $email
-     * @param Password $password
      * @param NotEmptyString $lastName
      * @param NotEmptyString $firstName
      * @param Role $role
@@ -51,14 +50,12 @@ class User
     public function __construct(
         UuidInterface $id,
         Email $email,
-        Password $password,
         NotEmptyString $lastName,
         NotEmptyString $firstName,
         Role $role
     ) {
         $this->id = $id;
         $this->email = $email;
-        $this->password = $password;
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->role = $role;
@@ -78,14 +75,6 @@ class User
     public function getEmail(): Email
     {
         return $this->email;
-    }
-
-    /**
-     * @return Password
-     */
-    public function getPassword(): Password
-    {
-        return $this->password;
     }
 
     /**
@@ -110,5 +99,24 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    /**
+     * @param Password $password
+     * @return User
+     */
+    public function withPassword(Password $password): User
+    {
+        $c = clone $this;
+        $c->password = $password;
+        return $c;
+    }
+
+    /**
+     * @return Password|null
+     */
+    public function getPassword(): ?Password
+    {
+        return $this->password;
     }
 }

@@ -22,14 +22,19 @@ class UserDenormalizer implements DenormalizerInterface
             $data['id'] = Uuid::uuid4();
         }
 
-        return new User(
+        $user = new User(
             Uuid::fromString($data['id']),
             new Email($data['email']),
-            Password::fromHash($data['password']),
             new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
             new Role($data['role'])
         );
+
+        if (isset($data['password'])) {
+            $user->withPassword(Password::fromPlainText($data['password']));
+        }
+
+        return $user;
     }
 
     /**

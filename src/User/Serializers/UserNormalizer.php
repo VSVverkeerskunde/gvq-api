@@ -16,7 +16,6 @@ class UserNormalizer implements NormalizerInterface
         return [
             'id' => $user->getId()->toString(),
             'email' => $user->getEmail()->toNative(),
-            'password' => $user->getPassword()->toNative(),
             'lastName' => $user->getLastName()->toNative(),
             'firstName' => $user->getFirstName()->toNative(),
             'role' => $user->getRole()->toNative(),

@@ -65,7 +65,7 @@ class UserAccountController
             throw new \InvalidArgumentException('No user found');
         }
 
-        if ($user->getPassword()->verifies($loginDetails->getPassword())) {
+        if ($user->getPassword() && $user->getPassword()->verifies($loginDetails->getPassword())) {
             $response = new Response(
                 $this->userSerializer->serialize($user, 'json')
             );

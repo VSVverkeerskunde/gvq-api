@@ -84,10 +84,19 @@ class ModelsFactory
         return new User(
             Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
             new Email('admin@gvq.be'),
-            Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO'),
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
             new Role('admin')
+        );
+    }
+
+    /**
+     * @return User
+     */
+    public static function createUserWithPassword(): User
+    {
+        return self::createUser()->withPassword(
+            Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO')
         );
     }
 
@@ -99,7 +108,6 @@ class ModelsFactory
         return new User(
             Uuid::fromString('0ffc0f85-78ee-496b-bc61-17be1326c768'),
             new Email('admin@gvq.be'),
-            Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO'),
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
             new Role('admin')

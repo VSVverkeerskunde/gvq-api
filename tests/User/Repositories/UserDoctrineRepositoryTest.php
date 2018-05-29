@@ -21,6 +21,11 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     private $user;
 
     /**
+     * @var User
+     */
+    private $userWithPassword;
+
+    /**
      * @throws \Doctrine\ORM\ORMException
      */
     protected function setUp(): void
@@ -32,6 +37,7 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->user = ModelsFactory::createUser();
+        $this->userWithPassword = ModelsFactory::createUserWithPassword();
     }
 
     /**
@@ -54,5 +60,19 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($this->user, $foundUser);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_save_a_user_with_password(): void
+    {
+        $this->userDoctrineRepository->save($this->userWithPassword);
+
+        $foundUser = $this->userDoctrineRepository->getByEmail(
+            new Email('admin@gvq.be')
+        );
+
+        $this->assertEquals($this->userWithPassword, $foundUser);
     }
 }

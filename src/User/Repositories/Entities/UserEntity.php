@@ -29,13 +29,6 @@ class UserEntity extends Entity
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
     private $lastName;
 
     /**
@@ -53,28 +46,35 @@ class UserEntity extends Entity
     private $role;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $password;
+
+    /**
      * @param string $id
      * @param string $email
-     * @param string $password
      * @param string $lastName
      * @param string $firstName
      * @param string $role
+     * @param string|null $password
      */
     public function __construct(
         string $id,
         string $email,
-        string $password,
         string $lastName,
         string $firstName,
-        string $role
+        string $role,
+        ?string $password
     ) {
         parent::__construct($id);
 
         $this->email = $email;
-        $this->password = $password;
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->role = $role;
+        $this->password = $password;
     }
 
     /**
@@ -86,10 +86,10 @@ class UserEntity extends Entity
         return new UserEntity(
             $user->getId()->toString(),
             $user->getEmail()->toNative(),
-            $user->getPassword()->toNative(),
             $user->getLastName()->toNative(),
             $user->getFirstName()->toNative(),
-            $user->getRole()->toNative()
+            $user->getRole()->toNative(),
+            $user->getPassword() ? $user->getPassword()->toNative() : null
         );
     }
 
@@ -98,14 +98,21 @@ class UserEntity extends Entity
      */
     public function toUser(): User
     {
-        return new User(
+        $user = new User(
             Uuid::fromString($this->getId()),
             new Email($this->getEmail()),
-            Password::fromHash($this->getPassword()),
             new NotEmptyString($this->getLastName()),
             new NotEmptyString($this->getFirstName()),
             new Role($this->getRole())
         );
+
+        if ($this->getPassword()) {
+            $user = $user->withPassword(
+                Password::fromHash($this->getPassword())
+            );
+        }
+
+        return $user;
     }
 
     /**
@@ -114,14 +121,6 @@ class UserEntity extends Entity
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 
     /**
@@ -146,5 +145,13 @@ class UserEntity extends Entity
     public function getRole(): string
     {
         return $this->role;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
     }
 }

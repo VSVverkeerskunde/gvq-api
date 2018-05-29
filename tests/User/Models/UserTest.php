@@ -47,17 +47,6 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_can_store_a_password(): void
-    {
-        $this->assertEquals(
-            Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO'),
-            $this->user->getPassword()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function it_can_store_a_first_name(): void
     {
         $this->assertEquals(
@@ -85,6 +74,28 @@ class UserTest extends TestCase
         $this->assertEquals(
             new Role('admin'),
             $this->user->getRole()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_empty_password(): void
+    {
+        $this->assertNull($this->user->getPassword());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_store_a_password(): void
+    {
+        $password = Password::fromHash('$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO');
+        $userWithPassword = $this->user->withPassword($password);
+
+        $this->assertEquals(
+            $password,
+            $userWithPassword->getPassword()
         );
     }
 }

@@ -76,8 +76,8 @@ class UserAccountControllerTest extends TestCase
      */
     public function it_can_verify_login(string $input, Response $expectedResponse): void
     {
-        $user = ModelsFactory::createUser();
-        $userJson = ModelsFactory::createJson('user');
+        $user = ModelsFactory::createUserWithPassword();
+        $userJson = ModelsFactory::createJson('user_with_password');
 
         $this->userRepository
             ->expects($this->once())
@@ -111,7 +111,7 @@ class UserAccountControllerTest extends TestCase
         return [
             [
                 ModelsFactory::createJson('login_details_correct'),
-                new Response(ModelsFactory::createJson('user')),
+                new Response(ModelsFactory::createJson('user_with_password')),
             ],
             [
                 ModelsFactory::createJson('login_details_incorrect'),
