@@ -30,7 +30,7 @@ class TranslatedAliasEntity extends Entity
     /**
      * @var CompanyEntity
      * @ORM\ManyToOne(targetEntity="CompanyEntity", inversedBy="translatedAliasEntities")
-     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id", nullable=false)
      */
     private $companyEntity;
 
