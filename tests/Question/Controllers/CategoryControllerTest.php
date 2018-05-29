@@ -81,7 +81,7 @@ class CategoryControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_an_empty_response_when_no_categories_found(): void
+    public function it_returns_an_empty_array_when_no_categories_found(): void
     {
         $this->categoryRepository
             ->expects($this->once())

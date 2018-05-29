@@ -2,12 +2,12 @@
 
 namespace VSV\GVQ_API\Question\Controllers;
 
+use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
-use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
 
 class QuestionController
 {
@@ -17,28 +17,28 @@ class QuestionController
     private $questionRepository;
 
     /**
-     * @var QuestionSerializer
+     * @var SerializerInterface
      */
-    private $questionSerializer;
+    private $serializer;
 
     /**
-     * @var QuestionsSerializer
+     * @var UuidFactoryInterface
      */
-    private $questionsSerializer;
+    private $uuidFactory;
 
     /**
      * @param QuestionRepository $questionRepository
-     * @param QuestionSerializer $questionSerializer
-     * @param QuestionsSerializer $questionsSerializer
+     * @param SerializerInterface $serializer
+     * @param UuidFactoryInterface $uuidFactory
      */
     public function __construct(
         QuestionRepository $questionRepository,
-        QuestionSerializer $questionSerializer,
-        QuestionsSerializer $questionsSerializer
+        SerializerInterface $serializer,
+        UuidFactoryInterface $uuidFactory
     ) {
         $this->questionRepository = $questionRepository;
-        $this->questionSerializer = $questionSerializer;
-        $this->questionsSerializer = $questionsSerializer;
+        $this->serializer = $serializer;
+        $this->uuidFactory = $uuidFactory;
     }
 
     /**
@@ -49,10 +49,26 @@ class QuestionController
     {
         $json = $request->getContent();
         /** @var Question $question */
-        $question = $this->questionSerializer->deserialize($json, Question::class, 'json');
+        $question = $this->serializer->deserialize($json, Question::class, 'json');
         $this->questionRepository->save($question);
 
         $response = new Response('{"id":"'.$question->getId()->toString().'"}');
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @param string $id
+     * @return Response
+     */
+    public function delete(string $id): Response
+    {
+        $this->questionRepository->delete(
+            $this->uuidFactory->fromString($id)
+        );
+
+        $response = new Response('{"id":"'.$id.'"}');
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -64,9 +80,14 @@ class QuestionController
     public function getAll(): Response
     {
         $questions = $this->questionRepository->getAll();
-        $questionsAsJson = $this->questionsSerializer->serialize($questions, 'json');
 
-        $response = new Response($questionsAsJson);
+        if ($questions === null) {
+            $response = new Response('[]');
+        } else {
+            $questionsAsJson = $this->serializer->serialize($questions, 'json');
+            $response = new Response($questionsAsJson);
+        }
+
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

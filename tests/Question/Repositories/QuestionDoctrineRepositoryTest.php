@@ -211,6 +211,21 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
+    public function it_can_delete_a_question()
+    {
+        $uuid = Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d');
+
+        $this->questionDoctrineRepository->save($this->question);
+
+        $this->questionDoctrineRepository->delete($uuid);
+
+        $foundQuestion = $this->questionDoctrineRepository->getById($uuid);
+        $this->assertNull($foundQuestion);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_all_questions(): void
     {
         $this->questionDoctrineRepository->save($this->question);

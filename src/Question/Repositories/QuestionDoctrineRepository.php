@@ -63,15 +63,23 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     /**
      * @inheritdoc
      */
+    public function delete(UuidInterface $id): void
+    {
+        $questionEntity = $this->getEntityById($id);
+
+        if ($questionEntity !== null) {
+            $this->entityManager->merge($questionEntity);
+            $this->entityManager->remove($questionEntity);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getById(UuidInterface $id): ?Question
     {
-        /** @var QuestionEntity|null $questionEntity */
-        $questionEntity = $this->objectRepository->findOneBy(
-            [
-                'id' => $id,
-            ]
-        );
-
+        $questionEntity = $this->getEntityById($id);
         return $questionEntity ? $questionEntity->toQuestion() : null;
     }
 
@@ -95,5 +103,21 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
                 $questionEntities
             )
         );
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return QuestionEntity
+     */
+    private function getEntityById(UuidInterface $id): ?QuestionEntity
+    {
+        /** @var QuestionEntity|null $questionEntity */
+        $questionEntity = $this->objectRepository->findOneBy(
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $questionEntity;
     }
 }

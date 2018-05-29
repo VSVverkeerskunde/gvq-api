@@ -7,6 +7,10 @@ questions_save:
   path: /questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::save
   methods: [POST]
+questions_delete:
+  path: /questions/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionController::delete
+  methods: [DELETE]
 questions_get_all:
   path: /questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
