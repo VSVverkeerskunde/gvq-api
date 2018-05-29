@@ -11,7 +11,7 @@ use VSV\GVQ_API\Company\ValueObjects\Alias;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="translatedAlias")
+ * @ORM\Table(name="translated_alias")
  */
 class TranslatedAliasEntity extends Entity
 {
