@@ -49,18 +49,13 @@ class CategoryControllerTest extends TestCase
 
         $actualResponse = $this->categoryController->getAll();
 
-        $expectedResponse = new Response(
-            ModelsFactory::createJson('categories')
-        );
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            ModelsFactory::createJson('categories'),
             $actualResponse->getContent()
         );
         $this->assertEquals(
-            $expectedResponse->headers,
-            $actualResponse->headers
+            'application/json',
+            $actualResponse->headers->get('Content-Type')
         );
     }
 
@@ -76,15 +71,12 @@ class CategoryControllerTest extends TestCase
 
         $actualResponse = $this->categoryController->getAll();
 
-        $expectedResponse = new Response('[]');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '[]',
             $actualResponse->getContent()
         );
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }

@@ -164,16 +164,13 @@ class UserAccountControllerTest extends TestCase
         $request = new Request([], [], [], [], [], [], $companyJsonWithoutIs);
         $actualResponse = $this->userAccountController->register($request);
 
-        $expectedResponse = new Response('{"id":"'.$company->getUser()->getId()->toString().'"}');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$company->getUser()->getId()->toString().'"}',
             $actualResponse->getContent()
         );
 
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }

@@ -73,10 +73,8 @@ class CompanyControllerTest extends TestCase
         $request = new Request([], [], [], [], [], [], $companyJson);
         $actualResponse = $this->companyController->save($request);
 
-        $expectedResponse = new Response('{"id":"'.$company->getId()->toString().'"}');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$company->getId()->toString().'"}',
             $actualResponse->getContent()
         );
         $this->assertEquals(

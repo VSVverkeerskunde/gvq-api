@@ -69,13 +69,11 @@ class UserControllerTest extends TestCase
             ->method('save')
             ->with($user);
 
-        $expectedResponse = new Response('{"id":"'.$user->getId()->toString().'"}');
-
         $request = new Request([], [], [], [], [], [], $userJson);
         $actualResponse = $this->userController->save($request);
 
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$user->getId()->toString().'"}',
             $actualResponse->getContent()
         );
         $this->assertEquals(

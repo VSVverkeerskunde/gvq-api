@@ -86,10 +86,8 @@ class QuestionControllerTest extends TestCase
         $request = new Request([], [], [], [], [], [], $questionJson);
         $actualResponse = $this->questionController->save($request);
 
-        $expectedResponse = new Response('{"id":"'.$question->getId()->toString().'"}');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$question->getId()->toString().'"}',
             $actualResponse->getContent()
         );
         $this->assertEquals(
