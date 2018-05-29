@@ -72,7 +72,7 @@ class UserAccountControllerTest extends TestCase
 
         $this->userRepository->expects($this->once())
             ->method('getByEmail')
-            ->with(new Email('admin@gvq.be'))
+            ->with(new Email('john@gvq.be'))
             ->willReturn($userWithPassword);
 
         $this->serializer->expects($this->once())
@@ -111,7 +111,7 @@ class UserAccountControllerTest extends TestCase
 
         $this->userRepository->expects($this->once())
             ->method('getByEmail')
-            ->with(new Email('admin@gvq.be'))
+            ->with(new Email('john@gvq.be'))
             ->willReturn(null);
 
         $this->userAccountController->login($request);
@@ -130,7 +130,7 @@ class UserAccountControllerTest extends TestCase
 
         $this->userRepository->expects($this->once())
             ->method('getByEmail')
-            ->with(new Email('admin@gvq.be'))
+            ->with(new Email('john@gvq.be'))
             ->willReturn(ModelsFactory::createUser());
 
         $this->userAccountController->login($request);

@@ -81,7 +81,7 @@ class CompanyTest extends TestCase
     public function it_can_store_a_name(): void
     {
         $this->assertEquals(
-            new NotEmptyString('Company Name'),
+            new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
             $this->company->getName()
         );
     }

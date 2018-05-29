@@ -26,7 +26,7 @@ class AliasTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'Invalid value: '.$value.' for TranslatedAlias. '.
-            'Value should be between 4 and 20 characters long and consist only of lowercase letters, numbers and "-"'
+            'Value should be between 3 and 40 characters long and consist only of lowercase letters, numbers and "-"'
         );
 
         new Alias($value);
@@ -39,10 +39,10 @@ class AliasTest extends TestCase
     {
         return [
             [
-                'abc',
+                'ab',
             ],
             [
-                'aaaaaaaaaaaaaaaaaaaaa',
+                'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             ],
             [
                 'abc 123',

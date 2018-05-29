@@ -30,7 +30,7 @@ class ModelsFactory
     {
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
-            new NotEmptyString('Company Name'),
+            new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
             self::createTranslatedAliases(),
             self::createUser()
         );
@@ -43,7 +43,7 @@ class ModelsFactory
     {
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
-            new NotEmptyString('Company Name'),
+            new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
             self::createTranslatedAliases(),
             self::createAlternateUser()
         );
@@ -68,7 +68,7 @@ class ModelsFactory
         return new TranslatedAlias(
             Uuid::fromString('827a7945-ffd0-433e-b843-721c98ab72b8'),
             new Language('nl'),
-            new Alias('company-name-nl')
+            new Alias('vsv')
         );
     }
 
@@ -80,7 +80,7 @@ class ModelsFactory
         return new TranslatedAlias(
             Uuid::fromString('f99c7747-7c27-4388-b0ec-dba380363d23'),
             new Language('fr'),
-            new Alias('company-name-fr')
+            new Alias('awsr')
         );
     }
 
@@ -91,7 +91,7 @@ class ModelsFactory
     {
         return new User(
             Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
-            new Email('admin@gvq.be'),
+            new Email('john@gvq.be'),
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
             new Role('admin')
@@ -115,9 +115,9 @@ class ModelsFactory
     {
         return new User(
             Uuid::fromString('0ffc0f85-78ee-496b-bc61-17be1326c768'),
-            new Email('admin@gvq.be'),
+            new Email('jane@gvq.be'),
             new NotEmptyString('Doe'),
-            new NotEmptyString('John'),
+            new NotEmptyString('Jane'),
             new Role('admin')
         );
     }
@@ -139,7 +139,7 @@ class ModelsFactory
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
             Uri::createFromString(
-                'https://vragendatabank.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
+                'https://gvq-api.be/uploads/b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
             ),
             new Answers(
                 new Answer(
@@ -181,7 +181,7 @@ class ModelsFactory
                 'Qui peut stationner devant ce garage?'
             ),
             Uri::createFromString(
-                'https://vragendatabank.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6ablj-4'
+                'https://gvq-api.be/uploads/a78593f7-2624-4894-aa51-d0c47b8660b8.jpg'
             ),
             new Answers(
                 new Answer(

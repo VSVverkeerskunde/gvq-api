@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\User\Serializers\UserSerializer;
 
 class UserControllerTest extends TestCase
 {

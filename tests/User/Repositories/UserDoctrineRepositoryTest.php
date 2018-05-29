@@ -56,7 +56,7 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->userDoctrineRepository->save($this->user);
 
         $foundUser = $this->userDoctrineRepository->getByEmail(
-            new Email('admin@gvq.be')
+            new Email('john@gvq.be')
         );
 
         $this->assertEquals($this->user, $foundUser);
@@ -70,7 +70,7 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->userDoctrineRepository->save($this->userWithPassword);
 
         $foundUser = $this->userDoctrineRepository->getByEmail(
-            new Email('admin@gvq.be')
+            new Email('john@gvq.be')
         );
 
         $this->assertEquals($this->userWithPassword, $foundUser);

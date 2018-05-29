@@ -1,18 +1,18 @@
 {
-  "name": "Company Name",
+  "name": "Vlaamse Stichting Verkeerskunde",
   "aliases": [
     {
       "language": "nl",
-      "alias": "company-name-nl"
+      "alias": "vsv"
     },
     {
       "language": "fr",
-      "alias": "company-name-fr"
+      "alias": "awsr"
     }
   ],
   "user": {
-    "email": "admin@gvq.be",
-    "password": "$2y$10$Hcfuxvnmk60VO0SKOsvQhuNBP/jJi6.eecdZnqVWCKVt8XNW7mEeO",
+    "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+    "email": "john@gvq.be",
     "lastName": "Doe",
     "firstName": "John",
     "role": "admin"

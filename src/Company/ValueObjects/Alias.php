@@ -14,10 +14,10 @@ class Alias
      */
     public function __construct(string $value)
     {
-        if (!preg_match('/^[a-z0-9\-]{4,20}$/', $value)) {
+        if (!preg_match('/^[a-z0-9\-]{3,40}$/', $value)) {
             throw new \InvalidArgumentException(
                 'Invalid value: '.$value.' for TranslatedAlias. Value should be '.
-                'between 4 and 20 characters long and consist only of lowercase letters, numbers and "-"'
+                'between 3 and 40 characters long and consist only of lowercase letters, numbers and "-"'
             );
         }
 
