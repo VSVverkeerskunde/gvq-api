@@ -31,7 +31,7 @@ class UserDenormalizer implements DenormalizerInterface
         );
 
         if (isset($data['password'])) {
-            $user->withPassword(Password::fromPlainText($data['password']));
+            $user = $user->withPassword(Password::fromPlainText($data['password']));
         }
 
         return $user;
