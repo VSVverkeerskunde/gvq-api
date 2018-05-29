@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
-use VSV\GVQ_API\Company\Serializers\CompanySerializer;
 use VSV\GVQ_API\Factory\ModelsFactory;
 
 class CompanyControllerTest extends TestCase
@@ -74,10 +73,8 @@ class CompanyControllerTest extends TestCase
         $request = new Request([], [], [], [], [], [], $companyJson);
         $actualResponse = $this->companyController->save($request);
 
-        $expectedResponse = new Response('{"id":"'.$company->getId()->toString().'"}');
-
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$company->getId()->toString().'"}',
             $actualResponse->getContent()
         );
         $this->assertEquals(

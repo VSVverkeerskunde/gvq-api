@@ -37,7 +37,7 @@ class TranslatedAliasTest extends TestCase
     public function it_stores_an_alias(): void
     {
         $this->assertEquals(
-            new Alias('company-name-nl'),
+            new Alias('vsv'),
             $this->translatedAlias->getAlias()
         );
     }

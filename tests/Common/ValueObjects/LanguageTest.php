@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Common\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
-use VSV\GVQ_API\Common\ValueObjects\Language;
 
 class LanguageTest extends TestCase
 {

@@ -39,7 +39,7 @@ class UserTest extends TestCase
     public function it_can_store_an_email(): void
     {
         $this->assertEquals(
-            new Email('admin@gvq.be'),
+            new Email('john@gvq.be'),
             $this->user->getEmail()
         );
     }

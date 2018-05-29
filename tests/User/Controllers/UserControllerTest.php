@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\User\Serializers\UserSerializer;
 
 class UserControllerTest extends TestCase
 {
@@ -70,13 +69,11 @@ class UserControllerTest extends TestCase
             ->method('save')
             ->with($user);
 
-        $expectedResponse = new Response('{"id":"'.$user->getId()->toString().'"}');
-
         $request = new Request([], [], [], [], [], [], $userJson);
         $actualResponse = $this->userController->save($request);
 
         $this->assertEquals(
-            $expectedResponse->getContent(),
+            '{"id":"'.$user->getId()->toString().'"}',
             $actualResponse->getContent()
         );
         $this->assertEquals(
