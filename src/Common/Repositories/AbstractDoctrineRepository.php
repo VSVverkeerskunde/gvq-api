@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\Repositories;
+namespace VSV\GVQ_API\Common\Repositories;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;

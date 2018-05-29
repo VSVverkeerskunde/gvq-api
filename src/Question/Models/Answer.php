@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Question\Models;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class Answer
 {

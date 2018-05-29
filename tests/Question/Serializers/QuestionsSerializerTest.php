@@ -5,19 +5,18 @@ namespace VSV\GVQ_API\Question\Serializers;
 use League\Uri\Uri;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
-use VSV\GVQ_API\Question\ValueObjects\Language;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionsSerializerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var QuestionsSerializer
      */
@@ -37,7 +36,7 @@ class QuestionsSerializerTest extends TestCase
     {
         $this->serializer = new QuestionsSerializer();
 
-        $this->questionsAsJson = $this->getExpectedJson(__DIR__ . '/Samples/questions.json');
+        $this->questionsAsJson = ModelsFactory::createJson('questions');
 
         // TODO: Replace with ModelsFactory.
         $feedback = new NotEmptyString(

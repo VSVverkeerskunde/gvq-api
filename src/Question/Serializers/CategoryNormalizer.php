@@ -9,10 +9,10 @@ class CategoryNormalizer implements NormalizerInterface
 {
     /**
      * @inheritdoc
+     * @param Category $category
      */
     public function normalize($category, $format = null, array $context = []): array
     {
-        /** @var Category $category */
         return [
             'id' => $category->getId()->toString(),
             'name' => $category->getName()->toNative(),

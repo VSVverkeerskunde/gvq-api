@@ -4,14 +4,13 @@ namespace VSV\GVQ_API\Question\Serializers;
 
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
 class CategoriesSerializerTest extends TestCase
 {
-    use ExpectedJsonTrait;
-
     /**
      * @var CategoriesSerializer
      */
@@ -31,7 +30,7 @@ class CategoriesSerializerTest extends TestCase
     {
         $this->serializer = new CategoriesSerializer();
 
-        $this->categoriesAsJson = $this->getExpectedJson(__DIR__ . '/Samples/categories.json');
+        $this->categoriesAsJson = ModelsFactory::createJson('categories');
 
         $this->categories = new Categories(
             new Category(

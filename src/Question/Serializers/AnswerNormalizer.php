@@ -9,10 +9,10 @@ class AnswerNormalizer implements NormalizerInterface
 {
     /**
      * @inheritdoc
+     * @param Answer $answer
      */
     public function normalize($answer, $format = null, array $context = []): array
     {
-        /** @var Answer $answer */
         return [
             'id' => $answer->getId()->toString(),
             'text' => $answer->getText()->toNative(),

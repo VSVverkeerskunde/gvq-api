@@ -8,10 +8,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
-use VSV\GVQ_API\Question\ValueObjects\NotEmptyString;
 
 class SeedCategoriesCommand extends Command
 {

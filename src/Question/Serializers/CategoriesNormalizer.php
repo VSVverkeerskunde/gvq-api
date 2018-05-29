@@ -23,10 +23,10 @@ class CategoriesNormalizer implements NormalizerInterface
 
     /**
      * @inheritdoc
+     * @param Categories $categories
      */
     public function normalize($categories, $format = null, array $context = []): array
     {
-        /** @var Categories $categories */
         return array_map(
             function (Category $category) use ($format, $context) {
                 return $this->categoryNormalizer->normalize($category, $format, $context);
