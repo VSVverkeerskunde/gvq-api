@@ -85,7 +85,14 @@ class UserAccountController
     {
         $json = $request->getContent();
         /** @var Company $company */
-        $company = $this->companySerializer->deserialize($json, Company::class, 'json');
+        $company = $this->companySerializer->deserialize(
+            $json,
+            Company::class,
+            'json',
+            [
+                'role' => 'contact'
+            ]
+        );
 
         $user = $company->getUser();
         $this->userRepository->save($user);

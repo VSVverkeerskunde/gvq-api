@@ -54,7 +54,8 @@ class CompanyDenormalizer implements DenormalizerInterface
         $user = $this->userDenormalizer->denormalize(
             $data['user'],
             User::class,
-            $format
+            $format,
+            $context
         );
 
         // TODO: Better to use decorator and inject uuid generator.

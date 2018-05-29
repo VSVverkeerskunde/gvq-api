@@ -46,15 +46,17 @@ class QuestionDenormalizer implements DenormalizerInterface
         $category = $this->categoryDenormalizer->denormalize(
             $data['category'],
             Category::class,
-            $format
+            $format,
+            $context
         );
 
         $answers = array_map(
-            function (array $answer) use ($format) {
+            function (array $answer) use ($format, $context) {
                 return $this->answerDenormalizer->denormalize(
                     $answer,
                     Answer::class,
-                    $format
+                    $format,
+                    $context
                 );
             },
             $data['answers']

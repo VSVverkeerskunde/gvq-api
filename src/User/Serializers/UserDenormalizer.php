@@ -22,12 +22,13 @@ class UserDenormalizer implements DenormalizerInterface
             $data['id'] = Uuid::uuid4();
         }
 
+        // TODO: Better solution for setting the role.
         $user = new User(
             Uuid::fromString($data['id']),
             new Email($data['email']),
             new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
-            new Role($data['role'])
+            isset($context['role']) ? new Role($context['role']) : new Role($data['role'])
         );
 
         if (isset($data['password'])) {
