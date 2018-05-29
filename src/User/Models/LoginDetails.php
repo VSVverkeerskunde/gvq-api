@@ -22,8 +22,13 @@ class LoginDetails
     public function __construct(array $values)
     {
         if (!isset($values['email']) || !isset($values['password'])) {
-            throw new \InvalidArgumentException('No values supplied for email or password');
+            throw new \InvalidArgumentException('Both email and password are required.');
         }
+
+        if ($values['email'] === '' || $values['password'] === '') {
+            throw new \InvalidArgumentException('Email and password can\'t be empty.');
+        }
+
         $this->email = new Email($values['email']);
         $this->password = $values['password'];
     }
