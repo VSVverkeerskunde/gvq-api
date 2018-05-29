@@ -6,6 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
@@ -19,6 +20,11 @@ class UserControllerTest extends TestCase
     private $userRepository;
 
     /**
+     * @var SerializerInterface|MockObject
+     */
+    private $userSerializer;
+
+    /**
      * @var UserController
      */
     private $userController;
@@ -29,14 +35,16 @@ class UserControllerTest extends TestCase
     protected function setUp(): void
     {
         /** @var UserRepository|MockObject $userRepository */
-        $userRepository = $this->createMock(
-            UserRepository::class
-        );
+        $userRepository = $this->createMock(UserRepository::class);
         $this->userRepository = $userRepository;
+
+        /** @var SerializerInterface|MockObject $userSerializer */
+        $userSerializer = $this->createMock(SerializerInterface::class);
+        $this->userSerializer = $userSerializer;
 
         $this->userController = new UserController(
             $this->userRepository,
-            new UserSerializer()
+            $this->userSerializer
         );
     }
 
@@ -46,15 +54,16 @@ class UserControllerTest extends TestCase
     public function it_saves_a_user(): void
     {
         $userJson = ModelsFactory::createJson('user');
-        $request = new Request([], [], [], [], [], [], $userJson);
+        $user = ModelsFactory::createUser();
 
-        $userSerializer = new UserSerializer();
-        /** @var User $user */
-        $user = $userSerializer->deserialize(
-            $userJson,
-            User::class,
-            'json'
-        );
+        $this->userSerializer->expects($this->once())
+            ->method('deserialize')
+            ->with(
+                $userJson,
+                User::class,
+                'json'
+            )
+            ->willReturn($user);
 
         $this->userRepository
             ->expects($this->once())
@@ -62,16 +71,16 @@ class UserControllerTest extends TestCase
             ->with($user);
 
         $expectedResponse = new Response('{"id":"'.$user->getId()->toString().'"}');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
 
+        $request = new Request([], [], [], [], [], [], $userJson);
         $actualResponse = $this->userController->save($request);
 
         $this->assertEquals(
-            $expectedResponse,
-            $actualResponse
+            $expectedResponse->getContent(),
+            $actualResponse->getContent()
         );
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
+            'application/json',
             $actualResponse->headers->get('Content-Type')
         );
     }

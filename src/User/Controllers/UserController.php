@@ -4,9 +4,9 @@ namespace VSV\GVQ_API\User\Controllers;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\User\Serializers\UserSerializer;
 
 class UserController
 {
@@ -16,22 +16,23 @@ class UserController
     private $userRepository;
 
     /**
-     * @var UserSerializer
+     * @var SerializerInterface
      */
     private $userSerializer;
 
     /**
      * @param UserRepository $userRepository
-     * @param UserSerializer $userSerializer
+     * @param SerializerInterface $userSerializer
      */
     public function __construct(
         UserRepository $userRepository,
-        UserSerializer $userSerializer
+        SerializerInterface $userSerializer
     ) {
         $this->userRepository = $userRepository;
         $this->userSerializer = $userSerializer;
     }
 
+    // TODO: This method is not needed, can be refactored to update which is needed.
     /**
      * @param Request $request
      * @return Response
