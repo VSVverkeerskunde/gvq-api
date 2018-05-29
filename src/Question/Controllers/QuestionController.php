@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
+use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
 
 class QuestionController
 {
@@ -21,15 +22,23 @@ class QuestionController
     private $questionSerializer;
 
     /**
+     * @var QuestionsSerializer
+     */
+    private $questionsSerializer;
+
+    /**
      * @param QuestionRepository $questionRepository
      * @param QuestionSerializer $questionSerializer
+     * @param QuestionsSerializer $questionsSerializer
      */
     public function __construct(
         QuestionRepository $questionRepository,
-        QuestionSerializer $questionSerializer
+        QuestionSerializer $questionSerializer,
+        QuestionsSerializer $questionsSerializer
     ) {
         $this->questionRepository = $questionRepository;
         $this->questionSerializer = $questionSerializer;
+        $this->questionsSerializer = $questionsSerializer;
     }
 
     /**
@@ -44,6 +53,20 @@ class QuestionController
         $this->questionRepository->save($question);
 
         $response = new Response('{"id":"'.$question->getId()->toString().'"}');
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getAll(): Response
+    {
+        $questions = $this->questionRepository->getAll();
+        $questionsAsJson = $this->questionsSerializer->serialize($questions, 'json');
+
+        $response = new Response($questionsAsJson);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

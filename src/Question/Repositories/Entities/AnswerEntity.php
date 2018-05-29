@@ -32,7 +32,7 @@ class AnswerEntity extends Entity
      * @var QuestionEntity
      *
      * @ORM\ManyToOne(targetEntity="QuestionEntity", inversedBy="answerEntities")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", nullable=false)
      */
     private $questionEntity;
 

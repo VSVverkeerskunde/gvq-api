@@ -2,10 +2,16 @@ categories_get_all:
   path: /categories
   controller: VSV\GVQ_API\Question\Controllers\CategoryController::getAll
   methods: [GET]
-question_save:
+
+questions_save:
   path: /questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::save
   methods: [POST]
+questions_get_all:
+  path: /questions
+  controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
+  methods: [GET]
+
 user_login:
   path: /login
   controller: VSV\GVQ_API\User\Controllers\UserAccountController::login

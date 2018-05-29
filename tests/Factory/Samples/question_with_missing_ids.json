@@ -1,26 +1,22 @@
 {
-  "id": "448c6bd8-0075-4302-a4de-fe34d1554b8d",
   "language": "fr",
   "year": 2018,
   "category": {
     "id": "1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0",
-    "name": "EHBO/Ongeval/Verzekering"
+    "name": "EHBO\/Ongeval\/Verzekering"
   },
   "text": "La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?",
-  "pictureUri": "https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4",
+  "pictureUri": "https:\/\/vragendatabank.s3-eu-west-1.amazonaws.com\/styles\/verkeersquiz_430x1\/s3\/01.07.jpg?itok=6-35lj-4",
   "answers": [
     {
-      "id": "73e6a2d0-3a50-4089-b84a-208092aeca8e",
       "text": "Oui, mais uniquement en agglomération.",
       "correct": false
     },
     {
-      "id": "96bbb677-0839-46ae-9554-bcb709e49cab",
       "text": "Non, on ne peut jamais rouler sur une voie ferrée.",
       "correct": false
     },
     {
-      "id": "53780149-4ef9-405f-b4f4-45e55fde3d67",
       "text": "Non.",
       "correct": true
     }

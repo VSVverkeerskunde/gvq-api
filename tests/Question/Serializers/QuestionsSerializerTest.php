@@ -1,13 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Question\Controllers;
+namespace VSV\GVQ_API\Question\Serializers;
 
 use League\Uri\Uri;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -16,80 +13,36 @@ use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
-use VSV\GVQ_API\Question\Repositories\QuestionRepository;
-use VSV\GVQ_API\Question\Serializers\QuestionSerializer;
-use VSV\GVQ_API\Question\Serializers\QuestionsSerializer;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
-class QuestionControllerTest extends TestCase
+class QuestionsSerializerTest extends TestCase
 {
     /**
-     * @var QuestionRepository|MockObject
+     * @var QuestionsSerializer
      */
-    private $questionRepository;
+    private $serializer;
 
     /**
-     * @var QuestionController
+     * @var string
      */
-    private $questionController;
+    private $questionsAsJson;
 
     /**
-     * @throws \ReflectionException
+     * @var Questions
      */
-    public function setUp()
+    private $questions;
+
+    protected function setUp(): void
     {
-        /** @var QuestionRepository|MockObject $questionRepository */
-        $questionRepository = $this->createMock(QuestionRepository::class);
-        $this->questionRepository = $questionRepository;
+        $this->serializer = new QuestionsSerializer();
 
-        $this->questionController = new QuestionController(
-            $this->questionRepository,
-            new QuestionSerializer(),
-            new QuestionsSerializer()
-        );
-    }
+        $this->questionsAsJson = ModelsFactory::createJson('questions');
 
-    /**
-     * @test
-     */
-    public function it_saves_a_question(): void
-    {
-        $questionJson = ModelsFactory::createJson('question');
-        $request = new Request([], [], [], [], [], [], $questionJson);
-        $questionSerializer = new QuestionSerializer();
-        /** @var Question $question */
-        $question = $questionSerializer->deserialize($questionJson, Question::class, 'json');
-
-        $this->questionRepository
-            ->expects($this->once())
-            ->method('save')
-            ->with($question);
-
-        $expectedResponse = new Response('{"id":"'.$question->getId()->toString().'"}');
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
-        $actualResponse = $this->questionController->save($request);
-
-        $this->assertEquals(
-            $expectedResponse->getContent(),
-            $actualResponse->getContent()
-        );
-        $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
-            $actualResponse->headers->get('Content-Type')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_all_questions(): void
-    {
         // TODO: Replace with ModelsFactory.
         $feedback = new NotEmptyString(
             'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
         );
-        $questions = new Questions(
+        $this->questions = new Questions(
             new Question(
                 Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
                 new Language('fr'),
@@ -159,25 +112,21 @@ class QuestionControllerTest extends TestCase
                 )
             )
         );
+    }
 
-        $this->questionRepository
-            ->expects($this->once())
-            ->method('getAll')
-            ->willReturn($questions);
-
-        $questionsJson = ModelsFactory::createJson('questions');
-        $expectedResponse = new Response($questionsJson);
-        $expectedResponse->headers->set('Content-Type', 'application/json');
-
-        $actualResponse = $this->questionController->getAll();
-
-        $this->assertEquals(
-            $expectedResponse->getContent(),
-            $actualResponse->getContent()
+    /**
+     * @test
+     */
+    public function it_can_serialize_to_json(): void
+    {
+        $actualJson = $this->serializer->serialize(
+            $this->questions,
+            'json'
         );
+
         $this->assertEquals(
-            $expectedResponse->headers->get('Content-Type'),
-            $actualResponse->headers->get('Content-Type')
+            $this->questionsAsJson,
+            $actualJson
         );
     }
 }

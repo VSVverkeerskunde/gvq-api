@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 
@@ -20,7 +21,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     }
 
     /**
-     * @param Question $question
+     * @inheritdoc
      */
     public function save(Question $question): void
     {
@@ -49,7 +50,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     }
 
     /**
-     * @param Question $question
+     * @inheritdoc
      */
     public function update(Question $question): void
     {
@@ -60,8 +61,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     }
 
     /**
-     * @param UuidInterface $id
-     * @return null|Question
+     * @inheritdoc
      */
     public function getById(UuidInterface $id): ?Question
     {
@@ -73,5 +73,27 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         );
 
         return $questionEntity ? $questionEntity->toQuestion() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAll(): ?Questions
+    {
+        /** @var QuestionEntity[] $questionEntities */
+        $questionEntities = $this->objectRepository->findAll();
+
+        if (empty($questionEntities)) {
+            return null;
+        }
+
+        return new Questions(
+            ...array_map(
+                function (QuestionEntity $questionEntity) {
+                    return $questionEntity->toQuestion();
+                },
+                $questionEntities
+            )
+        );
     }
 }

@@ -57,11 +57,11 @@ class QuestionsTest extends TestCase
             new Language('fr'),
             new Year(2018),
             new Category(
-                Uuid::fromString('5e104d4e-0a93-4452-8ae8-5651c53b9f9a'),
-                new NotEmptyString('Qui peut stationner devant ce garage?')
+                Uuid::fromString('a7910bf1-05f9-4bdb-8dee-1256cbfafc0b'),
+                new NotEmptyString('Algemene verkeersregels')
             ),
             new NotEmptyString(
-                'TODO'
+                'Qui peut stationner devant ce garage?'
             ),
             Uri::createFromString(
                 'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6ablj-4'

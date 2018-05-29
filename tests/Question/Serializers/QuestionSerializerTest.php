@@ -93,7 +93,7 @@ class QuestionSerializerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_deserialize_to_category(): void
+    public function it_can_deserialize_to_question(): void
     {
         $actualQuestion = $this->serializer->deserialize(
             $this->questionAsJson,
@@ -105,5 +105,25 @@ class QuestionSerializerTest extends TestCase
             $this->question,
             $actualQuestion
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_deserialize_to_question_when_ids_are_missing(): void
+    {
+        $questionAsJson = ModelsFactory::createJson('question_with_missing_ids');
+
+        /** @var Question $actualQuestion */
+        $actualQuestion = $this->serializer->deserialize(
+            $questionAsJson,
+            Question::class,
+            'json'
+        );
+
+        $this->assertNotNull($actualQuestion->getId());
+        foreach ($actualQuestion->getAnswers() as $answer) {
+            $this->assertNotNull($answer->getId());
+        }
     }
 }
