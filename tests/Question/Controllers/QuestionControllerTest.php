@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\Serializers\JsonEnricher;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
@@ -29,6 +29,11 @@ class QuestionControllerTest extends TestCase
      * @var UuidFactoryInterface|MockObject
      */
     private $uuidFactory;
+
+    /**
+     * @var JsonEnricher|MockObject
+     */
+    private $jsonEnricher;
 
     /**
      * @var QuestionController
@@ -52,10 +57,15 @@ class QuestionControllerTest extends TestCase
         $uuidFactory = $this->createMock(UuidFactoryInterface::class);
         $this->uuidFactory = $uuidFactory;
 
+        /** @var JsonEnricher|MockObject $jsonEnricher */
+        $jsonEnricher = $this->createMock(JsonEnricher::class);
+        $this->jsonEnricher = $jsonEnricher;
+
         $this->questionController = new QuestionController(
             $this->questionRepository,
             $this->serializer,
-            $this->uuidFactory
+            $this->uuidFactory,
+            $this->jsonEnricher
         );
     }
 
@@ -64,9 +74,15 @@ class QuestionControllerTest extends TestCase
      */
     public function it_saves_a_question(): void
     {
-        $question = ModelsFactory::createAccidentQuestion();
+        $newQuestionJson = ModelsFactory::createJson('new_question');
         $questionJson = ModelsFactory::createJson('question');
 
+        $this->jsonEnricher->expects($this->once())
+            ->method('enrich')
+            ->with($newQuestionJson)
+            ->willReturn($questionJson);
+
+        $question = ModelsFactory::createAccidentQuestion();
         $this->serializer->expects($this->once())
             ->method('deserialize')
             ->with(
@@ -83,7 +99,7 @@ class QuestionControllerTest extends TestCase
             ->method('save')
             ->with($question);
 
-        $request = new Request([], [], [], [], [], [], $questionJson);
+        $request = new Request([], [], [], [], [], [], $newQuestionJson);
         $actualResponse = $this->questionController->save($request);
 
         $this->assertEquals(

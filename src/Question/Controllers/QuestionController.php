@@ -6,6 +6,7 @@ use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\Serializers\JsonEnricher;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 
@@ -27,18 +28,26 @@ class QuestionController
     private $uuidFactory;
 
     /**
+     * @var JsonEnricher
+     */
+    private $jsonEnricher;
+
+    /**
      * @param QuestionRepository $questionRepository
      * @param SerializerInterface $serializer
      * @param UuidFactoryInterface $uuidFactory
+     * @param JsonEnricher $jsonEnricher
      */
     public function __construct(
         QuestionRepository $questionRepository,
         SerializerInterface $serializer,
-        UuidFactoryInterface $uuidFactory
+        UuidFactoryInterface $uuidFactory,
+        JsonEnricher $jsonEnricher
     ) {
         $this->questionRepository = $questionRepository;
         $this->serializer = $serializer;
         $this->uuidFactory = $uuidFactory;
+        $this->jsonEnricher = $jsonEnricher;
     }
 
     /**
@@ -47,7 +56,10 @@ class QuestionController
      */
     public function save(Request $request): Response
     {
+        /** @var string $json */
         $json = $request->getContent();
+        $json = $this->jsonEnricher->enrich($json);
+
         /** @var Question $question */
         $question = $this->serializer->deserialize($json, Question::class, 'json');
         $this->questionRepository->save($question);

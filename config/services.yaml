@@ -51,7 +51,13 @@ services:
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
 
+    question_json_enricher:
+      class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
     VSV\GVQ_API\Question\Controllers\QuestionController:
       arguments:
         $uuidFactory: '@uuid_factory'
+        $jsonEnricher: '@question_json_enricher'
       tags: ['controller.service_arguments']

@@ -3,13 +3,16 @@
 namespace VSV\GVQ_API\Question\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Question;
 
 class QuestionSerializerTest extends TestCase
 {
     /**
-     * @var QuestionSerializer
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -25,7 +28,22 @@ class QuestionSerializerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = new QuestionSerializer();
+        $normalizers = [
+            new QuestionNormalizer(
+                new CategoryNormalizer(),
+                new AnswerNormalizer()
+            ),
+            new QuestionDenormalizer(
+                new CategoryDenormalizer(),
+                new AnswerDenormalizer()
+            ),
+        ];
+
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->questionAsJson = ModelsFactory::createJson('question');
         $this->question = ModelsFactory::createAccidentQuestion();
@@ -62,25 +80,5 @@ class QuestionSerializerTest extends TestCase
             $this->question,
             $actualQuestion
         );
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_deserialize_to_question_when_ids_are_missing(): void
-    {
-        $questionAsJson = ModelsFactory::createJson('question_with_missing_ids');
-
-        /** @var Question $actualQuestion */
-        $actualQuestion = $this->serializer->deserialize(
-            $questionAsJson,
-            Question::class,
-            'json'
-        );
-
-        $this->assertNotNull($actualQuestion->getId());
-        foreach ($actualQuestion->getAnswers() as $answer) {
-            $this->assertNotNull($answer->getId());
-        }
     }
 }
