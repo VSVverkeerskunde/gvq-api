@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Company\Controllers;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\Serializers\JsonEnricher;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 
@@ -18,18 +19,26 @@ class CompanyController
     /**
      * @var SerializerInterface
      */
-    private $companySerializer;
+    private $serializer;
+
+    /**
+     * @var JsonEnricher
+     */
+    private $jsonEnricher;
 
     /**
      * @param CompanyRepository $companyRepository
      * @param SerializerInterface $companySerializer
+     * @param JsonEnricher $jsonEnricher
      */
     public function __construct(
         CompanyRepository $companyRepository,
-        SerializerInterface $companySerializer
+        SerializerInterface $companySerializer,
+        JsonEnricher $jsonEnricher
     ) {
         $this->companyRepository = $companyRepository;
-        $this->companySerializer = $companySerializer;
+        $this->serializer = $companySerializer;
+        $this->jsonEnricher = $jsonEnricher;
     }
 
     /**
@@ -38,9 +47,12 @@ class CompanyController
      */
     public function save(Request $request): Response
     {
+        /** @var string $json */
         $json = $request->getContent();
+        $json = $this->jsonEnricher->enrich($json);
+
         /** @var Company $company */
-        $company = $this->companySerializer->deserialize($json, Company::class, 'json');
+        $company = $this->serializer->deserialize($json, Company::class, 'json');
 
         $this->companyRepository->save($company);
 

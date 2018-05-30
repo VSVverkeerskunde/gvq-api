@@ -14,11 +14,6 @@ class AnswerDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = []): Answer
     {
-        // TODO: Better to use decorator and inject uuid generator.
-        if (!isset($data['id'])) {
-            $data['id'] = Uuid::uuid4();
-        }
-
         return new Answer(
             Uuid::fromString($data['id']),
             new NotEmptyString($data['text']),

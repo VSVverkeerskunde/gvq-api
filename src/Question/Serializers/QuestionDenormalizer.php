@@ -43,11 +43,6 @@ class QuestionDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = []): Question
     {
-        // TODO: Better to use decorator and inject uuid generator.
-        if (!isset($data['id'])) {
-            $data['id'] = Uuid::uuid4();
-        }
-
         $category = $this->categoryDenormalizer->denormalize(
             $data['category'],
             Category::class,

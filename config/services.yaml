@@ -19,12 +19,26 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    VSV\GVQ_API\User\Controllers\:
-        resource: '../src/User/Controllers'
-        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    ### SERVICES ###
+    company_json_enricher:
+      class: VSV\GVQ_API\Company\Serializers\CompanyJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
+    question_json_enricher:
+      class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
+    registration_json_enricher:
+      class: VSV\GVQ_API\Account\Serializers\RegistrationJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
     local_adapter:
       class: League\Flysystem\Adapter\Local
       arguments:
@@ -44,14 +58,29 @@ services:
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
 
-    VSV\GVQ_API\Image\Controllers\ImageController:
+    ### CONTROLLERS ###
+    VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
-        $fileSystem: '@local_fly_system'
-        $imageValidator: '@image_validator'
-        $uuidFactory: '@uuid_factory'
+        $jsonEnricher: '@registration_json_enricher'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Question\Controllers\CategoryController:
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Company\Controllers\CompanyController:
+      arguments:
+        $jsonEnricher: '@company_json_enricher'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Question\Controllers\QuestionController:
       arguments:
+        $uuidFactory: '@uuid_factory'
+        $jsonEnricher: '@question_json_enricher'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Image\Controllers\ImageController:
+      arguments:
+        $fileSystem: '@local_fly_system'
+        $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']

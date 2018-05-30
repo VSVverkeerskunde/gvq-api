@@ -3,13 +3,18 @@
 namespace VSV\GVQ_API\Company\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\User\Serializers\UserDenormalizer;
+use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
 class CompanySerializerTest extends TestCase
 {
     /**
-     * @var CompanySerializer
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -25,7 +30,21 @@ class CompanySerializerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = new CompanySerializer();
+        $normalizers = [
+            new CompanyNormalizer(
+                new TranslatedAliasNormalizer(),
+                new UserNormalizer()
+            ),
+            new CompanyDenormalizer(
+                new TranslatedAliasDenormalizer(),
+                new UserDenormalizer()
+            ),
+        ];
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->companyAsJson = ModelsFactory::createJson('company');
 
@@ -63,25 +82,5 @@ class CompanySerializerTest extends TestCase
             $this->company,
             $actualCompany
         );
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_deserialize_to_company_when_ids_are_missing(): void
-    {
-        $companyAsJson = ModelsFactory::createJson('company_without_ids');
-
-        /** @var Company $actualCompany */
-        $actualCompany = $this->serializer->deserialize(
-            $companyAsJson,
-            Company::class,
-            'json'
-        );
-
-        $this->assertNotNull($actualCompany->getId());
-        foreach ($actualCompany->getTranslatedAliases() as $alias) {
-            $this->assertNotNull($alias->getId());
-        }
     }
 }

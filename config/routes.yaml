@@ -16,16 +16,21 @@ questions_get_all:
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
   methods: [GET]
 
+companies_save:
+  path: /companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyController::save
+  methods: [POST]
+
 images_upload:
   path: /images
   controller: VSV\GVQ_API\Image\Controllers\ImageController::upload
   methods: [POST]
 
-user_login:
-  path: /login
-  controller: VSV\GVQ_API\User\Controllers\UserAccountController::login
+account_register:
+  path: account/register
+  controller: VSV\GVQ_API\Account\Controllers\AccountController::register
   methods: [POST]
-user_register:
-  path: /register
-  controller: VSV\GVQ_API\User\Controllers\UserAccountController::register
+account_login:
+  path: account/login
+  controller: VSV\GVQ_API\Account\Controllers\AccountController::login
   methods: [POST]

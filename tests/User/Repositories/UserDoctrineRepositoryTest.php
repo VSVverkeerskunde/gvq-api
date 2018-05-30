@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
+use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\User\Models\User;
@@ -55,8 +56,8 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $this->userDoctrineRepository->save($this->user);
 
-        $foundUser = $this->userDoctrineRepository->getByEmail(
-            new Email('john@gvq.be')
+        $foundUser = $this->userDoctrineRepository->getById(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
         );
 
         $this->assertEquals($this->user, $foundUser);
@@ -66,6 +67,20 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      */
     public function it_can_save_a_user_with_password(): void
+    {
+        $this->userDoctrineRepository->save($this->userWithPassword);
+
+        $foundUser = $this->userDoctrineRepository->getById(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        $this->assertEquals($this->userWithPassword, $foundUser);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_user_by_email(): void
     {
         $this->userDoctrineRepository->save($this->userWithPassword);
 
