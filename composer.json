@@ -21,6 +21,7 @@
         "doctrine/orm": "^2.6",
         "league/flysystem": "^1.0",
         "league/uri": "^5.3",
+        "nelmio/cors-bundle": "^1.5",
         "ramsey/uuid": "^3.7",
         "ramsey/uuid-doctrine": "^1.4",
         "symfony/console": "^4.0",
