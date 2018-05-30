@@ -3,8 +3,8 @@
 namespace VSV\GVQ_API\Question\Controllers;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
-use VSV\GVQ_API\Question\Serializers\CategoriesSerializer;
 
 class CategoryController
 {
@@ -14,20 +14,20 @@ class CategoryController
     private $categoryRepository;
 
     /**
-     * @var CategoriesSerializer
+     * @var SerializerInterface
      */
-    private $categoriesSerializer;
+    private $serializer;
 
     /**
      * @param CategoryRepository $categoryRepository
-     * @param CategoriesSerializer $categoriesSerializer
+     * @param SerializerInterface $serializer
      */
     public function __construct(
         CategoryRepository $categoryRepository,
-        CategoriesSerializer $categoriesSerializer
+        SerializerInterface $serializer
     ) {
         $this->categoryRepository = $categoryRepository;
-        $this->categoriesSerializer = $categoriesSerializer;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -40,7 +40,7 @@ class CategoryController
         if ($categories === null) {
             $response = new Response('[]');
         } else {
-            $json = $this->categoriesSerializer->serialize($categories, 'json');
+            $json = $this->serializer->serialize($categories, 'json');
             $response = new Response($json);
         }
 

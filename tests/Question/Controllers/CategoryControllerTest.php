@@ -4,10 +4,9 @@ namespace VSV\GVQ_API\Question\Controllers;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
-use VSV\GVQ_API\Question\Serializers\CategoriesSerializer;
 
 class CategoryControllerTest extends TestCase
 {
@@ -15,6 +14,12 @@ class CategoryControllerTest extends TestCase
      * @var CategoryRepository|MockObject
      */
     private $categoryRepository;
+
+    /**
+     * @var SerializerInterface|MockObject
+     */
+    private $serializer;
+
     /**
      * @var CategoryController
      */
@@ -29,9 +34,13 @@ class CategoryControllerTest extends TestCase
         $categoryRepository = $this->createMock(CategoryRepository::class);
         $this->categoryRepository = $categoryRepository;
 
+        /** @var SerializerInterface|MockObject $serializer */
+        $serializer = $this->createMock(SerializerInterface::class);
+        $this->serializer = $serializer;
+
         $this->categoryController = new CategoryController(
             $this->categoryRepository,
-            new CategoriesSerializer()
+            $this->serializer
         );
     }
 
@@ -41,16 +50,26 @@ class CategoryControllerTest extends TestCase
     public function it_returns_a_response(): void
     {
         $categories = ModelsFactory::createCategories();
+        $categoriesJson = ModelsFactory::createJson('categories');
 
         $this->categoryRepository
             ->expects($this->once())
             ->method('getAll')
             ->willReturn($categories);
 
+        $this->serializer
+            ->expects($this->once())
+            ->method('serialize')
+            ->with(
+                $categories,
+                'json'
+            )
+            ->willReturn($categoriesJson);
+
         $actualResponse = $this->categoryController->getAll();
 
         $this->assertEquals(
-            ModelsFactory::createJson('categories'),
+            $categoriesJson,
             $actualResponse->getContent()
         );
         $this->assertEquals(

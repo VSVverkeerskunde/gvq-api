@@ -3,13 +3,16 @@
 namespace VSV\GVQ_API\Question\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Categories;
 
 class CategoriesSerializerTest extends TestCase
 {
     /**
-     * @var CategoriesSerializer
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -25,7 +28,16 @@ class CategoriesSerializerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = new CategoriesSerializer();
+        $normalizers = [
+            new CategoriesNormalizer(
+                new CategoryNormalizer()
+            ),
+        ];
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->categoriesAsJson = ModelsFactory::createJson('categories');
         $this->categories = ModelsFactory::createCategories();
