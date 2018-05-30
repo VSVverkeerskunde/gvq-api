@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    labels: []
+    restart: always
+
+  web:
+    image: ${IMAGE}
+    labels:
+      - "be.2dotstwice.bluegreen.http_route.enable=true"
+      - "be.2dotstwice.bluegreen.http_route.pattern={{base}}"
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - DATABASE_URL
+    ports:
+      - ${DOCKER_HOST_IP}::80
+    restart: always
+    tmpfs:
+      - /tmp
+
+  mailhog:
+    image: mailhog/mailhog
+    labels:
+      - "be.2dotstwice.bluegreen.http_route.enable=true"
+      - "be.2dotstwice.bluegreen.http_route.port=8025"
+      - "be.2dotstwice.bluegreen.http_route.pattern=mailhog-{{base}}"
+    ports:
+      - ${DOCKER_HOST_IP}::8025
+    restart: always

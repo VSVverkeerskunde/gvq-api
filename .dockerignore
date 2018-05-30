@@ -1,0 +1,15 @@
+bluegreen
+Dockerfile
+LICENCE.md
+README.md
+*.sh
+phpunit.xml.dist
+phpunit.xml
+phpcs.xml
+.env
+.env.dist
+.git
+.idea
+.gitignore
+.travis.yml
+docker-compose.yml
