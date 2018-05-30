@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Company\Serializers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use VSV\GVQ_API\Common\Serializers\JsonEnricher;
+use VSV\GVQ_API\User\Repositories\UserRepository;
 
 class CompanyJsonEnricher implements JsonEnricher
 {
@@ -13,11 +14,20 @@ class CompanyJsonEnricher implements JsonEnricher
     private $uuidFactory;
 
     /**
-     * @param UuidFactoryInterface $uuidFactory
+     * @var UserRepository
      */
-    public function __construct(UuidFactoryInterface $uuidFactory)
-    {
+    private $userRepository;
+
+    /**
+     * @param UuidFactoryInterface $uuidFactory
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        UuidFactoryInterface $uuidFactory,
+        UserRepository $userRepository
+    ) {
         $this->uuidFactory = $uuidFactory;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -34,6 +44,26 @@ class CompanyJsonEnricher implements JsonEnricher
             $companyAsArray['aliases'][$index]['id'] = $this->uuidFactory->uuid4()->toString();
         }
 
+        $companyAsArray = $this->enrichWithUser($companyAsArray);
+
         return json_encode($companyAsArray);
+    }
+
+    /**
+     * @param array $companyAsArray
+     * @return array
+     */
+    private function enrichWithUser(array $companyAsArray): array
+    {
+        $user = $this->userRepository->getById(
+            $this->uuidFactory->fromString($companyAsArray['user']['id'])
+        );
+
+        $companyAsArray['user']['email'] = $user->getEmail()->toNative();
+        $companyAsArray['user']['firstName'] = $user->getFirstName()->toNative();
+        $companyAsArray['user']['lastName'] = $user->getLastName()->toNative();
+        $companyAsArray['user']['role'] = $user->getRole()->toNative();
+
+        return $companyAsArray;
     }
 }
