@@ -59,10 +59,12 @@ class CompanyJsonEnricher implements JsonEnricher
             $this->uuidFactory->fromString($companyAsArray['user']['id'])
         );
 
-        $companyAsArray['user']['email'] = $user->getEmail()->toNative();
-        $companyAsArray['user']['firstName'] = $user->getFirstName()->toNative();
-        $companyAsArray['user']['lastName'] = $user->getLastName()->toNative();
-        $companyAsArray['user']['role'] = $user->getRole()->toNative();
+        if ($user !== null) {
+            $companyAsArray['user']['email'] = $user->getEmail()->toNative();
+            $companyAsArray['user']['firstName'] = $user->getFirstName()->toNative();
+            $companyAsArray['user']['lastName'] = $user->getLastName()->toNative();
+            $companyAsArray['user']['role'] = $user->getRole()->toNative();
+        }
 
         return $companyAsArray;
     }
