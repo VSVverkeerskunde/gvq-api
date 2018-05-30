@@ -25,6 +25,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    VSV\GVQ_API\Question\Controllers\CategoryController:
+      tags: ['controller.service_arguments']
+
+    question_json_enricher:
+      class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
+    VSV\GVQ_API\Question\Controllers\QuestionController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+        $jsonEnricher: '@question_json_enricher'
+      tags: ['controller.service_arguments']
+
     local_adapter:
       class: League\Flysystem\Adapter\Local
       arguments:
@@ -49,15 +64,4 @@ services:
         $fileSystem: '@local_fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
-      tags: ['controller.service_arguments']
-
-    question_json_enricher:
-      class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
-      arguments:
-        $uuidFactory: '@uuid_factory'
-
-    VSV\GVQ_API\Question\Controllers\QuestionController:
-      arguments:
-        $uuidFactory: '@uuid_factory'
-        $jsonEnricher: '@question_json_enricher'
       tags: ['controller.service_arguments']
