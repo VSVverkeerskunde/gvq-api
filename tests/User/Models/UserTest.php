@@ -72,7 +72,7 @@ class UserTest extends TestCase
     public function it_can_store_a_role(): void
     {
         $this->assertEquals(
-            new Role('admin'),
+            new Role('vsv'),
             $this->user->getRole()
         );
     }

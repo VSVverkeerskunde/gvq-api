@@ -4,6 +4,10 @@ namespace VSV\GVQ_API\User\ValueObjects;
 
 class Role
 {
+    const ADMIN = 'admin';
+    const VSV = 'vsv';
+    const CONTACT = 'contact';
+
     /**
      * @var string
      */

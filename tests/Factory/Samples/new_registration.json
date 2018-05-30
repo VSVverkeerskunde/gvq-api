@@ -1,0 +1,18 @@
+{
+  "name": "Vlaamse Stichting Verkeerskunde",
+  "aliases": [
+    {
+      "language": "nl",
+      "alias": "vsv"
+    },
+    {
+      "language": "fr",
+      "alias": "awsr"
+    }
+  ],
+  "user": {
+    "email": "info@gvq.be",
+    "lastName": "Doe",
+    "firstName": "John"
+  }
+}

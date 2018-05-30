@@ -3,13 +3,16 @@
 namespace VSV\GVQ_API\User\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Models\User;
 
 class UserSerializerTest extends TestCase
 {
     /**
-     * @var UserSerializer
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -35,7 +38,15 @@ class UserSerializerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = new UserSerializer();
+        $normalizers = [
+            new UserNormalizer(),
+            new UserDenormalizer(),
+        ];
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->userAsJson = ModelsFactory::createJson('user');
         $this->userWithPasswordAsJson = ModelsFactory::createJson('user_with_password');
@@ -124,22 +135,5 @@ class UserSerializerTest extends TestCase
         $this->assertNotNull(
             $actualUser->getPassword()
         );
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_deserialize_to_user_when_ids_are_missing(): void
-    {
-        $userAsJson = ModelsFactory::createJson('user_without_id');
-
-        /** @var User $actualUser */
-        $actualUser = $this->serializer->deserialize(
-            $userAsJson,
-            User::class,
-            'json'
-        );
-
-        $this->assertNotNull($actualUser->getId());
     }
 }

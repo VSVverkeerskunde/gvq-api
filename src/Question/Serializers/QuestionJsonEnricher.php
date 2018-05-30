@@ -28,10 +28,10 @@ class QuestionJsonEnricher implements JsonEnricher
     {
         $questionAsArray = json_decode($json, true);
 
-        $questionAsArray['id'] = $this->uuidFactory->uuid4();
+        $questionAsArray['id'] = $this->uuidFactory->uuid4()->toString();
 
         for ($index = 0; $index < count($questionAsArray['answers']); $index++) {
-            $questionAsArray['answers'][$index]['id'] = $this->uuidFactory->uuid4();
+            $questionAsArray['answers'][$index]['id'] = $this->uuidFactory->uuid4()->toString();
         }
 
         return json_encode($questionAsArray);

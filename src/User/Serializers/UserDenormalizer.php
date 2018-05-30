@@ -17,18 +17,12 @@ class UserDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = array()): User
     {
-        // TODO: Better to use decorator and inject uuid generator.
-        if (!isset($data['id'])) {
-            $data['id'] = Uuid::uuid4();
-        }
-
-        // TODO: Better solution for setting the role.
         $user = new User(
             Uuid::fromString($data['id']),
             new Email($data['email']),
             new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
-            isset($context['role']) ? new Role($context['role']) : new Role($data['role'])
+            new Role($data['role'])
         );
 
         if (isset($data['password'])) {

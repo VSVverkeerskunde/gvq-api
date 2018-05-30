@@ -19,26 +19,20 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    VSV\GVQ_API\User\Controllers\:
-        resource: '../src/User/Controllers'
-        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    VSV\GVQ_API\Question\Controllers\CategoryController:
-      tags: ['controller.service_arguments']
-
+    ### SERVICES ###
     question_json_enricher:
       class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
       arguments:
         $uuidFactory: '@uuid_factory'
 
-    VSV\GVQ_API\Question\Controllers\QuestionController:
+    registration_json_enricher:
+      class: VSV\GVQ_API\Account\Serializers\RegistrationJsonEnricher
       arguments:
         $uuidFactory: '@uuid_factory'
-        $jsonEnricher: '@question_json_enricher'
-      tags: ['controller.service_arguments']
 
     local_adapter:
       class: League\Flysystem\Adapter\Local
@@ -58,6 +52,21 @@ services:
 
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
+
+    ### CONTROLLERS ###
+    VSV\GVQ_API\Account\Controllers\AccountController:
+      arguments:
+        $jsonEnricher: '@registration_json_enricher'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Question\Controllers\CategoryController:
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Question\Controllers\QuestionController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+        $jsonEnricher: '@question_json_enricher'
+      tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Image\Controllers\ImageController:
       arguments:
