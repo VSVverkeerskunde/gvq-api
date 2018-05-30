@@ -24,6 +24,11 @@ services:
     # please note that last definitions always *replace* previous ones
 
     ### SERVICES ###
+    company_json_enricher:
+      class: VSV\GVQ_API\Company\Serializers\CompanyJsonEnricher
+      arguments:
+        $uuidFactory: '@uuid_factory'
+
     question_json_enricher:
       class: VSV\GVQ_API\Question\Serializers\QuestionJsonEnricher
       arguments:
@@ -60,6 +65,11 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Question\Controllers\CategoryController:
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Company\Controllers\CompanyController:
+      arguments:
+        $jsonEnricher: '@company_json_enricher'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Question\Controllers\QuestionController:

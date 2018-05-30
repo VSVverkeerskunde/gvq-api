@@ -16,6 +16,11 @@ questions_get_all:
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
   methods: [GET]
 
+companies_save:
+  path: /companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyController::save
+  methods: [POST]
+
 images_upload:
   path: /images
   controller: VSV\GVQ_API\Image\Controllers\ImageController::upload

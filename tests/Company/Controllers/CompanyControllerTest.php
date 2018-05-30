@@ -5,8 +5,8 @@ namespace VSV\GVQ_API\Company\Controllers;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\Serializers\JsonEnricher;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -22,6 +22,11 @@ class CompanyControllerTest extends TestCase
      * @var SerializerInterface|MockObject
      */
     private $companySerializer;
+
+    /**
+     * @var JsonEnricher|MockObject
+     */
+    private $jsonEnricher;
 
     /**
      * @var CompanyController
@@ -41,9 +46,14 @@ class CompanyControllerTest extends TestCase
         $companySerializer = $this->createMock(SerializerInterface::class);
         $this->companySerializer = $companySerializer;
 
+        /** @var JsonEnricher|MockObject $jsonEnricher */
+        $jsonEnricher = $this->createMock(JsonEnricher::class);
+        $this->jsonEnricher = $jsonEnricher;
+
         $this->companyController = new CompanyController(
             $this->companyRepository,
-            $this->companySerializer
+            $this->companySerializer,
+            $this->jsonEnricher
         );
     }
 
@@ -52,8 +62,14 @@ class CompanyControllerTest extends TestCase
      */
     public function it_saves_a_company(): void
     {
+        $newCompanyJson = ModelsFactory::createJson('new_company');
         $companyJson = ModelsFactory::createJson('company');
         $company = ModelsFactory::createCompany();
+
+        $this->jsonEnricher
+            ->expects($this->once())
+            ->method('enrich')
+            ->willReturn($companyJson);
 
         $this->companySerializer
             ->expects($this->once())
@@ -70,7 +86,7 @@ class CompanyControllerTest extends TestCase
             ->method('save')
             ->with($company);
 
-        $request = new Request([], [], [], [], [], [], $companyJson);
+        $request = new Request([], [], [], [], [], [], $newCompanyJson);
         $actualResponse = $this->companyController->save($request);
 
         $this->assertEquals(

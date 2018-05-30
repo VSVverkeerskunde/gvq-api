@@ -95,7 +95,7 @@ class ModelsFactory
             new Email('john@gvq.be'),
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
-            new Role('vsv')
+            new Role('contact')
         );
     }
 
@@ -119,7 +119,7 @@ class ModelsFactory
             new Email('jane@gvq.be'),
             new NotEmptyString('Doe'),
             new NotEmptyString('Jane'),
-            new Role('vsv')
+            new Role('contact')
         );
     }
 

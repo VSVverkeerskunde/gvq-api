@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
@@ -18,7 +20,7 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
     }
 
     /**
-     * @param User $user
+     * @inheritdoc
      */
     public function save(User $user): void
     {
@@ -29,8 +31,22 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
     }
 
     /**
-     * @param Email $email
-     * @return null|User
+     * @inheritdoc
+     */
+    public function getById(UuidInterface $id): ?User
+    {
+        /** @var UserEntity|null $userEntity */
+        $userEntity = $this->objectRepository->findOneBy(
+            [
+                'id' => $id->toString(),
+            ]
+        );
+
+        return $userEntity ? $userEntity->toUser() : null;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getByEmail(Email $email): ?User
     {
