@@ -55,6 +55,7 @@ class CompanyNormalizer implements NormalizerInterface
         return [
             'id' => $company->getId()->toString(),
             'name' => $company->getName()->toNative(),
+            'numberOfEmployees' => $company->getNumberOfEmployees()->toNative(),
             'aliases' => $aliases,
             'user' => $user,
         ];
