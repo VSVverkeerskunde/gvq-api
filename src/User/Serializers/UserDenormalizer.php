@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\User\Serializers;
 
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -22,7 +23,8 @@ class UserDenormalizer implements DenormalizerInterface
             new Email($data['email']),
             new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
-            new Role($data['role'])
+            new Role($data['role']),
+            new Language($data['language'])
         );
 
         if (isset($data['password'])) {

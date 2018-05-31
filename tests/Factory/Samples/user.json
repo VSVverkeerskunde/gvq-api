@@ -3,5 +3,6 @@
   "email": "john@gvq.be",
   "lastName": "Doe",
   "firstName": "John",
-  "role": "contact"
+  "role": "contact",
+  "language": "nl"
 }
