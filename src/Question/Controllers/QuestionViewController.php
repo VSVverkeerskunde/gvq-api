@@ -29,7 +29,7 @@ class QuestionViewController extends AbstractController
         $questions = $this->questionRepository->getAll()->toArray();
 
         return $this->render(
-            'question/index.html.twig',
+            'questions/index.html.twig',
             [
                 'questions' => $questions,
             ]

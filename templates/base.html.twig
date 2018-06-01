@@ -10,17 +10,18 @@
     </head>
 
     <body>
-        {# for HTML header #}
-        {% block header %}{% endblock %}
+        <div class="container-fluid">
+            {# for HTML header #}
+            {% block header %}{% endblock %}
 
-        {# for HTML nav #}
-        {% block nav %}{% endblock %}
+            {# for HTML nav #}
+            {% block nav %}{% endblock %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
 
-        {# for HTML footer #}
-        {% block footer %}{% endblock %}
-
+            {# for HTML footer #}
+            {% block footer %}{% endblock %}
+        </div>
         {% block javascripts %}
             <script src="{{ asset('js/jquery.js') }}"></script>
             <script src="{{ asset('js/bootstrap.js') }}"></script>

@@ -16,11 +16,6 @@ questions_get_all:
   controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
   methods: [GET]
 
-questions_index:
-  path: view/questions
-  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
-  methods: [GET]
-
 companies_save:
   path: /companies
   controller: VSV\GVQ_API\Company\Controllers\CompanyController::save
@@ -39,3 +34,18 @@ account_login:
   path: account/login
   controller: VSV\GVQ_API\Account\Controllers\AccountController::login
   methods: [POST]
+
+questions_index:
+  path: view/questions
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
+  methods: [GET]
+
+companies_index:
+  path: view/companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::index
+  methods: [GET]
+
+users_index:
+  path: view/users
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::index
+  methods: [GET]
