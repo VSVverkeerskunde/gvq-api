@@ -1,0 +1,63 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}VRAGEN{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Jaar</th>
+                <th>Taal</th>
+                <th>Thema</th>
+                <th>Foto</th>
+                <th>Vraag</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+                <tr>
+                    <td>
+                        {{ question.id.toString }}
+                    </td>
+                    <td>
+                        {{ question.year.toNative }}
+                    </td>
+                    <td>
+                        {{ question.language.toNative }}
+                    </td>
+                    <td>
+                        {{ question.category.name.toNative }}
+                    </td>
+                    <td>
+                        TODO PICTURE
+                    </td>
+                    <td>
+                        <strong>{{ question.text.toNative }}</strong>
+                        <ul>
+                            {% for answer in question.answers.toArray %}
+                                <li class="{{ answer.correct ? 'text-success' : '' }}">
+                                    {{ answer.text.toNative }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <em>{{ question.feedback.toNative }}</em>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-light">
+                            <span class="oi oi-pencil"></span>
+                        </button>
+                        <button type="button"
+                                class="btn btn-light">
+                            <span class="oi oi-trash"></span>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
