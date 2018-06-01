@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\User\Repositories\Entities;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -46,6 +47,13 @@ class UserEntity extends Entity
     private $role;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2, nullable=false)
+     */
+    private $language;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -58,6 +66,7 @@ class UserEntity extends Entity
      * @param string $lastName
      * @param string $firstName
      * @param string $role
+     * @param string $language
      * @param string|null $password
      */
     public function __construct(
@@ -66,6 +75,7 @@ class UserEntity extends Entity
         string $lastName,
         string $firstName,
         string $role,
+        string $language,
         ?string $password
     ) {
         parent::__construct($id);
@@ -74,6 +84,7 @@ class UserEntity extends Entity
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->role = $role;
+        $this->language = $language;
         $this->password = $password;
     }
 
@@ -89,6 +100,7 @@ class UserEntity extends Entity
             $user->getLastName()->toNative(),
             $user->getFirstName()->toNative(),
             $user->getRole()->toNative(),
+            $user->getLanguage()->toNative(),
             $user->getPassword() ? $user->getPassword()->toNative() : null
         );
     }
@@ -103,7 +115,8 @@ class UserEntity extends Entity
             new Email($this->getEmail()),
             new NotEmptyString($this->getLastName()),
             new NotEmptyString($this->getFirstName()),
-            new Role($this->getRole())
+            new Role($this->getRole()),
+            new Language($this->getLanguage())
         );
 
         if ($this->getPassword()) {
@@ -145,6 +158,14 @@ class UserEntity extends Entity
     public function getRole(): string
     {
         return $this->role;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
     }
 
     /**

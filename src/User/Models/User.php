@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\User\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -36,6 +37,11 @@ class User
     private $role;
 
     /**
+     * @var Language
+     */
+    private $language;
+
+    /**
      * @var Password|null
      */
     private $password;
@@ -46,19 +52,22 @@ class User
      * @param NotEmptyString $lastName
      * @param NotEmptyString $firstName
      * @param Role $role
+     * @param Language $language
      */
     public function __construct(
         UuidInterface $id,
         Email $email,
         NotEmptyString $lastName,
         NotEmptyString $firstName,
-        Role $role
+        Role $role,
+        Language $language
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->lastName = $lastName;
         $this->firstName = $firstName;
         $this->role = $role;
+        $this->language = $language;
     }
 
     /**
@@ -102,6 +111,14 @@ class User
     }
 
     /**
+     * @return Language
+     */
+    public function getLanguage(): Language
+    {
+        return $this->language;
+    }
+
+    /**
      * @param Password $password
      * @return User
      */
@@ -109,6 +126,7 @@ class User
     {
         $c = clone $this;
         $c->password = $password;
+
         return $c;
     }
 

@@ -1,6 +1,7 @@
 {
   "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
   "name": "Vlaamse Stichting Verkeerskunde",
+  "numberOfEmployees": 49,
   "aliases": [
     {
       "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
@@ -18,6 +19,7 @@
     "email": "john@gvq.be",
     "lastName": "Doe",
     "firstName": "John",
-    "role": "contact"
+    "role": "contact",
+    "language": "nl"
   }
 }

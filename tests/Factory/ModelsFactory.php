@@ -10,6 +10,7 @@ use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -32,6 +33,7 @@ class ModelsFactory
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
+            new PositiveNumber(49),
             self::createTranslatedAliases(),
             self::createUser()
         );
@@ -45,6 +47,7 @@ class ModelsFactory
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
+            new PositiveNumber(49),
             self::createTranslatedAliases(),
             self::createAlternateUser()
         );
@@ -95,7 +98,8 @@ class ModelsFactory
             new Email('john@gvq.be'),
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
-            new Role('contact')
+            new Role('contact'),
+            new Language('nl')
         );
     }
 
@@ -119,7 +123,8 @@ class ModelsFactory
             new Email('jane@gvq.be'),
             new NotEmptyString('Doe'),
             new NotEmptyString('Jane'),
-            new Role('contact')
+            new Role('contact'),
+            new Language('nl')
         );
     }
 

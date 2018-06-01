@@ -11,6 +11,7 @@ use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 
 /**
@@ -24,6 +25,12 @@ class CompanyEntity extends Entity
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $numberOfEmployees;
 
     /**
      * @var Collection
@@ -42,18 +49,21 @@ class CompanyEntity extends Entity
     /**
      * @param string $id
      * @param string $name
+     * @param int $numberOfEmployees
      * @param Collection $translatedAliasEntities
      * @param UserEntity $user
      */
     public function __construct(
         string $id,
         string $name,
+        int $numberOfEmployees,
         Collection $translatedAliasEntities,
         UserEntity $user
     ) {
         parent::__construct($id);
 
         $this->name = $name;
+        $this->numberOfEmployees = $numberOfEmployees;
         $this->translatedAliasEntities = $translatedAliasEntities;
         $this->userEntity = $user;
 
@@ -79,6 +89,7 @@ class CompanyEntity extends Entity
         $companyEntity = new CompanyEntity(
             $company->getId()->toString(),
             $company->getName()->toNative(),
+            $company->getNumberOfEmployees()->toNative(),
             new ArrayCollection($translatedAliasEntities),
             UserEntity::fromUser($company->getUser())
         );
@@ -103,6 +114,7 @@ class CompanyEntity extends Entity
         return new Company(
             Uuid::fromString($this->getId()),
             new NotEmptyString($this->getName()),
+            new PositiveNumber($this->getNumberOfEmployees()),
             $translatedAliases,
             $this->getUserEntity()->toUser()
         );
@@ -114,6 +126,14 @@ class CompanyEntity extends Entity
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfEmployees(): int
+    {
+        return $this->numberOfEmployees;
     }
 
     /**

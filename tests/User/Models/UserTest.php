@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\User\Models;
 
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -74,6 +75,17 @@ class UserTest extends TestCase
         $this->assertEquals(
             new Role('contact'),
             $this->user->getRole()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_store_a_language(): void
+    {
+        $this->assertEquals(
+            new Language('nl'),
+            $this->user->getLanguage()
         );
     }
 

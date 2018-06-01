@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Company\Models;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Models\User;
 
 class Company
@@ -19,6 +20,11 @@ class Company
     private $name;
 
     /**
+     * @var PositiveNumber
+     */
+    private $numberOfEmployees;
+
+    /**
      * @var TranslatedAliases
      */
     private $translatedAliases;
@@ -31,12 +37,14 @@ class Company
     /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
+     * @param PositiveNumber $numberOfEmployees
      * @param TranslatedAliases $translatedAliases
      * @param User $user
      */
     public function __construct(
         UuidInterface $id,
         NotEmptyString $name,
+        PositiveNumber $numberOfEmployees,
         TranslatedAliases $translatedAliases,
         User $user
     ) {
@@ -44,6 +52,7 @@ class Company
 
         $this->id = $id;
         $this->name = $name;
+        $this->numberOfEmployees = $numberOfEmployees;
         $this->translatedAliases = $translatedAliases;
         $this->user = $user;
     }
@@ -62,6 +71,14 @@ class Company
     public function getName(): NotEmptyString
     {
         return $this->name;
+    }
+
+    /**
+     * @return PositiveNumber
+     */
+    public function getNumberOfEmployees(): PositiveNumber
+    {
+        return $this->numberOfEmployees;
     }
 
     /**
