@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Question\Controllers;
 
@@ -26,12 +26,12 @@ class QuestionViewController extends AbstractController
      */
     public function index(): Response
     {
-        $questions = $this->questionRepository->getAll()->toArray();
+        $questions = $this->questionRepository->getAll();
 
         return $this->render(
             'questions/index.html.twig',
             [
-                'questions' => $questions,
+                'questions' => $questions ? $questions->toArray() : [],
             ]
         );
     }
