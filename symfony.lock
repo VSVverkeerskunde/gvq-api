@@ -134,6 +134,9 @@
             "ref": "f7895777cd673fcefbc321a9063077a24e5df646"
         }
     },
+    "symfony/asset": {
+        "version": "v4.1.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.0.9"
     },
