@@ -13,7 +13,7 @@ class PositiveNumberTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->positiveNumber = new PositiveNumber(666);
+        $this->positiveNumber = new PositiveNumber(49);
     }
 
     /**

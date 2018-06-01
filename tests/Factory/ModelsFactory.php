@@ -33,7 +33,7 @@ class ModelsFactory
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
-            new PositiveNumber(666),
+            new PositiveNumber(49),
             self::createTranslatedAliases(),
             self::createUser()
         );
@@ -47,7 +47,7 @@ class ModelsFactory
         return new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Vlaamse Stichting Verkeerskunde'),
-            new PositiveNumber(666),
+            new PositiveNumber(49),
             self::createTranslatedAliases(),
             self::createAlternateUser()
         );

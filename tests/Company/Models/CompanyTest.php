@@ -40,7 +40,7 @@ class CompanyTest extends TestCase
         new Company(
             Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
             new NotEmptyString('Company Name'),
-            new PositiveNumber(666),
+            new PositiveNumber(49),
             $invalidAliases,
             ModelsFactory::createUser()
         );
@@ -91,11 +91,33 @@ class CompanyTest extends TestCase
     /**
      * @test
      */
+    public function it_can_store_a_number_of_employees(): void
+    {
+        $this->assertEquals(
+            new PositiveNumber(49),
+            $this->company->getNumberOfEmployees()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_can_store_aliases(): void
     {
         $this->assertEquals(
             ModelsFactory::createTranslatedAliases(),
             $this->company->getTranslatedAliases()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_store_a_user(): void
+    {
+        $this->assertEquals(
+            ModelsFactory::createUser(),
+            $this->company->getUser()
         );
     }
 }
