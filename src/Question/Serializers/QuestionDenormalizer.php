@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Serializers;
 
-use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use VSV\GVQ_API\Question\Models\Answer;
@@ -68,7 +67,7 @@ class QuestionDenormalizer implements DenormalizerInterface
             new Year($data['year']),
             $category,
             new NotEmptyString($data['text']),
-            Uri::createFromString($data['pictureUri']),
+            new NotEmptyString($data['imageFileName']),
             new Answers(...$answers),
             new NotEmptyString($data['feedback'])
         );

@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Forms;
 
-use League\Uri\Uri;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -98,14 +97,13 @@ class QuestionFormDTO
             )
         );
 
-        // TODO: Refactor picture Uri to filename.
         return new Question(
             $uuidFactory->uuid4(),
             $this->language,
             new Year($this->year),
             $this->category,
             new NotEmptyString($this->text),
-            Uri::createFromString('http://localhost:8000/'),
+            new NotEmptyString('TODO.jpg'),
             $answers,
             new NotEmptyString($this->feedback)
         );

@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-use League\Uri\Interfaces\Uri;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -36,9 +35,9 @@ class Question
     private $text;
 
     /**
-     * @var Uri
+     * @var NotEmptyString
      */
-    private $pictureUri;
+    private $imageFileName;
 
     /**
      * @var Answers
@@ -61,7 +60,7 @@ class Question
      * @param Year $year
      * @param Category $category
      * @param NotEmptyString $text
-     * @param Uri $pictureUri
+     * @param NotEmptyString $imageFileName
      * @param Answers $answers
      * @param NotEmptyString $feedback
      */
@@ -71,7 +70,7 @@ class Question
         Year $year,
         Category $category,
         NotEmptyString $text,
-        Uri $pictureUri,
+        NotEmptyString $imageFileName,
         Answers $answers,
         NotEmptyString $feedback
     ) {
@@ -84,7 +83,7 @@ class Question
         $this->year = $year;
         $this->category = $category;
         $this->text = $text;
-        $this->pictureUri = $pictureUri;
+        $this->imageFileName = $imageFileName;
         $this->answers = $answers;
         $this->feedback = $feedback;
     }
@@ -130,11 +129,11 @@ class Question
     }
 
     /**
-     * @return Uri
+     * @return NotEmptyString
      */
-    public function getPictureUri(): Uri
+    public function getImageFileName(): NotEmptyString
     {
-        return $this->pictureUri;
+        return $this->imageFileName;
     }
 
     /**
