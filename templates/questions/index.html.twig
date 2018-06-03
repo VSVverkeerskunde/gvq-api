@@ -47,14 +47,15 @@
                         <em>{{ question.feedback.toNative }}</em>
                     </td>
                     <td>
-                        <button type="button"
-                                class="btn btn-light">
+                        <a role="button"
+                           class="btn btn-light">
                             <span class="oi oi-pencil"></span>
-                        </button>
-                        <button type="button"
-                                class="btn btn-light">
+                        </a>
+                        <a role="button"
+                           class="btn btn-light"
+                           href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
                             <span class="oi oi-trash"></span>
-                        </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

@@ -76,7 +76,6 @@ class QuestionViewController extends AbstractController
     public function add(Request $request): Response
     {
         $categories = $this->categoryRepository->getAll();
-
         $questionFormDTO = new QuestionFormDTO();
 
         $form = $this->createForm(
@@ -105,6 +104,29 @@ class QuestionViewController extends AbstractController
             [
                 'categories' => $categories ? $categories->toArray() : [],
                 'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function delete(Request $request, string $id): Response
+    {
+        if ($request->getMethod() === 'POST') {
+            $this->questionRepository->delete(
+               $this->uuidFactory->fromString($id)
+            );
+
+            return $this->redirectToRoute('questions_view_index');
+        }
+
+        return $this->render(
+            'questions/delete.html.twig',
+            [
+                'id' => $id,
             ]
         );
     }

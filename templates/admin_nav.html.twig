@@ -13,19 +13,19 @@
     </button>
     <div class="collapse navbar-collapse justify-content-stretch" id="navbar_content">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{ app.request.get('_route') == 'questions_index' ? 'active' }}">
+            <li class="nav-item {{ app.request.get('_route') == 'questions_view_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('questions_index') }}">Vragen
+                   href="{{ path('questions_view_index') }}">Vragen
                 </a>
             </li>
             <li class="nav-item {{ app.request.get('_route') == 'users_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('users_index') }}">Contactpersonen
+                   href="{{ path('users_view_index') }}">Contactpersonen
                 </a>
             </li>
             <li class="nav-item {{ app.request.get('_route') == 'companies_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('companies_index') }}">Bedrijven
+                   href="{{ path('companies_view_index') }}">Bedrijven
                 </a>
             </li>
             <li class="nav-item">

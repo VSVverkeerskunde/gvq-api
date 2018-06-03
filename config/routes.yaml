@@ -35,21 +35,25 @@ account_login:
   controller: VSV\GVQ_API\Account\Controllers\AccountController::login
   methods: [POST]
 
-questions_index:
+questions_view_index:
   path: view/questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
   methods: [GET]
-questions_add:
+questions_view_add:
   path: view/questions/add
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::add
   methods: [GET, POST]
+questions_view_delete:
+  path: view/questions/delete/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::delete
+  methods: [GET, POST]
 
-companies_index:
+companies_view_index:
   path: view/companies
   controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::index
   methods: [GET]
 
-users_index:
+users_view_index:
   path: view/users
   controller: VSV\GVQ_API\User\Controllers\UserViewController::index
   methods: [GET]
