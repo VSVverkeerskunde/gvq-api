@@ -92,11 +92,56 @@ class QuestionViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $fileName = $this->imageController->handleImage($questionFormDTO->image);
 
-            $question = $questionFormDTO->toQuestion(
+            $question = $questionFormDTO->toNewQuestion(
                 $this->uuidFactory,
                 $fileName
             );
             $this->questionRepository->save($question);
+
+            $this->addFlash('success', 'De nieuwe vraag is bewaard.');
+        }
+
+        return $this->render(
+            'questions/add.html.twig',
+            [
+                'categories' => $categories ? $categories->toArray() : [],
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function edit(Request $request, string $id): Response
+    {
+        $categories = $this->categoryRepository->getAll();
+
+        $question = $this->questionRepository->getById(
+            $this->uuidFactory->fromString($id)
+        );
+
+        $questionFormDTO = new QuestionFormDTO();
+        $questionFormDTO->fromQuestion($question);
+
+        $form = $this->createForm(
+            QuestionFormType::class,
+            $questionFormDTO,
+            [
+                'languages' => new Languages(),
+                'categories' => $categories,
+            ]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $question = $questionFormDTO->toExistingQuestion($question);
+            $this->questionRepository->update($question);
+
+            $this->addFlash('success', 'De vraag is aangepast.');
         }
 
         return $this->render(
@@ -119,6 +164,8 @@ class QuestionViewController extends AbstractController
             $this->questionRepository->delete(
                $this->uuidFactory->fromString($id)
             );
+
+            $this->addFlash('success', 'De vraag is verwijderd.');
 
             return $this->redirectToRoute('questions_view_index');
         }

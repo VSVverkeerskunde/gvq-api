@@ -37,6 +37,11 @@ class QuestionFormDTO
     /**
      * @var string
      */
+    public $text;
+
+    /**
+     * @var string
+     */
     public $answer1;
 
     /**
@@ -57,11 +62,6 @@ class QuestionFormDTO
     /**
      * @var string
      */
-    public $text;
-
-    /**
-     * @var string
-     */
     public $feedback;
 
     /**
@@ -77,7 +77,7 @@ class QuestionFormDTO
      * @param NotEmptyString $fileName
      * @return Question
      */
-    public function toQuestion(
+    public function toNewQuestion(
         UuidFactoryInterface $uuidFactory,
         NotEmptyString $fileName
     ): Question {
@@ -110,5 +110,64 @@ class QuestionFormDTO
             $answers,
             new NotEmptyString($this->feedback)
         );
+    }
+
+    /**
+     * @param Question $existingQuestion
+     * @return Question
+     */
+    public function toExistingQuestion(Question $existingQuestion): Question
+    {
+        // TODO: Take into account the correct number of answers, can be 2 or 3.
+        $existingAnswers = $existingQuestion->getAnswers()->toArray();
+
+        $answers = new Answers(
+            new Answer(
+                $existingAnswers[0]->getId(),
+                new NotEmptyString($this->answer1),
+                $this->correctAnswer === 1 ? true : false
+            ),
+            new Answer(
+                $existingAnswers[1]->getId(),
+                new NotEmptyString($this->answer2),
+                $this->correctAnswer === 2 ? true : false
+            ),
+            new Answer(
+                $existingAnswers[2]->getId(),
+                new NotEmptyString($this->answer3),
+                $this->correctAnswer === 3 ? true : false
+            )
+        );
+
+        return new Question(
+            $existingQuestion->getId(),
+            $this->language,
+            new Year($this->year),
+            $this->category,
+            new NotEmptyString($this->text),
+            $existingQuestion->getImageFileName(),
+            $answers,
+            new NotEmptyString($this->feedback)
+        );
+    }
+
+    /**
+     * @param Question $question
+     */
+    public function fromQuestion(Question $question): void
+    {
+        $this->language = $question->getLanguage();
+        $this->year = $question->getYear()->toNative();
+        $this->category = $question->getCategory();
+
+        $this->text = $question->getText()->toNative();
+
+        $answers = $question->getAnswers()->toArray();
+        $this->answer1 = $answers[0]->getText()->toNative();
+        $this->answer2 = $answers[1]->getText()->toNative();
+        $this->answer3 = $answers[2]->getText()->toNative();
+        $this->correctAnswer = 1;
+
+        $this->feedback = $question->getFeedback()->toNative();
     }
 }

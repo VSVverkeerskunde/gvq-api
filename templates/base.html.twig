@@ -17,6 +17,14 @@
             {# for HTML nav #}
             {% block nav %}{% endblock %}
 
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
             {% block content %}{% endblock %}
 
             {# for HTML footer #}

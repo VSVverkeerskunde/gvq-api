@@ -43,6 +43,10 @@ questions_view_add:
   path: view/questions/add
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::add
   methods: [GET, POST]
+questions_view_edit:
+  path: view/questions/edit/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::edit
+  methods: [GET, POST]
 questions_view_delete:
   path: view/questions/delete/{id}
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::delete
