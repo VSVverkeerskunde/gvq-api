@@ -55,7 +55,7 @@ class QuestionFormType extends AbstractType
                 ]
             )
             ->add(
-                'photo',
+                'image',
                 FileType::class,
                 [
                     'label' => false,

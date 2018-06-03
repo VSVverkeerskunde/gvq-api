@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\Image\Controllers\ImageController;
 use VSV\GVQ_API\Question\Forms\QuestionFormDTO;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
@@ -14,6 +15,11 @@ use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 
 class QuestionViewController extends AbstractController
 {
+    /**
+     * @var UuidFactoryInterface
+     */
+    private $uuidFactory;
+
     /**
      * @var QuestionRepository
      */
@@ -25,23 +31,26 @@ class QuestionViewController extends AbstractController
     private $categoryRepository;
 
     /**
-     * @var UuidFactoryInterface
+     * @var ImageController
      */
-    private $uuidFactory;
+    private $imageController;
 
     /**
+     * @param UuidFactoryInterface $uuidFactory
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
-     * @param UuidFactoryInterface $uuidFactory
+     * @param ImageController $imageController
      */
     public function __construct(
+        UuidFactoryInterface $uuidFactory,
         QuestionRepository $questionRepository,
         CategoryRepository $categoryRepository,
-        UuidFactoryInterface $uuidFactory
+        ImageController $imageController
     ) {
+        $this->uuidFactory = $uuidFactory;
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->uuidFactory = $uuidFactory;
+        $this->imageController = $imageController;
     }
 
     /**
@@ -62,6 +71,7 @@ class QuestionViewController extends AbstractController
     /**
      * @param Request $request
      * @return Response
+     * @throws \League\Flysystem\FileExistsException
      */
     public function add(Request $request): Response
     {
@@ -81,7 +91,12 @@ class QuestionViewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $question = $questionFormDTO->toQuestion($this->uuidFactory);
+            $fileName = $this->imageController->handleImage($questionFormDTO->image);
+
+            $question = $questionFormDTO->toQuestion(
+                $this->uuidFactory,
+                $fileName
+            );
             $this->questionRepository->save($question);
         }
 

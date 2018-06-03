@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Image\Validation\UploadFileValidator;
 
 class ImageController
@@ -51,17 +52,31 @@ class ImageController
     {
         $uploadFile = $this->guardFiles($request->files);
 
-        $uuid = $this->uuidFactory->uuid4();
-        $filename = $uuid->toString().'.'. $uploadFile->getClientOriginalExtension();
+        $filename = $this->handleImage($uploadFile);
 
-        $stream = fopen($uploadFile->getRealPath(), 'r+');
-        $this->fileSystem->writeStream($filename, $stream);
-        fclose($stream);
-
-        $response = new Response('{"filename":"'.$filename.'"}');
+        $response = new Response('{"filename":"'.$filename->toNative().'"}');
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return NotEmptyString
+     * @throws \League\Flysystem\FileExistsException
+     */
+    public function handleImage(UploadedFile $uploadedFile): NotEmptyString
+    {
+        $this->imageValidator->validate($uploadedFile);
+
+        $uuid = $this->uuidFactory->uuid4();
+        $filename = $uuid->toString().'.'. $uploadedFile->getClientOriginalExtension();
+
+        $stream = fopen($uploadedFile->getRealPath(), 'r+');
+        $this->fileSystem->writeStream($filename, $stream);
+        fclose($stream);
+
+        return new NotEmptyString($filename);
     }
 
     /**
@@ -78,11 +93,11 @@ class ImageController
             throw new \InvalidArgumentException('Key image is required inside form-data.');
         }
 
-        /** @var UploadedFile $uploadFile */
-        $uploadFile = $files->get('image');
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $files->get('image');
 
-        $this->imageValidator->validate($uploadFile);
+        $this->imageValidator->validate($uploadedFile);
 
-        return $uploadFile;
+        return $uploadedFile;
     }
 }

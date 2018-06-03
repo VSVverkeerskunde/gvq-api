@@ -32,7 +32,7 @@ class QuestionFormDTO
     /**
      * @var UploadedFile
      */
-    public $photo;
+    public $image;
 
     /**
      * @var string
@@ -74,10 +74,13 @@ class QuestionFormDTO
 
     /**
      * @param UuidFactoryInterface $uuidFactory
+     * @param NotEmptyString $fileName
      * @return Question
      */
-    public function toQuestion(UuidFactoryInterface $uuidFactory): Question
-    {
+    public function toQuestion(
+        UuidFactoryInterface $uuidFactory,
+        NotEmptyString $fileName
+    ): Question {
         // TODO: Take into account the correct number of answers, can be 2 or 3.
         $answers = new Answers(
             new Answer(
@@ -103,7 +106,7 @@ class QuestionFormDTO
             new Year($this->year),
             $this->category,
             new NotEmptyString($this->text),
-            new NotEmptyString('TODO.jpg'),
+            $fileName,
             $answers,
             new NotEmptyString($this->feedback)
         );
