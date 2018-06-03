@@ -2,15 +2,23 @@
 
 {% block title %}VRAGEN{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 
-    <table class="table">
+    <table class="table"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Jaar</th>
-                <th>Taal</th>
-                <th>Thema</th>
+                <th data-sortable="true">#</th>
+                <th data-sortable="true">Jaar</th>
+                <th data-sortable="true">Taal</th>
+                <th data-sortable="true">Thema</th>
                 <th>Foto</th>
                 <th>Vraag</th>
                 <th>Acties</th>
@@ -63,4 +71,9 @@
         </tbody>
     </table>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap-table.js') }}"></script>
 {% endblock %}
