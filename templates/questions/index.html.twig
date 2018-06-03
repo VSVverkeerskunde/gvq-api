@@ -32,7 +32,8 @@
                         {{ question.category.name.toNative }}
                     </td>
                     <td>
-                        TODO PICTURE
+                        <img src="{{ '/uploads/' ~ question.imageFileName.toNative }}"
+                             width="200">
                     </td>
                     <td>
                         <strong>{{ question.text.toNative }}</strong>
