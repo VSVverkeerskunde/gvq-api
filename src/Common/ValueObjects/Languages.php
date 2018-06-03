@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Common\ValueObjects;
 
@@ -21,9 +21,9 @@ class Languages implements \IteratorAggregate
      * @inheritdoc
      */
     public function getIterator(): \ArrayIterator
-{
-    return new \ArrayIterator($this->languages);
-}
+    {
+        return new \ArrayIterator($this->languages);
+    }
 
     /**
      * @return Language[]

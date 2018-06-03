@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VSV\GVQ_API\Question\Forms;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,7 +31,7 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'choices' => $languages,
-                    'choice_label' => function(Language $language) {
+                    'choice_label' => function (Language $language) {
                         return $language->toNative();
                     }
                 ]
@@ -50,7 +49,7 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'choices' => $categories,
-                    'choice_label' => function(Category $category) {
+                    'choice_label' => function (Category $category) {
                         return $category->getName()->toNative();
                     },
                 ]
