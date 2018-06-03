@@ -39,6 +39,10 @@ questions_index:
   path: view/questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
   methods: [GET]
+questions_add:
+  path: view/questions/add
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::add
+  methods: [GET, POST]
 
 companies_index:
   path: view/companies
