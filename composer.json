@@ -38,7 +38,9 @@
         "phpstan/phpstan": "^0.9.2",
         "phpunit/phpunit": "^7.1",
         "squizlabs/php_codesniffer": "^3.2",
+        "symfony/debug": "^4.0",
         "symfony/dotenv": "^4.0",
+        "symfony/profiler-pack": "^1.0",
         "symfony/web-server-bundle": "^4.0"
     },
     "config": {
