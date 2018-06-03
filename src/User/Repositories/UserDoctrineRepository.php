@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\User\Models\User;

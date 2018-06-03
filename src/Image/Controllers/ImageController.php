@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Image\Controllers;
 
 use League\Flysystem\Filesystem;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
