@@ -4,12 +4,13 @@ namespace VSV\GVQ_API\Question\Controllers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\Image\Controllers\ImageController;
-use VSV\GVQ_API\Question\Forms\QuestionFormDTO;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
+use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 
@@ -36,6 +37,11 @@ class QuestionViewController extends AbstractController
     private $imageController;
 
     /**
+     * @var QuestionFormType
+     */
+    private $questionFormType;
+
+    /**
      * @param UuidFactoryInterface $uuidFactory
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
@@ -51,6 +57,8 @@ class QuestionViewController extends AbstractController
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
         $this->imageController = $imageController;
+
+        $this->questionFormType = new QuestionFormType();
     }
 
     /**
@@ -75,26 +83,18 @@ class QuestionViewController extends AbstractController
      */
     public function add(Request $request): Response
     {
-        $categories = $this->categoryRepository->getAll();
-        $questionFormDTO = new QuestionFormDTO();
-
-        $form = $this->createForm(
-            QuestionFormType::class,
-            $questionFormDTO,
-            [
-                'languages' => new Languages(),
-                'categories' => $categories,
-            ]
-        );
-
+        $form = $this->createQuestionForm(null);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $fileName = $this->imageController->handleImage($questionFormDTO->image);
+            $data = $form->getData();
 
-            $question = $questionFormDTO->toNewQuestion(
+            $fileName = $this->imageController->handleImage($data['image']);
+
+            $question = $this->questionFormType->newQuestionFromData(
                 $this->uuidFactory,
-                $fileName
+                $fileName,
+                $data
             );
             $this->questionRepository->save($question);
 
@@ -104,7 +104,6 @@ class QuestionViewController extends AbstractController
         return $this->render(
             'questions/add.html.twig',
             [
-                'categories' => $categories ? $categories->toArray() : [],
                 'form' => $form->createView()
             ]
         );
@@ -117,40 +116,35 @@ class QuestionViewController extends AbstractController
      */
     public function edit(Request $request, string $id): Response
     {
-        $categories = $this->categoryRepository->getAll();
-
         $question = $this->questionRepository->getById(
             $this->uuidFactory->fromString($id)
         );
 
-        $questionFormDTO = new QuestionFormDTO();
-        $questionFormDTO->fromQuestion($question);
+        if ($question) {
+            $form = $this->createQuestionForm($question);
+            $form->handleRequest($request);
 
-        $form = $this->createForm(
-            QuestionFormType::class,
-            $questionFormDTO,
-            [
-                'languages' => new Languages(),
-                'categories' => $categories,
-            ]
-        );
+            if ($form->isSubmitted() && $form->isValid()) {
+                $question = $this->questionFormType->updateQuestionFromData(
+                    $question,
+                    $form->getData()
+                );
+                $this->questionRepository->update($question);
 
-        $form->handleRequest($request);
+                $this->addFlash('success', 'De vraag is aangepast.');
+            }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question = $questionFormDTO->toExistingQuestion($question);
-            $this->questionRepository->update($question);
+            return $this->render(
+                'questions/add.html.twig',
+                [
+                    'form' => $form->createView()
+                ]
+            );
+        } else {
+            $this->addFlash('warning', 'Geen vraag gevonden.');
 
-            $this->addFlash('success', 'De vraag is aangepast.');
+            return $this->render('questions/add.html.twig');
         }
-
-        return $this->render(
-            'questions/add.html.twig',
-            [
-                'categories' => $categories ? $categories->toArray() : [],
-                'form' => $form->createView()
-            ]
-        );
     }
 
     /**
@@ -162,7 +156,7 @@ class QuestionViewController extends AbstractController
     {
         if ($request->getMethod() === 'POST') {
             $this->questionRepository->delete(
-               $this->uuidFactory->fromString($id)
+                $this->uuidFactory->fromString($id)
             );
 
             $this->addFlash('success', 'De vraag is verwijderd.');
@@ -176,5 +170,25 @@ class QuestionViewController extends AbstractController
                 'id' => $id,
             ]
         );
+    }
+
+    /**
+     * @param null|Question $question
+     * @return FormInterface
+     */
+    private function createQuestionForm(?Question $question): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->questionFormType->buildForm(
+            $formBuilder,
+            [
+                'languages' => new Languages(),
+                'categories' => $this->categoryRepository->getAll(),
+                'question' => $question,
+            ]
+        );
+
+        return $formBuilder->getForm();
     }
 }
