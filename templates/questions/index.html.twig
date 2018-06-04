@@ -11,44 +11,29 @@
 
     <a role="button"
        class="btn btn-light"
-       href="{{ path('questions_view_add') }}" >
-        <span class="oi oi-plus"></span>
+       href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>Toevoegen
     </a>
 
     <a role="button"
        class="btn btn-light"
-       href="#" >
-        <span class="oi oi-print"></span>
+       href="#" ><span class="oi oi-print"></span>Afdrukken
     </a>
 
     <table id="questions"
            class="table ">
         <thead>
             <tr>
-                <th>#</th>
+                <th>Foto</th>
+                <th>Vraag</th>
                 <th>Jaar</th>
                 <th>Taal</th>
                 <th>Thema</th>
-                <th>Foto</th>
-                <th>Vraag</th>
                 <th>Acties</th>
             </tr>
         </thead>
         <tbody>
             {% for question in questions %}
                 <tr>
-                    <td style="white-space: nowrap;">
-                        {{ question.id.toString }}
-                    </td>
-                    <td>
-                        {{ question.year.toNative }}
-                    </td>
-                    <td>
-                        {{ question.language.toNative }}
-                    </td>
-                    <td>
-                        {{ question.category.name.toNative }}
-                    </td>
                     <td>
                         <img src="{{ '/uploads/' ~ question.imageFileName.toNative }}"
                              width="200">
@@ -63,17 +48,27 @@
                             {% endfor %}
                         </ul>
                         <em>{{ question.feedback.toNative }}</em>
+                        <h5><span class="badge badge-secondary">{{ question.id.toString }}</span></h5>
+                    </td>
+                    <td>
+                        {{ question.year.toNative }}
+                    </td>
+                    <td>
+                        {{ question.language.toNative }}
+                    </td>
+                    <td>
+                        {{ question.category.name.toNative }}
                     </td>
                     <td>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit', {'id': question.id.toString}) }}" >
-                            <span class="oi oi-pencil"></span>
+                            <span class="oi oi-pencil"></span>Aanpassen
                         </a>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
-                            <span class="oi oi-trash"></span>
+                            <span class="oi oi-trash"></span>Verwijderen
                         </a>
                     </td>
                 </tr>
