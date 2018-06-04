@@ -98,7 +98,8 @@ class QuestionViewController extends AbstractController
             );
             $this->questionRepository->save($question);
 
-            $this->addFlash('success', 'De nieuwe vraag is bewaard.');
+            $this->addFlash('success', 'De nieuwe vraag '.$question->getId()->toString().' is bewaard.');
+            return $this->redirectToRoute('questions_view_index');
         }
 
         return $this->render(
@@ -120,31 +121,31 @@ class QuestionViewController extends AbstractController
             $this->uuidFactory->fromString($id)
         );
 
-        if ($question) {
-            $form = $this->createQuestionForm($question);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $question = $this->questionFormType->updateQuestionFromData(
-                    $question,
-                    $form->getData()
-                );
-                $this->questionRepository->update($question);
-
-                $this->addFlash('success', 'De vraag is aangepast.');
-            }
-
-            return $this->render(
-                'questions/add.html.twig',
-                [
-                    'form' => $form->createView()
-                ]
-            );
-        } else {
-            $this->addFlash('warning', 'Geen vraag gevonden.');
-
-            return $this->render('questions/add.html.twig');
+        if (!$question) {
+            $this->addFlash('warning', 'Geen vraag gevonden met id '.$id.' om aan te passen.');
+            return $this->redirectToRoute('questions_view_index');
         }
+
+        $form = $this->createQuestionForm($question);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $question = $this->questionFormType->updateQuestionFromData(
+                $question,
+                $form->getData()
+            );
+            $this->questionRepository->update($question);
+
+            $this->addFlash('success', 'Vraag '.$id.' is aangepast.');
+            return $this->redirectToRoute('questions_view_index');
+        }
+
+        return $this->render(
+            'questions/add.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**
@@ -159,7 +160,7 @@ class QuestionViewController extends AbstractController
                 $this->uuidFactory->fromString($id)
             );
 
-            $this->addFlash('success', 'De vraag is verwijderd.');
+            $this->addFlash('success', 'Vraag '.$id.' is verwijderd.');
 
             return $this->redirectToRoute('questions_view_index');
         }
