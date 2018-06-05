@@ -122,6 +122,9 @@
     "phpstan/phpstan": {
         "version": "0.9.2"
     },
+    "phpunit/phpunit-mock-objects": {
+        "version": "6.1.1"
+    },
     "ramsey/uuid": {
         "version": "3.7.3"
     },

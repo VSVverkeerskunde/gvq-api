@@ -11,12 +11,14 @@
 
     <a role="button"
        class="btn btn-light"
-       href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>Toevoegen
+       href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>
+        {% trans %}Toevoegen{% endtrans %}
     </a>
 
     <a role="button"
        class="btn btn-light"
-       href="#" ><span class="oi oi-print"></span>Afdrukken
+       href="#" ><span class="oi oi-print"></span>
+        {% trans %}Afdrukken{% endtrans %}
     </a>
 
     <table id="questions"
@@ -28,12 +30,12 @@
            data-page-list="[5, 10, 25, 50]">
         <thead>
             <tr>
-                <th>Foto</th>
-                <th data-sortable="true">Vraag</th>
-                <th data-sortable="true">Jaar</th>
-                <th data-sortable="true">Taal</th>
-                <th data-sortable="true">Thema</th>
-                <th>Acties</th>
+                <th>{% trans %}Foto{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Vraag{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Jaar{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Thema{% endtrans %}</th>
+                <th>{% trans %}Acties{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -68,12 +70,12 @@
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit', {'id': question.id.toString}) }}" >
-                            <span class="oi oi-pencil"></span>Aanpassen
+                            <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
                         </a>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
-                            <span class="oi oi-trash"></span>Verwijderen
+                            <span class="oi oi-trash"></span>{% trans %}Verwijderen{% endtrans %}
                         </a>
                     </td>
                 </tr>

@@ -8,18 +8,18 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-3">
-                    <label for="question_form_language">Taal</label>
+                    <label for="question_form_language">{% trans %}Taal{% endtrans %}</label>
                     {{ form_widget(form.language) }}
                 </div>
 
                 <div class="col-sm-3">
-                    <label for="question_form_year">Jaar</label>
+                    <label for="question_form_year">{% trans %}Jaar{% endtrans %}</label>
                     {{ form_widget(form.year) }}
                     {{ form_errors(form.year) }}
                 </div>
 
                 <div class="col-sm-6">
-                    <label for="question_form_category">Thema</label>
+                    <label for="question_form_category">{% trans %}Thema{% endtrans %}</label>
                     {{ form_widget(form.category) }}
                 </div>
             </div>
@@ -27,53 +27,52 @@
 
         {% if form.image is defined %}
             <div class="form-group">
-                <label for="question_form_image">Foto</label>
+                <label for="question_form_image">{% trans %}Foto{% endtrans %}</label>
                 {{ form_widget(form.image, {'attr': {'style': 'opacity: 1'}}) }}
             </div>
         {% endif %}
 
         <div class="form-group">
-            <label for="question_form_text">Vraag</label>
+            <label for="question_form_text">{% trans %}Vraag{% endtrans %}</label>
             {{ form_widget(form.text) }}
             {{ form_errors(form.text) }}
         </div>
 
         <div class="form-group">
-            <label for="question_form_answer1">Antwoord 1</label>
+            <label for="question_form_answer1">{% trans %}Antwoord 1{% endtrans %}</label>
             {{ form_widget(form.answer1) }}
             {{ form_errors(form.answer1) }}
         </div>
 
         <div class="form-group">
-            <label for="question_form_answer2">Antwoord 2</label>
+            <label for="question_form_answer2">{% trans %}Antwoord 2{% endtrans %}</label>
             {{ form_widget(form.answer2) }}
             {{ form_errors(form.answer2) }}
         </div>
 
         <div class="form-group">
-            <label for="question_form_answer3">Antwoord 3</label>
+            <label for="question_form_answer3">{% trans %}Antwoord 3{% endtrans %}</label>
             {{ form_widget(form.answer3) }}
             {{ form_errors(form.answer3) }}
         </div>
 
         <div class="form-group">
-            <label for="question_form_feedback">Feedback</label>
+            <label for="question_form_feedback">{% trans %}Feedback{% endtrans %}</label>
             {{ form_widget(form.feedback) }}
             {{ form_errors(form.feedback) }}
         </div>
 
         <div class="form-group">
-            <label for="question_form_correctAnswer">Het correcte antwoord is</label>
+            <label for="question_form_correctAnswer">{% trans %}Het correcte antwoord is{% endtrans %}</label>
             {{ form_widget(form.correctAnswer) }}
         </div>
 
         <div class="form-group">
             <a role="button"
                class="btn btn-secondary"
-               href="{{ path('questions_view_index') }}">
-                Annuleren
+               href="{{ path('questions_view_index') }}">{% trans %}Annuleren{% endtrans %}
             </a>
-            <button type="submit" class="btn btn-primary">Bewaar</button>
+            <button type="submit" class="btn btn-primary">{% trans %}Bewaar{% endtrans %}</button>
         </div>
     {{ form_end(form) }}
 

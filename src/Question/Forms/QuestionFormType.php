@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -35,6 +36,9 @@ class QuestionFormType extends AbstractType
         $languages = $options['languages']->toArray();
         /** @var Question $question */
         $question = $options['question'];
+        /** @var TranslatorInterface $translator */
+        $translator = $options['translator'];
+
         /** @var Answer[] $answers */
         $answers = $question ? $question->getAnswers()->toArray() : null;
 
@@ -64,15 +68,15 @@ class QuestionFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => 'Het jaar mag niet leeg zijn.',
+                                'message' => $translator->trans('Het jaar mag niet leeg zijn.'),
                             ]
                         ),
                         new Range(
                             [
                                 'min' => 2018,
                                 'max' => 2099,
-                                'minMessage' => 'Het jaar moet {{ limit }} of groter zijn.',
-                                'maxMessage' => 'Het jaar moet {{ limit }} of kleiner zijn.',
+                                'minMessage' => $translator->trans('Het jaar moet {{ limit }} of groter zijn.'),
+                                'maxMessage' => $translator->trans('Het jaar moet {{ limit }} of kleiner zijn.'),
                             ]
                         ),
                     ]
@@ -100,7 +104,7 @@ class QuestionFormType extends AbstractType
                     'label' => false,
                     'data' => $question ? $question->getText()->toNative() : null,
                     'required' => false,
-                    'constraints' => $this->createTextConstraint(),
+                    'constraints' => $this->createTextConstraint($translator),
                 ]
             )
             ->add(
@@ -110,7 +114,7 @@ class QuestionFormType extends AbstractType
                     'label' => false,
                     'data' => $answers ? $answers[0]->getText()->toNative() : null,
                     'required' => false,
-                    'constraints' => $this->createTextConstraint(),
+                    'constraints' => $this->createTextConstraint($translator),
                 ]
             )
             ->add(
@@ -120,7 +124,7 @@ class QuestionFormType extends AbstractType
                     'label' => false,
                     'data' => $answers ? $answers[1]->getText()->toNative() : null,
                     'required' => false,
-                    'constraints' => $this->createTextConstraint(),
+                    'constraints' => $this->createTextConstraint($translator),
                 ]
             )
             ->add(
@@ -130,7 +134,7 @@ class QuestionFormType extends AbstractType
                     'label' => false,
                     'data' => $answers ? $answers[2]->getText()->toNative() : null,
                     'required' => false,
-                    'constraints' => $this->createTextConstraint(),
+                    'constraints' => $this->createTextConstraint($translator),
                 ]
             )
             ->add(
@@ -153,7 +157,7 @@ class QuestionFormType extends AbstractType
                     'label' => false,
                     'data' => $question ? $question->getFeedback()->toNative() : null,
                     'required' => false,
-                    'constraints' => $this->createTextConstraint(),
+                    'constraints' => $this->createTextConstraint($translator),
                 ]
             );
 
@@ -285,20 +289,21 @@ class QuestionFormType extends AbstractType
     }
 
     /**
+     * @param TranslatorInterface $translator
      * @return Constraint[]
      */
-    private function createTextConstraint(): array
+    private function createTextConstraint(TranslatorInterface $translator): array
     {
         return [
             new NotBlank(
                 [
-                    'message' => 'De tekst mag niet leeg zijn.',
+                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
                 ]
             ),
             new Length(
                 [
                     'max' => 1024,
-                    'maxMessage' => 'De tekst mag niet meer dan {{ limit }} karakters hebben.',
+                    'maxMessage' => $translator->trans('De tekst mag niet meer dan {{ limit }} karakters hebben.'),
                 ]
             ),
         ];

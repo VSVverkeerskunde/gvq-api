@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\Image\Controllers\ImageController;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
@@ -37,6 +38,11 @@ class QuestionViewController extends AbstractController
     private $imageController;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * @var QuestionFormType
      */
     private $questionFormType;
@@ -46,17 +52,20 @@ class QuestionViewController extends AbstractController
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
      * @param ImageController $imageController
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         UuidFactoryInterface $uuidFactory,
         QuestionRepository $questionRepository,
         CategoryRepository $categoryRepository,
-        ImageController $imageController
+        ImageController $imageController,
+        TranslatorInterface $translator
     ) {
         $this->uuidFactory = $uuidFactory;
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
         $this->imageController = $imageController;
+        $this->translator = $translator;
 
         $this->questionFormType = new QuestionFormType();
     }
@@ -187,6 +196,7 @@ class QuestionViewController extends AbstractController
                 'languages' => new Languages(),
                 'categories' => $this->categoryRepository->getAll(),
                 'question' => $question,
+                'translator' => $this->translator,
             ]
         );
 
