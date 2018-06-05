@@ -2,10 +2,10 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\Models\Users;
 use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -58,5 +58,38 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
         );
 
         return $userEntity ? $userEntity->toUser() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAll(): ?Users
+    {
+        /** @var UserEntity[] $userEntities */
+        $userEntities = $this->objectRepository->findAll();
+
+        if (empty($userEntities)) {
+            return null;
+        }
+
+        return new Users(
+            ...array_map(
+                function (UserEntity $questionEntity) {
+                    return $questionEntity->toUser();
+                },
+                $userEntities
+            )
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function update(User $user): void
+    {
+        $this->entityManager->merge(
+            UserEntity::fromUser($user)
+        );
+        $this->entityManager->flush();
     }
 }
