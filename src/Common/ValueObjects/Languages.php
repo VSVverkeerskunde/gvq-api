@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Common\ValueObjects;
 
-class Languages implements \IteratorAggregate
+class Languages implements \IteratorAggregate, \Countable
 {
     /**
      * @var Language[]
@@ -23,6 +23,14 @@ class Languages implements \IteratorAggregate
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->languages);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->languages);
     }
 
     /**
