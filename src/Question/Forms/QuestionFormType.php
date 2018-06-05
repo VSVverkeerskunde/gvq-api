@@ -10,6 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\Models\Answer;
@@ -56,6 +60,22 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getYear()->toNative() : null,
+                    'required' => false,
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => 'Het jaar mag niet leeg zijn.',
+                            ]
+                        ),
+                        new Range(
+                            [
+                                'min' => 2018,
+                                'max' => 2099,
+                                'minMessage' => 'Het jaar moet {{ limit }} of groter zijn.',
+                                'maxMessage' => 'Het jaar moet {{ limit }} of kleiner zijn.',
+                            ]
+                        ),
+                    ]
                 ]
             )
             ->add(
@@ -79,6 +99,8 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getText()->toNative() : null,
+                    'required' => false,
+                    'constraints' => $this->createTextConstraint(),
                 ]
             )
             ->add(
@@ -87,6 +109,8 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $answers ? $answers[0]->getText()->toNative() : null,
+                    'required' => false,
+                    'constraints' => $this->createTextConstraint(),
                 ]
             )
             ->add(
@@ -95,6 +119,8 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $answers ? $answers[1]->getText()->toNative() : null,
+                    'required' => false,
+                    'constraints' => $this->createTextConstraint(),
                 ]
             )
             ->add(
@@ -102,8 +128,9 @@ class QuestionFormType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => false,
-                    'required' => false,
                     'data' => $answers ? $answers[2]->getText()->toNative() : null,
+                    'required' => false,
+                    'constraints' => $this->createTextConstraint(),
                 ]
             )
             ->add(
@@ -125,6 +152,8 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getFeedback()->toNative() : null,
+                    'required' => false,
+                    'constraints' => $this->createTextConstraint(),
                 ]
             );
 
@@ -251,5 +280,27 @@ class QuestionFormType extends AbstractType
                 return $index;
             }
         }
+
+        return 0;
+    }
+
+    /**
+     * @return Constraint[]
+     */
+    private function createTextConstraint(): array
+    {
+        return [
+            new NotBlank(
+                [
+                    'message' => 'De tekst mag niet leeg zijn.',
+                ]
+            ),
+            new Length(
+                [
+                    'max' => 1024,
+                    'maxMessage' => 'De tekst mag niet meer dan {{ limit }} karakters hebben.',
+                ]
+            ),
+        ];
     }
 }
