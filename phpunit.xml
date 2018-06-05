@@ -13,6 +13,9 @@
         </whitelist>
         <blacklist>
             <file>./src/Kernel.php</file>
+            <file>./src/Company/Controllers/CompanyViewController.php</file>
+            <file>./src/Question/Controllers/QuestionViewController.php</file>
+            <file>./src/User/Controllers/UserViewController.php</file>
         </blacklist>
     </filter>
     <php>
