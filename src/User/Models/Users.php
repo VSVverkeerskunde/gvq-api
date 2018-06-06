@@ -10,7 +10,7 @@ class Users implements \IteratorAggregate
     private $users;
 
     /**
-     * @param User[] $users
+     * @param User ...$users
      */
     public function __construct(User ...$users)
     {
@@ -18,9 +18,9 @@ class Users implements \IteratorAggregate
     }
 
     /**
-     * @return \ArrayIterator|\Traversable
+     * @inheritdoc
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->users);
     }
