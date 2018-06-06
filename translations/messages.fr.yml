@@ -21,3 +21,4 @@ Aanpassen: __Aanpassen
 'Het jaar moet {{ limit }} of kleiner zijn.': '__Het jaar moet {{ limit }} of kleiner zijn.'
 'De tekst mag niet leeg zijn.': '__De tekst mag niet leeg zijn.'
 'De tekst mag niet meer dan {{ limit }} karakters hebben.': '__De tekst mag niet meer dan {{ limit }} karakters hebben.'
+'Foto mag niet leeg zijn.': '__Foto mag niet leeg zijn.'

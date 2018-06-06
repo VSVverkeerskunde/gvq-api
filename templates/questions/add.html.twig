@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-3">
@@ -29,6 +29,7 @@
             <div class="form-group">
                 <label for="question_form_image">{% trans %}Foto{% endtrans %}</label>
                 {{ form_widget(form.image, {'attr': {'style': 'opacity: 1'}}) }}
+                {{ form_errors(form.image) }}
             </div>
         {% endif %}
 

@@ -64,7 +64,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getYear()->toNative() : null,
-                    'required' => false,
                     'constraints' => [
                         new NotBlank(
                             [
@@ -103,7 +102,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getText()->toNative() : null,
-                    'required' => false,
                     'constraints' => $this->createTextConstraint($translator),
                 ]
             )
@@ -113,7 +111,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $answers ? $answers[0]->getText()->toNative() : null,
-                    'required' => false,
                     'constraints' => $this->createTextConstraint($translator),
                 ]
             )
@@ -123,7 +120,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $answers ? $answers[1]->getText()->toNative() : null,
-                    'required' => false,
                     'constraints' => $this->createTextConstraint($translator),
                 ]
             )
@@ -133,7 +129,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $answers ? $answers[2]->getText()->toNative() : null,
-                    'required' => false,
                     'constraints' => $this->createTextConstraint($translator),
                 ]
             )
@@ -156,7 +151,6 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'data' => $question ? $question->getFeedback()->toNative() : null,
-                    'required' => false,
                     'constraints' => $this->createTextConstraint($translator),
                 ]
             );
@@ -167,6 +161,13 @@ class QuestionFormType extends AbstractType
                 FileType::class,
                 [
                     'label' => false,
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Foto mag niet leeg zijn.'),
+                            ]
+                        ),
+                    ]
                 ]
             );
         }
