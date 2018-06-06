@@ -183,6 +183,7 @@ class QuestionFormType extends AbstractType
                 'languages' => [],
                 'categories' => [],
                 'question' => null,
+                'translator' => null,
             ]
         );
     }
