@@ -10,14 +10,15 @@
     <filter>
         <whitelist>
             <directory suffix=".php">./src/*</directory>
+            <exclude>
+                <file>./src/Kernel.php</file>
+                <file>./src/Registration/HashCodeGenerator.php</file>
+            </exclude>
         </whitelist>
-        <blacklist>
-            <file>./src/Kernel.php</file>
-        </blacklist>
     </filter>
     <php>
-        <ini name="error_reporting" value="E_ALL" />
-        <ini name="display_errors" value="1" />
-        <ini name="display_startup_errors" value="1" />
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="display_startup_errors" value="1"/>
     </php>
 </phpunit>
