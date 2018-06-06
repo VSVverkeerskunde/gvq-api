@@ -43,6 +43,13 @@ account_login:
 # VIEWS
 #
 
+account_view_register:
+  path: /{_locale}/view/accounts/register
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+
 questions_view_index:
   path: /{_locale}/view/questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
