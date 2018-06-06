@@ -66,6 +66,7 @@ class QuestionFormTypeTest extends TypeTestCase
     {
         $extensions = parent::getExtensions();
 
+        /** @var ValidatorInterface|MockObject $validator */
         $validator = $this->createMock(ValidatorInterface::class);
 
         $validator
