@@ -57,7 +57,7 @@ class QuestionNormalizer implements NormalizerInterface
             'year' => $question->getYear()->toNative(),
             'category' => $category,
             'text' => $question->getText()->toNative(),
-            'pictureUri' => $question->getPictureUri()->__toString(),
+            'imageFileName' => $question->getImageFileName()->toNative(),
             'answers' => $answers,
             'feedback' => $question->getFeedback()->toNative(),
         ];

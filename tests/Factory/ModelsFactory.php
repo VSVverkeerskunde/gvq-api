@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Factory;
 
-use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -177,8 +176,8 @@ class ModelsFactory
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
-            Uri::createFromString(
-                'https://gvq-api.be/uploads/b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
             ),
             new Answers(
                 new Answer(
@@ -219,8 +218,8 @@ class ModelsFactory
             new NotEmptyString(
                 'Qui peut stationner devant ce garage?'
             ),
-            Uri::createFromString(
-                'https://gvq-api.be/uploads/a78593f7-2624-4894-aa51-d0c47b8660b8.jpg'
+            new NotEmptyString(
+                'a78593f7-2624-4894-aa51-d0c47b8660b8.jpg'
             ),
             new Answers(
                 new Answer(

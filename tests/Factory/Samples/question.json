@@ -7,7 +7,7 @@
     "name": "EHBO/Ongeval/Verzekering"
   },
   "text": "La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?",
-  "pictureUri": "https://gvq-api.be/uploads/b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg",
+  "imageFileName": "b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg",
   "answers": [
     {
       "id": "73e6a2d0-3a50-4089-b84a-208092aeca8e",

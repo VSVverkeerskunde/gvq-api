@@ -1,0 +1,24 @@
+Taal: Taal
+Jaar: Jaar
+Thema: Thema
+Foto: Foto
+Vraag: Vraag
+'Antwoord 1': 'Antwoord 1'
+'Antwoord 2': 'Antwoord 2'
+'Antwoord 3': 'Antwoord 3'
+Feedback: Feedback
+'Het correcte antwoord is': 'Het correcte antwoord is'
+Bewaar: Bewaar
+'Ben je zeker dat je vraag met id %id% wil verwijderen?': 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
+Annuleren: Annuleren
+Verwijderen: Verwijderen
+Toevoegen: Toevoegen
+Afdrukken: Afdrukken
+Acties: Acties
+Aanpassen: Aanpassen
+'Het jaar mag niet leeg zijn.': 'Het jaar mag niet leeg zijn.'
+'Het jaar moet {{ limit }} of groter zijn.': 'Het jaar moet {{ limit }} of groter zijn.'
+'Het jaar moet {{ limit }} of kleiner zijn.': 'Het jaar moet {{ limit }} of kleiner zijn.'
+'De tekst mag niet leeg zijn.': 'De tekst mag niet leeg zijn.'
+'De tekst mag niet meer dan {{ limit }} karakters hebben.': 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
+'Foto mag niet leeg zijn.': 'Foto mag niet leeg zijn.'
