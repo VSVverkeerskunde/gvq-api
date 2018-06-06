@@ -99,7 +99,8 @@ class ModelsFactory
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
             new Role('contact'),
-            new Language('nl')
+            new Language('nl'),
+            true
         );
     }
 
@@ -124,7 +125,24 @@ class ModelsFactory
             new NotEmptyString('Doe'),
             new NotEmptyString('Jane'),
             new Role('contact'),
-            new Language('nl')
+            new Language('nl'),
+            true
+        );
+    }
+
+    /**
+     * @return User
+     */
+    public static function createUpdatedUser(): User
+    {
+        return new User(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
+            new Email('jane@gvq.be'),
+            new NotEmptyString('Doe'),
+            new NotEmptyString('Jane'),
+            new Role('contact'),
+            new Language('nl'),
+            true
         );
     }
 
