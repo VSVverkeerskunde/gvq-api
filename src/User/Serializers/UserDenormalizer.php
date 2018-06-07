@@ -24,7 +24,8 @@ class UserDenormalizer implements DenormalizerInterface
             new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
             new Role($data['role']),
-            new Language($data['language'])
+            new Language($data['language']),
+            $data['active']
         );
 
         if (isset($data['password'])) {

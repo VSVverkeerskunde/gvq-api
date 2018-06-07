@@ -110,4 +110,15 @@ class UserTest extends TestCase
             $userWithPassword->getPassword()
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_store_an_is_active_flag(): void
+    {
+        $this->assertEquals(
+            true,
+            $this->user->isActive()
+        );
+    }
 }

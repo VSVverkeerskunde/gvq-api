@@ -4,5 +4,6 @@
   "lastName": "Doe",
   "firstName": "John",
   "role": "contact",
-  "language": "nl"
+  "language": "nl",
+  "active": true
 }
