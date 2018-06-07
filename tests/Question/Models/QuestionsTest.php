@@ -8,25 +8,54 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 class QuestionsTest extends TestCase
 {
     /**
+     * @var Question[]
+     */
+    private $questionsArray;
+
+    /**
+     * @var Questions
+     */
+    private $questions;
+
+    protected function setUp(): void
+    {
+        $this->questionsArray = [
+            ModelsFactory::createAccidentQuestion(),
+            ModelsFactory::createGeneralQuestion()
+        ];
+
+        $this->questions = new Questions(...$this->questionsArray);
+    }
+
+    /**
      * @test
      */
     public function it_can_iterate_over_questions(): void
     {
-        $question1 = ModelsFactory::createAccidentQuestion();
-        $question2 = ModelsFactory::createGeneralQuestion();
-
-        $expectedAnswers = [
-            $question1,
-            $question2,
-        ];
-
-        $questions = new Questions(...$expectedAnswers);
-
         $actualQuestions = [];
-        foreach ($questions as $question) {
+        foreach ($this->questions as $question) {
             $actualQuestions[] = $question;
         }
 
-        $this->assertEquals($expectedAnswers, $actualQuestions);
+        $this->assertEquals($this->questionsArray, $actualQuestions);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_counted(): void
+    {
+        $this->assertEquals(2, count($this->questions));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_converted_to_an_array(): void
+    {
+        $this->assertEquals(
+            $this->questionsArray,
+            $this->questions->toArray()
+        );
     }
 }

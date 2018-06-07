@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Questions implements \IteratorAggregate
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class Questions implements Collection
 {
     /**
      * @var Question[]
@@ -24,6 +26,14 @@ class Questions implements \IteratorAggregate
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->questions);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->questions);
     }
 
     /**
