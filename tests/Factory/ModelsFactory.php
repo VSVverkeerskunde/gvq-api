@@ -283,7 +283,7 @@ class ModelsFactory
             Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
             new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
             self::createAlternateUser(),
-            new \DateTimeImmutable('2020-02-02'),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
             false
         );
     }

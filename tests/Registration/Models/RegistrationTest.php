@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Registration\Models;
 
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
@@ -24,7 +25,18 @@ class RegistrationTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_hashcode(): void
+    public function it_stores_an_id(): void
+    {
+        $this->assertEquals(
+            Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
+            $this->registration->getId()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_a_url_suffix(): void
     {
         $this->assertEquals(
             new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
