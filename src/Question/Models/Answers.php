@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Answers implements \IteratorAggregate, \Countable
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class Answers implements Collection
 {
     /**
      * @var Answer[]

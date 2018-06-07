@@ -21,7 +21,7 @@ class QuestionsTest extends TestCase
     {
         $this->questionsArray = [
             ModelsFactory::createAccidentQuestion(),
-            ModelsFactory::createGeneralQuestion(),
+            ModelsFactory::createGeneralQuestion()
         ];
 
         $this->questions = new Questions(...$this->questionsArray);
@@ -30,7 +30,7 @@ class QuestionsTest extends TestCase
     /**
      * @test
      */
-    public function it_can_iterate(): void
+    public function it_can_iterate_over_questions(): void
     {
         $actualQuestions = [];
         foreach ($this->questions as $question) {
@@ -45,7 +45,6 @@ class QuestionsTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->questions);
         $this->assertEquals(2, count($this->questions));
     }
 

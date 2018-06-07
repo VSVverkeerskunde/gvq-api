@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Company\Models;
 
-class TranslatedAliases implements \IteratorAggregate, \Countable
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class TranslatedAliases implements Collection
 {
     /**
      * @var TranslatedAlias[]

@@ -46,7 +46,6 @@ class AnswersTest extends TestCase
             $actualArray[] = $answer;
         }
 
-        $this->assertInstanceOf(\IteratorAggregate::class, $this->answers);
         $this->assertEquals($this->answersArray, $actualArray);
     }
 
@@ -55,7 +54,6 @@ class AnswersTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->answers);
         $this->assertEquals(2, count($this->answers));
     }
 

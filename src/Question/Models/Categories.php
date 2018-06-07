@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Categories implements \IteratorAggregate, \Countable
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class Categories implements Collection
 {
     /**
      * @var Category[]
