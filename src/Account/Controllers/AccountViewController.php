@@ -42,7 +42,7 @@ class AccountViewController extends AbstractController
         return $this->render(
             'accounts/register.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }
@@ -55,10 +55,10 @@ class AccountViewController extends AbstractController
         $formBuilder = $this->createFormBuilder();
 
         $this->registrationFormType->buildForm(
-          $formBuilder,
-          [
-              'translator' => $this->tranlator,
-          ]
+            $formBuilder,
+            [
+                'translator' => $this->tranlator,
+            ]
         );
 
         return $formBuilder->getForm();

@@ -56,7 +56,8 @@ class RegistrationFormType extends AbstractType
                                 [
                                     'pattern' => '/^(?=[^ ])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(.{8,})(?<=\S)$/',
                                     'message' => $translator->trans(
-                                        'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
+                                        'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine 
+                                        letter, hoofdletter en ander karakter bevatten'
                                     ),
                                 ]
                             ),

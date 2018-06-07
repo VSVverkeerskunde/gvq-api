@@ -11,11 +11,9 @@ use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
-use Symfony\Bridge\Doctrine\Validator\Constraints as Constraints;
 
 /**
  * @ORM\Entity()
- * @Constraints\UniqueEntity("email")
  * @ORM\Table(name="user")
  */
 class UserEntity extends Entity
