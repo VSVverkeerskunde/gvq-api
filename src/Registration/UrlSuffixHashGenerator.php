@@ -8,6 +8,6 @@ class UrlSuffixHashGenerator implements UrlSuffixGenerator
 {
     public function createUrlSuffix(): UrlSuffix
     {
-        return new UrlSuffix(bin2hex(random_bytes(11)));
+        return new UrlSuffix(bin2hex(random_bytes(22)));
     }
 }

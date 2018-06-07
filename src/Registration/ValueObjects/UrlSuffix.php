@@ -12,16 +12,16 @@ class UrlSuffix
     /**
      * @var int
      */
-    private $minLimit = 22;
+    private const MIN_LIMIT = 44;
 
     /**
      * @param string $value
      */
     public function __construct(string $value)
     {
-        if (strlen($value) < $this->minLimit) {
+        if (strlen($value) < self::MIN_LIMIT) {
             throw new \InvalidArgumentException(
-                'Value has to be at least '.$this->minLimit.' characters long, '.strlen($value).' given.'
+                'Value has to be at least '.self::MIN_LIMIT.' characters long, '.strlen($value).' given.'
             );
         }
 

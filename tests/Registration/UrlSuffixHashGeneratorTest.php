@@ -24,7 +24,7 @@ class UrlSuffixHashGeneratorTest extends TestCase
         $urlSuffix = $this->urlSuffixHashGenerator->createUrlSuffix();
 
         $this->assertEquals(
-            22,
+            44,
             strlen($urlSuffix->toNative())
         );
 
