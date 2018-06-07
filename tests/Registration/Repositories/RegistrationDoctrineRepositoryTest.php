@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Registration\Repositories;
 
+use Doctrine\ORM\ORMInvalidArgumentException;
 use PhpParser\Node\Expr\AssignOp\Mod;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -59,7 +60,7 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $this->registrationDoctrineRepository->save($this->registration);
 
-        $foundRegistration = $this->registrationDoctrineRepository->getByHashCode(
+        $foundRegistration = $this->registrationDoctrineRepository->getByUrlSuffix(
             'd2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'
         );
 
@@ -74,9 +75,9 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $registration = ModelsFactory::createRegistrationWithAlternateUser();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'User with id: '.$registration->getUser()->getId()->toString().' not found.'
+            'A new entity was found through the relationship'
         );
 
         $this->registrationDoctrineRepository->save($registration);

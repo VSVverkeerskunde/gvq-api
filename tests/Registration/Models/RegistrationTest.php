@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Registration\Models;
 
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
 class RegistrationTest extends TestCase
 {
@@ -26,8 +27,8 @@ class RegistrationTest extends TestCase
     public function it_stores_a_hashcode(): void
     {
         $this->assertEquals(
-            'd2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef',
-            $this->registration->getHashCode()
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
+            $this->registration->getUrlSuffix()
         );
     }
 
@@ -49,7 +50,7 @@ class RegistrationTest extends TestCase
     public function it_stores_a_created_on(): void
     {
         $this->assertEquals(
-            new \DateTimeImmutable('2020-02-02'),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
             $this->registration->getCreatedOn()
         );
     }

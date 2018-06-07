@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Registration\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
 
 class Registration
@@ -12,9 +13,9 @@ class Registration
      */
     private $id;
     /**
-     * @var string
+     * @var UrlSuffix
      */
-    private $hashCode;
+    private $urlSuffix;
 
     /**
      * @var User
@@ -33,20 +34,20 @@ class Registration
 
     /**
      * @param UuidInterface $id
-     * @param string $hashCode
+     * @param UrlSuffix $hashCode
      * @param User $user
      * @param \DateTimeImmutable $createdOn
      * @param bool $passwordReset
      */
     public function __construct(
         UuidInterface $id,
-        string $hashCode,
+        UrlSuffix $hashCode,
         User $user,
         \DateTimeImmutable $createdOn,
         bool $passwordReset
     ) {
         $this->id = $id;
-        $this->hashCode = $hashCode;
+        $this->urlSuffix = $hashCode;
         $this->user = $user;
         $this->createdOn = $createdOn;
         $this->passwordReset = $passwordReset;
@@ -61,11 +62,11 @@ class Registration
     }
 
     /**
-     * @return string
+     * @return UrlSuffix
      */
-    public function getHashCode(): string
+    public function getUrlSuffix(): UrlSuffix
     {
-        return $this->hashCode;
+        return $this->urlSuffix;
     }
 
     /**

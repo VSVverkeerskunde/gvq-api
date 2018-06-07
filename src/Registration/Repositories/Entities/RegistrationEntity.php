@@ -6,26 +6,30 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use VSV\GVQ_API\Registration\Models\Registration;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="registration")
+ * @ORM\Table(name="registration", indexes={
+ *     @ORM\Index(name="url_suffix_idx", columns={"url_suffix"}),
+ *     @ORM\Index(name="user_id_idx", columns={"user_id"})
+ * })
  */
 class RegistrationEntity extends Entity
 {
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="hash_code", length=22, nullable=false)
+     * @ORM\Column(type="string", name="url_suffix", length=22, nullable=false, unique=true)
      */
-    private $hashCode;
+    private $urlSuffix;
 
     /**
      * @var UserEntity
      *
      * @ORM\OneToOne(targetEntity="VSV\GVQ_API\User\Repositories\Entities\UserEntity", fetch="EAGER")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, unique=true)
      */
     private $userEntity;
 
@@ -57,7 +61,7 @@ class RegistrationEntity extends Entity
         bool $passwordReset
     ) {
         parent::__construct($id);
-        $this->hashCode = $hashCode;
+        $this->urlSuffix = $hashCode;
         $this->userEntity = $userEntity;
         $this->createdOn = $createdOn;
         $this->passwordReset = $passwordReset;
@@ -72,7 +76,7 @@ class RegistrationEntity extends Entity
     {
         return new RegistrationEntity(
             $registration->getId()->toString(),
-            $registration->getHashCode(),
+            $registration->getUrlSuffix()->toNative(),
             UserEntity::fromUser($registration->getUser()),
             $registration->getCreatedOn(),
             $registration->isPasswordReset()
@@ -86,7 +90,7 @@ class RegistrationEntity extends Entity
     {
         return new Registration(
             Uuid::fromString($this->getId()),
-            $this->getHashCode(),
+            new UrlSuffix($this->getUrlSuffix()),
             $this->getUserEntity()->toUser(),
             $this->getCreatedOn(),
             $this->isPasswordReset()
@@ -96,9 +100,9 @@ class RegistrationEntity extends Entity
     /**
      * @return string
      */
-    public function getHashCode(): string
+    public function getUrlSuffix(): string
     {
-        return $this->hashCode;
+        return $this->urlSuffix;
     }
 
     /**

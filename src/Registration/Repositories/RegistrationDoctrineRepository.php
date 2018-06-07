@@ -24,34 +24,21 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     {
         $registrationEntity = RegistrationEntity::fromRegistration($registration);
 
-        /** @var UserEntity $userEntity */
-        $userEntity = $this->entityManager->find(
-            UserEntity::class,
-            $registrationEntity->getUserEntity()->getId()
-        );
-
-        if ($userEntity == null) {
-            throw new \InvalidArgumentException(
-                'User with id: '.$registrationEntity->getUserEntity()->getId().' not found.'
-            );
-        }
-
-        $registrationEntity->setUserEntity($userEntity);
-
-        $this->entityManager->persist($registrationEntity);
+        //the user object inside registration is not managed, therefore we need to use merge instead of persist
+        $this->entityManager->merge($registrationEntity);
         $this->entityManager->flush();
     }
 
     /**
-     * @param string $hashCode
-     * @return Registration
+     * @param string $urlSuffix
+     * @return Registration|null
      */
-    public function getByHashCode(string $hashCode): ?Registration
+    public function getByUrlSuffix(string $urlSuffix): ?Registration
     {
         /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
             [
-                'hashCode' => $hashCode,
+                'urlSuffix' => $urlSuffix,
             ]
         );
 
