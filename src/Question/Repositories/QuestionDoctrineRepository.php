@@ -2,12 +2,10 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
-use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
@@ -27,25 +25,10 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     {
         $questionEntity = QuestionEntity::fromQuestion($question);
 
-        /** @var CategoryEntity $categoryEntity */
-        $categoryEntity = $this->entityManager->find(
-            CategoryEntity::class,
-            $questionEntity->getCategoryEntity()->getId()
-        );
-
-        if ($categoryEntity == null) {
-            throw new InvalidArgumentException(
-                'Category with id: '.
-                $questionEntity->getCategoryEntity()->getId().
-                ' and name: '.
-                $questionEntity->getCategoryEntity()->getName().
-                ' not found.'
-            );
-        }
-
-        $questionEntity->setCategoryEntity($categoryEntity);
-
-        $this->entityManager->persist($questionEntity);
+        // The category object inside question is not managed,
+        // therefore we need to use merge instead of persist.
+        // When category wouldn't exist yet, the category is not created.
+        $this->entityManager->merge($questionEntity);
         $this->entityManager->flush();
     }
 

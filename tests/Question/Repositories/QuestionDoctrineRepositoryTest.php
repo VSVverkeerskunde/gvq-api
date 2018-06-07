@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -116,14 +117,8 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             )
         );
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Category with id: '.
-            $wrongCategory->getId()->toString().
-            ' and name: '.
-            $wrongCategory->getName()->toNative().
-            ' not found.'
-        );
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
 
         $this->questionDoctrineRepository->save($question);
     }
