@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\User\Models;
 
-class Users implements \IteratorAggregate
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class Users implements Collection
 {
     /**
      * @var User[]
@@ -23,5 +25,21 @@ class Users implements \IteratorAggregate
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->users);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count(): int
+    {
+        return count($this->users);
+    }
+
+    /**
+     * @return User[]
+     */
+    public function toArray(): array
+    {
+        return $this->users;
     }
 }

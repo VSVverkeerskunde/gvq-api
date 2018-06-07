@@ -8,25 +8,54 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 class UsersTest extends TestCase
 {
     /**
+     * @var User[]
+     */
+    private $usersArray;
+
+    /**
+     * @var Users
+     */
+    private $users;
+
+    protected function setUp(): void
+    {
+        $this->usersArray = [
+            ModelsFactory::createUser(),
+            ModelsFactory::createAlternateUser()
+        ];
+
+        $this->users = new Users(...$this->usersArray);
+    }
+
+    /**
      * @test
      */
     public function it_can_iterate_over_users(): void
     {
-        $user1 = ModelsFactory::createUser();
-        $user2 = ModelsFactory::createAlternateUser();
-
-        $expectedUsers = [
-            $user1,
-            $user2,
-        ];
-
-        $users = new Users(...$expectedUsers);
-
         $actualUsers = [];
-        foreach ($users as $user) {
+        foreach ($this->users as $user) {
             $actualUsers[] = $user;
         }
 
-        $this->assertEquals($expectedUsers, $actualUsers);
+        $this->assertEquals($this->usersArray, $actualUsers);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_counted(): void
+    {
+        $this->assertEquals(2, count($this->users));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_converted_to_an_array(): void
+    {
+        $this->assertEquals(
+            $this->usersArray,
+            $this->users->toArray()
+        );
     }
 }
