@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Registration;
 
 use PHPUnit\Framework\TestCase;
-use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
 class UrlSuffixHashGeneratorTest extends TestCase
 {
