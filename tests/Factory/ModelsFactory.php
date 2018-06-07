@@ -17,6 +17,8 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Registration\Models\Registration;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -270,6 +272,36 @@ class ModelsFactory
         return new Questions(
             self::createAccidentQuestion(),
             self::createGeneralQuestion()
+        );
+    }
+
+    /**
+     * @return Registration
+     * @throws \Exception
+     */
+    public static function createRegistration(): Registration
+    {
+        return new Registration(
+            Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
+            self::createUser(),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
+            false
+        );
+    }
+
+    /**
+     * @return Registration
+     * @throws \Exception
+     */
+    public static function createRegistrationWithAlternateUser(): Registration
+    {
+        return new Registration(
+            Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
+            self::createAlternateUser(),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
+            false
         );
     }
 
