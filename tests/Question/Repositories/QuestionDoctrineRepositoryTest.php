@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -79,30 +78,31 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
-        $category = new Category(
+        $wrongCategory = new Category(
             Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
             new NotEmptyString('EHBO/Ongeval/Verzekering')
         );
+
         $question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            $category,
+            $wrongCategory,
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
-            Uri::createFromString(
-                'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
             ),
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new NotEmptyString('Non.'),
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new NotEmptyString('Non.'),
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                     false
                 ),
                 new Answer(
@@ -119,9 +119,9 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'Category with id: '.
-            $category->getId()->toString().
+            $wrongCategory->getId()->toString().
             ' and name: '.
-            $category->getName()->toNative().
+            $wrongCategory->getName()->toNative().
             ' not found.'
         );
 
@@ -143,8 +143,8 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
-            Uri::createFromString(
-                'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
             ),
             new Answers(
                 new Answer(

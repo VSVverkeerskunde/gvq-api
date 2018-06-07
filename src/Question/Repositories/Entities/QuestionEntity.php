@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Question\Repositories\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use League\Uri\Uri;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use VSV\GVQ_API\Question\Models\Answer;
@@ -53,9 +52,9 @@ class QuestionEntity extends Entity
     /**
      * @var string
      *
-     * @ORM\Column(name="picture_uri", type="string", length=255, nullable=false)
+     * @ORM\Column(name="image_file_name", type="string", length=255, nullable=false)
      */
-    private $pictureUri;
+    private $imageFileName;
 
     /**
      * @var Collection
@@ -77,7 +76,7 @@ class QuestionEntity extends Entity
      * @param int $year
      * @param CategoryEntity $categoryEntity
      * @param string $text
-     * @param string $pictureUri
+     * @param string $imageFileName
      * @param Collection $answerEntities
      * @param string $feedback
      */
@@ -87,7 +86,7 @@ class QuestionEntity extends Entity
         int $year,
         CategoryEntity $categoryEntity,
         string $text,
-        string $pictureUri,
+        string $imageFileName,
         Collection $answerEntities,
         string $feedback
     ) {
@@ -97,7 +96,7 @@ class QuestionEntity extends Entity
         $this->year = $year;
         $this->categoryEntity = $categoryEntity;
         $this->text = $text;
-        $this->pictureUri = $pictureUri;
+        $this->imageFileName = $imageFileName;
         $this->answerEntities = $answerEntities;
         $this->feedback = $feedback;
 
@@ -126,7 +125,7 @@ class QuestionEntity extends Entity
             $question->getYear()->toNative(),
             CategoryEntity::fromCategory($question->getCategory()),
             $question->getText()->toNative(),
-            $question->getPictureUri()->__toString(),
+            $question->getImageFileName()->toNative(),
             new ArrayCollection($answerEntities),
             $question->getFeedback()->toNative()
         );
@@ -148,19 +147,13 @@ class QuestionEntity extends Entity
             )
         );
 
-        // Call toString method to solve side effect in Uri lib because the data
-        // property gets created on calling this getter method.
-        // @see https://github.com/thephpleague/uri-schemes/issues/10
-        $pictureUri = Uri::createFromString($this->getPictureUri());
-        $pictureUri->__toString();
-
         return new Question(
             Uuid::fromString($this->getId()),
             new Language($this->getLanguage()),
             new Year($this->getYear()),
             $this->getCategoryEntity()->toCategory(),
             new NotEmptyString($this->getText()),
-            $pictureUri,
+            new NotEmptyString($this->getImageFileName()),
             $answers,
             new NotEmptyString($this->getFeedback())
         );
@@ -209,9 +202,9 @@ class QuestionEntity extends Entity
     /**
      * @return string
      */
-    public function getPictureUri(): string
+    public function getImageFileName(): string
     {
-        return $this->pictureUri;
+        return $this->imageFileName;
     }
 
     /**

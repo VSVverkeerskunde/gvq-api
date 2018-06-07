@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-use League\Uri\Uri;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -82,13 +81,11 @@ class QuestionTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_a_picture_uri(): void
+    public function it_stores_an_image_file_name(): void
     {
         $this->assertEquals(
-            Uri::createFromString(
-                'https://gvq-api.be/uploads/b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
-            ),
-            $this->question->getPictureUri()
+            new NotEmptyString('b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'),
+            $this->question->getImageFileName()
         );
     }
 
@@ -137,8 +134,8 @@ class QuestionTest extends TestCase
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
-            Uri::createFromString(
-                'https://vragendatabank.s3-eu-west-1.amazonaws.com/styles/verkeersquiz_430x1/s3/01.07.jpg?itok=6-35lj-4'
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
             ),
             $answers,
             new NotEmptyString(
