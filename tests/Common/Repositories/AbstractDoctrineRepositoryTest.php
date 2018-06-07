@@ -28,7 +28,10 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
     {
         $configuration = Setup::createAnnotationMetadataConfiguration(
             [
-                __DIR__.'/../../../src/'
+                __DIR__.'/../../../src/Question/Repositories/Entities',
+                __DIR__.'/../../../src/User/Repositories/Entities',
+                __DIR__.'/../../../src/Company/Repositories/Entities',
+                __DIR__.'/../../../src/Registration/Repositories/Entities',
             ],
             true,
             null,
