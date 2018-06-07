@@ -33,6 +33,17 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
     /**
      * @inheritdoc
      */
+    public function update(User $user): void
+    {
+        $this->entityManager->merge(
+            UserEntity::fromUser($user)
+        );
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getById(UuidInterface $id): ?User
     {
         /** @var UserEntity|null $userEntity */
@@ -80,16 +91,5 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
                 $userEntities
             )
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update(User $user): void
-    {
-        $this->entityManager->merge(
-            UserEntity::fromUser($user)
-        );
-        $this->entityManager->flush();
     }
 }

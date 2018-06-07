@@ -11,11 +11,11 @@ interface UserRepository
 {
     public function save(User $user): void;
 
+    public function update(User $user): void;
+
     public function getById(UuidInterface $id): ?User;
 
     public function getByEmail(Email $email): ?User;
 
     public function getAll(): ?Users;
-
-    public function update(User $user): void;
 }

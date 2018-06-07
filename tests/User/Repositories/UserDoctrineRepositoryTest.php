@@ -103,7 +103,9 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->userDoctrineRepository->update($updatedUser);
 
-        $foundUser = $this->userDoctrineRepository->getById(Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'));
+        $foundUser = $this->userDoctrineRepository->getById(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
 
         $this->assertEquals($updatedUser, $foundUser);
     }
