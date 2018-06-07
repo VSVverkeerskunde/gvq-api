@@ -11,10 +11,7 @@ use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="registration", indexes={
- *     @ORM\Index(name="url_suffix_idx", columns={"url_suffix"}),
- *     @ORM\Index(name="user_id_idx", columns={"user_id"})
- * })
+ * @ORM\Table(name="registration")
  */
 class RegistrationEntity extends Entity
 {
@@ -111,14 +108,6 @@ class RegistrationEntity extends Entity
     public function getUserEntity(): UserEntity
     {
         return $this->userEntity;
-    }
-
-    /**
-     * @param UserEntity $userEntity
-     */
-    public function setUserEntity(UserEntity $userEntity): void
-    {
-        $this->userEntity = $userEntity;
     }
 
     /**

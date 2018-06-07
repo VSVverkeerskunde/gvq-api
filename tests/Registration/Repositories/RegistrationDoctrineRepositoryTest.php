@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Registration\Repositories;
 
 use Doctrine\ORM\ORMInvalidArgumentException;
-use PhpParser\Node\Expr\AssignOp\Mod;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Registration\Models\Registration;
