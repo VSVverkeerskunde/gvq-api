@@ -86,6 +86,22 @@ class QuestionViewController extends AbstractController
     }
 
     /**
+     * @return Response
+     */
+    public function print(): Response
+    {
+        // TODO: Filter for NL/FR
+        $questions = $this->questionRepository->getAll();
+
+        return $this->render(
+            'questions/print.html.twig',
+            [
+                'questions' => $questions ? $questions->toArray() : [],
+            ]
+        );
+    }
+
+    /**
      * @param Request $request
      * @return Response
      * @throws \League\Flysystem\FileExistsException

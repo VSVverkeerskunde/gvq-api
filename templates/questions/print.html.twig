@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VRAGEN{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Foto{% endtrans %}</th>
+                <th>{% trans %}Vraag{% endtrans %}</th>
+                <th>{% trans %}Jaar{% endtrans %}</th>
+                <th>{% trans %}Taal{% endtrans %}</th>
+                <th>{% trans %}Thema{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+                <tr>
+                    <td>
+                        <img src="{{ '/uploads/' ~ question.imageFileName.toNative }}"
+                             width="200">
+                    </td>
+                    <td>
+                        <strong>{{ question.text.toNative }}</strong>
+                        <ul>
+                            {% for answer in question.answers.toArray %}
+                                <li class="{{ answer.correct ? 'text-success' : '' }}">
+                                    {{ answer.text.toNative }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <em>{{ question.feedback.toNative }}</em>
+                        <h5><span class="badge badge-secondary">{{ question.id.toString }}</span></h5>
+                    </td>
+                    <td>
+                        {{ question.year.toNative }}
+                    </td>
+                    <td>
+                        {{ question.language.toNative }}
+                    </td>
+                    <td>
+                        {{ question.category.name.toNative }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
