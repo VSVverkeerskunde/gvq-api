@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Models;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 
 class AnswerTest extends TestCase
 {
@@ -17,6 +18,7 @@ class AnswerTest extends TestCase
     {
         $this->answer = new Answer(
             Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
+            new PositiveNumber(2),
             new NotEmptyString('This is the first answer.'),
             true
         );
@@ -30,6 +32,17 @@ class AnswerTest extends TestCase
         $this->assertEquals(
             Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
             $this->answer->getId()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_an_index(): void
+    {
+        $this->assertEquals(
+            new PositiveNumber(2),
+            $this->answer->getIndex()
         );
     }
 

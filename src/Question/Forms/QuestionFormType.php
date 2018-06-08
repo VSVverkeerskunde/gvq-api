@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Category;
@@ -138,9 +139,9 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'choices' => [
-                        'Antwoord 1' => 0,
-                        'Antwoord 2' => 1,
-                        'Antwoord 3' => 2,
+                        'Antwoord 1' => 1,
+                        'Antwoord 2' => 2,
+                        'Antwoord 3' => 3,
                     ],
                     'data' => $question ? $this->getCorrectAnswerIndex($question->getAnswers()) : null,
                 ]
@@ -202,21 +203,24 @@ class QuestionFormType extends AbstractType
         $answers = [
             new Answer(
                 $uuidFactory->uuid4(),
+                new PositiveNumber(1),
                 new NotEmptyString($data['answer1']),
-                $data['correctAnswer'] === 0 ? true : false
+                $data['correctAnswer'] === 1 ? true : false
             ),
             new Answer(
                 $uuidFactory->uuid4(),
+                new PositiveNumber(2),
                 new NotEmptyString($data['answer2']),
-                $data['correctAnswer'] === 1 ? true : false
+                $data['correctAnswer'] === 2 ? true : false
             ),
         ];
 
         if (!empty($data['answer3'])) {
             $answers[] = new Answer(
                 $uuidFactory->uuid4(),
+                new PositiveNumber(3),
                 new NotEmptyString($data['answer3']),
-                $data['correctAnswer'] === 2 ? true : false
+                $data['correctAnswer'] === 3 ? true : false
             );
         }
 
@@ -244,21 +248,24 @@ class QuestionFormType extends AbstractType
         $answers = [
             new Answer(
                 $question->getAnswers()->toArray()[0]->getId(),
+                new PositiveNumber(1),
                 new NotEmptyString($data['answer1']),
-                $data['correctAnswer'] === 0 ? true : false
+                $data['correctAnswer'] === 1 ? true : false
             ),
             new Answer(
                 $question->getAnswers()->toArray()[1]->getId(),
+                new PositiveNumber(2),
                 new NotEmptyString($data['answer2']),
-                $data['correctAnswer'] === 1 ? true : false
+                $data['correctAnswer'] === 2 ? true : false
             ),
         ];
 
         if (!empty($data['answer3'])) {
             $answers[] = new Answer(
                 $question->getAnswers()->toArray()[2]->getId(),
+                new PositiveNumber(3),
                 new NotEmptyString($data['answer3']),
-                $data['correctAnswer'] === 2 ? true : false
+                $data['correctAnswer'] === 3 ? true : false
             );
         }
 
@@ -280,14 +287,13 @@ class QuestionFormType extends AbstractType
      */
     private function getCorrectAnswerIndex(Answers $answers): int
     {
-        /** @var Answer $answer */
-        for ($index = 0; $index < count($answers); $index++) {
-            if ($answers->toArray()[$index]->isCorrect()) {
-                return $index;
+        foreach ($answers as $answer) {
+            if ($answer->isCorrect()) {
+                return $answer->getIndex()->toNative();
             }
         }
 
-        return 0;
+        return 1;
     }
 
     /**

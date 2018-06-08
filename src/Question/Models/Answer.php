@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Question\Models;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 
 class Answer
 {
@@ -11,6 +12,11 @@ class Answer
      * @var UuidInterface
      */
     private $id;
+
+    /**
+     * @var PositiveNumber
+     */
+    private $index;
 
     /**
      * @var NotEmptyString
@@ -24,15 +30,18 @@ class Answer
 
     /**
      * @param UuidInterface $id
+     * @param PositiveNumber $index
      * @param NotEmptyString $text
      * @param bool $correct
      */
     public function __construct(
         UuidInterface $id,
+        PositiveNumber $index,
         NotEmptyString $text,
         bool $correct
     ) {
         $this->id = $id;
+        $this->index = $index;
         $this->text = $text;
         $this->correct = $correct;
     }
@@ -43,6 +52,14 @@ class Answer
     public function getId(): UuidInterface
     {
         return $this->id;
+    }
+
+    /**
+     * @return PositiveNumber
+     */
+    public function getIndex(): PositiveNumber
+    {
+        return $this->index;
     }
 
     /**

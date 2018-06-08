@@ -17,6 +17,15 @@ class Answers implements Collection
     public function __construct(Answer ...$answers)
     {
         $this->answers = $answers;
+
+        // The internal answer list is always sorted on index.
+        // This avoids issues when the answers are joined with the question.
+        usort(
+            $this->answers,
+            function (Answer $a1, Answer $a2) {
+                return $a1->getIndex()->toNative() - $a2->getIndex()->toNative();
+            }
+        );
     }
 
     /**
