@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
@@ -40,6 +41,7 @@ class AnswerNormalizerTest extends TestCase
             [
                 new Answer(
                     Uuid::fromString('b7322f69-98cf-4ec4-a551-5d6661fffc17'),
+                    new PositiveNumber(1),
                     new NotEmptyString('This is the first answer.'),
                     true
                 ),

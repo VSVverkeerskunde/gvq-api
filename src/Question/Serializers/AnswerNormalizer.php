@@ -15,6 +15,7 @@ class AnswerNormalizer implements NormalizerInterface
     {
         return [
             'id' => $answer->getId()->toString(),
+            'index' => $answer->getIndex()->toNative(),
             'text' => $answer->getText()->toNative(),
             'correct' => $answer->isCorrect(),
         ];

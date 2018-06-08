@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
@@ -98,16 +99,19 @@ class QuestionTest extends TestCase
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
                     new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
                     new NotEmptyString('Non.'),
                     true
                 )
@@ -151,21 +155,25 @@ class QuestionTest extends TestCase
     {
         $answer1 = new Answer(
             Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
+            new PositiveNumber(1),
             new NotEmptyString('text'),
             false
         );
         $answer2 = new Answer(
             Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+            new PositiveNumber(2),
             new NotEmptyString('text'),
             false
         );
         $answer3 = new Answer(
             Uuid::fromString('822dd8f9-c86b-4531-be92-b35627a21ba4'),
+            new PositiveNumber(3),
             new NotEmptyString('text'),
             false
         );
         $answer4 = new Answer(
             Uuid::fromString('50f0551b-a239-4554-96dc-4f4778e8d63a'),
+            new PositiveNumber(4),
             new NotEmptyString('text'),
             true
         );
