@@ -47,6 +47,8 @@
         "symfony/profiler-pack": "^1.0",
         "symfony/web-server-bundle": "^4.0"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "config": {
         "preferred-install": {
             "*": "dist"
