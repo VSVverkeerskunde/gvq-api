@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Question\Serializers;
 
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
@@ -16,6 +17,7 @@ class AnswerDenormalizer implements DenormalizerInterface
     {
         return new Answer(
             Uuid::fromString($data['id']),
+            new PositiveNumber($data['index']),
             new NotEmptyString($data['text']),
             (bool) $data['correct']
         );

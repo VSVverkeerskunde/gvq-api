@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Repositories\Entities;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 
@@ -14,6 +15,13 @@ use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
  */
 class AnswerEntity extends Entity
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="col_index", type="smallint", nullable=false)
+     */
+    private $index;
+
     /**
      * @var string
      *
@@ -38,16 +46,19 @@ class AnswerEntity extends Entity
 
     /**
      * @param string $id
+     * @param int $index
      * @param string $text
      * @param bool $correct
      */
     private function __construct(
         string $id,
+        int $index,
         string $text,
         bool $correct
     ) {
         parent::__construct($id);
 
+        $this->index = $index;
         $this->text = $text;
         $this->correct = $correct;
     }
@@ -60,6 +71,7 @@ class AnswerEntity extends Entity
     {
         return new AnswerEntity(
             $answer->getId()->toString(),
+            $answer->getIndex()->toNative(),
             $answer->getText()->toNative(),
             $answer->isCorrect()
         );
@@ -72,9 +84,18 @@ class AnswerEntity extends Entity
     {
         return new Answer(
             Uuid::fromString($this->getId()),
+            new PositiveNumber($this->getIndex()),
             new NotEmptyString($this->getText()),
             $this->isCorrect()
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getIndex(): int
+    {
+        return $this->index;
     }
 
     /**
