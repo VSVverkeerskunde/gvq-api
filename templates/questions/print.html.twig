@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}VRAGEN{% endblock %}
+{% block title %}
+    {% trans %}Grote Verkeersquiz - 2018{% endtrans %}
+{% endblock %}
 
 {% block content %}
 
     <table class="table">
         <thead>
+            <tr>
+                <th colspan="5">{% trans %}Grote Verkeersquiz - 2018{% endtrans %}</th>
+            </tr>
             <tr>
                 <th>{% trans %}Foto{% endtrans %}</th>
                 <th>{% trans %}Vraag{% endtrans %}</th>
@@ -45,6 +50,14 @@
                 </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <img src="{{ asset('images/logo_vsv.png') }}" height="30"/>
+                    <img src="{{ asset('images/logo_vlaanderen.png') }}" height="30"/>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
 {% endblock %}
