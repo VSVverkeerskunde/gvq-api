@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use VSV\GVQ_API\Account\Constraints\FilterValidateEmail;
+use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\User\ValueObjects\Password;
 
 class RegistrationFormType extends AbstractType
@@ -42,6 +43,11 @@ class RegistrationFormType extends AbstractType
                         new NotBlank(
                             [
                                 'message' => $translator->trans('Het e-mailveld mag niet leeg zijn.'),
+                            ]
+                        ),
+                        new UserIsUnique(
+                            [
+                                'message' => $translator->trans('Dit e-mailadres is al in gebruik.'),
                             ]
                         ),
                     ],
