@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Account\Forms;
 
+use PHPUnit\Framework\Constraint\IsTrue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,10 +12,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Validator\Constraints\Expression;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use VSV\GVQ_API\Account\Constraints\FilterValidateEmail;
+use VSV\GVQ_API\User\ValueObjects\Password;
 
 class RegistrationFormType extends AbstractType
 {
@@ -29,9 +34,9 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [
-                        new Email(
+                        new FilterValidateEmail(
                             [
-                                'message' => $translator->trans('Geef een geldig e-mailadres.'),
+                                'message' => $translator->trans('Dit is geen geldig e-mailadres'),
                             ]
                         ),
                         new NotBlank(
@@ -54,7 +59,7 @@ class RegistrationFormType extends AbstractType
                         'constraints' => [
                             new Regex(
                                 [
-                                    'pattern' => '/^(?=[^ ])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(.{8,})(?<=\S)$/',
+                                    'pattern' => Password::PATTERN,
                                     'message' => $translator->trans(
                                         'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine 
                                         letter, hoofdletter en ander karakter bevatten'
