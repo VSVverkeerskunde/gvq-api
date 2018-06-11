@@ -36,6 +36,8 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
      */
     public function update(Category $category): void
     {
+        //make sure the category exists,
+        //otherwise merge will create a new question
         $categoryEntity = $this->entityManager->find(
             CategoryEntity::class,
             $category->getId()

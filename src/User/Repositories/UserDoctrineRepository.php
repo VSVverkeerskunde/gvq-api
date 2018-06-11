@@ -37,6 +37,8 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
      */
     public function update(User $user): void
     {
+        //make sure the user exists,
+        //otherwise merge will create a new question
         $userEntity = $this->entityManager->find(
             UserEntity::class,
             $user->getId()
