@@ -134,6 +134,22 @@ class ModelsFactory
     /**
      * @return User
      */
+    public static function createFrenchUser(): User
+    {
+        return new User(
+            Uuid::fromString('39201b68-ec61-471e-ab5e-2e8665c5a776'),
+            new Email('academie@francais.be'),
+            new NotEmptyString('Français'),
+            new NotEmptyString('Académie'),
+            new Role('contact'),
+            new Language('nl'),
+            true
+        );
+    }
+
+    /**
+     * @return User
+     */
     public static function createUpdatedUser(): User
     {
         return new User(

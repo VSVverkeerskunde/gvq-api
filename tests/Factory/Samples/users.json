@@ -16,5 +16,14 @@
     "role": "contact",
     "language": "nl",
     "active": true
+  },
+  {
+    "id": "39201b68-ec61-471e-ab5e-2e8665c5a776",
+    "email": "academie@francais.be",
+    "lastName": "Français",
+    "firstName": "Académie",
+    "role": "contact",
+    "language": "nl",
+    "active": true
   }
 ]

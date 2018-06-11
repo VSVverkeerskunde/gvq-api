@@ -39,7 +39,8 @@ class UsersSerializerTest extends TestCase
 
         $this->users = new Users(
             ModelsFactory::createUser(),
-            ModelsFactory::createAlternateUser()
+            ModelsFactory::createAlternateUser(),
+            ModelsFactory::createFrenchUser()
         );
     }
 
