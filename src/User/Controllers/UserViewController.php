@@ -2,13 +2,27 @@
 
 namespace VSV\GVQ_API\User\Controllers;
 
+use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\User\Forms\UserFormType;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Role;
+use VSV\GVQ_API\User\ValueObjects\Roles;
 
 class UserViewController extends AbstractController
 {
+    /**
+     * @var UuidFactoryInterface
+     */
+    private $uuidFactory;
+
     /**
      * @var UserRepository
      */
@@ -20,15 +34,33 @@ class UserViewController extends AbstractController
     private $serializer;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var UserFormType
+     */
+    private $userFormType;
+
+    /**
+     * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
      * @param SerializerInterface $serializer
+     * @param TranslatorInterface $translator
      */
     public function __construct(
+        UuidFactoryInterface $uuidFactory,
         UserRepository $userRepository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        TranslatorInterface $translator
     ) {
+        $this->uuidFactory = $uuidFactory;
         $this->userRepository = $userRepository;
         $this->serializer = $serializer;
+        $this->translator = $translator;
+
+        $this->userFormType = new UserFormType();
     }
 
     /**
@@ -47,6 +79,44 @@ class UserViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     */
+    public function edit(Request $request, string $id): Response
+    {
+        $user = $this->userRepository->getById(
+            $this->uuidFactory->fromString($id)
+        );
+
+        if (!$user) {
+            $this->addFlash('warning', 'Geen gebruiker gevonden met id '.$id.' om aan te passen.');
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        $form = $this->createUserForm($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->userFormType->updateUserFromData(
+                $user,
+                $form->getData()
+            );
+            $this->userRepository->update($user);
+
+            $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        return $this->render(
+            'users/add.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
      * @return Response
      */
     public function export(): Response
@@ -58,6 +128,31 @@ class UserViewController extends AbstractController
         $response = $this->createCsvResponse($usersAsCsv);
 
         return $response;
+    }
+
+    /**
+     * @param null|User $user
+     * @return FormInterface
+     */
+    private function createUserForm(?User $user): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->userFormType->buildForm(
+            $formBuilder,
+            [
+                'roles' => new Roles(
+                    new Role('contact'),
+                    new Role('vsv'),
+                    new Role('admin')
+                ),
+                'languages' => new Languages(),
+                'user' => $user,
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
     }
 
     /**
