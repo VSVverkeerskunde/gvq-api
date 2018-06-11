@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
@@ -89,6 +90,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function it_can_update_a_question(): void
     {
@@ -140,6 +142,20 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
+    public function it_throws_on_updating_a_non_existing_question(): void
+    {
+        $wrongQuestion = ModelsFactory::createAccidentQuestion();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Invalid question supplied');
+        $this->questionDoctrineRepository->update($wrongQuestion);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
      */
     public function it_throws_on_updating_a_question_with_a_non_existing_category(): void
     {

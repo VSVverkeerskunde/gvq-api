@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -76,6 +77,19 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($updatedCategory, $foundCategory);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     */
+    public function it_throws_on_updating_a_non_existing_category(): void
+    {
+        $wrongCategory = ModelsFactory::createAccidentCategory();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Invalid category supplied');
+        $this->categoryDoctrineRepository->update($wrongCategory);
     }
 
     /**

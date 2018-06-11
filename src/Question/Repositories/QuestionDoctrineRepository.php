@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Question;
@@ -34,9 +35,18 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
 
     /**
      * @inheritdoc
+     * @throws EntityNotFoundException
      */
     public function update(Question $question): void
     {
+        $questionEntity = $this->entityManager->find(
+            QuestionEntity::class,
+            $question->getId()
+        );
+        if ($questionEntity == null) {
+            throw new EntityNotFoundException("Invalid question supplied");
+        }
+
         $this->entityManager->merge(
             QuestionEntity::fromQuestion($question)
         );
@@ -63,6 +73,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     public function getById(UuidInterface $id): ?Question
     {
         $questionEntity = $this->getEntityById($id);
+
         return $questionEntity ? $questionEntity->toQuestion() : null;
     }
 

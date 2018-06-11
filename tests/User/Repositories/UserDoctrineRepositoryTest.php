@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
@@ -94,6 +95,7 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function it_can_update_a_user(): void
     {
@@ -108,6 +110,20 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($updatedUser, $foundUser);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     */
+    public function it_throws_on_updating_a_non_existing_user(): void
+    {
+        $wrongUser = ModelsFactory::createUpdatedUser();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Invalid user supplied');
+
+        $this->userDoctrineRepository->update($wrongUser);
     }
 
     /**

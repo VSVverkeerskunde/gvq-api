@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\User\Models\User;
@@ -32,9 +33,18 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
 
     /**
      * @inheritdoc
+     * @throws EntityNotFoundException
      */
     public function update(User $user): void
     {
+        $userEntity = $this->entityManager->find(
+            UserEntity::class,
+            $user->getId()
+        );
+        if ($userEntity == null) {
+            throw new EntityNotFoundException("Invalid user supplied");
+        }
+
         $this->entityManager->merge(
             UserEntity::fromUser($user)
         );
