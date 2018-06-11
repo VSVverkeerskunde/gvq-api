@@ -90,3 +90,8 @@ services:
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Account\Controllers\AccountViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
