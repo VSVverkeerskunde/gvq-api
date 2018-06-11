@@ -2,6 +2,62 @@
 
 {% block title %}CONTACT{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
-    Contactpersonen
+
+    <table class="table"
+           data-toggle="table"
+           data-search="true"
+           data-page-size=5
+           data-pagination="true"
+           data-page-list="[5, 10, 25, 50]">
+        <thead>
+            <tr>
+                <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Achternaam{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Voornaam{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Actief{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Rol{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.id.toString }}
+                    </td>
+                    <td>
+                        {{ user.email.toNative }}
+                    </td>
+                    <td>
+                        {{ user.lastName.toNative }}
+                    </td>
+                    <td>
+                        {{ user.firstName.toNative }}
+                    </td>
+                    <td>
+                        {{ user.language.toNative }}
+                    </td>
+                    <td>
+                        {{ user.active ? 'Actief'|trans : 'Inactief'|trans }}
+                    </td>
+                    <td>
+                        {{ user.role.toNative }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap-table.js') }}"></script>
 {% endblock %}

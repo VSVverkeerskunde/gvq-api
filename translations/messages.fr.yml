@@ -22,3 +22,10 @@ Aanpassen: __Aanpassen
 'De tekst mag niet leeg zijn.': '__De tekst mag niet leeg zijn.'
 'De tekst mag niet meer dan {{ limit }} karakters hebben.': '__De tekst mag niet meer dan {{ limit }} karakters hebben.'
 'Foto mag niet leeg zijn.': '__Foto mag niet leeg zijn.'
+Id: __Id
+E-mail: __E-mail
+Achternaam: __Achternaam
+Voornaam: __Voornaam
+Actief: __Actief
+Rol: __Rol
+Inactief: __Inactief

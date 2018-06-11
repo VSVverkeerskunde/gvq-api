@@ -22,3 +22,10 @@ Aanpassen: Aanpassen
 'De tekst mag niet leeg zijn.': 'De tekst mag niet leeg zijn.'
 'De tekst mag niet meer dan {{ limit }} karakters hebben.': 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
 'Foto mag niet leeg zijn.': 'Foto mag niet leeg zijn.'
+Id: Id
+E-mail: E-mail
+Achternaam: Achternaam
+Voornaam: Voornaam
+Actief: Actief
+Rol: Rol
+Inactief: Inactief
