@@ -1,11 +1,6 @@
-{% extends 'admin_base.html.twig' %}
+{% extends 'admin_index_base.html.twig' %}
 
 {% block title %}{% trans %}Gebruikers{% endtrans %}{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
-{% endblock %}
 
 {% block content %}
 
@@ -55,9 +50,4 @@
         </tbody>
     </table>
 
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/bootstrap-table.js') }}"></script>
 {% endblock %}
