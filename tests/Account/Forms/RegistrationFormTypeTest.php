@@ -12,11 +12,11 @@ class RegistrationFormTypeTest extends AbstractFormTypeTest
     public function it_can_be_created(): void
     {
         $form = $this->factory->create(
-          RegistrationFormType::class,
-          null,
-          [
-              'translator' => $this->translator,
-          ]
+            RegistrationFormType::class,
+            null,
+            [
+                'translator' => $this->translator,
+            ]
         );
 
         $form->submit([]);
