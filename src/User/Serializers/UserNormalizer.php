@@ -20,6 +20,7 @@ class UserNormalizer implements NormalizerInterface
             'firstName' => $user->getFirstName()->toNative(),
             'role' => $user->getRole()->toNative(),
             'language' => $user->getLanguage()->toNative(),
+            'active' => $user->isActive()
         ];
     }
 

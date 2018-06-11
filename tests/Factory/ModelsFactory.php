@@ -17,6 +17,8 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Registration\Models\Registration;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -98,7 +100,8 @@ class ModelsFactory
             new NotEmptyString('Doe'),
             new NotEmptyString('John'),
             new Role('contact'),
-            new Language('nl')
+            new Language('nl'),
+            true
         );
     }
 
@@ -123,7 +126,24 @@ class ModelsFactory
             new NotEmptyString('Doe'),
             new NotEmptyString('Jane'),
             new Role('contact'),
-            new Language('nl')
+            new Language('nl'),
+            true
+        );
+    }
+
+    /**
+     * @return User
+     */
+    public static function createUpdatedUser(): User
+    {
+        return new User(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
+            new Email('jane@gvq.be'),
+            new NotEmptyString('Doe'),
+            new NotEmptyString('Jane'),
+            new Role('contact'),
+            new Language('nl'),
+            true
         );
     }
 
@@ -182,16 +202,19 @@ class ModelsFactory
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
                     new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
                     new NotEmptyString('Non.'),
                     true
                 )
@@ -224,16 +247,19 @@ class ModelsFactory
             new Answers(
                 new Answer(
                     Uuid::fromString('c4d5fa4d-b5bc-4d92-a201-a84abb0e3253'),
+                    new PositiveNumber(1),
                     new NotEmptyString('Les habitants de cette maison.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('1ae8ea74-87f9-4e65-9458-d605888c3a54'),
+                    new PositiveNumber(2),
                     new NotEmptyString('Personne.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('a33daadb-be3f-4625-b1ae-368611680bde'),
+                    new PositiveNumber(3),
                     new NotEmptyString('Les habitants de cette maison et leurs visiteurs.'),
                     true
                 )
@@ -252,6 +278,36 @@ class ModelsFactory
         return new Questions(
             self::createAccidentQuestion(),
             self::createGeneralQuestion()
+        );
+    }
+
+    /**
+     * @return Registration
+     * @throws \Exception
+     */
+    public static function createRegistration(): Registration
+    {
+        return new Registration(
+            Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
+            self::createUser(),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
+            false
+        );
+    }
+
+    /**
+     * @return Registration
+     * @throws \Exception
+     */
+    public static function createRegistrationWithAlternateUser(): Registration
+    {
+        return new Registration(
+            Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
+            self::createAlternateUser(),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
+            false
         );
     }
 

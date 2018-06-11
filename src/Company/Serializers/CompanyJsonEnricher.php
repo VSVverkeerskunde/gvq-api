@@ -65,6 +65,7 @@ class CompanyJsonEnricher implements JsonEnricher
             $companyAsArray['user']['lastName'] = $user->getLastName()->toNative();
             $companyAsArray['user']['role'] = $user->getRole()->toNative();
             $companyAsArray['user']['language'] = $user->getLanguage()->toNative();
+            $companyAsArray['user']['active'] = $user->isActive();
         }
 
         return $companyAsArray;

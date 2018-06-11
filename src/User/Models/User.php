@@ -47,12 +47,18 @@ class User
     private $password;
 
     /**
+     * @var bool
+     */
+    private $active;
+
+    /**
      * @param UuidInterface $id
      * @param Email $email
      * @param NotEmptyString $lastName
      * @param NotEmptyString $firstName
      * @param Role $role
      * @param Language $language
+     * @param bool $active
      */
     public function __construct(
         UuidInterface $id,
@@ -60,7 +66,8 @@ class User
         NotEmptyString $lastName,
         NotEmptyString $firstName,
         Role $role,
-        Language $language
+        Language $language,
+        bool $active
     ) {
         $this->id = $id;
         $this->email = $email;
@@ -68,6 +75,7 @@ class User
         $this->firstName = $firstName;
         $this->role = $role;
         $this->language = $language;
+        $this->active = $active;
     }
 
     /**
@@ -136,5 +144,13 @@ class User
     public function getPassword(): ?Password
     {
         return $this->password;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 }

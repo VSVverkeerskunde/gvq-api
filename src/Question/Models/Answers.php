@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Question\Models;
 
-class Answers implements \IteratorAggregate, \Countable
+use VSV\GVQ_API\Common\ValueObjects\Collection;
+
+class Answers implements Collection
 {
     /**
      * @var Answer[]
@@ -15,6 +17,15 @@ class Answers implements \IteratorAggregate, \Countable
     public function __construct(Answer ...$answers)
     {
         $this->answers = $answers;
+
+        // The internal answer list is always sorted on index.
+        // This avoids issues when the answers are joined with the question.
+        usort(
+            $this->answers,
+            function (Answer $a1, Answer $a2) {
+                return $a1->getIndex()->toNative() - $a2->getIndex()->toNative();
+            }
+        );
     }
 
     /**

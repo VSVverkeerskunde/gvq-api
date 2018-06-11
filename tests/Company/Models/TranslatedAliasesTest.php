@@ -37,7 +37,6 @@ class TranslatedAliasesTest extends TestCase
             $actualArray[] = $translatedAlias;
         }
 
-        $this->assertInstanceOf(\IteratorAggregate::class, $this->translatedAliases);
         $this->assertEquals($this->translatedAliasArray, $actualArray);
     }
 
@@ -46,7 +45,6 @@ class TranslatedAliasesTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->translatedAliases);
         $this->assertEquals(2, count($this->translatedAliases));
     }
 

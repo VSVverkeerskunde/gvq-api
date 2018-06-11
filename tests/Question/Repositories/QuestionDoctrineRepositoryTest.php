@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Question\Repositories;
 
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
@@ -97,16 +98,19 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
                     new NotEmptyString('Oui, mais uniquement en agglomération.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
                     new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
                     new NotEmptyString('Non.'),
                     true
                 )
@@ -149,16 +153,19 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             new Answers(
                 new Answer(
                     Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
                     new NotEmptyString('Non.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
                     new NotEmptyString('Non.'),
                     false
                 ),
                 new Answer(
                     Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
                     new NotEmptyString('Non.'),
                     true
                 )

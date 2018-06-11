@@ -56,6 +56,12 @@ questions_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+questions_view_print:
+  path: /{_locale}/view/questions/print
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::print
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 questions_view_add:
   path: /{_locale}/view/questions/add
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::add

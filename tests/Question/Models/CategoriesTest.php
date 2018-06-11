@@ -37,7 +37,6 @@ class CategoriesTest extends TestCase
             $actualCategories[] = $category;
         }
 
-        $this->assertInstanceOf(\IteratorAggregate::class, $this->categories);
         $this->assertEquals($this->categoriesArray, $actualCategories);
     }
 
@@ -46,7 +45,6 @@ class CategoriesTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->categories);
         $this->assertEquals(2, count($this->categories));
     }
 

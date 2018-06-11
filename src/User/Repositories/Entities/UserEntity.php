@@ -61,6 +61,13 @@ class UserEntity extends Entity
     private $password;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $active;
+
+    /**
      * @param string $id
      * @param string $email
      * @param string $lastName
@@ -68,6 +75,7 @@ class UserEntity extends Entity
      * @param string $role
      * @param string $language
      * @param string|null $password
+     * @param bool $active
      */
     public function __construct(
         string $id,
@@ -76,7 +84,8 @@ class UserEntity extends Entity
         string $firstName,
         string $role,
         string $language,
-        ?string $password
+        ?string $password,
+        bool $active
     ) {
         parent::__construct($id);
 
@@ -86,6 +95,7 @@ class UserEntity extends Entity
         $this->role = $role;
         $this->language = $language;
         $this->password = $password;
+        $this->active = $active;
     }
 
     /**
@@ -101,7 +111,8 @@ class UserEntity extends Entity
             $user->getFirstName()->toNative(),
             $user->getRole()->toNative(),
             $user->getLanguage()->toNative(),
-            $user->getPassword() ? $user->getPassword()->toNative() : null
+            $user->getPassword() ? $user->getPassword()->toNative() : null,
+            $user->isActive()
         );
     }
 
@@ -116,7 +127,8 @@ class UserEntity extends Entity
             new NotEmptyString($this->getLastName()),
             new NotEmptyString($this->getFirstName()),
             new Role($this->getRole()),
-            new Language($this->getLanguage())
+            new Language($this->getLanguage()),
+            $this->isActive()
         );
 
         if ($this->getPassword()) {
@@ -174,5 +186,13 @@ class UserEntity extends Entity
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 }

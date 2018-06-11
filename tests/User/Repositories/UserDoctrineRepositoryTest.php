@@ -6,6 +6,7 @@ use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\Models\Users;
 use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -89,5 +90,51 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($this->userWithPassword, $foundUser);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_update_a_user(): void
+    {
+        $this->userDoctrineRepository->save($this->user);
+
+        $updatedUser = ModelsFactory::createUpdatedUser();
+
+        $this->userDoctrineRepository->update($updatedUser);
+
+        $foundUser = $this->userDoctrineRepository->getById(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        $this->assertEquals($updatedUser, $foundUser);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_users(): void
+    {
+        $this->userDoctrineRepository->save($this->user);
+
+        $user2 = ModelsFactory::createAlternateUser();
+        $this->userDoctrineRepository->save($user2);
+
+        $foundUsers = $this->userDoctrineRepository->getAll();
+
+        $this->assertEquals(
+            new Users($this->user, $user2),
+            $foundUsers
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_users_present(): void
+    {
+        $foundUsers = $this->userDoctrineRepository->getAll();
+
+        $this->assertNull($foundUsers);
     }
 }

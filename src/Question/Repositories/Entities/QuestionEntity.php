@@ -59,7 +59,7 @@ class QuestionEntity extends Entity
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="AnswerEntity", mappedBy="questionEntity", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="AnswerEntity", mappedBy="questionEntity", fetch="EAGER", cascade={"all"})
      */
     private $answerEntities;
 
