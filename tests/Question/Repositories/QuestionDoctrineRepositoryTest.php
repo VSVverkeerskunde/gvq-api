@@ -79,43 +79,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
-        $wrongCategory = new Category(
-            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
-
-        $question = new Question(
-            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-            new Language('fr'),
-            new Year(2018),
-            $wrongCategory,
-            new NotEmptyString(
-                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
-            ),
-            new NotEmptyString(
-                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
-            ),
-            new Answers(
-                new Answer(
-                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new NotEmptyString('Non.'),
-                    true
-                )
-            ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
-        );
+        $question = ModelsFactory::createQuestionWithAlternateCategory();
 
         $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage('A new entity was found through the relationship');
@@ -134,7 +98,10 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            ModelsFactory::createAccidentCategory(),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
@@ -169,6 +136,21 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($updatedQuestion, $foundQuestion);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_on_updating_a_question_with_a_non_existing_category(): void
+    {
+        $this->questionDoctrineRepository->save($this->question);
+
+        $updatedQuestion = ModelsFactory::createQuestionWithAlternateCategory();
+
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
+
+        $this->questionDoctrineRepository->update($updatedQuestion);
     }
 
     /**
