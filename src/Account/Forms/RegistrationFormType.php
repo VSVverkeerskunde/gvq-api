@@ -35,8 +35,9 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [
-                        new FilterValidateEmail(
+                        new Regex(
                             [
+                                'pattern' => Email::PATTERN,
                                 'message' => $translator->trans('Dit is geen geldig e-mailadres'),
                             ]
                         ),
