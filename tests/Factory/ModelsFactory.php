@@ -322,4 +322,13 @@ class ModelsFactory
 
         return json_encode($jsonAsArray);
     }
+
+    /**
+     * @param string $model
+     * @return string
+     */
+    public static function readCsv(string $model): string
+    {
+        return file_get_contents(__DIR__.'/Samples/'.$model.'.csv');
+    }
 }
