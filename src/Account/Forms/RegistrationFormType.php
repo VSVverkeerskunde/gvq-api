@@ -213,7 +213,6 @@ class RegistrationFormType extends AbstractType
                     'minMessage' => $translator->trans('Invalid min length'),
                 ]
             ),
-
         ];
     }
 
@@ -246,14 +245,14 @@ class RegistrationFormType extends AbstractType
     public function createCompanyFromData(UuidFactoryInterface $uuidFactory, array $data, User $user): Company
     {
         $company = new Company(
-          $uuidFactory->uuid4(),
-          new NotEmptyString($data['name']),
-          new PositiveNumber($data['numberOfEmployees']),
-          new TranslatedAliases(
-              new TranslatedAlias($uuidFactory->uuid4(), new Language('nl'), new Alias($data['aliasNl'])),
-              new TranslatedAlias($uuidFactory->uuid4(), new Language('fr'), new Alias($data['aliasFr']))
-          ),
-          $user
+            $uuidFactory->uuid4(),
+            new NotEmptyString($data['companyName']),
+            new PositiveNumber($data['numberOfEmployees']),
+            new TranslatedAliases(
+                new TranslatedAlias($uuidFactory->uuid4(), new Language('nl'), new Alias($data['aliasNl'])),
+                new TranslatedAlias($uuidFactory->uuid4(), new Language('fr'), new Alias($data['aliasFr']))
+            ),
+            $user
         );
 
         return $company;
