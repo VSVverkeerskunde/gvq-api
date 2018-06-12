@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -122,7 +123,26 @@ class RegistrationFormType extends AbstractType
                 'companyName',
                 TextType::class,
                 [
-                    'constraints' => $this->createNameConstraints($translator),
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Empty field'),
+                                'groups' => ['First'],
+                            ]
+                        ),
+                        new Length(
+                            [
+                                'max' => 255,
+                                'maxMessage' => $translator->trans('Invalid max length'),
+                                'groups' => ['First'],
+                            ]
+                        ),
+                        new CompanyIsUnique(
+                            [
+                                'message' => $translator->trans('Company name in use')
+                            ]
+                        )
+                    ],
                 ]
             )
             ->add(

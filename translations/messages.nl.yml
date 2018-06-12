@@ -38,6 +38,7 @@ Verzenden: Verzenden
 Invalid email pattern: 'Dit is geen geldig e-mailadres'
 Empty field: 'Dit veld is verplicht'
 Email in use: 'Dit e-mailadres is al in gebruik'
+Company name in use: 'Deze bedrijfsnaam is al in gebruik'
 Different passwords: 'De paswoorden komen niet overeen'
 Invalid password pattern: 'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
 Invalid password max length: 'Het wachtwoord mag maximum {{ limit }} karakters bevatten'
