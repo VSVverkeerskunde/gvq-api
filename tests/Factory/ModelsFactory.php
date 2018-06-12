@@ -43,6 +43,20 @@ class ModelsFactory
     /**
      * @return Company
      */
+    public static function createAlternateCompany(): Company
+    {
+        return new Company(
+            Uuid::fromString('c0dc2df1-a09e-4393-94c2-20319af53e2b'),
+            new NotEmptyString('Agence wallonne pour la Sécurité routière'),
+            new PositiveNumber(23),
+            self::createTranslatedAliases(),
+            self::createAlternateUser()
+        );
+    }
+
+    /**
+     * @return Company
+     */
     public static function createCompanyWithAlternateUser(): Company
     {
         return new Company(
