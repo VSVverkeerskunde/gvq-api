@@ -36,9 +36,22 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [
+                        new Regex(
+                            [
+                                'pattern' => Email::PATTERN,
+                                'message' => $translator->trans('Dit is geen geldig e-mailadres'),
+                                'groups' => ['First'],
+                            ]
+                        ),
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Het e-mailveld mag niet leeg zijn.'),
+                                'groups' => ['First'],
+                            ]
+                        ),
                         new UserIsUnique(
                             [
-                                'message' => $translator->trans('Dit e-mailadres is ongeldig of al in gebruik.'),
+                                'message' => $translator->trans('Dit e-mailadres is al in gebruik.'),
                             ]
                         ),
                     ],
@@ -52,7 +65,6 @@ class RegistrationFormType extends AbstractType
                     'invalid_message' => $translator->trans('De paswoorden komen niet overeen.'),
                     'help' => 'test help',
                     'first_options' => [
-
                         'constraints' => [
                             new Regex(
                                 [

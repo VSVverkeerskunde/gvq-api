@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
@@ -78,7 +79,12 @@ class AccountViewController extends AbstractController
      */
     private function createRegisterForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder();
+        $formBuilder = $this->createFormBuilder(
+            null,
+            [
+                'validation_groups' => new GroupSequence(['First', 'Default']),
+            ]
+        );
 
         $this->registrationFormType->buildForm(
             $formBuilder,
