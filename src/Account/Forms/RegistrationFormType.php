@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use VSV\GVQ_API\Account\Constraints\AliasIsUnique;
 use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -139,9 +140,9 @@ class RegistrationFormType extends AbstractType
                         ),
                         new CompanyIsUnique(
                             [
-                                'message' => $translator->trans('Company name in use')
+                                'message' => $translator->trans('Company name in use'),
                             ]
-                        )
+                        ),
                     ],
                 ]
             )
@@ -202,6 +203,7 @@ class RegistrationFormType extends AbstractType
             new NotBlank(
                 [
                     'message' => $translator->trans('Empty field'),
+                    'groups' => ['First']
                 ]
             ),
             new Length(
@@ -223,6 +225,7 @@ class RegistrationFormType extends AbstractType
             new NotBlank(
                 [
                     'message' => $translator->trans('Empty field'),
+                    'groups' => ['First'],
                 ]
             ),
             new Length(
@@ -231,6 +234,12 @@ class RegistrationFormType extends AbstractType
                     'max' => 255,
                     'maxMessage' => $translator->trans('Invalid max length'),
                     'minMessage' => $translator->trans('Invalid min length'),
+                    'groups' => ['First'],
+                ]
+            ),
+            new AliasIsUnique(
+                [
+                    'message' => $translator->trans('Alias in use'),
                 ]
             ),
         ];

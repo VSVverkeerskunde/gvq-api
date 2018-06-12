@@ -73,10 +73,31 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         /** @var CompanyEntity $companyEntity */
         $companyEntity = $this->objectRepository->findOneBy(
             [
-                'name' => $name->toNative()
+                'name' => $name->toNative(),
             ]
         );
 
         return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @param Alias $alias
+     * @return null|Company
+     */
+    public function getByAlias(Alias $alias): ?Company
+    {
+        //@todo: find better way to find a company by alias
+        /** @var CompanyEntity[] $companyEntities */
+        $companyEntities = $this->objectRepository->findAll();
+        foreach ($companyEntities as $companyEntity) {
+            $translatedAliasesEntities = $companyEntity->getTranslatedAliasEntities();
+            foreach ($translatedAliasesEntities as $translatedAliasEntity) {
+                if ($translatedAliasEntity->getAlias() === $alias->toNative()) {
+                    return $companyEntity->toCompany();
+                }
+            }
+        }
+
+        return null;
     }
 }

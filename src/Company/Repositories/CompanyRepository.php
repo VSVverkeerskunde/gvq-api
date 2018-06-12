@@ -14,4 +14,6 @@ interface CompanyRepository
     public function getById(UuidInterface $id): ?Company;
 
     public function getByName(NotEmptyString $name): ?Company;
+
+    public function getByAlias(Alias $alias): ?Company;
 }
