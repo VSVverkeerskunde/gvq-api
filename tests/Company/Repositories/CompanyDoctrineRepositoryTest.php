@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Company\Repositories;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -12,6 +13,11 @@ use VSV\GVQ_API\User\Repositories\UserDoctrineRepository;
 
 class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
+    /**
+     * @var UserDoctrineRepository
+     */
+    private $userDoctrineRepository;
+
     /**
      * @var CompanyDoctrineRepository
      */
@@ -30,11 +36,11 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $this->entityManager
         );
 
-        $userRepository = new UserDoctrineRepository(
+        $this->userDoctrineRepository = new UserDoctrineRepository(
             $this->entityManager
         );
         $user = ModelsFactory::createUser();
-        $userRepository->save($user);
+        $this->userDoctrineRepository->save($user);
 
         $this->company = ModelsFactory::createCompany();
     }
@@ -72,5 +78,25 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->expectExceptionMessage('A new entity was found through the relationship');
 
         $this->companyDoctrineRepository->save($company);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_companies(): void
+    {
+        $this->companyDoctrineRepository->save($this->company);
+
+        $alternateCompany = ModelsFactory::createAlternateCompany();
+        $this->userDoctrineRepository->save($alternateCompany->getUser());
+
+        $this->companyDoctrineRepository->save($alternateCompany);
+
+        $foundCompanies = $this->companyDoctrineRepository->getAll();
+
+        $this->assertEquals(
+            new Companies($this->company, $alternateCompany),
+            $foundCompanies
+        );
     }
 }

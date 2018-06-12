@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Company\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
+use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
 
@@ -18,7 +19,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param Company $company
+     * @inheritdoc
      */
     public function save(Company $company): void
     {
@@ -32,8 +33,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Company|null
+     * @inheritdoc
      */
     public function getById(UuidInterface $id): ?Company
     {
@@ -45,5 +45,27 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         );
 
         return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAll(): ?Companies
+    {
+        /** @var CompanyEntity[] $companyEntities */
+        $companyEntities = $this->objectRepository->findAll();
+
+        if (empty($companyEntities)) {
+            return null;
+        }
+
+        return new Companies(
+            ...array_map(
+                function (CompanyEntity $companyEntity) {
+                    return $companyEntity->toCompany();
+                },
+                $companyEntities
+            )
+        );
     }
 }
