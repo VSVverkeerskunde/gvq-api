@@ -99,4 +99,14 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $foundCompanies
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_questions_present(): void
+    {
+        $foundCompanies = $this->companyDoctrineRepository->getAll();
+
+        $this->assertNull($foundCompanies);
+    }
 }
