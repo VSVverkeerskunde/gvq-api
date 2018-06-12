@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class UserIsUnique extends Constraint
 {
-    public $message = 'This email is already in use';
+    public $message = 'This email is invalid or already in use';
 
     /**
      * @return string

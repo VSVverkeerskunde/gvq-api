@@ -68,7 +68,7 @@ class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
             ],
             [
                 [],
-                'This email is already in use',
+                'This email is invalid or already in use',
             ],
         ];
     }

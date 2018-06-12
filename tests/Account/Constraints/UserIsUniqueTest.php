@@ -14,8 +14,8 @@ class UserIsUniqueTest extends TestCase
         $uniqeUserConstraint = new UserIsUnique();
 
         $this->assertEquals(
-          'VSV\GVQ_API\Account\Constraints\UserIsUniqueValidator',
-          $uniqeUserConstraint->validatedBy()
+            'VSV\GVQ_API\Account\Constraints\UserIsUniqueValidator',
+            $uniqeUserConstraint->validatedBy()
         );
     }
 }

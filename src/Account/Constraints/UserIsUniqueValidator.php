@@ -28,9 +28,17 @@ class UserIsUniqueValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        //@todo find better solution to prevent invalid values
-        if ($constraint instanceof UserIsUnique && !empty($value) && preg_match(Email::PATTERN, $value)) {
-            $user = $this->userRepository->getByEmail(new Email($value));
+        if ($constraint instanceof UserIsUnique) {
+            try {
+                $value = empty($value) ? ' ' : $value;
+                $email = new Email($value);
+            } catch (\Exception $e) {
+                $this->context->buildViolation($constraint->getMessage())
+                    ->addViolation();
+
+                return;
+            }
+            $user = $this->userRepository->getByEmail($email);
             if ($user != null) {
                 $this->context->buildViolation($constraint->getMessage())
                     ->addViolation();
