@@ -4,15 +4,20 @@
 
 {% block content %}
 
-    <table class="table">
+    <table class="table"
+           data-toggle="table"
+           data-search="true"
+           data-page-size=5
+           data-pagination="true"
+           data-page-list="[5, 10, 25, 50]">
         <thead>
             <tr>
-                <th>{% trans %}Id{% endtrans %}</th>
-                <th>{% trans %}Naam{% endtrans %}</th>
-                <th>{% trans %}# Medewerkers{% endtrans %}</th>
-                <th>{% trans %}Alias NL{% endtrans %}</th>
-                <th>{% trans %}Alias FR{% endtrans %}</th>
-                <th>{% trans %}E-mail{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Naam{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}# Medewerkers{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Alias NL{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Alias FR{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
