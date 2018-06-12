@@ -128,9 +128,11 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
         );
 
-        $updatedUser = $updatedUser->withPassword(
-            $this->userWithPassword->getPassword()
-        );
+        if ($this->userWithPassword->getPassword()) {
+            $updatedUser = $updatedUser->withPassword(
+                $this->userWithPassword->getPassword()
+            );
+        }
         $this->assertEquals($updatedUser, $foundUser);
     }
 
