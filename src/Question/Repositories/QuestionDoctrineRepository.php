@@ -39,8 +39,8 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
      */
     public function update(Question $question): void
     {
-        //make sure the question exists,
-        //otherwise merge will create a new question
+        // Make sure the question exists,
+        // otherwise merge will create a new question.
         $questionEntity = $this->entityManager->find(
             QuestionEntity::class,
             $question->getId()
