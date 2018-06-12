@@ -61,6 +61,7 @@ class CategoryDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws EntityNotFoundException
      */
     public function it_can_update_a_category(): void
     {
