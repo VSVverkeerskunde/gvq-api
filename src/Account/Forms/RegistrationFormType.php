@@ -18,6 +18,11 @@ use Symfony\Component\Validator\Constraints\Regex;
 use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\Models\Company;
+use VSV\GVQ_API\Company\Models\TranslatedAlias;
+use VSV\GVQ_API\Company\Models\TranslatedAliases;
+use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
@@ -208,6 +213,7 @@ class RegistrationFormType extends AbstractType
                     'minMessage' => $translator->trans('Invalid min length'),
                 ]
             ),
+
         ];
     }
 
@@ -229,5 +235,27 @@ class RegistrationFormType extends AbstractType
         );
 
         return $user;
+    }
+
+    /**
+     * @param UuidFactoryInterface $uuidFactory
+     * @param array $data
+     * @param User $user
+     * @return Company
+     */
+    public function createCompanyFromData(UuidFactoryInterface $uuidFactory, array $data, User $user): Company
+    {
+        $company = new Company(
+          $uuidFactory->uuid4(),
+          new NotEmptyString($data['name']),
+          new PositiveNumber($data['numberOfEmployees']),
+          new TranslatedAliases(
+              new TranslatedAlias($uuidFactory->uuid4(), new Language('nl'), new Alias($data['aliasNl'])),
+              new TranslatedAlias($uuidFactory->uuid4(), new Language('fr'), new Alias($data['aliasFr']))
+          ),
+          $user
+        );
+
+        return $company;
     }
 }

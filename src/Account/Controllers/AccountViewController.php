@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
+use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
 class AccountViewController extends AbstractController
@@ -30,6 +31,11 @@ class AccountViewController extends AbstractController
     private $userRepository;
 
     /**
+     * @var CompanyRepository
+     */
+    private $companyRepository;
+
+    /**
      * @var UuidFactoryInterface
      */
     private $uuidFactory;
@@ -38,15 +44,18 @@ class AccountViewController extends AbstractController
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
+     * @param CompanyRepository $companyRepository
      */
     public function __construct(
         TranslatorInterface $translator,
         UuidFactoryInterface $uuidFactory,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CompanyRepository $companyRepository
     ) {
         $this->tranlator = $translator;
         $this->uuidFactory = $uuidFactory;
         $this->userRepository = $userRepository;
+        $this->companyRepository = $companyRepository;
         $this->registrationFormType = new RegistrationFormType();
     }
 
@@ -64,6 +73,8 @@ class AccountViewController extends AbstractController
 
             $user = $this->registrationFormType->createUserFromData($this->uuidFactory, $data);
             $this->userRepository->save($user);
+            $company = $this->registrationFormType->createCompanyFromData($this->uuidFactory, $data, $user);
+            $this->companyRepository->save($company);
         }
 
         return $this->render(
