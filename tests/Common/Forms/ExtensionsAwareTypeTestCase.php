@@ -6,17 +6,27 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-trait ExtensionsTrait
+abstract class ExtensionsAwareTypeTestCase extends TypeTestCase
 {
     /**
      * @var TranslatorInterface|MockObject
      */
-    private $translator;
+    protected $translator;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        /** @var TranslatorInterface|MockObject $translator */
+        $translator = $this->createMock(TranslatorInterface::class);
+        $this->translator = $translator;
+    }
 
     /**
      * @return array

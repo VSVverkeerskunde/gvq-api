@@ -111,6 +111,8 @@ class UserFormType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'languages' => [],
+                'roles' => [],
                 'user' => null,
                 'translator' => null,
             ]
