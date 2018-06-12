@@ -3,5 +3,42 @@
 {% block title %}{% trans %}Bedrijven{% endtrans %}{% endblock %}
 
 {% block content %}
-    Bedrijven
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Naam{% endtrans %}</th>
+                <th>{% trans %}# Medewerkers{% endtrans %}</th>
+                <th>{% trans %}Alias NL{% endtrans %}</th>
+                <th>{% trans %}Alias FR{% endtrans %}</th>
+                <th>{% trans %}E-mail{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>
+                        {{ company.id.toString }}
+                    </td>
+                    <td>
+                        {{ company.name.toNative}}
+                    </td>
+                    <td>
+                        {{ company.numberOfEmployees.toNative}}
+                    </td>
+                    <td>
+                        {{ company.translatedAliases | getAliasByLanguage('nl') }}
+                    </td>
+                    <td>
+                        {{ company.translatedAliases | getAliasByLanguage('fr') }}
+                    </td>
+                    <td>
+                        {{ company.user.email.toNative}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
