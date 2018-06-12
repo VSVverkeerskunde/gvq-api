@@ -39,7 +39,8 @@
                         {{ company.translatedAliases | getAliasByLanguage('fr') }}
                     </td>
                     <td>
-                        {{ company.user.email.toNative}}
+                        <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
+                           target="_blank" >{{ company.user.email.toNative}}</a>
                     </td>
                 </tr>
             {% endfor %}
