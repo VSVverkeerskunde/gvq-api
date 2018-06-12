@@ -39,19 +39,26 @@ class RegistrationFormType extends AbstractType
                         new Regex(
                             [
                                 'pattern' => Email::PATTERN,
-                                'message' => $translator->trans('Dit is geen geldig e-mailadres'),
+                                'message' => $translator->trans('Invalid email pattern'),
+                                'groups' => ['First'],
+                            ]
+                        ),
+                        new Length(
+                            [
+                                'max' => 255,
+                                'maxMessage' => $translator->trans('Invalid max length'),
                                 'groups' => ['First'],
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Het e-mailveld mag niet leeg zijn.'),
+                                'message' => $translator->trans('Empty field'),
                                 'groups' => ['First'],
                             ]
                         ),
                         new UserIsUnique(
                             [
-                                'message' => $translator->trans('Dit e-mailadres is al in gebruik.'),
+                                'message' => $translator->trans('Email in use'),
                             ]
                         ),
                     ],
@@ -62,7 +69,7 @@ class RegistrationFormType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'invalid_message' => $translator->trans('De paswoorden komen niet overeen.'),
+                    'invalid_message' => $translator->trans('Different passwords'),
                     'help' => 'test help',
                     'first_options' => [
                         'constraints' => [
@@ -70,21 +77,20 @@ class RegistrationFormType extends AbstractType
                                 [
                                     'pattern' => Password::PATTERN,
                                     'message' => $translator->trans(
-                                        'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine 
-                                        letter, hoofdletter en ander karakter bevatten'
+                                        'Invalid password pattern'
                                     ),
                                 ]
                             ),
                             new NotBlank(
                                 [
-                                    'message' => $translator->trans('Het wachtwoord mag niet leeg zijn.'),
+                                    'message' => $translator->trans('Empty field'),
                                 ]
                             ),
                             new Length(
                                 [
                                     'max' => 4096,
                                     'maxMessage' => $translator->trans(
-                                        'Het wachtwoord mag maximum {{ limit }} karakters bevatten'
+                                        'Invalid max length'
                                     ),
                                 ]
                             ),
@@ -122,12 +128,12 @@ class RegistrationFormType extends AbstractType
                         new GreaterThan(
                             [
                                 'value' => 0,
-                                'message' => $translator->trans('Het aantal werknemers moet groter zijn dan 0.'),
+                                'message' => $translator->trans('Invalid number of employees'),
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Het aantal werknemers mag niet leeg zijn.'),
+                                'message' => $translator->trans('Empty field'),
                             ]
                         ),
                     ],
@@ -170,13 +176,13 @@ class RegistrationFormType extends AbstractType
         return [
             new NotBlank(
                 [
-                    'message' => $translator->trans('Dit veld mag niet leeg zijn.'),
+                    'message' => $translator->trans('Empty field'),
                 ]
             ),
             new Length(
                 [
                     'max' => 255,
-                    'maxMessage' => $translator->trans('Dit veld mag maximum {{ limit }} karakters bevatten.'),
+                    'maxMessage' => $translator->trans('Invalid max length'),
                 ]
             ),
         ];
@@ -191,15 +197,15 @@ class RegistrationFormType extends AbstractType
         return [
             new NotBlank(
                 [
-                    'message' => $translator->trans('Dit veld mag niet leeg zijn.'),
+                    'message' => $translator->trans('Empty field'),
                 ]
             ),
             new Length(
                 [
                     'min' => 3,
                     'max' => 255,
-                    'maxMessage' => $translator->trans('Dit veld mag maximum {{ limit }} karakters bevatten.'),
-                    'minMessage' => $translator->trans('Dit veld moet minimum {{ limit }} karakters bevatten.'),
+                    'maxMessage' => $translator->trans('Invalid max length'),
+                    'minMessage' => $translator->trans('Invalid min length'),
                 ]
             ),
         ];

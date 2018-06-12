@@ -25,3 +25,22 @@ Aanpassen: Aanpassen
 'Grote Verkeersquiz - 2018': 'Grote Verkeersquiz - 2018'
 'Vragen in NL': 'Vragen in NL'
 'Vragen in FR': 'Vragen in FR'
+E-mail: E-mail
+Naam: Naam
+Voornaam: Voornaam
+Wachtwoord: Wachtwoord
+Bevestig wachtwoord: Bevestig wachtwoord
+Bedrijfsnaam: Bedrijfsnaam
+Aantal werknemers: Aantal werknemers
+Alias NL: Alias NL
+Alias FR: Alias FR
+Verzenden: Verzenden
+Invalid email pattern: 'Dit is geen geldig e-mailadres'
+Empty field: 'Dit veld is verplicht'
+Email in use: 'Dit e-mailadres is al in gebruik'
+Different passwords: 'De paswoorden komen niet overeen'
+Invalid password pattern: 'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
+Invalid password max length: 'Het wachtwoord mag maximum {{ limit }} karakters bevatten'
+Invalid number of employees: 'Het aantal werknemers moet groter zijn dan 0.'
+Invalid max length: 'Dit veld mag maximum {{ limit }} karakters bevatten.'
+Invalid min length: 'Dit veld moet minimum {{ limit }} karakters bevatten.'
