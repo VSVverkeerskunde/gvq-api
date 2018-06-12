@@ -10,14 +10,17 @@
   "answers": [
     {
       "text": "Oui, mais uniquement en agglomération.",
+      "index": 1,
       "correct": false
     },
     {
       "text": "Non, on ne peut jamais rouler sur une voie ferrée.",
+      "index": 2,
       "correct": false
     },
     {
       "text": "Non.",
+      "index": 3,
       "correct": true
     }
   ],
