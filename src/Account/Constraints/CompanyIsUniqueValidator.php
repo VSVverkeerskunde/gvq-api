@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class CompanyIsUniqueValidator extends ConstraintValidator
 {
