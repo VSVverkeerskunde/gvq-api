@@ -8,10 +8,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\Image\Controllers\ImageController;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
 use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 
@@ -83,6 +85,34 @@ class QuestionViewController extends AbstractController
                 'questions' => $questions ? $questions->toArray() : [],
             ]
         );
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function print(Request $request): Response
+    {
+        $questions = $this->questionRepository->getAll();
+
+        if ($questions) {
+            $languageFilter = $this->getLanguageFilter($request);
+
+            if ($languageFilter) {
+                $questions = $this->filterQuestions($questions, $languageFilter);
+            } else {
+                $questions = $questions->toArray();
+            }
+
+            return $this->render(
+                'questions/print.html.twig',
+                [
+                    'questions' => $questions ? $questions : [],
+                ]
+            );
+        }
+
+        $this->addFlash('warning', 'Geen vragen om af te drukken.');
     }
 
     /**
@@ -201,5 +231,45 @@ class QuestionViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @param Request $request
+     * @return null|Language
+     */
+    private function getLanguageFilter(Request $request): ?Language
+    {
+        $printNL = $request->query->get('print_nl') === 'on';
+        $printFR = $request->query->get('print_fr') === 'on';
+
+        if ($printNL && !$printFR) {
+            return new Language('nl');
+        }
+
+        if (!$printNL && $printFR) {
+            return new Language('fr');
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Questions $questions
+     * @param Language $language
+     * @return Question[]
+     */
+    private function filterQuestions(
+        Questions $questions,
+        Language $language
+    ): array {
+        $filteredQuestions = [];
+
+        foreach ($questions as $question) {
+            if ($question->getLanguage()->equals($language)) {
+                $filteredQuestions[] = $question;
+            }
+        }
+
+        return $filteredQuestions;
     }
 }

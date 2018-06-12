@@ -184,14 +184,6 @@ class QuestionEntity extends Entity
     }
 
     /**
-     * @param CategoryEntity $categoryEntity
-     */
-    public function setCategoryEntity(CategoryEntity $categoryEntity): void
-    {
-        $this->categoryEntity = $categoryEntity;
-    }
-
-    /**
      * @return string
      */
     public function getText(): string
