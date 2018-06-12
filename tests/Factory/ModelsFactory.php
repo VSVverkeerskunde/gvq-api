@@ -222,7 +222,7 @@ class ModelsFactory
         );
     }
 
-    public static function createUpdatedQuestion(): Question
+    public static function createUpdatedAccidentQuestion(): Question
     {
         return new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
