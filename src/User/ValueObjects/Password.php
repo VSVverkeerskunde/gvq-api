@@ -13,7 +13,11 @@ class Password
     {
     }
 
-    public static function fromHash(string $hash)
+    /**
+     * @param string $hash
+     * @return Password
+     */
+    public static function fromHash(string $hash): Password
     {
         $password = new Password();
         $password->setValue($hash);
@@ -21,7 +25,11 @@ class Password
         return $password;
     }
 
-    public static function fromPlainText(string $plainTextValue)
+    /**
+     * @param string $plainTextValue
+     * @return Password
+     */
+    public static function fromPlainText(string $plainTextValue): Password
     {
         if (!preg_match('/^(?=[^ ])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(.{8,})(?<=\S)$/', $plainTextValue)) {
             throw new \InvalidArgumentException(
@@ -37,7 +45,10 @@ class Password
         return $password;
     }
 
-    private function setValue(string $value)
+    /**
+     * @param string $value
+     */
+    private function setValue(string $value): void
     {
         $this->value = $value;
     }
