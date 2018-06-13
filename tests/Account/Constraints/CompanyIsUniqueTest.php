@@ -14,7 +14,7 @@ class CompanyIsUniqueTest extends TestCase
         $uniqueCompanyConstraint = new CompanyIsUnique();
 
         $this->assertEquals(
-            'VSV\GVQ_API\Account\Constraints\CompanyIsUniqueValidator',
+            CompanyIsUniqueValidator::class,
             $uniqueCompanyConstraint->validatedBy()
         );
     }

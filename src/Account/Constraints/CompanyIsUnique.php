@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class CompanyIsUnique extends Constraint
 {
-    public $message = 'This company name already exists.';
+    public $message = 'The company "{{ company }}" already exists.';
 
     /**
      * @return string
@@ -16,7 +16,10 @@ class CompanyIsUnique extends Constraint
         return $this->message;
     }
 
-    public function validatedBy()
+    /**
+     * @inheritdoc
+     */
+    public function validatedBy(): string
     {
         return get_class($this).'Validator';
     }

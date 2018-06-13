@@ -23,15 +23,15 @@ class CompanyIsUniqueValidator extends ConstraintValidator
     }
 
     /**
-     * @param string $value
-     * @param CompanyIsUnique|Constraint $constraint
+     * @inheritdoc
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if ($constraint instanceof CompanyIsUnique) {
             $company = $this->companyRepository->getByName(new NotEmptyString($value));
             if ($company != null) {
                 $this->context->buildViolation($constraint->getMessage())
+                    ->setParameter('{{ company }}', $value)
                     ->addViolation();
             }
         }

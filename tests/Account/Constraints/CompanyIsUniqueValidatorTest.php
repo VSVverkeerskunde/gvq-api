@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Account\Constraints;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
 
@@ -26,13 +27,16 @@ class CompanyIsUniqueValidatorTest extends ConstraintValidatorTestCase
     /**
      * @test
      */
-    public function it_validates_with_unique_email(): void
+    public function it_succeeds_with_unique_email(): void
     {
         $this->companyRepository
+            ->expects($this->once())
             ->method("getByName")
+            ->with(new NotEmptyString('CompanyName'))
             ->willReturn(null);
 
         $this->validator->validate('CompanyName', new CompanyIsUnique());
+
         $this->assertNoViolation();
     }
 
@@ -44,14 +48,20 @@ class CompanyIsUniqueValidatorTest extends ConstraintValidatorTestCase
      */
     public function it_fails_with_existing_company_name(array $options, string $expectedMessage): void
     {
-        $constraint = new CompanyIsUnique($options);
-
         $this->companyRepository
+            ->expects($this->once())
             ->method("getByName")
+            ->with(new NotEmptyString('CompanyName'))
             ->willReturn(ModelsFactory::createCompany());
 
-        $this->validator->validate('CompanyName', $constraint);
-        $this->buildViolation($expectedMessage)->assertRaised();
+        $this->validator->validate(
+            'CompanyName',
+            new CompanyIsUnique($options)
+        );
+
+        $this->buildViolation($expectedMessage)
+            ->setParameter('{{ company }}', 'CompanyName')
+            ->assertRaised();
     }
 
     /**
@@ -62,13 +72,13 @@ class CompanyIsUniqueValidatorTest extends ConstraintValidatorTestCase
         return [
             [
                 [
-                    'message' => 'Deze bedrijfsnaam bestaat al',
+                    'message' => 'De bedrijfsnaam "{{ company }}" bestaat al',
                 ],
-                'Deze bedrijfsnaam bestaat al',
+                'De bedrijfsnaam "{{ company }}" bestaat al',
             ],
             [
                 [],
-                'This company name already exists.',
+                'The company "{{ company }}" already exists.',
             ],
         ];
     }
