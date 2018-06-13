@@ -105,9 +105,8 @@ class AccountViewController extends AbstractController
             );
             $this->companyRepository->save($company);
 
-            $registration = $this->registrationFormType->createRegistrationFromData(
+            $registration = $this->registrationFormType->createRegistrationForUser(
                 $this->uuidFactory,
-                $data,
                 $this->urlSuffixGenerator,
                 $user
             );
@@ -130,7 +129,12 @@ class AccountViewController extends AbstractController
         $formBuilder = $this->createFormBuilder(
             null,
             [
-                'validation_groups' => new GroupSequence(['First', 'Default']),
+                'validation_groups' => new GroupSequence(
+                    [
+                        'CorrectSyntax',
+                        'Default',
+                    ]
+                ),
             ]
         );
 

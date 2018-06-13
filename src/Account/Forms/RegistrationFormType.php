@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Account\Forms;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -42,27 +43,27 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add(
                 'email',
-                TextType::class,
+                EmailType::class,
                 [
                     'constraints' => [
                         new Regex(
                             [
                                 'pattern' => Email::PATTERN,
                                 'message' => $translator->trans('Invalid email pattern'),
-                                'groups' => ['First'],
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
                                 'maxMessage' => $translator->trans('Invalid max length'),
-                                'groups' => ['First'],
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new NotBlank(
                             [
                                 'message' => $translator->trans('Empty field'),
-                                'groups' => ['First'],
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new UserIsUnique(
@@ -79,15 +80,12 @@ class RegistrationFormType extends AbstractType
                 [
                     'type' => PasswordType::class,
                     'invalid_message' => $translator->trans('Different passwords'),
-                    'help' => 'test help',
                     'first_options' => [
                         'constraints' => [
                             new Regex(
                                 [
                                     'pattern' => Password::PATTERN,
-                                    'message' => $translator->trans(
-                                        'Invalid password pattern'
-                                    ),
+                                    'message' => $translator->trans('Invalid password pattern'),
                                 ]
                             ),
                             new NotBlank(
@@ -98,9 +96,7 @@ class RegistrationFormType extends AbstractType
                             new Length(
                                 [
                                     'max' => 4096,
-                                    'maxMessage' => $translator->trans(
-                                        'Invalid max length'
-                                    ),
+                                    'maxMessage' => $translator->trans('Invalid max length'),
                                 ]
                             ),
                         ],
@@ -130,14 +126,14 @@ class RegistrationFormType extends AbstractType
                         new NotBlank(
                             [
                                 'message' => $translator->trans('Empty field'),
-                                'groups' => ['First'],
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
                                 'maxMessage' => $translator->trans('Invalid max length'),
-                                'groups' => ['First'],
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new CompanyIsUnique(
@@ -186,63 +182,13 @@ class RegistrationFormType extends AbstractType
     /**
      * @inheritdoc
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
                 'translator' => null,
             ]
         );
-    }
-
-    /**
-     * @param TranslatorInterface $translator
-     * @return array
-     */
-    private function createNameConstraints(TranslatorInterface $translator): array
-    {
-        return [
-            new NotBlank(
-                [
-                    'message' => $translator->trans('Empty field'),
-                    'groups' => ['First'],
-                ]
-            ),
-            new Length(
-                [
-                    'max' => 255,
-                    'maxMessage' => $translator->trans('Invalid max length'),
-                ]
-            ),
-        ];
-    }
-
-    /**
-     * @param TranslatorInterface $translator
-     * @return array
-     */
-    private function createAliasConstraints(TranslatorInterface $translator): array
-    {
-        return [
-            new NotBlank(
-                [
-                    'message' => $translator->trans('Empty field'),
-                    'groups' => ['First'],
-                ]
-            ),
-            new Regex(
-                [
-                    'pattern' => Alias::PATTERN,
-                    'message' => $translator->trans('Invalid alias pattern'),
-                    'groups' => ['First'],
-                ]
-            ),
-            new AliasIsUnique(
-                [
-                    'message' => $translator->trans('Alias in use'),
-                ]
-            ),
-        ];
     }
 
     /**
@@ -279,44 +225,98 @@ class RegistrationFormType extends AbstractType
      * @param User $user
      * @return Company
      */
-    public function createCompanyFromData(UuidFactoryInterface $uuidFactory, array $data, User $user): Company
-    {
-        $company = new Company(
+    public function createCompanyFromData(
+        UuidFactoryInterface $uuidFactory,
+        array $data,
+        User $user
+    ): Company {
+        return new Company(
             $uuidFactory->uuid4(),
             new NotEmptyString($data['companyName']),
             new PositiveNumber($data['numberOfEmployees']),
             new TranslatedAliases(
-                new TranslatedAlias($uuidFactory->uuid4(), new Language('nl'), new Alias($data['aliasNl'])),
-                new TranslatedAlias($uuidFactory->uuid4(), new Language('fr'), new Alias($data['aliasFr']))
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('nl'),
+                    new Alias($data['aliasNl'])
+                ),
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('fr'),
+                    new Alias($data['aliasFr'])
+                )
             ),
             $user
         );
-
-        return $company;
     }
 
     /**
      * @param UuidFactoryInterface $uuidFactory
-     * @param array $data
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param User $user
      * @return Registration
      * @throws \Exception
      */
-    public function createRegistrationFromData(
+    public function createRegistrationForUser(
         UuidFactoryInterface $uuidFactory,
-        array $data,
         UrlSuffixGenerator $urlSuffixGenerator,
         User $user
-    ) {
-        $registration = new Registration(
+    ): Registration {
+        return new Registration(
             $uuidFactory->uuid4(),
             $urlSuffixGenerator->createUrlSuffix(),
             $user,
-            new \DateTimeImmutable('now', new \DateTimeZone('GMT+1')),
+            new \DateTimeImmutable(),
             false
         );
+    }
 
-        return $registration;
+    /**
+     * @param TranslatorInterface $translator
+     * @return array
+     */
+    private function createNameConstraints(TranslatorInterface $translator): array
+    {
+        return [
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Empty field'),
+                ]
+            ),
+            new Length(
+                [
+                    'max' => 255,
+                    'maxMessage' => $translator->trans('Invalid max length'),
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @return array
+     */
+    private function createAliasConstraints(TranslatorInterface $translator): array
+    {
+        return [
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Empty field'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new Regex(
+                [
+                    'pattern' => Alias::PATTERN,
+                    'message' => $translator->trans('Invalid alias pattern'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new AliasIsUnique(
+                [
+                    'message' => $translator->trans('Alias in use'),
+                ]
+            ),
+        ];
     }
 }

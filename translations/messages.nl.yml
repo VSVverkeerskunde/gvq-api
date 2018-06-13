@@ -34,7 +34,7 @@ Bedrijfsnaam: Bedrijfsnaam
 Aantal werknemers: Aantal werknemers
 Alias NL: Alias NL
 Alias FR: Alias FR
-Verzenden: Verzenden
+Registeren: Registeren
 Invalid email pattern: 'Dit is geen geldig e-mailadres'
 Empty field: 'Dit veld is verplicht'
 Email in use: 'Het e-mailadres "{{ email }}" is al in gebruik'
