@@ -132,9 +132,12 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     }
 
     /**
+     * @test
+     *
+     * @dataProvider nameProvider
+     *
      * @param NotEmptyString $name
      * @param Company|null $expectedResult
-     * @dataProvider nameProvider
      */
     public function it_can_get_a_company_by_name(NotEmptyString $name, ?Company $expectedResult): void
     {
@@ -166,9 +169,12 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     }
 
     /**
+     * @test
+     *
+     * @dataProvider aliasProvider
+     *
      * @param Alias $alias
      * @param Company|null $expectedResult
-     * @dataProvider aliasProvider
      */
     public function it_can_get_a_company_by_alias(Alias $alias, ?Company $expectedResult): void
     {
