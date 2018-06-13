@@ -43,19 +43,4 @@ class TranslatedAliasExtensionTest extends TestCase
 
         $this->assertEquals('awsr', $translatedAlias);
     }
-
-    /**
-     * @test
-     */
-    public function it_returns_empty_string_when_no_language_matches()
-    {
-        $translatedAliases = ModelsFactory::createTranslatedAliases();
-
-        $translatedAlias = $this->translatedAliasExtension->getAliasByLanguage(
-            $translatedAliases,
-            'en'
-        );
-
-        $this->assertEquals('', $translatedAlias);
-    }
 }

@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use VSV\GVQ_API\Company\Models\TranslatedAlias;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 
 class TranslatedAliasExtension extends AbstractExtension
@@ -34,13 +34,10 @@ class TranslatedAliasExtension extends AbstractExtension
         TranslatedAliases $translatedAliases,
         string $language
     ): string {
-        /** @var TranslatedAlias $translatedAlias */
-        foreach ($translatedAliases as $translatedAlias) {
-            if ($translatedAlias->getLanguage()->toNative() === $language) {
-                return $translatedAlias->getAlias()->toNative();
-            }
-        }
+        $foundAlias = $translatedAliases->getByLanguage(
+            new Language($language)
+        );
 
-        return '';
+        return $foundAlias->getAlias()->toNative();
     }
 }

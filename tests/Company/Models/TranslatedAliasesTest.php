@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Company\Models;
 
 use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
 
 class TranslatedAliasesTest extends TestCase
@@ -56,6 +57,17 @@ class TranslatedAliasesTest extends TestCase
         $this->assertEquals(
             $this->translatedAliasArray,
             $this->translatedAliases->toArray()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_an_alias_by_language(): void
+    {
+        $this->assertEquals(
+            ModelsFactory::createFrAlias(),
+            $this->translatedAliases->getByLanguage(new Language('fr'))
         );
     }
 }
