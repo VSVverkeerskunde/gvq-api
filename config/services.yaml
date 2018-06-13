@@ -65,6 +65,11 @@ services:
         $jsonEnricher: '@registration_json_enricher'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\Account\Controllers\AccountViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+      
     VSV\GVQ_API\Question\Controllers\CategoryController:
       tags: ['controller.service_arguments']
 
@@ -88,10 +93,5 @@ services:
       arguments:
         $fileSystem: '@local_fly_system'
         $imageValidator: '@image_validator'
-        $uuidFactory: '@uuid_factory'
-      tags: ['controller.service_arguments']
-
-    VSV\GVQ_API\Account\Controllers\AccountViewController:
-      arguments:
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
