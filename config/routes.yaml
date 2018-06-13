@@ -87,6 +87,18 @@ companies_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+companies_view_edit:
+  path: /{_locale}/view/companies/edit/{id}
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+companies_export:
+  path: /{_locale}/csv/companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 users_view_index:
   path: /{_locale}/view/users

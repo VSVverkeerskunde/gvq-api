@@ -3,5 +3,62 @@
 {% block title %}{% trans %}Bedrijven{% endtrans %}{% endblock %}
 
 {% block content %}
-    Bedrijven
+
+    <a role="button"
+       class="btn btn-light"
+       href="{{ path('companies_export') }}" ><span class="oi oi-data-transfer-download"></span>
+        {% trans %}Exporteren{% endtrans %}
+    </a>
+
+    <table class="table"
+           data-toggle="table"
+           data-search="true"
+           data-page-size=5
+           data-pagination="true"
+           data-page-list="[5, 10, 25, 50]">
+        <thead>
+            <tr>
+                <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Naam{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}# Medewerkers{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Alias NL{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Alias FR{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>
+                        {{ company.id.toString }}
+                    </td>
+                    <td>
+                        {{ company.name.toNative }}
+                    </td>
+                    <td>
+                        {{ company.numberOfEmployees.toNative }}
+                    </td>
+                    <td>
+                        {{ company.translatedAliases | getAliasByLanguage('nl') }}
+                    </td>
+                    <td>
+                        {{ company.translatedAliases | getAliasByLanguage('fr') }}
+                    </td>
+                    <td>
+                        <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
+                           target="_blank" >{{ company.user.email.toNative}}</a>
+                    </td>
+                    <td>
+                        <a role="button"
+                           class="btn btn-light"
+                           href="{{ path('companies_view_edit', {'id': company.id.toString}) }}" >
+                            <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

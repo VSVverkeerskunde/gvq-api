@@ -43,6 +43,34 @@ class ModelsFactory
     /**
      * @return Company
      */
+    public static function createUpdatedCompany(): Company
+    {
+        return new Company(
+            Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
+            new NotEmptyString('VSV'),
+            new PositiveNumber(51),
+            self::createTranslatedAliases(),
+            self::createUser()
+        );
+    }
+
+    /**
+     * @return Company
+     */
+    public static function createAlternateCompany(): Company
+    {
+        return new Company(
+            Uuid::fromString('c0dc2df1-a09e-4393-94c2-20319af53e2b'),
+            new NotEmptyString('Agence wallonne pour la Sécurité routière'),
+            new PositiveNumber(23),
+            self::createTranslatedAliases(),
+            self::createAlternateUser()
+        );
+    }
+
+    /**
+     * @return Company
+     */
     public static function createCompanyWithAlternateUser(): Company
     {
         return new Company(

@@ -37,15 +37,14 @@ Exporteren: Exporteren
 'Grote Verkeersquiz - 2018': 'Grote Verkeersquiz - 2018'
 'Vragen in NL': 'Vragen in NL'
 'Vragen in FR': 'Vragen in FR'
-E-mail: E-mail
+'Alias NL': 'Alias NL'
+'Alias FR': 'Alias FR'
+'# Medewerkers': '# Medewerkers'
 Naam: Naam
-Voornaam: Voornaam
 Wachtwoord: Wachtwoord
 Bevestig wachtwoord: Bevestig wachtwoord
 Bedrijfsnaam: Bedrijfsnaam
 Aantal werknemers: Aantal werknemers
-Alias NL: Alias NL
-Alias FR: Alias FR
 Registeren: Registeren
 Invalid email pattern: 'Dit is geen geldig e-mailadres'
 Empty field: 'Dit veld is verplicht'
