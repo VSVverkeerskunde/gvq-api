@@ -101,7 +101,8 @@ class AccountViewController extends AbstractController
             $company = $this->registrationFormType->createCompanyFromData(
                 $this->uuidFactory,
                 $data,
-                $user);
+                $user
+            );
             $this->companyRepository->save($company);
 
             $registration = $this->registrationFormType->createRegistrationFromData(
