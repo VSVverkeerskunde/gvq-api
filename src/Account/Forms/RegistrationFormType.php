@@ -203,7 +203,7 @@ class RegistrationFormType extends AbstractType
             new NotBlank(
                 [
                     'message' => $translator->trans('Empty field'),
-                    'groups' => ['First']
+                    'groups' => ['First'],
                 ]
             ),
             new Length(
@@ -228,12 +228,10 @@ class RegistrationFormType extends AbstractType
                     'groups' => ['First'],
                 ]
             ),
-            new Length(
+            new Regex(
                 [
-                    'min' => 3,
-                    'max' => 255,
-                    'maxMessage' => $translator->trans('Invalid max length'),
-                    'minMessage' => $translator->trans('Invalid min length'),
+                    'pattern' => Alias::PATTERN,
+                    'message' => $translator->trans('Invalid alias pattern'),
                     'groups' => ['First'],
                 ]
             ),
