@@ -14,6 +14,11 @@ interface CompanyRepository
     public function save(Company $company): void;
 
     /**
+     * @param Company $company
+     */
+    public function update(Company $company): void;
+
+    /**
      * @param UuidInterface $id
      * @return null|Company
      */

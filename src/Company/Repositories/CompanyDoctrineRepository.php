@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Company\Models\Companies;
@@ -29,6 +30,28 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         // therefore we need to use merge instead of persist.
         // When user wouldn't exist yet, the user is not created.
         $this->entityManager->merge($companyEntity);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritdoc
+     * @throws EntityNotFoundException
+     */
+    public function update(Company $company): void
+    {
+        // Make sure the company exists,
+        // otherwise the merge would create a new company.
+        $companyEntity = $this->entityManager->find(
+            CompanyEntity::class,
+            $company->getId()
+        );
+        if ($companyEntity == null) {
+            throw new EntityNotFoundException("Invalid company supplied");
+        }
+
+        $this->entityManager->merge(
+            CompanyEntity::fromCompany($company)
+        );
         $this->entityManager->flush();
     }
 

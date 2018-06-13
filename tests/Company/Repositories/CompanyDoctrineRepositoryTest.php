@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
@@ -78,6 +79,54 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->expectExceptionMessage('A new entity was found through the relationship');
 
         $this->companyDoctrineRepository->save($company);
+    }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
+    public function it_can_update_a_company(): void
+    {
+        $this->companyDoctrineRepository->save($this->company);
+
+        $updatedCompany = ModelsFactory::createUpdatedCompany();
+        $this->companyDoctrineRepository->update($updatedCompany);
+
+        $foundCompany = $this->companyDoctrineRepository->getById(
+            Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106')
+        );
+
+        $this->assertEquals($updatedCompany, $foundCompany);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     */
+    public function it_throws_on_updating_a_non_existing_company(): void
+    {
+        $nonExistingCompany = ModelsFactory::createAlternateCompany();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Invalid company supplied');
+
+        $this->companyDoctrineRepository->update($nonExistingCompany);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     */
+    public function it_throws_on_updating_a_company_with_non_existing_user(): void
+    {
+        $this->companyDoctrineRepository->save($this->company);
+
+        $companyWithNonExistingUser = ModelsFactory::createCompanyWithAlternateUser();
+
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
+
+        $this->companyDoctrineRepository->update($companyWithNonExistingUser);
     }
 
     /**
