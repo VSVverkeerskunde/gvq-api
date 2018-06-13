@@ -1,0 +1,54 @@
+[
+  {
+    "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
+    "name": "Vlaamse Stichting Verkeerskunde",
+    "numberOfEmployees": 49,
+    "aliases": [
+      {
+        "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
+        "language": "nl",
+        "alias": "vsv"
+      },
+      {
+        "id": "f99c7747-7c27-4388-b0ec-dba380363d23",
+        "language": "fr",
+        "alias": "awsr"
+      }
+    ],
+    "user": {
+      "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+      "email": "john@gvq.be",
+      "lastName": "Doe",
+      "firstName": "John",
+      "role": "contact",
+      "language": "nl",
+      "active": true
+    }
+  },
+  {
+    "id": "c0dc2df1-a09e-4393-94c2-20319af53e2b",
+    "name": "Agence wallonne pour la Sécurité routière",
+    "numberOfEmployees": 23,
+    "aliases": [
+      {
+        "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
+        "language": "nl",
+        "alias": "vsv"
+      },
+      {
+        "id": "f99c7747-7c27-4388-b0ec-dba380363d23",
+        "language": "fr",
+        "alias": "awsr"
+      }
+    ],
+    "user": {
+      "id": "0ffc0f85-78ee-496b-bc61-17be1326c768",
+      "email": "jane@gvq.be",
+      "lastName": "Doe",
+      "firstName": "Jane",
+      "role": "contact",
+      "language": "nl",
+      "active": true
+    }
+  }
+]
