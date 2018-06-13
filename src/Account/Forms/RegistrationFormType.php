@@ -25,6 +25,8 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Registration\Models\Registration;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
@@ -291,5 +293,30 @@ class RegistrationFormType extends AbstractType
         );
 
         return $company;
+    }
+
+    /**
+     * @param UuidFactoryInterface $uuidFactory
+     * @param array $data
+     * @param UrlSuffixGenerator $urlSuffixGenerator
+     * @param User $user
+     * @return Registration
+     * @throws \Exception
+     */
+    public function createRegistrationFromData(
+        UuidFactoryInterface $uuidFactory,
+        array $data,
+        UrlSuffixGenerator $urlSuffixGenerator,
+        User $user
+    ) {
+        $registration = new Registration(
+            $uuidFactory->uuid4(),
+            $urlSuffixGenerator->createUrlSuffix(),
+            $user,
+            new \DateTimeImmutable('now', new \DateTimeZone('GMT+1')),
+            false
+        );
+
+        return $registration;
     }
 }
