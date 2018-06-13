@@ -6,8 +6,10 @@ use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Company\Models\Companies;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
+use VSV\GVQ_API\Company\ValueObjects\Alias;
 
 class CompanyDoctrineRepository extends AbstractDoctrineRepository implements CompanyRepository
 {
@@ -68,6 +70,41 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         );
 
         return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByName(NotEmptyString $name): ?Company
+    {
+        /** @var CompanyEntity $companyEntity */
+        $companyEntity = $this->objectRepository->findOneBy(
+            [
+                'name' => $name->toNative(),
+            ]
+        );
+
+        return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByAlias(Alias $alias): ?Company
+    {
+        //@todo: find better way to find a company by alias
+        /** @var CompanyEntity[] $companyEntities */
+        $companyEntities = $this->objectRepository->findAll();
+        foreach ($companyEntities as $companyEntity) {
+            $translatedAliasesEntities = $companyEntity->getTranslatedAliasEntities();
+            foreach ($translatedAliasesEntities as $translatedAliasEntity) {
+                if ($translatedAliasEntity->getAlias() === $alias->toNative()) {
+                    return $companyEntity->toCompany();
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

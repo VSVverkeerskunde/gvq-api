@@ -18,7 +18,7 @@ class RegistrationEntity extends Entity
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="url_suffix", length=22, nullable=false, unique=true)
+     * @ORM\Column(type="string", name="url_suffix", length=255, nullable=false, unique=true)
      */
     private $urlSuffix;
 

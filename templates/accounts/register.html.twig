@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registreren{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group">
+        <label for="form_email">{% trans %}E-mail{% endtrans %}</label>
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="registration_form_name">{% trans %}Naam{% endtrans %}</label>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="registration_form_firstName">{% trans %}Voornaam{% endtrans %}</label>
+                {{ form_widget(form.firstName) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_password_first">{% trans %}Wachtwoord{% endtrans %}</label>
+                {{ form_widget(form.password.first) }}
+                {{ form_errors(form.password.first) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="form_password_second">{% trans %}Bevestig wachtwoord{% endtrans %}</label>
+                {{ form_widget(form.password.second) }}
+                {{ form_errors(form.password.second) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-9">
+                <label for="form_companyName">{% trans %}Bedrijfsnaam{% endtrans %}</label>
+                {{ form_widget(form.companyName) }}
+                {{ form_errors(form.companyName) }}
+            </div>
+            <div class="col-sm-3">
+                <label for="form_numberOfEmployees">{% trans %}Aantal werknemers{% endtrans %}</label>
+                {{ form_widget(form.numberOfEmployees) }}
+                {{ form_errors(form.numberOfEmployees) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_aliasNl">{% trans %}Alias NL{% endtrans %}</label>
+                {{ form_widget(form.aliasNl) }}
+                {{ form_errors(form.aliasNl) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="form_aliasFr">{% trans %}Alias FR{% endtrans %}</label>
+                {{ form_widget(form.aliasFr) }}
+                {{ form_errors(form.aliasFr) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{% trans %}Registeren{% endtrans %}</button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

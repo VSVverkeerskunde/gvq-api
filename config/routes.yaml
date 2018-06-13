@@ -30,11 +30,11 @@ images_upload:
   controller: VSV\GVQ_API\Image\Controllers\ImageController::upload
   methods: [POST]
 
-account_register:
+accounts_register:
   path: account/register
   controller: VSV\GVQ_API\Account\Controllers\AccountController::register
   methods: [POST]
-account_login:
+accounts_login:
   path: account/login
   controller: VSV\GVQ_API\Account\Controllers\AccountController::login
   methods: [POST]
@@ -42,6 +42,13 @@ account_login:
 #
 # VIEWS
 #
+
+accounts_view_register:
+  path: /{_locale}/view/accounts/register
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
