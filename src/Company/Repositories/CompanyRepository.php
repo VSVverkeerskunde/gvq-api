@@ -9,11 +9,26 @@ use VSV\GVQ_API\Company\ValueObjects\Alias;
 
 interface CompanyRepository
 {
+    /**
+     * @param Company $company
+     */
     public function save(Company $company): void;
 
+    /**
+     * @param UuidInterface $id
+     * @return null|Company
+     */
     public function getById(UuidInterface $id): ?Company;
 
+    /**
+     * @param NotEmptyString $name
+     * @return null|Company
+     */
     public function getByName(NotEmptyString $name): ?Company;
 
+    /**
+     * @param Alias $alias
+     * @return null|Company
+     */
     public function getByAlias(Alias $alias): ?Company;
 }

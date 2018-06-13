@@ -22,7 +22,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param Company $company
+     * @inheritdoc
      */
     public function save(Company $company): void
     {
@@ -49,8 +49,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Company|null
+     * @inheritdoc
      */
     public function getById(UuidInterface $id): ?Company
     {
@@ -65,8 +64,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param NotEmptyString $name
-     * @return null|Company
+     * @inheritdoc
      */
     public function getByName(NotEmptyString $name): ?Company
     {
@@ -81,8 +79,7 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param Alias $alias
-     * @return null|Company
+     * @inheritdoc
      */
     public function getByAlias(Alias $alias): ?Company
     {
