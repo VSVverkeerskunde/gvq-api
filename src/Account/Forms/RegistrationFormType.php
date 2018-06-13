@@ -254,7 +254,6 @@ class RegistrationFormType extends AbstractType
         array $data,
         string $language
     ): User {
-        var_dump($language);
         $user = new User(
             $uuidFactory->uuid4(),
             new Email($data['email']),
