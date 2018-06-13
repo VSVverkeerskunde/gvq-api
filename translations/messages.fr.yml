@@ -37,3 +37,26 @@ Exporteren: __Exporteren
 'Grote Verkeersquiz - 2018': '__Grote Verkeersquiz - 2018'
 'Vragen in NL': '__Vragen in NL'
 'Vragen in FR': '__Vragen in FR'
+E-mail: __E-mail
+Naam: Nom
+Voornaam: Prénom
+Wachtwoord: __Wachtwoord
+Bevestig wachtwoord: __Bevestig wachtwoord
+Bedrijfsnaam: __Bedrijfsnaam
+Aantal werknemers: __Aantal werknemers
+Alias NL: __Alias NL
+Alias FR: __Alias FR
+Registeren: __Registeren
+Invalid email pattern: '__Dit is geen geldig e-mailadres'
+Empty field: '__Dit veld is verplicht'
+Email in use: '__Het e-mailadres "{{ email }}" is al in gebruik'
+Company name in use: '__De bedrijfsnaam "{{ company }}" is al in gebruik'
+Alias in use: '__De alias "{{ alias }}" is al in gebruik'
+Invalid alias pattern: '__Alias moet tussen 3 en 40 karakters lang zijn en mag enkel bestaan uit kleine letters, cijfers en een koppelteken'
+Different passwords: '__De paswoorden komen niet overeen'
+Invalid password pattern: '__Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
+Invalid password max length: '__Het wachtwoord mag maximum {{ limit }} karakters bevatten'
+Invalid number of employees: '__Het aantal werknemers moet groter zijn dan 0.'
+Invalid max length: '__Dit veld mag maximum {{ limit }} karakters bevatten.'
+Invalid min length: '__Dit veld moet minimum {{ limit }} karakters bevatten.'
+

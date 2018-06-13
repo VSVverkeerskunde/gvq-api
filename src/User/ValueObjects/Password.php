@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\User\ValueObjects;
 
 class Password
 {
+    const PATTERN = '/^(?=[^ ])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(.{8,})(?<=\S)$/';
+
     /**
      * @var string
      */
@@ -31,7 +33,7 @@ class Password
      */
     public static function fromPlainText(string $plainTextValue): Password
     {
-        if (!preg_match('/^(?=[^ ])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(.{8,})(?<=\S)$/', $plainTextValue)) {
+        if (!preg_match(self::PATTERN, $plainTextValue)) {
             throw new \InvalidArgumentException(
                 'Invalid value for password. '.
                 'Must be at least 8 characters long, contain at least one lowercase, '.
@@ -43,14 +45,6 @@ class Password
         $password->setValue(password_hash($plainTextValue, PASSWORD_DEFAULT));
 
         return $password;
-    }
-
-    /**
-     * @param string $value
-     */
-    private function setValue(string $value): void
-    {
-        $this->value = $value;
     }
 
     /**
@@ -68,5 +62,13 @@ class Password
     public function verifies(string $plainTextValue): bool
     {
         return password_verify($plainTextValue, $this->toNative());
+    }
+
+    /**
+     * @param string $value
+     */
+    private function setValue(string $value): void
+    {
+        $this->value = $value;
     }
 }

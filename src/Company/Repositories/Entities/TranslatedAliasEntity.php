@@ -17,7 +17,7 @@ class TranslatedAliasEntity extends Entity
 {
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $alias;
 
