@@ -79,6 +79,11 @@ services:
         $jsonEnricher: '@question_json_enricher'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\Company\Controllers\CompanyViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
     VSV\GVQ_API\Question\Controllers\QuestionViewController:
       arguments:
         $uuidFactory: '@uuid_factory'
