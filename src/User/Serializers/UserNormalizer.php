@@ -29,6 +29,6 @@ class UserNormalizer implements NormalizerInterface
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ($data instanceof User) && ($format === 'json');
+        return ($data instanceof User) && ($format === 'json' || $format === 'csv');
     }
 }

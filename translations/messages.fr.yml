@@ -22,6 +22,18 @@ Aanpassen: __Aanpassen
 'De tekst mag niet leeg zijn.': '__De tekst mag niet leeg zijn.'
 'De tekst mag niet meer dan {{ limit }} karakters hebben.': '__De tekst mag niet meer dan {{ limit }} karakters hebben.'
 'Foto mag niet leeg zijn.': '__Foto mag niet leeg zijn.'
+Id: __Id
+E-mail: __E-mail
+Achternaam: __Achternaam
+Voornaam: __Voornaam
+Actief: __Actief
+Rol: __Rol
+Inactief: __Inactief
+Vragen: __Vragen
+Gebruikers: __Gebruikers
+Bedrijven: __Bedrijven
+Exporteren: __Exporteren
+'Gelieve een geldig e-mail adres op te geven.': '__Gelieve een geldig e-mail adres op te geven.'
 'Grote Verkeersquiz - 2018': '__Grote Verkeersquiz - 2018'
 'Vragen in NL': '__Vragen in NL'
 'Vragen in FR': '__Vragen in FR'

@@ -151,12 +151,4 @@ class CompanyEntity extends Entity
     {
         return $this->userEntity;
     }
-
-    /**
-     * @param UserEntity $userEntity
-     */
-    public function setUserEntity(UserEntity $userEntity): void
-    {
-        $this->userEntity = $userEntity;
-    }
 }

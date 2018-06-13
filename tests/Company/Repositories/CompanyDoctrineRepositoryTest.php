@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Repositories;
 
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -69,12 +70,8 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $company = ModelsFactory::createCompanyWithAlternateUser();
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'User with id: '.
-            $company->getUser()->getId()->toString().
-            ' not found.'
-        );
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
 
         $this->companyDoctrineRepository->save($company);
     }

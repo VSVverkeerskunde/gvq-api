@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\User\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\User\Models\User;
@@ -32,12 +33,24 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
 
     /**
      * @inheritdoc
+     * @throws EntityNotFoundException
      */
     public function update(User $user): void
     {
-        $this->entityManager->merge(
-            UserEntity::fromUser($user)
-        );
+        // Make sure the user exists,
+        // otherwise merge will create a new user.
+        $existingUser = $this->getById($user->getId());
+        if ($existingUser === null) {
+            throw new EntityNotFoundException("Invalid user supplied");
+        }
+
+        // The password is never exposed to higher layers.
+        // But when updating make sure not to discard the existing password.
+        if ($existingUser->getPassword()) {
+            $user = $user->withPassword($existingUser->getPassword());
+        }
+
+        $this->entityManager->merge(UserEntity::fromUser($user));
         $this->entityManager->flush();
     }
 

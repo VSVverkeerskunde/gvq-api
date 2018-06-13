@@ -2,14 +2,12 @@
 
 namespace VSV\GVQ_API\Company\Repositories;
 
-use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
-use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 
 class CompanyDoctrineRepository extends AbstractDoctrineRepository implements CompanyRepository
 {
@@ -28,23 +26,10 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     {
         $companyEntity = CompanyEntity::fromCompany($company);
 
-        /** @var UserEntity $userEntity */
-        $userEntity = $this->entityManager->find(
-            UserEntity::class,
-            $companyEntity->getUserEntity()->getId()
-        );
-
-        if ($userEntity == null) {
-            throw new InvalidArgumentException(
-                'User with id: '.
-                $companyEntity->getUserEntity()->getId().
-                ' not found.'
-            );
-        }
-
-        $companyEntity->setUserEntity($userEntity);
-
-        $this->entityManager->persist($companyEntity);
+        // The user object inside company is not managed,
+        // therefore we need to use merge instead of persist.
+        // When user wouldn't exist yet, the user is not created.
+        $this->entityManager->merge($companyEntity);
         $this->entityManager->flush();
     }
 

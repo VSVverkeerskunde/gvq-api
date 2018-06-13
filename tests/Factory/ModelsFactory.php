@@ -134,6 +134,22 @@ class ModelsFactory
     /**
      * @return User
      */
+    public static function createFrenchUser(): User
+    {
+        return new User(
+            Uuid::fromString('39201b68-ec61-471e-ab5e-2e8665c5a776'),
+            new Email('academie@francais.be'),
+            new NotEmptyString('Français'),
+            new NotEmptyString('Académie'),
+            new Role('contact'),
+            new Language('nl'),
+            true
+        );
+    }
+
+    /**
+     * @return User
+     */
     public static function createUpdatedUser(): User
     {
         return new User(
@@ -225,6 +241,48 @@ class ModelsFactory
         );
     }
 
+    public static function createUpdatedAccidentQuestion(): Question
+    {
+        return new Question(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            new Language('fr'),
+            new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new NotEmptyString(
+                'Qui peut stationner devant ce garage?'
+            ),
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            ),
+            new Answers(
+                new Answer(
+                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
+                    new NotEmptyString('Non.'),
+                    true
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
+        );
+    }
+
     /**
      * @return Question
      */
@@ -268,6 +326,55 @@ class ModelsFactory
                 'Il est interdit de stationner devant l’entrée des propriétés.'
             )
         );
+    }
+
+    /**
+     * @return Question
+     */
+    public static function createQuestionWithAlternateCategory(): Question
+    {
+        $wrongCategory = new Category(
+            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
+
+        $question = new Question(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            new Language('fr'),
+            new Year(2018),
+            $wrongCategory,
+            new NotEmptyString(
+                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
+            ),
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            ),
+            new Answers(
+                new Answer(
+                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
+                    new NotEmptyString('Non.'),
+                    true
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
+        );
+
+        return $question;
     }
 
     /**
@@ -321,5 +428,14 @@ class ModelsFactory
         $jsonAsArray = json_decode($jsonWithFormatting, true);
 
         return json_encode($jsonAsArray);
+    }
+
+    /**
+     * @param string $model
+     * @return string
+     */
+    public static function readCsv(string $model): string
+    {
+        return file_get_contents(__DIR__.'/Samples/'.$model.'.csv');
     }
 }

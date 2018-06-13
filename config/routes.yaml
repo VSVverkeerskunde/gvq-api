@@ -94,3 +94,15 @@ users_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+users_view_edit:
+  path: /{_locale}/view/users/edit/{id}
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+users_export:
+  path: /{_locale}/csv/users
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr

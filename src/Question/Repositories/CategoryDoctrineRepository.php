@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -31,9 +32,20 @@ class CategoryDoctrineRepository extends AbstractDoctrineRepository implements C
 
     /**
      * @param Category $category
+     * @throws EntityNotFoundException
      */
     public function update(Category $category): void
     {
+        // Make sure the category exists,
+        // otherwise merge will create the category.
+        $categoryEntity = $this->entityManager->find(
+            CategoryEntity::class,
+            $category->getId()
+        );
+        if ($categoryEntity == null) {
+            throw new EntityNotFoundException("Invalid category supplied");
+        }
+
         $this->entityManager->merge(
             CategoryEntity::fromCategory($category)
         );

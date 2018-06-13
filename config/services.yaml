@@ -89,6 +89,11 @@ services:
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\User\Controllers\UserViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
     VSV\GVQ_API\Image\Controllers\ImageController:
       arguments:
         $fileSystem: '@local_fly_system'

@@ -11,7 +11,15 @@ class Password
      */
     private $value;
 
-    public static function fromHash(string $hash)
+    private function __construct()
+    {
+    }
+
+    /**
+     * @param string $hash
+     * @return Password
+     */
+    public static function fromHash(string $hash): Password
     {
         $password = new Password();
         $password->setValue($hash);
@@ -19,7 +27,11 @@ class Password
         return $password;
     }
 
-    public static function fromPlainText(string $plainTextValue)
+    /**
+     * @param string $plainTextValue
+     * @return Password
+     */
+    public static function fromPlainText(string $plainTextValue): Password
     {
         if (!preg_match(self::PATTERN, $plainTextValue)) {
             throw new \InvalidArgumentException(
@@ -33,11 +45,6 @@ class Password
         $password->setValue(password_hash($plainTextValue, PASSWORD_DEFAULT));
 
         return $password;
-    }
-
-    private function setValue(string $value)
-    {
-        $this->value = $value;
     }
 
     /**
@@ -55,5 +62,13 @@ class Password
     public function verifies(string $plainTextValue): bool
     {
         return password_verify($plainTextValue, $this->toNative());
+    }
+
+    /**
+     * @param string $value
+     */
+    private function setValue(string $value): void
+    {
+        $this->value = $value;
     }
 }
