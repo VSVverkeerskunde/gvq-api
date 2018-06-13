@@ -22,6 +22,18 @@ Aanpassen: Aanpassen
 'De tekst mag niet leeg zijn.': 'De tekst mag niet leeg zijn.'
 'De tekst mag niet meer dan {{ limit }} karakters hebben.': 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
 'Foto mag niet leeg zijn.': 'Foto mag niet leeg zijn.'
+Id: Id
+E-mail: E-mail
+Achternaam: Achternaam
+Voornaam: Voornaam
+Actief: Actief
+Rol: Rol
+Inactief: Inactief
+Vragen: Vragen
+Gebruikers: Gebruikers
+Bedrijven: Bedrijven
+Exporteren: Exporteren
+'Gelieve een geldig e-mail adres op te geven.': 'Gelieve een geldig e-mail adres op te geven.'
 'Grote Verkeersquiz - 2018': 'Grote Verkeersquiz - 2018'
 'Vragen in NL': 'Vragen in NL'
 'Vragen in FR': 'Vragen in FR'

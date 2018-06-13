@@ -1,0 +1,29 @@
+[
+  {
+    "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+    "email": "john@gvq.be",
+    "lastName": "Doe",
+    "firstName": "John",
+    "role": "contact",
+    "language": "nl",
+    "active": true
+  },
+  {
+    "id": "0ffc0f85-78ee-496b-bc61-17be1326c768",
+    "email": "jane@gvq.be",
+    "lastName": "Doe",
+    "firstName": "Jane",
+    "role": "contact",
+    "language": "nl",
+    "active": true
+  },
+  {
+    "id": "39201b68-ec61-471e-ab5e-2e8665c5a776",
+    "email": "academie@francais.be",
+    "lastName": "Français",
+    "firstName": "Académie",
+    "role": "contact",
+    "language": "nl",
+    "active": true
+  }
+]

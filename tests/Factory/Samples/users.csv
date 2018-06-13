@@ -1,0 +1,4 @@
+id,email,lastName,firstName,role,language,active
+3ffc0f85-78ee-496b-bc61-17be1326c768,john@gvq.be,Doe,John,contact,nl,1
+0ffc0f85-78ee-496b-bc61-17be1326c768,jane@gvq.be,Doe,Jane,contact,nl,1
+39201b68-ec61-471e-ab5e-2e8665c5a776,academie@francais.be,Français,Académie,contact,nl,1

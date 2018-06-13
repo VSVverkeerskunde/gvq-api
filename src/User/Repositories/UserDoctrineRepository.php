@@ -39,17 +39,18 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
     {
         // Make sure the user exists,
         // otherwise merge will create a new user.
-        $userEntity = $this->entityManager->find(
-            UserEntity::class,
-            $user->getId()
-        );
-        if ($userEntity == null) {
+        $existingUser = $this->getById($user->getId());
+        if ($existingUser === null) {
             throw new EntityNotFoundException("Invalid user supplied");
         }
 
-        $this->entityManager->merge(
-            UserEntity::fromUser($user)
-        );
+        // The password is never exposed to higher layers.
+        // But when updating make sure not to discard the existing password.
+        if ($existingUser->getPassword()) {
+            $user = $user->withPassword($existingUser->getPassword());
+        }
+
+        $this->entityManager->merge(UserEntity::fromUser($user));
         $this->entityManager->flush();
     }
 

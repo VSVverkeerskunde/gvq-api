@@ -114,6 +114,30 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
+    public function it_can_update_a_user_and_keeps_existing_password(): void
+    {
+        $this->userDoctrineRepository->save($this->userWithPassword);
+
+        $updatedUser = ModelsFactory::createUpdatedUser();
+
+        $this->userDoctrineRepository->update($updatedUser);
+
+        $foundUser = $this->userDoctrineRepository->getById(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        if ($this->userWithPassword->getPassword()) {
+            $updatedUser = $updatedUser->withPassword(
+                $this->userWithPassword->getPassword()
+            );
+        }
+        $this->assertEquals($updatedUser, $foundUser);
+    }
+
+    /**
+     * @test
      * @throws EntityNotFoundException
      */
     public function it_throws_on_updating_a_non_existing_user(): void
