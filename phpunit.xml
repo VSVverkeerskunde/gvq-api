@@ -17,6 +17,7 @@
                 <file>./src/Question/Forms/QuestionFormType.php</file>
                 <file>./src/User/Controllers/UserViewController.php</file>
                 <file>./src/Account/Controllers/AccountViewController.php</file>
+                <file>./src/Account/Forms/RegistrationFormType.php</file>
             </exclude>
         </whitelist>
     </filter>
