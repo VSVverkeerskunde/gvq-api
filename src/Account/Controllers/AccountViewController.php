@@ -70,9 +70,11 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $language = $request->getLocale();
 
-            $user = $this->registrationFormType->createUserFromData($this->uuidFactory, $data);
+            $user = $this->registrationFormType->createUserFromData($this->uuidFactory, $data, $language);
             $this->userRepository->save($user);
+
             $company = $this->registrationFormType->createCompanyFromData($this->uuidFactory, $data, $user);
             $this->companyRepository->save($company);
         }

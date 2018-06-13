@@ -246,18 +246,27 @@ class RegistrationFormType extends AbstractType
     /**
      * @param UuidFactoryInterface $uuidFactory
      * @param array $data
+     * @param string $language
      * @return User
      */
-    public function createUserFromData(UuidFactoryInterface $uuidFactory, array $data): User
-    {
+    public function createUserFromData(
+        UuidFactoryInterface $uuidFactory,
+        array $data,
+        string $language
+    ): User {
+        var_dump($language);
         $user = new User(
             $uuidFactory->uuid4(),
             new Email($data['email']),
             new NotEmptyString($data['name']),
             new NotEmptyString($data['firstName']),
-            new Role('vsv'),
-            new Language('nl'),
+            new Role('contact'),
+            new Language($language),
             false
+        );
+
+        $user = $user->withPassword(
+            Password::fromPlainText(($data['password']))
         );
 
         return $user;
