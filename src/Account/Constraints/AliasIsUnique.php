@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class AliasIsUnique extends Constraint
 {
-    public $message = 'This alias already exists.';
+    public $message = 'The alias "{{ alias }}" already exists.';
 
     /**
      * @return string
@@ -16,7 +16,10 @@ class AliasIsUnique extends Constraint
         return $this->message;
     }
 
-    public function validatedBy()
+    /**
+     * @inheritdoc
+     */
+    public function validatedBy(): string
     {
         return get_class($this).'Validator';
     }

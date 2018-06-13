@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Account\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 
@@ -24,15 +23,15 @@ class AliasIsUniqueValidator extends ConstraintValidator
     }
 
     /**
-     * @param mixed $value
-     * @param Constraint $constraint
+     * @inheritdoc
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if ($constraint instanceof AliasIsUnique) {
             $company = $this->companyRepository->getByAlias(new Alias($value));
             if ($company != null) {
                 $this->context->buildViolation($constraint->getMessage())
+                    ->setParameter('{{ alias }}', $value)
                     ->addViolation();
             }
         }

@@ -14,7 +14,7 @@ class AliasIsUniqueTest extends TestCase
         $uniqueAliasConstraint = new AliasIsUnique();
 
         $this->assertEquals(
-            'VSV\GVQ_API\Account\Constraints\AliasIsUniqueValidator',
+            AliasIsUniqueValidator::class,
             $uniqueAliasConstraint->validatedBy()
         );
     }
