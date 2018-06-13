@@ -25,7 +25,7 @@ class AccountViewController extends AbstractController
     /**
      * @var TranslatorInterface
      */
-    private $tranlator;
+    private $translator;
 
     /**
      * @var UserRepository
@@ -68,7 +68,7 @@ class AccountViewController extends AbstractController
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator
     ) {
-        $this->tranlator = $translator;
+        $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
         $this->userRepository = $userRepository;
         $this->companyRepository = $companyRepository;
@@ -137,7 +137,7 @@ class AccountViewController extends AbstractController
         $this->registrationFormType->buildForm(
             $formBuilder,
             [
-                'translator' => $this->tranlator,
+                'translator' => $this->translator,
             ]
         );
 
