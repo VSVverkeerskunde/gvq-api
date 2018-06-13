@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\User\Forms\UserFormType;
 use VSV\GVQ_API\User\Models\User;
@@ -39,6 +40,11 @@ class UserViewController extends AbstractController
     private $translator;
 
     /**
+     * @var ResponseFactory
+     */
+    private $responseFactory;
+
+    /**
      * @var UserFormType
      */
     private $userFormType;
@@ -48,17 +54,20 @@ class UserViewController extends AbstractController
      * @param UserRepository $userRepository
      * @param SerializerInterface $serializer
      * @param TranslatorInterface $translator
+     * @param ResponseFactory $responseFactory
      */
     public function __construct(
         UuidFactoryInterface $uuidFactory,
         UserRepository $userRepository,
         SerializerInterface $serializer,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ResponseFactory $responseFactory
     ) {
         $this->uuidFactory = $uuidFactory;
         $this->userRepository = $userRepository;
         $this->serializer = $serializer;
         $this->translator = $translator;
+        $this->responseFactory = $responseFactory;
 
         $this->userFormType = new UserFormType();
     }
@@ -124,8 +133,10 @@ class UserViewController extends AbstractController
         $users = $this->userRepository->getAll();
         $usersAsCsv = $this->serializer->serialize($users, 'csv');
 
-        $usersAsCsv = $this->createCsvData($usersAsCsv);
-        $response = $this->createCsvResponse($usersAsCsv);
+        $response = $this->responseFactory->createCsvResponse(
+            $usersAsCsv,
+            'users'
+        );
 
         return $response;
     }
@@ -153,41 +164,5 @@ class UserViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
-    }
-
-    /**
-     * @param string $data
-     * @return string
-     */
-    private function createCsvData(string $data): string
-    {
-        /**
-         * @see: https://github.com/thephpleague/csv/blob/507815707cbdbebaf076873bff04cd6ad65fe0fe/docs/9.0/connections/bom.md
-         */
-        $csvData = chr(0xFF).chr(0xFE);
-        $csvData .= mb_convert_encoding('sep=,'.PHP_EOL.$data, 'UTF-16LE', 'UTF-8');
-        return $csvData;
-    }
-
-    /**
-     * @param string $csvData
-     * @return Response
-     */
-    private function createCsvResponse(string $csvData): Response
-    {
-        $response = new Response($csvData);
-
-        $response->headers->set('Content-Encoding', 'UTF-8');
-        $response->headers->set('Content-Type', 'application/csv; charset=UTF-8');
-        $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-        $now = new \DateTime();
-        $fileName = 'users_'.$now->format(\DateTime::ATOM).'.csv';
-        $response->headers->set(
-            'Content-Disposition',
-            'attachment; filename="'.$fileName.'"'
-        );
-
-        return $response;
     }
 }
