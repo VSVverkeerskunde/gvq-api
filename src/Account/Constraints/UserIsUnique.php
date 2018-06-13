@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class UserIsUnique extends Constraint
 {
-    public $message = 'This email is invalid or already in use';
+    public $message = 'The email "{{ email }}" is already in use';
 
     /**
      * @return string
@@ -16,7 +16,10 @@ class UserIsUnique extends Constraint
         return $this->message;
     }
 
-    public function validatedBy()
+    /**
+     * @inheritdoc
+     */
+    public function validatedBy(): string
     {
         return get_class($this).'Validator';
     }

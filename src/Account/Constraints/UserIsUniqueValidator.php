@@ -23,15 +23,15 @@ class UserIsUniqueValidator extends ConstraintValidator
     }
 
     /**
-     * @param string $value
-     * @param UserIsUnique|Constraint $constraint
+     * @inheritdoc
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if ($constraint instanceof UserIsUnique) {
             $user = $this->userRepository->getByEmail(new Email($value));
             if ($user != null) {
                 $this->context->buildViolation($constraint->getMessage())
+                    ->setParameter('{{ email }}', $value)
                     ->addViolation();
             }
         }

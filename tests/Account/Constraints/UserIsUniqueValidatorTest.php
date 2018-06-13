@@ -6,6 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
 {
@@ -26,10 +27,12 @@ class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
     /**
      * @test
      */
-    public function it_validates_with_unique_email(): void
+    public function it_succeeds_with_unique_email(): void
     {
         $this->userRepository
+            ->expects($this->once())
             ->method("getByEmail")
+            ->with(new Email('d@d.be'))
             ->willReturn(null);
 
         $this->validator->validate('d@d.be', new UserIsUnique());
@@ -47,11 +50,15 @@ class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
         $constraint = new UserIsUnique($options);
 
         $this->userRepository
+            ->expects($this->once())
             ->method("getByEmail")
+            ->with(new Email('d@d.be'))
             ->willReturn(ModelsFactory::createUser());
 
         $this->validator->validate('d@d.be', $constraint);
-        $this->buildViolation($expectedMessage)->assertRaised();
+        $this->buildViolation($expectedMessage)
+            ->setParameter('{{ email }}', 'd@d.be')
+            ->assertRaised();
     }
 
     /**
@@ -62,13 +69,13 @@ class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
         return [
             [
                 [
-                    'message' => 'Dit e-mailadres bestaat al',
+                    'message' => 'Het e-mailadres "{{ email }}" bestaat al',
                 ],
-                'Dit e-mailadres bestaat al',
+                'Het e-mailadres "{{ email }}" bestaat al',
             ],
             [
                 [],
-                'This email is invalid or already in use',
+                'The email "{{ email }}" is already in use',
             ],
         ];
     }

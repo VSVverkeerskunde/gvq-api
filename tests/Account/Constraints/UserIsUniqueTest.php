@@ -11,11 +11,11 @@ class UserIsUniqueTest extends TestCase
      */
     public function it_returns_the_correct_validator_class(): void
     {
-        $uniqeUserConstraint = new UserIsUnique();
+        $uniqueUserConstraint = new UserIsUnique();
 
         $this->assertEquals(
-            'VSV\GVQ_API\Account\Constraints\UserIsUniqueValidator',
-            $uniqeUserConstraint->validatedBy()
+            UserIsUniqueValidator::class,
+            $uniqueUserConstraint->validatedBy()
         );
     }
 }
