@@ -89,22 +89,21 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
 
     /**
      * @inheritdoc
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getByAlias(Alias $alias): ?Company
     {
-        //@todo: find better way to find a company by alias
-        /** @var CompanyEntity[] $companyEntities */
-        $companyEntities = $this->objectRepository->findAll();
-        foreach ($companyEntities as $companyEntity) {
-            $translatedAliasesEntities = $companyEntity->getTranslatedAliasEntities();
-            foreach ($translatedAliasesEntities as $translatedAliasEntity) {
-                if ($translatedAliasEntity->getAlias() === $alias->toNative()) {
-                    return $companyEntity->toCompany();
-                }
-            }
-        }
+        $companyEntity = $this->entityManager->createQueryBuilder()
+            ->select('c, u')
+            ->from(CompanyEntity::class, 'c')
+            ->innerJoin('c.translatedAliasEntities', 'a')
+            ->innerJoin('c.userEntity', 'u')
+            ->where('a.alias = :alias')
+            ->setParameter('alias', $alias->toNative())
+            ->getQuery()
+            ->getOneOrNullResult();
 
-        return null;
+        return $companyEntity ? $companyEntity->toCompany() : null;
     }
 
     /**
