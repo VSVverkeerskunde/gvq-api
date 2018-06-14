@@ -61,5 +61,7 @@ Invalid min length: '__Dit veld moet minimum {{ limit }} karakters bevatten.'
 Registreren: __Registreren
 Registration error: '__Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
 Registration success title: '__Welkom!'
-Registration success text: '__Uw registratie is geslaagd. Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
+Registration success subtitle: '__Uw registratie is geslaagd.'
+Registration success text: '__Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
 Registration success extra: '__Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+Naar GVQ site: '_Naar GVQ site'

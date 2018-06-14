@@ -113,7 +113,7 @@ class AccountViewController extends AbstractController
                 );
                 $this->registrationRepository->save($registration);
 
-                return $this->render('accounts/register_success.html.twig');
+                $this->redirectToRoute('accounts_view_register_success');
             } catch (\Exception $e) {
                 $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
@@ -125,6 +125,14 @@ class AccountViewController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function success(): Response
+    {
+        return $this->render('accounts/register_success.html.twig');
     }
 
     /**

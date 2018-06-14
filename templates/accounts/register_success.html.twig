@@ -3,10 +3,15 @@
 {% block title %}{% trans %}Registreren{% endtrans %}{% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1>{% trans %}Registration success title{% endtrans %}</h1>
-        <p class="lead">{% trans %}Registration success text{% endtrans %}</p>
-        <hr>
-        <p>{% trans %}Registration success extra{% endtrans %}</p>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{% trans %}Registration success title{% endtrans %}</h5>
+            <h6 class="card-subtitle text-muted">{% trans %}Registration success subtitle{% endtrans %}</h6>
+            <hr>
+            <p class="card-text">{% trans %}Registration success text{% endtrans %}</p>
+            <p class="card-text">{% trans %}Registration success extra{% endtrans %}</p>
+            <hr>
+            <a href="#" class="card-link">{% trans %}Naar GVQ site{% endtrans %}</a>
+        </div>
     </div>
 {% endblock %}
