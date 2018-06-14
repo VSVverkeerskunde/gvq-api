@@ -33,7 +33,7 @@ class SeedUsersCommand extends Command
     protected function configure(): void
     {
         $this->setName('gvq:seed-users')
-            ->setDescription('Create the fixed admin, aswr and admin users.')
+            ->setDescription('Create the fixed users.')
             ->addArgument('users_file', InputArgument::OPTIONAL, 'Yaml file with users');
     }
 
@@ -60,7 +60,9 @@ class SeedUsersCommand extends Command
     {
         $usersFile = $input->getArgument('users_file');
         if (!$usersFile) {
+            // @codeCoverageIgnoreStart
             $usersFile = __DIR__.'/fixed_users.yaml';
+            // @codeCoverageIgnoreEnd
         }
 
         $usersAsYml = Yaml::parseFile($usersFile);
