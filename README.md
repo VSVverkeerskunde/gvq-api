@@ -17,6 +17,11 @@ Adding all fixed categories can be done with the following custom command:
 
 `$ ./bin/console gvq:seed-categories`
 
+### Seeding users
+Rename the included `fixed_users.yaml.dist` file to `fixed_users.yaml` or create your own data file. Adding all fixed users can be done with the following custom command:
+
+`$ ./bin/console gvq:seed-users`
+
 ## Docker
 ### Basics
 Edit the your host file and add the following:
@@ -54,4 +59,9 @@ DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:3306/$DB_NAME
 Seeding categories
 ```
 $ docker-compose exec web bash -c "./bin/console gvq:seed-categories"
+```
+
+Seeding users (make sure to provide an input file)
+```
+$ docker-compose exec web bash -c "./bin/console gvq:seed-users"
 ```
