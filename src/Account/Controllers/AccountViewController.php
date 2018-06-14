@@ -111,12 +111,9 @@ class AccountViewController extends AbstractController
                     $this->urlSuffixGenerator,
                     $user
                 );
-
                 $this->registrationRepository->save($registration);
 
-                return $this->render(
-                    'accounts/register_success.html.twig'
-                );
+                return $this->render('accounts/register_success.html.twig');
             } catch (\Exception $e) {
                 $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
