@@ -129,8 +129,8 @@ class QuestionFormType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => false,
-                    'data' => $answers ? $answers[2]->getText()->toNative() : null,
-                    'constraints' => $this->createTextConstraint($translator),
+                    'data' => $answers && count($answers) === 3 ? $answers[2]->getText()->toNative() : null,
+                    'constraints' => $this->createTextConstraint($translator, true),
                 ]
             )
             ->add(
@@ -298,16 +298,14 @@ class QuestionFormType extends AbstractType
 
     /**
      * @param TranslatorInterface $translator
+     * @param bool $allowEmpty
      * @return Constraint[]
      */
-    private function createTextConstraint(TranslatorInterface $translator): array
-    {
-        return [
-            new NotBlank(
-                [
-                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
-                ]
-            ),
+    private function createTextConstraint(
+        TranslatorInterface $translator,
+        bool $allowEmpty = false
+    ): array {
+        $constraints = [
             new Length(
                 [
                     'max' => 1024,
@@ -315,5 +313,15 @@ class QuestionFormType extends AbstractType
                 ]
             ),
         ];
+
+        if (!$allowEmpty) {
+            $constraints[] = new NotBlank(
+                [
+                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
+                ]
+            );
+        }
+
+        return $constraints;
     }
 }
