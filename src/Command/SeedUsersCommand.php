@@ -60,7 +60,7 @@ class SeedUsersCommand extends Command
     {
         $usersFile = $input->getArgument('users_file');
         if (!$usersFile) {
-            $usersFile = __DIR__.'/fixedUsers.yaml';
+            $usersFile = __DIR__.'/fixed_users.yaml';
         }
 
         $usersAsYml = Yaml::parseFile($usersFile);
