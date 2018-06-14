@@ -29,7 +29,21 @@ class AliasIsUniqueValidator extends ConstraintValidator
     {
         if ($constraint instanceof AliasIsUnique) {
             $company = $this->companyRepository->getByAlias(new Alias($value));
-            if ($company != null) {
+            $raiseError = false;
+
+            if ($company !== null) {
+                // If new company, all records are taken into account
+                if ($constraint->getCompanyId() === null) {
+                    $raiseError = true;
+                }
+
+                // If existing company, exclude own alias
+                if ($company->getId()->toString() !== $constraint->getCompanyId()) {
+                    $raiseError = true;
+                }
+            }
+
+            if ($raiseError) {
                 $this->context->buildViolation($constraint->getMessage())
                     ->setParameter('{{ alias }}', $value)
                     ->addViolation();

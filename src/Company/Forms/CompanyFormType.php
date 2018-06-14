@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Account\Constraints\AliasIsUnique;
+use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
@@ -36,6 +38,14 @@ class CompanyFormType extends AbstractType
                 TextType::class,
                 [
                     'data' => $company ? $company->getName()->toNative() : null,
+                    'constraints' => [
+                        new CompanyIsUnique(
+                            [
+                                'message' => $translator->trans('Company name in use'),
+                                'companyId' => $company ? $company->getId()->toString() : null,
+                            ]
+                        ),
+                    ],
                 ]
             )
             ->add(
@@ -56,6 +66,7 @@ class CompanyFormType extends AbstractType
                         )
                         ->getAlias()
                         ->toNative() : null,
+                    'constraints' => $this->createAliasConstraints($translator, $company),
                 ]
             )
             ->add(
@@ -69,6 +80,7 @@ class CompanyFormType extends AbstractType
                         )
                         ->getAlias()
                         ->toNative() : null,
+                    'constraints' => $this->createAliasConstraints($translator, $company),
                 ]
             );
     }
@@ -126,6 +138,24 @@ class CompanyFormType extends AbstractType
         Language $language
     ): UuidInterface {
         $translatedAlias = $company->getTranslatedAliases()->getByLanguage($language);
+
         return $translatedAlias->getId();
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @param Company|null $company
+     * @return array
+     */
+    private function createAliasConstraints(TranslatorInterface $translator, ?Company $company): array
+    {
+        return [
+            new AliasIsUnique(
+                [
+                    'message' => $translator->trans('Alias in use'),
+                    'companyId' => $company ? $company->getId()->toString() : null,
+                ]
+            ),
+        ];
     }
 }
