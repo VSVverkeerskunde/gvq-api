@@ -13,6 +13,8 @@ services:
 
   web:
     image: ${IMAGE}
+    volumes:
+      - ./extra/fixedUsers.yaml:/usr/share/nginx/html/src/Command/fixedUsers.yaml:ro
     labels:
       - "be.2dotstwice.bluegreen.http_route.enable=true"
       - "be.2dotstwice.bluegreen.http_route.pattern={{base}}"
