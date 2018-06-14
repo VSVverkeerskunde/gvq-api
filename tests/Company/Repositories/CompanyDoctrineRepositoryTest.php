@@ -175,6 +175,7 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      *
      * @param Alias $alias
      * @param Company|null $expectedResult
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function it_can_get_a_company_by_alias(Alias $alias, ?Company $expectedResult): void
     {
