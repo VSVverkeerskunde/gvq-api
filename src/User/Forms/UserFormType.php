@@ -49,6 +49,17 @@ class UserFormType extends AbstractType
                                 'message' => $translator->trans('Invalid email pattern'),
                             ]
                         ),
+                        new Length(
+                            [
+                                'max' => 255,
+                                'maxMessage' => $translator->trans('Invalid max length'),
+                            ]
+                        ),
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Empty field'),
+                            ]
+                        ),
                     ]
                 ]
             )
