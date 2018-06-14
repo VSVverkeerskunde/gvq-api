@@ -29,7 +29,20 @@ class UserIsUniqueValidator extends ConstraintValidator
     {
         if ($constraint instanceof UserIsUnique) {
             $user = $this->userRepository->getByEmail(new Email($value));
-            if ($user != null) {
+            $raiseError = false;
+
+            if ($user !== null) {
+                // Don't take own e-mail address into account.
+                if ($constraint->getUserId() === null) {
+                    $raiseError = true;
+                }
+                // Take own e-mail address into account.
+                if ($user->getId()->toString() !== $constraint->getUserId()) {
+                    $raiseError = true;
+                }
+            }
+
+            if ($raiseError) {
                 $this->context->buildViolation($constraint->getMessage())
                     ->setParameter('{{ email }}', $value)
                     ->addViolation();

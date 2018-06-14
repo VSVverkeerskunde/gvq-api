@@ -79,4 +79,51 @@ class UserIsUniqueValidatorTest extends ConstraintValidatorTestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function it_fails_with_existing_email_from_other_user()
+    {
+        $this->userRepository
+            ->expects($this->once())
+            ->method("getByEmail")
+            ->with(new Email('d@d.be'))
+            ->willReturn(ModelsFactory::createUser());
+
+        $constraint = new UserIsUnique(
+            [
+                'message' => 'Het e-mailadres "{{ email }}" bestaat al',
+                'userId' => '696d7ab0-04af-4faf-bc51-f4ece47e12d8'
+            ]
+        );
+
+        $this->validator->validate('d@d.be', $constraint);
+
+        $this->buildViolation('Het e-mailadres "{{ email }}" bestaat al')
+            ->setParameter('{{ email }}', 'd@d.be')
+            ->assertRaised();
+    }
+
+    /**
+     * @test
+     */
+    public function it_succeeds_with_existing_email_from_same_user()
+    {
+        $this->userRepository
+            ->expects($this->once())
+            ->method("getByEmail")
+            ->with(new Email('d@d.be'))
+            ->willReturn(ModelsFactory::createUser());
+
+        $constraint = new UserIsUnique(
+            [
+                'message' => 'Het e-mailadres "{{ email }}" bestaat al',
+                'userId' => '3ffc0f85-78ee-496b-bc61-17be1326c768'
+            ]
+        );
+
+        $this->validator->validate('d@d.be', $constraint);
+        $this->assertNoViolation();
+    }
 }
