@@ -157,7 +157,7 @@ class QuestionTest extends TestCase
             Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
             new PositiveNumber(1),
             new NotEmptyString('text'),
-            false
+            true
         );
         $answer2 = new Answer(
             Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
@@ -175,7 +175,7 @@ class QuestionTest extends TestCase
             Uuid::fromString('50f0551b-a239-4554-96dc-4f4778e8d63a'),
             new PositiveNumber(4),
             new NotEmptyString('text'),
-            true
+            false
         );
 
         return [
@@ -192,6 +192,76 @@ class QuestionTest extends TestCase
                     $answer1
                 ),
             ],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider correctAnswersProvider
+     * @param Answers $answers
+     */
+    public function it_throws_on_wrong_number_of_correct_answers(Answers $answers): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There should be exactly one correct answer.');
+
+        new Question(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            new Language('fr'),
+            new Year(2018),
+            ModelsFactory::createAccidentCategory(),
+            new NotEmptyString(
+                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
+            ),
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            ),
+            $answers,
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
+        );
+    }
+
+    /**
+     * @return Answers[][]
+     */
+    public function correctAnswersProvider(): array
+    {
+        return [
+            [
+                new Answers(
+                    new Answer(
+                        Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+                        new PositiveNumber(1),
+                        new NotEmptyString('answer 1'),
+                        true
+                    ),
+                    new Answer(
+                        Uuid::fromString('4caf0217-ca8d-46ca-8151-151d71420910'),
+                        new PositiveNumber(2),
+                        new NotEmptyString('answer 2'),
+                        true
+                    )
+                ),
+            ],
+            [
+                new Answers(
+                    new Answer(
+                        Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+                        new PositiveNumber(1),
+                        new NotEmptyString('answer 1'),
+                        false
+                    ),
+                    new Answer(
+                        Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
+                        new PositiveNumber(2),
+                        new NotEmptyString('answer 2'),
+                        false
+                    )
+                ),
+            ]
         ];
     }
 
