@@ -88,7 +88,7 @@ class CreateFixedUsersCommand extends Command
                         true
                     );
                     $user = $user->withPassword(
-                        Password::fromPlainText($userAsYml['password'])
+                        Password::fromHash($userAsYml['password'])
                     );
 
                     return $user;
