@@ -111,10 +111,19 @@ class UserViewController extends AbstractController
                 $user,
                 $form->getData()
             );
-            $this->userRepository->update($user);
 
-            $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
-            return $this->redirectToRoute('users_view_index');
+            // Make sure to check that the e-mail does not conflict with another user.
+            $foundUser = $this->userRepository->getByEmail($user->getEmail());
+            if ($foundUser && !$foundUser->getId()->equals($user->getId())) {
+                $this->addFlash(
+                    'danger', 'Er bestaat reeds een gebruiker met email '.$user->getEmail()->toNative().'.'
+                );
+            } else {
+                $this->userRepository->update($user);
+
+                $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
+                return $this->redirectToRoute('users_view_index');
+            }
         }
 
         return $this->render(
