@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\User\Forms\UserFormType;
@@ -112,18 +113,10 @@ class UserViewController extends AbstractController
                 $form->getData()
             );
 
-            // Make sure to check that the e-mail does not conflict with another user.
-            $foundUser = $this->userRepository->getByEmail($user->getEmail());
-            if ($foundUser && !$foundUser->getId()->equals($user->getId())) {
-                $this->addFlash(
-                    'danger', 'Er bestaat reeds een gebruiker met email '.$user->getEmail()->toNative().'.'
-                );
-            } else {
-                $this->userRepository->update($user);
+            $this->userRepository->update($user);
 
-                $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
-                return $this->redirectToRoute('users_view_index');
-            }
+            $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
+            return $this->redirectToRoute('users_view_index');
         }
 
         return $this->render(
@@ -156,7 +149,17 @@ class UserViewController extends AbstractController
      */
     private function createUserForm(?User $user): FormInterface
     {
-        $formBuilder = $this->createFormBuilder();
+        $formBuilder = $this->createFormBuilder(
+            null,
+            [
+                'validation_groups' => new GroupSequence(
+                    [
+                        'CorrectSyntax',
+                        'Default',
+                    ]
+                ),
+            ]
+        );
 
         $this->userFormType->buildForm(
             $formBuilder,

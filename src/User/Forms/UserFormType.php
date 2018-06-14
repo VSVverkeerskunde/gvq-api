@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Models\User;
@@ -47,17 +48,26 @@ class UserFormType extends AbstractType
                             [
                                 'pattern' => Email::PATTERN,
                                 'message' => $translator->trans('Invalid email pattern'),
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
                                 'maxMessage' => $translator->trans('Invalid max length'),
+                                'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new NotBlank(
                             [
                                 'message' => $translator->trans('Empty field'),
+                                'groups' => ['CorrectSyntax'],
+                            ]
+                        ),
+                        new UserIsUnique(
+                            [
+                                'message' => $translator->trans('Email in use'),
+                                'userId' => $user ? $user->getId()->toString() : null,
                             ]
                         ),
                     ]
