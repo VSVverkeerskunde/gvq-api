@@ -17,7 +17,7 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
 
-class CreateFixedUsersCommand extends Command
+class SeedUsersCommand extends Command
 {
     /**
      * @var UserRepository
@@ -32,7 +32,7 @@ class CreateFixedUsersCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('gvq:create-users')
+        $this->setName('gvq:seed-users')
             ->setDescription('Create the fixed admin, aswr and admin users.')
             ->addArgument('users_file', InputArgument::OPTIONAL, 'Yaml file with users');
     }
@@ -42,14 +42,14 @@ class CreateFixedUsersCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $output->writeln('Creating users...');
+        $output->writeln('Seeding users...');
 
         foreach ($this->getUsers($input) as $user) {
-            $output->writeln('Creating user: '.$user->getEmail()->toNative());
+            $output->writeln('Seeding user: '.$user->getEmail()->toNative());
             $this->userRepository->save($user);
         }
 
-        $output->writeln('Finished creating users.');
+        $output->writeln('Finished seeding users.');
     }
 
     /**
