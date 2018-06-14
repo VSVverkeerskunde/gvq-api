@@ -7,6 +7,7 @@ use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
+use VSV\GVQ_API\Question\Repositories\Entities\AnswerEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
@@ -41,17 +42,17 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     {
         // Make sure the question exists,
         // otherwise merge will create a new question.
-        $questionEntity = $this->entityManager->find(
-            QuestionEntity::class,
-            $question->getId()
-        );
-        if ($questionEntity == null) {
+        $existingQuestionEntity = $this->getEntityById($question->getId());
+        if ($existingQuestionEntity === null) {
             throw new EntityNotFoundException("Invalid question supplied");
         }
 
-        $this->entityManager->merge(
-            QuestionEntity::fromQuestion($question)
-        );
+        // A question with 3 answers can be reduced to a question with 2 answers.
+        // Make sure to delete this answer that was removed by the user.
+        $newQuestionEntity = QuestionEntity::fromQuestion($question);
+        $this->deleteRemovedAnswers($newQuestionEntity, $existingQuestionEntity);
+
+        $this->entityManager->merge($newQuestionEntity);
         $this->entityManager->flush();
     }
 
@@ -115,5 +116,30 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         );
 
         return $questionEntity;
+    }
+
+    /**
+     * @param QuestionEntity $newQuestionEntity
+     * @param QuestionEntity $existingQuestionEntity
+     */
+    private function deleteRemovedAnswers(
+        QuestionEntity $newQuestionEntity,
+        QuestionEntity $existingQuestionEntity
+    ): void {
+        $existingAnswers = $existingQuestionEntity->getAnswerEntities()->toArray();
+        $newAnswers = $newQuestionEntity->getAnswerEntities()->toArray();
+
+        $answersToDelete = array_udiff(
+            $existingAnswers,
+            $newAnswers,
+            function (AnswerEntity $a1, AnswerEntity $a2) {
+                return strcmp($a1->getId(), $a2->getId());
+            }
+        );
+
+        foreach ($answersToDelete as $answerToDelete) {
+            $this->entityManager->remove($answerToDelete);
+            $this->entityManager->flush();
+        }
     }
 }

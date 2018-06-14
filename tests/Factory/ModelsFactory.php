@@ -311,6 +311,42 @@ class ModelsFactory
         );
     }
 
+    public static function createUpdatedAccidentQuestionWithRemovedAnswer(): Question
+    {
+        return new Question(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            new Language('fr'),
+            new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new NotEmptyString(
+                'Qui peut stationner devant ce garage?'
+            ),
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            ),
+            new Answers(
+                new Answer(
+                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    true
+                ),
+                new Answer(
+                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            )
+        );
+    }
+
     /**
      * @return Question
      */
