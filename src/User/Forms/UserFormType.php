@@ -107,6 +107,7 @@ class UserFormType extends AbstractType
                 'role',
                 ChoiceType::class,
                 [
+                    'disabled' => true,
                     'choices' => $roles,
                     'choice_label' => function (?Role $role) {
                         return $role ? $role->toNative() : '';
@@ -156,7 +157,7 @@ class UserFormType extends AbstractType
             new Email($data['email']),
             new NotEmptyString($data['firstName']),
             new NotEmptyString($data['lastName']),
-            $data['role'],
+            $user->getRole(),
             $data['language'],
             $data['active']
         );
