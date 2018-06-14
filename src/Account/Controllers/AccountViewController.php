@@ -118,7 +118,7 @@ class AccountViewController extends AbstractController
                     'accounts/register_success.html.twig'
                 );
             } catch (\Exception $e) {
-                $this->addFlash('error', $this->translator->trans('Registration error'));
+                $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
         }
 
