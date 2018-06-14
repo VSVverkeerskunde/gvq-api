@@ -91,26 +91,32 @@ class AccountViewController extends AbstractController
             $data = $form->getData();
             $language = $request->getLocale();
 
-            $user = $this->registrationFormType->createUserFromData(
-                $this->uuidFactory,
-                $data,
-                $language
-            );
-            $this->userRepository->save($user);
+            try {
+                $user = $this->registrationFormType->createUserFromData(
+                    $this->uuidFactory,
+                    $data,
+                    $language
+                );
+                $this->userRepository->save($user);
 
-            $company = $this->registrationFormType->createCompanyFromData(
-                $this->uuidFactory,
-                $data,
-                $user
-            );
-            $this->companyRepository->save($company);
+                $company = $this->registrationFormType->createCompanyFromData(
+                    $this->uuidFactory,
+                    $data,
+                    $user
+                );
+                $this->companyRepository->save($company);
 
-            $registration = $this->registrationFormType->createRegistrationForUser(
-                $this->uuidFactory,
-                $this->urlSuffixGenerator,
-                $user
-            );
-            $this->registrationRepository->save($registration);
+                $registration = $this->registrationFormType->createRegistrationForUser(
+                    $this->uuidFactory,
+                    $this->urlSuffixGenerator,
+                    $user
+                );
+                $this->registrationRepository->save($registration);
+
+                $this->redirectToRoute('accounts_view_register_success');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $this->translator->trans('Registration error'));
+            }
         }
 
         return $this->render(
@@ -119,6 +125,14 @@ class AccountViewController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function success(): Response
+    {
+        return $this->render('accounts/register_success.html.twig');
     }
 
     /**

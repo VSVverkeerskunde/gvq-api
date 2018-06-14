@@ -58,3 +58,10 @@ Invalid password max length: 'Het wachtwoord mag maximum {{ limit }} karakters b
 Invalid number of employees: 'Het aantal werknemers moet groter zijn dan 0.'
 Invalid max length: 'Dit veld mag maximum {{ limit }} karakters bevatten.'
 Invalid min length: 'Dit veld moet minimum {{ limit }} karakters bevatten.'
+Registreren: Registreren
+Registration error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
+Registration success title: 'Welkom!'
+Registration success subtitle: 'Uw registratie is geslaagd.'
+Registration success text: 'Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
+Registration success extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+Naar GVQ site: 'Naar GVQ site'

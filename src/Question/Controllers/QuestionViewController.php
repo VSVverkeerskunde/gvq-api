@@ -113,6 +113,7 @@ class QuestionViewController extends AbstractController
         }
 
         $this->addFlash('warning', 'Geen vragen om af te drukken.');
+        return $this->redirectToRoute('questions_view_index');
     }
 
     /**
