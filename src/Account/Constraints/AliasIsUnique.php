@@ -6,7 +6,26 @@ use Symfony\Component\Validator\Constraint;
 
 class AliasIsUnique extends Constraint
 {
+    /**
+     * @var string|null
+     *
+     * When a company id is specified as a constraint option then the
+     * validation doesn't fail if the found company by alias has the same id.
+     */
+    public $companyId = null;
+
+    /**
+     * @var string
+     */
     public $message = 'The alias "{{ alias }}" already exists.';
+
+    /**
+     * @return null|string
+     */
+    public function getCompanyId(): ?string
+    {
+        return $this->companyId;
+    }
 
     /**
      * @return string

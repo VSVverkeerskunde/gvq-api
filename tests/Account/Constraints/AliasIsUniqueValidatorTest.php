@@ -49,7 +49,7 @@ class AliasIsUniqueValidatorTest extends ConstraintValidatorTestCase
      * @param array $options
      * @param string $expectedMessage
      */
-    public function it_fails_with_existing_alias(array $options, string $expectedMessage): void
+    public function it_fails_with_existing_alias_of_other_company(array $options, string $expectedMessage): void
     {
         $this->companyRepository
             ->expects($this->once())
@@ -80,9 +80,39 @@ class AliasIsUniqueValidatorTest extends ConstraintValidatorTestCase
                 'De alias "{{ alias }}" bestaat al',
             ],
             [
+                [
+                    'message' => 'De alias "{{ alias }}" bestaat al',
+                    'companyId' => '0ffc0f85-78ee-496b-bc61-17be1326c768',
+                ],
+                'De alias "{{ alias }}" bestaat al',
+            ],
+            [
                 [],
                 'The alias "{{ alias }}" already exists.',
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_succeeds_with_existing_alias_of_same_company(): void
+    {
+        $this->companyRepository
+            ->expects($this->once())
+            ->method("getByAlias")
+            ->with(new Alias('company-alias'))
+            ->willReturn(ModelsFactory::createCompany());
+
+        $constraint = new AliasIsUnique(
+            [
+                'message' => 'The alias "{{ alias }}" already exists.',
+                'companyId' => '85fec50a-71ed-4d12-8a69-28a3cf5eb106',
+            ]
+        );
+
+        $this->validator->validate('company-alias', $constraint);
+
+        $this->assertNoViolation();
     }
 }

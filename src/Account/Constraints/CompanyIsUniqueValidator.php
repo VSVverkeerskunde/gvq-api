@@ -29,7 +29,21 @@ class CompanyIsUniqueValidator extends ConstraintValidator
     {
         if ($constraint instanceof CompanyIsUnique) {
             $company = $this->companyRepository->getByName(new NotEmptyString($value));
-            if ($company != null) {
+            $raiseError = false;
+
+            if ($company !== null) {
+                // If new company, all records are taken into account
+                if ($constraint->getCompanyId() === null) {
+                    $raiseError = true;
+                }
+
+                // If existing company, exclude own name
+                if ($company->getId()->toString() !== $constraint->getCompanyId()) {
+                    $raiseError = true;
+                }
+            }
+
+            if ($raiseError) {
                 $this->context->buildViolation($constraint->getMessage())
                     ->setParameter('{{ company }}', $value)
                     ->addViolation();
