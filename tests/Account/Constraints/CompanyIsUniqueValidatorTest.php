@@ -46,7 +46,7 @@ class CompanyIsUniqueValidatorTest extends ConstraintValidatorTestCase
      * @param array $options
      * @param string $expectedMessage
      */
-    public function it_fails_with_existing_company_name(array $options, string $expectedMessage): void
+    public function it_fails_with_existing_name_of_other_company(array $options, string $expectedMessage): void
     {
         $this->companyRepository
             ->expects($this->once())
@@ -77,9 +77,39 @@ class CompanyIsUniqueValidatorTest extends ConstraintValidatorTestCase
                 'De bedrijfsnaam "{{ company }}" bestaat al',
             ],
             [
+                [
+                    'message' => 'De bedrijfsnaam "{{ company }}" bestaat al',
+                    'companyId' => '0ffc0f85-78ee-496b-bc61-17be1326c768',
+                ],
+                'De bedrijfsnaam "{{ company }}" bestaat al',
+            ],
+            [
                 [],
                 'The company "{{ company }}" already exists.',
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_succeeds_with_existing_name_of_same_company(): void
+    {
+        $this->companyRepository
+            ->expects($this->once())
+            ->method("getByName")
+            ->with(new NotEmptyString('CompanyName'))
+            ->willReturn(ModelsFactory::createCompany());
+
+        $constraint = new CompanyIsUnique(
+            [
+                'message' => 'The company "{{ company }}" already exists.',
+                'companyId' => '85fec50a-71ed-4d12-8a69-28a3cf5eb106',
+            ]
+        );
+
+        $this->validator->validate('CompanyName', $constraint);
+
+        $this->assertNoViolation();
     }
 }
