@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 use VSV\GVQ_API\Account\Constraints\AliasIsUnique;
 use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -31,7 +33,6 @@ class CompanyFormType extends AbstractType
         /** @var TranslatorInterface $translator */
         $translator = $options['translator'];
 
-        // TODO: Add constraints!
         $builder
             ->add(
                 'name',
@@ -53,6 +54,19 @@ class CompanyFormType extends AbstractType
                 IntegerType::class,
                 [
                     'data' => $company ? $company->getNumberOfEmployees()->toNative() : null,
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Employees not empty'),
+                            ]
+                        ),
+                        new Range(
+                            [
+                                'min' => 1,
+                                'minMessage' => $translator->trans('Employees positive'),
+                            ]
+                        ),
+                    ]
                 ]
             )
             ->add(
