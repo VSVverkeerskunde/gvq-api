@@ -81,6 +81,7 @@ class RegistrationFormType extends AbstractType
                     'type' => PasswordType::class,
                     'invalid_message' => $translator->trans('Different passwords'),
                     'first_options' => [
+                        'always_empty' => false,
                         'constraints' => [
                             new Regex(
                                 [
@@ -101,7 +102,9 @@ class RegistrationFormType extends AbstractType
                             ),
                         ],
                     ],
-                    'second_options' => [],
+                    'second_options' => [
+                        'always_empty' => false,
+                    ],
                 ]
             )
             ->add(
