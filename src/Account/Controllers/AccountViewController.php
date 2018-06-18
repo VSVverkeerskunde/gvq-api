@@ -113,7 +113,7 @@ class AccountViewController extends AbstractController
                 );
                 $this->registrationRepository->save($registration);
 
-                $this->redirectToRoute('accounts_view_register_success');
+                return $this->redirectToRoute('accounts_view_register_success');
             } catch (\Exception $e) {
                 $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
