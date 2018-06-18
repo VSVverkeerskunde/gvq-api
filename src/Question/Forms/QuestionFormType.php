@@ -79,7 +79,7 @@ class QuestionFormType extends AbstractType
                                 'maxMessage' => $translator->trans('Het jaar moet {{ limit }} of kleiner zijn.'),
                             ]
                         ),
-                    ]
+                    ],
                 ]
             )
             ->add(
@@ -168,7 +168,7 @@ class QuestionFormType extends AbstractType
                                 'message' => $translator->trans('Foto mag niet leeg zijn.'),
                             ]
                         ),
-                    ]
+                    ],
                 ]
             );
         }
@@ -239,11 +239,13 @@ class QuestionFormType extends AbstractType
     /**
      * @param Question $question
      * @param array $data
+     * @param UuidFactoryInterface $uuidFactory
      * @return Question
      */
     public function updateQuestionFromData(
         Question $question,
-        array $data
+        array $data,
+        UuidFactoryInterface $uuidFactory
     ): Question {
         $answers = [
             new Answer(
@@ -261,8 +263,15 @@ class QuestionFormType extends AbstractType
         ];
 
         if (!empty($data['answer3'])) {
+            // if there is an existing third answer update this answer
+            // else make a new one
+            if (array_key_exists(2, $question->getAnswers()->toArray())) {
+                $id = $question->getAnswers()->toArray()[2]->getId();
+            } else {
+                $id = $uuidFactory->uuid4();
+            }
             $answers[] = new Answer(
-                $question->getAnswers()->toArray()[2]->getId(),
+                $id,
                 new PositiveNumber(3),
                 new NotEmptyString($data['answer3']),
                 $data['correctAnswer'] === 3 ? true : false

@@ -172,7 +172,8 @@ class QuestionViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $question = $this->questionFormType->updateQuestionFromData(
                 $question,
-                $form->getData()
+                $form->getData(),
+                $this->uuidFactory
             );
             $this->questionRepository->update($question);
 
