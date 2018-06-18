@@ -24,6 +24,9 @@ class SeedUsersCommand extends Command
      */
     private $userRepository;
 
+    /**
+     * @param UserRepository $userRepository
+     */
     public function __construct(UserRepository $userRepository)
     {
         parent::__construct();
