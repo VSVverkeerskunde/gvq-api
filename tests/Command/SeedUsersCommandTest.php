@@ -4,10 +4,10 @@ namespace VSV\GVQ_API\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Password;
 
 class SeedUsersCommandTest extends TestCase
 {
@@ -26,6 +26,7 @@ class SeedUsersCommandTest extends TestCase
         /** @var UserRepository|MockObject $userRepository */
         $userRepository = $this->createMock(UserRepository::class);
         $this->userRepository = $userRepository;
+
         $this->seedUsersCommand = new SeedUsersCommand(
             $this->userRepository
         );
@@ -60,12 +61,24 @@ class SeedUsersCommandTest extends TestCase
     {
         $this->userRepository
             ->expects($this->exactly(2))
-            ->method('save');
+            ->method('save')
+            ->withConsecutive(
+                [
+                    ModelsFactory::createUser()->withPassword(
+                        Password::fromHash('$2y$10$6o3cL/ncEIGe.zU6PYFyM.hPafENgHZKiVFJ6jOb.oTjCCb5sjFQG')
+                    ),
+                ],
+                [
+                    ModelsFactory::createAlternateUser()->withPassword(
+                        Password::fromHash('$2y$10$gyWWGYK9VAEMO8eE17xbhOLQ9buwR/nNBKXa8RxZnwPASE73/yQM6')
+                    ),
+                ]
+            );
 
         $commandTester = new CommandTester($this->seedUsersCommand);
         $commandTester->execute(
             [
-                'users_file' => __DIR__.'/../../src/Command/fixed_users.yaml.dist',
+                'users_file' => __DIR__ . '/../../src/Command/fixed_users.yaml.dist',
             ]
         );
     }
