@@ -200,6 +200,8 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @param string $id
      * @return Response
+     * @throws \League\Flysystem\FileExistsException
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function editImage(Request $request, string $id): Response
     {
@@ -214,6 +216,22 @@ class QuestionViewController extends AbstractController
 
         $form = $this->createEditImageForm($question);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $fileName = $this->imageController->handleImage($data['image']);
+            $this->imageController->delete($question->getImageFileName()->toNative());
+
+            $question = $this->imageFormType->updateQuestionImage(
+                $question,
+                $fileName
+            );
+            $this->questionRepository->save($question);
+
+            $this->addFlash('success', 'Foto van vraag '.$id.' is aangepast.');
+            return $this->redirectToRoute('questions_view_index');
+        }
 
         return $this->render(
             'questions/edit_image.html.twig',
