@@ -71,5 +71,5 @@ Inloggen: Inloggen
 Verzenden: Verzenden
 Wachtwoord vergeten: 'Wachtwoord vergeten?'
 Account inactive: 'Gelieve uw account te activeren via de link in de bevestigingsmail van uw registratie.'
-Invalid credentials: 'Onjuiste gegevens'
-Login failed: '__Er liep iets mis'
+Invalid credentials: 'De gegevens die u opgaf zijn niet juist.'
+Login failed: 'Er liep iets mis.'
