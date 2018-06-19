@@ -80,6 +80,12 @@ questions_view_edit:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+questions_view_edit_image:
+  path: /{_locale}/view/questions/edit-image/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::editImage
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 questions_view_delete:
   path: /{_locale}/view/questions/delete/{id}
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::delete
