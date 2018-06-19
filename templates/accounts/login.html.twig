@@ -3,21 +3,32 @@
 {% block title %}{% trans %}Inloggen{% endtrans %}{% endblock %}
 
 {% block content %}
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    <div class="form-group">
-        <label for="form_email">{% trans %}E-mail{% endtrans %}</label>
-        {{ form_widget(form.email) }}
-        {{ form_errors(form.email) }}
-    </div>
-    
-    <div class="form-group">
-        <label for="form_password">{% trans %}Wachtwoord{% endtrans %}</label>
-        {{ form_widget(form.password) }}
-        {{ form_errors(form.password) }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">{% trans %} Inloggen {% endtrans %}</div>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="form-group">
+                <label for="form_email">{% trans %}E-mail{% endtrans %}</label>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">{% trans %}Verzenden{% endtrans %}</button>
+            <div class="form-group">
+                <label for="form_password">{% trans %}Wachtwoord{% endtrans %}</label>
+                {{ form_widget(form.password) }}
+                {{ form_errors(form.password) }}
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans %}Verzenden{% endtrans %}</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        
+        <div class="card-footer">
+            <div class="card-link"><a href="#">{% trans %}Wachtwoord vergeten{% endtrans %}</a></div>
+        </div>
     </div>
-    {{ form_end(form) }}
 {% endblock %}
