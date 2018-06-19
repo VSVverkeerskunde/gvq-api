@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Inloggen{% endtrans %}{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group">
+        <label for="form_email">{% trans %}E-mail{% endtrans %}</label>
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    
+    <div class="form-group">
+        <label for="form_password">{% trans %}Wachtwoord{% endtrans %}</label>
+        {{ form_widget(form.password) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{% trans %}Verzenden{% endtrans %}</button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

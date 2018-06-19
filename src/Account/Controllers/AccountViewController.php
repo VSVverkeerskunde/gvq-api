@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use VSV\GVQ_API\Account\Forms\LoginFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
@@ -21,6 +22,11 @@ class AccountViewController extends AbstractController
      * @var RegistrationFormType
      */
     private $registrationFormType;
+
+    /**
+     * @var LoginFormType
+     */
+    private $loginFormType;
 
     /**
      * @var TranslatorInterface
@@ -75,6 +81,7 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->registrationFormType = new RegistrationFormType();
+        $this->loginFormType = new LoginFormType();
     }
 
     /**
@@ -136,6 +143,23 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function login(Request $request): Response
+    {
+        $form = $this->createLoginForm();
+        $form->handleRequest($request);
+
+        return $this->render(
+            'accounts/login.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
@@ -157,6 +181,21 @@ class AccountViewController extends AbstractController
             [
                 'translator' => $this->translator,
             ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function createLoginForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder(null);
+
+        $this->loginFormType->buildForm(
+            $formBuilder,
+            []
         );
 
         return $formBuilder->getForm();

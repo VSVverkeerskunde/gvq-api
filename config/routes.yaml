@@ -55,6 +55,12 @@ accounts_view_register_success:
   methods: [GET]
   requirements:
     _locale: nl|fr
+accounts_view_login:
+  path: /{_locale}/view/accounts/login
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::login
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
