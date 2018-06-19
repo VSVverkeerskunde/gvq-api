@@ -237,15 +237,15 @@ class QuestionFormType extends AbstractType
     }
 
     /**
+     * @param UuidFactoryInterface $uuidFactory
      * @param Question $question
      * @param array $data
-     * @param UuidFactoryInterface $uuidFactory
      * @return Question
      */
     public function updateQuestionFromData(
+        UuidFactoryInterface $uuidFactory,
         Question $question,
-        array $data,
-        UuidFactoryInterface $uuidFactory
+        array $data
     ): Question {
         $answers = [
             new Answer(
