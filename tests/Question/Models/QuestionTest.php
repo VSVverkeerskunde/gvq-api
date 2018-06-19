@@ -17,6 +17,9 @@ class QuestionTest extends TestCase
      */
     private $question;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp(): void
     {
         $this->question = ModelsFactory::createAccidentQuestion();
@@ -124,6 +127,7 @@ class QuestionTest extends TestCase
      * @test
      * @dataProvider answersProvider
      * @param Answers $answers
+     * @throws \Exception
      */
     public function it_throws_on_wrong_number_of_answers(Answers $answers): void
     {
@@ -144,7 +148,8 @@ class QuestionTest extends TestCase
             $answers,
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
+            ),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1'))
         );
     }
 
@@ -200,6 +205,7 @@ class QuestionTest extends TestCase
      *
      * @dataProvider correctAnswersProvider
      * @param Answers $answers
+     * @throws \Exception
      */
     public function it_throws_on_wrong_number_of_correct_answers(Answers $answers): void
     {
@@ -220,7 +226,8 @@ class QuestionTest extends TestCase
             $answers,
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
+            ),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1'))
         );
     }
 
@@ -261,7 +268,7 @@ class QuestionTest extends TestCase
                         false
                     )
                 ),
-            ]
+            ],
         ];
     }
 
@@ -275,6 +282,18 @@ class QuestionTest extends TestCase
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
             $this->question->getFeedback()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_stores_a_created_on_datetime(): void
+    {
+        $this->assertEquals(
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('UTC')),
+            $this->question->getCreatedOn()
         );
     }
 

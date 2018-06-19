@@ -60,6 +60,7 @@ class QuestionNormalizer implements NormalizerInterface
             'imageFileName' => $question->getImageFileName()->toNative(),
             'answers' => $answers,
             'feedback' => $question->getFeedback()->toNative(),
+            'createdOn' => $question->getCreatedOn()->format('Y-m-d H:i:s')
         ];
     }
 

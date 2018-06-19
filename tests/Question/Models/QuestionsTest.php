@@ -17,6 +17,9 @@ class QuestionsTest extends TestCase
      */
     private $questions;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp(): void
     {
         $this->questionsArray = [

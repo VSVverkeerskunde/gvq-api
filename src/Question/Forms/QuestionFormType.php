@@ -194,6 +194,7 @@ class QuestionFormType extends AbstractType
      * @param NotEmptyString $imageFileName
      * @param array $data
      * @return Question
+     * @throws \Exception
      */
     public function newQuestionFromData(
         UuidFactoryInterface $uuidFactory,
@@ -232,7 +233,8 @@ class QuestionFormType extends AbstractType
             new NotEmptyString($data['text']),
             $imageFileName,
             new Answers(...$answers),
-            new NotEmptyString($data['feedback'])
+            new NotEmptyString($data['feedback']),
+            new \DateTimeImmutable('now')
         );
     }
 
@@ -241,6 +243,7 @@ class QuestionFormType extends AbstractType
      * @param Question $question
      * @param array $data
      * @return Question
+     * @throws \Exception
      */
     public function updateQuestionFromData(
         UuidFactoryInterface $uuidFactory,
@@ -286,7 +289,8 @@ class QuestionFormType extends AbstractType
             new NotEmptyString($data['text']),
             $question->getImageFileName(),
             new Answers(...$answers),
-            new NotEmptyString($data['feedback'])
+            new NotEmptyString($data['feedback']),
+            $question->getCreatedOn()
         );
     }
 

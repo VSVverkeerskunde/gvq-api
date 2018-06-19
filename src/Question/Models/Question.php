@@ -52,6 +52,11 @@ class Question
     /**
      * @var \DateTimeImmutable
      */
+    private $createdOn;
+
+    /**
+     * @var \DateTimeImmutable
+     */
     private $archivedOn;
 
     /**
@@ -63,6 +68,7 @@ class Question
      * @param NotEmptyString $imageFileName
      * @param Answers $answers
      * @param NotEmptyString $feedback
+     * @param \DateTimeImmutable $createdOn
      */
     public function __construct(
         UuidInterface $id,
@@ -72,7 +78,8 @@ class Question
         NotEmptyString $text,
         NotEmptyString $imageFileName,
         Answers $answers,
-        NotEmptyString $feedback
+        NotEmptyString $feedback,
+        \DateTimeImmutable $createdOn
     ) {
         $this->guardAnswers($answers);
 
@@ -84,6 +91,7 @@ class Question
         $this->imageFileName = $imageFileName;
         $this->answers = $answers;
         $this->feedback = $feedback;
+        $this->createdOn = $createdOn;
     }
 
     /**
@@ -148,6 +156,14 @@ class Question
     public function getFeedback(): NotEmptyString
     {
         return $this->feedback;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedOn(): \DateTimeImmutable
+    {
+        return $this->createdOn;
     }
 
     /**

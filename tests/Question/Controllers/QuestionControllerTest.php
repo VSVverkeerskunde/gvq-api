@@ -71,6 +71,7 @@ class QuestionControllerTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_saves_a_question(): void
     {
@@ -142,6 +143,7 @@ class QuestionControllerTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_get_all_questions(): void
     {
