@@ -102,6 +102,24 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
+    public function it_deletes_removed_answers(): void
+    {
+        $this->questionDoctrineRepository->save($this->question);
+
+        $updatedQuestion = ModelsFactory::createUpdatedAccidentQuestionWithRemovedAnswer();
+        $this->questionDoctrineRepository->update($updatedQuestion);
+
+        $foundQuestion = $this->questionDoctrineRepository->getById(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d')
+        );
+
+        $this->assertEquals($updatedQuestion, $foundQuestion);
+    }
+
+    /**
+     * @test
      * @throws EntityNotFoundException
      */
     public function it_throws_on_updating_a_non_existing_question(): void
