@@ -195,7 +195,9 @@ class AccountViewController extends AbstractController
 
         $this->loginFormType->buildForm(
             $formBuilder,
-            []
+            [
+                'translator' => $this->translator,
+            ]
         );
 
         return $formBuilder->getForm();

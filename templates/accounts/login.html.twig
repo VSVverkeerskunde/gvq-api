@@ -7,6 +7,7 @@
         <div class="card-header">
             <div class="card-title">{% trans %} Inloggen {% endtrans %}</div>
         </div>
+
         <div class="card-body">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
             <div class="form-group">
@@ -26,7 +27,7 @@
             </div>
             {{ form_end(form) }}
         </div>
-        
+
         <div class="card-footer">
             <div class="card-link"><a href="#">{% trans %}Wachtwoord vergeten{% endtrans %}</a></div>
         </div>
