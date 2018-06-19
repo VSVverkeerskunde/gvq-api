@@ -67,3 +67,10 @@ Registration success extra: '__Het kan enkele minuten duren voor u de mail ontva
 Naar GVQ site: '_Naar GVQ site'
 Employees not empty: '__Het aantal medewerkers mag niet leeg zijn.'
 Employees positive: '__Het aantal medewerkers moet {{ limit }} of groter zijn.'
+Activation.mail.subject: '__Activatie Grote Verkeersquiz 2018'
+Activation: __Activatie account
+Activation.success.title: '__Welkom!'
+Activation.success.subtitle: '__Uw activatie is geslaagd.'
+Activation.success.text: '__Je kan nu inloggen met je gekozen email adres en paswoord.'
+Activation.success.extra: '__Je zal ook nog een mail ontvangen met alle details van de Grote Verkeersquiz.'
+To.login: '__Naar login pagina'

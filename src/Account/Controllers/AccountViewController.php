@@ -136,6 +136,14 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @return Response
+     */
+    public function activation(): Response
+    {
+        return $this->render('accounts/activation.html.twig');
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
