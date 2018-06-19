@@ -67,3 +67,6 @@ Registration success extra: 'Het kan enkele minuten duren voor u de mail ontvang
 Naar GVQ site: 'Naar GVQ site'
 Employees not empty: 'Het aantal medewerkers mag niet leeg zijn.'
 Employees positive: 'Het aantal medewerkers moet {{ limit }} of groter zijn.'
+Inloggen: Inloggen
+Verzenden: Verzenden
+Wachtwoord vergeten: 'Wachtwoord vergeten?'
