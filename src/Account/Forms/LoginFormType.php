@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class LoginFormType extends AbstractType
@@ -30,6 +31,11 @@ class LoginFormType extends AbstractType
                                 'message' => $translator->trans('Empty field'),
                             ]
                         ),
+                        new Email(
+                            [
+                                'message' => $translator->trans('Invalid email pattern')
+                            ]
+                        )
                     ],
                 ]
             )

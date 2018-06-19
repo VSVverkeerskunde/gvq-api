@@ -15,6 +15,7 @@ use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class AccountViewController extends AbstractController
 {
@@ -150,6 +151,25 @@ class AccountViewController extends AbstractController
     {
         $form = $this->createLoginForm();
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            try {
+                $user = $this->userRepository->getByEmail(new Email($data['email']));
+
+                if ($user && $user->getPassword() && $user->getPassword()->verifies($data['password'])) {
+                    if ($user->isActive()) {
+                        return $this->redirectToRoute('questions_view_index');
+                    }
+                    $this->addFlash('warning', $this->translator->trans('Account inactive'));
+                } else {
+                    $this->addFlash('danger', $this->translator->trans('Invalid credentials'));
+                }
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $this->translator->trans('Login failed'));
+            }
+        }
 
         return $this->render(
             'accounts/login.html.twig',
