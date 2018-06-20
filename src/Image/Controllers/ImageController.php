@@ -2,9 +2,9 @@
 
 namespace VSV\GVQ_API\Image\Controllers;
 
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Ramsey\Uuid\UuidFactoryInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,7 +87,11 @@ class ImageController
      */
     public function delete(string $fileName): bool
     {
-        return $this->fileSystem->delete($fileName);
+        if ($this->fileSystem->has($fileName)) {
+            return $this->fileSystem->delete($fileName);
+        }
+
+        return false;
     }
 
     /**
