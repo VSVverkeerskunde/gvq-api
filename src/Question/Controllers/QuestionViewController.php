@@ -227,7 +227,7 @@ class QuestionViewController extends AbstractController
                 $question,
                 $fileName
             );
-            $this->questionRepository->save($question);
+            $this->questionRepository->update($question);
 
             $this->addFlash('success', 'Foto van vraag '.$id.' is aangepast.');
             return $this->redirectToRoute('questions_view_index');
