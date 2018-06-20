@@ -15,6 +15,7 @@ use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class AccountViewController extends AbstractController
@@ -60,12 +61,18 @@ class AccountViewController extends AbstractController
     private $urlSuffixGenerator;
 
     /**
+     * @var MailService
+     */
+    private $mailService;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
+     * @param MailService $mailService
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -73,7 +80,8 @@ class AccountViewController extends AbstractController
         UserRepository $userRepository,
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
-        UrlSuffixGenerator $urlSuffixGenerator
+        UrlSuffixGenerator $urlSuffixGenerator,
+        MailService $mailService
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -81,6 +89,8 @@ class AccountViewController extends AbstractController
         $this->companyRepository = $companyRepository;
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
+        $this->mailService = $mailService;
+
         $this->registrationFormType = new RegistrationFormType();
         $this->passwordResetFormType = new PasswordResetFormType();
     }
@@ -172,6 +182,7 @@ class AccountViewController extends AbstractController
                 );
 
                 $this->registrationRepository->save($registration);
+                $this->mailService->sendPasswordResetMail($registration);
             }
 
             $this->addFlash(

@@ -11,10 +11,8 @@
 
     <body>
         <div class="container-fluid">
-            {# for HTML header #}
             {% block header %}{% endblock %}
 
-            {# for HTML nav #}
             {% block nav %}{% endblock %}
 
             {% for label, messages in app.flashes %}
@@ -27,7 +25,6 @@
 
             {% block content %}{% endblock %}
 
-            {# for HTML footer #}
             {% block footer %}{% endblock %}
         </div>
         {% block javascripts %}
