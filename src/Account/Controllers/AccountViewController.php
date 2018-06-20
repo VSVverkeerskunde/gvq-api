@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use VSV\GVQ_API\Account\Forms\PasswordResetFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class AccountViewController extends AbstractController
 {
@@ -21,6 +23,11 @@ class AccountViewController extends AbstractController
      * @var RegistrationFormType
      */
     private $registrationFormType;
+
+    /**
+     * @var PasswordResetFormType
+     */
+    private $passwordResetFormType;
 
     /**
      * @var TranslatorInterface
@@ -75,6 +82,7 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->registrationFormType = new RegistrationFormType();
+        $this->passwordResetFormType = new PasswordResetFormType();
     }
 
     /**
@@ -136,6 +144,23 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function resetPassword(Request $request): Response
+    {
+        $form = $this->createPasswordResetForm();
+        $form->handleRequest($request);
+
+        return $this->render(
+            'accounts/password_reset.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
@@ -153,6 +178,26 @@ class AccountViewController extends AbstractController
         );
 
         $this->registrationFormType->buildForm(
+            $formBuilder,
+            [
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function createPasswordResetForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder(
+            null,
+            []
+        );
+
+        $this->passwordResetFormType->buildForm(
             $formBuilder,
             [
                 'translator' => $this->translator,
