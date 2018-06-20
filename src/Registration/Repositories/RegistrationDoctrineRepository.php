@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Registration\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\Entities\RegistrationEntity;
@@ -31,8 +32,7 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
-     * @param string $urlSuffix
-     * @return Registration|null
+     * @inheritdoc
      */
     public function getByUrlSuffix(string $urlSuffix): ?Registration
     {
@@ -44,5 +44,38 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
         );
 
         return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByUserId(UuidInterface $userId): ?Registration
+    {
+        $registrationEntity = $this->objectRepository->findOneBy(
+            [
+                'userEntity' => $userId->toString(),
+            ]
+        );
+
+        return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function delete(UuidInterface $registrationId): void
+    {
+        /** @var Registration $registrationEntity */
+        $registrationEntity = $this->objectRepository->findOneBy(
+          [
+              'id' => $registrationId,
+          ]
+        );
+
+        if ($registrationEntity !== null) {
+            $this->entityManager->merge($registrationEntity);
+            $this->entityManager->remove($registrationEntity);
+            $this->entityManager->flush();
+        }
     }
 }

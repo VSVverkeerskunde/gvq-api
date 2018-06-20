@@ -117,7 +117,8 @@ class AccountViewController extends AbstractController
                 $registration = $this->registrationFormType->createRegistrationForUser(
                     $this->uuidFactory,
                     $this->urlSuffixGenerator,
-                    $user
+                    $user,
+                    false
                 );
                 $this->registrationRepository->save($registration);
 
@@ -146,11 +147,34 @@ class AccountViewController extends AbstractController
     /**
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function resetPassword(Request $request): Response
     {
         $form = $this->createPasswordResetForm();
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->userRepository->getByEmail(new Email($data['email']));
+
+            if ($user) {
+                $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
+                if($existingRegistration) {
+                    $this->registrationRepository->delete($existingRegistration->getId());
+                }
+                $registration = $this->registrationFormType->createRegistrationForUser(
+                    $this->uuidFactory,
+                    $this->urlSuffixGenerator,
+                    $user,
+                    true
+                );
+
+                $this->registrationRepository->save($registration);
+                $this->addFlash('success', $this->translator->trans('Password reset application success'));
+            }
+        }
 
         return $this->render(
             'accounts/password_reset.html.twig',
@@ -192,10 +216,7 @@ class AccountViewController extends AbstractController
      */
     private function createPasswordResetForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder(
-            null,
-            []
-        );
+        $formBuilder = $this->createFormBuilder();
 
         $this->passwordResetFormType->buildForm(
             $formBuilder,
