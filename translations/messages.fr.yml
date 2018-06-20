@@ -67,3 +67,6 @@ Registration success extra: '__Het kan enkele minuten duren voor u de mail ontva
 Naar GVQ site: '_Naar GVQ site'
 Employees not empty: '__Het aantal medewerkers mag niet leeg zijn.'
 Employees positive: '__Het aantal medewerkers moet {{ limit }} of groter zijn.'
+Password reset application success: '__Success! Als er een account bestaat voor %email%, wordt er een e-mail verstuurd met een link om een nieuw wachtwoord te kiezen.'
+Wachtwoord herstellen: '__Wachtwoord vergeten'
+Wachtwoord herstel uitleg: '__Geef het e-mailadres in waarmee u geregistreerd heeft om een nieuw wachtwoord in te stellen.'

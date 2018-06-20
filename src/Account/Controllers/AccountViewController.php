@@ -172,7 +172,15 @@ class AccountViewController extends AbstractController
                 );
 
                 $this->registrationRepository->save($registration);
-                $this->addFlash('success', $this->translator->trans('Password reset application success'));
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans(
+                        'Password reset application success',
+                        [
+                            '%email%' => $data['email'],
+                        ]
+                    )
+                );
             }
         }
 
