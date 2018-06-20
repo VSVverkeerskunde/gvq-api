@@ -159,7 +159,7 @@ class AccountViewController extends AbstractController
 
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
-            if ($user) {
+            if ($user && $user->isActive()) {
                 $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
                 if ($existingRegistration) {
                     $this->registrationRepository->delete($existingRegistration->getId());
@@ -172,16 +172,17 @@ class AccountViewController extends AbstractController
                 );
 
                 $this->registrationRepository->save($registration);
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'Password reset application success',
-                        [
-                            '%email%' => $data['email'],
-                        ]
-                    )
-                );
             }
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Password reset application success',
+                    [
+                        '%email%' => $data['email'],
+                    ]
+                )
+            );
         }
 
         return $this->render(
