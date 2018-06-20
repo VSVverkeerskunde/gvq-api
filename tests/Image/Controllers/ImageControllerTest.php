@@ -141,4 +141,59 @@ class ImageControllerTest extends TestCase
 
         $this->imageController->upload($request);
     }
+
+    /**
+     * @test
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function it_deletes_the_previous_image_if_it_exists(): void
+    {
+        $fileName = 'existingImage.jpg';
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('has')
+            ->with($fileName)
+            ->willReturn(true);
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('delete')
+            ->with($fileName)
+            ->willReturn(true);
+
+        $actualReturn = $this->imageController->delete($fileName);
+
+        $this->assertEquals(
+            true,
+            $actualReturn
+        );
+    }
+
+    /**
+     * @test
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function it_does_not_try_to_delete_nonexisting_image(): void
+    {
+        $fileName = 'existingImage.jpg';
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('has')
+            ->with($fileName)
+            ->willReturn(false);
+
+        $this->fileSystem
+            ->expects($this->never())
+            ->method('delete')
+            ->with($fileName);
+
+        $actualReturn = $this->imageController->delete($fileName);
+
+        $this->assertEquals(
+            false,
+            $actualReturn
+        );
+    }
 }

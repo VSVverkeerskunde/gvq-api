@@ -20,6 +20,7 @@
                 <file>./src/User/Forms/UserFormType.php</file>
                 <file>./src/Account/Controllers/AccountViewController.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
+                <file>./src/Question/Forms/ImageFormType.php</file>
             </exclude>
         </whitelist>
     </filter>
