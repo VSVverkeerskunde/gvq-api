@@ -161,7 +161,7 @@ class AccountViewController extends AbstractController
 
             if ($user) {
                 $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
-                if($existingRegistration) {
+                if ($existingRegistration) {
                     $this->registrationRepository->delete($existingRegistration->getId());
                 }
                 $registration = $this->registrationFormType->createRegistrationForUser(

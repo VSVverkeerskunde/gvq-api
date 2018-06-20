@@ -51,6 +51,7 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function getByUserId(UuidInterface $userId): ?Registration
     {
+        /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
             [
                 'userEntity' => $userId->toString(),
@@ -65,11 +66,11 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
      */
     public function delete(UuidInterface $registrationId): void
     {
-        /** @var Registration $registrationEntity */
+        /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
-          [
-              'id' => $registrationId,
-          ]
+            [
+                'id' => $registrationId,
+            ]
         );
 
         if ($registrationEntity !== null) {
