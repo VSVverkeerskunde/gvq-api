@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Registration\Repositories;
 
 use Doctrine\ORM\ORMInvalidArgumentException;
+use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Registration\Models\Registration;
@@ -80,5 +81,56 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->registrationDoctrineRepository->save($registration);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_registration_by_url_suffix(): void
+    {
+        $this->registrationDoctrineRepository->save($this->registration);
+
+        $foundRegistration = $this->registrationDoctrineRepository->getByUrlSuffix(
+            'd2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'
+        );
+
+        $this->assertEquals(
+            $this->registration,
+            $foundRegistration
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_registration_by_user_id(): void
+    {
+        $this->registrationDoctrineRepository->save($this->registration);
+
+        $foundRegistration = $this->registrationDoctrineRepository->getByUserId(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        $this->assertEquals(
+            $this->registration,
+            $foundRegistration
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_delete_a_registration(): void
+    {
+        $this->registrationDoctrineRepository->save($this->registration);
+        $this->registrationDoctrineRepository->delete($this->registration->getId());
+
+        $foundRegistration = $this->registrationDoctrineRepository->getByUserId(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        $this->assertNull(
+            $foundRegistration
+        );
     }
 }
