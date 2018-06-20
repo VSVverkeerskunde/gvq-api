@@ -214,7 +214,7 @@ class QuestionViewController extends AbstractController
             return $this->redirectToRoute('questions_view_index');
         }
 
-        $form = $this->createEditImageForm($question);
+        $form = $this->createEditImageForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -287,14 +287,16 @@ class QuestionViewController extends AbstractController
         return $formBuilder->getForm();
     }
 
-    private function createEditImageForm(Question $question): FormInterface
+    /**
+     * @return FormInterface
+     */
+    private function createEditImageForm(): FormInterface
     {
         $formBuilder = $this->createFormBuilder();
 
         $this->imageFormType->buildForm(
             $formBuilder,
             [
-                'question' => $question,
                 'translator' => $this->translator,
             ]
         );
