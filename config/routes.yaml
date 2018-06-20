@@ -55,9 +55,9 @@ accounts_view_register_success:
   methods: [GET]
   requirements:
     _locale: nl|fr
-accounts_view_password_reset:
-  path: /{_locale}/view/accounts/reset-password
-  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::resetPassword
+accounts_view_password_request_reset:
+  path: /{_locale}/view/accounts/request-password-reset
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordReset
   methods: [GET, POST]
   requirements:
     _locale: nl|fr

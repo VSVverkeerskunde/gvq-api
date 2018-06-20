@@ -149,7 +149,7 @@ class AccountViewController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function resetPassword(Request $request): Response
+    public function requestPasswordReset(Request $request): Response
     {
         $form = $this->createPasswordResetForm();
         $form->handleRequest($request);
@@ -177,7 +177,7 @@ class AccountViewController extends AbstractController
             $this->addFlash(
                 'success',
                 $this->translator->trans(
-                    'Password reset application success',
+                    'Password reset request success',
                     [
                         '%email%' => $data['email'],
                     ]
@@ -186,7 +186,7 @@ class AccountViewController extends AbstractController
         }
 
         return $this->render(
-            'accounts/password_reset.html.twig',
+            'accounts/password_reset_request.html.twig',
             [
                 'form' => $form->createView(),
             ]
