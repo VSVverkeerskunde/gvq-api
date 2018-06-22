@@ -2,6 +2,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'nl'
+    sender_email: 'info@gvq.be'
+    sender_name: 'Info GVQ'
 
 services:
     # default configuration for services in *this* file
@@ -58,6 +60,35 @@ services:
 
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
+
+    VSV\GVQ_API\User\ValueObjects\Email:
+      arguments:
+        $value: '%sender_email%'
+
+    VSV\GVQ_API\Common\ValueObjects\NotEmptyString:
+      arguments:
+        $value: '%sender_name%'
+
+    sender_email:
+      class: VSV\GVQ_API\User\ValueObjects\Email
+      arguments:
+        $value: '%sender_email%'
+
+    sender_name:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: '%sender_name%'
+
+    sender:
+      class: VSV\GVQ_API\Mail\Models\Sender
+      arguments:
+       $email: '@sender_email'
+       $name: '@sender_name'
+
+    swift_mailer_service:
+      class: VSV\GVQ_API\Mail\Service\SwiftMailService
+      arguments:
+        $sender: '@sender'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:

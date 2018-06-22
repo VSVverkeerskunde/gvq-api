@@ -8,10 +8,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use \Twig_Environment;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Mail\Models\Sender;
 use VSV\GVQ_API\Registration\Models\Registration;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class SwiftMailService implements MailService
 {
@@ -45,23 +43,20 @@ class SwiftMailService implements MailService
      * @param Twig_Environment $twig
      * @param TranslatorInterface $translator
      * @param UrlGeneratorInterface $urlGenerator
+     * @param Sender $sender
      */
     public function __construct(
         Swift_Mailer $swiftMailer,
         Twig_Environment $twig,
         TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        Sender $sender
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->twig = $twig;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
-
-        // TODO: Inject the Sender.
-        $this->sender = new Sender(
-            new Email('info@gvq.be'),
-            new NotEmptyString('Info GVQ')
-        );
+        $this->sender = $sender;
     }
 
     /**

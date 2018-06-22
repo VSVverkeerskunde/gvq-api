@@ -10,6 +10,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Mail\Models\Sender;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -495,6 +496,17 @@ class ModelsFactory
             self::createAlternateUser(),
             new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
             false
+        );
+    }
+
+    /**
+     * @return Sender
+     */
+    public static function createSender(): Sender
+    {
+        return new Sender(
+            new Email('info@gvq.be'),
+            new NotEmptyString('Info GVQ')
         );
     }
 

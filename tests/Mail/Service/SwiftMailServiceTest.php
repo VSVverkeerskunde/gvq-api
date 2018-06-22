@@ -51,7 +51,8 @@ class SwiftMailServiceTest extends KernelTestCase
             $swiftMailer,
             $twig,
             $translator,
-            $this->urlGenerator
+            $this->urlGenerator,
+            ModelsFactory::createSender()
         );
     }
 
