@@ -60,7 +60,7 @@ class SwiftMailService implements MailService
         // TODO: Inject the Sender.
         $this->sender = new Sender(
             new Email('info@gvq.be'),
-            new NotEmptyString('Ingo GVQ')
+            new NotEmptyString('Info GVQ')
         );
     }
 
