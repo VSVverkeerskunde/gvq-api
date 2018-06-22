@@ -149,7 +149,7 @@ class SwiftMailService implements MailService
             'accounts_view_activation',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
-                'id' => $registration->getId()->toString(),
+                'urlSuffix' => $registration->getUrlSuffix()->toNative(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

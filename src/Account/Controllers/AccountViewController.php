@@ -14,6 +14,7 @@ use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
@@ -158,13 +159,21 @@ class AccountViewController extends AbstractController
     }
 
     /**
-     * @param string $id
+     * @param string $urlSuffix
      * @return Response
      */
-    public function activation(string $id): Response
+    public function activation(string $urlSuffix): Response
     {
-        // TODO: Activate the account if $id is valid.
-        return $this->render('accounts/activation.html.twig');
+        $registration = $this->registrationRepository->getByUrlSuffix(
+            new UrlSuffix($urlSuffix)
+        );
+
+        if ($registration) {
+            $user = $registration->getUser()->activate();
+            $this->userRepository->update($user);
+
+            return $this->render('accounts/activation.html.twig');
+        }
     }
 
     /**

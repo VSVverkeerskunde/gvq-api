@@ -128,11 +128,9 @@ class UserTest extends TestCase
     public function it_can_be_activated(): void
     {
         $user = ModelsFactory::createInactiveUser();
-
         $this->assertFalse($user->isActive());
 
         $user = $user->activate();
-
         $this->assertTrue($user->isActive());
     }
 }
