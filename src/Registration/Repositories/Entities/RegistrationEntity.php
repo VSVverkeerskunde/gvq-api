@@ -33,7 +33,7 @@ class RegistrationEntity extends Entity
     /**
      * @var \DateTimeImmutable
      *
-     * @ORM\Column(type="datetime",name="created_on", nullable=false)
+     * @ORM\Column(type="datetime_immutable",name="created_on", nullable=false)
      */
     private $createdOn;
 
