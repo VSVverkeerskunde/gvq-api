@@ -173,6 +173,8 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             return $this->render('accounts/activation.html.twig');
+        } else {
+            return $this->render('accounts/activation_error.html.twig');
         }
     }
 
