@@ -61,34 +61,11 @@ services:
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
 
-    VSV\GVQ_API\User\ValueObjects\Email:
+    VSV\GVQ_API\Mail\Models\Sender:
+      factory: 'VSV\GVQ_API\Mail\Models\SenderFactory:fromNative'
       arguments:
-        $value: '%sender_email%'
-
-    VSV\GVQ_API\Common\ValueObjects\NotEmptyString:
-      arguments:
-        $value: '%sender_name%'
-
-    sender_email:
-      class: VSV\GVQ_API\User\ValueObjects\Email
-      arguments:
-        $value: '%sender_email%'
-
-    sender_name:
-      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
-      arguments:
-        $value: '%sender_name%'
-
-    sender:
-      class: VSV\GVQ_API\Mail\Models\Sender
-      arguments:
-       $email: '@sender_email'
-       $name: '@sender_name'
-
-    swift_mailer_service:
-      class: VSV\GVQ_API\Mail\Service\SwiftMailService
-      arguments:
-        $sender: '@sender'
+       $email: '%sender_email%'
+       $name: '%sender_name%'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
