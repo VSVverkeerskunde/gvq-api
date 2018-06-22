@@ -211,7 +211,7 @@ class AccountViewController extends AbstractController
      */
     private function createLoginForm(): FormInterface
     {
-        $formBuilder = $this->createFormBuilder(null);
+        $formBuilder = $this->createFormBuilder();
 
         $this->loginFormType->buildForm(
             $formBuilder,
