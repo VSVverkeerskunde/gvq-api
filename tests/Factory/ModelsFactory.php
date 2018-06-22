@@ -136,6 +136,22 @@ class ModelsFactory
     /**
      * @return User
      */
+    public static function createInactiveUser(): User
+    {
+        return new User(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768'),
+            new Email('john@gvq.be'),
+            new NotEmptyString('Doe'),
+            new NotEmptyString('John'),
+            new Role('contact'),
+            new Language('nl'),
+            false
+        );
+    }
+
+    /**
+     * @return User
+     */
     public static function createUserWithPassword(): User
     {
         return self::createUser()->withPassword(
