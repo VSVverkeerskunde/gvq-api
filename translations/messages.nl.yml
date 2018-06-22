@@ -68,7 +68,6 @@ Naar GVQ site: 'Naar GVQ site'
 Employees not empty: 'Het aantal medewerkers mag niet leeg zijn.'
 Employees positive: 'Het aantal medewerkers moet {{ limit }} of groter zijn.'
 Inloggen: Inloggen
-Verzenden: Verzenden
 Wachtwoord vergeten: 'Wachtwoord vergeten?'
 Account inactive: 'Gelieve uw account te activeren via de link in de bevestigingsmail van uw registratie.'
 Invalid credentials: 'De gegevens die u opgaf zijn niet juist.'
