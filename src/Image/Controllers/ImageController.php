@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Image\Controllers;
 
+use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Ramsey\Uuid\UuidFactoryInterface;
@@ -47,7 +48,7 @@ class ImageController
     /**
      * @param Request $request
      * @return Response
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FileExistsException
      */
     public function upload(Request $request): Response
     {
@@ -64,7 +65,7 @@ class ImageController
     /**
      * @param UploadedFile $uploadedFile
      * @return NotEmptyString
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FileExistsException
      */
     public function handleImage(UploadedFile $uploadedFile): NotEmptyString
     {
@@ -83,7 +84,7 @@ class ImageController
     /**
      * @param string $fileName
      * @return bool
-     * @throws \League\Flysystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function delete(string $fileName): bool
     {
