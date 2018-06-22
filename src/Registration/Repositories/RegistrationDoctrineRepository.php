@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Registration\Repositories;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\Entities\RegistrationEntity;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
 class RegistrationDoctrineRepository extends AbstractDoctrineRepository implements RegistrationRepository
 {
@@ -31,15 +32,15 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
-     * @param string $urlSuffix
+     * @param UrlSuffix $urlSuffix
      * @return Registration|null
      */
-    public function getByUrlSuffix(string $urlSuffix): ?Registration
+    public function getByUrlSuffix(UrlSuffix $urlSuffix): ?Registration
     {
         /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
             [
-                'urlSuffix' => $urlSuffix,
+                'urlSuffix' => $urlSuffix->toNative(),
             ]
         );
 
