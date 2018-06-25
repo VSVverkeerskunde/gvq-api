@@ -83,16 +83,13 @@ class ImageController
 
     /**
      * @param string $fileName
-     * @return bool
      * @throws FileNotFoundException
      */
-    public function delete(string $fileName): bool
+    public function delete(string $fileName)
     {
         if ($this->fileSystem->has($fileName)) {
-            return $this->fileSystem->delete($fileName);
+            $this->fileSystem->delete($fileName);
         }
-
-        return false;
     }
 
     /**

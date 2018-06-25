@@ -156,20 +156,14 @@ class ImageControllerTest extends TestCase
         $this->fileSystem
             ->expects($this->once())
             ->method('delete')
-            ->with($fileName)
-            ->willReturn(true);
+            ->with($fileName);
 
-        $actualReturn = $this->imageController->delete($fileName);
-
-        $this->assertEquals(
-            true,
-            $actualReturn
-        );
+        $this->imageController->delete($fileName);
     }
 
     /**
      * @test
-     * @throws \League\Flysystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function it_does_not_try_to_delete_nonexisting_image(): void
     {
@@ -186,11 +180,6 @@ class ImageControllerTest extends TestCase
             ->method('delete')
             ->with($fileName);
 
-        $actualReturn = $this->imageController->delete($fileName);
-
-        $this->assertEquals(
-            false,
-            $actualReturn
-        );
+        $this->imageController->delete($fileName);
     }
 }
