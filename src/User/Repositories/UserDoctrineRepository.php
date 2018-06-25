@@ -56,6 +56,23 @@ class UserDoctrineRepository extends AbstractDoctrineRepository implements UserR
 
     /**
      * @inheritdoc
+     * @throws EntityNotFoundException
+     */
+    public function updatePassword(User $user): void
+    {
+        // Make sure the user exists,
+        // otherwise merge will create a new user.
+        $existingUser = $this->getById($user->getId());
+        if ($existingUser === null) {
+            throw new EntityNotFoundException("Invalid user supplied");
+        }
+
+        $this->entityManager->merge(UserEntity::fromUser($user));
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getById(UuidInterface $id): ?User
     {

@@ -13,6 +13,8 @@ interface UserRepository
 
     public function update(User $user): void;
 
+    public function updatePassword(User $user): void;
+
     public function getById(UuidInterface $id): ?User;
 
     public function getByEmail(Email $email): ?User;
