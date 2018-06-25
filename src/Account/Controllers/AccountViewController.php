@@ -149,7 +149,7 @@ class AccountViewController extends AbstractController
     /**
      * @return Response
      */
-    public function success(): Response
+    public function registerSuccess(): Response
     {
         return $this->render('accounts/register_success.html.twig');
     }
@@ -185,23 +185,23 @@ class AccountViewController extends AbstractController
                 $this->mailService->sendPasswordResetMail($registration);
             }
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans(
-                    'Password reset request success',
-                    [
-                        '%email%' => $data['email'],
-                    ]
-                )
-            );
+            return $this->redirectToRoute('accounts_view_request_password_reset_success');
         }
 
         return $this->render(
-            'accounts/password_reset_request.html.twig',
+            'accounts/request_password_reset.html.twig',
             [
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function requestPasswordResetSuccess(): Response
+    {
+        return $this->render('accounts/request_password_reset_success.html.twig');
     }
 
     /**

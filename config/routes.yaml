@@ -51,7 +51,7 @@ accounts_view_register:
     _locale: nl|fr
 accounts_view_register_success:
   path: /{_locale}/view/accounts/register/success
-  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::registerSuccess
   methods: [GET]
   requirements:
     _locale: nl|fr
@@ -61,16 +61,24 @@ accounts_view_activation:
   methods: [GET]
   requirements:
     _locale: nl|fr
-accounts_view_password_request_reset:
+accounts_view_request_password_reset:
   path: /{_locale}/view/accounts/request-password-reset
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordReset
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_view_request_password_reset_success:
+  path: /{_locale}/view/accounts/request-password-reset/success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordResetSuccess
+  methods: [GET]
   requirements:
     _locale: nl|fr
 accounts_view_password_reset:
   path: /{_locale}/view/accounts/reset-password/{id}
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordReset
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
