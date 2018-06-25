@@ -149,7 +149,7 @@ class SwiftMailService implements MailService
             'accounts_view_password_reset',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
-                'id' => $registration->getUrlSuffix()->toNative(),
+                'urlSuffix' => $registration->getUrlSuffix()->toNative(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
