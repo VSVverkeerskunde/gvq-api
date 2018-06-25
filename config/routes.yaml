@@ -81,7 +81,7 @@ questions_view_edit:
   requirements:
     _locale: nl|fr
 questions_view_edit_image:
-  path: /{_locale}/view/questions/edit-image/{id}
+  path: /{_locale}/view/questions/image/edit/{id}
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::editImage
   methods: [GET, POST]
   requirements:
