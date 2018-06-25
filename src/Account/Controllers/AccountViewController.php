@@ -14,10 +14,12 @@ use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Account\Forms\ResetPasswordFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\User\ValueObjects\Email;
+use VSV\GVQ_API\User\ValueObjects\Password;
 
 class AccountViewController extends AbstractController
 {
@@ -218,10 +220,29 @@ class AccountViewController extends AbstractController
      */
     public function resetPassword(Request $request): Response
     {
+        $registration = $this->registrationRepository->getByUrlSuffix(
+            new UrlSuffix($request->get('urlSuffix'))
+        );
+        if (!$registration) {
+            return $this->render('accounts/reset_password_link_error.html.twig');
+        }
+
         $form = $this->createResetPasswordForm();
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
+            $user = $registration->getUser();
+
+            if ($user) {
+                $user = $user->withPassword(Password::fromPlainText($data['password']));
+                $this->userRepository->updatePassword($user);
+                $this->registrationRepository->delete($registration->getId());
+            }
+
+            return $this->render('accounts/reset_password_success.html.twig');
+        }
 
         return $this->render(
             'accounts/reset_password.html.twig',

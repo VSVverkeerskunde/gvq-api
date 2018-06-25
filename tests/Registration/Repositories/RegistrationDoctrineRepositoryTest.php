@@ -8,6 +8,7 @@ use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\Entities\RegistrationEntity;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Repositories\UserDoctrineRepository;
 
 class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
@@ -61,7 +62,7 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->registrationDoctrineRepository->save($this->registration);
 
         $foundRegistration = $this->registrationDoctrineRepository->getByUrlSuffix(
-            'd2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef')
         );
 
         $this->assertEquals($this->registration, $foundRegistration);
@@ -91,7 +92,7 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->registrationDoctrineRepository->save($this->registration);
 
         $foundRegistration = $this->registrationDoctrineRepository->getByUrlSuffix(
-            'd2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'
+            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef')
         );
 
         $this->assertEquals(
