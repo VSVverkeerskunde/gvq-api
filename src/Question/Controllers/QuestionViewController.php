@@ -78,11 +78,16 @@ class QuestionViewController extends AbstractController
     public function index(): Response
     {
         $questions = $this->questionRepository->getAll();
+        $questionsArray = [];
+        if ($questions) {
+            $questions->sortByCreatedOn();
+            $questionsArray = $questions->toArray();
+        }
 
         return $this->render(
             'questions/index.html.twig',
             [
-                'questions' => $questions ? $questions->toArray() : [],
+                'questions' => $questionsArray,
             ]
         );
     }

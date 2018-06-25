@@ -43,4 +43,15 @@ class Questions implements Collection
     {
         return $this->questions;
     }
+
+    public function sortByCreatedOn(): void
+    {
+        usort(
+            $this->questions,
+            function ($a, $b) {
+                return strtotime($b->getCreatedOn()->format(DATE_ATOM)) -
+                    strtotime($a->getCreatedOn()->format(DATE_ATOM));
+            }
+        );
+    }
 }
