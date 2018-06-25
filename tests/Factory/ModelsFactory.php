@@ -146,6 +146,16 @@ class ModelsFactory
     /**
      * @return User
      */
+    public static function createUserWithAlternatePassword(): User
+    {
+        return self::createUser()->withPassword(
+            Password::fromPlainText('newPassw0rD')
+        );
+    }
+
+    /**
+     * @return User
+     */
     public static function createAlternateUser(): User
     {
         return new User(
