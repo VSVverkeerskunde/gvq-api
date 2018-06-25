@@ -402,7 +402,7 @@ class ModelsFactory
             new NotEmptyString(
                 'Il est interdit de stationner devant l’entrée des propriétés.'
             ),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T01:00:00+00:00')
         );
     }
 
