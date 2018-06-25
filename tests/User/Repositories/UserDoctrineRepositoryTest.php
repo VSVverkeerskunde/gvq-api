@@ -195,7 +195,8 @@ class UserDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertTrue(
-            $foundUser->getPassword()->verifies('newPassw0rD'));
+            $foundUser && $foundUser->getPassword() && $foundUser->getPassword()->verifies('newPassw0rD')
+        );
     }
 
     /**
