@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
-use VSV\GVQ_API\Account\Forms\PasswordResetFormType;
+use VSV\GVQ_API\Account\Forms\RequestPasswordResetFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
@@ -26,9 +26,9 @@ class AccountViewController extends AbstractController
     private $registrationFormType;
 
     /**
-     * @var PasswordResetFormType
+     * @var RequestPasswordResetFormType
      */
-    private $passwordResetFormType;
+    private $requestPasswordResetFormType;
 
     /**
      * @var TranslatorInterface
@@ -92,7 +92,7 @@ class AccountViewController extends AbstractController
         $this->mailService = $mailService;
 
         $this->registrationFormType = new RegistrationFormType();
-        $this->passwordResetFormType = new PasswordResetFormType();
+        $this->requestPasswordResetFormType = new RequestPasswordResetFormType();
     }
 
     /**
@@ -161,7 +161,7 @@ class AccountViewController extends AbstractController
      */
     public function requestPasswordReset(Request $request): Response
     {
-        $form = $this->createPasswordResetForm();
+        $form = $this->createRequestPasswordResetForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -234,11 +234,11 @@ class AccountViewController extends AbstractController
     /**
      * @return FormInterface
      */
-    private function createPasswordResetForm(): FormInterface
+    private function createRequestPasswordResetForm(): FormInterface
     {
         $formBuilder = $this->createFormBuilder();
 
-        $this->passwordResetFormType->buildForm(
+        $this->requestPasswordResetFormType->buildForm(
             $formBuilder,
             [
                 'translator' => $this->translator,

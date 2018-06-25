@@ -5,11 +5,12 @@ namespace VSV\GVQ_API\Account\Forms;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class PasswordResetFormType extends AbstractType
+class RequestPasswordResetFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -36,5 +37,17 @@ class PasswordResetFormType extends AbstractType
 
                 ]
             );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'translator' => null,
+            ]
+        );
     }
 }
