@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Question\Forms;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -32,6 +33,18 @@ class ImageFormType extends AbstractType
                     ],
                 ]
             );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'translator' => null,
+            ]
+        );
     }
 
     /**
