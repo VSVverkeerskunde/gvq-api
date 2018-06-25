@@ -20,7 +20,6 @@
                 <file>./src/User/Forms/UserFormType.php</file>
                 <file>./src/Account/Controllers/AccountViewController.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
-                <file>./src/Account/Forms/PasswordResetFormType.php</file>
             </exclude>
         </whitelist>
     </filter>

@@ -74,3 +74,5 @@ Request password reset success extra: 'Het kan enkele minuten duren voor u de ma
 Wachtwoord herstellen: 'Wachtwoord vergeten'
 Wachtwoord herstel uitleg: 'Geef het e-mailadres in waarmee u geregistreerd heeft om uw wachtwoord te herstellen.'
 Password-reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
+Herstel wachtwoord: 'Herstel wachtwoord'
+
