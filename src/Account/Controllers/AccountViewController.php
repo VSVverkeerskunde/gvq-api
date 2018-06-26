@@ -241,7 +241,7 @@ class AccountViewController extends AbstractController
                 $this->registrationRepository->delete($registration->getId());
             }
 
-            return $this->render('accounts/reset_password_success.html.twig');
+            return $this->redirectToRoute('accounts_view_password_reset_success');
         }
 
         return $this->render(
@@ -250,6 +250,14 @@ class AccountViewController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function resetPasswordSuccess(): Response
+    {
+        return $this->render('accounts/reset_password_success.html.twig');
     }
 
     /**
