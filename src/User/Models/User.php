@@ -147,6 +147,16 @@ class User
     }
 
     /**
+     * @return User
+     */
+    public function activate(): User
+    {
+        $c = clone $this;
+        $c->active = true;
+        return $c;
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool

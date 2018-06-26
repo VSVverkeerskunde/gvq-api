@@ -59,6 +59,10 @@ accounts_view_login:
   path: /{_locale}/view/accounts/login
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::login
   methods: [GET, POST]
+accounts_view_activation:
+  path: /{_locale}/view/accounts/activation/{urlSuffix}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activation
+  methods: [GET]
   requirements:
     _locale: nl|fr
 
@@ -83,6 +87,12 @@ questions_view_add:
 questions_view_edit:
   path: /{_locale}/view/questions/edit/{id}
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+questions_view_edit_image:
+  path: /{_locale}/view/questions/image/edit/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::editImage
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
