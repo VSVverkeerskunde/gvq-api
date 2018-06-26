@@ -35,6 +35,30 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     /**
      * @inheritdoc
      */
+    public function delete(UuidInterface $id): void
+    {
+        $registrationEntity = $this->getEntityById($id);
+
+        if ($registrationEntity !== null) {
+            $this->entityManager->merge($registrationEntity);
+            $this->entityManager->remove($registrationEntity);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getById(UuidInterface $id): ?Registration
+    {
+        $registrationEntity = $this->getEntityById($id);
+
+        return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getByUrlSuffix(UrlSuffix $urlSuffix): ?Registration
     {
         /** @var RegistrationEntity|null $registrationEntity */
@@ -63,21 +87,18 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
-     * @inheritdoc
+     * @param UuidInterface $id
+     * @return RegistrationEntity
      */
-    public function delete(UuidInterface $registrationId): void
+    private function getEntityById(UuidInterface $id): ?RegistrationEntity
     {
         /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
             [
-                'id' => $registrationId,
+                'id' => $id,
             ]
         );
 
-        if ($registrationEntity !== null) {
-            $this->entityManager->merge($registrationEntity);
-            $this->entityManager->remove($registrationEntity);
-            $this->entityManager->flush();
-        }
+        return $registrationEntity;
     }
 }

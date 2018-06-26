@@ -1,6 +1,7 @@
 Taal: Taal
 Jaar: Jaar
 Thema: Thema
+CreatedOn: Aangemaakt
 Foto: Foto
 Vraag: Vraag
 'Antwoord 1': 'Antwoord 1'
@@ -16,6 +17,7 @@ Toevoegen: Toevoegen
 Afdrukken: Afdrukken
 Acties: Acties
 Aanpassen: Aanpassen
+Change.picture: Wijzig foto
 'Het jaar mag niet leeg zijn.': 'Het jaar mag niet leeg zijn.'
 'Het jaar moet {{ limit }} of groter zijn.': 'Het jaar moet {{ limit }} of groter zijn.'
 'Het jaar moet {{ limit }} of kleiner zijn.': 'Het jaar moet {{ limit }} of kleiner zijn.'
@@ -87,4 +89,19 @@ Wachtwoord herstellen: 'Wachtwoord vergeten'
 Wachtwoord herstel uitleg: 'Geef het e-mailadres in waarmee u geregistreerd heeft om uw wachtwoord te herstellen.'
 Password-reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
 Herstel wachtwoord: 'Herstel wachtwoord'
-
+Inloggen: Inloggen
+Wachtwoord vergeten: 'Wachtwoord vergeten?'
+Account inactive: 'Gelieve uw account te activeren via de link in de bevestigingsmail van uw registratie.'
+Invalid credentials: 'De gegevens die u opgaf zijn niet juist.'
+Login failed: 'Er liep iets mis.'
+Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
+Activation: Activatie account
+Activation.success.title: 'Activatie gelukt!'
+Activation.success.subtitle: 'Uw activatie is geslaagd.'
+Activation.success.text: 'Je kan nu inloggen met je gekozen email adres en paswoord.'
+Activation.success.extra: 'Je zal ook nog een mail ontvangen met alle details van de Grote Verkeersquiz.'
+Activation.error.title: 'Activatie mislukt!'
+Activation.error.subtitle: 'Uw activatie is niet gelukt.'
+Activation.error.text: 'Kijk goed na of je de correct link hebt gebruikt in je activatie mail.'
+Activation.error.extra: 'Voor extra informatie kan je ook contact opnemen met VSV.'
+To.login: 'Naar login pagina'

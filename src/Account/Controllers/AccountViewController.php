@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Account\Controllers;
 
+use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -9,15 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
-use VSV\GVQ_API\Account\Forms\RequestPasswordResetFormType;
+use VSV\GVQ_API\Account\Forms\LoginFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
+use VSV\GVQ_API\Account\Forms\RequestPasswordResetFormType;
 use VSV\GVQ_API\Account\Forms\ResetPasswordFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 
@@ -37,6 +39,11 @@ class AccountViewController extends AbstractController
      * @var ResetPasswordFormType
      */
     private $resetPasswordFormType;
+
+    /**
+     * @var LoginFormType
+     */
+    private $loginFormType;
 
     /**
      * @var TranslatorInterface
@@ -74,6 +81,11 @@ class AccountViewController extends AbstractController
     private $mailService;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -81,6 +93,7 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -89,7 +102,8 @@ class AccountViewController extends AbstractController
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
-        MailService $mailService
+        MailService $mailService,
+        LoggerInterface $logger
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -98,10 +112,12 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
+        $this->logger = $logger;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordResetFormType = new RequestPasswordResetFormType();
         $this->resetPasswordFormType = new ResetPasswordFormType();
+        $this->loginFormType = new LoginFormType();
     }
 
     /**
@@ -141,8 +157,11 @@ class AccountViewController extends AbstractController
                 );
                 $this->registrationRepository->save($registration);
 
+                $this->mailService->sendActivationMail($registration);
+
                 return $this->redirectToRoute('accounts_view_register_success');
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
+                $this->logger->error('Registration failed: '.$exception->getMessage());
                 $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
         }
@@ -261,6 +280,60 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function login(Request $request): Response
+    {
+        $form = $this->createLoginForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->userRepository->getByEmail(new Email($data['email']));
+
+            if ($user && $user->getPassword() && $user->getPassword()->verifies($data['password'])) {
+                if ($user->isActive()) {
+                    return $this->redirectToRoute('questions_view_index');
+                }
+                $this->addFlash('warning', $this->translator->trans('Account inactive'));
+            } else {
+                $this->addFlash('danger', $this->translator->trans('Invalid credentials'));
+            }
+        }
+
+        return $this->render(
+            'accounts/login.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param string $urlSuffix
+     * @return Response
+     */
+    public function activation(string $urlSuffix): Response
+    {
+        $registration = $this->registrationRepository->getByUrlSuffix(
+            new UrlSuffix($urlSuffix)
+        );
+
+        if ($registration) {
+            $user = $registration->getUser()->activate();
+            $this->userRepository->update($user);
+
+            $this->registrationRepository->delete($registration->getId());
+
+            return $this->render('accounts/activation.html.twig');
+        } else {
+            return $this->render('accounts/activation_error.html.twig');
+        }
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
@@ -278,6 +351,23 @@ class AccountViewController extends AbstractController
         );
 
         $this->registrationFormType->buildForm(
+            $formBuilder,
+            [
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function createLoginForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->loginFormType->buildForm(
             $formBuilder,
             [
                 'translator' => $this->translator,

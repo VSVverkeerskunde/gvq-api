@@ -25,6 +25,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Exception
      */
     protected function setUp(): void
     {
@@ -71,6 +72,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
@@ -85,6 +87,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     public function it_can_update_a_question(): void
     {
@@ -103,6 +106,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     public function it_deletes_removed_answers(): void
     {
@@ -121,6 +125,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function it_throws_on_updating_a_non_existing_question(): void
     {
@@ -134,6 +139,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function it_throws_on_updating_a_question_with_a_non_existing_category(): void
     {
@@ -164,6 +170,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_get_all_questions(): void
     {

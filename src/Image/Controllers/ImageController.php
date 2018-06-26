@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Image\Controllers;
 
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -46,7 +48,7 @@ class ImageController
     /**
      * @param Request $request
      * @return Response
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FileExistsException
      */
     public function upload(Request $request): Response
     {
@@ -63,20 +65,31 @@ class ImageController
     /**
      * @param UploadedFile $uploadedFile
      * @return NotEmptyString
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FileExistsException
      */
     public function handleImage(UploadedFile $uploadedFile): NotEmptyString
     {
         $this->imageValidator->validate($uploadedFile);
 
         $uuid = $this->uuidFactory->uuid4();
-        $filename = $uuid->toString().'.'. $uploadedFile->getClientOriginalExtension();
+        $filename = $uuid->toString().'.'.$uploadedFile->getClientOriginalExtension();
 
         $stream = fopen($uploadedFile->getRealPath(), 'r+');
         $this->fileSystem->writeStream($filename, $stream);
         fclose($stream);
 
         return new NotEmptyString($filename);
+    }
+
+    /**
+     * @param string $fileName
+     * @throws FileNotFoundException
+     */
+    public function delete(string $fileName)
+    {
+        if ($this->fileSystem->has($fileName)) {
+            $this->fileSystem->delete($fileName);
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Mail\Models;
 
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class SenderTest extends TestCase
@@ -15,10 +16,7 @@ class SenderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sender = new Sender(
-            new Email('info@gvq.be'),
-            new NotEmptyString('Info GVQ')
-        );
+        $this->sender = ModelsFactory::createSender();
     }
 
     /**

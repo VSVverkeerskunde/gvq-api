@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Registration\Repositories;
 
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Registration\Models\Registration;
@@ -17,6 +18,11 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @var RegistrationDoctrineRepository
      */
     private $registrationDoctrineRepository;
+
+    /**
+     * @var UuidInterface
+     */
+    private $uuid;
 
     /**
      * @var Registration
@@ -43,6 +49,7 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             ModelsFactory::createUser()
         );
 
+        $this->uuid = Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3');
         $this->registration = ModelsFactory::createRegistration();
     }
 
@@ -61,8 +68,8 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $this->registrationDoctrineRepository->save($this->registration);
 
-        $foundRegistration = $this->registrationDoctrineRepository->getByUrlSuffix(
-            new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef')
+        $foundRegistration = $this->registrationDoctrineRepository->getById(
+            $this->uuid
         );
 
         $this->assertEquals($this->registration, $foundRegistration);
@@ -82,6 +89,21 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->registrationDoctrineRepository->save($registration);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_delete_a_registration(): void
+    {
+        $this->registrationDoctrineRepository->save($this->registration);
+
+        $this->registrationDoctrineRepository->delete($this->uuid);
+
+        $foundRegistration = $this->registrationDoctrineRepository->getById(
+            $this->uuid
+        );
+        $this->assertNull($foundRegistration);
     }
 
     /**
@@ -114,23 +136,6 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->assertEquals(
             $this->registration,
-            $foundRegistration
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_delete_a_registration(): void
-    {
-        $this->registrationDoctrineRepository->save($this->registration);
-        $this->registrationDoctrineRepository->delete($this->registration->getId());
-
-        $foundRegistration = $this->registrationDoctrineRepository->getByUserId(
-            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
-        );
-
-        $this->assertNull(
             $foundRegistration
         );
     }

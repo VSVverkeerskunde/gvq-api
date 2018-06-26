@@ -54,6 +54,7 @@
                 <th data-sortable="true">{% trans %}Jaar{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Thema{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}CreatedOn{% endtrans %}</th>
                 <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
             </tr>
         </thead>
@@ -86,10 +87,18 @@
                         {{ question.category.name.toNative }}
                     </td>
                     <td>
+                        {{ question.createdOn|date('d-m-Y H:i:s', 'Europe/Brussels') }}
+                    </td>
+                    <td>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit', {'id': question.id.toString}) }}" >
                             <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                        </a>
+                        <a role="button"
+                           class="btn btn-light"
+                           href="{{ path('questions_view_edit_image', {'id': question.id.toString}) }}">
+                            <span class="oi oi-image"></span>{% trans %}Change.picture{% endtrans %}
                         </a>
                         <a role="button"
                            class="btn btn-light"
