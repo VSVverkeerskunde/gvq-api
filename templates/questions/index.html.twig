@@ -97,6 +97,11 @@
                         </a>
                         <a role="button"
                            class="btn btn-light"
+                           href="{{ path('questions_view_edit_image', {'id': question.id.toString}) }}">
+                            <span class="oi oi-image"></span>{% trans %}Change.picture{% endtrans %}
+                        </a>
+                        <a role="button"
+                           class="btn btn-light"
                            href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
                             <span class="oi oi-trash"></span>{% trans %}Verwijderen{% endtrans %}
                         </a>

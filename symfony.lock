@@ -53,6 +53,9 @@
     "doctrine/orm": {
         "version": "v2.6.1"
     },
+    "egulias/email-validator": {
+        "version": "2.1.4"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -137,6 +140,9 @@
             "ref": "f7895777cd673fcefbc321a9063077a24e5df646"
         }
     },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.0.2"
+    },
     "symfony/asset": {
         "version": "v4.1.0"
     },
@@ -190,6 +196,15 @@
     },
     "symfony/serializer": {
         "version": "v4.0.9"
+    },
+    "symfony/swiftmailer-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "3db029c03e452b4a23f7fc45cec7c922c2247eb8"
+        }
     },
     "symfony/translation": {
         "version": "3.3",
