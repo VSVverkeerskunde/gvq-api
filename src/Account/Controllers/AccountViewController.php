@@ -172,6 +172,8 @@ class AccountViewController extends AbstractController
             $user = $registration->getUser()->activate();
             $this->userRepository->update($user);
 
+            $this->registrationRepository->delete($registration->getId());
+
             return $this->render('accounts/activation.html.twig');
         } else {
             return $this->render('accounts/activation_error.html.twig');
