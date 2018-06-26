@@ -211,9 +211,11 @@ class AccountViewController extends AbstractController
 
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordResetMail($registration);
-            }
 
-            return $this->redirectToRoute('accounts_view_request_password_reset_success');
+                return $this->redirectToRoute('accounts_view_request_password_reset_success');
+            } elseif ($user && !$user->isActive()) {
+                $this->addFlash('warning', $this->translator->trans('Account inactive'));
+            }
         }
 
         return $this->render(
