@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Image\Controllers\ImageController;
 use VSV\GVQ_API\Question\Forms\ImageFormType;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
@@ -223,7 +224,7 @@ class QuestionViewController extends AbstractController
             $fileName = $this->imageController->handleImage($data['image']);
             $this->imageController->delete($question->getImageFileName()->toNative());
 
-            $question = $this->imageFormType->updateQuestionImage(
+            $question = $this->updateQuestionImage(
                 $question,
                 $fileName
             );
@@ -342,5 +343,26 @@ class QuestionViewController extends AbstractController
         }
 
         return $filteredQuestions;
+    }
+
+    /**
+     * @param Question $question
+     * @param NotEmptyString $imageFileName
+     * @return Question
+     */
+    public function updateQuestionImage(
+        Question $question,
+        NotEmptyString $imageFileName
+    ): Question {
+        return new Question(
+            $question->getId(),
+            $question->getLanguage(),
+            $question->getYear(),
+            $question->getCategory(),
+            $question->getText(),
+            $imageFileName,
+            $question->getAnswers(),
+            $question->getFeedback()
+        );
     }
 }
