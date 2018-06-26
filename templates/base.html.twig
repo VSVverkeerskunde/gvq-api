@@ -10,8 +10,9 @@
     </head>
 
     <body>
-        <div class="container-fluid">
-            {% block header %}{% endblock %}
+        <div class="container container-fluid">
+
+            {% include '/includes/page-header.html.twig' %}
 
             {% block nav %}{% endblock %}
 
@@ -25,7 +26,7 @@
 
             {% block content %}{% endblock %}
 
-            {% block footer %}{% endblock %}
+            {% include '/includes/page-footer.html.twig' %}
         </div>
         {% block javascripts %}
             <script src="{{ asset('js/jquery.js') }}"></script>
