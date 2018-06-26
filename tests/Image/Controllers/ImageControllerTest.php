@@ -33,9 +33,6 @@ class ImageControllerTest extends TestCase
      */
     private $imageController;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var Filesystem|MockObject $fileSystem */
@@ -60,7 +57,6 @@ class ImageControllerTest extends TestCase
     /**
      * @test
      * @throws \League\Flysystem\FileExistsException
-     * @throws \ReflectionException
      */
     public function it_can_handle_a_file_upload(): void
     {
@@ -122,7 +118,6 @@ class ImageControllerTest extends TestCase
     /**
      * @test
      * @throws \League\Flysystem\FileExistsException
-     * @throws \ReflectionException
      */
     public function it_requires_image_key(): void
     {

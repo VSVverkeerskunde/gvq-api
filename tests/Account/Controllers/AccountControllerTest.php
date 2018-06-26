@@ -40,9 +40,6 @@ class AccountControllerTest extends TestCase
      */
     private $userAccountController;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var UserRepository|MockObject $userRepository */

@@ -30,7 +30,6 @@ abstract class AbstractFormTypeTest extends TypeTestCase
 
     /**
      * @return array
-     * @throws \ReflectionException
      */
     protected function getExtensions(): array
     {

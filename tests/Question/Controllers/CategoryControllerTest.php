@@ -25,9 +25,6 @@ class CategoryControllerTest extends TestCase
      */
     private $categoryController;
 
-    /**
-     * @throws \ReflectionException
-     */
     public function setUp()
     {
         /** @var CategoryRepository|MockObject $categoryRepository */

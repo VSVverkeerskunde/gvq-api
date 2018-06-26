@@ -40,9 +40,6 @@ class QuestionControllerTest extends TestCase
      */
     private $questionController;
 
-    /**
-     * @throws \ReflectionException
-     */
     public function setUp()
     {
         /** @var QuestionRepository|MockObject $questionRepository */

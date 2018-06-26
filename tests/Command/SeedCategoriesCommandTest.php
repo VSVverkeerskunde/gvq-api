@@ -20,9 +20,6 @@ class SeedCategoriesCommandTest extends TestCase
      */
     private $seedCategoriesCommand;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var CategoryRepository|MockObject $categoriesRepository */
