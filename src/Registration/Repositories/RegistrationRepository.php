@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Registration\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
@@ -11,6 +12,17 @@ interface RegistrationRepository
      * @param Registration $registration
      */
     public function save(Registration $registration): void;
+
+    /**
+     * @param UuidInterface $id
+     */
+    public function delete(UuidInterface $id): void;
+
+    /**
+     * @param UuidInterface $id
+     * @return null|Registration
+     */
+    public function getById(UuidInterface $id): ?Registration;
 
     /**
      * @param UrlSuffix $urlSuffix
