@@ -26,6 +26,9 @@ class QuestionSerializerTest extends TestCase
      */
     private $question;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp(): void
     {
         $normalizers = [

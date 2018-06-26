@@ -33,9 +33,6 @@ class CompanyControllerTest extends TestCase
      */
     private $companyController;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var CompanyRepository|MockObject $companyRepository */

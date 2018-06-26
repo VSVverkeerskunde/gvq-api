@@ -62,7 +62,7 @@ class RegistrationTest extends TestCase
     public function it_stores_a_created_on(): void
     {
         $this->assertEquals(
-            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1')),
+            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('UTC')),
             $this->registration->getCreatedOn()
         );
     }

@@ -39,6 +39,7 @@ class QuestionDenormalizer implements DenormalizerInterface
 
     /**
      * @inheritdoc
+     * @throws \Exception
      */
     public function denormalize($data, $class, $format = null, array $context = []): Question
     {
@@ -69,7 +70,8 @@ class QuestionDenormalizer implements DenormalizerInterface
             new NotEmptyString($data['text']),
             new NotEmptyString($data['imageFileName']),
             new Answers(...$answers),
-            new NotEmptyString($data['feedback'])
+            new NotEmptyString($data['feedback']),
+            new \DateTimeImmutable($data['createdOn'])
         );
     }
 

@@ -20,9 +20,6 @@ class RegistrationJsonEnricherTest extends TestCase
      */
     private $registrationEnricher;
 
-    /**
-     * @throws \ReflectionException
-     */
     public function setUp(): void
     {
         /** @var UuidFactoryInterface|MockObject $uuidFactory */

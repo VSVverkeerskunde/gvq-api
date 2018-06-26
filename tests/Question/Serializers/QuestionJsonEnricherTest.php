@@ -20,9 +20,6 @@ class QuestionJsonEnricherTest extends TestCase
      */
     private $questionJsonEnricher;
 
-    /**
-     * @throws \ReflectionException
-     */
     public function setUp(): void
     {
         /** @var UuidFactoryInterface|MockObject $uuidFactory */

@@ -71,6 +71,13 @@ class QuestionEntity extends Entity
     private $feedback;
 
     /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(type="datetime_immutable", name="created_on", nullable=false)
+     */
+    private $createdOn;
+
+    /**
      * @param string $id
      * @param string $language
      * @param int $year
@@ -79,6 +86,7 @@ class QuestionEntity extends Entity
      * @param string $imageFileName
      * @param Collection $answerEntities
      * @param string $feedback
+     * @param \DateTimeImmutable $createdOn
      */
     private function __construct(
         string $id,
@@ -88,7 +96,8 @@ class QuestionEntity extends Entity
         string $text,
         string $imageFileName,
         Collection $answerEntities,
-        string $feedback
+        string $feedback,
+        \DateTimeImmutable $createdOn
     ) {
         parent::__construct($id);
 
@@ -99,6 +108,7 @@ class QuestionEntity extends Entity
         $this->imageFileName = $imageFileName;
         $this->answerEntities = $answerEntities;
         $this->feedback = $feedback;
+        $this->createdOn = $createdOn;
 
         foreach ($answerEntities as $answerEntity) {
             $answerEntity->setQuestionEntity($this);
@@ -127,7 +137,8 @@ class QuestionEntity extends Entity
             $question->getText()->toNative(),
             $question->getImageFileName()->toNative(),
             new ArrayCollection($answerEntities),
-            $question->getFeedback()->toNative()
+            $question->getFeedback()->toNative(),
+            $question->getCreatedOn()
         );
 
         return $questionEntity;
@@ -155,7 +166,8 @@ class QuestionEntity extends Entity
             new NotEmptyString($this->getText()),
             new NotEmptyString($this->getImageFileName()),
             $answers,
-            new NotEmptyString($this->getFeedback())
+            new NotEmptyString($this->getFeedback()),
+            $this->getCreatedOn()
         );
     }
 
@@ -213,5 +225,13 @@ class QuestionEntity extends Entity
     public function getFeedback(): string
     {
         return $this->feedback;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedOn(): \DateTimeImmutable
+    {
+        return $this->createdOn;
     }
 }

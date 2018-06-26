@@ -17,11 +17,14 @@ class QuestionsTest extends TestCase
      */
     private $questions;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp(): void
     {
         $this->questionsArray = [
             ModelsFactory::createAccidentQuestion(),
-            ModelsFactory::createGeneralQuestion()
+            ModelsFactory::createGeneralQuestion(),
         ];
 
         $this->questions = new Questions(...$this->questionsArray);
@@ -56,6 +59,25 @@ class QuestionsTest extends TestCase
         $this->assertEquals(
             $this->questionsArray,
             $this->questions->toArray()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_sort_by_created_on(): void
+    {
+        $this->assertEquals(
+            $this->questions->toArray()[0],
+            ModelsFactory::createAccidentQuestion()
+        );
+
+        $this->questions->sortByNewest();
+
+        $this->assertEquals(
+            $this->questions->toArray()[0],
+            ModelsFactory::createGeneralQuestion()
         );
     }
 }

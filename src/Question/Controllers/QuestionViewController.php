@@ -90,7 +90,7 @@ class QuestionViewController extends AbstractController
         return $this->render(
             'questions/index.html.twig',
             [
-                'questions' => $questions ? $questions->toArray() : [],
+                'questions' => $questions ? $questions->sortByNewest()->toArray() : [],
             ]
         );
     }
@@ -104,18 +104,20 @@ class QuestionViewController extends AbstractController
         $questions = $this->questionRepository->getAll();
 
         if ($questions) {
+            $questions = $questions->sortByNewest();
+
             $languageFilter = $this->getLanguageFilter($request);
 
             if ($languageFilter) {
-                $questions = $this->filterQuestions($questions, $languageFilter);
+                $questionsArray = $this->filterQuestions($questions, $languageFilter);
             } else {
-                $questions = $questions->toArray();
+                $questionsArray = $questions->toArray();
             }
 
             return $this->render(
                 'questions/print.html.twig',
                 [
-                    'questions' => $questions ? $questions : [],
+                    'questions' => $questionsArray,
                 ]
             );
         }
@@ -128,6 +130,7 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @return Response
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Exception
      */
     public function add(Request $request): Response
     {
@@ -162,6 +165,7 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @param string $id
      * @return Response
+     * @throws \Exception
      */
     public function edit(Request $request, string $id): Response
     {
@@ -362,7 +366,8 @@ class QuestionViewController extends AbstractController
             $question->getText(),
             $imageFileName,
             $question->getAnswers(),
-            $question->getFeedback()
+            $question->getFeedback(),
+            $question->getCreatedOn()
         );
     }
 }

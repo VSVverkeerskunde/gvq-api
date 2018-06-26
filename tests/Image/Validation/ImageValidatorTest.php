@@ -14,9 +14,6 @@ class ImageValidatorTest extends TestCase
     /** @var ImageValidator */
     private $imageValidator;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var UploadedFile|MockObject $uploadFile */
