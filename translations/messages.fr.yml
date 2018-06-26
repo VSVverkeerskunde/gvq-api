@@ -16,6 +16,7 @@ Toevoegen: __Toevoegen
 Afdrukken: __Afdrukken
 Acties: __Acties
 Aanpassen: __Aanpassen
+Change.picture: __Wijzig foto
 'Het jaar mag niet leeg zijn.': '__Het jaar mag niet leeg zijn.'
 'Het jaar moet {{ limit }} of groter zijn.': '__Het jaar moet {{ limit }} of groter zijn.'
 'Het jaar moet {{ limit }} of kleiner zijn.': '__Het jaar moet {{ limit }} of kleiner zijn.'
