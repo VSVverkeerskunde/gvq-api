@@ -68,6 +68,11 @@ Registration success extra: 'Het kan enkele minuten duren voor u de mail ontvang
 Naar GVQ site: 'Naar GVQ site'
 Employees not empty: 'Het aantal medewerkers mag niet leeg zijn.'
 Employees positive: 'Het aantal medewerkers moet {{ limit }} of groter zijn.'
+Inloggen: Inloggen
+Wachtwoord vergeten: 'Wachtwoord vergeten?'
+Account inactive: 'Gelieve uw account te activeren via de link in de bevestigingsmail van uw registratie.'
+Invalid credentials: 'De gegevens die u opgaf zijn niet juist.'
+Login failed: 'Er liep iets mis.'
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
 Activation: Activatie account
 Activation.success.title: 'Activatie gelukt!'

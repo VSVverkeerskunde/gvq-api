@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Account\Forms;
 
 use VSV\GVQ_API\Common\Forms\ExtensionsAwareTypeTestCase;
 
-class RegistrationFormTypeTest extends ExtensionsAwareTypeTestCase
+class LoginFormTypeTest extends ExtensionsAwareTypeTestCase
 {
     /**
      * @test
@@ -12,7 +12,7 @@ class RegistrationFormTypeTest extends ExtensionsAwareTypeTestCase
     public function it_can_be_created(): void
     {
         $form = $this->factory->create(
-            RegistrationFormType::class,
+            LoginFormType::class,
             null,
             [
                 'translator' => $this->translator,
