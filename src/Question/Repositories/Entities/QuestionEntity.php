@@ -146,7 +146,6 @@ class QuestionEntity extends Entity
 
     /**
      * @return Question
-     * @throws \Exception
      */
     public function toQuestion(): Question
     {

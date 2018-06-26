@@ -78,10 +78,10 @@ class QuestionViewController extends AbstractController
     public function index(): Response
     {
         $questions = $this->questionRepository->getAll();
+
         $questionsArray = [];
         if ($questions) {
-            $questions->sortByCreatedOn();
-            $questionsArray = $questions->toArray();
+            $questionsArray = $questions->sortByNewest()->toArray();
         }
 
         return $this->render(
@@ -125,6 +125,7 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @return Response
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Exception
      */
     public function add(Request $request): Response
     {
@@ -159,6 +160,7 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @param string $id
      * @return Response
+     * @throws \Exception
      */
     public function edit(Request $request, string $id): Response
     {

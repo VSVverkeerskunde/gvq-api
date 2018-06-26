@@ -73,7 +73,7 @@ class QuestionsTest extends TestCase
             ModelsFactory::createAccidentQuestion()
         );
 
-        $this->questions->sortByCreatedOn();
+        $this->questions->sortByNewest();
 
         $this->assertEquals(
             $this->questions->toArray()[0],

@@ -44,14 +44,23 @@ class Questions implements Collection
         return $this->questions;
     }
 
-    public function sortByCreatedOn(): void
+    /**
+     * Short questions based on the creation date.
+     * The newest question will have index 0.
+     */
+    public function sortByNewest(): Questions
     {
         usort(
             $this->questions,
-            function ($a, $b) {
-                return strtotime($b->getCreatedOn()->format(DATE_ATOM)) -
-                    strtotime($a->getCreatedOn()->format(DATE_ATOM));
+            function (Question $q1, Question $q2) {
+                if ($q1->getCreatedOn() === $q2->getCreatedOn()) {
+                    return 0;
+                }
+
+                return $q1->getCreatedOn() > $q2->getCreatedOn() ? -1 : 1;
             }
         );
+
+        return $this;
     }
 }
