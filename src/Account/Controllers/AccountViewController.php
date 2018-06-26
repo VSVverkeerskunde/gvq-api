@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Account\Controllers;
 
+use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -11,7 +12,9 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\Mail\Service\MailService;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
@@ -53,12 +56,24 @@ class AccountViewController extends AbstractController
     private $urlSuffixGenerator;
 
     /**
+     * @var MailService
+     */
+    private $mailService;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
+     * @param MailService $mailService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -66,7 +81,9 @@ class AccountViewController extends AbstractController
         UserRepository $userRepository,
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
-        UrlSuffixGenerator $urlSuffixGenerator
+        UrlSuffixGenerator $urlSuffixGenerator,
+        MailService $mailService,
+        LoggerInterface $logger
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -74,6 +91,9 @@ class AccountViewController extends AbstractController
         $this->companyRepository = $companyRepository;
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
+        $this->mailService = $mailService;
+        $this->logger = $logger;
+
         $this->registrationFormType = new RegistrationFormType();
     }
 
@@ -113,8 +133,11 @@ class AccountViewController extends AbstractController
                 );
                 $this->registrationRepository->save($registration);
 
+                $this->mailService->sendActivationMail($registration);
+
                 return $this->redirectToRoute('accounts_view_register_success');
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
+                $this->logger->error('Registration failed: '.$exception->getMessage());
                 $this->addFlash('danger', $this->translator->trans('Registration error'));
             }
         }
@@ -133,6 +156,28 @@ class AccountViewController extends AbstractController
     public function success(): Response
     {
         return $this->render('accounts/register_success.html.twig');
+    }
+
+    /**
+     * @param string $urlSuffix
+     * @return Response
+     */
+    public function activation(string $urlSuffix): Response
+    {
+        $registration = $this->registrationRepository->getByUrlSuffix(
+            new UrlSuffix($urlSuffix)
+        );
+
+        if ($registration) {
+            $user = $registration->getUser()->activate();
+            $this->userRepository->update($user);
+
+            $this->registrationRepository->delete($registration->getId());
+
+            return $this->render('accounts/activation.html.twig');
+        } else {
+            return $this->render('accounts/activation_error.html.twig');
+        }
     }
 
     /**

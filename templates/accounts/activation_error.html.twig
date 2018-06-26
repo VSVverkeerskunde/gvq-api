@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Activation{% endtrans %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{% trans %}Activation.error.title{% endtrans %}</h5>
+            <h6 class="card-subtitle text-muted">{% trans %}Activation.error.subtitle{% endtrans %}</h6>
+            <hr>
+            <p class="card-text">{% trans %}Activation.error.text{% endtrans %}</p>
+            <p class="card-text">{% trans %}Activation.error.extra{% endtrans %}</p>
+            <hr>
+            <a href="#" class="card-link">{% trans %}To.login{% endtrans %}</a>
+        </div>
+    </div>
+{% endblock %}

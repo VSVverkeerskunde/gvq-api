@@ -55,6 +55,12 @@ accounts_view_register_success:
   methods: [GET]
   requirements:
     _locale: nl|fr
+accounts_view_activation:
+  path: /{_locale}/view/accounts/activation/{urlSuffix}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activation
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
