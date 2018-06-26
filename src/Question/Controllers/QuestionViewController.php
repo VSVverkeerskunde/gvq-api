@@ -79,15 +79,10 @@ class QuestionViewController extends AbstractController
     {
         $questions = $this->questionRepository->getAll();
 
-        $questionsArray = [];
-        if ($questions) {
-            $questionsArray = $questions->sortByNewest()->toArray();
-        }
-
         return $this->render(
             'questions/index.html.twig',
             [
-                'questions' => $questionsArray,
+                'questions' => $questions ? $questions->sortByNewest()->toArray() : [],
             ]
         );
     }
@@ -101,18 +96,20 @@ class QuestionViewController extends AbstractController
         $questions = $this->questionRepository->getAll();
 
         if ($questions) {
+            $questions = $questions->sortByNewest();
+
             $languageFilter = $this->getLanguageFilter($request);
 
             if ($languageFilter) {
-                $questions = $this->filterQuestions($questions, $languageFilter);
+                $questionsArray = $this->filterQuestions($questions, $languageFilter);
             } else {
-                $questions = $questions->toArray();
+                $questionsArray = $questions->toArray();
             }
 
             return $this->render(
                 'questions/print.html.twig',
                 [
-                    'questions' => $questions ? $questions : [],
+                    'questions' => $questionsArray,
                 ]
             );
         }
