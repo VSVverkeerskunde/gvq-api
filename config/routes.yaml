@@ -68,26 +68,26 @@ accounts_view_activation:
   requirements:
     _locale: nl|fr
     urlSuffix: "[^/]{44}"
-accounts_view_request_password_reset:
+accounts_view_request_password:
   path: /{_locale}/view/accounts/password/request
-  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordReset
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPassword
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
-accounts_view_request_password_reset_success:
+accounts_view_request_password_success:
   path: /{_locale}/view/accounts/password/request/success
-  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordResetSuccess
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordSuccess
   methods: [GET]
   requirements:
     _locale: nl|fr
-accounts_view_password_reset:
+accounts_view_reset_password:
   path: /{_locale}/view/accounts/password/reset/{urlSuffix}
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::resetPassword
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
     urlSuffix: "[^/]{44}"
-accounts_view_password_reset_success:
+accounts_view_reset_password_success:
   path: /{_locale}/view/accounts/password/reset/success
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::resetPasswordSuccess
   methods: [GET, POST]

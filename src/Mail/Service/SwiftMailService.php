@@ -232,7 +232,7 @@ class SwiftMailService implements MailService
     private function generatePasswordResetUrl(Registration $registration): string
     {
         return $this->urlGenerator->generate(
-            'accounts_view_password_reset',
+            'accounts_view_reset_password',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
                 'urlSuffix' => $registration->getUrlSuffix()->toNative(),

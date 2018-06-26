@@ -12,7 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Account\Forms\LoginFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
-use VSV\GVQ_API\Account\Forms\RequestPasswordResetFormType;
+use VSV\GVQ_API\Account\Forms\RequestPasswordFormType;
 use VSV\GVQ_API\Account\Forms\ResetPasswordFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Mail\Service\MailService;
@@ -31,9 +31,9 @@ class AccountViewController extends AbstractController
     private $registrationFormType;
 
     /**
-     * @var RequestPasswordResetFormType
+     * @var RequestPasswordFormType
      */
-    private $requestPasswordResetFormType;
+    private $requestPasswordFormType;
 
     /**
      * @var ResetPasswordFormType
@@ -115,7 +115,7 @@ class AccountViewController extends AbstractController
         $this->logger = $logger;
 
         $this->registrationFormType = new RegistrationFormType();
-        $this->requestPasswordResetFormType = new RequestPasswordResetFormType();
+        $this->requestPasswordFormType = new RequestPasswordFormType();
         $this->resetPasswordFormType = new ResetPasswordFormType();
         $this->loginFormType = new LoginFormType();
     }
@@ -187,9 +187,9 @@ class AccountViewController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function requestPasswordReset(Request $request): Response
+    public function requestPassword(Request $request): Response
     {
-        $form = $this->createRequestPasswordResetForm();
+        $form = $this->createRequestPasswordForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -212,14 +212,14 @@ class AccountViewController extends AbstractController
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordResetMail($registration);
 
-                return $this->redirectToRoute('accounts_view_request_password_reset_success');
+                return $this->redirectToRoute('accounts_view_request_password_success');
             } elseif ($user && !$user->isActive()) {
                 $this->addFlash('warning', $this->translator->trans('Account inactive'));
             }
         }
 
         return $this->render(
-            'accounts/request_password_reset.html.twig',
+            'accounts/request_password.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -229,9 +229,9 @@ class AccountViewController extends AbstractController
     /**
      * @return Response
      */
-    public function requestPasswordResetSuccess(): Response
+    public function requestPasswordSuccess(): Response
     {
-        return $this->render('accounts/request_password_reset_success.html.twig');
+        return $this->render('accounts/request_password_success.html.twig');
     }
 
     /**
@@ -262,7 +262,7 @@ class AccountViewController extends AbstractController
                 $this->registrationRepository->delete($registration->getId());
             }
 
-            return $this->redirectToRoute('accounts_view_password_reset_success');
+            return $this->redirectToRoute('accounts_view_reset_password_success');
         }
 
         return $this->render(
@@ -382,11 +382,11 @@ class AccountViewController extends AbstractController
     /**
      * @return FormInterface
      */
-    private function createRequestPasswordResetForm(): FormInterface
+    private function createRequestPasswordForm(): FormInterface
     {
         $formBuilder = $this->createFormBuilder();
 
-        $this->requestPasswordResetFormType->buildForm(
+        $this->requestPasswordFormType->buildForm(
             $formBuilder,
             [
                 'translator' => $this->translator,

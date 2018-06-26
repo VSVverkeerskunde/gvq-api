@@ -12,7 +12,7 @@ class RequestPasswordResetFormTypeTest extends ExtensionsAwareTypeTestCase
     public function it_can_be_created(): void
     {
         $form = $this->factory->create(
-            RequestPasswordResetFormType::class,
+            RequestPasswordFormType::class,
             null,
             [
                 'translator' => $this->translator,
