@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Image\Controllers;
 
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -33,9 +35,6 @@ class ImageControllerTest extends TestCase
      */
     private $imageController;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var Filesystem|MockObject $fileSystem */
@@ -59,8 +58,7 @@ class ImageControllerTest extends TestCase
 
     /**
      * @test
-     * @throws \League\Flysystem\FileExistsException
-     * @throws \ReflectionException
+     * @throws FileExistsException
      */
     public function it_can_handle_a_file_upload(): void
     {
@@ -107,7 +105,7 @@ class ImageControllerTest extends TestCase
 
     /**
      * @test
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FileExistsException
      */
     public function it_requires_exactly_one_file(): void
     {
@@ -121,8 +119,7 @@ class ImageControllerTest extends TestCase
 
     /**
      * @test
-     * @throws \League\Flysystem\FileExistsException
-     * @throws \ReflectionException
+     * @throws FileExistsException
      */
     public function it_requires_image_key(): void
     {
@@ -140,5 +137,49 @@ class ImageControllerTest extends TestCase
         $this->expectExceptionMessage('Key image is required inside form-data.');
 
         $this->imageController->upload($request);
+    }
+
+    /**
+     * @test
+     * @throws FileNotFoundException
+     */
+    public function it_deletes_the_previous_image_if_it_exists(): void
+    {
+        $fileName = 'existingImage.jpg';
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('has')
+            ->with($fileName)
+            ->willReturn(true);
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('delete')
+            ->with($fileName);
+
+        $this->imageController->delete($fileName);
+    }
+
+    /**
+     * @test
+     * @throws FileNotFoundException
+     */
+    public function it_does_not_try_to_delete_nonexisting_image(): void
+    {
+        $fileName = 'existingImage.jpg';
+
+        $this->fileSystem
+            ->expects($this->once())
+            ->method('has')
+            ->with($fileName)
+            ->willReturn(false);
+
+        $this->fileSystem
+            ->expects($this->never())
+            ->method('delete')
+            ->with($fileName);
+
+        $this->imageController->delete($fileName);
     }
 }
