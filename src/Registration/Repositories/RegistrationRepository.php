@@ -29,4 +29,10 @@ interface RegistrationRepository
      * @return Registration|null
      */
     public function getByUrlSuffix(UrlSuffix $urlSuffix): ?Registration;
+
+    /**
+     * @param UuidInterface $id
+     * @return null|Registration
+     */
+    public function getByUserId(UuidInterface $id): ?Registration;
 }
