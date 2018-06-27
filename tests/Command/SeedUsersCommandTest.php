@@ -61,19 +61,7 @@ class SeedUsersCommandTest extends TestCase
     {
         $this->userRepository
             ->expects($this->exactly(2))
-            ->method('save')
-            ->withConsecutive(
-                [
-                    ModelsFactory::createUser()->withPassword(
-                        Password::fromHash('$2y$10$6o3cL/ncEIGe.zU6PYFyM.hPafENgHZKiVFJ6jOb.oTjCCb5sjFQG')
-                    ),
-                ],
-                [
-                    ModelsFactory::createAlternateUser()->withPassword(
-                        Password::fromHash('$2y$10$gyWWGYK9VAEMO8eE17xbhOLQ9buwR/nNBKXa8RxZnwPASE73/yQM6')
-                    ),
-                ]
-            );
+            ->method('save');
 
         $commandTester = new CommandTester($this->seedUsersCommand);
         $commandTester->execute(
