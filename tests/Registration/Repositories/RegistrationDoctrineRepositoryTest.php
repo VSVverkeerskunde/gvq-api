@@ -122,4 +122,21 @@ class RegistrationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $foundRegistration
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_registration_by_user_id(): void
+    {
+        $this->registrationDoctrineRepository->save($this->registration);
+
+        $foundRegistration = $this->registrationDoctrineRepository->getByUserId(
+            Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768')
+        );
+
+        $this->assertEquals(
+            $this->registration,
+            $foundRegistration
+        );
+    }
 }

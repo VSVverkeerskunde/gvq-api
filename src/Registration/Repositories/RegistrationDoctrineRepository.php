@@ -72,6 +72,21 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getByUserId(UuidInterface $userId): ?Registration
+    {
+        /** @var RegistrationEntity|null $registrationEntity */
+        $registrationEntity = $this->objectRepository->findOneBy(
+            [
+                'userEntity' => $userId->toString(),
+            ]
+        );
+
+        return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
      * @param UuidInterface $id
      * @return RegistrationEntity
      */
