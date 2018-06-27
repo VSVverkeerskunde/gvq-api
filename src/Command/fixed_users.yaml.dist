@@ -5,7 +5,7 @@
   firstName: 'John'
   role: 'contact'
   language: 'nl'
-  password: '8Vx3aZHmv76N'
+  password: '$2y$10$6o3cL/ncEIGe.zU6PYFyM.hPafENgHZKiVFJ6jOb.oTjCCb5sjFQG' #ohPtpvMYjoJK
 1:
   id: '0ffc0f85-78ee-496b-bc61-17be1326c768'
   email: 'jane@gvq.be'
@@ -13,4 +13,4 @@
   firstName: 'Jane'
   role: 'contact'
   language: 'nl'
-  password: '3nFU4gMI4k5p'
+  password: '$2y$10$gyWWGYK9VAEMO8eE17xbhOLQ9buwR/nNBKXa8RxZnwPASE73/yQM6' #GiUlTK1GxSAE
