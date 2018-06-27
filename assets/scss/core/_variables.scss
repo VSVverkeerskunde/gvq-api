@@ -1,0 +1,62 @@
+// Colors
+// ------
+
+$black: #1a1a1a;
+$gray-50: #6c6f70;
+$white: #ffffff;
+
+$brand-blue: #6cc4e9; // blue
+$brand-yellow: #fbb800; // yellow
+$brand-red: #e40521; // red
+
+$color-primary: $brand-blue;
+$color-text: $gray-50; // gray
+$color-link: $brand-blue;
+
+$global-margin: 40px;
+
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+$font-family-base: 'Open Sans', sans-serif !default;
+
+$font-size-base: 16px !default;
+$font-size-base-value: 16 !default;
+$font-size-root: 16px !default;
+$font-size-root-value: 16 !default;
+
+$font-weight-base: regular;
+$line-height-base: 1.65em !default;
+
+// Breakpoints
+// -----------
+
+/*
+--breakpoint-xs: 0;
+--breakpoint-sm: 576px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 992px;
+--breakpoint-xl: 1200px;
+*/
+$breakpoints: (
+	xxs: 320px,
+	xsm: 480px,
+	sml: 576px,
+	med: 768px,
+	menu: 992px,
+	lrg: 1200px
+);
+
+// Transitions
+// -----------
+//
+$transition-duration-base: 200ms;
+$transition-easing-base: cubic-bezier(0.000, 0.000, 0.150, 0.825);
+
+// Border radius
+// -------------
+//
+$border-radius-base: 5px;
+$border-radius-small: 3px;
+$border-radius-large: 10px;
