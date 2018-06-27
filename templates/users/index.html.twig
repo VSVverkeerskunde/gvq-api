@@ -6,7 +6,7 @@
 
     <a role="button"
        class="btn btn-light"
-       href="{{ path('users_export') }}" ><span class="oi oi-data-transfer-download"></span>
+       href="{{ path('users_export') }}"><span class="oi oi-data-transfer-download"></span>
         {% trans %}Exporteren{% endtrans %}
     </a>
 
@@ -17,50 +17,57 @@
            data-pagination="true"
            data-page-list="[5, 10, 25, 50]">
         <thead>
-            <tr>
-                <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Achternaam{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Voornaam{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Actief{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Rol{% endtrans %}</th>
-                <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
-            </tr>
+        <tr>
+            <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}Achternaam{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}Voornaam{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}Actief{% endtrans %}</th>
+            <th data-sortable="true">{% trans %}Rol{% endtrans %}</th>
+            <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
+        </tr>
         </thead>
         <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>
-                        {{ user.id.toString }}
-                    </td>
-                    <td>
-                        {{ user.email.toNative }}
-                    </td>
-                    <td>
-                        {{ user.lastName.toNative }}
-                    </td>
-                    <td>
-                        {{ user.firstName.toNative }}
-                    </td>
-                    <td>
-                        {{ user.language.toNative }}
-                    </td>
-                    <td>
-                        {{ user.active ? 'Actief'|trans : 'Inactief'|trans }}
-                    </td>
-                    <td>
-                        {{ user.role.toNative }}
-                    </td>
-                    <td>
+        {% for user in users %}
+            <tr>
+                <td>
+                    {{ user.id.toString }}
+                </td>
+                <td>
+                    {{ user.email.toNative }}
+                </td>
+                <td>
+                    {{ user.lastName.toNative }}
+                </td>
+                <td>
+                    {{ user.firstName.toNative }}
+                </td>
+                <td>
+                    {{ user.language.toNative }}
+                </td>
+                <td>
+                    {{ user.active ? 'Actief'|trans : 'Inactief'|trans }}
+                </td>
+                <td>
+                    {{ user.role.toNative }}
+                </td>
+                <td>
+                    <a role="button"
+                       class="btn btn-light"
+                       href="{{ path('users_view_edit', {'id': user.id.toString}) }}">
+                        <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                    </a>
+                    {% if not user.active %}
                         <a role="button"
                            class="btn btn-light"
-                           href="{{ path('users_view_edit', {'id': user.id.toString}) }}" >
-                            <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                           href="{{ path('users_view_send_activation', {'id': user.id.toString}) }}">
+                            <span class="oi oi-envelope-closed"></span>{% trans %}Stuur activatiemail{% endtrans %}
                         </a>
-                    </td>
-                </tr>
-            {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
