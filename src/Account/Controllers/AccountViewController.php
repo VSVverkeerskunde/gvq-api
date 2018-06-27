@@ -134,7 +134,6 @@ class AccountViewController extends AbstractController
             $data = $form->getData();
             $language = $request->getLocale();
 
-            try {
                 $user = $this->registrationFormType->createUserFromData(
                     $this->uuidFactory,
                     $data,
@@ -160,10 +159,6 @@ class AccountViewController extends AbstractController
                 $this->mailService->sendActivationMail($registration);
 
                 return $this->redirectToRoute('accounts_view_register_success');
-            } catch (\Exception $exception) {
-                $this->logger->error('Registration failed: '.$exception->getMessage());
-                $this->addFlash('danger', $this->translator->trans('Registration error'));
-            }
         }
 
         return $this->render(
