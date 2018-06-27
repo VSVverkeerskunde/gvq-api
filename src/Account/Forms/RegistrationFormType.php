@@ -254,29 +254,6 @@ class RegistrationFormType extends AbstractType
     }
 
     /**
-     * @param UuidFactoryInterface $uuidFactory
-     * @param UrlSuffixGenerator $urlSuffixGenerator
-     * @param User $user
-     * @param bool $passwordReset
-     * @return Registration
-     * @throws \Exception
-     */
-    public function createRegistrationForUser(
-        UuidFactoryInterface $uuidFactory,
-        UrlSuffixGenerator $urlSuffixGenerator,
-        User $user,
-        bool $passwordReset
-    ): Registration {
-        return new Registration(
-            $uuidFactory->uuid4(),
-            $urlSuffixGenerator->createUrlSuffix(),
-            $user,
-            new \DateTimeImmutable(),
-            $passwordReset
-        );
-    }
-
-    /**
      * @param TranslatorInterface $translator
      * @return array
      */

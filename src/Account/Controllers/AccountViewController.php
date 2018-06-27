@@ -16,9 +16,11 @@ use VSV\GVQ_API\Account\Forms\RequestPasswordFormType;
 use VSV\GVQ_API\Account\Forms\ResetPasswordFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Mail\Service\MailService;
+use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -148,9 +150,7 @@ class AccountViewController extends AbstractController
                 );
                 $this->companyRepository->save($company);
 
-                $registration = $this->registrationFormType->createRegistrationForUser(
-                    $this->uuidFactory,
-                    $this->urlSuffixGenerator,
+                $registration = $this->createRegistrationForUser(
                     $user,
                     false
                 );
@@ -197,9 +197,7 @@ class AccountViewController extends AbstractController
                 if ($existingRegistration) {
                     $this->registrationRepository->delete($existingRegistration->getId());
                 }
-                $registration = $this->registrationFormType->createRegistrationForUser(
-                    $this->uuidFactory,
-                    $this->urlSuffixGenerator,
+                $registration = $this->createRegistrationForUser(
                     $user,
                     true
                 );
@@ -406,5 +404,24 @@ class AccountViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @param User $user
+     * @param bool $passwordReset
+     * @return Registration
+     * @throws \Exception
+     */
+    public function createRegistrationForUser(
+        User $user,
+        bool $passwordReset
+    ): Registration {
+        return new Registration(
+            $this->uuidFactory->uuid4(),
+            $this->urlSuffixGenerator->createUrlSuffix(),
+            $user,
+            new \DateTimeImmutable(),
+            $passwordReset
+        );
     }
 }
