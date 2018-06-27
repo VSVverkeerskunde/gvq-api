@@ -210,7 +210,7 @@ class AccountViewController extends AbstractController
                 );
 
                 $this->registrationRepository->save($registration);
-                $this->mailService->sendPasswordResetMail($registration);
+                $this->mailService->sendPasswordRequestMail($registration);
 
                 return $this->redirectToRoute('accounts_view_request_password_success');
             } elseif ($user && !$user->isActive()) {
@@ -317,7 +317,7 @@ class AccountViewController extends AbstractController
      * @param string $urlSuffix
      * @return Response
      */
-    public function activation(string $urlSuffix): Response
+    public function activate(string $urlSuffix): Response
     {
         $registration = $this->registrationRepository->getByUrlSuffix(
             new UrlSuffix($urlSuffix)
@@ -329,9 +329,9 @@ class AccountViewController extends AbstractController
 
             $this->registrationRepository->delete($registration->getId());
 
-            return $this->render('accounts/activation.html.twig');
+            return $this->render('accounts/activate.html.twig');
         } else {
-            return $this->render('accounts/activation_error.html.twig');
+            return $this->render('accounts/activate_error.html.twig');
         }
     }
 
