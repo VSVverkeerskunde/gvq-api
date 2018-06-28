@@ -13,12 +13,12 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6">
-                <label for="registration_form_name">{% trans %}Name{% endtrans %}</label>
+                <label for="registration_form_name">{% trans %}LastName{% endtrans %}</label>
                 {{ form_widget(form.name) }}
                 {{ form_errors(form.name) }}
             </div>
             <div class="col-sm-6">
-                <label for="registration_form_firstName">{% trans %}Firstname{% endtrans %}</label>
+                <label for="registration_form_firstName">{% trans %}FirstName{% endtrans %}</label>
                 {{ form_widget(form.firstName) }}
                 {{ form_errors(form.firstName) }}
             </div>
@@ -34,7 +34,7 @@
                 {# Don't show password hint in case of password syntax error #}
                 {% if (form.password.first.vars.errors|length == 0) or
                       (form.password.first.vars.errors[0].message|length < 80) %}
-                    <small id="form_password_help" class="form-text text-muted">{% trans %}Password.error.pattern{% endtrans %}</small>
+                    <small id="form_password_help" class="form-text text-muted">{% trans %}Field.password.pattern{% endtrans %}</small>
                 {% endif %}
             </div>
             <div class="col-sm-6">
