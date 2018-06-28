@@ -79,7 +79,7 @@ class CompanyViewController extends AbstractController
         return $this->render(
             'companies/index.html.twig',
             [
-                'companies' => $companies ? $companies->toArray(): [],
+                'companies' => $companies ? $companies->toArray() : [],
             ]
         );
     }
@@ -97,6 +97,7 @@ class CompanyViewController extends AbstractController
 
         if (!$company) {
             $this->addFlash('warning', $this->translator->trans('Company.edit.not.found', ['%id%' => $id]));
+
             return $this->redirectToRoute('companies_view_index');
         }
 
@@ -110,14 +111,23 @@ class CompanyViewController extends AbstractController
             );
             $this->companyRepository->update($company);
 
-            $this->addFlash('success', $this->translator->trans('Company.edit.succes', ['%name%' => $company->getName()]));
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Company.edit.succes',
+                    [
+                        '%name%' => $company->getName(),
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('companies_view_index');
         }
 
         return $this->render(
             'companies/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }
