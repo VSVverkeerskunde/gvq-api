@@ -101,8 +101,8 @@ Password.reset.link.error.subtitle: 'Dit is een ongeldige link.'
 Password.reset.link.error.text: 'Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
 Password.reset.link.error.extra: 'Password reset extra'
 
-Question.add.title: 'Vraag toevoegen'
-Question.add.submit: 'Toevoegen'
+Question.add.title: 'Vraag wijzigen/toevoegen'
+Question.add.submit: 'Bewaren'
 
 Question.delete.title: 'Vraag verwijderen'
 Question.delete.confirmation: 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
@@ -111,12 +111,11 @@ Question.delete.submit: 'Verwijderen'
 Question.edit.image.title: 'Foto aanpassen'
 Question.edit.image.submit: 'Aanpassen'
 
-User.add.title: 'Gebruiker toevoegen'
+User.add.title: 'Gebruiker wijzigen/toevoegen'
 User.add.submit: 'Bewaar'
 
-Company.add.title: 'Bedrijf toevoegen'
-Company.add.submit: 'Toevoegen'
-
+Company.add.title: 'Bedrijf wijzigen/toevoegen'
+Company.add.submit: 'Bewaren'
 
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
@@ -140,7 +139,7 @@ Field.text.max: 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
 Field.text.empty: 'De tekst mag niet leeg zijn.'
 Field.year.empty: 'Het jaar mag niet leeg zijn.'
 Field.year.min: 'Het jaar moet {{ limit }} of groter zijn.'
-Field.year.max': 'Het jaar moet {{ limit }} of kleiner zijn.'
+Field.year.max: 'Het jaar moet {{ limit }} of kleiner zijn.'
 
 #Flash messages
 Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
@@ -148,7 +147,7 @@ Account.inactive: 'Gelieve eerst uw account te activeren via de link in de beves
 Credentials.invalid: 'De gegevens die u opgaf zijn niet juist.'
 
 Company.edit.not.found: 'Geen bedrijf gevonden met id %id% om aan te passen.'
-Company.edit.success: 'Bedrijf %name% is aangepast.'
+Company.edit.success: 'Bedrijf met id %id% is aangepast.'
 
 Questions.print.none: 'Geen vragen om af te drukken.'
 

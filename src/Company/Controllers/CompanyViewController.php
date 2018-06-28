@@ -114,9 +114,9 @@ class CompanyViewController extends AbstractController
             $this->addFlash(
                 'success',
                 $this->translator->trans(
-                    'Company.edit.succes',
+                    'Company.edit.success',
                     [
-                        '%name%' => $company->getName(),
+                        '%id%' => $company->getId()->toString(),
                     ]
                 )
             );
