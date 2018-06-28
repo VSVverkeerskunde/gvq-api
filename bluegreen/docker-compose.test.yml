@@ -35,5 +35,4 @@ services:
       - "be.2dotstwice.bluegreen.http_route.pattern=mailhog-{{base}}"
     ports:
       - ${DOCKER_HOST_IP}::8025
-      - ${DOCKER_HOST_IP}::1025
     restart: always
