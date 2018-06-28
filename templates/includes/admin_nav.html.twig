@@ -15,21 +15,21 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {{ app.request.get('_route') == 'questions_view_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('questions_view_index') }}">{% trans %}Vragen{% endtrans %}
+                   href="{{ path('questions_view_index') }}">{% trans %}Questions{% endtrans %}
                 </a>
             </li>
             <li class="nav-item {{ app.request.get('_route') == 'users_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('users_view_index') }}">{% trans %}Gebruikers{% endtrans %}
+                   href="{{ path('users_view_index') }}">{% trans %}Users{% endtrans %}
                 </a>
             </li>
             <li class="nav-item {{ app.request.get('_route') == 'companies_index' ? 'active' }}">
                 <a class="nav-link"
-                   href="{{ path('companies_view_index') }}">{% trans %}Bedrijven{% endtrans %}
+                   href="{{ path('companies_view_index') }}">{% trans %}Companies{% endtrans %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Statistieken</a>
+                <a class="nav-link" href="#">Statistics</a>
             </li>
         </ul>
         <ul class="navbar-nav">

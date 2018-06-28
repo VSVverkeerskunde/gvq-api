@@ -68,15 +68,15 @@ class QuestionFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Het jaar mag niet leeg zijn.'),
+                                'message' => $translator->trans('Field.year.empty'),
                             ]
                         ),
                         new Range(
                             [
                                 'min' => 2018,
                                 'max' => 2099,
-                                'minMessage' => $translator->trans('Het jaar moet {{ limit }} of groter zijn.'),
-                                'maxMessage' => $translator->trans('Het jaar moet {{ limit }} of kleiner zijn.'),
+                                'minMessage' => $translator->trans('Field.year.min'),
+                                'maxMessage' => $translator->trans('Field.year.max'),
                             ]
                         ),
                     ],
@@ -139,9 +139,9 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'choices' => [
-                        'Antwoord 1' => 1,
-                        'Antwoord 2' => 2,
-                        'Antwoord 3' => 3,
+                        $translator->trans('Answer.1') => 1,
+                        $translator->trans('Answer.2') => 2,
+                        $translator->trans('Answer.3') => 3,
                     ],
                     'data' => $question ? $this->getCorrectAnswerIndex($question->getAnswers()) : null,
                 ]
@@ -165,7 +165,7 @@ class QuestionFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Foto mag niet leeg zijn.'),
+                                'message' => $translator->trans('Field.image.empty'),
                             ]
                         ),
                     ],
@@ -322,7 +322,7 @@ class QuestionFormType extends AbstractType
             new Length(
                 [
                     'max' => 1024,
-                    'maxMessage' => $translator->trans('De tekst mag niet meer dan {{ limit }} karakters hebben.'),
+                    'maxMessage' => $translator->trans('Field.text.max'),
                 ]
             ),
         ];
@@ -330,7 +330,7 @@ class QuestionFormType extends AbstractType
         if (!$allowEmpty) {
             $constraints[] = new NotBlank(
                 [
-                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
+                    'message' => $translator->trans('Field.text.empty'),
                 ]
             );
         }

@@ -25,12 +25,12 @@ class RequestPasswordFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                             ]
                         ),
                         new Email(
                             [
-                                'message' => $translator->trans('Invalid email pattern'),
+                                'message' => $translator->trans('Field.email.pattern'),
                             ]
                         ),
                     ],

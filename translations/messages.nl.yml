@@ -1,108 +1,162 @@
-Taal: Taal
-Jaar: Jaar
-Thema: Thema
-CreatedOn: Aangemaakt
-Foto: Foto
-Vraag: Vraag
-'Antwoord 1': 'Antwoord 1'
-'Antwoord 2': 'Antwoord 2'
-'Antwoord 3': 'Antwoord 3'
-Feedback: Feedback
-'Het correcte antwoord is': 'Het correcte antwoord is'
-Bewaar: Bewaar
-'Ben je zeker dat je vraag met id %id% wil verwijderen?': 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
-Annuleren: Annuleren
-Verwijderen: Verwijderen
-Toevoegen: Toevoegen
-Afdrukken: Afdrukken
-Acties: Acties
-Aanpassen: Aanpassen
-Change.picture: Wijzig foto
-'Het jaar mag niet leeg zijn.': 'Het jaar mag niet leeg zijn.'
-'Het jaar moet {{ limit }} of groter zijn.': 'Het jaar moet {{ limit }} of groter zijn.'
-'Het jaar moet {{ limit }} of kleiner zijn.': 'Het jaar moet {{ limit }} of kleiner zijn.'
-'De tekst mag niet leeg zijn.': 'De tekst mag niet leeg zijn.'
-'De tekst mag niet meer dan {{ limit }} karakters hebben.': 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
-'Foto mag niet leeg zijn.': 'Foto mag niet leeg zijn.'
-Id: Id
-E-mail: E-mail
-Achternaam: Achternaam
-Voornaam: Voornaam
-Actief: Actief
-Rol: Rol
-Inactief: Inactief
-Vragen: Vragen
-Gebruikers: Gebruikers
-Bedrijven: Bedrijven
-Exporteren: Exporteren
-'Gelieve een geldig e-mail adres op te geven.': 'Gelieve een geldig e-mail adres op te geven.'
-'Grote Verkeersquiz - 2018': 'Grote Verkeersquiz - 2018'
-'Vragen in NL': 'Vragen in NL'
-'Vragen in FR': 'Vragen in FR'
-'Alias NL': 'Alias NL'
-'Alias FR': 'Alias FR'
-'# Medewerkers': '# Medewerkers'
-Naam: Naam
-Wachtwoord: Wachtwoord
-Bevestig wachtwoord: Bevestig wachtwoord
-Bedrijfsnaam: Bedrijfsnaam
-Aantal werknemers: Aantal werknemers
-Registeren: Registeren
-Invalid email pattern: 'Dit is geen geldig e-mailadres'
-Empty field: 'Dit veld is verplicht'
-Email in use: 'Het e-mailadres "{{ email }}" is al in gebruik'
-Company name in use: 'De bedrijfsnaam "{{ company }}" is al in gebruik'
-Alias in use: 'De alias "{{ alias }}" is al in gebruik.'
-Invalid alias pattern: 'Alias moet tussen 3 en 40 karakters lang zijn en mag enkel bestaan uit kleine letters, cijfers en een koppelteken'
-Different passwords: 'De paswoorden komen niet overeen'
-Invalid password pattern: 'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
-Invalid password max length: 'Het wachtwoord mag maximum {{ limit }} karakters bevatten'
-Invalid number of employees: 'Het aantal werknemers moet groter zijn dan 0.'
-Invalid max length: 'Dit veld mag maximum {{ limit }} karakters bevatten.'
-Invalid min length: 'Dit veld moet minimum {{ limit }} karakters bevatten.'
-Registreren: Registreren
-Registration error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
-Registration success title: 'Welkom!'
-Registration success subtitle: 'Uw registratie is geslaagd.'
-Registration success text: 'Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
-Registration success extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
-Naar GVQ site: 'Naar GVQ site'
-Employees not empty: 'Het aantal medewerkers mag niet leeg zijn.'
-Employees positive: 'Het aantal medewerkers moet {{ limit }} of groter zijn.'
-Request password reset success title: 'Success! '
-Request password reset success subtitle: 'Er is een aanvraag verzonden om het wachtwoord te herstellen.'
-Request password reset success text: 'Als er een account bestaat voor het opgegeven e-mailadres, wordt er een e-mail verstuurd met een link om een nieuw wachtwoord te kiezen.'
-Request password reset success extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
-Password-reset.request.submit: 'Wachtwoord herstellen'
-Reset password success title: 'Success! '
-Reset password success subtitle: 'Uw wachtwoord is hersteld.'
-Reset password success text: 'U kan nu inloggen met de nieuwe gegevens'
-Reset password success extra: 'Password reset extra'
-Reset password error title: 'Oeps! '
-Reset password error subtitle: 'Er liep iets mis'
-Reset password error text: 'Gelieve opnieuw te proberen.'
-Reset password error extra: 'Password reset extra'
-Reset password link error title: 'Oeps! '
-Reset password link error subtitle: 'Dit is een ongeldige link.'
-Reset password link error text: 'Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
-Reset password link error extra: 'Password reset extra'
-Wachtwoord herstellen: 'Wachtwoord vergeten'
-Wachtwoord herstel uitleg: 'Geef het e-mailadres in waarmee u geregistreerd heeft om uw wachtwoord te herstellen.'
-Password-reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
-Herstel wachtwoord: 'Herstel wachtwoord'
-Inloggen: Inloggen
-Wachtwoord vergeten: 'Wachtwoord vergeten?'
-Account inactive: 'Gelieve uw account te activeren via de link in de bevestigingsmail van uw registratie.'
-Invalid credentials: 'De gegevens die u opgaf zijn niet juist.'
-Login failed: 'Er liep iets mis.'
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
-Activation: Activatie account
+#General translations
+GVQ.title: 'Grote Verkeersquiz - 2018'
+
+Id: 'Id'
+LastName: 'Achternaam'
+FirstName: 'Voornaam'
+isActive: 'Actief'
+Active:  'Actief'
+Inactive: 'Inactief'
+Role: 'Rol'
+Language: 'Taal'
+Year: 'Jaar'
+Category: 'Thema'
+CreatedOn: 'Aangemaakt'
+Image: 'Foto'
+Question: 'Vraag'
+Answer.1: 'Antwoord 1'
+Answer.2: 'Antwoord 2'
+Answer.3: 'Antwoord 3'
+Answer.correct: 'Het correcte antwoord is'
+Feedback: 'Feedback'
+Company.name: 'Bedrijfsnaam'
+Employees: '#Werknemers'
+Alias.dutch: 'Alias NL'
+Alias.french: 'Alias FR'
+Actions: 'Acties'
+Email: 'E-mail'
+Password: 'Wachtwoord'
+Password.confirm: 'Bevestig wachtwoord'
+
+Questions: 'Vragen'
+Users: 'Gebruikers'
+Companies: 'Bedrijven'
+Statistics: 'Statistieken'
+
+Questions.dutch: 'Vragen in NL'
+Questions.french: 'Vragen in FR'
+
+#Buttons
+Button.cancel: 'Annuleren'
+
+Button.add: 'Toevoegen'
+Button.print: 'Afdrukken'
+Button.edit: 'Aanpassen'
+Button.edit.picture: 'Wijzig foto'
+Button.remove: 'Verwijderen'
+Button.export: 'Exporteren'
+
+#Links
+To.login: 'Naar login pagina'
+To.request.password: 'Wachtwoord vergeten'
+To.site: 'Naar GVQ site'
+
+#Actions and success/error pages
+Registration.title: 'Registreren'
+Registration.submit: 'Registeren'
+
+Registration.success.title: 'Welkom!'
+Registration.success.subtitle: 'Uw registratie is geslaagd.'
+Registration.success.text: 'Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
+Registration.success.extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+
+Activation.title: 'Activatie account'
 Activation.success.title: 'Activatie gelukt!'
 Activation.success.subtitle: 'Uw activatie is geslaagd.'
 Activation.success.text: 'Je kan nu inloggen met je gekozen email adres en paswoord.'
 Activation.success.extra: 'Je zal ook nog een mail ontvangen met alle details van de Grote Verkeersquiz.'
+
 Activation.error.title: 'Activatie mislukt!'
 Activation.error.subtitle: 'Uw activatie is niet gelukt.'
 Activation.error.text: 'Kijk goed na of je de correct link hebt gebruikt in je activatie mail.'
 Activation.error.extra: 'Voor extra informatie kan je ook contact opnemen met VSV.'
-To.login: 'Naar login pagina'
+
+Login.title: 'Inloggen'
+Login.submit: 'Inloggen'
+
+Password.request.title: 'Wachtwoord vergeten'
+Password.request.submit: 'Wachtwoord herstellen'
+Password.request.footer: 'Wachtwoord herstel uitleg'
+
+Password.request.success.title: 'Success! '
+Password.request.success.subtitle: 'Er is een aanvraag verzonden om het wachtwoord te herstellen.'
+Password.request.success.text: 'Als er een account bestaat voor het opgegeven e-mailadres, wordt er een e-mail verstuurd met een link om een nieuw wachtwoord te kiezen.'
+Password.request.success.extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+
+Password.reset.title: 'Nieuw paswoord instellen'
+Password.reset.submit: 'Herstel wachtwoord'
+
+Password.reset.success.title: 'Success! '
+Password.reset.success.subtitle: 'Uw wachtwoord is hersteld.'
+Password.reset.success.text: 'U kan nu inloggen met de nieuwe gegevens'
+Password.reset.success.extra: 'Password reset extra'
+
+Password.reset.error.title: 'Oeps! '
+Password.reset.error.subtitle: 'Er liep iets mis'
+Password.reset.error.text: 'Gelieve opnieuw te proberen.'
+Password.reset.error.extra: 'Password reset extra'
+
+Password.reset.link.error.title: 'Oeps! '
+Password.reset.link.error.subtitle: 'Dit is een ongeldige link.'
+Password.reset.link.error.text: 'Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
+Password.reset.link.error.extra: 'Password reset extra'
+
+Question.add.title: 'Vraag toevoegen'
+Question.add.submit: 'Toevoegen'
+
+Question.delete.title: 'Vraag verwijderen'
+Question.delete.confirmation: 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
+Question.delete.submit: 'Verwijderen'
+
+Question.edit.image.title: 'Foto aanpassen'
+Question.edit.image.submit: 'Aanpassen'
+
+User.add.title: 'Gebruiker toevoegen'
+User.add.submit: 'Bewaar'
+
+Company.add.title: 'Bedrijf toevoegen'
+Company.add.submit: 'Toevoegen'
+
+
+#Mails
+Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
+Password.reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
+
+#Input constraints
+Field.empty: 'Dit veld is verplicht'
+Field.email.pattern: 'Dit is geen geldig e-mailadres'
+Field.email.in.use: 'Het e-mailadres "{{ email }}" is al in gebruik'
+Field.length.max: 'Dit veld mag maximum {{ limit }} karakters bevatten.'
+Field.length.min: 'Dit veld moet minimum {{ limit }} karakters bevatten.'
+Field.passwords.different: 'De paswoorden komen niet overeen'
+Field.password.pattern: 'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
+Field.company.in.use: 'De bedrijfsnaam "{{ company }}" is al in gebruik'
+Field.employees.positive: 'Het aantal werknemers moet groter zijn dan 0.'
+Field.alias.pattern: 'Alias moet tussen 3 en 40 karakters lang zijn en mag enkel bestaan uit kleine letters, cijfers en een koppelteken'
+Field.alias.in.use: 'De alias "{{ alias }}" is al in gebruik.'
+Field.employees.empty: 'Het aantal medewerkers mag niet leeg zijn.'
+Field.image.empty: 'Foto mag niet leeg zijn.'
+Field.text.max: 'De tekst mag niet meer dan {{ limit }} karakters hebben.'
+Field.text.empty: 'De tekst mag niet leeg zijn.'
+Field.year.empty: 'Het jaar mag niet leeg zijn.'
+Field.year.min: 'Het jaar moet {{ limit }} of groter zijn.'
+Field.year.max': 'Het jaar moet {{ limit }} of kleiner zijn.'
+
+#Flash messages
+Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
+Account.inactive: 'Gelieve eerst uw account te activeren via de link in de bevestigingsmail van uw registratie.'
+Credentials.invalid: 'De gegevens die u opgaf zijn niet juist.'
+
+Company.edit.not.found: 'Geen bedrijf gevonden met id %id% om aan te passen.'
+Company.edit.success: 'Bedrijf %name% is aangepast.'
+
+Questions.print.none: 'Geen vragen om af te drukken.'
+
+Question.add.success: 'De nieuwe vraag %id% is bewaard.'
+Question.edit.not.found: 'Geen vraag gevonden met id %id% om aan te passen.'
+Question.edit.success: 'Vraag %id% is aangepast.'
+Question.edit.image.success: 'Foto van vraag %id% is aangepast.'
+Question.delete.success: 'Vraag %id% is verwijderd.'
+
+User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
+User.edit.success: 'Gebruiker %id% is aangepast.'

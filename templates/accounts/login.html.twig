@@ -1,35 +1,35 @@
 {% extends 'anonymous_base.html.twig' %}
 
-{% block title %}{% trans %}Inloggen{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Login.title{% endtrans %}{% endblock %}
 
 {% block content %}
     <div class="card">
         <div class="card-header">
-            <div class="card-title">{% trans %}Inloggen{% endtrans %}</div>
+            <div class="card-title">{% trans %}Login.title{% endtrans %}</div>
         </div>
 
         <div class="card-body">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
             <div class="form-group">
-                <label for="form_email">{% trans %}E-mail{% endtrans %}</label>
+                <label for="form_email">{% trans %}Email{% endtrans %}</label>
                 {{ form_widget(form.email) }}
                 {{ form_errors(form.email) }}
             </div>
 
             <div class="form-group">
-                <label for="form_password">{% trans %}Wachtwoord{% endtrans %}</label>
+                <label for="form_password">{% trans %}Password{% endtrans %}</label>
                 {{ form_widget(form.password) }}
                 {{ form_errors(form.password) }}
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">{% trans %}Inloggen{% endtrans %}</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Login.submit{% endtrans %}</button>
             </div>
             {{ form_end(form) }}
         </div>
 
         <div class="card-footer">
-            <div class="card-link"><a href="{{ path('accounts_view_request_password') }}">{% trans %}Wachtwoord vergeten{% endtrans %}</a></div>
+            <div class="card-link"><a href="{{ path('accounts_view_request_password') }}">{% trans %}To.request.password{% endtrans %}</a></div>
         </div>
     </div>
 {% endblock %}

@@ -122,7 +122,8 @@ class QuestionViewController extends AbstractController
             );
         }
 
-        $this->addFlash('warning', 'Geen vragen om af te drukken.');
+        $this->addFlash('warning', $this->translator->trans('Questions.print.none'));
+
         return $this->redirectToRoute('questions_view_index');
     }
 
@@ -149,14 +150,23 @@ class QuestionViewController extends AbstractController
             );
             $this->questionRepository->save($question);
 
-            $this->addFlash('success', 'De nieuwe vraag '.$question->getId()->toString().' is bewaard.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.add.success',
+                    [
+                        '%id%' => $question->getId()->toString(),
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
         return $this->render(
             'questions/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }
@@ -174,7 +184,16 @@ class QuestionViewController extends AbstractController
         );
 
         if (!$question) {
-            $this->addFlash('warning', 'Geen vraag gevonden met id '.$id.' om aan te passen.');
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'Question.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
@@ -189,14 +208,23 @@ class QuestionViewController extends AbstractController
             );
             $this->questionRepository->update($question);
 
-            $this->addFlash('success', 'Vraag '.$id.' is aangepast.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.edit.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
         return $this->render(
             'questions/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }
@@ -215,7 +243,16 @@ class QuestionViewController extends AbstractController
         );
 
         if (!$question) {
-            $this->addFlash('warning', 'Geen vraag gevonden met id '.$id.' om aan te passen.');
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'Question.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
@@ -234,7 +271,16 @@ class QuestionViewController extends AbstractController
             );
             $this->questionRepository->update($question);
 
-            $this->addFlash('success', 'Foto van vraag '.$id.' is aangepast.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.edit.image.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
@@ -258,7 +304,15 @@ class QuestionViewController extends AbstractController
                 $this->uuidFactory->fromString($id)
             );
 
-            $this->addFlash('success', 'Vraag '.$id.' is verwijderd.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.delete.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
 
             return $this->redirectToRoute('questions_view_index');
         }

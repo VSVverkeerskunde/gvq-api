@@ -96,7 +96,7 @@ class CompanyViewController extends AbstractController
         );
 
         if (!$company) {
-            $this->addFlash('warning', 'Geen bedrijf gevonden met id ' . $id . ' om aan te passen.');
+            $this->addFlash('warning', $this->translator->trans('Company.edit.not.found', ['%id%' => $id]));
             return $this->redirectToRoute('companies_view_index');
         }
 
@@ -110,7 +110,7 @@ class CompanyViewController extends AbstractController
             );
             $this->companyRepository->update($company);
 
-            $this->addFlash('success', 'Bedrijf '.$company->getName()->toNative().' is aangepast.');
+            $this->addFlash('success', $this->translator->trans('Company.edit.succes', ['%name%' => $company->getName()]));
             return $this->redirectToRoute('companies_view_index');
         }
 

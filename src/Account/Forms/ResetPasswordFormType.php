@@ -26,25 +26,25 @@ class ResetPasswordFormType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'invalid_message' => $translator->trans('Different passwords'),
+                    'invalid_message' => $translator->trans('Field.passwords.different'),
                     'first_options' => [
                         'always_empty' => false,
                         'constraints' => [
                             new Regex(
                                 [
                                     'pattern' => Password::PATTERN,
-                                    'message' => $translator->trans('Invalid password pattern'),
+                                    'message' => $translator->trans('Field.password.pattern'),
                                 ]
                             ),
                             new NotBlank(
                                 [
-                                    'message' => $translator->trans('Empty field'),
+                                    'message' => $translator->trans('Field.empty'),
                                 ]
                             ),
                             new Length(
                                 [
                                     'max' => 4096,
-                                    'maxMessage' => $translator->trans('Invalid max length'),
+                                    'maxMessage' => $translator->trans('Field.length.max'),
                                 ]
                             ),
                         ],

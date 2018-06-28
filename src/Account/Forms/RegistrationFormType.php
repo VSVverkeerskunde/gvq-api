@@ -49,26 +49,26 @@ class RegistrationFormType extends AbstractType
                         new Regex(
                             [
                                 'pattern' => Email::PATTERN,
-                                'message' => $translator->trans('Invalid email pattern'),
+                                'message' => $translator->trans('Field.email.pattern'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
-                                'maxMessage' => $translator->trans('Invalid max length'),
+                                'maxMessage' => $translator->trans('Field.length.max'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new UserIsUnique(
                             [
-                                'message' => $translator->trans('Email in use'),
+                                'message' => $translator->trans('Field.email.in.use'),
                             ]
                         ),
                     ],
@@ -79,25 +79,25 @@ class RegistrationFormType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'invalid_message' => $translator->trans('Different passwords'),
+                    'invalid_message' => $translator->trans('Field.passwords.different'),
                     'first_options' => [
                         'always_empty' => false,
                         'constraints' => [
                             new Regex(
                                 [
                                     'pattern' => Password::PATTERN,
-                                    'message' => $translator->trans('Invalid password pattern'),
+                                    'message' => $translator->trans('Field.password.pattern'),
                                 ]
                             ),
                             new NotBlank(
                                 [
-                                    'message' => $translator->trans('Empty field'),
+                                    'message' => $translator->trans('Field.empty'),
                                 ]
                             ),
                             new Length(
                                 [
                                     'max' => 4096,
-                                    'maxMessage' => $translator->trans('Invalid max length'),
+                                    'maxMessage' => $translator->trans('Field.length.max'),
                                 ]
                             ),
                         ],
@@ -128,20 +128,20 @@ class RegistrationFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
-                                'maxMessage' => $translator->trans('Invalid max length'),
+                                'maxMessage' => $translator->trans('Field.length.max'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new CompanyIsUnique(
                             [
-                                'message' => $translator->trans('Company name in use'),
+                                'message' => $translator->trans('Field.company.in.use'),
                             ]
                         ),
                     ],
@@ -155,12 +155,12 @@ class RegistrationFormType extends AbstractType
                         new GreaterThan(
                             [
                                 'value' => 0,
-                                'message' => $translator->trans('Invalid number of employees'),
+                                'message' => $translator->trans('Field.employees.positive'),
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                             ]
                         ),
                     ],
@@ -285,13 +285,13 @@ class RegistrationFormType extends AbstractType
         return [
             new NotBlank(
                 [
-                    'message' => $translator->trans('Empty field'),
+                    'message' => $translator->trans('Field.empty'),
                 ]
             ),
             new Length(
                 [
                     'max' => 255,
-                    'maxMessage' => $translator->trans('Invalid max length'),
+                    'maxMessage' => $translator->trans('Field.length.max'),
                 ]
             ),
         ];
@@ -306,20 +306,20 @@ class RegistrationFormType extends AbstractType
         return [
             new NotBlank(
                 [
-                    'message' => $translator->trans('Empty field'),
+                    'message' => $translator->trans('Field.empty'),
                     'groups' => ['CorrectSyntax'],
                 ]
             ),
             new Regex(
                 [
                     'pattern' => Alias::PATTERN,
-                    'message' => $translator->trans('Invalid alias pattern'),
+                    'message' => $translator->trans('Field.alias.pattern'),
                     'groups' => ['CorrectSyntax'],
                 ]
             ),
             new AliasIsUnique(
                 [
-                    'message' => $translator->trans('Alias in use'),
+                    'message' => $translator->trans('Field.alias.in.use'),
                 ]
             ),
         ];
