@@ -9,6 +9,14 @@
 
     {% include '/includes/admin_nav.html.twig' %}
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <div class="page-main" id="main">
         <div class="container-fluid">
             {% block content %}{% endblock %}
