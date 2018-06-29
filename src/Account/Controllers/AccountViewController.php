@@ -346,8 +346,17 @@ class AccountViewController extends AbstractController
     public function sendActivation(Request $request, string $id): Response
     {
         $user = $this->userRepository->getById(Uuid::fromString($id));
+
         if (!$user) {
-            $this->addFlash('success', $this->translator->trans('User.id.invalid', ['%id%' => $id]));
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.id.invalid',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
 
             return $this->redirectToRoute('users_view_index');
         }
