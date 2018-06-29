@@ -85,7 +85,7 @@ class SwiftMailService implements MailService
             )
             ->setBody(
                 $this->twig->render(
-                    $this->getRegistrationHtmlTemplate(
+                    $this->getActivationHtmlTemplate(
                         $registration->getUser()->getLanguage()
                     ),
                     $this->generateActivationTemplateParameters($registration)
@@ -94,7 +94,7 @@ class SwiftMailService implements MailService
             )
             ->addPart(
                 $this->twig->render(
-                    $this->getRegistrationTextTemplate(
+                    $this->getActivationTextTemplate(
                         $registration->getUser()->getLanguage()
                     ),
                     $this->generateActivationTemplateParameters($registration)
@@ -109,7 +109,7 @@ class SwiftMailService implements MailService
      * @inheritdoc
      * @throws \Twig_Error
      */
-    public function sendPasswordResetMail(Registration $registration): void
+    public function sendPasswordRequestMail(Registration $registration): void
     {
         $message = (new Swift_Message())
             ->setFrom(
@@ -131,19 +131,19 @@ class SwiftMailService implements MailService
             )
             ->setBody(
                 $this->twig->render(
-                    $this->getPasswordResetHtmlTemplate(
+                    $this->getPasswordRequestHtmlTemplate(
                         $registration->getUser()->getLanguage()
                     ),
-                    $this->generatePasswordResetTemplateParameters($registration)
+                    $this->generatePasswordRequestTemplateParameters($registration)
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->twig->render(
-                    $this->getPasswordResetTextTemplate(
+                    $this->getPasswordRequestTextTemplate(
                         $registration->getUser()->getLanguage()
                     ),
-                    $this->generatePasswordResetTemplateParameters($registration)
+                    $this->generatePasswordRequestTemplateParameters($registration)
                 ),
                 'text/plain'
             );
@@ -155,36 +155,36 @@ class SwiftMailService implements MailService
      * @param Language $language
      * @return string
      */
-    private function getRegistrationHtmlTemplate(Language $language): string
+    private function getActivationHtmlTemplate(Language $language): string
     {
-        return 'mails/activation.'.$language->toNative().'.html.twig';
+        return 'mails/activate.'.$language->toNative().'.html.twig';
     }
 
     /**
      * @param Language $language
      * @return string
      */
-    private function getRegistrationTextTemplate(Language $language): string
+    private function getActivationTextTemplate(Language $language): string
     {
-        return 'mails/activation.'.$language->toNative().'.text.twig';
+        return 'mails/activate.'.$language->toNative().'.text.twig';
     }
 
     /**
      * @param Language $language
      * @return string
      */
-    private function getPasswordResetHtmlTemplate(Language $language): string
+    private function getPasswordRequestHtmlTemplate(Language $language): string
     {
-        return 'mails/password_reset.'.$language->toNative().'.html.twig';
+        return 'mails/request_password.'.$language->toNative().'.html.twig';
     }
 
     /**
      * @param Language $language
      * @return string
      */
-    private function getPasswordResetTextTemplate(Language $language): string
+    private function getPasswordRequestTextTemplate(Language $language): string
     {
-        return 'mails/password_reset.'.$language->toNative().'.text.twig';
+        return 'mails/request_password.'.$language->toNative().'.text.twig';
     }
 
     /**
@@ -203,7 +203,7 @@ class SwiftMailService implements MailService
      * @param Registration $registration
      * @return array
      */
-    private function generatePasswordResetTemplateParameters(Registration $registration): array
+    private function generatePasswordRequestTemplateParameters(Registration $registration): array
     {
         return [
             'registration' => $registration,
@@ -218,7 +218,7 @@ class SwiftMailService implements MailService
     private function generateActivationUrl(Registration $registration): string
     {
         return $this->urlGenerator->generate(
-            'accounts_view_activation',
+            'accounts_view_activate',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
                 'urlSuffix' => $registration->getUrlSuffix()->toNative(),

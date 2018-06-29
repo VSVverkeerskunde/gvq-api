@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Account\Controllers;
 
-use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -16,9 +16,11 @@ use VSV\GVQ_API\Account\Forms\RequestPasswordFormType;
 use VSV\GVQ_API\Account\Forms\ResetPasswordFormType;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Mail\Service\MailService;
+use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -81,11 +83,6 @@ class AccountViewController extends AbstractController
     private $mailService;
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -93,7 +90,6 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
-     * @param LoggerInterface $logger
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -102,8 +98,7 @@ class AccountViewController extends AbstractController
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
-        MailService $mailService,
-        LoggerInterface $logger
+        MailService $mailService
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -112,7 +107,6 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
-        $this->logger = $logger;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
@@ -134,36 +128,29 @@ class AccountViewController extends AbstractController
             $data = $form->getData();
             $language = $request->getLocale();
 
-            try {
-                $user = $this->registrationFormType->createUserFromData(
-                    $this->uuidFactory,
-                    $data,
-                    $language
-                );
-                $this->userRepository->save($user);
+            $user = $this->registrationFormType->createUserFromData(
+                $this->uuidFactory,
+                $data,
+                $language
+            );
+            $this->userRepository->save($user);
 
-                $company = $this->registrationFormType->createCompanyFromData(
-                    $this->uuidFactory,
-                    $data,
-                    $user
-                );
-                $this->companyRepository->save($company);
+            $company = $this->registrationFormType->createCompanyFromData(
+                $this->uuidFactory,
+                $data,
+                $user
+            );
+            $this->companyRepository->save($company);
 
-                $registration = $this->registrationFormType->createRegistrationForUser(
-                    $this->uuidFactory,
-                    $this->urlSuffixGenerator,
-                    $user,
-                    false
-                );
-                $this->registrationRepository->save($registration);
+            $registration = $this->createRegistrationForUser(
+                $user,
+                false
+            );
+            $this->registrationRepository->save($registration);
 
-                $this->mailService->sendActivationMail($registration);
+            $this->mailService->sendActivationMail($registration);
 
-                return $this->redirectToRoute('accounts_view_register_success');
-            } catch (\Exception $exception) {
-                $this->logger->error('Registration failed: '.$exception->getMessage());
-                $this->addFlash('danger', $this->translator->trans('Registration.error'));
-            }
+            return $this->redirectToRoute('accounts_view_register_success');
         }
 
         return $this->render(
@@ -202,15 +189,13 @@ class AccountViewController extends AbstractController
                 if ($existingRegistration) {
                     $this->registrationRepository->delete($existingRegistration->getId());
                 }
-                $registration = $this->registrationFormType->createRegistrationForUser(
-                    $this->uuidFactory,
-                    $this->urlSuffixGenerator,
+                $registration = $this->createRegistrationForUser(
                     $user,
                     true
                 );
 
                 $this->registrationRepository->save($registration);
-                $this->mailService->sendPasswordResetMail($registration);
+                $this->mailService->sendPasswordRequestMail($registration);
 
                 return $this->redirectToRoute('accounts_view_request_password_success');
             } elseif ($user && !$user->isActive()) {
@@ -317,7 +302,7 @@ class AccountViewController extends AbstractController
      * @param string $urlSuffix
      * @return Response
      */
-    public function activation(string $urlSuffix): Response
+    public function activate(string $urlSuffix): Response
     {
         $registration = $this->registrationRepository->getByUrlSuffix(
             new UrlSuffix($urlSuffix)
@@ -329,10 +314,72 @@ class AccountViewController extends AbstractController
 
             $this->registrationRepository->delete($registration->getId());
 
-            return $this->render('accounts/activation.html.twig');
+            return $this->render('accounts/activate.html.twig');
         } else {
-            return $this->render('accounts/activation_error.html.twig');
+            return $this->render('accounts/activate_error.html.twig');
         }
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     * @throws \Exception
+     */
+    public function sendActivation(Request $request, string $id): Response
+    {
+        $user = $this->userRepository->getById(Uuid::fromString($id));
+
+        if (!$user) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.id.invalid',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
+            if ($existingRegistration) {
+                $this->registrationRepository->delete(
+                    $existingRegistration->getId()
+                );
+            }
+
+            $registration = $this->createRegistrationForUser(
+                $user,
+                false
+            );
+            $this->registrationRepository->save($registration);
+
+            $this->mailService->sendActivationMail($registration);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Activation.send.success',
+                    [
+                        '%email%' => $user->getEmail()->toNative(),
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        return $this->render(
+            'users/send_activation.html.twig',
+            [
+                'email' => $user->getEmail()->toNative(),
+            ]
+        );
     }
 
     /**
@@ -411,5 +458,24 @@ class AccountViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @param User $user
+     * @param bool $passwordReset
+     * @return Registration
+     * @throws \Exception
+     */
+    private function createRegistrationForUser(
+        User $user,
+        bool $passwordReset
+    ): Registration {
+        return new Registration(
+            $this->uuidFactory->uuid4(),
+            $this->urlSuffixGenerator->createUrlSuffix(),
+            $user,
+            new \DateTimeImmutable(),
+            $passwordReset
+        );
     }
 }

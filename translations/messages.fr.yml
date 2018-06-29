@@ -71,6 +71,12 @@ Activation.error.subtitle: '_Uw activatie is niet gelukt.'
 Activation.error.text: '_Kijk goed na of je de correct link hebt gebruikt in je activatie mail.'
 Activation.error.extra: '_Voor extra informatie kan je ook contact opnemen met VSV.'
 
+Activation.send: '__Stuur activatiemail'
+Activation.send.title: '__Activatiemail sturen'
+Activation.send.confirmation: '__Ben je zeker dat je een activatiemail wilt sturen naar %email%?'
+Activation.send.confirm: '__Versturen'
+Activation.send.success: '__Er is een activatiemail verstuurd naar  %email%'
+
 Login.title: '_Inloggen'
 Login.submit: '_Inloggen'
 

@@ -93,7 +93,7 @@ class SeedUsersCommand extends Command
                         true
                     );
                     $user = $user->withPassword(
-                        Password::fromHash($userAsYml['password'])
+                        Password::fromPlainText($userAsYml['password'])
                     );
 
                     return $user;

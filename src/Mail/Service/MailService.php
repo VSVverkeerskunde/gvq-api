@@ -9,7 +9,7 @@ interface MailService
     /**
      * @param Registration $registration
      */
-    public function sendPasswordResetMail(Registration $registration): void;
+    public function sendPasswordRequestMail(Registration $registration): void;
 
     /**
      * @param Registration $registration
