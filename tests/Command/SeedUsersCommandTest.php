@@ -4,8 +4,10 @@ namespace VSV\GVQ_API\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Tester\CommandTester;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Password;
 
@@ -59,21 +61,20 @@ class SeedUsersCommandTest extends TestCase
      */
     public function it_seeds_users(): void
     {
+        $isFirstUser = true;
+
         $this->userRepository
             ->expects($this->exactly(2))
             ->method('save')
-            ->withConsecutive(
-                [
-                    ModelsFactory::createUser()->withPassword(
-                        Password::fromHash('$2y$10$6o3cL/ncEIGe.zU6PYFyM.hPafENgHZKiVFJ6jOb.oTjCCb5sjFQG')
-                    ),
-                ],
-                [
-                    ModelsFactory::createAlternateUser()->withPassword(
-                        Password::fromHash('$2y$10$gyWWGYK9VAEMO8eE17xbhOLQ9buwR/nNBKXa8RxZnwPASE73/yQM6')
-                    ),
-                ]
-            );
+            ->with($this->callback(function (User $user) use (&$isFirstUser) {
+                if ($isFirstUser) {
+                    $isFirstUser = false;
+                    $uuid = Uuid::fromString('3ffc0f85-78ee-496b-bc61-17be1326c768');
+                } else {
+                    $uuid = Uuid::fromString('0ffc0f85-78ee-496b-bc61-17be1326c768');
+                }
+                return $user->getId()->equals($uuid);
+            }));
 
         $commandTester = new CommandTester($this->seedUsersCommand);
         $commandTester->execute(

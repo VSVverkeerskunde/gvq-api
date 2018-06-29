@@ -1,37 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
-        {% block stylesheets %}
-            <link href="{{ asset('css/open-iconic-bootstrap.css') }}" rel="stylesheet" />
-            <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
-        {% endblock %}
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/open-iconic-bootstrap.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
 
-    <body>
-        <div class="container-fluid">
-            {% block header %}{% endblock %}
+<body>
 
-            {% block nav %}{% endblock %}
+    {% block body %}{% endblock %}
 
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message|trans }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
+    {% block javascripts %}
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('js/popper.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
+    {% endblock %}
 
-            {% block content %}{% endblock %}
-
-            {% block footer %}{% endblock %}
-        </div>
-        {% block javascripts %}
-            <script src="{{ asset('js/jquery.js') }}"></script>
-            <script src="{{ asset('js/popper.min.js') }}"></script>
-            <script src="{{ asset('js/bootstrap.js') }}"></script>
-        {% endblock %}
-    </body>
+</body>
 
 </html>

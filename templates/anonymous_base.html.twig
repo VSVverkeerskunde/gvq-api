@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="#main" class="visually-hidden focusable skip-link">
+        {{ 'Skip to main content' | trans }}
+    </a>
+
+    {% include '/includes/page-header.html.twig' %}
+
+    <div class="page-main" id="main">
+        <div class="container">
+            {% include '/includes/flash.html.twig' %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    {% include '/includes/page-footer.html.twig' %}
+
+{% endblock %}
+

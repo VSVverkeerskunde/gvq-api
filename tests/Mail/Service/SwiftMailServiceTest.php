@@ -71,13 +71,13 @@ class SwiftMailServiceTest extends KernelTestCase
     public function it_can_send_a_registration_mail()
     {
         $registration = ModelsFactory::createRegistration();
-        $url = 'http://www.gvq.be/nl/view/accounts/activation/00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3';
+        $url = 'http://www.gvq.be/nl/view/accounts/activate/00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3';
 
         $this->urlGenerator
             ->expects($this->exactly(2))
             ->method('generate')
             ->with(
-                'accounts_view_activation',
+                'accounts_view_activate',
                 [
                     '_locale' => $registration->getUser()->getLanguage()->toNative(),
                     'urlSuffix' => $registration->getUrlSuffix()->toNative(),

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'anonymous_base.html.twig' %}
 
 {% block title %}{% trans %}Activation{% endtrans %}{% endblock %}
 
@@ -11,7 +11,7 @@
             <p class="card-text">{% trans %}Activation.error.text{% endtrans %}</p>
             <p class="card-text">{% trans %}Activation.error.extra{% endtrans %}</p>
             <hr>
-            <a href="#" class="card-link">{% trans %}To.login{% endtrans %}</a>
+            <a href="{{ path('accounts_view_login') }}" class="card-link">{% trans %}To.login{% endtrans %}</a>
         </div>
     </div>
 {% endblock %}

@@ -1,45 +1,4 @@
 #
-# API
-#
-
-categories_get_all:
-  path: /categories
-  controller: VSV\GVQ_API\Question\Controllers\CategoryController::getAll
-  methods: [GET]
-
-questions_save:
-  path: /questions
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::save
-  methods: [POST]
-questions_delete:
-  path: /questions/{id}
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::delete
-  methods: [DELETE]
-questions_get_all:
-  path: /questions
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
-  methods: [GET]
-
-companies_save:
-  path: /companies
-  controller: VSV\GVQ_API\Company\Controllers\CompanyController::save
-  methods: [POST]
-
-images_upload:
-  path: /images
-  controller: VSV\GVQ_API\Image\Controllers\ImageController::upload
-  methods: [POST]
-
-accounts_register:
-  path: account/register
-  controller: VSV\GVQ_API\Account\Controllers\AccountController::register
-  methods: [POST]
-accounts_login:
-  path: account/login
-  controller: VSV\GVQ_API\Account\Controllers\AccountController::login
-  methods: [POST]
-
-#
 # VIEWS
 #
 
@@ -61,9 +20,9 @@ accounts_view_login:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
-accounts_view_activation:
-  path: /{_locale}/view/accounts/activation/{urlSuffix}
-  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activation
+accounts_view_activate:
+  path: /{_locale}/view/accounts/activate/{urlSuffix}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activate
   methods: [GET]
   requirements:
     _locale: nl|fr

@@ -26,8 +26,6 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
-use VSV\GVQ_API\Registration\Models\Registration;
-use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
@@ -250,29 +248,6 @@ class RegistrationFormType extends AbstractType
                 )
             ),
             $user
-        );
-    }
-
-    /**
-     * @param UuidFactoryInterface $uuidFactory
-     * @param UrlSuffixGenerator $urlSuffixGenerator
-     * @param User $user
-     * @param bool $passwordReset
-     * @return Registration
-     * @throws \Exception
-     */
-    public function createRegistrationForUser(
-        UuidFactoryInterface $uuidFactory,
-        UrlSuffixGenerator $urlSuffixGenerator,
-        User $user,
-        bool $passwordReset
-    ): Registration {
-        return new Registration(
-            $uuidFactory->uuid4(),
-            $urlSuffixGenerator->createUrlSuffix(),
-            $user,
-            new \DateTimeImmutable(),
-            $passwordReset
         );
     }
 
