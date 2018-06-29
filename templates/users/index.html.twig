@@ -1,13 +1,13 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}{% trans %}Gebruikers{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Users{% endtrans %}{% endblock %}
 
 {% block content %}
 
     <a role="button"
        class="btn btn-light"
-       href="{{ path('users_export') }}"><span class="oi oi-data-transfer-download"></span>
-        {% trans %}Exporteren{% endtrans %}
+       href="{{ path('users_export') }}" ><span class="oi oi-data-transfer-download"></span>
+        {% trans %}Button.export{% endtrans %}
     </a>
 
     <table class="table"
@@ -19,17 +19,17 @@
         <thead>
             <tr>
                 <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}E-mail{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Achternaam{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Voornaam{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Actief{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Rol{% endtrans %}</th>
-                <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Email{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}LastName{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}FirstName{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Language{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}isActive{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Role{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
+            {% for user in users %}
             <tr>
                 <td>
                     {{ user.id.toString }}
@@ -47,7 +47,7 @@
                     {{ user.language.toNative }}
                 </td>
                 <td>
-                    {{ user.active ? 'Actief'|trans : 'Inactief'|trans }}
+                    {{ user.active ? 'isActive'|trans : 'Inactive'|trans }}
                 </td>
                 <td>
                     {{ user.role.toNative }}
@@ -56,18 +56,18 @@
                     <a role="button"
                        class="btn btn-light"
                        href="{{ path('users_view_edit', {'id': user.id.toString}) }}">
-                        <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                        <span class="oi oi-pencil"></span>{% trans %}Button.edit{% endtrans %}
                     </a>
                     {% if not user.active %}
-                        <a role="button"
-                           class="btn btn-light"
-                           href="{{ path('users_view_send_activation', {'id': user.id.toString}) }}">
-                            <span class="oi oi-envelope-closed"></span>{% trans %}Activation.send{% endtrans %}
-                        </a>
+                    <a role="button"
+                       class="btn btn-light"
+                       href="{{ path('users_view_send_activation', {'id': user.id.toString}) }}">
+                        <span class="oi oi-envelope-closed"></span>{% trans %}Activation.send{% endtrans %}
+                    </a>
                     {% endif %}
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 

@@ -47,26 +47,26 @@ class UserFormType extends AbstractType
                         new Regex(
                             [
                                 'pattern' => Email::PATTERN,
-                                'message' => $translator->trans('Invalid email pattern'),
+                                'message' => $translator->trans('Field.email.pattern'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
-                                'maxMessage' => $translator->trans('Invalid max length'),
+                                'maxMessage' => $translator->trans('Field.length.max'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new UserIsUnique(
                             [
-                                'message' => $translator->trans('Email in use'),
+                                'message' => $translator->trans('Field.email.in.use'),
                                 'userId' => $user ? $user->getId()->toString() : null,
                             ]
                         ),
@@ -172,13 +172,13 @@ class UserFormType extends AbstractType
         return [
             new NotBlank(
                 [
-                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
+                    'message' => $translator->trans('Field.empty'),
                 ]
             ),
             new Length(
                 [
                     'max' => 255,
-                    'maxMessage' => $translator->trans('De tekst mag niet meer dan {{ limit }} karakters hebben.'),
+                    'maxMessage' => $translator->trans('Field.text.empty'),
                 ]
             ),
         ];

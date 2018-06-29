@@ -24,7 +24,7 @@ class ImageFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Empty field'),
+                                'message' => $translator->trans('Field.empty'),
                             ]
                         ),
 

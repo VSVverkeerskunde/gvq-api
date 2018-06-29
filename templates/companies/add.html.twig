@@ -1,18 +1,18 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}{% trans %}Bedrijven{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Company.add.title{% endtrans %}{% endblock %}
 
 {% block content %}
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
             <div class="row">
                 <div class="col-6">
-                    <label for="form_email">{% trans %}Naam{% endtrans %}</label>
+                    <label for="form_email">{% trans %}Company.name{% endtrans %}</label>
                     {{ form_widget(form.name) }}
                     {{ form_errors(form.name) }}
                 </div>
                 <div class="col-6">
-                    <label for="form_nrOfEmployees">{% trans %}# Medewerkers{% endtrans %}</label>
+                    <label for="form_nrOfEmployees">{% trans %}Employees{% endtrans %}</label>
                     {{ form_widget(form.nrOfEmployees) }}
                     {{ form_errors(form.nrOfEmployees) }}
                 </div>
@@ -22,12 +22,12 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-6">
-                    <label for="form_firstName">{% trans %}Alias NL{% endtrans %}</label>
+                    <label for="form_firstName">{% trans %}Alias.dutch{% endtrans %}</label>
                     {{ form_widget(form.aliasNl) }}
                     {{ form_errors(form.aliasNl) }}
                 </div>
                 <div class="col-6">
-                    <label for="form_lastName">{% trans %}Alias FR{% endtrans %}</label>
+                    <label for="form_lastName">{% trans %}Alias.french{% endtrans %}</label>
                     {{ form_widget(form.aliasFr) }}
                     {{ form_errors(form.aliasFr) }}
                 </div>
@@ -37,9 +37,9 @@
         <div class="form-group">
             <a role="button"
                class="btn btn-secondary"
-               href="{{ path('companies_view_index') }}">{% trans %}Annuleren{% endtrans %}
+               href="{{ path('companies_view_index') }}">{% trans %}Button.cancel{% endtrans %}
             </a>
-            <button type="submit" class="btn btn-primary">{% trans %}Bewaar{% endtrans %}</button>
+            <button type="submit" class="btn btn-primary">{% trans %}Company.add.submit{% endtrans %}</button>
         </div>
     {{ form_end(form) }}
 {% endblock %}

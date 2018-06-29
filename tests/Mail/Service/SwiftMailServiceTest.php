@@ -101,6 +101,7 @@ class SwiftMailServiceTest extends KernelTestCase
 
         $this->assertCount(1, $message->getTo());
         $this->assertEquals(
+            $registration->getUser()->getFirstName()->toNative().' '.
             $registration->getUser()->getLastName()->toNative(),
             $message->getTo()[$registration->getUser()->getEmail()->toNative()]
         );
@@ -111,7 +112,7 @@ class SwiftMailServiceTest extends KernelTestCase
         );
 
         $this->assertContains(
-            'Beste Doe',
+            'Beste John',
             $message->getBody()
         );
 
@@ -134,7 +135,7 @@ class SwiftMailServiceTest extends KernelTestCase
         );
 
         $this->assertContains(
-            'Beste Doe,',
+            'Beste John,',
             $message->getChildren()[0]->getBody()
         );
 

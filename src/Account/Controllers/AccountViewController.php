@@ -199,7 +199,7 @@ class AccountViewController extends AbstractController
 
                 return $this->redirectToRoute('accounts_view_request_password_success');
             } elseif ($user && !$user->isActive()) {
-                $this->addFlash('warning', $this->translator->trans('Account inactive'));
+                $this->addFlash('warning', $this->translator->trans('Account.inactive'));
             }
         }
 
@@ -284,9 +284,9 @@ class AccountViewController extends AbstractController
                 if ($user->isActive()) {
                     return $this->redirectToRoute('questions_view_index');
                 }
-                $this->addFlash('warning', $this->translator->trans('Account inactive'));
+                $this->addFlash('warning', $this->translator->trans('Account.inactive'));
             } else {
-                $this->addFlash('danger', $this->translator->trans('Invalid credentials'));
+                $this->addFlash('danger', $this->translator->trans('Credentials.invalid'));
             }
         }
 

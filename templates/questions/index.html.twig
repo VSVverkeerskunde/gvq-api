@@ -1,6 +1,6 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}{% trans %}Vragen{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Questions{% endtrans %}{% endblock %}
 
 {% block content %}
 
@@ -11,13 +11,13 @@
             <a role="button"
                class="btn btn-light"
                href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>
-                {% trans %}Toevoegen{% endtrans %}
+                {% trans %}Button.add{% endtrans %}
             </a>
 
             <button type="submit"
                     class="btn btn-light">
                 <span class="oi oi-print"></span>
-                {% trans %}Afdrukken{% endtrans %}
+                {% trans %}Button.print{% endtrans %}
             </button>
 
             <div class="form-check form-check-inline">
@@ -27,7 +27,7 @@
                        class="form-check-input"
                        checked>
                 <label class="form-check-label"
-                       for="print_nl">{% trans %}Vragen in NL{% endtrans %}</label>
+                       for="print_nl">{% trans %}Questions.dutch{% endtrans %}</label>
             </div>
             <div class="form-check form-check-inline">
                 <input id="print_fr"
@@ -36,7 +36,7 @@
                        class="form-check-input"
                        checked>
                 <label class="form-check-label"
-                       for="print_fr">{% trans %}Vragen in FR{% endtrans %}</label>
+                       for="print_fr">{% trans %}Questions.french{% endtrans %}</label>
             </div>
         </div>
     </form>
@@ -49,13 +49,13 @@
            data-page-list="[5, 10, 25, 50]">
         <thead>
             <tr>
-                <th data-searchable="false">{% trans %}Foto{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Vraag{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Jaar{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Thema{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Image{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Question{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Year{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Language{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Category{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}CreatedOn{% endtrans %}</th>
-                <th data-searchable="false">{% trans %}Acties{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -93,17 +93,17 @@
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit', {'id': question.id.toString}) }}" >
-                            <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                            <span class="oi oi-pencil"></span>{% trans %}Button.edit{% endtrans %}
                         </a>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit_image', {'id': question.id.toString}) }}">
-                            <span class="oi oi-image"></span>{% trans %}Change.picture{% endtrans %}
+                            <span class="oi oi-image"></span>{% trans %}Button.edit.picture{% endtrans %}
                         </a>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
-                            <span class="oi oi-trash"></span>{% trans %}Verwijderen{% endtrans %}
+                            <span class="oi oi-trash"></span>{% trans %}Button.remove{% endtrans %}
                         </a>
                     </td>
                 </tr>

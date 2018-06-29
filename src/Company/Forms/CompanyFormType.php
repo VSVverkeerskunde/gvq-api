@@ -42,7 +42,7 @@ class CompanyFormType extends AbstractType
                     'constraints' => [
                         new CompanyIsUnique(
                             [
-                                'message' => $translator->trans('Company name in use'),
+                                'message' => $translator->trans('Field.company.in.use'),
                                 'companyId' => $company ? $company->getId()->toString() : null,
                             ]
                         ),
@@ -57,13 +57,13 @@ class CompanyFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Employees not empty'),
+                                'message' => $translator->trans('Field.employees.empty'),
                             ]
                         ),
                         new Range(
                             [
                                 'min' => 1,
-                                'minMessage' => $translator->trans('Employees positive'),
+                                'minMessage' => $translator->trans('Field.employees.positive'),
                             ]
                         ),
                     ]
@@ -166,7 +166,7 @@ class CompanyFormType extends AbstractType
         return [
             new AliasIsUnique(
                 [
-                    'message' => $translator->trans('Alias in use'),
+                    'message' => $translator->trans('Field.alias.in.use'),
                     'companyId' => $company ? $company->getId()->toString() : null,
                 ]
             ),

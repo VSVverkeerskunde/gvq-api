@@ -100,7 +100,15 @@ class UserViewController extends AbstractController
         );
 
         if (!$user) {
-            $this->addFlash('warning', 'Geen gebruiker gevonden met id '.$id.' om aan te passen.');
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
             return $this->redirectToRoute('users_view_index');
         }
 
@@ -115,7 +123,15 @@ class UserViewController extends AbstractController
 
             $this->userRepository->update($user);
 
-            $this->addFlash('success', 'Gebruiker '.$user->getEmail()->toNative().' is aangepast.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'User.edit.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
             return $this->redirectToRoute('users_view_index');
         }
 

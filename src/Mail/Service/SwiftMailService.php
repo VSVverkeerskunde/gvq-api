@@ -72,6 +72,7 @@ class SwiftMailService implements MailService
             )
             ->setTo(
                 $registration->getUser()->getEmail()->toNative(),
+                $registration->getUser()->getFirstName()->toNative().' '.
                 $registration->getUser()->getLastName()->toNative()
             )
             ->setSubject(
@@ -117,11 +118,12 @@ class SwiftMailService implements MailService
             )
             ->setTo(
                 $registration->getUser()->getEmail()->toNative(),
+                $registration->getUser()->getFirstName()->toNative().' '.
                 $registration->getUser()->getLastName()->toNative()
             )
             ->setSubject(
                 $this->translator->trans(
-                    'Password-reset.mail.subject',
+                    'Password.reset.mail.subject',
                     [],
                     null,
                     $registration->getUser()->getLanguage()->toNative()
