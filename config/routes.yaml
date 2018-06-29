@@ -121,6 +121,12 @@ users_view_edit:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+users_view_send_activation:
+  path: /{_locale}/view/users/activation/send/{id}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::sendActivation
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 users_export:
   path: /{_locale}/csv/users
   controller: VSV\GVQ_API\User\Controllers\UserViewController::export

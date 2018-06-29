@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Account\Controllers;
 
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -317,6 +318,68 @@ class AccountViewController extends AbstractController
         } else {
             return $this->render('accounts/activate_error.html.twig');
         }
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     * @throws \Exception
+     */
+    public function sendActivation(Request $request, string $id): Response
+    {
+        $user = $this->userRepository->getById(Uuid::fromString($id));
+
+        if (!$user) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.id.invalid',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
+            if ($existingRegistration) {
+                $this->registrationRepository->delete(
+                    $existingRegistration->getId()
+                );
+            }
+
+            $registration = $this->createRegistrationForUser(
+                $user,
+                false
+            );
+            $this->registrationRepository->save($registration);
+
+            $this->mailService->sendActivationMail($registration);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Activation.send.success',
+                    [
+                        '%email%' => $user->getEmail()->toNative(),
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        return $this->render(
+            'users/send_activation.html.twig',
+            [
+                'email' => $user->getEmail()->toNative(),
+            ]
+        );
     }
 
     /**
