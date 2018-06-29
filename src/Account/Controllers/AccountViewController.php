@@ -136,29 +136,29 @@ class AccountViewController extends AbstractController
             $data = $form->getData();
             $language = $request->getLocale();
 
-                $user = $this->registrationFormType->createUserFromData(
-                    $this->uuidFactory,
-                    $data,
-                    $language
-                );
-                $this->userRepository->save($user);
+            $user = $this->registrationFormType->createUserFromData(
+                $this->uuidFactory,
+                $data,
+                $language
+            );
+            $this->userRepository->save($user);
 
-                $company = $this->registrationFormType->createCompanyFromData(
-                    $this->uuidFactory,
-                    $data,
-                    $user
-                );
-                $this->companyRepository->save($company);
+            $company = $this->registrationFormType->createCompanyFromData(
+                $this->uuidFactory,
+                $data,
+                $user
+            );
+            $this->companyRepository->save($company);
 
-                $registration = $this->createRegistrationForUser(
-                    $user,
-                    false
-                );
-                $this->registrationRepository->save($registration);
+            $registration = $this->createRegistrationForUser(
+                $user,
+                false
+            );
+            $this->registrationRepository->save($registration);
 
-                $this->mailService->sendActivationMail($registration);
+            $this->mailService->sendActivationMail($registration);
 
-                return $this->redirectToRoute('accounts_view_register_success');
+            return $this->redirectToRoute('accounts_view_register_success');
         }
 
         return $this->render(
