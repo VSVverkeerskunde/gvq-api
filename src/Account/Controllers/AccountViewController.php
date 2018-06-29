@@ -403,7 +403,7 @@ class AccountViewController extends AbstractController
      * @return Registration
      * @throws \Exception
      */
-    public function createRegistrationForUser(
+    private function createRegistrationForUser(
         User $user,
         bool $passwordReset
     ): Registration {
