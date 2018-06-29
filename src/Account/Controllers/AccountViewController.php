@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Account\Controllers;
 
-use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -83,11 +82,6 @@ class AccountViewController extends AbstractController
     private $mailService;
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -95,7 +89,6 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
-     * @param LoggerInterface $logger
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -104,8 +97,7 @@ class AccountViewController extends AbstractController
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
-        MailService $mailService,
-        LoggerInterface $logger
+        MailService $mailService
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -114,7 +106,6 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
-        $this->logger = $logger;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
