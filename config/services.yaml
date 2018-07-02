@@ -4,6 +4,7 @@ parameters:
     locale: 'nl'
     sender_email: 'info@gvq.be'
     sender_name: 'Info GVQ'
+    bucket_name: '%env(BUCKET_NAME)%'
 
 services:
     # default configuration for services in *this* file
@@ -46,6 +47,25 @@ services:
       class: League\Flysystem\Adapter\Local
       arguments:
         $root: '%kernel.project_dir%/public/uploads'
+
+    s3_client:
+      class: AWS\S3\S3Client
+      factory: Aws\S3\S3Client::factory
+      arguments:
+        -
+          version: 'latest'
+          region: 'eu-west-1'
+
+    s3_adapter:
+      class: League\Flysystem\AwsS3v3\AwsS3Adapter
+      arguments:
+        $client: '@s3_client'
+        $bucket: '%bucket_name%'
+
+    s3_fly_system:
+      class: League\Flysystem\Filesystem
+      arguments:
+        $adapter: '@s3_adapter'
 
     local_fly_system:
       class: League\Flysystem\Filesystem
@@ -109,7 +129,7 @@ services:
 
     VSV\GVQ_API\Image\Controllers\ImageController:
       arguments:
-        $fileSystem: '@local_fly_system'
+        $fileSystem: '@s3_fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
