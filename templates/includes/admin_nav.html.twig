@@ -13,17 +13,17 @@
     </button>
     <div class="collapse navbar-collapse justify-content-stretch" id="navbar_content">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{ app.request.get('_route') == 'questions_view_index' ? 'active' }}">
+            <li class="nav-item {% if 'questions' in app.request.get('_route') %}active{% endif %}">
                 <a class="nav-link"
                    href="{{ path('questions_view_index') }}">{% trans %}Questions{% endtrans %}
                 </a>
             </li>
-            <li class="nav-item {{ app.request.get('_route') == 'users_index' ? 'active' }}">
+            <li class="nav-item {% if 'users' in app.request.get('_route') %}active{% endif %}">
                 <a class="nav-link"
                    href="{{ path('users_view_index') }}">{% trans %}Users{% endtrans %}
                 </a>
             </li>
-            <li class="nav-item {{ app.request.get('_route') == 'companies_index' ? 'active' }}">
+            <li class="nav-item {% if 'companies' in app.request.get('_route') %}active{% endif %}">
                 <a class="nav-link"
                    href="{{ path('companies_view_index') }}">{% trans %}Companies{% endtrans %}
                 </a>
