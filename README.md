@@ -69,3 +69,21 @@ Seeding users (make sure to provide an input file)
 ```
 $ docker-compose exec web bash -c "./bin/console gvq:seed-users"
 ```
+
+### Image upload
+If you want to use s3 as upload location, then change inside `env`:
+```
+UPLOAD_TARGET=remote
+UPLOAD_PATH=*url_to_s3_bucket*
+``` 
+Example:
+```
+UPLOAD_TARGET=remote
+UPLOAD_PATH=https://s3-eu-west-1.amazonaws.com/verkeersquiz-test/
+```
+and fill in the necessary details. To use the local filesystem, leave the default
+values unchanged:
+```
+UPLOAD_TARGET=local
+UPLOAD_PATH=/uploads/
+```
