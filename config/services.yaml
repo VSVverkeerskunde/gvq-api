@@ -5,6 +5,7 @@ parameters:
     sender_email: 'info@gvq.be'
     sender_name: 'Info GVQ'
     bucket_name: '%env(BUCKET_NAME)%'
+    upload_target: '%env(UPLOAD_TARGET)%'
 
 services:
     # default configuration for services in *this* file
@@ -62,15 +63,9 @@ services:
         $client: '@s3_client'
         $bucket: '%bucket_name%'
 
-    s3_fly_system:
+    fly_system:
       class: League\Flysystem\Filesystem
-      arguments:
-        $adapter: '@s3_adapter'
-
-    local_fly_system:
-      class: League\Flysystem\Filesystem
-      arguments:
-        $adapter: '@local_adapter'
+      arguments: ["@=parameter('upload_target')==='remote' ? service('s3_adapter'): service('local_adapter')"]
 
     image_validator:
       class: VSV\GVQ_API\Image\Validation\ImageValidator
@@ -129,7 +124,7 @@ services:
 
     VSV\GVQ_API\Image\Controllers\ImageController:
       arguments:
-        $fileSystem: '@s3_fly_system'
+        $fileSystem: '@fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']

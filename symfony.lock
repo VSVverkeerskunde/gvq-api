@@ -158,6 +158,9 @@
     "symfony/doctrine-bridge": {
         "version": "v4.0.9"
     },
+    "symfony/expression-language": {
+        "version": "v4.1.1"
+    },
     "symfony/form": {
         "version": "v4.1.0"
     },
