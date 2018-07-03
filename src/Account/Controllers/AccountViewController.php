@@ -301,6 +301,7 @@ class AccountViewController extends AbstractController
     /**
      * @param string $urlSuffix
      * @return Response
+     * @throws \Exception
      */
     public function activate(string $urlSuffix): Response
     {
@@ -313,6 +314,10 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             $this->registrationRepository->delete($registration->getId());
+
+            if (new \DateTimeImmutable() >= new \DateTimeImmutable('2018-10-15')) {
+                $this->mailService->sendKickOffMail($registration);
+            }
 
             return $this->render('accounts/activate.html.twig');
         } else {

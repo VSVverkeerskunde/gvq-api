@@ -152,6 +152,53 @@ class SwiftMailService implements MailService
     }
 
     /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
+    public function sendKickOffMail(Registration $registration): void
+    {
+        $message = (new Swift_Message())
+            ->setFrom(
+                $this->sender->getEmail()->toNative(),
+                $this->sender->getName()->toNative()
+            )
+            ->setTo(
+                $registration->getUser()->getEmail()->toNative(),
+                $registration->getUser()->getFirstName()->toNative().' '.
+                $registration->getUser()->getLastName()->toNative()
+            )
+            ->setSubject(
+                $this->translator->trans(
+                    'Kickoff.mail.subject',
+                    [],
+                    null,
+                    $registration->getUser()->getLanguage()->toNative()
+                )
+            )
+            ->setBody(
+                $this->twig->render(
+                    $this->getKickOffHtmlTemplate(
+                        $registration->getUser()->getLanguage()
+                    ),
+                    $this->generateKickOffTemplateParameters($registration)
+                ),
+                'text/html'
+            )
+            ->addPart(
+                $this->twig->render(
+                    $this->getKickOffTextTemplate(
+                        $registration->getUser()->getLanguage()
+                    ),
+                    $this->generateKickOffTemplateParameters($registration)
+                ),
+                'text/plain'
+            )
+            ->attach(\Swift_Attachment::fromPath('documents/dummy.pdf'));
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
      * @param Language $language
      * @return string
      */
@@ -188,6 +235,24 @@ class SwiftMailService implements MailService
     }
 
     /**
+     * @param Language $language
+     * @return string
+     */
+    private function getKickOffHtmlTemplate(Language $language): string
+    {
+        return 'mails/kick_off.'.$language->toNative().'.html.twig';
+    }
+
+    /**
+     * @param Language $language
+     * @return string
+     */
+    private function getKickOffTextTemplate(Language $language): string
+    {
+        return 'mails/kick_off.'.$language->toNative().'.text.twig';
+    }
+
+    /**
      * @param Registration $registration
      * @return array
      */
@@ -208,6 +273,18 @@ class SwiftMailService implements MailService
         return [
             'registration' => $registration,
             'activationUrl' => $this->generatePasswordResetUrl($registration),
+        ];
+    }
+
+    /**
+     * @param Registration $registration
+     * @return array
+     */
+    private function generateKickOffTemplateParameters(Registration $registration): array
+    {
+        return [
+            'registration' => $registration,
+            'loginUrl' => $this->generateLoginUrl($registration),
         ];
     }
 
@@ -238,6 +315,21 @@ class SwiftMailService implements MailService
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
                 'urlSuffix' => $registration->getUrlSuffix()->toNative(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
+    /**
+     * @param Registration $registration
+     * @return string
+     */
+    private function generateLoginUrl(Registration $registration): string
+    {
+        return $this->urlGenerator->generate(
+            'accounts_view_login',
+            [
+                '_locale' => $registration->getUser()->getLanguage()->toNative(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
