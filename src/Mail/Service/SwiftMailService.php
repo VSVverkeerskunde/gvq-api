@@ -233,6 +233,10 @@ class SwiftMailService implements MailService
         return 'mails/request_password.'.$language->toNative().'.text.twig';
     }
 
+    /**
+     * @param Language $language
+     * @return string
+     */
     private function getWelcomeHtmlTemplate(Language $language): string
     {
         return 'mails/welcome.'.$language->toNative().'.html.twig';
