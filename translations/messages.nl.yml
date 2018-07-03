@@ -126,6 +126,7 @@ Company.add.submit: 'Bewaren'
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
 Password.reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
+Welcome.mail.subject: 'Welkom op de Grote Verkeersquiz 2018'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht'
