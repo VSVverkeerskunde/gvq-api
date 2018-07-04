@@ -107,6 +107,14 @@ class Quiz
     }
 
     /**
+     * @return Language
+     */
+    public function getLanguage(): Language
+    {
+        return $this->language;
+    }
+
+    /**
      * @return Year
      */
     public function getYear(): Year
