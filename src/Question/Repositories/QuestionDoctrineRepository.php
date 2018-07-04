@@ -5,10 +5,14 @@ namespace VSV\GVQ_API\Question\Repositories;
 use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\AnswerEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
 {
@@ -78,6 +82,47 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         $questionEntity = $this->getEntityById($id);
 
         return $questionEntity ? $questionEntity->toQuestion() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSubset(
+        Language $language,
+        Category $category,
+        Year $year,
+        PositiveNumber $amount
+    ): ?Questions {
+        $questionEntities = $this->objectRepository->findBy(
+            [
+                'categoryEntity' => $category->getId()->toString(),
+                'language' => $language->toNative(),
+                'year' => $year->toNative(),
+            ]
+        );
+
+        $pickedQuestionEntities = [];
+        $amount = $amount->toNative();
+
+        if (sizeof($questionEntities) >= $amount) {
+            shuffle($questionEntities);
+            for ($i = 0; $i < $amount; $i++) {
+                $pickedQuestionEntities[] = $questionEntities[$i];
+            }
+        }
+
+        if (empty($pickedQuestionEntities)) {
+            return null;
+        }
+
+        return new Questions(
+            ...array_map(
+                function (QuestionEntity $questionEntity) {
+                    return $questionEntity->toQuestion();
+                },
+                $pickedQuestionEntities
+            )
+        );
     }
 
     /**
