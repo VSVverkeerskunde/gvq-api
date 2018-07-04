@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Quiz\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
@@ -32,6 +33,11 @@ class Quiz
     private $channel;
 
     /**
+     * @var Language $language
+     */
+    private $language;
+
+    /**
      * @var Year
      */
     private $year;
@@ -46,6 +52,7 @@ class Quiz
      * @param Email $participant
      * @param QuizType $type
      * @param QuizChannel $channel
+     * @param Language $language
      * @param Year $year
      * @param Questions $questions
      */
@@ -54,6 +61,7 @@ class Quiz
         Email $participant,
         QuizType $type,
         QuizChannel $channel,
+        Language $language,
         Year $year,
         Questions $questions
     ) {
@@ -61,6 +69,7 @@ class Quiz
         $this->participant = $participant;
         $this->type = $type;
         $this->channel = $channel;
+        $this->language = $language;
         $this->year = $year;
         $this->questions = $questions;
     }
