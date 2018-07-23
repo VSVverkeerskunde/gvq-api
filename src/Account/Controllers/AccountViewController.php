@@ -313,6 +313,7 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             $this->registrationRepository->delete($registration->getId());
+            $this->mailService->sendWelcomeMail($registration);
 
             return $this->render('accounts/activate.html.twig');
         } else {

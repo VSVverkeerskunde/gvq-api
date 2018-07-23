@@ -15,4 +15,9 @@ interface MailService
      * @param Registration $registration
      */
     public function sendActivationMail(Registration $registration): void;
+
+    /**
+     * @param Registration $registration
+     */
+    public function sendWelcomeMail(Registration $registration): void;
 }

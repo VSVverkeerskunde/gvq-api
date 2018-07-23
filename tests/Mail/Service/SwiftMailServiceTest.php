@@ -234,4 +234,89 @@ class SwiftMailServiceTest extends KernelTestCase
             $message->getChildren()[0]->getContentType()
         );
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_send_a_welcome_mail()
+    {
+        $registration = ModelsFactory::createRegistration();
+        $url = 'http://www.gvq.be/nl/view/accounts/login';
+
+        $this->urlGenerator
+            ->expects($this->exactly(2))
+            ->method('generate')
+            ->with(
+                'accounts_view_login',
+                [
+                    '_locale' => $registration->getUser()->getLanguage()->toNative(),
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn($url);
+
+        $this->swiftMailService->sendWelcomeMail($registration);
+
+        $this->assertEquals(1, $this->messageLogger->countMessages());
+
+        /** @var \Swift_Message $message */
+        $message = $this->messageLogger->getMessages()[0];
+
+        $this->assertCount(1, $message->getFrom());
+        $this->assertEquals(
+            'Info GVQ',
+            $message->getFrom()['info@gvq.be']
+        );
+
+        $this->assertCount(1, $message->getTo());
+        $this->assertEquals(
+            $registration->getUser()->getFirstName()->toNative().' '.
+            $registration->getUser()->getLastName()->toNative(),
+            $message->getTo()[$registration->getUser()->getEmail()->toNative()]
+        );
+
+        $this->assertEquals(
+            'Welkom op de Grote Verkeersquiz 2018',
+            $message->getSubject()
+        );
+
+        $this->assertContains(
+            'Beste John',
+            $message->getBody()
+        );
+
+        $this->assertContains(
+            $url,
+            $message->getBody()
+        );
+
+        // @see: https://github.com/swiftmailer/swiftmailer/issues/736
+        /*
+        $this->assertEquals(
+            'text/html',
+            $message->getContentType()
+        );
+        */
+
+        $this->assertEquals(
+            1,
+            count($message->getChildren())
+        );
+
+        $this->assertContains(
+            'Beste John,',
+            $message->getChildren()[0]->getBody()
+        );
+
+        $this->assertContains(
+            $url,
+            $message->getChildren()[0]->getBody()
+        );
+
+        $this->assertEquals(
+            'text/plain',
+            $message->getChildren()[0]->getContentType()
+        );
+    }
 }
