@@ -81,7 +81,9 @@ Example:
 UPLOAD_TARGET=remote
 UPLOAD_PATH=https://s3-eu-west-1.amazonaws.com/verkeersquiz-test/
 ```
-and fill in the necessary details. To use the local filesystem, leave the default
+and fill in the necessary credential and bucket details.
+
+To use the local filesystem, leave the default
 values unchanged:
 ```
 UPLOAD_TARGET=local
