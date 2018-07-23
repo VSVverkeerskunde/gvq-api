@@ -18,8 +18,8 @@
     "user": {
       "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
       "email": "john@gvq.be",
-      "lastName": "Doe",
       "firstName": "John",
+      "lastName": "Doe",
       "role": "contact",
       "language": "nl",
       "active": true
@@ -44,8 +44,8 @@
     "user": {
       "id": "0ffc0f85-78ee-496b-bc61-17be1326c768",
       "email": "jane@gvq.be",
-      "lastName": "Doe",
       "firstName": "Jane",
+      "lastName": "Doe",
       "role": "contact",
       "language": "nl",
       "active": true
