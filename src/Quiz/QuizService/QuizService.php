@@ -2,9 +2,7 @@
 
 namespace VSV\GVQ_API\Quiz\QuizService;
 
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
-use Symfony\Component\Yaml\Yaml;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -14,8 +12,8 @@ use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizService
 {
@@ -28,6 +26,11 @@ class QuizService
      * @var CategoryRepository
      */
     private $categoryRepository;
+
+    /**
+     * @var UuidFactoryInterface
+     */
+    private $uuidFactory;
 
     /**
      * @var array
@@ -46,17 +49,20 @@ class QuizService
     /**
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
+     * @param UuidFactoryInterface $uuidFactory
      */
     public function __construct(
         QuestionRepository $questionRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        UuidFactoryInterface $uuidFactory
     ) {
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->uuidFactory = $uuidFactory;
     }
 
     /**
-     * @param Email $participant
+     * @param QuizParticipant $participant
      * @param QuizType $type
      * @param QuizChannel $channel
      * @param Language $language
@@ -65,14 +71,14 @@ class QuizService
      * @throws \Exception
      */
     public function generateQuiz(
-        Email $participant,
+        QuizParticipant $participant,
         QuizType $type,
         QuizChannel $channel,
         Language $language,
         Year $year
-    ) {
+    ): Quiz {
         $quiz = new Quiz(
-            Uuid::fromString('3222c12e-4c11-45af-b762-5c0c87c5c6cb'),
+            $this->uuidFactory->uuid4(),
             $participant,
             $type,
             $channel,
@@ -103,6 +109,7 @@ class QuizService
                 $year,
                 new PositiveNumber($this->distributionKey[$category->getId()->toString()])
             );
+
             if ($pickedQuestions) {
                 $questionsArray = array_merge($questionsArray, $pickedQuestions->toArray());
             }
