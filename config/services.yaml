@@ -77,7 +77,7 @@ services:
       class: Ramsey\Uuid\UuidFactory
 
     VSV\GVQ_API\Mail\Models\Sender:
-      factory: 'VSV\GVQ_API\Mail\Models\SenderFactory:fromNative'
+      factory: VSV\GVQ_API\Mail\Models\SenderFactory:fromNative
       arguments:
        $email: '%sender_email%'
        $name: '%sender_name%'
