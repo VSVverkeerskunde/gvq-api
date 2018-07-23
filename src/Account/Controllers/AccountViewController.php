@@ -196,10 +196,12 @@ class AccountViewController extends AbstractController
 
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordRequestMail($registration);
+            }
 
-                return $this->redirectToRoute('accounts_view_request_password_success');
-            } elseif ($user && !$user->isActive()) {
+            if ($user && !$user->isActive()) {
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
+            } else {
+                return $this->redirectToRoute('accounts_view_request_password_success');
             }
         }
 
