@@ -2,50 +2,19 @@
 
 namespace VSV\GVQ_API\Common\ValueObjects;
 
-class Language
+class Language extends Enumeration
 {
-    /**
-     * @var string
-     */
-    private $value;
+    const NL = 'nl';
+    const FR = 'fr';
 
     /**
-     * @var string[]
+     * @inheritdoc
      */
-    private $supportedLanguages = [
-        'nl',
-        'fr',
-    ];
-
-    /**
-     * @param string $value
-     */
-    public function __construct(string $value)
+    public function getAllowedValues(): array
     {
-        if (!in_array($value, $this->supportedLanguages)) {
-            throw new \InvalidArgumentException(
-                'Given language '.$value.' is not supported, only nl en fr are allowed.'
-            );
-        }
-
-        $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function toNative(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param Language $language
-     *
-     * @return bool
-     */
-    public function equals(Language $language): bool
-    {
-        return $this->toNative() === $language->toNative();
+        return [
+            self::NL,
+            self::FR,
+        ];
     }
 }

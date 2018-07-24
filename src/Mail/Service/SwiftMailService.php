@@ -155,6 +155,52 @@ class SwiftMailService implements MailService
      * @inheritdoc
      * @throws \Twig_Error
      */
+    public function sendWelcomeMail(Registration $registration): void
+    {
+        $message = (new Swift_Message())
+            ->setFrom(
+                $this->sender->getEmail()->toNative(),
+                $this->sender->getName()->toNative()
+            )
+            ->setTo(
+                $registration->getUser()->getEmail()->toNative(),
+                $registration->getUser()->getFirstName()->toNative().' '.
+                $registration->getUser()->getLastName()->toNative()
+            )
+            ->setSubject(
+                $this->translator->trans(
+                    'Welcome.mail.subject',
+                    [],
+                    null,
+                    $registration->getUser()->getLanguage()->toNative()
+                )
+            )
+            ->setBody(
+                $this->twig->render(
+                    $this->getWelcomeHtmlTemplate(
+                        $registration->getUser()->getLanguage()
+                    ),
+                    $this->generateWelcomeTemplateParameters($registration)
+                ),
+                'text/html'
+            )
+            ->addPart(
+                $this->twig->render(
+                    $this->getWelcomeTextTemplate(
+                        $registration->getUser()->getLanguage()
+                    ),
+                    $this->generateWelcomeTemplateParameters($registration)
+                ),
+                'text/plain'
+            );
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
     public function sendKickOffMail(Registration $registration): void
     {
         $message = (new Swift_Message())
@@ -242,6 +288,24 @@ class SwiftMailService implements MailService
      * @param Language $language
      * @return string
      */
+    private function getWelcomeHtmlTemplate(Language $language): string
+    {
+        return 'mails/welcome.'.$language->toNative().'.html.twig';
+    }
+
+    /**
+     * @param Language $language
+     * @return string
+     */
+    private function getWelcomeTextTemplate(Language $language): string
+    {
+        return 'mails/welcome.'.$language->toNative().'.text.twig';
+    }
+
+    /**
+     * @param Language $language
+     * @return string
+     */
     private function getKickOffHtmlTemplate(Language $language): string
     {
         return 'mails/kick_off.'.$language->toNative().'.html.twig';
@@ -277,6 +341,18 @@ class SwiftMailService implements MailService
         return [
             'registration' => $registration,
             'activationUrl' => $this->generatePasswordResetUrl($registration),
+        ];
+    }
+
+    /**
+     * @param Registration $registration
+     * @return array
+     */
+    private function generateWelcomeTemplateParameters(Registration $registration): array
+    {
+        return [
+            'registration' => $registration,
+            'loginUrl' => $this->generateLoginUrl($registration),
         ];
     }
 

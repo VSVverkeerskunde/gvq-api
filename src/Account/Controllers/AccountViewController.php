@@ -204,10 +204,12 @@ class AccountViewController extends AbstractController
 
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordRequestMail($registration);
+            }
 
-                return $this->redirectToRoute('accounts_view_request_password_success');
-            } elseif ($user && !$user->isActive()) {
+            if ($user && !$user->isActive()) {
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
+            } else {
+                return $this->redirectToRoute('accounts_view_request_password_success');
             }
         }
 
@@ -322,6 +324,7 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             $this->registrationRepository->delete($registration->getId());
+            $this->mailService->sendWelcomeMail($registration);
 
             if (new \DateTimeImmutable() >= $this->quizStartDate) {
                 $this->mailService->sendKickOffMail($registration);
