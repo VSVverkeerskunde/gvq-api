@@ -7,8 +7,8 @@ use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class Quiz
 {
@@ -18,7 +18,7 @@ class Quiz
     private $id;
 
     /**
-     * @var Email
+     * @var QuizParticipant
      */
     private $participant;
 
@@ -49,7 +49,7 @@ class Quiz
 
     /**
      * @param UuidInterface $id
-     * @param Email $participant
+     * @param QuizParticipant $participant
      * @param QuizType $type
      * @param QuizChannel $channel
      * @param Language $language
@@ -58,15 +58,13 @@ class Quiz
      */
     public function __construct(
         UuidInterface $id,
-        Email $participant,
+        QuizParticipant $participant,
         QuizType $type,
         QuizChannel $channel,
         Language $language,
         Year $year,
         Questions $questions
     ) {
-        $this->guardQuestions($questions);
-
         $this->id = $id;
         $this->participant = $participant;
         $this->type = $type;
@@ -85,9 +83,9 @@ class Quiz
     }
 
     /**
-     * @return Email
+     * @return QuizParticipant
      */
-    public function getParticipant(): Email
+    public function getParticipant(): QuizParticipant
     {
         return $this->participant;
     }
@@ -130,15 +128,5 @@ class Quiz
     public function getQuestions(): Questions
     {
         return $this->questions;
-    }
-
-    /**
-     * @param Questions $questions
-     */
-    private function guardQuestions(Questions $questions)
-    {
-        if ($questions->count() !== 15) {
-            throw new \InvalidArgumentException('Amount of questions must be exactly 15.');
-        }
     }
 }
