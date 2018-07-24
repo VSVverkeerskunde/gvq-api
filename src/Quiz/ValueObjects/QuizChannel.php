@@ -24,7 +24,7 @@ class QuizChannel
     public function __construct(string $value)
     {
         if (!in_array($value, $this->allowedValues)) {
-            throw new \InvalidArgumentException('Invalid value: '.$value.' for quiz channel.');
+            throw new \InvalidArgumentException('Invalid value '.$value.' for quiz channel.');
         }
         $this->value = $value;
     }

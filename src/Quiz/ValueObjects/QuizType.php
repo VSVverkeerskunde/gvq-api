@@ -23,7 +23,7 @@ class QuizType
     public function __construct(string $value)
     {
         if (!in_array($value, $this->allowedValues)) {
-            throw new \InvalidArgumentException('Invalid value: '.$value.' for quiz type.');
+            throw new \InvalidArgumentException('Invalid value '.$value.' for quiz type.');
         }
 
         $this->value = $value;
