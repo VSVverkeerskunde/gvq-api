@@ -40,7 +40,7 @@ class QuizNormalizer implements NormalizerInterface
 
         return [
             'id' => $quiz->getId()->toString(),
-            'participant' => $quiz->getParticipant()->toNative(),
+            'participant' => $quiz->getParticipant()->getEmail()->toNative(),
             'type' => $quiz->getType()->toNative(),
             'channel' => $quiz->getChannel()->toNative(),
             'language' => $quiz->getLanguage()->toNative(),

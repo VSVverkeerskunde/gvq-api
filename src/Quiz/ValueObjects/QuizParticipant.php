@@ -20,11 +20,11 @@ class QuizParticipant
     }
 
     /**
-     * @return string
+     * @return Email
      */
-    public function toNative(): string
+    public function getEmail(): Email
     {
-        return $this->email->toNative();
+        return $this->email;
     }
 
     /**
@@ -33,6 +33,6 @@ class QuizParticipant
      */
     public function equals(QuizParticipant $quizParticipant): bool
     {
-        return $this->toNative() === $quizParticipant->toNative();
+        return $this->email->equals($quizParticipant->getEmail());
     }
 }
