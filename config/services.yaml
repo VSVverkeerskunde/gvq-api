@@ -76,6 +76,17 @@ services:
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
 
+    time_zone:
+      class: \DateTimeZone
+      arguments:
+        - 'Europe/Brussels'
+
+    quiz_start_date:
+      class: \DateTimeImmutable
+      arguments:
+        $time: '2018-10-15'
+        $timezone: '@time_zone'
+
     VSV\GVQ_API\Mail\Models\Sender:
       factory: VSV\GVQ_API\Mail\Models\SenderFactory:fromNative
       arguments:
@@ -91,6 +102,7 @@ services:
     VSV\GVQ_API\Account\Controllers\AccountViewController:
       arguments:
         $uuidFactory: '@uuid_factory'
+        $quizStartDate: '@quiz_start_date'
       tags: ['controller.service_arguments']
       
     VSV\GVQ_API\Question\Controllers\CategoryController:

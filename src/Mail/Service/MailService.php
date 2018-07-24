@@ -20,4 +20,9 @@ interface MailService
      * @param Registration $registration
      */
     public function sendWelcomeMail(Registration $registration): void;
+
+    /**
+     * @param Registration $registration
+     */
+    public function sendKickOffMail(Registration $registration): void;
 }

@@ -1,0 +1,12 @@
+{% extends 'base_mail.html.twig' %}
+
+{% block content %}
+    <p>__Beste {{ registration.user.firstName.toNative }},</p>
+    <p>__Je bent geregistreerd met één of meerdere bedrijven voor de Grote Verkeersquiz 2018.</p>
+    <p>__De quiz is van start gegaan op 15 oktober. In bijlage vind je meer informatie. U kan dit document ook
+        raadplegen op deze link: <a href="{{ documentUrl }}">Kick-off document</a>.</p>
+    <p>__Je kan via de link hieronder inloggen.</p>
+    <a href="{{ loginUrl }}">{{ loginUrl }}</a>
+    <p>__Met vriendelijke groeten,</p>
+    <p>__Team GVQ</p
+{% endblock %}
