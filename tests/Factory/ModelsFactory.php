@@ -18,6 +18,10 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
@@ -549,6 +553,23 @@ class ModelsFactory
         return new Sender(
             new Email('info@gvq.be'),
             new NotEmptyString('Info GVQ')
+        );
+    }
+
+    /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createQuiz(): Quiz
+    {
+        return new Quiz(
+            Uuid::fromString('dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c'),
+            new QuizParticipant(new Email('par@ticipa.nt')),
+            new QuizType('quiz'),
+            new QuizChannel('individual'),
+            new Language('nl'),
+            new Year(2018),
+            self::createQuestions()
         );
     }
 
