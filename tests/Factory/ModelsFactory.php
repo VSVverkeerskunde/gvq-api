@@ -302,6 +302,53 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
+    public static function createAccidentQuestionCreatedOnSameTime(): Question
+    {
+        return new Question(
+            Uuid::fromString('9e316101-4c99-473e-ae2d-2fcb8674da0a'),
+            new Language('fr'),
+            new Year(2018),
+            new Category(
+                Uuid::fromString('1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+                new NotEmptyString('EHBO/Ongeval/Verzekering')
+            ),
+            new NotEmptyString(
+                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
+            ),
+            new NotEmptyString(
+                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
+            ),
+            new Answers(
+                new Answer(
+                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
+                    new PositiveNumber(1),
+                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                    new PositiveNumber(2),
+                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                    false
+                ),
+                new Answer(
+                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                    new PositiveNumber(3),
+                    new NotEmptyString('Non.'),
+                    true
+                )
+            ),
+            new NotEmptyString(
+                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
+            ),
+            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+        );
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
     public static function createUpdatedAccidentQuestion(): Question
     {
         return new Question(

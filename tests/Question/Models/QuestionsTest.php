@@ -25,6 +25,7 @@ class QuestionsTest extends TestCase
         $this->questionsArray = [
             ModelsFactory::createAccidentQuestion(),
             ModelsFactory::createGeneralQuestion(),
+            ModelsFactory::createAccidentQuestionCreatedOnSameTime()
         ];
 
         $this->questions = new Questions(...$this->questionsArray);
@@ -48,7 +49,7 @@ class QuestionsTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertEquals(2, count($this->questions));
+        $this->assertEquals(3, count($this->questions));
     }
 
     /**
