@@ -166,3 +166,4 @@ Question.delete.success: 'Vraag %id% is verwijderd.'
 
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
+User.id.invalid: 'Geen gebruiker gevonden met id %id%'
