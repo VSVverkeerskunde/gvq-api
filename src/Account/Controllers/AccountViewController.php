@@ -95,8 +95,7 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
-     * @param string $quizStartDate
-     * @throws \Exception
+     * @param \DateTimeImmutable $quizStartDate
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -106,7 +105,7 @@ class AccountViewController extends AbstractController
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
         MailService $mailService,
-        string $quizStartDate
+        \DateTimeImmutable $quizStartDate
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -115,7 +114,7 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
-        $this->quizStartDate = new \DateTimeImmutable($quizStartDate);
+        $this->quizStartDate = $quizStartDate;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
