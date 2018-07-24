@@ -193,7 +193,11 @@ class SwiftMailService implements MailService
                 ),
                 'text/plain'
             )
-            ->attach(\Swift_Attachment::fromPath('documents/dummy.pdf'));
+            ->attach(
+                \Swift_Attachment::fromPath(
+                    'documents/dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+                )
+            );
 
         $this->swiftMailer->send($message);
     }
@@ -285,6 +289,9 @@ class SwiftMailService implements MailService
         return [
             'registration' => $registration,
             'loginUrl' => $this->generateLoginUrl($registration),
+            'documentUrl' => $this->generateDocumentUrl(
+                'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+            ),
         ];
     }
 
@@ -330,6 +337,17 @@ class SwiftMailService implements MailService
             'accounts_view_login',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
+    private function generateDocumentUrl(string $documentName): string
+    {
+        return $this->urlGenerator->generate(
+            'documents_kickoff',
+            [
+                'document' => $documentName,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

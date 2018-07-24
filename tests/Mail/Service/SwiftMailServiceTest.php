@@ -243,18 +243,43 @@ class SwiftMailServiceTest extends KernelTestCase
     {
         $registration = ModelsFactory::createRegistration();
         $url = 'http://www.gvq.be/nl/view/accounts/login';
+        $documentUrl = 'http://www.gvq.be/documents/dummy-nl.pdf';
 
         $this->urlGenerator
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('generate')
-            ->with(
-                'accounts_view_login',
+            ->withConsecutive(
                 [
-                    '_locale' => $registration->getUser()->getLanguage()->toNative(),
+                    'accounts_view_login',
+                    [
+                        '_locale' => $registration->getUser()->getLanguage()->toNative(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL,
                 ],
-                UrlGeneratorInterface::ABSOLUTE_URL
+                [
+                    'documents_kickoff',
+                    [
+                        'document' => 'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf',
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL,
+                ],
+                [
+                    'accounts_view_login',
+                    [
+                        '_locale' => $registration->getUser()->getLanguage()->toNative(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL,
+                ],
+                [
+                    'documents_kickoff',
+                    [
+                        'document' => 'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf',
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL,
+                ]
             )
-            ->willReturn($url);
+            ->willReturnOnConsecutiveCalls($url, $documentUrl, $url, $documentUrl);
+
 
         $this->swiftMailService->sendKickOffMail($registration);
 
