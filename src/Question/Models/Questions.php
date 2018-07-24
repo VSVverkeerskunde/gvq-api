@@ -55,7 +55,7 @@ class Questions implements Collection
             function (Question $q1, Question $q2) {
                 if ($q1->getCreatedOn() > $q2->getCreatedOn()) {
                     return -1;
-                } else if ($q1->getCreatedOn() < $q2->getCreatedOn()) {
+                } elseif ($q1->getCreatedOn() < $q2->getCreatedOn()) {
                     return 1;
                 } else {
                     return 0;
