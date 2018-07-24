@@ -23,9 +23,18 @@ class QuestionsTest extends TestCase
     protected function setUp(): void
     {
         $this->questionsArray = [
-            ModelsFactory::createAccidentQuestion(),
-            ModelsFactory::createGeneralQuestion(),
-            ModelsFactory::createAccidentQuestionCreatedOnSameTime()
+            ModelsFactory::createAccidentQuestionWithCreatedOn(
+                new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            ),
+            ModelsFactory::createAccidentQuestionWithCreatedOn(
+                new \DateTimeImmutable('2020-02-01T23:00:00+00:00')
+            ),
+            ModelsFactory::createAccidentQuestionWithCreatedOn(
+                new \DateTimeImmutable('2020-02-02T01:00:00+00:00')
+            ),
+            ModelsFactory::createAccidentQuestionWithCreatedOn(
+                new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            ),
         ];
 
         $this->questions = new Questions(...$this->questionsArray);
@@ -49,7 +58,7 @@ class QuestionsTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertEquals(3, count($this->questions));
+        $this->assertEquals(4, count($this->questions));
     }
 
     /**
@@ -70,15 +79,30 @@ class QuestionsTest extends TestCase
     public function it_can_sort_by_created_on(): void
     {
         $this->assertEquals(
-            $this->questions->toArray()[0],
-            ModelsFactory::createAccidentQuestion()
+            $this->questions->toArray()[0]->getCreatedOn(),
+            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
         );
 
         $this->questions->sortByNewest();
 
         $this->assertEquals(
-            $this->questions->toArray()[0],
-            ModelsFactory::createGeneralQuestion()
+            $this->questions->toArray()[0]->getCreatedOn(),
+            new \DateTimeImmutable('2020-02-02T01:00:00+00:00')
+        );
+
+        $this->assertEquals(
+            $this->questions->toArray()[1]->getCreatedOn(),
+            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+        );
+
+        $this->assertEquals(
+            $this->questions->toArray()[2]->getCreatedOn(),
+            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+        );
+
+        $this->assertEquals(
+            $this->questions->toArray()[3]->getCreatedOn(),
+            new \DateTimeImmutable('2020-02-01T23:00:00+00:00')
         );
     }
 }

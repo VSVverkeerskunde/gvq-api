@@ -53,11 +53,13 @@ class Questions implements Collection
         usort(
             $this->questions,
             function (Question $q1, Question $q2) {
-                if ($q1->getCreatedOn() == $q2->getCreatedOn()) {
+                if ($q1->getCreatedOn() > $q2->getCreatedOn()) {
+                    return -1;
+                } else if ($q1->getCreatedOn() < $q2->getCreatedOn()) {
+                    return 1;
+                } else {
                     return 0;
                 }
-
-                return $q1->getCreatedOn() > $q2->getCreatedOn() ? -1 : 1;
             }
         );
 
