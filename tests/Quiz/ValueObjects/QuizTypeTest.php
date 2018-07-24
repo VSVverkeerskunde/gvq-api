@@ -25,7 +25,7 @@ class QuizTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Invalid value '.$type.' for quiz type'
+            'Invalid value "'.$type.'" for VSV\GVQ_API\Quiz\ValueObjects\QuizType.'
         );
 
         new QuizType($type);

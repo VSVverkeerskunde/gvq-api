@@ -2,47 +2,21 @@
 
 namespace VSV\GVQ_API\Quiz\ValueObjects;
 
-class QuizType
+use VSV\GVQ_API\Common\ValueObjects\Enumeration;
+
+class QuizType extends Enumeration
 {
-    /**
-     * @var string
-     */
-    private $value;
+    const QUIZ = 'quiz';
+    const CUP = 'cup';
 
     /**
-     * @var string[]
+     * @inheritdoc
      */
-    private $allowedValues = [
-        'quiz',
-        'cup',
-    ];
-
-    /**
-     * @param string $value
-     */
-    public function __construct(string $value)
+    public function getAllowedValues(): array
     {
-        if (!in_array($value, $this->allowedValues)) {
-            throw new \InvalidArgumentException('Invalid value '.$value.' for quiz type.');
-        }
-
-        $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function toNative(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param QuizType $quizType
-     * @return bool
-     */
-    public function equals(QuizType $quizType): bool
-    {
-        return $this->toNative() === $quizType->toNative();
+        return [
+            self::QUIZ,
+            self::CUP,
+        ];
     }
 }

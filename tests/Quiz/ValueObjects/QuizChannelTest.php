@@ -13,7 +13,7 @@ class QuizChannelTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->quizChannel = new QuizChannel('particulier');
+        $this->quizChannel = new QuizChannel('individual');
     }
 
     /**
@@ -25,7 +25,7 @@ class QuizChannelTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Invalid value '.$channel.' for quiz channel'
+            'Invalid value "'.$channel.'" for VSV\GVQ_API\Quiz\ValueObjects\QuizChannel.'
         );
 
         new QuizChannel($channel);
@@ -65,10 +65,13 @@ class QuizChannelTest extends TestCase
     {
         return [
             [
-                'particulier',
+                'individual',
             ],
             [
-                'bedrijf',
+                'company',
+            ],
+            [
+                'partner',
             ],
         ];
     }
@@ -79,7 +82,7 @@ class QuizChannelTest extends TestCase
     public function it_supports_to_native(): void
     {
         $this->assertSame(
-            'particulier',
+            'individual',
             $this->quizChannel->toNative()
         );
     }
@@ -109,13 +112,13 @@ class QuizChannelTest extends TestCase
     {
         return [
             [
-                new QuizChannel('particulier'),
-                new QuizChannel('particulier'),
+                new QuizChannel('individual'),
+                new QuizChannel('individual'),
                 true,
             ],
             [
-                new QuizChannel('particulier'),
-                new QuizChannel('bedrijf'),
+                new QuizChannel('individual'),
+                new QuizChannel('company'),
                 false,
             ],
         ];

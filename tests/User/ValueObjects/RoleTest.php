@@ -23,7 +23,7 @@ class RoleTest extends TestCase
     public function it_throws_for_unsupported_values(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid value: superuser for role.');
+        $this->expectExceptionMessage('Invalid value "superuser" for VSV\GVQ_API\User\ValueObjects\Role.');
 
         new Role('superuser');
     }

@@ -7,7 +7,6 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizParticipantTest extends TestCase
 {
-
     /**
      * @var QuizParticipant
      */

@@ -566,7 +566,7 @@ class ModelsFactory
             Uuid::fromString('dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c'),
             new QuizParticipant(new Email('par@ticipa.nt')),
             new QuizType('quiz'),
-            new QuizChannel('particulier'),
+            new QuizChannel('individual'),
             new Language('nl'),
             new Year(2018),
             self::createQuestions()
