@@ -17,7 +17,7 @@ class PartnerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->partner = ModelsFactory::createPartner();
+        $this->partner = ModelsFactory::createNBPartner();
     }
 
     /**

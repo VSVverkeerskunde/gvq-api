@@ -607,12 +607,24 @@ class ModelsFactory
     /**
      * @return Partner
      */
-    public static function createPartner(): Partner
+    public static function createNBPartner(): Partner
     {
         return new Partner(
             Uuid::fromString('b00bfa30-97e4-4972-bd65-24b371f75718'),
             new NotEmptyString('Nieuwsblad'),
             new Alias('nieuwsblad')
+        );
+    }
+
+    /**
+     * @return Partner
+     */
+    public static function createDatsPartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('adf0796d-4f9f-470e-9bbe-17d4d9c900cd'),
+            new NotEmptyString('Dats24'),
+            new Alias('dats24')
         );
     }
 

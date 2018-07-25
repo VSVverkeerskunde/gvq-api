@@ -40,7 +40,7 @@ class PartnerSerializerTest extends TestCase
         $this->serializer = new Serializer($normalizers, $encoders);
         
         $this->partnerAsJson = ModelsFactory::createJson('partner');
-        $this->partner = ModelsFactory::createPartner();
+        $this->partner = ModelsFactory::createNBPartner();
     }
 
     /**
