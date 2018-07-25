@@ -10,6 +10,9 @@ use VSV\GVQ_API\Partner\Models\Partner;
 
 class PartnerDenormalizer implements DenormalizerInterface
 {
+    /**
+     * @inheritdoc
+     */
     public function denormalize($data, $class, $format = null, array $context = array()): Partner
     {
         return new Partner(
@@ -19,6 +22,9 @@ class PartnerDenormalizer implements DenormalizerInterface
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function supportsDenormalization($data, $type, $format = null): bool
     {
         return ($type === Partner::class) && ($format === 'json');
