@@ -15,7 +15,7 @@ class QuizEventTest extends TestCase
     private $id;
 
     /**
-     * @var QuizEvent|MockObject
+     * @var AbstractQuizEvent|MockObject
      */
     private $quizEvent;
 
@@ -26,9 +26,9 @@ class QuizEventTest extends TestCase
     {
         $this->id = Uuid::fromString('5883a592-6d85-4050-8ff2-2c6bd243f903');
 
-        /** @var QuizEvent|MockObject $quizEvent */
+        /** @var AbstractQuizEvent|MockObject $quizEvent */
         $quizEvent = $this->getMockForAbstractClass(
-            QuizEvent::class,
+            AbstractQuizEvent::class,
             [
                 $this->id,
             ]

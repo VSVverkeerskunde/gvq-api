@@ -5,7 +5,7 @@ namespace VSV\GVQ_API\Quiz\Events;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 
-class QuizStarted extends QuizEvent
+class QuizStarted extends AbstractQuizEvent
 {
     /**
      * @var Quiz

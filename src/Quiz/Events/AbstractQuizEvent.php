@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Quiz\Events;
 
 use Ramsey\Uuid\UuidInterface;
 
-abstract class QuizEvent
+abstract class AbstractQuizEvent
 {
     /**
      * @var UuidInterface
