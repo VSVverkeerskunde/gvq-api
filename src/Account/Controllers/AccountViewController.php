@@ -83,6 +83,11 @@ class AccountViewController extends AbstractController
     private $mailService;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $quizStartDate;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -90,6 +95,7 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
+     * @param \DateTimeImmutable $quizStartDate
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -98,7 +104,8 @@ class AccountViewController extends AbstractController
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
-        MailService $mailService
+        MailService $mailService,
+        \DateTimeImmutable $quizStartDate
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -107,6 +114,7 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
+        $this->quizStartDate = $quizStartDate;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
@@ -196,10 +204,12 @@ class AccountViewController extends AbstractController
 
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordRequestMail($registration);
+            }
 
-                return $this->redirectToRoute('accounts_view_request_password_success');
-            } elseif ($user && !$user->isActive()) {
+            if ($user && !$user->isActive()) {
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
+            } else {
+                return $this->redirectToRoute('accounts_view_request_password_success');
             }
         }
 
@@ -301,6 +311,7 @@ class AccountViewController extends AbstractController
     /**
      * @param string $urlSuffix
      * @return Response
+     * @throws \Exception
      */
     public function activate(string $urlSuffix): Response
     {
@@ -313,6 +324,11 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             $this->registrationRepository->delete($registration->getId());
+            $this->mailService->sendWelcomeMail($registration);
+
+            if (new \DateTimeImmutable() >= $this->quizStartDate) {
+                $this->mailService->sendKickOffMail($registration);
+            }
 
             return $this->render('accounts/activate.html.twig');
         } else {

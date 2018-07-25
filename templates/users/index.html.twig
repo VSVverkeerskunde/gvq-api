@@ -20,8 +20,8 @@
             <tr>
                 <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Email{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}LastName{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}FirstName{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}LastName{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Language{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}isActive{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Role{% endtrans %}</th>
@@ -38,10 +38,10 @@
                     {{ user.email.toNative }}
                 </td>
                 <td>
-                    {{ user.lastName.toNative }}
+                    {{ user.firstName.toNative }}
                 </td>
                 <td>
-                    {{ user.firstName.toNative }}
+                    {{ user.lastName.toNative }}
                 </td>
                 <td>
                     {{ user.language.toNative }}

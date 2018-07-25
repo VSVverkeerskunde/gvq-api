@@ -17,24 +17,13 @@ class LanguageTest extends TestCase
     }
 
     /**
-     * @return string[][]
-     */
-    public function languageProvider(): array
-    {
-        return [
-            ['nl'],
-            ['fr'],
-        ];
-    }
-
-    /**
      * @test
      */
     public function it_throws_for_unsupported_languages(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Given language ge is not supported, only nl en fr are allowed.'
+            'Invalid value "ge" for VSV\GVQ_API\Common\ValueObjects\Language.'
         );
 
         new Language('ge');

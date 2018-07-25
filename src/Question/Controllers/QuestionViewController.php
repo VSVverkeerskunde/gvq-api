@@ -91,6 +91,7 @@ class QuestionViewController extends AbstractController
             'questions/index.html.twig',
             [
                 'questions' => $questions ? $questions->sortByNewest()->toArray() : [],
+                'uploadPath' => getenv('UPLOAD_PATH'),
             ]
         );
     }
@@ -118,6 +119,7 @@ class QuestionViewController extends AbstractController
                 'questions/print.html.twig',
                 [
                     'questions' => $questionsArray,
+                    'uploadPath' => getenv('UPLOAD_PATH'),
                 ]
             );
         }

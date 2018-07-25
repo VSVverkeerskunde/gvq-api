@@ -13,14 +13,14 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6">
-                <label for="registration_form_name">{% trans %}LastName{% endtrans %}</label>
-                {{ form_widget(form.name) }}
-                {{ form_errors(form.name) }}
-            </div>
-            <div class="col-sm-6">
                 <label for="registration_form_firstName">{% trans %}FirstName{% endtrans %}</label>
                 {{ form_widget(form.firstName) }}
                 {{ form_errors(form.firstName) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="registration_form_name">{% trans %}LastName{% endtrans %}</label>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
             </div>
         </div>
     </div>
