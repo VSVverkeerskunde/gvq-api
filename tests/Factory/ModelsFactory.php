@@ -12,6 +12,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Mail\Models\Sender;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -600,6 +601,18 @@ class ModelsFactory
             new Language('nl'),
             new Year(2018),
             self::createQuestions()
+        );
+    }
+
+    /**
+     * @return Partner
+     */
+    public static function createPartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('b00bfa30-97e4-4972-bd65-24b371f75718'),
+            new NotEmptyString('Nieuwsblad'),
+            new Alias('nieuwsblad')
         );
     }
 
