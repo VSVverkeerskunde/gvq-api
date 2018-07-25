@@ -314,7 +314,7 @@ class ModelsFactory
     {
         return self::createAccidentQuestionFactory(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
