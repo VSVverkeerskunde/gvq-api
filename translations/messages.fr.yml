@@ -127,6 +127,7 @@ Company.add.submit: '_Bewaren'
 Activation.mail.subject: '_Activatie Grote Verkeersquiz 2018'
 Password.reset.mail.subject: '_Aanvraag tot wachtwoord herstel'
 Welcome.mail.subject: '__Welkom op de Grote Verkeersquiz 2018'
+Kickoff.mail.subject: '_Kick-off Grote Verkeersquiz 2018'
 
 #Input constraints
 Field.empty: '_Dit veld is verplicht'
@@ -166,3 +167,4 @@ Question.delete.success: '_Vraag %id% is verwijderd.'
 
 User.edit.not.found: '_Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: '_Gebruiker %id% is aangepast.'
+User.id.invalid: '_Geen gebruiker gevonden met id %id%'

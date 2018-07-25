@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Factory;
 
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
@@ -256,13 +257,16 @@ class ModelsFactory
     }
 
     /**
+     * @param UuidInterface $uuid
+     * @param \DateTimeImmutable $createdOn
      * @return Question
-     * @throws \Exception
      */
-    public static function createAccidentQuestion(): Question
-    {
+    private static function createAccidentQuestionFactory(
+        UuidInterface $uuid,
+        \DateTimeImmutable $createdOn
+    ): Question {
         return new Question(
-            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            $uuid,
             new Language('fr'),
             new Year(2018),
             new Category(
@@ -298,7 +302,33 @@ class ModelsFactory
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
+            $createdOn
+        );
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
+    public static function createAccidentQuestion(): Question
+    {
+        return self::createAccidentQuestionFactory(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+        );
+    }
+
+    /**
+     * @param \DateTimeImmutable $createdOn
+     * @return Question
+     * @throws \Exception
+     */
+    public static function createAccidentQuestionWithCreatedOn(
+        \DateTimeImmutable $createdOn
+    ): Question {
+        return self::createAccidentQuestionFactory(
+            Uuid::fromString('9e316101-4c99-473e-ae2d-2fcb8674da0a'),
+            $createdOn
         );
     }
 

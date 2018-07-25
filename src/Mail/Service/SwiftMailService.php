@@ -166,6 +166,46 @@ class SwiftMailService implements MailService
     }
 
     /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
+    public function sendKickOffMail(Registration $registration): void
+    {
+        $message = $this->generateMessage($registration);
+        $message
+            ->setSubject(
+                $this->generateSubject($registration, 'Kickoff.mail.subject')
+            )
+            ->setBody(
+                $this->twig->render(
+                    $this->getHtmlTemplate(
+                        $registration->getUser()->getLanguage(),
+                        'kick_off'
+                    ),
+                    $this->generateKickOffTemplateParameters($registration)
+                ),
+                'text/html'
+            )
+            ->addPart(
+                $this->twig->render(
+                    $this->getTextTemplate(
+                        $registration->getUser()->getLanguage(),
+                        'kick_off'
+                    ),
+                    $this->generateKickOffTemplateParameters($registration)
+                ),
+                'text/plain'
+            )
+            ->attach(
+                \Swift_Attachment::fromPath(
+                    'documents/dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+                )
+            );
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
      * @param Registration $registration
      * @return Swift_Message
      */
@@ -247,6 +287,22 @@ class SwiftMailService implements MailService
 
     /**
      * @param Registration $registration
+     * @return array
+     */
+    private function generateKickOffTemplateParameters(Registration $registration): array
+    {
+        return [
+            'registration' => $registration,
+            'loginUrl' => $this->generateLoginUrl($registration),
+            'documentUrl' => $this->generateDocumentUrl(
+                'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+            ),
+        ];
+    }
+
+
+    /**
+     * @param Registration $registration
      * @param string $routeName
      * @return string
      */
@@ -272,6 +328,21 @@ class SwiftMailService implements MailService
             'accounts_view_login',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
+    /**
+     * @param string $documentName
+     * @return string
+     */
+    private function generateDocumentUrl(string $documentName): string
+    {
+        return $this->urlGenerator->generate(
+            'documents_kickoff',
+            [
+                'document' => $documentName,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
