@@ -42,7 +42,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
     /**
      * @test
      */
-    public function it_can_start_a_quiz()
+    public function it_can_start_a_quiz(): void
     {
         $this->scenario
             ->when(function () {
@@ -62,7 +62,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_triggers_quiz_started_event()
+    public function it_triggers_quiz_started_event(): void
     {
         $askedOn = new \DateTimeImmutable();
 
@@ -94,7 +94,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_triggers_answered_incorrect_event_when_answered_too_late()
+    public function it_triggers_answered_incorrect_event_when_answered_too_late(): void
     {
         $askedOn = new \DateTimeImmutable();
         $question = $this->quiz->getQuestions()->toArray()[0];
@@ -139,7 +139,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_triggers_answered_incorrect_event_when_answered_wrong()
+    public function it_triggers_answered_incorrect_event_when_answered_wrong(): void
     {
         $askedOn = new \DateTimeImmutable();
         $question = $this->quiz->getQuestions()->toArray()[0];
@@ -184,7 +184,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_triggers_answered_correct_event_when_answered_correct()
+    public function it_triggers_answered_correct_event_when_answered_correct(): void
     {
         $askedOn = new \DateTimeImmutable();
         $question = $this->quiz->getQuestions()->toArray()[0];
@@ -229,7 +229,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_handles_multiple_questions()
+    public function it_handles_multiple_questions(): void
     {
         $question1AskedOn = new \DateTimeImmutable();
         $question1 = $this->quiz->getQuestions()->toArray()[0];

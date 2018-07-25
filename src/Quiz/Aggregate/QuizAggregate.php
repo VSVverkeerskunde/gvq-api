@@ -161,25 +161,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
         Answers $answers,
         Answer $answer
     ): bool {
-        $correctAnswer = $this->getCorrectAnswer($answers);
-        return $correctAnswer->getId()->equals($answer->getId());
-    }
-
-    /**
-     * @param Answers $answers
-     * @return Answer
-     */
-    private function getCorrectAnswer(Answers $answers): Answer
-    {
-        // TODO: Move to Answers
-        /** @var Answer $currentAnswer */
-        foreach ($answers as $currentAnswer) {
-            if ($currentAnswer->isCorrect()) {
-                return $currentAnswer;
-            }
-        }
-
-        throw new \RuntimeException('Did not find a correct answer!');
+        return $answers->getCorrectAnswer()->getId()->equals($answer->getId());
     }
 
     /**
