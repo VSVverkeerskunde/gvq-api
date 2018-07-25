@@ -12,6 +12,7 @@ use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 
 class QuizAggregate extends EventSourcedAggregateRoot
 {
@@ -93,7 +94,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
     ) {
         $currentQuestion = $this->getCurrentQuestion();
 
-        if ($this->answeredToLate($this->questionAskedOn, $answeredOn) ||
+        if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
             !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
             $this->apply(
                 new AnsweredIncorrect(
@@ -141,15 +142,16 @@ class QuizAggregate extends EventSourcedAggregateRoot
     /**
      * @param \DateTimeImmutable $askedOn
      * @param \DateTimeImmutable $answeredOn
+     * @param AllowedDelay $allowedDelay
      * @return bool
      */
     private function answeredToLate(
         \DateTimeImmutable $askedOn,
-        \DateTimeImmutable $answeredOn
+        \DateTimeImmutable $answeredOn,
+        AllowedDelay $allowedDelay
     ): bool {
-        // TODO: How to avoid the hardcoded answer time.
         $answerDelay = $answeredOn->getTimestamp() - $askedOn->getTimestamp();
-        return ($answerDelay > 40);
+        return ($answerDelay > $allowedDelay->toNative());
     }
 
     /**

@@ -5,6 +5,7 @@
   "channel": "individual",
   "language": "nl",
   "year": 2018,
+  "allowedDelay": 40,
   "questions": [
     {
       "id": "448c6bd8-0075-4302-a4de-fe34d1554b8d",
