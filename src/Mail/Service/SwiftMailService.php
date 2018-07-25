@@ -65,10 +65,10 @@ class SwiftMailService implements MailService
      */
     public function sendActivationMail(Registration $registration): void
     {
-        $message = $this->createMessage($registration);
+        $message = $this->generateMessage($registration);
         $message
             ->setSubject(
-                $this->createSubject($registration, 'Activation.mail.subject')
+                $this->generateSubject($registration, 'Activation.mail.subject')
             )
             ->setBody(
                 $this->twig->render(
@@ -100,10 +100,10 @@ class SwiftMailService implements MailService
      */
     public function sendPasswordRequestMail(Registration $registration): void
     {
-        $message = $this->createMessage($registration);
+        $message = $this->generateMessage($registration);
         $message
             ->setSubject(
-                $this->createSubject($registration, 'Password.reset.mail.subject')
+                $this->generateSubject($registration, 'Password.reset.mail.subject')
             )
             ->setBody(
                 $this->twig->render(
@@ -135,11 +135,11 @@ class SwiftMailService implements MailService
      */
     public function sendWelcomeMail(Registration $registration): void
     {
-        $message = $this->createMessage($registration);
+        $message = $this->generateMessage($registration);
 
         $message
             ->setSubject(
-                $this->createSubject($registration, 'Welcome.mail.subject')
+                $this->generateSubject($registration, 'Welcome.mail.subject')
             )
             ->setBody(
                 $this->twig->render(
@@ -169,7 +169,7 @@ class SwiftMailService implements MailService
      * @param Registration $registration
      * @return Swift_Message
      */
-    private function createMessage(Registration $registration): Swift_Message
+    private function generateMessage(Registration $registration): Swift_Message
     {
         $message = (new Swift_Message())
             ->setFrom(
@@ -190,7 +190,7 @@ class SwiftMailService implements MailService
      * @param string $subjectId
      * @return string
      */
-    private function createSubject(Registration $registration, string $subjectId): string
+    private function generateSubject(Registration $registration, string $subjectId): string
     {
         return $this->translator->trans(
             $subjectId,
@@ -229,7 +229,7 @@ class SwiftMailService implements MailService
     {
         return [
             'registration' => $registration,
-            'activationUrl' => $this->generateUrlWithSuffix($registration, 'accounts_view_activate'),
+            'activationUrl' => $this->generateUrlWithSuffix($registration, $routeName),
         ];
     }
 
