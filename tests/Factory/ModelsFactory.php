@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Factory;
 
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
@@ -18,6 +19,10 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
@@ -252,13 +257,16 @@ class ModelsFactory
     }
 
     /**
+     * @param UuidInterface $uuid
+     * @param \DateTimeImmutable $createdOn
      * @return Question
-     * @throws \Exception
      */
-    public static function createAccidentQuestion(): Question
-    {
+    private static function createAccidentQuestionFactory(
+        UuidInterface $uuid,
+        \DateTimeImmutable $createdOn
+    ): Question {
         return new Question(
-            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
+            $uuid,
             new Language('fr'),
             new Year(2018),
             new Category(
@@ -294,7 +302,33 @@ class ModelsFactory
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
+            $createdOn
+        );
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
+    public static function createAccidentQuestion(): Question
+    {
+        return self::createAccidentQuestionFactory(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+        );
+    }
+
+    /**
+     * @param \DateTimeImmutable $createdOn
+     * @return Question
+     * @throws \Exception
+     */
+    public static function createAccidentQuestionWithCreatedOn(
+        \DateTimeImmutable $createdOn
+    ): Question {
+        return self::createAccidentQuestionFactory(
+            Uuid::fromString('9e316101-4c99-473e-ae2d-2fcb8674da0a'),
+            $createdOn
         );
     }
 
@@ -549,6 +583,23 @@ class ModelsFactory
         return new Sender(
             new Email('info@gvq.be'),
             new NotEmptyString('Info GVQ')
+        );
+    }
+
+    /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createQuiz(): Quiz
+    {
+        return new Quiz(
+            Uuid::fromString('dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c'),
+            new QuizParticipant(new Email('par@ticipa.nt')),
+            new QuizType('quiz'),
+            new QuizChannel('individual'),
+            new Language('nl'),
+            new Year(2018),
+            self::createQuestions()
         );
     }
 

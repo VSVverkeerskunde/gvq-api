@@ -2,47 +2,23 @@
 
 namespace VSV\GVQ_API\Quiz\ValueObjects;
 
-class QuizChannel
+use VSV\GVQ_API\Common\ValueObjects\Enumeration;
+
+class QuizChannel extends Enumeration
 {
-    /**
-     * @var string
-     */
-    private $value;
+    const INDIVIDUAL = 'individual';
+    const COMPANY = 'company';
+    const PARTNER = 'partner';
 
     /**
-     * @var string[]
+     * @inheritdoc
      */
-    private $allowedValues = [
-        'particulier',
-        'bedrijf',
-        'partner',
-    ];
-
-    /**
-     * @param string $value
-     */
-    public function __construct(string $value)
+    public function getAllowedValues(): array
     {
-        if (!in_array($value, $this->allowedValues)) {
-            throw new \InvalidArgumentException('Invalid value: '.$value.' for quiz channel.');
-        }
-        $this->value = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function toNative(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param QuizChannel $quizChannel
-     * @return bool
-     */
-    public function equals(QuizChannel $quizChannel): bool
-    {
-        return $this->toNative() === $quizChannel->toNative();
+        return [
+            self::INDIVIDUAL,
+            self::COMPANY,
+            self::PARTNER,
+        ];
     }
 }

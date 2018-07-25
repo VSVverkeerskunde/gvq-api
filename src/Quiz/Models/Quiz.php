@@ -65,8 +65,6 @@ class Quiz
         Year $year,
         Questions $questions
     ) {
-        $this->guardQuestions($questions);
-
         $this->id = $id;
         $this->participant = $participant;
         $this->type = $type;
@@ -130,15 +128,5 @@ class Quiz
     public function getQuestions(): Questions
     {
         return $this->questions;
-    }
-
-    /**
-     * @param Questions $questions
-     */
-    private function guardQuestions(Questions $questions)
-    {
-        if ($questions->count() !== 15) {
-            throw new \InvalidArgumentException('Amount of questions must be exactly 15.');
-        }
     }
 }
