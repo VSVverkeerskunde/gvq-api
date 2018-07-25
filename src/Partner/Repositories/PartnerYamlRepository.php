@@ -12,28 +12,33 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 class PartnerYamlRepository implements PartnerRepository
 {
     /**
-     * @var string
+     * @var array
      */
-    private $partnerFile;
+    private $partnersAsYml;
 
     /**
      * @param string $partnerFile
      */
     public function __construct(string $partnerFile)
     {
-        $this->partnerFile = $partnerFile;
+        $this->partnersAsYml = Yaml::parseFile($partnerFile);
     }
 
-    public function getByAliasandYear(Alias $alias, Year $year): ?Partner
+    /**
+     * @inheritdoc
+     */
+    public function getByYearAndAlias(Year $year, Alias $alias): ?Partner
     {
-        $partnersAsYml = Yaml::parseFile($this->partnerFile);
+        if (!key_exists($year->toNative(), $this->partnersAsYml)) {
+            return null;
+        }
 
-        foreach ($partnersAsYml[$year->toNative()] as $partnerasYml) {
-            if ($partnerasYml['alias'] === $alias->toNative()) {
+        foreach ($this->partnersAsYml[$year->toNative()] as $partnerAsYml) {
+            if ($partnerAsYml['alias'] === $alias->toNative()) {
                 return new Partner(
-                    Uuid::fromString($partnerasYml['id']),
-                    new NotEmptyString($partnerasYml['name']),
-                    new Alias($partnerasYml['alias'])
+                    Uuid::fromString($partnerAsYml['id']),
+                    new NotEmptyString($partnerAsYml['name']),
+                    new Alias($partnerAsYml['alias'])
                 );
             }
         }

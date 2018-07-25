@@ -8,5 +8,10 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 
 interface PartnerRepository
 {
-    public function getByAliasandYear(Alias $alias, Year $year): ?Partner;
+    /**
+     * @param Year $year
+     * @param Alias $alias
+     * @return null|Partner
+     */
+    public function getByYearAndAlias(Year $year, Alias $alias): ?Partner;
 }

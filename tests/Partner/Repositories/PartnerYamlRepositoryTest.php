@@ -22,7 +22,9 @@ class PartnerYamlRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->partnerYamlRepository = new PartnerYamlRepository(__DIR__.'/../../Factory/Samples/partners.yaml');
+        $this->partnerYamlRepository = new PartnerYamlRepository(
+            __DIR__.'/../../Factory/Samples/partners.yaml'
+        );
 
         $this->partner = ModelsFactory::createNBPartner();
     }
@@ -32,9 +34,9 @@ class PartnerYamlRepositoryTest extends TestCase
      */
     public function it_can_get_a_partner_by_alias_and_year(): void
     {
-        $foundPartner = $this->partnerYamlRepository->getByAliasandYear(
-            new Alias('nieuwsblad'),
-            new Year(2018)
+        $foundPartner = $this->partnerYamlRepository->getByYearAndAlias(
+            new Year(2018),
+            new Alias('nieuwsblad')
         );
 
         $this->assertEquals(
@@ -48,9 +50,22 @@ class PartnerYamlRepositoryTest extends TestCase
      */
     public function it_returns_null_when_alias_does_not_exist(): void
     {
-        $foundPartner = $this->partnerYamlRepository->getByAliasandYear(
-            new Alias('wrongalias'),
-            new Year(2018)
+        $foundPartner = $this->partnerYamlRepository->getByYearAndAlias(
+            new Year(2018),
+            new Alias('wrongalias')
+        );
+
+        $this->assertNull($foundPartner);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_year_is_not_present(): void
+    {
+        $foundPartner = $this->partnerYamlRepository->getByYearAndAlias(
+            new Year(2019),
+            new Alias('nieuwsblad')
         );
 
         $this->assertNull($foundPartner);
