@@ -170,7 +170,7 @@ class SwiftMailServiceTest extends KernelTestCase
     private function mockUrlGeneration(string $route, array $parameters, string $url): void
     {
         $this->urlGenerator
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('generate')
             ->with(
                 $route,
@@ -191,23 +191,9 @@ class SwiftMailServiceTest extends KernelTestCase
         $documentUrl = 'http://www.gvq.be/documents/dummy-nl.pdf';
 
         $this->urlGenerator
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(2))
             ->method('generate')
             ->withConsecutive(
-                [
-                    'accounts_view_login',
-                    [
-                        '_locale' => $registration->getUser()->getLanguage()->toNative(),
-                    ],
-                    UrlGeneratorInterface::ABSOLUTE_URL,
-                ],
-                [
-                    'documents_kickoff',
-                    [
-                        'document' => 'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf',
-                    ],
-                    UrlGeneratorInterface::ABSOLUTE_URL,
-                ],
                 [
                     'accounts_view_login',
                     [
