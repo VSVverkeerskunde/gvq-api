@@ -5,8 +5,8 @@ namespace VSV\GVQ_API\Quiz\Events;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Console\Question\Question;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Question\Models\Question;
 
 class QuestionAskedTest extends TestCase
 {
