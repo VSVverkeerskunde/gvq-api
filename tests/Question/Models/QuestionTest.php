@@ -149,7 +149,7 @@ class QuestionTest extends TestCase
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
-            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1'))
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
@@ -227,7 +227,7 @@ class QuestionTest extends TestCase
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
-            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('GMT+1'))
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
@@ -292,7 +292,7 @@ class QuestionTest extends TestCase
     public function it_stores_a_created_on_datetime(): void
     {
         $this->assertEquals(
-            new \DateTimeImmutable('2020-02-02', new \DateTimeZone('UTC')),
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00'),
             $this->question->getCreatedOn()
         );
     }
