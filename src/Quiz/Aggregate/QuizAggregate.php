@@ -91,7 +91,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
     public function answerQuestion(
         \DateTimeImmutable $answeredOn,
         Answer $answer
-    ) {
+    ): void {
         $currentQuestion = $this->getCurrentQuestion();
 
         if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
@@ -151,6 +151,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
         AllowedDelay $allowedDelay
     ): bool {
         $answerDelay = $answeredOn->getTimestamp() - $askedOn->getTimestamp();
+
         return ($answerDelay > $allowedDelay->toNative());
     }
 
@@ -171,9 +172,6 @@ class QuizAggregate extends EventSourcedAggregateRoot
      */
     private function getCurrentQuestion(): Question
     {
-        // TODO: What if index out of bounds?
-        // TODO: What if question never gets answered?
-        // TODO: What if askQuestion called but previous question not answered?
         return $this->quiz->getQuestions()->toArray()[$this->questionIndex];
     }
 }
