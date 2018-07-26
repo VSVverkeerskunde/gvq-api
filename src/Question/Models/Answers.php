@@ -51,4 +51,18 @@ class Answers implements Collection
     {
         return $this->answers;
     }
+
+    /**
+     * @return Answer
+     */
+    public function getCorrectAnswer(): Answer
+    {
+        foreach ($this->answers as $currentAnswer) {
+            if ($currentAnswer->isCorrect()) {
+                return $currentAnswer;
+            }
+        }
+
+        throw new \RuntimeException('Did not find a correct answer!');
+    }
 }

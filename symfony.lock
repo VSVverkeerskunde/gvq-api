@@ -2,6 +2,15 @@
     "aws/aws-sdk-php": {
         "version": "3.62.6"
     },
+    "beberlei/assert": {
+        "version": "v2.9.6"
+    },
+    "broadway/broadway": {
+        "version": "2.0.1"
+    },
+    "broadway/uuid-generator": {
+        "version": "0.4.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

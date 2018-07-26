@@ -45,6 +45,7 @@ class QuizNormalizer implements NormalizerInterface
             'channel' => $quiz->getChannel()->toNative(),
             'language' => $quiz->getLanguage()->toNative(),
             'year' => $quiz->getYear()->toNative(),
+            'allowedDelay' => $quiz->getAllowedDelay()->toNative(),
             'questions' => $questions,
         ];
     }

@@ -12,6 +12,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Mail\Models\Sender;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Categories;
@@ -20,6 +21,7 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
@@ -314,7 +316,7 @@ class ModelsFactory
     {
         return self::createAccidentQuestionFactory(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
@@ -375,7 +377,7 @@ class ModelsFactory
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
@@ -416,7 +418,7 @@ class ModelsFactory
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
     }
 
@@ -463,7 +465,7 @@ class ModelsFactory
             new NotEmptyString(
                 'Il est interdit de stationner devant l’entrée des propriétés.'
             ),
-            new \DateTimeImmutable('2020-02-02T01:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T13:12:13+01:00')
         );
     }
 
@@ -512,7 +514,7 @@ class ModelsFactory
             new NotEmptyString(
                 'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
             ),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00')
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
         );
 
         return $question;
@@ -540,7 +542,7 @@ class ModelsFactory
             Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
             new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
             self::createUser(),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00'),
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00'),
             false
         );
     }
@@ -555,7 +557,7 @@ class ModelsFactory
             Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
             new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
             self::createUser(),
-            new \DateTimeImmutable('2020-02-02T01:00:00+00:00'),
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00'),
             true
         );
     }
@@ -570,7 +572,7 @@ class ModelsFactory
             Uuid::fromString('00f20af9-c2f5-4bfb-9424-5c0c29fbc2e3'),
             new UrlSuffix('d2c63a605ae27c13e43e26fe2c97a36c4556846dd3ef'),
             self::createAlternateUser(),
-            new \DateTimeImmutable('2020-02-02T00:00:00+00:00'),
+            new \DateTimeImmutable('2020-02-02T11:12:13+00:00'),
             false
         );
     }
@@ -599,7 +601,32 @@ class ModelsFactory
             new QuizChannel('individual'),
             new Language('nl'),
             new Year(2018),
+            new AllowedDelay(40),
             self::createQuestions()
+        );
+    }
+
+    /**
+     * @return Partner
+     */
+    public static function createNBPartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('b00bfa30-97e4-4972-bd65-24b371f75718'),
+            new NotEmptyString('Nieuwsblad'),
+            new Alias('nieuwsblad')
+        );
+    }
+
+    /**
+     * @return Partner
+     */
+    public static function createDatsPartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('adf0796d-4f9f-470e-9bbe-17d4d9c900cd'),
+            new NotEmptyString('Dats24'),
+            new Alias('dats24')
         );
     }
 

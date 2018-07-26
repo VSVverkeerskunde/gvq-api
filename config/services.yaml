@@ -93,6 +93,11 @@ services:
        $email: '%sender_email%'
        $name: '%sender_name%'
 
+    partner_yaml_repository:
+      class: VSV\GVQ_API\Partner\Repositories\PartnerYamlRepository
+      arguments:
+        $partnerFile: '%kernel.project_dir%/config/partners.yaml'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:

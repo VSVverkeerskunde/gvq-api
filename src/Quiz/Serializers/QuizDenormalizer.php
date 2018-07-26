@@ -10,6 +10,7 @@ use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
@@ -54,6 +55,7 @@ class QuizDenormalizer implements DenormalizerInterface
             new QuizChannel($data['channel']),
             new Language($data['language']),
             new Year($data['year']),
+            new AllowedDelay($data['allowedDelay']),
             new Questions(...$questions)
         );
     }

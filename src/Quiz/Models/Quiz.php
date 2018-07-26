@@ -6,6 +6,7 @@ use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
@@ -43,6 +44,11 @@ class Quiz
     private $year;
 
     /**
+     * @var AllowedDelay
+     */
+    private $allowedDelay;
+
+    /**
      * @var Questions
      */
     private $questions;
@@ -54,6 +60,7 @@ class Quiz
      * @param QuizChannel $channel
      * @param Language $language
      * @param Year $year
+     * @param AllowedDelay $allowedDelay
      * @param Questions $questions
      */
     public function __construct(
@@ -63,6 +70,7 @@ class Quiz
         QuizChannel $channel,
         Language $language,
         Year $year,
+        AllowedDelay $allowedDelay,
         Questions $questions
     ) {
         $this->id = $id;
@@ -72,6 +80,7 @@ class Quiz
         $this->language = $language;
         $this->year = $year;
         $this->questions = $questions;
+        $this->allowedDelay = $allowedDelay;
     }
 
     /**
@@ -120,6 +129,14 @@ class Quiz
     public function getYear(): Year
     {
         return $this->year;
+    }
+
+    /**
+     * @return AllowedDelay
+     */
+    public function getAllowedDelay(): AllowedDelay
+    {
+        return $this->allowedDelay;
     }
 
     /**
