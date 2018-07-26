@@ -592,13 +592,55 @@ class ModelsFactory
      * @return Quiz
      * @throws \Exception
      */
-    public static function createQuiz(): Quiz
+    public static function createFullQuiz(): Quiz
     {
+        return self::createQuizFactory(
+            Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
+            new QuizType(QuizType::QUIZ),
+            new QuizChannel(QuizChannel::PARTNER),
+            self::createCompany(),
+            self::createNBPartner()
+        );
+    }
+
+    /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createCupWithPartner(): Quiz
+    {
+        return self::createQuizFactory(
+            Uuid::fromString('9d029317-0609-4b01-a573-579624cc0744'),
+            new QuizType(QuizType::CUP),
+            new QuizChannel(QuizChannel::PARTNER),
+            null,
+            self::createNBPartner()
+        );
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     * @param QuizType $type
+     * @param QuizChannel $channel
+     * @param null|Company $company
+     * @param null|Partner $partner
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createQuizFactory(
+        UuidInterface $uuid,
+        QuizType $type,
+        QuizChannel $channel,
+        ?Company $company,
+        ?Partner $partner
+    ): Quiz {
         return new Quiz(
-            Uuid::fromString('dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c'),
+            $uuid,
             new QuizParticipant(new Email('par@ticipa.nt')),
-            new QuizType('quiz'),
-            new QuizChannel('individual'),
+            $type,
+            $channel,
+            $company,
+            $partner,
             new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),

@@ -1,8 +1,39 @@
 {
-  "id": "dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c",
+  "id": "f604152c-3cc5-4888-be87-af371ac3aa6b",
   "participant": "par@ticipa.nt",
   "type": "quiz",
-  "channel": "individual",
+  "channel": "partner",
+  "company": {
+    "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
+    "name": "Vlaamse Stichting Verkeerskunde",
+    "numberOfEmployees": 49,
+    "aliases": [
+      {
+        "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
+        "language": "nl",
+        "alias": "vsv"
+      },
+      {
+        "id": "f99c7747-7c27-4388-b0ec-dba380363d23",
+        "language": "fr",
+        "alias": "awsr"
+      }
+    ],
+    "user": {
+      "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+      "email": "john@gvq.be",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "contact",
+      "language": "nl",
+      "active": true
+    }
+  },
+  "partner": {
+    "id": "b00bfa30-97e4-4972-bd65-24b371f75718",
+    "name": "Nieuwsblad",
+    "alias": "nieuwsblad"
+  },
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,
