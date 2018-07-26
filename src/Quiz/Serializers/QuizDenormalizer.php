@@ -16,7 +16,6 @@ use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizDenormalizer implements DenormalizerInterface
@@ -85,7 +84,6 @@ class QuizDenormalizer implements DenormalizerInterface
         return new Quiz(
             Uuid::fromString($data['id']),
             new QuizParticipant(new Email($data['participant'])),
-            new QuizType($data['type']),
             new QuizChannel($data['channel']),
             $company,
             $partner,

@@ -1,8 +1,7 @@
 {
-  "id": "f604152c-3cc5-4888-be87-af371ac3aa6b",
+  "id": "d73f5383-19d5-47a2-8673-a123c89baf4b",
   "participant": "par@ticipa.nt",
-  "type": "quiz",
-  "channel": "partner",
+  "channel": "company",
   "company": {
     "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
     "name": "Vlaamse Stichting Verkeerskunde",
@@ -29,11 +28,7 @@
       "active": true
     }
   },
-  "partner": {
-    "id": "b00bfa30-97e4-4972-bd65-24b371f75718",
-    "name": "Nieuwsblad",
-    "alias": "nieuwsblad"
-  },
+  "partner": "",
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,

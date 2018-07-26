@@ -72,7 +72,6 @@ class QuizNormalizer implements NormalizerInterface
         return [
             'id' => $quiz->getId()->toString(),
             'participant' => $quiz->getParticipant()->getEmail()->toNative(),
-            'type' => $quiz->getType()->toNative(),
             'channel' => $quiz->getChannel()->toNative(),
             'company' => $company,
             'partner' => $partner,

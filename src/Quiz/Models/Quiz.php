@@ -11,7 +11,6 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 
 class Quiz
 {
@@ -24,11 +23,6 @@ class Quiz
      * @var QuizParticipant
      */
     private $participant;
-
-    /**
-     * @var QuizType
-     */
-    private $type;
 
     /**
      * @var QuizChannel
@@ -68,7 +62,6 @@ class Quiz
     /**
      * @param UuidInterface $id
      * @param QuizParticipant $participant
-     * @param QuizType $type
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
@@ -80,7 +73,6 @@ class Quiz
     public function __construct(
         UuidInterface $id,
         QuizParticipant $participant,
-        QuizType $type,
         QuizChannel $channel,
         ?Company $company,
         ?Partner $partner,
@@ -89,11 +81,10 @@ class Quiz
         AllowedDelay $allowedDelay,
         Questions $questions
     ) {
-        $this->guardChannel($channel, $type);
+        $this->guardChannel($channel, $company, $partner);
 
         $this->id = $id;
         $this->participant = $participant;
-        $this->type = $type;
         $this->channel = $channel;
         $this->company = $company;
         $this->partner = $partner;
@@ -117,14 +108,6 @@ class Quiz
     public function getParticipant(): QuizParticipant
     {
         return $this->participant;
-    }
-
-    /**
-     * @return QuizType
-     */
-    public function getType(): QuizType
-    {
-        return $this->type;
     }
 
     /**
@@ -185,12 +168,57 @@ class Quiz
 
     /**
      * @param QuizChannel $channel
-     * @param QuizType $type
+     * @param null|Company $company
+     * @param null|Partner $partner
      */
-    private function guardChannel(QuizChannel $channel, QuizType $type): void
+    private function guardChannel(QuizChannel $channel, ?Company $company, ?Partner $partner): void
     {
-        if ($channel->toNative() === QuizChannel::PARTNER && $type->toNative() !== QuizType::QUIZ) {
-            throw new \InvalidArgumentException('Quiz of channel partner can not be of type '.$type->toNative());
+        switch ($channel->toNative()) {
+            case QuizChannel::INDIVIDUAL:
+            case QuizChannel::CUP:
+                $this->checkForDisallowedCompany($channel, $company);
+                $this->checkForDisallowedPartner($channel, $partner);
+                break;
+            case QuizChannel::PARTNER:
+                $this->checkForDisallowedCompany($channel, $company);
+                break;
+            case QuizChannel::COMPANY:
+                $this->checkForDisallowedPartner($channel, $partner);
+                break;
+        }
+    }
+
+    /**
+     * @param QuizChannel $channel
+     * @param null|Company $company
+     */
+    private function checkForDisallowedCompany(QuizChannel $channel, ?Company $company): void
+    {
+        if ($company !== null) {
+            throw new \InvalidArgumentException(
+                'Quiz of channel '.
+                $channel->toNative().
+                ' cannot contain company, '.
+                $company->getName()->toNative().
+                ' given.'
+            );
+        }
+    }
+
+    /**
+     * @param QuizChannel $channel
+     * @param null|Partner $partner
+     */
+    private function checkForDisallowedPartner(QuizChannel $channel, ?Partner $partner): void
+    {
+        if ($partner !== null) {
+            throw new \InvalidArgumentException(
+                'Quiz of channel '.
+                $channel->toNative().
+                ' cannot contain partner, '.
+                $partner->getName()->toNative().
+                ' given.'
+            );
         }
     }
 }

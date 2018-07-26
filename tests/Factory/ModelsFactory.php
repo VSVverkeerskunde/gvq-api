@@ -24,7 +24,6 @@ use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
@@ -592,44 +591,28 @@ class ModelsFactory
      * @return Quiz
      * @throws \Exception
      */
-    public static function createFullQuiz(): Quiz
+    public static function createIndividualQuiz(): Quiz
     {
-        return self::createQuizFactory(
+        return self::createCustomQuiz(
             Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
-            new QuizType(QuizType::QUIZ),
-            new QuizChannel(QuizChannel::PARTNER),
-            self::createCompany(),
-            self::createNBPartner()
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            null,
+            null
         );
     }
 
-    /**
-     * @return Quiz
-     * @throws \Exception
-     */
-    public static function createCupWithPartner(): Quiz
-    {
-        return self::createQuizFactory(
-            Uuid::fromString('9d029317-0609-4b01-a573-579624cc0744'),
-            new QuizType(QuizType::CUP),
-            new QuizChannel(QuizChannel::PARTNER),
-            null,
-            self::createNBPartner()
-        );
-    }
+
 
     /**
      * @param UuidInterface $uuid
-     * @param QuizType $type
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
      * @return Quiz
      * @throws \Exception
      */
-    public static function createQuizFactory(
+    public static function createCustomQuiz(
         UuidInterface $uuid,
-        QuizType $type,
         QuizChannel $channel,
         ?Company $company,
         ?Partner $partner
@@ -637,7 +620,6 @@ class ModelsFactory
         return new Quiz(
             $uuid,
             new QuizParticipant(new Email('par@ticipa.nt')),
-            $type,
             $channel,
             $company,
             $partner,
