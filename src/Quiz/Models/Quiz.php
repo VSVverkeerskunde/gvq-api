@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\Quiz\Models;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\Models\Company;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
@@ -34,6 +36,16 @@ class Quiz
     private $channel;
 
     /**
+     * @var null|Company
+     */
+    private $company;
+
+    /**
+     * @var null|Partner
+     */
+    private $partner;
+
+    /**
      * @var Language $language
      */
     private $language;
@@ -58,6 +70,8 @@ class Quiz
      * @param QuizParticipant $participant
      * @param QuizType $type
      * @param QuizChannel $channel
+     * @param null|Company $company
+     * @param null|Partner $partner
      * @param Language $language
      * @param Year $year
      * @param AllowedDelay $allowedDelay
@@ -68,15 +82,21 @@ class Quiz
         QuizParticipant $participant,
         QuizType $type,
         QuizChannel $channel,
+        ?Company $company,
+        ?Partner $partner,
         Language $language,
         Year $year,
         AllowedDelay $allowedDelay,
         Questions $questions
     ) {
+        $this->guardChannel($channel, $type);
+
         $this->id = $id;
         $this->participant = $participant;
         $this->type = $type;
         $this->channel = $channel;
+        $this->company = $company;
+        $this->partner = $partner;
         $this->language = $language;
         $this->year = $year;
         $this->questions = $questions;
@@ -116,6 +136,22 @@ class Quiz
     }
 
     /**
+     * @return Company|null
+     */
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    /**
+     * @return Partner|null
+     */
+    public function getPartner(): ?Partner
+    {
+        return $this->partner;
+    }
+
+    /**
      * @return Language
      */
     public function getLanguage(): Language
@@ -145,5 +181,16 @@ class Quiz
     public function getQuestions(): Questions
     {
         return $this->questions;
+    }
+
+    /**
+     * @param QuizChannel $channel
+     * @param QuizType $type
+     */
+    private function guardChannel(QuizChannel $channel, QuizType $type): void
+    {
+        if ($channel->toNative() === QuizChannel::PARTNER && $type->toNative() !== QuizType::QUIZ) {
+            throw new \InvalidArgumentException('Quiz of channel partner can not be of type '.$type->toNative());
+        }
     }
 }

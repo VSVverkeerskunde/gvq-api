@@ -6,7 +6,13 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Company\Serializers\CompanyDenormalizer;
+use VSV\GVQ_API\Company\Serializers\CompanyNormalizer;
+use VSV\GVQ_API\Company\Serializers\TranslatedAliasDenormalizer;
+use VSV\GVQ_API\Company\Serializers\TranslatedAliasNormalizer;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Partner\Serializers\PartnerDenormalizer;
+use VSV\GVQ_API\Partner\Serializers\PartnerNormalizer;
 use VSV\GVQ_API\Question\Serializers\AnswerDenormalizer;
 use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
 use VSV\GVQ_API\Question\Serializers\CategoryDenormalizer;
@@ -14,6 +20,8 @@ use VSV\GVQ_API\Question\Serializers\CategoryNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\User\Serializers\UserDenormalizer;
+use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
 class QuizSerializerTest extends TestCase
 {
@@ -39,12 +47,22 @@ class QuizSerializerTest extends TestCase
     {
         $normalizers = [
             new QuizNormalizer(
+                new CompanyNormalizer(
+                    new TranslatedAliasNormalizer(),
+                    new UserNormalizer()
+                ),
+                new PartnerNormalizer(),
                 new QuestionNormalizer(
                     new CategoryNormalizer(),
                     new AnswerNormalizer()
                 )
             ),
             new QuizDenormalizer(
+                new CompanyDenormalizer(
+                    new TranslatedAliasDenormalizer(),
+                    new UserDenormalizer()
+                ),
+                new PartnerDenormalizer(),
                 new QuestionDenormalizer(
                     new CategoryDenormalizer(),
                     new AnswerDenormalizer()
@@ -58,8 +76,8 @@ class QuizSerializerTest extends TestCase
 
         $this->serializer = new Serializer($normalizers, $encoders);
 
-        $this->quizAsJson = ModelsFactory::createJson('quiz');
-        $this->quiz = ModelsFactory::createQuiz();
+        $this->quizAsJson = ModelsFactory::createJson('quiz_full');
+        $this->quiz = ModelsFactory::createFullQuiz();
     }
 
     /**
