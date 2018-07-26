@@ -32,7 +32,7 @@ class QuizTest extends TestCase
         if ($company !== null) {
             $name = $company->getName()->toNative();
             $object = 'company';
-        } elseif ($partner != null) {
+        } elseif ($partner !== null) {
             $name = $partner->getName()->toNative();
             $object = 'partner';
         }
