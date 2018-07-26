@@ -28,11 +28,6 @@ class SwiftMailServiceTest extends KernelTestCase
      */
     private $swiftMailService;
 
-    /**
-     * @var MailTestHelper
-     */
-    private $mailTestHelper;
-
     protected function setUp(): void
     {
         $kernel = $this->createKernel();
@@ -60,8 +55,6 @@ class SwiftMailServiceTest extends KernelTestCase
             $this->urlGenerator,
             ModelsFactory::createSender()
         );
-
-        $this->mailTestHelper = new MailTestHelper($this);
     }
 
     /**
@@ -89,13 +82,13 @@ class SwiftMailServiceTest extends KernelTestCase
         $this->mockUrlGeneration($route, $parameters, $url);
 
         $this->swiftMailService->sendActivationMail($registration);
+
         $this->assertEquals(1, $this->messageLogger->countMessages());
         /** @var \Swift_Message $message */
         $message = $this->messageLogger->getMessages()[0];
 
         $subject = 'Activatie Grote Verkeersquiz 2018';
-        //$this->testCommonMessageAsserts($message, $registration, $url, $subject);
-        $this->mailTestHelper->testCommonMessageAsserts($message, $registration, $url, $subject);
+        $this->checkCommonMessageAsserts($message, $registration, $url, $subject);
         $this->assertEquals(
             1,
             count($message->getChildren())
@@ -119,13 +112,13 @@ class SwiftMailServiceTest extends KernelTestCase
         $this->mockUrlGeneration($route, $parameters, $url);
 
         $this->swiftMailService->sendPasswordRequestMail($registration);
+
         $this->assertEquals(1, $this->messageLogger->countMessages());
         /** @var \Swift_Message $message */
         $message = $this->messageLogger->getMessages()[0];
 
         $subject = 'Aanvraag tot wachtwoord herstel';
-        //$this->testCommonMessageAsserts($message, $registration, $url, $subject);
-        $this->mailTestHelper->testCommonMessageAsserts($message, $registration, $url, $subject);
+        $this->checkCommonMessageAsserts($message, $registration, $url, $subject);
         $this->assertEquals(
             1,
             count($message->getChildren())
@@ -149,35 +142,17 @@ class SwiftMailServiceTest extends KernelTestCase
         $this->mockUrlGeneration($route, $parameters, $url);
 
         $this->swiftMailService->sendWelcomeMail($registration);
+
         $this->assertEquals(1, $this->messageLogger->countMessages());
         /** @var \Swift_Message $message */
         $message = $this->messageLogger->getMessages()[0];
 
         $subject = 'Welkom op de Grote Verkeersquiz 2018';
-        //$this->testCommonMessageAsserts($message, $registration, $url, $subject);
-        $this->mailTestHelper->testCommonMessageAsserts($message, $registration, $url, $subject);
+        $this->checkCommonMessageAsserts($message, $registration, $url, $subject);
         $this->assertEquals(
             1,
             count($message->getChildren())
         );
-    }
-
-    /**
-     * @param string $route
-     * @param array $parameters
-     * @param string $url
-     */
-    private function mockUrlGeneration(string $route, array $parameters, string $url): void
-    {
-        $this->urlGenerator
-            ->expects($this->exactly(1))
-            ->method('generate')
-            ->with(
-                $route,
-                $parameters,
-                UrlGeneratorInterface::ABSOLUTE_URL
-            )
-            ->willReturn($url);
     }
 
     /**
@@ -213,13 +188,13 @@ class SwiftMailServiceTest extends KernelTestCase
 
 
         $this->swiftMailService->sendKickOffMail($registration);
+
         $this->assertEquals(1, $this->messageLogger->countMessages());
         /** @var \Swift_Message $message */
         $message = $this->messageLogger->getMessages()[0];
 
         $subject = 'Kick-off Grote Verkeersquiz 2018';
-        //$this->testCommonMessageAsserts($message, $registration, $url, $subject);
-        $this->mailTestHelper->testCommonMessageAsserts($message, $registration, $url, $subject);
+        $this->checkCommonMessageAsserts($message, $registration, $url, $subject);
         $this->assertEquals(
             2,
             count($message->getChildren())
@@ -228,6 +203,88 @@ class SwiftMailServiceTest extends KernelTestCase
         $this->assertEquals(
             'application/pdf',
             $message->getChildren()[1]->getContentType()
+        );
+    }
+
+    /**
+     * @param string $route
+     * @param array $parameters
+     * @param string $url
+     */
+    private function mockUrlGeneration(string $route, array $parameters, string $url): void
+    {
+        $this->urlGenerator
+            ->expects($this->exactly(1))
+            ->method('generate')
+            ->with(
+                $route,
+                $parameters,
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn($url);
+    }
+
+    /**
+     * @param \Swift_Message $message
+     * @param Registration $registration
+     * @param string $url
+     * @param string $subject
+     */
+    private function checkCommonMessageAsserts(
+        \Swift_Message $message,
+        Registration $registration,
+        string $url,
+        string $subject
+    ): void {
+        $this->assertCount(1, $message->getFrom());
+        $this->assertEquals(
+            'Info GVQ',
+            $message->getFrom()['info@gvq.be']
+        );
+
+        $this->assertCount(1, $message->getTo());
+        $this->assertEquals(
+            $registration->getUser()->getFirstName()->toNative().' '.
+            $registration->getUser()->getLastName()->toNative(),
+            $message->getTo()[$registration->getUser()->getEmail()->toNative()]
+        );
+
+        $this->assertEquals(
+            $subject,
+            $message->getSubject()
+        );
+
+        $this->assertContains(
+            'Beste John',
+            $message->getBody()
+        );
+
+        $this->assertContains(
+            $url,
+            $message->getBody()
+        );
+
+        // @see: https://github.com/swiftmailer/swiftmailer/issues/736
+        /*
+        $this->assertEquals(
+            'text/html',
+            $message->getContentType()
+        );
+        */
+
+        $this->assertContains(
+            'Beste John,',
+            $message->getChildren()[0]->getBody()
+        );
+
+        $this->assertContains(
+            $url,
+            $message->getChildren()[0]->getBody()
+        );
+
+        $this->assertEquals(
+            'text/plain',
+            $message->getChildren()[0]->getContentType()
         );
     }
 }

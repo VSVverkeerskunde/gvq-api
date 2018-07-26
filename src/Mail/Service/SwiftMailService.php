@@ -66,10 +66,13 @@ class SwiftMailService implements MailService
     public function sendActivationMail(Registration $registration): void
     {
         $subjectId = 'Activation.mail.subject';
-        $templatename = 'activate';
-        $templateParameters = $this->generateAccountChangeTemplateParameters($registration, 'accounts_view_activate');
+        $templateName = 'activate';
+        $templateParameters = $this->generateAccountChangeTemplateParameters(
+            $registration,
+            'accounts_view_activate'
+        );
 
-        $message = $this->generateMessage($registration, $subjectId, $templatename, $templateParameters);
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
 
         $this->swiftMailer->send($message);
     }
@@ -145,7 +148,7 @@ class SwiftMailService implements MailService
         string $templateName,
         array $templateParameters
     ): Swift_Message {
-        $message = (new Swift_Message())
+        return (new Swift_Message())
             ->setFrom(
                 $this->sender->getEmail()->toNative(),
                 $this->sender->getName()->toNative()
@@ -178,8 +181,6 @@ class SwiftMailService implements MailService
                 ),
                 'text/plain'
             );
-
-        return $message;
     }
 
     /**
