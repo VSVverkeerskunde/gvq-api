@@ -21,6 +21,7 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
@@ -600,6 +601,7 @@ class ModelsFactory
             new QuizChannel('individual'),
             new Language('nl'),
             new Year(2018),
+            new AllowedDelay(40),
             self::createQuestions()
         );
     }
