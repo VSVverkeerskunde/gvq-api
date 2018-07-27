@@ -2,7 +2,7 @@
   "id": "26ff775c-cd4c-4aab-bd3c-3afa9baebc6a",
   "participant": "par@ticipa.nt",
   "channel": "partner",
-  "company": "",
+  "company": null,
   "partner": {
     "id": "b00bfa30-97e4-4972-bd65-24b371f75718",
     "name": "Nieuwsblad",

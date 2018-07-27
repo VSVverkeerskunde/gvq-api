@@ -67,14 +67,14 @@ class QuizDenormalizer implements DenormalizerInterface
             $data['questions']
         );
 
-        $company = $data['company'] !== '' ? $this->companyDenormalizer->denormalize(
+        $company = isset($data['company']) ? $this->companyDenormalizer->denormalize(
             $data['company'],
             Company::class,
             $format,
             $context
         ) : null;
 
-        $partner = $data['partner'] !== '' ? $this->partnerDenormalizer->denormalize(
+        $partner = isset($data['partner']) ? $this->partnerDenormalizer->denormalize(
             $data['partner'],
             Company::class,
             $format,

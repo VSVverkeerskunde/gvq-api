@@ -61,13 +61,13 @@ class QuizNormalizer implements NormalizerInterface
             $quiz->getCompany(),
             $format,
             $context
-        ) : '';
+        ) : null;
 
         $partner = $quiz->getPartner() ? $this->partnerNormalizer->normalize(
             $quiz->getPartner(),
             $format,
             $context
-        ) : '';
+        ) : null;
 
         return [
             'id' => $quiz->getId()->toString(),

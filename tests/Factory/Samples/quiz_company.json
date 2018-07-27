@@ -28,7 +28,7 @@
       "active": true
     }
   },
-  "partner": "",
+  "partner": null,
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,
