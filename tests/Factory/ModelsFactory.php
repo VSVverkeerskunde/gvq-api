@@ -601,8 +601,6 @@ class ModelsFactory
         );
     }
 
-
-
     /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
