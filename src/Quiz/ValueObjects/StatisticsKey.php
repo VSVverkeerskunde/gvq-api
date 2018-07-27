@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Quiz\ValueObjects;
 
 use VSV\GVQ_API\Common\ValueObjects\Enumeration;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 
 class StatisticsKey extends Enumeration
@@ -39,7 +40,27 @@ class StatisticsKey extends Enumeration
      */
     public static function createFromQuiz(Quiz $quiz): StatisticsKey
     {
-        // TODO: Use channel.
-        return new StatisticsKey(self::INDIVIDUAL_NL);
+        $staticsKey = '';
+
+        switch ($quiz->getChannel()->toNative()) {
+            case QuizChannel::INDIVIDUAL:
+                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                    self::INDIVIDUAL_NL : self::INDIVIDUAL_FR;
+                break;
+            case QuizChannel::COMPANY:
+                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                    self::COMPANY_NL : self::COMPANY_FR;
+                break;
+            case QuizChannel::PARTNER:
+                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                    self::PARTNER_NL : self::PARTNER_FR;
+                break;
+            case QuizChannel::CUP:
+                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                    self::CUP_NL : self::CUP_FR;
+                break;
+        }
+
+        return new StatisticsKey($staticsKey);
     }
 }
