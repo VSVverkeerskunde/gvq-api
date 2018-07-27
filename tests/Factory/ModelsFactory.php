@@ -24,7 +24,6 @@ use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\User\Models\User;
@@ -592,13 +591,36 @@ class ModelsFactory
      * @return Quiz
      * @throws \Exception
      */
-    public static function createQuiz(): Quiz
+    public static function createIndividualQuiz(): Quiz
     {
+        return self::createCustomQuiz(
+            Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            null,
+            null
+        );
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     * @param QuizChannel $channel
+     * @param null|Company $company
+     * @param null|Partner $partner
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createCustomQuiz(
+        UuidInterface $uuid,
+        QuizChannel $channel,
+        ?Company $company,
+        ?Partner $partner
+    ): Quiz {
         return new Quiz(
-            Uuid::fromString('dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c'),
+            $uuid,
             new QuizParticipant(new Email('par@ticipa.nt')),
-            new QuizType('quiz'),
-            new QuizChannel('individual'),
+            $channel,
+            $company,
+            $partner,
             new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),

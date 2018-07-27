@@ -1,8 +1,13 @@
 {
-  "id": "dcb1dcf1-d545-4376-aeb4-6f3c64b05b5c",
+  "id": "26ff775c-cd4c-4aab-bd3c-3afa9baebc6a",
   "participant": "par@ticipa.nt",
-  "type": "quiz",
-  "channel": "individual",
+  "channel": "partner",
+  "company": null,
+  "partner": {
+    "id": "b00bfa30-97e4-4972-bd65-24b371f75718",
+    "name": "Nieuwsblad",
+    "alias": "nieuwsblad"
+  },
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,

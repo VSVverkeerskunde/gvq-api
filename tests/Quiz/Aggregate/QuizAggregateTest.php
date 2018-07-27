@@ -28,7 +28,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
     {
         parent::setUp();
 
-        $this->quiz = ModelsFactory::createQuiz();
+        $this->quiz = ModelsFactory::createIndividualQuiz();
     }
 
     /**
