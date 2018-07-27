@@ -36,16 +36,6 @@ class QuizSerializerTest extends TestCase
     private $serializer;
 
     /**
-     * @var string
-     */
-    private $quizAsJson;
-
-    /**
-     * @var Quiz
-     */
-    private $quiz;
-
-    /**
      * @throws \Exception
      */
     protected function setUp(): void
@@ -157,6 +147,12 @@ class QuizSerializerTest extends TestCase
     public function parametersProvider(): array
     {
         return [
+            [
+                Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
+                new QuizChannel(QuizChannel::INDIVIDUAL),
+                null,
+                null,
+            ],
             [
                 Uuid::fromString('be57176b-3f5f-479a-9906-91c54faccb33'),
                 new QuizChannel(QuizChannel::CUP),
