@@ -40,27 +40,27 @@ class StatisticsKey extends Enumeration
      */
     public static function createFromQuiz(Quiz $quiz): StatisticsKey
     {
-        $staticsKey = '';
+        $statisticsKey = '';
 
         switch ($quiz->getChannel()->toNative()) {
             case QuizChannel::INDIVIDUAL:
-                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::INDIVIDUAL_NL : self::INDIVIDUAL_FR;
                 break;
             case QuizChannel::COMPANY:
-                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::COMPANY_NL : self::COMPANY_FR;
                 break;
             case QuizChannel::PARTNER:
-                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::PARTNER_NL : self::PARTNER_FR;
                 break;
             case QuizChannel::CUP:
-                $staticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::CUP_NL : self::CUP_FR;
                 break;
         }
 
-        return new StatisticsKey($staticsKey);
+        return new StatisticsKey($statisticsKey);
     }
 }

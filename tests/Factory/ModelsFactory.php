@@ -606,6 +606,7 @@ class ModelsFactory
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param Language|null $language
      * @return Quiz
      * @throws \Exception
      */
@@ -613,7 +614,8 @@ class ModelsFactory
         UuidInterface $uuid,
         QuizChannel $channel,
         ?Company $company,
-        ?Partner $partner
+        ?Partner $partner,
+        Language $language = null
     ): Quiz {
         return new Quiz(
             $uuid,
@@ -621,7 +623,7 @@ class ModelsFactory
             $channel,
             $company,
             $partner,
-            new Language('nl'),
+            $language ? $language : new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),
             self::createQuestions()
