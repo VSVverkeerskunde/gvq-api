@@ -24,9 +24,9 @@ use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
+use VSV\GVQ_API\Team\Models\Team;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -473,18 +473,15 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
-    public static function createQuestionWithAlternateCategory(): Question
+    public static function createQuestionWithMissingCategory(): Question
     {
-        $wrongCategory = new Category(
-            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
+        $missingCategory = self::createMissingCategory();
 
         $question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            $wrongCategory,
+            $missingCategory,
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
@@ -518,6 +515,17 @@ class ModelsFactory
         );
 
         return $question;
+    }
+
+    /**
+     * @return Category
+     */
+    public static function createMissingCategory(): Category
+    {
+        return new Category(
+            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
     }
 
     /**
@@ -592,55 +600,40 @@ class ModelsFactory
      * @return Quiz
      * @throws \Exception
      */
-    public static function createFullQuiz(): Quiz
+    public static function createIndividualQuiz(): Quiz
     {
-        return self::createQuizFactory(
+        return self::createCustomQuiz(
             Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
-            new QuizType(QuizType::QUIZ),
-            new QuizChannel(QuizChannel::PARTNER),
-            self::createCompany(),
-            self::createNBPartner()
-        );
-    }
-
-    /**
-     * @return Quiz
-     * @throws \Exception
-     */
-    public static function createCupWithPartner(): Quiz
-    {
-        return self::createQuizFactory(
-            Uuid::fromString('9d029317-0609-4b01-a573-579624cc0744'),
-            new QuizType(QuizType::CUP),
-            new QuizChannel(QuizChannel::PARTNER),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
             null,
-            self::createNBPartner()
+            null,
+            null
         );
     }
 
     /**
      * @param UuidInterface $uuid
-     * @param QuizType $type
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      * @return Quiz
      * @throws \Exception
      */
-    public static function createQuizFactory(
+    public static function createCustomQuiz(
         UuidInterface $uuid,
-        QuizType $type,
         QuizChannel $channel,
         ?Company $company,
-        ?Partner $partner
+        ?Partner $partner,
+        ?Team $team
     ): Quiz {
         return new Quiz(
             $uuid,
             new QuizParticipant(new Email('par@ticipa.nt')),
-            $type,
             $channel,
             $company,
             $partner,
+            $team,
             new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),
@@ -669,6 +662,17 @@ class ModelsFactory
             Uuid::fromString('adf0796d-4f9f-470e-9bbe-17d4d9c900cd'),
             new NotEmptyString('Dats24'),
             new Alias('dats24')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('5c128cad-8727-4e3e-bfba-c51929ae14c4'),
+            new NotEmptyString('Royal Antwerp FC')
         );
     }
 
