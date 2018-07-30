@@ -13,6 +13,9 @@ class QuizCompositionYamlRepository implements QuizCompositionRepository
      */
     private $quizCompositionAsYml;
 
+    /**
+     * @param string $quizCompositionFile
+     */
     public function __construct(string $quizCompositionFile)
     {
         $this->quizCompositionAsYml = Yaml::parseFile($quizCompositionFile);
@@ -21,7 +24,7 @@ class QuizCompositionYamlRepository implements QuizCompositionRepository
     /**
      * @inheritdoc
      */
-    public function getByYearAndCategory(Year $year, Category $category): ?int
+    public function getCountByYearAndCategory(Year $year, Category $category): ?int
     {
         if (!key_exists($year->toNative(), $this->quizCompositionAsYml) ||
             !key_exists($category->getId()->toString(), $this->quizCompositionAsYml[$year->toNative()])

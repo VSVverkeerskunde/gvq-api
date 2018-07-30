@@ -12,5 +12,5 @@ interface QuizCompositionRepository
      * @param Category $category
      * @return int|null
      */
-    public function getByYearAndCategory(Year $year, Category $category): ?int;
+    public function getCountByYearAndCategory(Year $year, Category $category): ?int;
 }

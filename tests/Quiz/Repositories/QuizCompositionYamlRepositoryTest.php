@@ -25,7 +25,7 @@ class QuizCompositionYamlRepositoryTest extends TestCase
      */
     public function it_can_get_question_count_by_year_and_category(): void
     {
-        $foundQuestionCount = $this->quizCompositionYamlRepository->getByYearAndCategory(
+        $foundQuestionCount = $this->quizCompositionYamlRepository->getCountByYearAndCategory(
             new Year(2018),
             ModelsFactory::createGeneralCategory()
         );
@@ -41,7 +41,7 @@ class QuizCompositionYamlRepositoryTest extends TestCase
      */
     public function it_returns_null_when_year_is_not_present(): void
     {
-        $foundQuestionCount = $this->quizCompositionYamlRepository->getByYearAndCategory(
+        $foundQuestionCount = $this->quizCompositionYamlRepository->getCountByYearAndCategory(
             new Year(2019),
             ModelsFactory::createGeneralCategory()
         );
@@ -54,9 +54,9 @@ class QuizCompositionYamlRepositoryTest extends TestCase
      */
     public function it_returns_null_when_category_is_not_present(): void
     {
-        $foundQuestionCount = $this->quizCompositionYamlRepository->getByYearAndCategory(
+        $foundQuestionCount = $this->quizCompositionYamlRepository->getCountByYearAndCategory(
             new Year(2018),
-            ModelsFactory::createWrongCategory()
+            ModelsFactory::createMissingCategory()
         );
 
         $this->assertNull($foundQuestionCount);
