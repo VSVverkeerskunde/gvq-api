@@ -1,26 +1,36 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\Projections;
+namespace VSV\GVQ_API\Quiz\EventListeners;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
+use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class StartedQuizProjection implements EventListener
+class QuizStartedListener implements EventListener
 {
+    /**
+     * @var QuizRepository
+     */
+    private $quizRepository;
+
     /**
      * @var StartedQuizRepository
      */
     private $startedQuizzesRepository;
 
     /**
-     * @param StartedQuizRepository $startedQuizzesRepository
+     * @param QuizRepository $quizRepository
+     * @param StartedQuizRepository $startedQuizRepository
      */
-    public function __construct(StartedQuizRepository $startedQuizzesRepository)
-    {
-        $this->startedQuizzesRepository = $startedQuizzesRepository;
+    public function __construct(
+        QuizRepository $quizRepository,
+        StartedQuizRepository $startedQuizRepository
+    ) {
+        $this->quizRepository = $quizRepository;
+        $this->startedQuizzesRepository = $startedQuizRepository;
     }
 
     /**
@@ -31,6 +41,8 @@ class StartedQuizProjection implements EventListener
         $payload = $domainMessage->getPayload();
 
         if ($payload instanceof QuizStarted) {
+            $this->quizRepository->save($payload->getQuiz());
+
             $this->startedQuizzesRepository->incrementTotal(
                 StatisticsKey::createFromQuiz($payload->getQuiz())
             );
