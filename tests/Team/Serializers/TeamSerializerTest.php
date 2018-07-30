@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Partner\Serializers;
+namespace VSV\GVQ_API\Team\Serializers;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Partner\Models\Partner;
+use VSV\GVQ_API\Team\Models\Team;
 
-class PartnerSerializerTest extends TestCase
+class TeamSerializerTest extends TestCase
 {
     /**
      * @var SerializerInterface
@@ -19,28 +19,28 @@ class PartnerSerializerTest extends TestCase
     /**
      * @var string
      */
-    private $partnerAsJson;
+    private $teamAsJson;
 
     /**
-     * @var Partner
+     * @var Team
      */
-    private $partner;
+    private $team;
 
     protected function setUp(): void
     {
         $normalizers = [
-            new PartnerNormalizer(),
-            new PartnerDenormalizer(),
+            new TeamNormalizer(),
+            new TeamDenormalizer(),
         ];
-        
+
         $encoders = [
             new JsonEncoder(),
         ];
-        
+
         $this->serializer = new Serializer($normalizers, $encoders);
-        
-        $this->partnerAsJson = ModelsFactory::createJson('partner');
-        $this->partner = ModelsFactory::createNBPartner();
+
+        $this->teamAsJson = ModelsFactory::createJson('team');
+        $this->team = ModelsFactory::createTeam();
     }
 
     /**
@@ -49,12 +49,12 @@ class PartnerSerializerTest extends TestCase
     public function it_can_serialize_to_json(): void
     {
         $actualJson = $this->serializer->serialize(
-            $this->partner,
+            $this->team,
             'json'
         );
 
         $this->assertEquals(
-            $this->partnerAsJson,
+            $this->teamAsJson,
             $actualJson
         );
     }
@@ -64,15 +64,15 @@ class PartnerSerializerTest extends TestCase
      */
     public function it_can_deserialize_to_partner(): void
     {
-        $actualPartner = $this->serializer->deserialize(
-            $this->partnerAsJson,
-            Partner::class,
+        $actualTeam = $this->serializer->deserialize(
+            $this->teamAsJson,
+            Team::class,
             'json'
         );
 
         $this->assertEquals(
-            $this->partner,
-            $actualPartner
+            $this->team,
+            $actualTeam
         );
     }
 }

@@ -26,6 +26,7 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
+use VSV\GVQ_API\Team\Models\Team;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -649,6 +650,17 @@ class ModelsFactory
             Uuid::fromString('adf0796d-4f9f-470e-9bbe-17d4d9c900cd'),
             new NotEmptyString('Dats24'),
             new Alias('dats24')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('5c128cad-8727-4e3e-bfba-c51929ae14c4'),
+            new NotEmptyString('Royal Antwerp FC')
         );
     }
 
