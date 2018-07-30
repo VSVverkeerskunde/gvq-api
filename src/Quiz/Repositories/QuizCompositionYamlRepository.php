@@ -9,13 +9,13 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 class QuizCompositionYamlRepository implements QuizCompositionRepository
 {
     /**
-     * @var mixed
+     * @var array
      */
     private $quizCompositionAsYml;
 
-    public function __construct(string $quicCompositionFile)
+    public function __construct(string $quizCompositionFile)
     {
-        $this->quizCompositionAsYml = Yaml::parseFile($quicCompositionFile);
+        $this->quizCompositionAsYml = Yaml::parseFile($quizCompositionFile);
     }
 
     /**
