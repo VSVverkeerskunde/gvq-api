@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
@@ -87,31 +86,20 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     /**
      * @inheritdoc
      */
-    public function getSubset(
-        Language $language,
-        Category $category,
+    public function getByYearLanguageAndCategory(
         Year $year,
-        PositiveNumber $amount
+        Language $language,
+        Category $category
     ): ?Questions {
         $questionEntities = $this->objectRepository->findBy(
             [
-                'categoryEntity' => $category->getId()->toString(),
-                'language' => $language->toNative(),
                 'year' => $year->toNative(),
+                'language' => $language->toNative(),
+                'categoryEntity' => $category->getId()->toString(),
             ]
         );
 
-        $pickedQuestionEntities = [];
-        $amount = $amount->toNative();
-
-        if (sizeof($questionEntities) >= $amount) {
-            shuffle($questionEntities);
-            for ($i = 0; $i < $amount; $i++) {
-                $pickedQuestionEntities[] = $questionEntities[$i];
-            }
-        }
-
-        if (empty($pickedQuestionEntities)) {
+        if (empty($questionEntities)) {
             return null;
         }
 
@@ -120,7 +108,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
                 function (QuestionEntity $questionEntity) {
                     return $questionEntity->toQuestion();
                 },
-                $pickedQuestionEntities
+                $questionEntities
             )
         );
     }

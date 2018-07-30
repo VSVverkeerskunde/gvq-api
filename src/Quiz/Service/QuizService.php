@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Quiz\Service;
 use Ramsey\Uuid\UuidFactoryInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Models\Company;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Questions;
@@ -13,6 +12,7 @@ use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\Repositories\QuizCompositionRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
@@ -29,6 +29,11 @@ class QuizService
      * @var CategoryRepository
      */
     private $categoryRepository;
+
+    /**
+     * @var QuizCompositionRepository
+     */
+    private $quizCompositionRepository;
 
     /**
      * @var UuidFactoryInterface
@@ -48,6 +53,7 @@ class QuizService
     /**
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
+     * @param QuizCompositionRepository $quizCompositionRepository
      * @param UuidFactoryInterface $uuidFactory
      * @param Year $year
      * @param AllowedDelay $allowedDelay
@@ -55,12 +61,14 @@ class QuizService
     public function __construct(
         QuestionRepository $questionRepository,
         CategoryRepository $categoryRepository,
+        QuizCompositionRepository $quizCompositionRepository,
         UuidFactoryInterface $uuidFactory,
         Year $year,
         AllowedDelay $allowedDelay
     ) {
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->quizCompositionRepository = $quizCompositionRepository;
         $this->uuidFactory = $uuidFactory;
         $this->year = $year;
         $this->allowedDelay = $allowedDelay;
@@ -108,26 +116,31 @@ class QuizService
      */
     private function generateQuestions(Language $language, Year $year): Questions
     {
-        $questionsArray = [];
+        $pickedQuestions = [];
 
         /** @var Categories $categories */
         $categories = $this->categoryRepository->getAll();
 
         foreach ($categories as $category) {
-            $pickedQuestions = $this->questionRepository->getSubset(
-                $language,
-                $category,
-                $year,
-                new PositiveNumber($this->distributionKey[$category->getId()->toString()])
-            );
+            $questionCount = $this->quizCompositionRepository->getCountByYearAndCategory($year, $category);
 
-            if ($pickedQuestions) {
-                $questionsArray = array_merge($questionsArray, $pickedQuestions->toArray());
+            if ($questionCount !== null) {
+                $questions = $this->questionRepository->getByYearLanguageAndCategory(
+                    $year,
+                    $language,
+                    $category
+                );
+
+                if ($questions !== null) {
+                    $questionPool = $questions->toArray();
+                    shuffle($questionPool);
+                    array_merge($pickedQuestions, array_slice($questionPool, 0, $questionCount));
+                }
             }
         }
 
-        shuffle($questionsArray);
+        shuffle($pickedQuestions);
 
-        return new Questions(...$questionsArray);
+        return new Questions(...$pickedQuestions);
     }
 }

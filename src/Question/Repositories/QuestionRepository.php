@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Question\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
@@ -34,17 +33,15 @@ interface QuestionRepository
     public function getById(UuidInterface $id): ?Question;
 
     /**
+     * @param Year $year
      * @param Language $language
      * @param Category $category
-     * @param Year $year
-     * @param PositiveNumber $amount
      * @return null|Questions
      */
-    public function getSubset(
-        Language $language,
-        Category $category,
+    public function getByYearLanguageAndCategory(
         Year $year,
-        PositiveNumber $amount
+        Language $language,
+        Category $category
     ): ?Questions;
 
     /**
