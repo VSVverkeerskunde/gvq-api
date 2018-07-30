@@ -144,6 +144,14 @@ class Quiz
     }
 
     /**
+     * @return null|Team
+     */
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    /**
      * @return Language
      */
     public function getLanguage(): Language
