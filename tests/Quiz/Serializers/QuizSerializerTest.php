@@ -25,6 +25,9 @@ use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Team\Models\Team;
+use VSV\GVQ_API\Team\Serializers\TeamDenormalizer;
+use VSV\GVQ_API\Team\Serializers\TeamNormalizer;
 use VSV\GVQ_API\User\Serializers\UserDenormalizer;
 use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
@@ -47,6 +50,7 @@ class QuizSerializerTest extends TestCase
                     new UserNormalizer()
                 ),
                 new PartnerNormalizer(),
+                new TeamNormalizer(),
                 new QuestionNormalizer(
                     new CategoryNormalizer(),
                     new AnswerNormalizer()
@@ -58,6 +62,7 @@ class QuizSerializerTest extends TestCase
                     new UserDenormalizer()
                 ),
                 new PartnerDenormalizer(),
+                new TeamDenormalizer(),
                 new QuestionDenormalizer(
                     new CategoryDenormalizer(),
                     new AnswerDenormalizer()
@@ -79,20 +84,23 @@ class QuizSerializerTest extends TestCase
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      * @throws \Exception
      */
     public function it_can_serialize_to_json(
         UuidInterface $uuid,
         QuizChannel $channel,
         ?Company $company,
-        ?Partner $partner
+        ?Partner $partner,
+        ?Team $team
     ): void {
         $quizAsJson = ModelsFactory::createJson('quiz_'.$channel->toNative());
         $quiz = ModelsFactory::createCustomQuiz(
             $uuid,
             $channel,
             $company,
-            $partner
+            $partner,
+            $team
         );
 
         $actualJson = $this->serializer->serialize(
@@ -113,20 +121,23 @@ class QuizSerializerTest extends TestCase
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      * @throws \Exception
      */
     public function it_can_deserialize_to_quiz(
         UuidInterface $uuid,
         QuizChannel $channel,
         ?Company $company,
-        ?Partner $partner
+        ?Partner $partner,
+        ?Team $team
     ): void {
         $quizAsJson = ModelsFactory::createJson('quiz_'.$channel->toNative());
         $quiz = ModelsFactory::createCustomQuiz(
             $uuid,
             $channel,
             $company,
-            $partner
+            $partner,
+            $team
         );
 
         $actualQuiz = $this->serializer->deserialize(
@@ -152,23 +163,27 @@ class QuizSerializerTest extends TestCase
                 new QuizChannel(QuizChannel::INDIVIDUAL),
                 null,
                 null,
+                null,
             ],
             [
                 Uuid::fromString('be57176b-3f5f-479a-9906-91c54faccb33'),
                 new QuizChannel(QuizChannel::CUP),
                 null,
                 null,
+                ModelsFactory::createTeam(),
             ],
             [
                 Uuid::fromString('26ff775c-cd4c-4aab-bd3c-3afa9baebc6a'),
                 new QuizChannel(QuizChannel::PARTNER),
                 null,
                 ModelsFactory::createNBPartner(),
+                null,
             ],
             [
                 Uuid::fromString('d73f5383-19d5-47a2-8673-a123c89baf4b'),
                 new QuizChannel(QuizChannel::COMPANY),
                 ModelsFactory::createCompany(),
+                null,
                 null,
             ],
         ];

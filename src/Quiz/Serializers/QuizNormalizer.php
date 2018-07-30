@@ -8,6 +8,7 @@ use VSV\GVQ_API\Partner\Serializers\PartnerNormalizer;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Team\Serializers\TeamNormalizer;
 
 class QuizNormalizer implements NormalizerInterface
 {
@@ -22,6 +23,11 @@ class QuizNormalizer implements NormalizerInterface
     private $partnerNormalizer;
 
     /**
+     * @var TeamNormalizer
+     */
+    private $teamNormalizer;
+
+    /**
      * @var QuestionNormalizer
      */
     private $questionNormalizer;
@@ -29,15 +35,18 @@ class QuizNormalizer implements NormalizerInterface
     /**
      * @param CompanyNormalizer $companyNormalizer
      * @param PartnerNormalizer $partnerNormalizer
+     * @param TeamNormalizer $teamNormalizer
      * @param QuestionNormalizer $questionNormalizer
      */
     public function __construct(
         CompanyNormalizer $companyNormalizer,
         PartnerNormalizer $partnerNormalizer,
+        TeamNormalizer $teamNormalizer,
         QuestionNormalizer $questionNormalizer
     ) {
         $this->companyNormalizer = $companyNormalizer;
         $this->partnerNormalizer = $partnerNormalizer;
+        $this->teamNormalizer = $teamNormalizer;
         $this->questionNormalizer = $questionNormalizer;
     }
 
@@ -69,12 +78,19 @@ class QuizNormalizer implements NormalizerInterface
             $context
         ) : null;
 
+        $team = $quiz->getTeam() ? $this->teamNormalizer->normalize(
+            $quiz->getTeam(),
+            $format,
+            $context
+        ) : null;
+
         return [
             'id' => $quiz->getId()->toString(),
             'participant' => $quiz->getParticipant()->getEmail()->toNative(),
             'channel' => $quiz->getChannel()->toNative(),
             'company' => $company,
             'partner' => $partner,
+            'team' => $team,
             'language' => $quiz->getLanguage()->toNative(),
             'year' => $quiz->getYear()->toNative(),
             'allowedDelay' => $quiz->getAllowedDelay()->toNative(),
