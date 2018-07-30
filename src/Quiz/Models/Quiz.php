@@ -11,6 +11,7 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
+use VSV\GVQ_API\Team\Models\Team;
 
 class Quiz
 {
@@ -40,6 +41,11 @@ class Quiz
     private $partner;
 
     /**
+     * @var null|Team
+     */
+    private $team;
+
+    /**
      * @var Language $language
      */
     private $language;
@@ -65,6 +71,7 @@ class Quiz
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      * @param Language $language
      * @param Year $year
      * @param AllowedDelay $allowedDelay
@@ -76,18 +83,20 @@ class Quiz
         QuizChannel $channel,
         ?Company $company,
         ?Partner $partner,
+        ?Team $team,
         Language $language,
         Year $year,
         AllowedDelay $allowedDelay,
         Questions $questions
     ) {
-        $this->guardChannel($channel, $company, $partner);
+        $this->guardChannel($channel, $company, $partner, $team);
 
         $this->id = $id;
         $this->participant = $participant;
         $this->channel = $channel;
         $this->company = $company;
         $this->partner = $partner;
+        $this->team = $team;
         $this->language = $language;
         $this->year = $year;
         $this->questions = $questions;
@@ -170,22 +179,32 @@ class Quiz
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      */
-    private function guardChannel(QuizChannel $channel, ?Company $company, ?Partner $partner): void
+    private function guardChannel(QuizChannel $channel, ?Company $company, ?Partner $partner, ?Team $team): void
     {
         switch ($channel->toNative()) {
             case QuizChannel::INDIVIDUAL:
+                $this->checkForDisallowedTeam($channel, $team);
+                $this->checkForDisallowedCompany($channel, $company);
+                $this->checkForDisallowedPartner($channel, $partner);
+                break;
             case QuizChannel::CUP:
+                if ($team === null) {
+                    throw new \InvalidArgumentException('Quiz of channel cup needs team parameter, null given.');
+                }
                 $this->checkForDisallowedCompany($channel, $company);
                 $this->checkForDisallowedPartner($channel, $partner);
                 break;
             case QuizChannel::PARTNER:
+                $this->checkForDisallowedTeam($channel, $team);
                 $this->checkForDisallowedCompany($channel, $company);
                 if ($partner === null) {
                     throw new \InvalidArgumentException('Quiz of channel partner needs partner parameter, null given.');
                 }
                 break;
             case QuizChannel::COMPANY:
+                $this->checkForDisallowedTeam($channel, $team);
                 $this->checkForDisallowedPartner($channel, $partner);
                 if ($company === null) {
                     throw new \InvalidArgumentException('Quiz of channel company needs company parameter, null given.');
@@ -223,6 +242,19 @@ class Quiz
                 $channel->toNative().
                 ' cannot contain partner, '.
                 $partner->getName()->toNative().
+                ' given.'
+            );
+        }
+    }
+
+    private function checkForDisallowedTeam(QuizChannel $channel, ?Team $team): void
+    {
+        if ($team !== null) {
+            throw new \InvalidArgumentException(
+                'Quiz of channel '.
+                $channel->toNative().
+                ' cannot contain team, '.
+                $team->getName()->toNative().
                 ' given.'
             );
         }

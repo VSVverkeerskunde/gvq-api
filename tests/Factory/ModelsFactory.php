@@ -598,6 +598,7 @@ class ModelsFactory
             Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
             new QuizChannel(QuizChannel::INDIVIDUAL),
             null,
+            null,
             null
         );
     }
@@ -607,6 +608,7 @@ class ModelsFactory
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
+     * @param null|Team $team
      * @return Quiz
      * @throws \Exception
      */
@@ -614,7 +616,8 @@ class ModelsFactory
         UuidInterface $uuid,
         QuizChannel $channel,
         ?Company $company,
-        ?Partner $partner
+        ?Partner $partner,
+        ?Team $team
     ): Quiz {
         return new Quiz(
             $uuid,
@@ -622,6 +625,7 @@ class ModelsFactory
             $channel,
             $company,
             $partner,
+            $team,
             new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),
