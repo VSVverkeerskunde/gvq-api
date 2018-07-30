@@ -5,20 +5,20 @@ namespace VSV\GVQ_API\Quiz\Projections;
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
-use VSV\GVQ_API\Quiz\Repositories\StartedQuizzesRepository;
+use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class StartedQuizzesProjection implements EventListener
+class StartedQuizProjection implements EventListener
 {
     /**
-     * @var StartedQuizzesRepository
+     * @var StartedQuizRepository
      */
     private $startedQuizzesRepository;
 
     /**
-     * @param StartedQuizzesRepository $startedQuizzesRepository
+     * @param StartedQuizRepository $startedQuizzesRepository
      */
-    public function __construct(StartedQuizzesRepository $startedQuizzesRepository)
+    public function __construct(StartedQuizRepository $startedQuizzesRepository)
     {
         $this->startedQuizzesRepository = $startedQuizzesRepository;
     }

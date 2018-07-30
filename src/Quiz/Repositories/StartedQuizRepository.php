@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-interface StartedQuizzesRepository
+interface StartedQuizRepository
 {
     /**
      * @param StatisticsKey $statisticsKey
