@@ -9,6 +9,7 @@ class QuizChannel extends Enumeration
     const INDIVIDUAL = 'individual';
     const COMPANY = 'company';
     const PARTNER = 'partner';
+    const CUP = 'cup';
 
     /**
      * @inheritdoc
@@ -19,6 +20,7 @@ class QuizChannel extends Enumeration
             self::INDIVIDUAL,
             self::COMPANY,
             self::PARTNER,
+            self::CUP,
         ];
     }
 }
