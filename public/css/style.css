@@ -165,6 +165,13 @@ svg {
 
   .print-only-inline {
     display: inline; } }
+.btn-primary {
+  background-color: #6cc4e9;
+  border-color: #6cc4e9; }
+  .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: #40b2e2;
+    border-color: #40b2e2; }
+
 .container {
   zoom: 1; }
   .container:before, .container:after {
