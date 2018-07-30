@@ -48,7 +48,7 @@ class TeamYamlRepositoryTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_null_when_name_does_not_exist(): void
+    public function it_returns_null_when_id_does_not_exist(): void
     {
         $foundTeam = $this->teamYamlRepository->getByYearAndId(
             new Year(2018),
