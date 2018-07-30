@@ -95,4 +95,44 @@ class QuizTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_throws_on_creating_company_quiz_without_company(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(
+            'Quiz of channel company needs company parameter, null given.'
+        );
+
+        ModelsFactory::createCustomQuiz(
+            Uuid::fromString('d73f5383-19d5-47a2-8673-a123c89baf4b'),
+            new QuizChannel(QuizChannel::COMPANY),
+            null,
+            null
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_throws_on_creating_partner_quiz_without_partner(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->expectExceptionMessage(
+            'Quiz of channel partner needs partner parameter, null given.'
+        );
+
+        ModelsFactory::createCustomQuiz(
+            Uuid::fromString('26ff775c-cd4c-4aab-bd3c-3afa9baebc6a'),
+            new QuizChannel(QuizChannel::PARTNER),
+            null,
+            null
+        );
+    }
 }

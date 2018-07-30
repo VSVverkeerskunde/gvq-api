@@ -181,9 +181,15 @@ class Quiz
                 break;
             case QuizChannel::PARTNER:
                 $this->checkForDisallowedCompany($channel, $company);
+                if ($partner === null) {
+                    throw new \InvalidArgumentException('Quiz of channel partner needs partner parameter, null given.');
+                }
                 break;
             case QuizChannel::COMPANY:
                 $this->checkForDisallowedPartner($channel, $partner);
+                if ($company === null) {
+                    throw new \InvalidArgumentException('Quiz of channel company needs company parameter, null given.');
+                }
                 break;
         }
     }
