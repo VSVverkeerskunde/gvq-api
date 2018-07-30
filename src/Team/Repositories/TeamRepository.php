@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Team\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Team\Models\Team;
 
