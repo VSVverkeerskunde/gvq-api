@@ -21,6 +21,7 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\Models\QuizComposition;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
@@ -474,10 +475,7 @@ class ModelsFactory
      */
     public static function createQuestionWithAlternateCategory(): Question
     {
-        $wrongCategory = new Category(
-            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
+        $wrongCategory = self::createWrongCategory();
 
         $question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
@@ -517,6 +515,17 @@ class ModelsFactory
         );
 
         return $question;
+    }
+
+    /**
+     * @return Category
+     */
+    public static function createWrongCategory(): Category
+    {
+        return new Category(
+            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
     }
 
     /**
