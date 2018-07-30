@@ -8,7 +8,7 @@ use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Team\Models\Team;
 
-class TeamYamlRepository
+class TeamYamlRepository implements TeamRepository
 {
     /**
      * @var array
@@ -26,17 +26,19 @@ class TeamYamlRepository
     /**
      * @inheritdoc
      */
-    public function getByYearAndName(Year $year, UuidInterface $uuid): ?Team
+    public function getByYearAndId(Year $year, UuidInterface $uuid): ?Team
     {
         if (!key_exists($year->toNative(), $this->teamsAsYml)) {
             return null;
         }
 
-        if (key_exists($uuid->toString(), $this->teamsAsYml)) {
+        if (key_exists($uuid->toString(), $this->teamsAsYml[$year->toNative()])) {
             return new Team(
                 $uuid,
-                $this->teamsAsYml[$year->toNative()][$uuid->toString()]
+                new NotEmptyString($this->teamsAsYml[$year->toNative()][$uuid->toString()]['name'])
             );
         }
+
+        return null;
     }
 }
