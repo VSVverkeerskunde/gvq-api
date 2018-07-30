@@ -9,7 +9,7 @@ class TeamNormalizer implements NormalizerInterface
 {
     /**
      * @inheritdoc
-     * @param Team $partner
+     * @param Team $team
      */
     public function normalize($team, $format = null, array $context = [])
     {
