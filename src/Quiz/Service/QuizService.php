@@ -1,19 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\QuizService;
+namespace VSV\GVQ_API\Quiz\Service;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizType;
+use VSV\GVQ_API\Team\Models\Team;
 
 class QuizService
 {
@@ -33,57 +36,65 @@ class QuizService
     private $uuidFactory;
 
     /**
-     * @var array
+     * @var Year
      */
-    private $distributionKey = [
-        'a7910bf1-05f9-4bdb-8dee-1256cbfafc0b' => 2,
-        '15530c78-2b1c-4820-bcfb-e04c5e2224b9' => 3,
-        '67844067-82ca-4698-a713-b5fbd4c729c5' => 2,
-        '58ee6bd3-a3f4-42bc-ba81-82491cec55b9' => 1,
-        '1289d4b5-e88e-4b3c-9223-eb2c7c49f4d0' => 1,
-        '9677995d-5fc5-48cd-a251-565b626cb7c1' => 1,
-        'fce11f3c-24ad-4aed-b00d-0069e3404749' => 1,
-        '6f0c9e04-1e84-4ba4-be54-ab5747111754' => 4,
-    ];
+    private $year;
+
+    /**
+     * @var AllowedDelay
+     */
+    private $allowedDelay;
 
     /**
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
      * @param UuidFactoryInterface $uuidFactory
+     * @param Year $year
+     * @param AllowedDelay $allowedDelay
      */
     public function __construct(
         QuestionRepository $questionRepository,
         CategoryRepository $categoryRepository,
-        UuidFactoryInterface $uuidFactory
+        UuidFactoryInterface $uuidFactory,
+        Year $year,
+        AllowedDelay $allowedDelay
     ) {
         $this->questionRepository = $questionRepository;
         $this->categoryRepository = $categoryRepository;
         $this->uuidFactory = $uuidFactory;
+        $this->year = $year;
+        $this->allowedDelay = $allowedDelay;
     }
 
     /**
      * @param QuizParticipant $participant
-     * @param QuizType $type
      * @param QuizChannel $channel
+     * @param null|Company $company
+     * @param null|Partner $partner
+     * @param null|Team $team
      * @param Language $language
      * @param Year $year
      * @return Quiz
-     * @throws \Exception
      */
     public function generateQuiz(
         QuizParticipant $participant,
-        QuizType $type,
         QuizChannel $channel,
+        ?Company $company,
+        ?Partner $partner,
+        ?Team $team,
         Language $language,
         Year $year
     ): Quiz {
         $quiz = new Quiz(
             $this->uuidFactory->uuid4(),
             $participant,
-            $type,
             $channel,
+            $company,
+            $partner,
+            $team,
             $language,
-            $year,
+            $this->year,
+            $this->allowedDelay,
             $this->generateQuestions($language, $year)
         );
 
