@@ -473,18 +473,15 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
-    public static function createQuestionWithAlternateCategory(): Question
+    public static function createQuestionWithMissingCategory(): Question
     {
-        $wrongCategory = new Category(
-            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
+        $missingCategory = self::createMissingCategory();
 
         $question = new Question(
             Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
             new Language('fr'),
             new Year(2018),
-            $wrongCategory,
+            $missingCategory,
             new NotEmptyString(
                 'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
             ),
@@ -518,6 +515,17 @@ class ModelsFactory
         );
 
         return $question;
+    }
+
+    /**
+     * @return Category
+     */
+    public static function createMissingCategory(): Category
+    {
+        return new Category(
+            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
+            new NotEmptyString('EHBO/Ongeval/Verzekering')
+        );
     }
 
     /**

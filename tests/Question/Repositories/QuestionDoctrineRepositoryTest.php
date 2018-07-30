@@ -76,7 +76,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
-        $question = ModelsFactory::createQuestionWithAlternateCategory();
+        $question = ModelsFactory::createQuestionWithMissingCategory();
 
         $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage('A new entity was found through the relationship');
@@ -145,7 +145,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $this->questionDoctrineRepository->save($this->question);
 
-        $updatedQuestion = ModelsFactory::createQuestionWithAlternateCategory();
+        $updatedQuestion = ModelsFactory::createQuestionWithMissingCategory();
 
         $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage('A new entity was found through the relationship');
