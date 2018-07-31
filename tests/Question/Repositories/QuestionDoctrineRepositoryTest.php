@@ -6,10 +6,13 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Factory\QuestionsGenerator;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
@@ -166,6 +169,47 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $foundQuestion = $this->questionDoctrineRepository->getById($uuid);
         $this->assertNull($foundQuestion);
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_by_year_language_and_category(): void
+    {
+        $category = ModelsFactory::createGeneralCategory();
+        $questions = QuestionsGenerator::generateForCategory($category);
+
+        foreach ($questions as $question) {
+            $this->questionDoctrineRepository->save($question);
+        }
+
+        $foundQuestions = $this->questionDoctrineRepository->getByYearLanguageAndCategory(
+            new Year(2018),
+            new Language('nl'),
+            $category
+        );
+
+        $this->assertEquals(
+            $questions,
+            $foundQuestions
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_questions_of_given_year_language_and_category_are_present(): void
+    {
+        $foundQuestions = $this->questionDoctrineRepository->getByYearLanguageAndCategory(
+            new Year(2018),
+            new Language('nl'),
+            ModelsFactory::createGeneralCategory()
+        );
+
+        $this->assertNull(
+            $foundQuestions
+        );
     }
 
     /**
