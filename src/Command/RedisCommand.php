@@ -31,6 +31,7 @@ class RedisCommand extends Command
         if ($cache === false) {
             $output->writeln('No value found for key');
             $redis->set('key', 'value');
+            $redis->delete('key');
         } else {
             $output->writeln('Value found for key');
         }
