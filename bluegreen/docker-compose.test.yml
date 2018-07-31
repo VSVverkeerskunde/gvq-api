@@ -41,3 +41,9 @@ services:
     ports:
       - ${DOCKER_HOST_IP}::8025
     restart: always
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    restart: always
