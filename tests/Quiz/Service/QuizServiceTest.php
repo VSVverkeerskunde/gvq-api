@@ -76,7 +76,7 @@ class QuizServiceTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_generate_a_random_quiz_with_correct_distribution()
+    public function it_can_generate_a_random_quiz_with_correct_distribution(): void
     {
         $this->uuidFactoryInterface
             ->expects($this->exactly(2))

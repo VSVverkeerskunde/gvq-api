@@ -156,7 +156,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
-    public function it_can_delete_a_question()
+    public function it_can_delete_a_question(): void
     {
         $uuid = Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d');
 
