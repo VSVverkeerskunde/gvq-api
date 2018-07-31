@@ -12,15 +12,16 @@
             <directory suffix=".php">./src/*</directory>
             <exclude>
                 <file>./src/Kernel.php</file>
+                <file>./src/Account/Controllers/AccountViewController.php</file>
+                <file>./src/Account/Forms/RegistrationFormType.php</file>
                 <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
                 <file>./src/Question/Forms/QuestionFormType.php</file>
+                <file>./src/Quiz/Controllers/QuizController.php</file>
                 <file>./src/User/Controllers/UserViewController.php</file>
                 <file>./src/User/Forms/UserFormType.php</file>
-                <file>./src/Account/Controllers/AccountViewController.php</file>
-                <file>./src/Account/Forms/RegistrationFormType.php</file>
             </exclude>
         </whitelist>
     </filter>
