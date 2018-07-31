@@ -9,6 +9,7 @@ use Ramsey\Uuid\UuidFactoryInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Factory\QuestionsGenerator;
+use VSV\GVQ_API\Question\Models\Categories;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -78,16 +79,7 @@ class QuizServiceTest extends TestCase
      */
     public function it_can_generate_a_random_quiz_with_correct_distribution(): void
     {
-        $this->uuidFactoryInterface
-            ->expects($this->exactly(2))
-            ->method('uuid4')
-            ->willReturn(Uuid::fromString('31ea2c50-1eb5-4088-9a72-1c705ec44378'));
-
         $categories = ModelsFactory::createAllCategories();
-        $this->categoryRepository
-            ->expects($this->exactly(2))
-            ->method('getAll')
-            ->willReturn($categories);
 
         $language = new Language('nl');
         $year = new Year(2018);
@@ -102,26 +94,7 @@ class QuizServiceTest extends TestCase
             'Verkeersveiligheid' => 2,
         ];
 
-        $this->quizCompositionRepository
-            ->expects($this->exactly(16))
-            ->method('getCountByYearAndCategory')
-            ->withConsecutive($year, $this->onConsecutiveCalls($categories, $categories))
-            ->willReturnOnConsecutiveCalls(
-                ...array_merge(array_values($countPerCategory), array_values($countPerCategory))
-            );
-
-        $questionPools = [];
-        foreach ($categories as $category) {
-            $questionPools[] = QuestionsGenerator::generateForCategory($category);
-        }
-
-        $this->questionRepository
-            ->expects($this->exactly(16))
-            ->method('getByYearLanguageAndCategory')
-            ->withConsecutive($year, $language, $this->onConsecutiveCalls($categories, $categories))
-            ->willReturnOnConsecutiveCalls(
-                ...array_merge($questionPools, $questionPools)
-            );
+        $this->doCommonExpects($categories, $countPerCategory, $language, $year);
 
         $participant = new QuizParticipant(new Email('par@ticipa.nt'));
         $channel = new QuizChannel('individual');
@@ -173,5 +146,96 @@ class QuizServiceTest extends TestCase
             $countPerCategory,
             $foundCountPerCategory
         );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_generates_a_quiz_with_questions_in_random_order(): void
+    {
+        $year = new Year(2018);
+        $language = new Language('nl');
+
+        $categories = new Categories(ModelsFactory::createGeneralCategory());
+        $countPerCategory = [
+            'Algemene verkeersregels' => 30,
+        ];
+
+        $this->doCommonExpects($categories, $countPerCategory, $language, $year);
+
+        $participant = new QuizParticipant(new Email('par@ticipa.nt'));
+        $channel = new QuizChannel('individual');
+
+        $quiz = $this->quizService->generateQuiz(
+            $participant,
+            $channel,
+            null,
+            null,
+            null,
+            $language
+        );
+
+        $quiz2 = $this->quizService->generateQuiz(
+            $participant,
+            $channel,
+            null,
+            null,
+            null,
+            $language
+        );
+
+        // all 30 questions chosen from a pool of 30
+        // so if the questions of both quizes differ, it means only the order is different
+        $this->assertNotEquals(
+            $quiz->getQuestions(),
+            $quiz2->getQuestions()
+        );
+    }
+
+    /**
+     * @param Categories $categories
+     * @param array $countPerCategory
+     * @param Language $language
+     * @param Year $year
+     * @return void
+     * @throws \Exception
+     */
+    private function doCommonExpects(
+        Categories $categories,
+        array $countPerCategory,
+        Language $language,
+        Year $year
+    ): void {
+        $this->uuidFactoryInterface
+            ->expects($this->exactly(2))
+            ->method('uuid4')
+            ->willReturn(Uuid::fromString('31ea2c50-1eb5-4088-9a72-1c705ec44378'));
+
+        $this->categoryRepository
+            ->expects($this->exactly(2))
+            ->method('getAll')
+            ->willReturn($categories);
+
+        $this->quizCompositionRepository
+            ->expects($this->exactly($categories->count() * 2))
+            ->method('getCountByYearAndCategory')
+            ->withConsecutive($year, $this->onConsecutiveCalls($categories, $categories))
+            ->willReturnOnConsecutiveCalls(
+                ...array_merge(array_values($countPerCategory), array_values($countPerCategory))
+            );
+
+        $questionPools = [];
+        foreach ($categories as $category) {
+            $questionPools[] = QuestionsGenerator::generateForCategory($category);
+        }
+
+        $this->questionRepository
+            ->expects($this->exactly($categories->count() * 2))
+            ->method('getByYearLanguageAndCategory')
+            ->withConsecutive($year, $language, $this->onConsecutiveCalls($categories, $categories))
+            ->willReturnOnConsecutiveCalls(
+                ...array_merge($questionPools, $questionPools)
+            );
     }
 }
