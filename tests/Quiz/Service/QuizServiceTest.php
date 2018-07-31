@@ -91,34 +91,36 @@ class QuizServiceTest extends TestCase
 
         $language = new Language('nl');
         $year = new Year(2018);
+        $countPerCategory = [
+            'Algemene verkeersregels' => 1,
+            'Kwetsbare weggebruikers' => 2,
+            'Verkeerstekens' => 3,
+            'Voorrang' => 2,
+            'EHBO/Ongeval/Verzekering' => 2,
+            'Voertuig/Technieks' => 2,
+            'Openbaar vervoer/Milieu' => 2,
+            'Verkeersveiligheid' => 2,
+        ];
 
         $this->quizCompositionRepository
             ->expects($this->exactly(16))
             ->method('getCountByYearAndCategory')
             ->withConsecutive($year, $this->onConsecutiveCalls($categories, $categories))
-            ->willReturnOnConsecutiveCalls(1, 2, 3, 2, 2, 2, 2, 2, 1, 2, 3, 2, 2, 2, 2, 2);
+            ->willReturnOnConsecutiveCalls(
+                ...array_merge(array_values($countPerCategory), array_values($countPerCategory))
+            );
+
+        $questionPools = [];
+        foreach ($categories as $category) {
+            $questionPools[] = QuestionsGenerator::generateForCategory($category);
+        }
 
         $this->questionRepository
             ->expects($this->exactly(16))
             ->method('getByYearLanguageAndCategory')
             ->withConsecutive($year, $language, $this->onConsecutiveCalls($categories, $categories))
             ->willReturnOnConsecutiveCalls(
-                QuestionsGenerator::generateForCategory($categories->toArray()[0]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[1]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[2]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[3]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[4]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[5]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[6]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[7]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[0]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[1]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[2]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[3]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[4]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[5]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[6]),
-                QuestionsGenerator::generateForCategory($categories->toArray()[7])
+                ...array_merge($questionPools, $questionPools)
             );
 
         $participant = new QuizParticipant(new Email('par@ticipa.nt'));
@@ -152,7 +154,7 @@ class QuizServiceTest extends TestCase
             $quiz->getQuestions()->count()
         );
 
-        $numberPerCategory = [
+        $foundCountPerCategory = [
             'Algemene verkeersregels' => 0,
             'Kwetsbare weggebruikers' => 0,
             'Verkeerstekens' => 0,
@@ -163,24 +165,13 @@ class QuizServiceTest extends TestCase
             'Verkeersveiligheid' => 0,
         ];
 
-        $expectedNumberPerCategory = [
-            'Algemene verkeersregels' => 1,
-            'Kwetsbare weggebruikers' => 2,
-            'Verkeerstekens' => 3,
-            'Voorrang' => 2,
-            'EHBO/Ongeval/Verzekering' => 2,
-            'Voertuig/Technieks' => 2,
-            'Openbaar vervoer/Milieu' => 2,
-            'Verkeersveiligheid' => 2,
-        ];
-
         foreach ($quiz->getQuestions()->toArray() as $question) {
-            $numberPerCategory[$question->getCategory()->getName()->toNative()] += 1;
+            $foundCountPerCategory[$question->getCategory()->getName()->toNative()] += 1;
         }
 
         $this->assertEquals(
-            $expectedNumberPerCategory,
-            $numberPerCategory
+            $countPerCategory,
+            $foundCountPerCategory
         );
     }
 }
