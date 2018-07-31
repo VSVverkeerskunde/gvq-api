@@ -68,7 +68,7 @@ class QuizStartedListenerTest extends TestCase
             ->with($quiz);
 
         $this->startedQuizRepository->expects($this->once())
-            ->method('incrementTotal')
+            ->method('incrementCount')
             ->with(StatisticsKey::createFromQuiz($quiz));
 
         $this->quizStartedListener->handle($domainMessage);
