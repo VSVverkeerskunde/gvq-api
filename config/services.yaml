@@ -98,6 +98,46 @@ services:
       arguments:
         $partnerFile: '%kernel.project_dir%/config/partners.yaml'
 
+    redis_service:
+      class: \Redis
+      calls:
+        - method: connect
+          arguments:
+            - 'redis'
+            - 6379
+
+    quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    started_quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\StartedQuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    quiz_started_listener:
+      class: VSV\GVQ_API\Quiz\EventListeners\QuizStartedListener
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
+        $startedQuizRepository: '@started_quiz_redis_repository'
+
+    in_memory_event_store:
+      class: Broadway\EventStore\InMemoryEventStore
+
+    simple_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+        - method: subscribe
+          arguments:
+            - '@quiz_started_listener'
+
+    quiz_aggregate_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
+      arguments:
+        $eventStore: '@in_memory_event_store'
+        $eventBus: '@simple_event_bus'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
@@ -144,4 +184,9 @@ services:
         $fileSystem: '@fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Quiz\Controllers\QuizController:
+      arguments:
+        $quizAggregateRepository: '@quiz_aggregate_repository'
       tags: ['controller.service_arguments']
