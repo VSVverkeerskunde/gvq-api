@@ -24,7 +24,7 @@ class StartedQuizRedisRepository implements StartedQuizRepository
     /**
      * @inheritdoc
      */
-    public function getTotal(StatisticsKey $statisticsKey): int
+    public function getCount(StatisticsKey $statisticsKey): int
     {
         return (int)$this->redis->get($this->createKey($statisticsKey));
     }
@@ -32,7 +32,7 @@ class StartedQuizRedisRepository implements StartedQuizRepository
     /**
      * @inheritdoc
      */
-    public function incrementTotal(StatisticsKey $statisticsKey): void
+    public function incrementCount(StatisticsKey $statisticsKey): void
     {
         $this->redis->incr($this->createKey($statisticsKey));
     }

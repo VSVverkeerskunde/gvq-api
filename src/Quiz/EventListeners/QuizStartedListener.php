@@ -43,7 +43,7 @@ class QuizStartedListener implements EventListener
         if ($payload instanceof QuizStarted) {
             $this->quizRepository->save($payload->getQuiz());
 
-            $this->startedQuizzesRepository->incrementTotal(
+            $this->startedQuizzesRepository->incrementCount(
                 StatisticsKey::createFromQuiz($payload->getQuiz())
             );
         }

@@ -10,10 +10,10 @@ interface StartedQuizRepository
      * @param StatisticsKey $statisticsKey
      * @return int
      */
-    public function getTotal(StatisticsKey $statisticsKey): int;
+    public function getCount(StatisticsKey $statisticsKey): int;
 
     /**
      * @param StatisticsKey $statisticsKey
      */
-    public function incrementTotal(StatisticsKey $statisticsKey): void;
+    public function incrementCount(StatisticsKey $statisticsKey): void;
 }
