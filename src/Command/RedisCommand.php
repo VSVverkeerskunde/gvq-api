@@ -22,15 +22,19 @@ class RedisCommand extends Command
         $output->writeln('Testing redis...');
 
         $redis = new \Redis();
-        $redis->connect('127.0.0.1', 6379);
+        $redis->connect('127.0.0.1', 63799);
 
-        $output->writeln('Connected to redis 127.0.0.1:6379');
+        $output->writeln('Connected to redis 127.0.0.1:63799');
 
         $cache = $redis->get('key');
 
         if ($cache === false) {
             $output->writeln('No value found for key');
+
+            $output->writeln('Writing value for key...');
             $redis->set('key', 'value');
+
+            $output->writeln('Deleting value for key...');
             $redis->delete('key');
         } else {
             $output->writeln('Value found for key');
