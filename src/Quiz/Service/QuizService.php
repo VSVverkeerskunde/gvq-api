@@ -81,7 +81,6 @@ class QuizService
      * @param null|Partner $partner
      * @param null|Team $team
      * @param Language $language
-     * @param Year $year
      * @return Quiz
      */
     public function generateQuiz(
@@ -90,8 +89,7 @@ class QuizService
         ?Company $company,
         ?Partner $partner,
         ?Team $team,
-        Language $language,
-        Year $year
+        Language $language
     ): Quiz {
         $quiz = new Quiz(
             $this->uuidFactory->uuid4(),
@@ -103,7 +101,7 @@ class QuizService
             $language,
             $this->year,
             $this->allowedDelay,
-            $this->generateQuestions($language, $year)
+            $this->generateQuestions($language, $this->year)
         );
 
         return $quiz;
@@ -134,7 +132,7 @@ class QuizService
                 if ($questions !== null) {
                     $questionPool = $questions->toArray();
                     shuffle($questionPool);
-                    array_merge($pickedQuestions, array_slice($questionPool, 0, $questionCount));
+                    $pickedQuestions = array_merge($pickedQuestions, array_slice($questionPool, 0, $questionCount));
                 }
             }
         }
