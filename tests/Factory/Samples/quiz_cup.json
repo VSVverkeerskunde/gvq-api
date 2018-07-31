@@ -4,6 +4,10 @@
   "channel": "cup",
   "company": null,
   "partner": null,
+  "team": {
+    "id": "5c128cad-8727-4e3e-bfba-c51929ae14c4",
+    "name": "Royal Antwerp FC"
+  },
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,

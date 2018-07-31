@@ -40,6 +40,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::INDIVIDUAL),
                     null,
                     null,
+                    null,
                     new Language(Language::NL)
                 ),
                 new StatisticsKey(StatisticsKey::INDIVIDUAL_NL),
@@ -48,6 +49,7 @@ class StatisticsKeyTest extends TestCase
                 ModelsFactory::createCustomQuiz(
                     Uuid::uuid4(),
                     new QuizChannel(QuizChannel::INDIVIDUAL),
+                    null,
                     null,
                     null,
                     new Language(Language::FR)
@@ -60,6 +62,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::COMPANY),
                     ModelsFactory::createCompany(),
                     null,
+                    null,
                     new Language(Language::NL)
                 ),
                 new StatisticsKey(StatisticsKey::COMPANY_NL),
@@ -69,6 +72,7 @@ class StatisticsKeyTest extends TestCase
                     Uuid::uuid4(),
                     new QuizChannel(QuizChannel::COMPANY),
                     ModelsFactory::createCompany(),
+                    null,
                     null,
                     new Language(Language::FR)
                 ),
@@ -80,6 +84,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::PARTNER),
                     null,
                     ModelsFactory::createDatsPartner(),
+                    null,
                     new Language(Language::NL)
                 ),
                 new StatisticsKey(StatisticsKey::PARTNER_NL),
@@ -90,6 +95,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::PARTNER),
                     null,
                     ModelsFactory::createDatsPartner(),
+                    null,
                     new Language(Language::FR)
                 ),
                 new StatisticsKey(StatisticsKey::PARTNER_FR),
@@ -100,6 +106,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::CUP),
                     null,
                     null,
+                    ModelsFactory::createTeam(),
                     new Language(Language::NL)
                 ),
                 new StatisticsKey(StatisticsKey::CUP_NL),
@@ -110,6 +117,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::CUP),
                     null,
                     null,
+                    ModelsFactory::createTeam(),
                     new Language(Language::FR)
                 ),
                 new StatisticsKey(StatisticsKey::CUP_FR),

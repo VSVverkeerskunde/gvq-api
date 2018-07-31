@@ -29,6 +29,7 @@
     }
   },
   "partner": null,
+  "team": null,
   "language": "nl",
   "year": 2018,
   "allowedDelay": 40,

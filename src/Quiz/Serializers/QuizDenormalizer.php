@@ -16,6 +16,8 @@ use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
+use VSV\GVQ_API\Team\Models\Team;
+use VSV\GVQ_API\Team\Serializers\TeamDenormalizer;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizDenormalizer implements DenormalizerInterface
@@ -31,6 +33,11 @@ class QuizDenormalizer implements DenormalizerInterface
     private $partnerDenormalizer;
 
     /**
+     * @var TeamDenormalizer
+     */
+    private $teamDenormalizer;
+
+    /**
      * @var QuestionDenormalizer
      */
     private $questionDenormalizer;
@@ -38,15 +45,18 @@ class QuizDenormalizer implements DenormalizerInterface
     /**
      * @param CompanyDenormalizer $companyDenormalizer
      * @param PartnerDenormalizer $partnerDenormalizer
+     * @param TeamDenormalizer $teamDenormalizer
      * @param QuestionDenormalizer $questionDenormalizer
      */
     public function __construct(
         CompanyDenormalizer $companyDenormalizer,
         PartnerDenormalizer $partnerDenormalizer,
+        TeamDenormalizer $teamDenormalizer,
         QuestionDenormalizer $questionDenormalizer
     ) {
         $this->companyDenormalizer = $companyDenormalizer;
         $this->partnerDenormalizer = $partnerDenormalizer;
+        $this->teamDenormalizer = $teamDenormalizer;
         $this->questionDenormalizer = $questionDenormalizer;
     }
 
@@ -81,12 +91,20 @@ class QuizDenormalizer implements DenormalizerInterface
             $context
         ) : null;
 
+        $team = isset($data['team']) ? $this->teamDenormalizer->denormalize(
+            $data['team'],
+            Team::class,
+            $format,
+            $context
+        ) : null;
+
         return new Quiz(
             Uuid::fromString($data['id']),
             new QuizParticipant(new Email($data['participant'])),
             new QuizChannel($data['channel']),
             $company,
             $partner,
+            $team,
             new Language($data['language']),
             new Year($data['year']),
             new AllowedDelay($data['allowedDelay']),

@@ -12,6 +12,7 @@
             <directory suffix=".php">./src/*</directory>
             <exclude>
                 <file>./src/Kernel.php</file>
+                <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
