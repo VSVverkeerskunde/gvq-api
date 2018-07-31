@@ -1,28 +1,47 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}VRAGEN{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
-{% endblock %}
+{% block title %}{% trans %}Questions{% endtrans %}{% endblock %}
 
 {% block content %}
 
-    <a role="button"
-       class="btn btn-light"
-       href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>
-        {% trans %}Toevoegen{% endtrans %}
-    </a>
+    <form method="get"
+          action="{{ path('questions_view_print') }}"
+          target="_blank">
+        <div class="form-group">
+            <a role="button"
+               class="btn btn-light"
+               href="{{ path('questions_view_add') }}" ><span class="oi oi-plus"></span>
+                {% trans %}Button.add{% endtrans %}
+            </a>
 
-    <a role="button"
-       class="btn btn-light"
-       href="#" ><span class="oi oi-print"></span>
-        {% trans %}Afdrukken{% endtrans %}
-    </a>
+            <button type="submit"
+                    class="btn btn-light">
+                <span class="oi oi-print"></span>
+                {% trans %}Button.print{% endtrans %}
+            </button>
 
-    <table id="questions"
-           class="table "
+            <div class="form-check form-check-inline">
+                <input id="print_nl"
+                       name="print_nl"
+                       type="checkbox"
+                       class="form-check-input"
+                       checked>
+                <label class="form-check-label"
+                       for="print_nl">{% trans %}Questions.dutch{% endtrans %}</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input id="print_fr"
+                       name="print_fr"
+                       type="checkbox"
+                       class="form-check-input"
+                       checked>
+                <label class="form-check-label"
+                       for="print_fr">{% trans %}Questions.french{% endtrans %}</label>
+            </div>
+        </div>
+    </form>
+
+    <table class="table"
            data-toggle="table"
            data-search="true"
            data-page-size=5
@@ -30,19 +49,20 @@
            data-page-list="[5, 10, 25, 50]">
         <thead>
             <tr>
-                <th>{% trans %}Foto{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Vraag{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Jaar{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Taal{% endtrans %}</th>
-                <th data-sortable="true">{% trans %}Thema{% endtrans %}</th>
-                <th>{% trans %}Acties{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Image{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Question{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Year{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Language{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Category{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}CreatedOn{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
             {% for question in questions %}
                 <tr>
                     <td>
-                        <img src="{{ '/uploads/' ~ question.imageFileName.toNative }}"
+                        <img src="{{ uploadPath ~ question.imageFileName.toNative }}"
                              width="200">
                     </td>
                     <td>
@@ -54,7 +74,7 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <em>{{ question.feedback.toNative }}</em>
+                        <p>{{ question.feedback.toNative }}</p>
                         <h5><span class="badge badge-secondary">{{ question.id.toString }}</span></h5>
                     </td>
                     <td>
@@ -67,15 +87,23 @@
                         {{ question.category.name.toNative }}
                     </td>
                     <td>
+                        {{ question.createdOn|date('d-m-Y H:i:s', 'Europe/Brussels') }}
+                    </td>
+                    <td>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_edit', {'id': question.id.toString}) }}" >
-                            <span class="oi oi-pencil"></span>{% trans %}Aanpassen{% endtrans %}
+                            <span class="oi oi-pencil"></span>{% trans %}Button.edit{% endtrans %}
+                        </a>
+                        <a role="button"
+                           class="btn btn-light"
+                           href="{{ path('questions_view_edit_image', {'id': question.id.toString}) }}">
+                            <span class="oi oi-image"></span>{% trans %}Button.edit.picture{% endtrans %}
                         </a>
                         <a role="button"
                            class="btn btn-light"
                            href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
-                            <span class="oi oi-trash"></span>{% trans %}Verwijderen{% endtrans %}
+                            <span class="oi oi-trash"></span>{% trans %}Button.remove{% endtrans %}
                         </a>
                     </td>
                 </tr>
@@ -83,9 +111,4 @@
         </tbody>
     </table>
 
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/bootstrap-table.js') }}"></script>
 {% endblock %}

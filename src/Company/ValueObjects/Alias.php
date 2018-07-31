@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\Company\ValueObjects;
 
 class Alias
 {
+    const PATTERN = '/^[a-z0-9\-]{3,40}$/';
+
     /**
      * @var string
      */
@@ -14,7 +16,7 @@ class Alias
      */
     public function __construct(string $value)
     {
-        if (!preg_match('/^[a-z0-9\-]{3,40}$/', $value)) {
+        if (!preg_match(self::PATTERN, $value)) {
             throw new \InvalidArgumentException(
                 'Invalid value: '.$value.' for TranslatedAlias. Value should be '.
                 'between 3 and 40 characters long and consist only of lowercase letters, numbers and "-"'

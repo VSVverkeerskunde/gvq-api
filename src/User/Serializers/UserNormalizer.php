@@ -16,8 +16,8 @@ class UserNormalizer implements NormalizerInterface
         return [
             'id' => $user->getId()->toString(),
             'email' => $user->getEmail()->toNative(),
-            'lastName' => $user->getLastName()->toNative(),
             'firstName' => $user->getFirstName()->toNative(),
+            'lastName' => $user->getLastName()->toNative(),
             'role' => $user->getRole()->toNative(),
             'language' => $user->getLanguage()->toNative(),
             'active' => $user->isActive()
@@ -29,6 +29,6 @@ class UserNormalizer implements NormalizerInterface
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ($data instanceof User) && ($format === 'json');
+        return ($data instanceof User) && ($format === 'json' || $format === 'csv');
     }
 }

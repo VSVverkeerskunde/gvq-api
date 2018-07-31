@@ -68,18 +68,18 @@ class QuestionFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Het jaar mag niet leeg zijn.'),
+                                'message' => $translator->trans('Field.year.empty'),
                             ]
                         ),
                         new Range(
                             [
                                 'min' => 2018,
                                 'max' => 2099,
-                                'minMessage' => $translator->trans('Het jaar moet {{ limit }} of groter zijn.'),
-                                'maxMessage' => $translator->trans('Het jaar moet {{ limit }} of kleiner zijn.'),
+                                'minMessage' => $translator->trans('Field.year.min'),
+                                'maxMessage' => $translator->trans('Field.year.max'),
                             ]
                         ),
-                    ]
+                    ],
                 ]
             )
             ->add(
@@ -129,8 +129,8 @@ class QuestionFormType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => false,
-                    'data' => $answers ? $answers[2]->getText()->toNative() : null,
-                    'constraints' => $this->createTextConstraint($translator),
+                    'data' => $answers && count($answers) === 3 ? $answers[2]->getText()->toNative() : null,
+                    'constraints' => $this->createTextConstraint($translator, true),
                 ]
             )
             ->add(
@@ -139,9 +139,9 @@ class QuestionFormType extends AbstractType
                 [
                     'label' => false,
                     'choices' => [
-                        'Antwoord 1' => 1,
-                        'Antwoord 2' => 2,
-                        'Antwoord 3' => 3,
+                        $translator->trans('Answer.1') => 1,
+                        $translator->trans('Answer.2') => 2,
+                        $translator->trans('Answer.3') => 3,
                     ],
                     'data' => $question ? $this->getCorrectAnswerIndex($question->getAnswers()) : null,
                 ]
@@ -165,10 +165,10 @@ class QuestionFormType extends AbstractType
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Foto mag niet leeg zijn.'),
+                                'message' => $translator->trans('Field.image.empty'),
                             ]
                         ),
-                    ]
+                    ],
                 ]
             );
         }
@@ -194,6 +194,7 @@ class QuestionFormType extends AbstractType
      * @param NotEmptyString $imageFileName
      * @param array $data
      * @return Question
+     * @throws \Exception
      */
     public function newQuestionFromData(
         UuidFactoryInterface $uuidFactory,
@@ -232,16 +233,20 @@ class QuestionFormType extends AbstractType
             new NotEmptyString($data['text']),
             $imageFileName,
             new Answers(...$answers),
-            new NotEmptyString($data['feedback'])
+            new NotEmptyString($data['feedback']),
+            new \DateTimeImmutable('now')
         );
     }
 
     /**
+     * @param UuidFactoryInterface $uuidFactory
      * @param Question $question
      * @param array $data
      * @return Question
+     * @throws \Exception
      */
     public function updateQuestionFromData(
+        UuidFactoryInterface $uuidFactory,
         Question $question,
         array $data
     ): Question {
@@ -261,8 +266,15 @@ class QuestionFormType extends AbstractType
         ];
 
         if (!empty($data['answer3'])) {
+            // if there is an existing third answer update this answer
+            // else make a new one
+            if (array_key_exists(2, $question->getAnswers()->toArray())) {
+                $id = $question->getAnswers()->toArray()[2]->getId();
+            } else {
+                $id = $uuidFactory->uuid4();
+            }
             $answers[] = new Answer(
-                $question->getAnswers()->toArray()[2]->getId(),
+                $id,
                 new PositiveNumber(3),
                 new NotEmptyString($data['answer3']),
                 $data['correctAnswer'] === 3 ? true : false
@@ -277,7 +289,8 @@ class QuestionFormType extends AbstractType
             new NotEmptyString($data['text']),
             $question->getImageFileName(),
             new Answers(...$answers),
-            new NotEmptyString($data['feedback'])
+            new NotEmptyString($data['feedback']),
+            $question->getCreatedOn()
         );
     }
 
@@ -298,22 +311,30 @@ class QuestionFormType extends AbstractType
 
     /**
      * @param TranslatorInterface $translator
+     * @param bool $allowEmpty
      * @return Constraint[]
      */
-    private function createTextConstraint(TranslatorInterface $translator): array
-    {
-        return [
-            new NotBlank(
-                [
-                    'message' => $translator->trans('De tekst mag niet leeg zijn.'),
-                ]
-            ),
+    private function createTextConstraint(
+        TranslatorInterface $translator,
+        bool $allowEmpty = false
+    ): array {
+        $constraints = [
             new Length(
                 [
                     'max' => 1024,
-                    'maxMessage' => $translator->trans('De tekst mag niet meer dan {{ limit }} karakters hebben.'),
+                    'maxMessage' => $translator->trans('Field.text.max'),
                 ]
             ),
         ];
+
+        if (!$allowEmpty) {
+            $constraints[] = new NotBlank(
+                [
+                    'message' => $translator->trans('Field.text.empty'),
+                ]
+            );
+        }
+
+        return $constraints;
     }
 }

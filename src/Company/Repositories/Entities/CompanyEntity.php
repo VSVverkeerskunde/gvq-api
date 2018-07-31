@@ -22,7 +22,7 @@ class CompanyEntity extends Entity
 {
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $name;
 
@@ -150,13 +150,5 @@ class CompanyEntity extends Entity
     public function getUserEntity(): UserEntity
     {
         return $this->userEntity;
-    }
-
-    /**
-     * @param UserEntity $userEntity
-     */
-    public function setUserEntity(UserEntity $userEntity): void
-    {
-        $this->userEntity = $userEntity;
     }
 }

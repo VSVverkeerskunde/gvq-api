@@ -8,10 +8,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Image\Controllers\ImageController;
+use VSV\GVQ_API\Question\Forms\ImageFormType;
 use VSV\GVQ_API\Question\Forms\QuestionFormType;
 use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 
@@ -48,6 +52,11 @@ class QuestionViewController extends AbstractController
     private $questionFormType;
 
     /**
+     * @var ImageFormType
+     */
+    private $imageFormType;
+
+    /**
      * @param UuidFactoryInterface $uuidFactory
      * @param QuestionRepository $questionRepository
      * @param CategoryRepository $categoryRepository
@@ -68,6 +77,7 @@ class QuestionViewController extends AbstractController
         $this->translator = $translator;
 
         $this->questionFormType = new QuestionFormType();
+        $this->imageFormType = new ImageFormType();
     }
 
     /**
@@ -80,7 +90,8 @@ class QuestionViewController extends AbstractController
         return $this->render(
             'questions/index.html.twig',
             [
-                'questions' => $questions ? $questions->toArray() : [],
+                'questions' => $questions ? $questions->sortByNewest()->toArray() : [],
+                'uploadPath' => getenv('UPLOAD_PATH'),
             ]
         );
     }
@@ -88,7 +99,41 @@ class QuestionViewController extends AbstractController
     /**
      * @param Request $request
      * @return Response
+     */
+    public function print(Request $request): Response
+    {
+        $questions = $this->questionRepository->getAll();
+
+        if ($questions) {
+            $questions = $questions->sortByNewest();
+
+            $languageFilter = $this->getLanguageFilter($request);
+
+            if ($languageFilter) {
+                $questionsArray = $this->filterQuestions($questions, $languageFilter);
+            } else {
+                $questionsArray = $questions->toArray();
+            }
+
+            return $this->render(
+                'questions/print.html.twig',
+                [
+                    'questions' => $questionsArray,
+                    'uploadPath' => getenv('UPLOAD_PATH'),
+                ]
+            );
+        }
+
+        $this->addFlash('warning', $this->translator->trans('Questions.print.none'));
+
+        return $this->redirectToRoute('questions_view_index');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
      * @throws \League\Flysystem\FileExistsException
+     * @throws \Exception
      */
     public function add(Request $request): Response
     {
@@ -107,14 +152,23 @@ class QuestionViewController extends AbstractController
             );
             $this->questionRepository->save($question);
 
-            $this->addFlash('success', 'De nieuwe vraag '.$question->getId()->toString().' is bewaard.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.add.success',
+                    [
+                        '%id%' => $question->getId()->toString(),
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
         return $this->render(
             'questions/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }
@@ -123,6 +177,7 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @param string $id
      * @return Response
+     * @throws \Exception
      */
     public function edit(Request $request, string $id): Response
     {
@@ -131,7 +186,16 @@ class QuestionViewController extends AbstractController
         );
 
         if (!$question) {
-            $this->addFlash('warning', 'Geen vraag gevonden met id '.$id.' om aan te passen.');
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'Question.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
@@ -140,19 +204,92 @@ class QuestionViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $question = $this->questionFormType->updateQuestionFromData(
+                $this->uuidFactory,
                 $question,
                 $form->getData()
             );
             $this->questionRepository->update($question);
 
-            $this->addFlash('success', 'Vraag '.$id.' is aangepast.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.edit.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
             return $this->redirectToRoute('questions_view_index');
         }
 
         return $this->render(
             'questions/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     * @throws \League\Flysystem\FileExistsException
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function editImage(Request $request, string $id): Response
+    {
+        $question = $this->questionRepository->getById(
+            $this->uuidFactory->fromString($id)
+        );
+
+        if (!$question) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'Question.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('questions_view_index');
+        }
+
+        $form = $this->createEditImageForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $fileName = $this->imageController->handleImage($data['image']);
+            $this->imageController->delete($question->getImageFileName()->toNative());
+
+            $question = $this->updateQuestionImage(
+                $question,
+                $fileName
+            );
+            $this->questionRepository->update($question);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.edit.image.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('questions_view_index');
+        }
+
+        return $this->render(
+            'questions/edit_image.html.twig',
+            [
+                'form' => $form->createView(),
             ]
         );
     }
@@ -169,7 +306,15 @@ class QuestionViewController extends AbstractController
                 $this->uuidFactory->fromString($id)
             );
 
-            $this->addFlash('success', 'Vraag '.$id.' is verwijderd.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Question.delete.success',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
 
             return $this->redirectToRoute('questions_view_index');
         }
@@ -201,5 +346,84 @@ class QuestionViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function createEditImageForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->imageFormType->buildForm(
+            $formBuilder,
+            [
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    /**
+     * @param Request $request
+     * @return null|Language
+     */
+    private function getLanguageFilter(Request $request): ?Language
+    {
+        $printNL = $request->query->get('print_nl') === 'on';
+        $printFR = $request->query->get('print_fr') === 'on';
+
+        if ($printNL && !$printFR) {
+            return new Language('nl');
+        }
+
+        if (!$printNL && $printFR) {
+            return new Language('fr');
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Questions $questions
+     * @param Language $language
+     * @return Question[]
+     */
+    private function filterQuestions(
+        Questions $questions,
+        Language $language
+    ): array {
+        $filteredQuestions = [];
+
+        foreach ($questions as $question) {
+            if ($question->getLanguage()->equals($language)) {
+                $filteredQuestions[] = $question;
+            }
+        }
+
+        return $filteredQuestions;
+    }
+
+    /**
+     * @param Question $question
+     * @param NotEmptyString $imageFileName
+     * @return Question
+     */
+    public function updateQuestionImage(
+        Question $question,
+        NotEmptyString $imageFileName
+    ): Question {
+        return new Question(
+            $question->getId(),
+            $question->getLanguage(),
+            $question->getYear(),
+            $question->getCategory(),
+            $question->getText(),
+            $imageFileName,
+            $question->getAnswers(),
+            $question->getFeedback(),
+            $question->getCreatedOn()
+        );
     }
 }

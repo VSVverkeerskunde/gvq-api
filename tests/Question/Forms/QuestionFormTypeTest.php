@@ -2,38 +2,13 @@
 
 namespace VSV\GVQ_API\Question\Forms;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\Form\Extension\Core\CoreExtension;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\Test\TypeTestCase;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use VSV\GVQ_API\Common\Forms\ExtensionsAwareTypeTestCase;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Categories;
 
-class QuestionFormTypeTest extends TypeTestCase
+class QuestionFormTypeTest extends ExtensionsAwareTypeTestCase
 {
-    /**
-     * @var TranslatorInterface|MockObject
-     */
-    private $translator;
-
-    /**
-     * @throws \ReflectionException
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        /** @var TranslatorInterface|MockObject $translator */
-        $translator = $this->createMock(TranslatorInterface::class);
-        $this->translator = $translator;
-    }
-
     /**
      * @test
      */
@@ -56,29 +31,5 @@ class QuestionFormTypeTest extends TypeTestCase
         $form->submit([]);
 
         $this->assertTrue($form->isSynchronized());
-    }
-
-    /**
-     * @return array
-     * @throws \ReflectionException
-     */
-    protected function getExtensions(): array
-    {
-        $extensions = parent::getExtensions();
-
-        /** @var ValidatorInterface|MockObject $validator */
-        $validator = $this->createMock(ValidatorInterface::class);
-
-        $validator
-            ->method('validate')
-            ->will($this->returnValue(new ConstraintViolationList()));
-        $validator
-            ->method('getMetadataFor')
-            ->will($this->returnValue(new ClassMetadata(Form::class)));
-
-        $extensions[] = new ValidatorExtension($validator);
-        $extensions[] = new CoreExtension();
-
-        return $extensions;
     }
 }

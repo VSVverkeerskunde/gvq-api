@@ -2,12 +2,12 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
-use InvalidArgumentException;
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
-use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
+use VSV\GVQ_API\Question\Repositories\Entities\AnswerEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
@@ -27,36 +27,32 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     {
         $questionEntity = QuestionEntity::fromQuestion($question);
 
-        /** @var CategoryEntity $categoryEntity */
-        $categoryEntity = $this->entityManager->find(
-            CategoryEntity::class,
-            $questionEntity->getCategoryEntity()->getId()
-        );
-
-        if ($categoryEntity == null) {
-            throw new InvalidArgumentException(
-                'Category with id: '.
-                $questionEntity->getCategoryEntity()->getId().
-                ' and name: '.
-                $questionEntity->getCategoryEntity()->getName().
-                ' not found.'
-            );
-        }
-
-        $questionEntity->setCategoryEntity($categoryEntity);
-
-        $this->entityManager->persist($questionEntity);
+        // The category object inside question is not managed,
+        // therefore we need to use merge instead of persist.
+        // When category wouldn't exist yet, the category is not created.
+        $this->entityManager->merge($questionEntity);
         $this->entityManager->flush();
     }
 
     /**
      * @inheritdoc
+     * @throws EntityNotFoundException
      */
     public function update(Question $question): void
     {
-        $this->entityManager->merge(
-            QuestionEntity::fromQuestion($question)
-        );
+        // Make sure the question exists,
+        // otherwise merge will create a new question.
+        $existingQuestionEntity = $this->getEntityById($question->getId());
+        if ($existingQuestionEntity === null) {
+            throw new EntityNotFoundException("Invalid question supplied");
+        }
+
+        // A question with 3 answers can be reduced to a question with 2 answers.
+        // Make sure to delete this answer that was removed by the user.
+        $newQuestionEntity = QuestionEntity::fromQuestion($question);
+        $this->deleteRemovedAnswers($newQuestionEntity, $existingQuestionEntity);
+
+        $this->entityManager->merge($newQuestionEntity);
         $this->entityManager->flush();
     }
 
@@ -80,6 +76,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     public function getById(UuidInterface $id): ?Question
     {
         $questionEntity = $this->getEntityById($id);
+
         return $questionEntity ? $questionEntity->toQuestion() : null;
     }
 
@@ -119,5 +116,30 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         );
 
         return $questionEntity;
+    }
+
+    /**
+     * @param QuestionEntity $newQuestionEntity
+     * @param QuestionEntity $existingQuestionEntity
+     */
+    private function deleteRemovedAnswers(
+        QuestionEntity $newQuestionEntity,
+        QuestionEntity $existingQuestionEntity
+    ): void {
+        $existingAnswers = $existingQuestionEntity->getAnswerEntities()->toArray();
+        $newAnswers = $newQuestionEntity->getAnswerEntities()->toArray();
+
+        $answersToDelete = array_udiff(
+            $existingAnswers,
+            $newAnswers,
+            function (AnswerEntity $a1, AnswerEntity $a2) {
+                return strcmp($a1->getId(), $a2->getId());
+            }
+        );
+
+        foreach ($answersToDelete as $answerToDelete) {
+            $this->entityManager->remove($answerToDelete);
+            $this->entityManager->flush();
+        }
     }
 }

@@ -2,6 +2,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'nl'
+    sender_email: 'info@gvq.be'
+    sender_name: 'Info GVQ'
+    bucket_name: '%env(BUCKET_NAME)%'
+    upload_target: '%env(UPLOAD_TARGET)%'
 
 services:
     # default configuration for services in *this* file
@@ -45,10 +49,23 @@ services:
       arguments:
         $root: '%kernel.project_dir%/public/uploads'
 
-    local_fly_system:
-      class: League\Flysystem\Filesystem
+    s3_client:
+      class: AWS\S3\S3Client
+      factory: Aws\S3\S3Client::factory
       arguments:
-        $adapter: '@local_adapter'
+        -
+          version: 'latest'
+          region: 'eu-west-1'
+
+    s3_adapter:
+      class: League\Flysystem\AwsS3v3\AwsS3Adapter
+      arguments:
+        $client: '@s3_client'
+        $bucket: '%bucket_name%'
+
+    fly_system:
+      class: League\Flysystem\Filesystem
+      arguments: ["@=parameter('upload_target')==='remote' ? service('s3_adapter'): service('local_adapter')"]
 
     image_validator:
       class: VSV\GVQ_API\Image\Validation\ImageValidator
@@ -59,12 +76,40 @@ services:
     uuid_factory:
       class: Ramsey\Uuid\UuidFactory
 
+    time_zone:
+      class: \DateTimeZone
+      arguments:
+        - 'Europe/Brussels'
+
+    quiz_start_date:
+      class: \DateTimeImmutable
+      arguments:
+        $time: '2018-10-15'
+        $timezone: '@time_zone'
+
+    VSV\GVQ_API\Mail\Models\Sender:
+      factory: VSV\GVQ_API\Mail\Models\SenderFactory:fromNative
+      arguments:
+       $email: '%sender_email%'
+       $name: '%sender_name%'
+
+    partner_yaml_repository:
+      class: VSV\GVQ_API\Partner\Repositories\PartnerYamlRepository
+      arguments:
+        $partnerFile: '%kernel.project_dir%/config/partners.yaml'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
         $jsonEnricher: '@registration_json_enricher'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\Account\Controllers\AccountViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+        $quizStartDate: '@quiz_start_date'
+      tags: ['controller.service_arguments']
+      
     VSV\GVQ_API\Question\Controllers\CategoryController:
       tags: ['controller.service_arguments']
 
@@ -79,14 +124,24 @@ services:
         $jsonEnricher: '@question_json_enricher'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\Company\Controllers\CompanyViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
     VSV\GVQ_API\Question\Controllers\QuestionViewController:
+      arguments:
+        $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\User\Controllers\UserViewController:
       arguments:
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Image\Controllers\ImageController:
       arguments:
-        $fileSystem: '@local_fly_system'
+        $fileSystem: '@fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
       tags: ['controller.service_arguments']

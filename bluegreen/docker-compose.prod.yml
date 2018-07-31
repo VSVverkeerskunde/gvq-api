@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    labels: []
+    restart: always
+
+  web:
+    image: ${IMAGE}
+    volumes:
+      - ./extra/fixed_users.yaml:/usr/share/nginx/html/src/Command/fixed_users.yaml:ro
+    labels:
+      - "be.2dotstwice.bluegreen.http_route.enable=true"
+      - "be.2dotstwice.bluegreen.http_route.pattern={{base}}"
+    environment:
+      - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
+      - MAILER_URL=${MAILER_URL}
+      - UPLOAD_TARGET=${UPLOAD_TARGET}
+      - UPLOAD_PATH=${UPLOAD_PATH}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - BUCKET_NAME=${BUCKET_NAME}
+    ports:
+      - ${DOCKER_HOST_IP}::80
+    restart: always
+    tmpfs:
+      - /tmp

@@ -17,6 +17,15 @@ Adding all fixed categories can be done with the following custom command:
 
 `$ ./bin/console gvq:seed-categories`
 
+With the optional file argument it is possible to specify an arbitrary file with categories.
+
+### Seeding users
+Rename the included `fixed_users.yaml.dist` file to `fixed_users.yaml` or create your own data file. Adding all fixed users can be done with the following custom command:
+
+`$ ./bin/console gvq:seed-users`
+
+With the optional file argument it is possible to specify an arbitrary file with users.
+
 ## Docker
 ### Basics
 Edit the your host file and add the following:
@@ -52,7 +61,32 @@ Example of `DATABASE_URL` with values inside `.env`:
 ```
 DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:3306/$DB_NAME
 ```
-Seeding categories
+Seeding categories (by default taken from categories.yaml)
 ```
 $ docker-compose exec web bash -c "./bin/console gvq:seed-categories"
+```
+
+Seeding users (make sure to provide an input file)
+```
+$ docker-compose exec web bash -c "./bin/console gvq:seed-users"
+```
+
+### Image upload
+If you want to use s3 as upload location, then change inside `env`:
+```
+UPLOAD_TARGET=remote
+UPLOAD_PATH=*url_to_s3_bucket*
+``` 
+Example:
+```
+UPLOAD_TARGET=remote
+UPLOAD_PATH=https://s3-eu-west-1.amazonaws.com/verkeersquiz-test/
+```
+and fill in the necessary credential and bucket details.
+
+To use the local filesystem, leave the default
+values unchanged:
+```
+UPLOAD_TARGET=local
+UPLOAD_PATH=/uploads/
 ```

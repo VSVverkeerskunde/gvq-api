@@ -26,9 +26,6 @@ class CompanyJsonEnricherTest extends TestCase
      */
     private $companyJsonEnricher;
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function setUp(): void
     {
         /** @var UuidFactoryInterface|MockObject $uuidFactory */

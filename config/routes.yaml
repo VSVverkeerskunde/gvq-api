@@ -1,51 +1,67 @@
 #
-# API
-#
-
-categories_get_all:
-  path: /categories
-  controller: VSV\GVQ_API\Question\Controllers\CategoryController::getAll
-  methods: [GET]
-
-questions_save:
-  path: /questions
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::save
-  methods: [POST]
-questions_delete:
-  path: /questions/{id}
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::delete
-  methods: [DELETE]
-questions_get_all:
-  path: /questions
-  controller: VSV\GVQ_API\Question\Controllers\QuestionController::getAll
-  methods: [GET]
-
-companies_save:
-  path: /companies
-  controller: VSV\GVQ_API\Company\Controllers\CompanyController::save
-  methods: [POST]
-
-images_upload:
-  path: /images
-  controller: VSV\GVQ_API\Image\Controllers\ImageController::upload
-  methods: [POST]
-
-account_register:
-  path: account/register
-  controller: VSV\GVQ_API\Account\Controllers\AccountController::register
-  methods: [POST]
-account_login:
-  path: account/login
-  controller: VSV\GVQ_API\Account\Controllers\AccountController::login
-  methods: [POST]
-
-#
 # VIEWS
 #
+
+accounts_view_register:
+  path: /{_locale}/view/accounts/register
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_view_register_success:
+  path: /{_locale}/view/accounts/register/success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::registerSuccess
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+accounts_view_login:
+  path: /{_locale}/view/accounts/login
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::login
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_view_activate:
+  path: /{_locale}/view/accounts/activate/{urlSuffix}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activate
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+    urlSuffix: "[^/]{44}"
+accounts_view_request_password:
+  path: /{_locale}/view/accounts/password/request
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPassword
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_view_request_password_success:
+  path: /{_locale}/view/accounts/password/request/success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::requestPasswordSuccess
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+accounts_view_reset_password:
+  path: /{_locale}/view/accounts/password/reset/{urlSuffix}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::resetPassword
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+    urlSuffix: "[^/]{44}"
+accounts_view_reset_password_success:
+  path: /{_locale}/view/accounts/password/reset/success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::resetPasswordSuccess
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::index
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+questions_view_print:
+  path: /{_locale}/view/questions/print
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::print
   methods: [GET]
   requirements:
     _locale: nl|fr
@@ -58,6 +74,12 @@ questions_view_add:
 questions_view_edit:
   path: /{_locale}/view/questions/edit/{id}
   controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+questions_view_edit_image:
+  path: /{_locale}/view/questions/image/edit/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::editImage
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
@@ -74,6 +96,18 @@ companies_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+companies_view_edit:
+  path: /{_locale}/view/companies/edit/{id}
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+companies_export:
+  path: /{_locale}/csv/companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 users_view_index:
   path: /{_locale}/view/users
@@ -81,3 +115,25 @@ users_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+users_view_edit:
+  path: /{_locale}/view/users/edit/{id}
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::edit
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+users_view_send_activation:
+  path: /{_locale}/view/users/activation/send/{id}
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::sendActivation
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+users_export:
+  path: /{_locale}/csv/users
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
+documents_kickoff:
+  path: /documents/{document}
+  methods: [GET]

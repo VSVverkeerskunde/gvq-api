@@ -2,9 +2,11 @@
 
 namespace VSV\GVQ_API\Registration\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\Repositories\Entities\RegistrationEntity;
+use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 
 class RegistrationDoctrineRepository extends AbstractDoctrineRepository implements RegistrationRepository
 {
@@ -31,18 +33,72 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
     }
 
     /**
-     * @param string $urlSuffix
-     * @return Registration|null
+     * @inheritdoc
      */
-    public function getByUrlSuffix(string $urlSuffix): ?Registration
+    public function delete(UuidInterface $id): void
+    {
+        $registrationEntity = $this->getEntityById($id);
+
+        if ($registrationEntity !== null) {
+            $this->entityManager->merge($registrationEntity);
+            $this->entityManager->remove($registrationEntity);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getById(UuidInterface $id): ?Registration
+    {
+        $registrationEntity = $this->getEntityById($id);
+
+        return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByUrlSuffix(UrlSuffix $urlSuffix): ?Registration
     {
         /** @var RegistrationEntity|null $registrationEntity */
         $registrationEntity = $this->objectRepository->findOneBy(
             [
-                'urlSuffix' => $urlSuffix,
+                'urlSuffix' => $urlSuffix->toNative(),
             ]
         );
 
         return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByUserId(UuidInterface $userId): ?Registration
+    {
+        /** @var RegistrationEntity|null $registrationEntity */
+        $registrationEntity = $this->objectRepository->findOneBy(
+            [
+                'userEntity' => $userId->toString(),
+            ]
+        );
+
+        return $registrationEntity ? $registrationEntity->toRegistration() : null;
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return RegistrationEntity
+     */
+    private function getEntityById(UuidInterface $id): ?RegistrationEntity
+    {
+        /** @var RegistrationEntity|null $registrationEntity */
+        $registrationEntity = $this->objectRepository->findOneBy(
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $registrationEntity;
     }
 }

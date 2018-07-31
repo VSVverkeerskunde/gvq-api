@@ -1,7 +1,74 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}CONTACT{% endblock %}
+{% block title %}{% trans %}Users{% endtrans %}{% endblock %}
 
 {% block content %}
-    Contactpersonen
+
+    <a role="button"
+       class="btn btn-light"
+       href="{{ path('users_export') }}" ><span class="oi oi-data-transfer-download"></span>
+        {% trans %}Button.export{% endtrans %}
+    </a>
+
+    <table class="table"
+           data-toggle="table"
+           data-search="true"
+           data-page-size=5
+           data-pagination="true"
+           data-page-list="[5, 10, 25, 50]">
+        <thead>
+            <tr>
+                <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Email{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}FirstName{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}LastName{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Language{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}isActive{% endtrans %}</th>
+                <th data-sortable="true">{% trans %}Role{% endtrans %}</th>
+                <th data-searchable="false">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>
+                    {{ user.id.toString }}
+                </td>
+                <td>
+                    {{ user.email.toNative }}
+                </td>
+                <td>
+                    {{ user.firstName.toNative }}
+                </td>
+                <td>
+                    {{ user.lastName.toNative }}
+                </td>
+                <td>
+                    {{ user.language.toNative }}
+                </td>
+                <td>
+                    {{ user.active ? 'isActive'|trans : 'Inactive'|trans }}
+                </td>
+                <td>
+                    {{ user.role.toNative }}
+                </td>
+                <td>
+                    <a role="button"
+                       class="btn btn-light"
+                       href="{{ path('users_view_edit', {'id': user.id.toString}) }}">
+                        <span class="oi oi-pencil"></span>{% trans %}Button.edit{% endtrans %}
+                    </a>
+                    {% if not user.active %}
+                    <a role="button"
+                       class="btn btn-light"
+                       href="{{ path('users_view_send_activation', {'id': user.id.toString}) }}">
+                        <span class="oi oi-envelope-closed"></span>{% trans %}Activation.send{% endtrans %}
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

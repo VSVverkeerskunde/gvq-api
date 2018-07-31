@@ -1,0 +1,10 @@
+{% extends 'base_mail.html.twig' %}
+
+{% block content %}
+    <p>Beste {{ registration.user.firstName.toNative }},</p>
+    <p>Bedankt voor je interesse in de Grote Verkeersquiz 2018.</p>
+    <p>Om je activatie te voltooien moet je enkel nog op volgende link klikken</p>
+    <a href="{{ activationUrl }}">{{ activationUrl }}</a>
+    <p>Met vriendelijke groeten,</p>
+    <p>Team GVQ</p
+{% endblock %}

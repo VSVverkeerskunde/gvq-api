@@ -23,6 +23,9 @@ class QuestionsSerializerTest extends TestCase
      */
     private $questions;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp(): void
     {
         $this->serializer = new QuestionsSerializer();

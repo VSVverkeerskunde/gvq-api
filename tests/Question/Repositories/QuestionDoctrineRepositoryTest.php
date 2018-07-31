@@ -2,19 +2,14 @@
 
 namespace VSV\GVQ_API\Question\Repositories;
 
+use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Question\Models\Answer;
-use VSV\GVQ_API\Question\Models\Answers;
-use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
-use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
-use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
@@ -30,6 +25,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Exception
      */
     protected function setUp(): void
     {
@@ -76,104 +72,28 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
-        $wrongCategory = new Category(
-            Uuid::fromString('0289d4b5-e88e-4b3c-9223-eb2c7c49f4d0'),
-            new NotEmptyString('EHBO/Ongeval/Verzekering')
-        );
+        $question = ModelsFactory::createQuestionWithMissingCategory();
 
-        $question = new Question(
-            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-            new Language('fr'),
-            new Year(2018),
-            $wrongCategory,
-            new NotEmptyString(
-                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
-            ),
-            new NotEmptyString(
-                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
-            ),
-            new Answers(
-                new Answer(
-                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new PositiveNumber(1),
-                    new NotEmptyString('Oui, mais uniquement en agglomération.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new PositiveNumber(2),
-                    new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new PositiveNumber(3),
-                    new NotEmptyString('Non.'),
-                    true
-                )
-            ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
-        );
-
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Category with id: '.
-            $wrongCategory->getId()->toString().
-            ' and name: '.
-            $wrongCategory->getName()->toNative().
-            ' not found.'
-        );
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
 
         $this->questionDoctrineRepository->save($question);
     }
 
     /**
      * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      */
     public function it_can_update_a_question(): void
     {
         $this->questionDoctrineRepository->save($this->question);
 
-        $updatedQuestion = new Question(
-            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d'),
-            new Language('fr'),
-            new Year(2018),
-            ModelsFactory::createAccidentCategory(),
-            new NotEmptyString(
-                'La voiture devant vous roule très lentement. Pouvez-vous la dépasser par la gauche?'
-            ),
-            new NotEmptyString(
-                'b746b623-a86f-4384-9ebc-51af80eb6bcc.jpg'
-            ),
-            new Answers(
-                new Answer(
-                    Uuid::fromString('73e6a2d0-3a50-4089-b84a-208092aeca8e'),
-                    new PositiveNumber(1),
-                    new NotEmptyString('Non.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                    new PositiveNumber(2),
-                    new NotEmptyString('Non.'),
-                    false
-                ),
-                new Answer(
-                    Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
-                    new PositiveNumber(3),
-                    new NotEmptyString('Non.'),
-                    true
-                )
-            ),
-            new NotEmptyString(
-                'La voie publique située entre les deux lignes blanches continues est un site spécial franchissable.'
-            )
-        );
+        $updatedQuestion = ModelsFactory::createUpdatedAccidentQuestion();
         $this->questionDoctrineRepository->update($updatedQuestion);
 
         $foundQuestion = $this->questionDoctrineRepository->getById(
@@ -181,6 +101,56 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals($updatedQuestion, $foundQuestion);
+    }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
+     */
+    public function it_deletes_removed_answers(): void
+    {
+        $this->questionDoctrineRepository->save($this->question);
+
+        $updatedQuestion = ModelsFactory::createUpdatedAccidentQuestionWithRemovedAnswer();
+        $this->questionDoctrineRepository->update($updatedQuestion);
+
+        $foundQuestion = $this->questionDoctrineRepository->getById(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d')
+        );
+
+        $this->assertEquals($updatedQuestion, $foundQuestion);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     * @throws \Exception
+     */
+    public function it_throws_on_updating_a_non_existing_question(): void
+    {
+        $wrongQuestion = ModelsFactory::createAccidentQuestion();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Invalid question supplied');
+        $this->questionDoctrineRepository->update($wrongQuestion);
+    }
+
+    /**
+     * @test
+     * @throws EntityNotFoundException
+     * @throws \Exception
+     */
+    public function it_throws_on_updating_a_question_with_a_non_existing_category(): void
+    {
+        $this->questionDoctrineRepository->save($this->question);
+
+        $updatedQuestion = ModelsFactory::createQuestionWithMissingCategory();
+
+        $this->expectException(ORMInvalidArgumentException::class);
+        $this->expectExceptionMessage('A new entity was found through the relationship');
+
+        $this->questionDoctrineRepository->update($updatedQuestion);
     }
 
     /**
@@ -200,6 +170,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_get_all_questions(): void
     {

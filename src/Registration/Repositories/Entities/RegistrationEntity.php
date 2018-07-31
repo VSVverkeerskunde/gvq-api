@@ -18,7 +18,7 @@ class RegistrationEntity extends Entity
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="url_suffix", length=22, nullable=false, unique=true)
+     * @ORM\Column(type="string", name="url_suffix", length=255, nullable=false, unique=true)
      */
     private $urlSuffix;
 
@@ -33,7 +33,7 @@ class RegistrationEntity extends Entity
     /**
      * @var \DateTimeImmutable
      *
-     * @ORM\Column(type="datetime",name="created_on", nullable=false)
+     * @ORM\Column(type="datetime_immutable",name="created_on", nullable=false)
      */
     private $createdOn;
 

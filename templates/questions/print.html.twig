@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}GVQ.title{% endtrans %}
+{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="5">{% trans %}GVQ.title{% endtrans %}</th>
+            </tr>
+            <tr>
+                <th>{% trans %}Image{% endtrans %}</th>
+                <th>{% trans %}Question{% endtrans %}</th>
+                <th>{% trans %}Year{% endtrans %}</th>
+                <th>{% trans %}Language{% endtrans %}</th>
+                <th>{% trans %}Category{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+                <tr>
+                    <td>
+                        <img src="{{ uploadPath ~ question.imageFileName.toNative }}"
+                             width="200">
+                    </td>
+                    <td>
+                        <strong>{{ question.text.toNative }}</strong>
+                        <ul>
+                            {% for answer in question.answers.toArray %}
+                                <li class="{{ answer.correct ? 'text-success' : '' }}">
+                                    {{ answer.text.toNative }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p>{{ question.feedback.toNative }}</p>
+                        <h5><span class="badge badge-secondary">{{ question.id.toString }}</span></h5>
+                    </td>
+                    <td>
+                        {{ question.year.toNative }}
+                    </td>
+                    <td>
+                        {{ question.language.toNative }}
+                    </td>
+                    <td>
+                        {{ question.category.name.toNative }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <img src="{{ asset('images/logo_vsv.png') }}"
+                         class="pr-4"
+                         height="30"/>
+                    <img src="{{ asset('images/logo_awsr.png') }}"
+                         class="pr-4"
+                         height="30"/>
+                    <img src="{{ asset('images/logo_vlaanderen.png') }}" height="30"/>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+{% endblock %}

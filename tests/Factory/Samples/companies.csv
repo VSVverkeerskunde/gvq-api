@@ -1,0 +1,3 @@
+id,name,numberOfEmployees,aliases.0.id,aliases.0.language,aliases.0.alias,aliases.1.id,aliases.1.language,aliases.1.alias,user.id,user.email,user.firstName,user.lastName,user.role,user.language,user.active
+85fec50a-71ed-4d12-8a69-28a3cf5eb106,"Vlaamse Stichting Verkeerskunde",49,827a7945-ffd0-433e-b843-721c98ab72b8,nl,vsv,f99c7747-7c27-4388-b0ec-dba380363d23,fr,awsr,3ffc0f85-78ee-496b-bc61-17be1326c768,john@gvq.be,John,Doe,contact,nl,1
+c0dc2df1-a09e-4393-94c2-20319af53e2b,"Agence wallonne pour la Sécurité routière",23,827a7945-ffd0-433e-b843-721c98ab72b8,nl,vsv,f99c7747-7c27-4388-b0ec-dba380363d23,fr,awsr,0ffc0f85-78ee-496b-bc61-17be1326c768,jane@gvq.be,Jane,Doe,contact,nl,1

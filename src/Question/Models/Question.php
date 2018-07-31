@@ -52,6 +52,11 @@ class Question
     /**
      * @var \DateTimeImmutable
      */
+    private $createdOn;
+
+    /**
+     * @var \DateTimeImmutable
+     */
     private $archivedOn;
 
     /**
@@ -63,6 +68,7 @@ class Question
      * @param NotEmptyString $imageFileName
      * @param Answers $answers
      * @param NotEmptyString $feedback
+     * @param \DateTimeImmutable $createdOn
      */
     public function __construct(
         UuidInterface $id,
@@ -72,11 +78,10 @@ class Question
         NotEmptyString $text,
         NotEmptyString $imageFileName,
         Answers $answers,
-        NotEmptyString $feedback
+        NotEmptyString $feedback,
+        \DateTimeImmutable $createdOn
     ) {
-        if (count($answers) < 2 || count($answers) > 3) {
-            throw new \InvalidArgumentException('Amount of answers must be 2 or 3.');
-        }
+        $this->guardAnswers($answers);
 
         $this->id = $id;
         $this->language = $language;
@@ -86,6 +91,7 @@ class Question
         $this->imageFileName = $imageFileName;
         $this->answers = $answers;
         $this->feedback = $feedback;
+        $this->createdOn = $createdOn;
     }
 
     /**
@@ -153,6 +159,14 @@ class Question
     }
 
     /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedOn(): \DateTimeImmutable
+    {
+        return $this->createdOn;
+    }
+
+    /**
      * @param \DateTimeImmutable $archiveOn
      */
     public function archiveOn(\DateTimeImmutable $archiveOn): void
@@ -180,5 +194,29 @@ class Question
     public function getArchivedOn(): ?\DateTimeImmutable
     {
         return $this->archivedOn;
+    }
+
+    /**
+     * @param Answers $answers
+     */
+    private function guardAnswers(Answers $answers)
+    {
+        if (count($answers) < 2 || count($answers) > 3) {
+            throw new \InvalidArgumentException('Amount of answers must be 2 or 3.');
+        }
+
+        $correctCount = 0;
+
+        foreach ($answers as $answer) {
+            if ($answer->isCorrect()) {
+                $correctCount++;
+            }
+        }
+
+        if ($correctCount !== 1) {
+            throw new \InvalidArgumentException(
+                'There should be exactly one correct answer.'
+            );
+        }
     }
 }

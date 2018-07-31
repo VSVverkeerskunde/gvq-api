@@ -1,0 +1,17 @@
+{% extends 'anonymous_base.html.twig' %}
+
+{% block title %}{% trans %}Registration.title{% endtrans %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{% trans %}Registration.success.title{% endtrans %}</h5>
+            <h6 class="card-subtitle text-muted">{% trans %}Registration.success.subtitle{% endtrans %}</h6>
+            <hr>
+            <p class="card-text">{% trans %}Registration.success.text{% endtrans %}</p>
+            <p class="card-text">{% trans %}Registration.success.extra{% endtrans %}</p>
+            <hr>
+            <a href="#" class="card-link">{% trans %}To.site{% endtrans %}</a>
+        </div>
+    </div>
+{% endblock %}

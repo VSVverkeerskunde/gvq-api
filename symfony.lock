@@ -1,4 +1,16 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.62.6"
+    },
+    "beberlei/assert": {
+        "version": "v2.9.6"
+    },
+    "broadway/broadway": {
+        "version": "2.0.1"
+    },
+    "broadway/uuid-generator": {
+        "version": "0.4.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -41,6 +53,9 @@
             "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
         }
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
@@ -53,6 +68,15 @@
     "doctrine/orm": {
         "version": "v2.6.1"
     },
+    "doctrine/persistence": {
+        "version": "v1.0.0"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
+    },
+    "egulias/email-validator": {
+        "version": "2.1.4"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -61,6 +85,9 @@
     },
     "league/flysystem": {
         "version": "1.0.45"
+    },
+    "league/flysystem-aws-s3-v3": {
+        "version": "1.0.19"
     },
     "league/uri": {
         "version": "5.3.0"
@@ -85,6 +112,9 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.4.0"
     },
     "nette/bootstrap": {
         "version": "v2.4.5"
@@ -137,11 +167,17 @@
             "ref": "f7895777cd673fcefbc321a9063077a24e5df646"
         }
     },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.0.2"
+    },
     "symfony/asset": {
         "version": "v4.1.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.0.9"
+    },
+    "symfony/expression-language": {
+        "version": "v4.1.1"
     },
     "symfony/form": {
         "version": "v4.1.0"
@@ -190,6 +226,15 @@
     },
     "symfony/serializer": {
         "version": "v4.0.9"
+    },
+    "symfony/swiftmailer-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "3db029c03e452b4a23f7fc45cec7c922c2247eb8"
+        }
     },
     "symfony/translation": {
         "version": "3.3",

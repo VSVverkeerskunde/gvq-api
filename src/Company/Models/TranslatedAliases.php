@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Company\Models;
 
 use VSV\GVQ_API\Common\ValueObjects\Collection;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 
 class TranslatedAliases implements Collection
 {
@@ -41,5 +42,22 @@ class TranslatedAliases implements Collection
     public function toArray(): array
     {
         return $this->translatedAliases;
+    }
+
+    /**
+     * @param Language $language
+     * @return TranslatedAlias
+     */
+    public function getByLanguage(Language $language): TranslatedAlias
+    {
+        $foundAlias = $this->translatedAliases[0];
+
+        foreach ($this->translatedAliases as $translatedAlias) {
+            if ($translatedAlias->getLanguage()->equals($language)) {
+                $foundAlias = $translatedAlias;
+            }
+        }
+
+        return $foundAlias;
     }
 }

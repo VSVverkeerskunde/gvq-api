@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\User\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -44,6 +45,7 @@ class UserSerializerTest extends TestCase
         ];
         $encoders = [
             new JsonEncoder(),
+            new CsvEncoder()
         ];
 
         $this->serializer = new Serializer($normalizers, $encoders);
@@ -68,6 +70,23 @@ class UserSerializerTest extends TestCase
         $this->assertEquals(
             $this->userAsJson,
             $actualJson
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_serialize_a_user_to_csv(): void
+    {
+        $actualCsv = $this->serializer->serialize(
+            $this->user,
+            'csv'
+        );
+
+        $userAsCsv = ModelsFactory::readCsv('user');
+        $this->assertEquals(
+            $userAsCsv,
+            $actualCsv
         );
     }
 

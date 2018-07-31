@@ -2,12 +2,14 @@
 
 namespace VSV\GVQ_API\Company\Repositories;
 
-use InvalidArgumentException;
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
+use VSV\GVQ_API\Company\Models\Companies;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
-use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
+use VSV\GVQ_API\Company\ValueObjects\Alias;
 
 class CompanyDoctrineRepository extends AbstractDoctrineRepository implements CompanyRepository
 {
@@ -20,35 +22,43 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     }
 
     /**
-     * @param Company $company
+     * @inheritdoc
      */
     public function save(Company $company): void
     {
         $companyEntity = CompanyEntity::fromCompany($company);
 
-        /** @var UserEntity $userEntity */
-        $userEntity = $this->entityManager->find(
-            UserEntity::class,
-            $companyEntity->getUserEntity()->getId()
-        );
-
-        if ($userEntity == null) {
-            throw new InvalidArgumentException(
-                'User with id: '.
-                $companyEntity->getUserEntity()->getId().
-                ' not found.'
-            );
-        }
-
-        $companyEntity->setUserEntity($userEntity);
-
-        $this->entityManager->persist($companyEntity);
+        // The user object inside company is not managed,
+        // therefore we need to use merge instead of persist.
+        // When user wouldn't exist yet, the user is not created.
+        $this->entityManager->merge($companyEntity);
         $this->entityManager->flush();
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Company|null
+     * @inheritdoc
+     * @throws EntityNotFoundException
+     */
+    public function update(Company $company): void
+    {
+        // Make sure the company exists,
+        // otherwise the merge would create a new company.
+        $companyEntity = $this->entityManager->find(
+            CompanyEntity::class,
+            $company->getId()
+        );
+        if ($companyEntity == null) {
+            throw new EntityNotFoundException("Invalid company supplied");
+        }
+
+        $this->entityManager->merge(
+            CompanyEntity::fromCompany($company)
+        );
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getById(UuidInterface $id): ?Company
     {
@@ -60,5 +70,61 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         );
 
         return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByName(NotEmptyString $name): ?Company
+    {
+        /** @var CompanyEntity $companyEntity */
+        $companyEntity = $this->objectRepository->findOneBy(
+            [
+                'name' => $name->toNative(),
+            ]
+        );
+
+        return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getByAlias(Alias $alias): ?Company
+    {
+        $companyEntity = $this->entityManager->createQueryBuilder()
+            ->select('c, u')
+            ->from(CompanyEntity::class, 'c')
+            ->innerJoin('c.translatedAliasEntities', 'a')
+            ->innerJoin('c.userEntity', 'u')
+            ->where('a.alias = :alias')
+            ->setParameter('alias', $alias->toNative())
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $companyEntity ? $companyEntity->toCompany() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAll(): ?Companies
+    {
+        /** @var CompanyEntity[] $companyEntities */
+        $companyEntities = $this->objectRepository->findAll();
+
+        if (empty($companyEntities)) {
+            return null;
+        }
+
+        return new Companies(
+            ...array_map(
+                function (CompanyEntity $companyEntity) {
+                    return $companyEntity->toCompany();
+                },
+                $companyEntities
+            )
+        );
     }
 }

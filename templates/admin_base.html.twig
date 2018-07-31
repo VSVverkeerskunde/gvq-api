@@ -1,5 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block nav %}
-    {% include 'admin_nav.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+    {% include '/includes/admin_nav.html.twig' %}
+
+    <div class="page-main" id="main">
+        <div class="container-fluid">
+            {% include '/includes/flash.html.twig' %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap-table.js') }}"></script>
+
+    {% if app.request.locale == 'fr' %}
+        <script src="{{ asset('js/bootstrap-table-fr-BE.js') }}"></script>
+    {% endif %}
+
+    {% if app.request.locale == 'nl' %}
+        <script src="{{ asset('js/bootstrap-table-nl-NL.js') }}"></script>
+    {% endif %}
 {% endblock %}
