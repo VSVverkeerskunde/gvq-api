@@ -56,6 +56,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
 
     /**
      * @inheritdoc
+     * @throws \Exception
      */
     public function append($id, DomainEventStream $eventStream)
     {
@@ -73,6 +74,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
             $this->entityManager->commit();
         } catch (\Exception $exception) {
             $this->entityManager->rollback();
+            throw $exception;
         }
     }
 

@@ -15,7 +15,6 @@ use VSV\GVQ_API\Partner\Serializers\PartnerNormalizer;
 use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
 use VSV\GVQ_API\Question\Serializers\CategoryNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
-use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\Serializers\QuizNormalizer;
@@ -86,6 +85,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
         );
 
         $eventEntities = $this->objectRepository->findAll();
+        $this->assertCount(1, $eventEntities);
     }
 
     /**
@@ -106,16 +106,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                         $quiz
                     )
                 ),
-                DomainMessage::recordNow(
-                    $quiz->getId()->toString(),
-                    0,
-                    new Metadata(),
-                    new QuestionAsked(
-                        $quiz->getId(),
-                        $quiz->getQuestions()->toArray()[0],
-                        new \DateTimeImmutable()
-                    )
-                ),
+                // TODO: Add normalizer and denormalizer for QuestionAsked and also test.
             ]
         );
     }
