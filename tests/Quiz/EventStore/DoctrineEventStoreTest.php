@@ -5,11 +5,23 @@ namespace VSV\GVQ_API\Quiz\EventStore;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Company\Serializers\CompanyNormalizer;
+use VSV\GVQ_API\Company\Serializers\TranslatedAliasNormalizer;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Partner\Serializers\PartnerNormalizer;
+use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
+use VSV\GVQ_API\Question\Serializers\CategoryNormalizer;
+use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\Serializers\QuizNormalizer;
+use VSV\GVQ_API\Quiz\Serializers\QuizStartedNormalizer;
+use VSV\GVQ_API\Team\Serializers\TeamNormalizer;
+use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
 class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
 {
@@ -22,8 +34,33 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
     {
         parent::setUp();
 
+        // TODO: Could be mocked!
+        $normalizers = [
+            new QuizStartedNormalizer(
+                new QuizNormalizer(
+                    new CompanyNormalizer(
+                        new TranslatedAliasNormalizer(),
+                        new UserNormalizer()
+                    ),
+                    new PartnerNormalizer(),
+                    new TeamNormalizer(),
+                    new QuestionNormalizer(
+                        new CategoryNormalizer(),
+                        new AnswerNormalizer()
+                    )
+                )
+            ),
+        ];
+
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         $this->doctrineEventStore = new DoctrineEventStore(
-            $this->entityManager
+            $this->entityManager,
+            $serializer
         );
     }
 
@@ -47,6 +84,8 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
             $quiz->getId()->toString(),
             $this->createDomainEventStream($quiz)
         );
+
+        $eventEntities = $this->objectRepository->findAll();
     }
 
     /**

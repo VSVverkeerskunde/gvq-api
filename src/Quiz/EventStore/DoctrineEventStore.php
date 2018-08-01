@@ -5,11 +5,31 @@ namespace VSV\GVQ_API\Quiz\EventStore;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainMessage;
 use Broadway\EventStore\EventStore;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 
 // Simplified from https://github.com/broadway/event-store-dbal
 class DoctrineEventStore extends AbstractDoctrineRepository implements EventStore
 {
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param SerializerInterface $serializer
+     */
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($entityManager);
+
+        $this->serializer = $serializer;
+    }
+
     /**
      * @return string
      */
@@ -65,7 +85,10 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
         return new EventEntity(
             $domainMessage->getId(),
             $domainMessage->getPlayhead(),
-            $domainMessage->getPayload(),
+            $this->serializer->serialize(
+                $domainMessage->getPayload(),
+                'json'
+            ),
             json_encode($domainMessage->getMetadata()->serialize()),
             $domainMessage->getRecordedOn()->toString(),
             $domainMessage->getType()
