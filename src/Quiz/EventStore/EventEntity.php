@@ -76,7 +76,8 @@ class EventEntity
         string $payload,
         string $metadata,
         string $recordedOn,
-        string $type) {
+        string $type
+    ) {
         $this->uuid = $uuid;
         $this->playHead = $playHead;
         $this->payload = $payload;
