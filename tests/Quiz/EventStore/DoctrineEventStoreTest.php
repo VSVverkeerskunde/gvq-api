@@ -85,7 +85,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
         );
 
         $eventEntities = $this->objectRepository->findAll();
-        $this->assertCount(1, $eventEntities);
+        $this->assertEquals(1, count($eventEntities));
     }
 
     /**
