@@ -82,6 +82,7 @@ class QuizService
      * @param null|Team $team
      * @param Language $language
      * @return Quiz
+     * @throws \Exception
      */
     public function generateQuiz(
         QuizParticipant $participant,
@@ -131,8 +132,13 @@ class QuizService
 
                 if ($questions !== null) {
                     $questionPool = $questions->toArray();
+
                     shuffle($questionPool);
-                    $pickedQuestions = array_merge($pickedQuestions, array_slice($questionPool, 0, $questionCount));
+
+                    $pickedQuestions = array_merge(
+                        $pickedQuestions,
+                        array_slice($questionPool, 0, $questionCount)
+                    );
                 }
             }
         }
