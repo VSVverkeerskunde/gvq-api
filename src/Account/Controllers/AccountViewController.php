@@ -134,6 +134,11 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if (!empty($data['phone'])) {
+                return $this->redirectToRoute('accounts_view_register');
+            }
+
             $language = $request->getLocale();
 
             $user = $this->registrationFormType->createUserFromData(

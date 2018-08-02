@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,9 +28,9 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class RegistrationFormType extends AbstractType
 {
@@ -176,6 +177,15 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => $this->createAliasConstraints($translator),
+                ]
+            )
+            ->add(
+                'phone',
+                TelType::class,
+                [
+                    'attr' => [
+                        'autocomplete' => "null",
+                    ],
                 ]
             );
     }
