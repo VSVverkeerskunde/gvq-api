@@ -5,10 +5,13 @@ namespace VSV\GVQ_API\Question\Repositories;
 use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\AnswerEntity;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDoctrineRepository extends AbstractDoctrineRepository implements QuestionRepository
 {
@@ -78,6 +81,36 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
         $questionEntity = $this->getEntityById($id);
 
         return $questionEntity ? $questionEntity->toQuestion() : null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByYearAndLanguageAndCategory(
+        Year $year,
+        Language $language,
+        Category $category
+    ): ?Questions {
+        $questionEntities = $this->objectRepository->findBy(
+            [
+                'year' => $year->toNative(),
+                'language' => $language->toNative(),
+                'categoryEntity' => $category->getId()->toString(),
+            ]
+        );
+
+        if (empty($questionEntities)) {
+            return null;
+        }
+
+        return new Questions(
+            ...array_map(
+                function (QuestionEntity $questionEntity) {
+                    return $questionEntity->toQuestion();
+                },
+                $questionEntities
+            )
+        );
     }
 
     /**
