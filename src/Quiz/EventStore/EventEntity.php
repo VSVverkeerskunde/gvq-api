@@ -29,9 +29,9 @@ class EventEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="play_head", type="integer", nullable=false)
+     * @ORM\Column(name="playhead", type="integer", nullable=false)
      */
-    private $playHead;
+    private $playhead;
 
     /**
      * @var string
@@ -64,7 +64,7 @@ class EventEntity
     /**
      * EventEntity constructor.
      * @param string $uuid
-     * @param int $playHead
+     * @param int $playhead
      * @param string $payload
      * @param string $metadata
      * @param string $recordedOn
@@ -72,14 +72,14 @@ class EventEntity
      */
     public function __construct(
         string $uuid,
-        int $playHead,
+        int $playhead,
         string $payload,
         string $metadata,
         string $recordedOn,
         string $type
     ) {
         $this->uuid = $uuid;
-        $this->playHead = $playHead;
+        $this->playhead = $playhead;
         $this->payload = $payload;
         $this->metadata = $metadata;
         $this->recordedOn = $recordedOn;
@@ -105,9 +105,9 @@ class EventEntity
     /**
      * @return int
      */
-    public function getPlayHead(): int
+    public function getPlayhead(): int
     {
-        return $this->playHead;
+        return $this->playhead;
     }
 
     /**
@@ -139,6 +139,6 @@ class EventEntity
      */
     public function getType(): string
     {
-        return $this->type;
+        return strtr($this->type, '.', '\\');
     }
 }

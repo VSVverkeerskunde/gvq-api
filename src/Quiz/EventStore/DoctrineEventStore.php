@@ -2,8 +2,10 @@
 
 namespace VSV\GVQ_API\Quiz\EventStore;
 
+use Broadway\Domain\DateTime;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainMessage;
+use Broadway\Domain\Metadata;
 use Broadway\EventStore\EventStore;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -43,7 +45,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
      */
     public function load($id): DomainEventStream
     {
-        // TODO: Implement load() method.
+        return $this->getDomainEventStream($id, 0);
     }
 
     /**
@@ -51,7 +53,29 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
      */
     public function loadFromPlayhead($id, int $playhead): DomainEventStream
     {
-        // TODO: Implement loadFromPlayhead() method.
+        return $this->getDomainEventStream($id, $playhead);
+    }
+
+    /**
+     * @param string $id
+     * @param int $playhead
+     * @return DomainEventStream
+     */
+    private function getDomainEventStream(string $id, int $playhead): DomainEventStream
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder->select('e')
+            ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
+            ->where('e.uuid = :uuid')
+            ->andWhere('e.playhead >= :playhead')
+            ->orderBy('e.playhead', 'ASC')
+            ->setParameter('uuid', $id)
+            ->setParameter('playhead', $playhead);
+
+        $eventEntities = $queryBuilder->getQuery()->getResult();
+
+        return $this->createDomainEventStream($eventEntities);
     }
 
     /**
@@ -91,9 +115,42 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 $domainMessage->getPayload(),
                 'json'
             ),
-            json_encode($domainMessage->getMetadata()->serialize()),
+            '',
             $domainMessage->getRecordedOn()->toString(),
             $domainMessage->getType()
+        );
+    }
+
+    /**
+     * @param EventEntity[] $eventEntities
+     * @return DomainEventStream
+     */
+    private function createDomainEventStream(array $eventEntities): DomainEventStream
+    {
+        $domainMessages = [];
+        foreach ($eventEntities as $eventEntity) {
+            $domainMessages[] = $this->createDomainMessage($eventEntity);
+        }
+
+        return new DomainEventStream($domainMessages);
+    }
+
+    /**
+     * @param EventEntity $eventEntity
+     * @return DomainMessage
+     */
+    private function createDomainMessage(EventEntity $eventEntity): DomainMessage
+    {
+        return new DomainMessage(
+            $eventEntity->getUuid(),
+            $eventEntity->getPlayhead(),
+            new Metadata(),
+            $this->serializer->deserialize(
+                $eventEntity->getPayload(),
+                $eventEntity->getType(),
+                'json'
+            ),
+            DateTime::fromString($eventEntity->getRecordedOn())
         );
     }
 }
