@@ -20,6 +20,7 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
@@ -675,6 +676,18 @@ class ModelsFactory
         return new Team(
             Uuid::fromString('5c128cad-8727-4e3e-bfba-c51929ae14c4'),
             new NotEmptyString('Royal Antwerp FC')
+        );
+    }
+
+    /**
+     * @return QuizStarted
+     * @throws \Exception
+     */
+    public static function createQuizStarted(): QuizStarted
+    {
+        return new QuizStarted(
+            Uuid::fromString('eb7eb3bc-4d1f-4d40-817f-fba705aa8e49'),
+            ModelsFactory::createIndividualQuiz()
         );
     }
 
