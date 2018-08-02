@@ -232,7 +232,7 @@ class QuizServiceTest extends TestCase
 
         $this->questionRepository
             ->expects($this->exactly($categories->count() * 2))
-            ->method('getByYearLanguageAndCategory')
+            ->method('getByYearAndLanguageAndCategory')
             ->withConsecutive($year, $language, $this->onConsecutiveCalls($categories, $categories))
             ->willReturnOnConsecutiveCalls(
                 ...array_merge($questionPools, $questionPools)

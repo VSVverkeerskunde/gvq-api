@@ -26,7 +26,8 @@ class QuestionsGenerator
         $questionArray = [];
 
         for ($i = 0; $i < 30; $i++) {
-            $uuidSuffix = self::createUuidSuffix($counter);
+            $uuidSuffix = self::createUuidSuffix($counter, $category);
+
             $questionArray[] = new Question(
                 Uuid::fromString('448c6bd8-0075-4302-a4de-'.$uuidSuffix),
                 new Language('nl'),
@@ -57,6 +58,7 @@ class QuestionsGenerator
                 new NotEmptyString('Feedback '.$counter),
                 new \DateTimeImmutable('2020-02-02T11:12:13+00:00')
             );
+
             $counter++;
         }
 
@@ -65,11 +67,15 @@ class QuestionsGenerator
 
     /**
      * @param int $counter
+     * @param Category $category
      * @return string
      */
-    private static function createUuidSuffix(int $counter): string
-    {
-        $suffix = '000000000000'.$counter;
+    private static function createUuidSuffix(
+        int $counter,
+        Category $category
+    ): string {
+        $categorySuffix = substr($category->getId()->toString(), -4);
+        $suffix = '00000000'.$counter.$categorySuffix;
 
         return substr($suffix, -12);
     }
