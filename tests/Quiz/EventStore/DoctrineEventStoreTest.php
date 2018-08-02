@@ -156,11 +156,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                 DomainMessage::recordNow(
                     $quiz->getId()->toString(),
                     0,
-                    new Metadata(
-                        [
-                            'user_agent' => 'Mozilla/5.0',
-                        ]
-                    ),
+                    new Metadata(),
                     new QuizStarted(
                         $quiz->getId(),
                         $quiz
