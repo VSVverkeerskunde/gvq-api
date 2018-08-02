@@ -115,7 +115,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 $domainMessage->getPayload(),
                 'json'
             ),
-            '',
+            json_encode($domainMessage->getMetadata()->serialize()),
             $domainMessage->getRecordedOn()->toString(),
             $domainMessage->getType()
         );
@@ -144,7 +144,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
         return new DomainMessage(
             $eventEntity->getUuid(),
             $eventEntity->getPlayhead(),
-            new Metadata(),
+            Metadata::deserialize(json_decode($eventEntity->getMetadata())),
             $this->serializer->deserialize(
                 $eventEntity->getPayload(),
                 $eventEntity->getType(),
