@@ -20,6 +20,7 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
@@ -720,6 +721,19 @@ class ModelsFactory
         return new QuizStarted(
             Uuid::fromString('eb7eb3bc-4d1f-4d40-817f-fba705aa8e49'),
             ModelsFactory::createIndividualQuiz()
+        );
+    }
+
+    /**
+     * @return QuestionAsked
+     * @throws \Exception
+     */
+    public static function createQuestionAsked(): QuestionAsked
+    {
+        return new QuestionAsked(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new \DateTimeImmutable('2020-11-11T11:12:13+00:00')
         );
     }
 
