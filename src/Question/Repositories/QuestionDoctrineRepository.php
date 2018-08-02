@@ -86,7 +86,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     /**
      * @inheritdoc
      */
-    public function getByYearLanguageAndCategory(
+    public function getByYearAndLanguageAndCategory(
         Year $year,
         Language $language,
         Category $category

@@ -175,7 +175,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      * @throws \Exception
      */
-    public function it_can_get_by_year_language_and_category(): void
+    public function it_can_get_by_year_and_language_and_category(): void
     {
         $category = ModelsFactory::createGeneralCategory();
         $questions = QuestionsGenerator::generateForCategory($category);
@@ -184,7 +184,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $this->questionDoctrineRepository->save($question);
         }
 
-        $foundQuestions = $this->questionDoctrineRepository->getByYearLanguageAndCategory(
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
             new Year(2018),
             new Language('nl'),
             $category
@@ -201,7 +201,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_returns_null_when_no_questions_of_given_year_language_and_category_are_present(): void
     {
-        $foundQuestions = $this->questionDoctrineRepository->getByYearLanguageAndCategory(
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
             new Year(2018),
             new Language('nl'),
             ModelsFactory::createGeneralCategory()

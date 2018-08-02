@@ -38,7 +38,7 @@ interface QuestionRepository
      * @param Category $category
      * @return null|Questions
      */
-    public function getByYearLanguageAndCategory(
+    public function getByYearAndLanguageAndCategory(
         Year $year,
         Language $language,
         Category $category

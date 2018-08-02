@@ -123,7 +123,7 @@ class QuizService
             $questionCount = $this->quizCompositionRepository->getCountByYearAndCategory($year, $category);
 
             if ($questionCount !== null) {
-                $questions = $this->questionRepository->getByYearLanguageAndCategory(
+                $questions = $this->questionRepository->getByYearAndLanguageAndCategory(
                     $year,
                     $language,
                     $category
