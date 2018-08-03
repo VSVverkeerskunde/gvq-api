@@ -6,7 +6,10 @@ use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 
 class AnsweredCorrectDenormalizer extends AbstractAnsweredEventDenormalizer
 {
-    protected function getNormalizerName(): string
+    /**
+     * @return string
+     */
+    protected function getAnsweredEventClassName(): string
     {
         return AnsweredCorrect::class;
     }

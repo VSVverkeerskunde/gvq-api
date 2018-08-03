@@ -20,6 +20,7 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
@@ -734,6 +735,25 @@ class ModelsFactory
             Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
             ModelsFactory::createAccidentQuestion(),
             new \DateTimeImmutable('2020-11-11T11:12:13+00:00')
+        );
+    }
+
+    /**
+     * @return AnsweredCorrect
+     * @throws \Exception
+     */
+    public static function createAnsweredCorrect(): AnsweredCorrect
+    {
+        return new AnsweredCorrect(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new Answer(
+                Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                new PositiveNumber(3),
+                new NotEmptyString('Non.'),
+                true
+            ),
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
         );
     }
 

@@ -23,17 +23,16 @@ abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
      * @param QuestionNormalizer $questionNormalizer
      * @param AnswerNormalizer $answerNormalizer
      */
-    public function __construct(QuestionNormalizer $questionNormalizer, AnswerNormalizer $answerNormalizer)
-    {
+    public function __construct(
+        QuestionNormalizer $questionNormalizer,
+        AnswerNormalizer $answerNormalizer
+    ) {
         $this->questionNormalizer = $questionNormalizer;
         $this->answerNormalizer = $answerNormalizer;
     }
 
     /**
-     * @param AbstractAnsweredEvent $answeredEvent
-     * @param null $format
-     * @param array $context
-     * @return array
+     * @inheritdoc
      */
     public function normalize($answeredEvent, $format = null, array $context = []): array
     {
@@ -46,19 +45,10 @@ abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param mixed $data
-     * @param null $format
-     * @return bool
+     * @inheritdoc
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        $class = $this->getNormalizerName();
-
-        return ($data instanceof $class) && ($format === 'json');
+        return ($data instanceof AbstractAnsweredEvent) && ($format === 'json');
     }
-
-    /**
-     * @return string
-     */
-    abstract protected function getNormalizerName(): string;
 }

@@ -11,7 +11,7 @@ use VSV\GVQ_API\Question\Serializers\CategoryNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 
-abstract class AbstractAnsweredEventSerializerrTest extends TestCase
+abstract class AbstractAnsweredEventSerializerTest extends TestCase
 {
     /**
      * @var QuestionNormalizer
@@ -33,6 +33,11 @@ abstract class AbstractAnsweredEventSerializerrTest extends TestCase
      */
     protected $answerDenormalizer;
 
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
     protected function setUp(): void
     {
         $this->answerNormalizer = new AnswerNormalizer();
@@ -48,5 +53,8 @@ abstract class AbstractAnsweredEventSerializerrTest extends TestCase
         );
     }
 
+    /**
+     * @return string
+     */
     abstract protected function getRepositoryName(): string;
 }
