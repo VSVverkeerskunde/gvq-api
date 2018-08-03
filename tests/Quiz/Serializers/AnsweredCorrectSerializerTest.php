@@ -2,35 +2,11 @@
 
 namespace VSV\GVQ_API\Quiz\Serializers;
 
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 
 class AnsweredCorrectSerializerTest extends AbstractAnsweredEventSerializerTest
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $normalizers = [
-            new AnsweredCorrectNormalizer(
-                $this->questionNormalizer,
-                $this->answerNormalizer
-            ),
-            new AnsweredCorrectDenormalizer(
-                $this->questionDenormalizer,
-                $this->answerDenormalizer
-            ),
-        ];
-
-        $encoders = [
-            new JsonEncoder(),
-        ];
-
-        $this->serializer = new Serializer($normalizers, $encoders);
-    }
-
     /**
      * @inheritdoc
      */

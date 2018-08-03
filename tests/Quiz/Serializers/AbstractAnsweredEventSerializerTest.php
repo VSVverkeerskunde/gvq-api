@@ -3,6 +3,8 @@
 namespace VSV\GVQ_API\Quiz\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Question\Serializers\AnswerDenormalizer;
 use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
@@ -14,43 +16,48 @@ use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 abstract class AbstractAnsweredEventSerializerTest extends TestCase
 {
     /**
-     * @var QuestionNormalizer
-     */
-    protected $questionNormalizer;
-
-    /**
-     * @var AnswerNormalizer
-     */
-    protected $answerNormalizer;
-
-    /**
-     * @var QuestionDenormalizer
-     */
-    protected $questionDenormalizer;
-
-    /**
-     * @var AnswerDenormalizer
-     */
-    protected $answerDenormalizer;
-
-    /**
      * @var SerializerInterface
      */
     protected $serializer;
 
     protected function setUp(): void
     {
-        $this->answerNormalizer = new AnswerNormalizer();
-        $this->questionNormalizer = new QuestionNormalizer(
+        $answerNormalizer = new AnswerNormalizer();
+        $questionNormalizer = new QuestionNormalizer(
             new CategoryNormalizer(),
-            $this->answerNormalizer
+            $answerNormalizer
         );
 
-        $this->answerDenormalizer = new AnswerDenormalizer();
-        $this->questionDenormalizer = new QuestionDenormalizer(
+        $answerDenormalizer = new AnswerDenormalizer();
+        $questionDenormalizer = new QuestionDenormalizer(
             new CategoryDenormalizer(),
-            $this->answerDenormalizer
+            $answerDenormalizer
         );
+
+        $normalizers = [
+            new AnsweredCorrectNormalizer(
+                $questionNormalizer,
+                $answerNormalizer
+            ),
+            new AnsweredCorrectDenormalizer(
+                $questionDenormalizer,
+                $answerDenormalizer
+            ),
+            new AnsweredIncorrectNormalizer(
+                $questionNormalizer,
+                $answerNormalizer
+            ),
+            new AnsweredIncorrectDenormalizer(
+                $questionDenormalizer,
+                $answerDenormalizer
+            ),
+        ];
+
+        $encoders = [
+            new JsonEncoder(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
     }
 
     /**

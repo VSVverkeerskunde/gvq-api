@@ -21,6 +21,7 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
@@ -752,6 +753,25 @@ class ModelsFactory
                 new PositiveNumber(3),
                 new NotEmptyString('Non.'),
                 true
+            ),
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+        );
+    }
+
+    /**
+     * @return AnsweredIncorrect
+     * @throws \Exception
+     */
+    public static function createAnsweredIncorrect(): AnsweredIncorrect
+    {
+        return new AnsweredIncorrect(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new Answer(
+                Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                new PositiveNumber(2),
+                new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                false
             ),
             new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
         );
