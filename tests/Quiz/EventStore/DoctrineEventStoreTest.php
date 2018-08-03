@@ -23,6 +23,12 @@ use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Quiz\Serializers\AnsweredCorrectDenormalizer;
+use VSV\GVQ_API\Quiz\Serializers\AnsweredCorrectNormalizer;
+use VSV\GVQ_API\Quiz\Serializers\AnsweredIncorrectDenormalizer;
+use VSV\GVQ_API\Quiz\Serializers\AnsweredIncorrectNormalizer;
+use VSV\GVQ_API\Quiz\Serializers\QuestionAskedDenormalizer;
+use VSV\GVQ_API\Quiz\Serializers\QuestionAskedNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizDenormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizStartedDenormalizer;
@@ -43,6 +49,18 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
     {
         parent::setUp();
 
+        $answerNormalizer = new AnswerNormalizer();
+        $questionNormalizer = new QuestionNormalizer(
+            new CategoryNormalizer(),
+            $answerNormalizer
+        );
+
+        $answerDenormalizer = new AnswerDenormalizer();
+        $questionDenormalizer = new QuestionDenormalizer(
+            new CategoryDenormalizer(),
+            $answerDenormalizer
+        );
+
         $normalizers = [
             new QuizStartedNormalizer(
                 new QuizNormalizer(
@@ -52,10 +70,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                     ),
                     new PartnerNormalizer(),
                     new TeamNormalizer(),
-                    new QuestionNormalizer(
-                        new CategoryNormalizer(),
-                        new AnswerNormalizer()
-                    )
+                    $questionNormalizer
                 )
             ),
             new QuizStartedDenormalizer(
@@ -66,11 +81,26 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                     ),
                     new PartnerDenormalizer(),
                     new TeamDenormalizer(),
-                    new QuestionDenormalizer(
-                        new CategoryDenormalizer(),
-                        new AnswerDenormalizer()
-                    )
+                    $questionDenormalizer
                 )
+            ),
+            new QuestionAskedNormalizer($questionNormalizer),
+            new QuestionAskedDenormalizer($questionDenormalizer),
+            new AnsweredCorrectNormalizer(
+                $questionNormalizer,
+                $answerNormalizer
+            ),
+            new AnsweredCorrectDenormalizer(
+                $questionDenormalizer,
+                $answerDenormalizer
+            ),
+            new AnsweredIncorrectNormalizer(
+                $questionNormalizer,
+                $answerNormalizer
+            ),
+            new AnsweredIncorrectDenormalizer(
+                $questionDenormalizer,
+                $answerDenormalizer
             ),
         ];
 
@@ -101,7 +131,8 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
     public function it_can_append_and_load_an_event_stream()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
-        $domainEventStream = $this->createDomainEventStream($quiz);
+        $domainEvents = $this->createDomainEvents($quiz);
+        $domainEventStream = new DomainEventStream($domainEvents);
 
         $this->doctrineEventStore->append(
             $quiz->getId()->toString(),
@@ -125,45 +156,87 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
     public function it_can_load_an_event_stream_from_given_play_head()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
-        $domainEventStream = $this->createDomainEventStream($quiz);
+        $domainEvents = $this->createDomainEvents($quiz);
 
         $this->doctrineEventStore->append(
             $quiz->getId()->toString(),
-            $domainEventStream
+            new DomainEventStream($domainEvents)
         );
 
-        // TODO: load from other playhead.
         $actualDomainEventStream = $this->doctrineEventStore->loadFromPlayhead(
             $quiz->getId()->toString(),
-            1
+            4
         );
 
         $this->assertEquals(
-            new DomainEventStream([]),
+            new DomainEventStream(
+                [
+                    $domainEvents[4]
+                ]
+            ),
             $actualDomainEventStream
         );
     }
 
     /**
-     * @param Quiz $quiz
-     * @return DomainEventStream
+     * @test
      * @throws \Exception
      */
-    private function createDomainEventStream(Quiz $quiz): DomainEventStream
+    public function it_does_a_rollback_on_exception_in_append()
     {
-        return new DomainEventStream(
-            [
-                DomainMessage::recordNow(
-                    $quiz->getId()->toString(),
-                    0,
-                    new Metadata(),
-                    new QuizStarted(
-                        $quiz->getId(),
-                        $quiz
-                    )
-                ),
-                // TODO: Add normalizer and denormalizer for QuestionAsked and also test.
-            ]
+        $domainEvent = DomainMessage::recordNow(
+            'id',
+            0,
+            new Metadata(),
+            new \StdClass()
         );
+
+        $this->expectException(\Exception::class);
+
+        $this->doctrineEventStore->append(
+            'id',
+            new DomainEventStream([$domainEvent])
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return DomainMessage[]
+     * @throws \Exception
+     */
+    private function createDomainEvents(Quiz $quiz): array
+    {
+        return [
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                0,
+                new Metadata(),
+                new QuizStarted($quiz->getId(), $quiz)
+            ),
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                1,
+                new Metadata(),
+                ModelsFactory::createQuestionAsked()
+            ),
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                2,
+                new Metadata(),
+                ModelsFactory::createAnsweredCorrect()
+            ),
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                3,
+                new Metadata(),
+                ModelsFactory::createQuestionAsked()
+            ),
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                4,
+                new Metadata(),
+                ModelsFactory::createAnsweredIncorrect()
+            )
+        ];
     }
 }
