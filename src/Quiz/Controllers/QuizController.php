@@ -5,21 +5,61 @@ namespace VSV\GVQ_API\Quiz\Controllers;
 use Broadway\EventSourcing\EventSourcingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Quiz\Aggregate\QuizAggregate;
+use VSV\GVQ_API\Quiz\Service\QuizService;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
+use VSV\GVQ_API\Team\Repositories\TeamRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizController
 {
+    /**
+     * @var QuizService
+     */
+    private $quizService;
+
+    /**
+     * @var CompanyRepository
+     */
+    private $companyRepository;
+
+    /**
+     * @var PartnerRepository
+     */
+    private $partnerRepository;
+
+    /**
+     * @var TeamRepository
+     */
+    private $teamRepository;
+
     /**
      * @var EventSourcingRepository
      */
     private $quizAggregateRepository;
 
     /**
+     * @param QuizService $quizService
+     * @param CompanyRepository $companyRepository
+     * @param PartnerRepository $partnerRepository
+     * @param TeamRepository $teamRepository
      * @param EventSourcingRepository $quizAggregateRepository
      */
-    public function __construct(EventSourcingRepository $quizAggregateRepository)
-    {
+    public function __construct(
+        QuizService $quizService,
+        CompanyRepository $companyRepository,
+        PartnerRepository $partnerRepository,
+        TeamRepository $teamRepository,
+        EventSourcingRepository $quizAggregateRepository
+    ) {
+        $this->quizService = $quizService;
+        $this->companyRepository = $companyRepository;
+        $this->partnerRepository = $partnerRepository;
+        $this->teamRepository = $teamRepository;
         $this->quizAggregateRepository = $quizAggregateRepository;
     }
 
@@ -30,14 +70,23 @@ class QuizController
      */
     public function start(Request $request): Response
     {
-        // For now hardcoded quiz object needs to be created from DTO with
-        //  - Email
-        //  - Channel
-        //  - Language
-        //  - Company id
-        //  - Partner id
-        //  - Team id
-        $quiz = ModelsFactory::createIndividualQuiz();
+        // TODO: Need to be created from DTO.
+        $participant = new QuizParticipant(new Email('test@2dtostwice.be'));
+        $quizChannel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        $company = null;
+        $partner = null;
+        $team = null;
+        $language = new Language('nl');
+
+        // TODO: To make it work questions are needed.
+        $quiz = $this->quizService->generateQuiz(
+            $participant,
+            $quizChannel,
+            $company,
+            $partner,
+            $team,
+            $language
+        );
 
         $quizAggregate = QuizAggregate::start($quiz);
         $this->quizAggregateRepository->save($quizAggregate);
