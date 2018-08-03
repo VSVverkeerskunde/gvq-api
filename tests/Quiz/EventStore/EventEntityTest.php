@@ -29,6 +29,17 @@ class EventEntityTest extends TestCase
     public function it_stores_an_id()
     {
         $this->assertEquals(
+            null,
+            $this->eventEntity->getId()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_a_uuid()
+    {
+        $this->assertEquals(
             'uuid',
             $this->eventEntity->getUuid()
         );
