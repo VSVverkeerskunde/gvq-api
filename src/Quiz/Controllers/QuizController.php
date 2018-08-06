@@ -96,4 +96,22 @@ class QuizController
 
         return $response;
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function askQuestion(Request $request): Response
+    {
+        // Return the question to ask, but no correct answer and no feedback.
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function answerQuestion(Request $request): Response
+    {
+        // Return the question with feedback and correct answer.
+    }
 }
