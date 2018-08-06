@@ -145,10 +145,10 @@ quiz_start:
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::start
   methods: [POST]
 quiz_ask_question:
-  path: /quiz/{id}/questions
+  path: /quiz/{quizId}/question
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::askQuestion
   methods: [GET]
 quiz_answer_question:
-  path: /quiz/{id}/questions
+  path: /quiz/{quizId}/question/{answerId}
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::answerQuestion
   methods: [POST]

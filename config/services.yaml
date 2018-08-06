@@ -126,11 +126,21 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    current_question_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     quiz_started_listener:
       class: VSV\GVQ_API\Quiz\EventListeners\QuizStartedListener
       arguments:
         $quizRepository: '@quiz_redis_repository'
         $startedQuizRepository: '@started_quiz_redis_repository'
+
+    question_asked_listener:
+      class: VSV\GVQ_API\Quiz\EventListeners\QuestionAskedListener
+      arguments:
+        $currentQuestionRepository: '@current_question_redis_repository'
 
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
@@ -144,6 +154,9 @@ services:
         - method: subscribe
           arguments:
             - '@quiz_started_listener'
+        - method: subscribe
+          arguments:
+            - '@question_asked_listener'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
@@ -223,4 +236,5 @@ services:
         $quizAggregateRepository: '@quiz_aggregate_repository'
         $partnerRepository: '@partner_yaml_repository'
         $teamRepository: '@team_repository'
+        $currentQuestionRepository: '@current_question_redis_repository'
       tags: ['controller.service_arguments']

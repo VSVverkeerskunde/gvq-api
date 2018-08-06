@@ -238,4 +238,26 @@ class QuizServiceTest extends TestCase
                 ...array_merge($questionPools, $questionPools)
             );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_return_the_year()
+    {
+        $this->assertEquals(
+            new Year(2018),
+            $this->quizService->getYear()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_return_the_allowed_delay()
+    {
+        $this->assertEquals(
+            new AllowedDelay(40),
+            $this->quizService->getAllowedDelay()
+        );
+    }
 }
