@@ -20,6 +20,7 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
@@ -723,6 +724,21 @@ class ModelsFactory
         return new QuizStarted(
             Uuid::fromString('eb7eb3bc-4d1f-4d40-817f-fba705aa8e49'),
             ModelsFactory::createIndividualQuiz()
+        );
+    }
+
+    /**
+     * @return StartQuiz
+     */
+    public static function createStartQuiz(): StartQuiz
+    {
+        return new StartQuiz(
+            new QuizParticipant(new Email('par@ticipa.nt')),
+            new QuizChannel(QuizChannel::COMPANY),
+            new Alias('vsv'),
+            new Alias('dats'),
+            Uuid::fromString('9c2c62c3-655a-4444-89e5-6c493cf2c684'),
+            new Language(Language::NL)
         );
     }
 
