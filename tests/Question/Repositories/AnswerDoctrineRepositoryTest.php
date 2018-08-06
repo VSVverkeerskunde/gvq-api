@@ -72,12 +72,12 @@ class AnswerDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals(
-             new Answer(
-                 Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
-                 new PositiveNumber(2),
-                 new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
-                 false
-             ),
+            new Answer(
+                Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                new PositiveNumber(2),
+                new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                false
+            ),
             $answer
         );
     }
