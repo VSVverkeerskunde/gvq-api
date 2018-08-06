@@ -135,6 +135,9 @@ services:
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
 
+    doctrine_event_store:
+      class: VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore
+
     simple_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
@@ -145,7 +148,7 @@ services:
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
       arguments:
-        $eventStore: '@in_memory_event_store'
+        $eventStore: '@doctrine_event_store'
         $eventBus: '@simple_event_bus'
 
     quiz_composition_repository:
@@ -156,7 +159,7 @@ services:
     team_repository:
       class: VSV\GVQ_API\Team\Repositories\TeamYamlRepository
       arguments:
-        $teamFile: '%kernel.project_dir%/config/team.yaml'
+        $teamFile: '%kernel.project_dir%/config/teams.yaml'
 
     quiz_service:
       class: VSV\GVQ_API\Quiz\Service\QuizService
