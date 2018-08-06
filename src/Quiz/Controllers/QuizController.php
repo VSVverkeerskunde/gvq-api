@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\Repositories\AnswerRepository;
 use VSV\GVQ_API\Quiz\Aggregate\QuizAggregate;
+use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
 use VSV\GVQ_API\Quiz\Service\QuizService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;

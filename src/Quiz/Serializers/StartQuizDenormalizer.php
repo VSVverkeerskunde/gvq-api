@@ -6,7 +6,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
-use VSV\GVQ_API\Quiz\Controllers\StartQuiz;
+use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\User\ValueObjects\Email;
