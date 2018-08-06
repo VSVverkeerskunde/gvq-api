@@ -30,6 +30,8 @@ use VSV\GVQ_API\Quiz\Serializers\AnsweredIncorrectNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuestionAskedDenormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuestionAskedNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizDenormalizer;
+use VSV\GVQ_API\Quiz\Serializers\QuizFinishedDenormalizer;
+use VSV\GVQ_API\Quiz\Serializers\QuizFinishedNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizNormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizStartedDenormalizer;
 use VSV\GVQ_API\Quiz\Serializers\QuizStartedNormalizer;
@@ -102,6 +104,8 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                 $questionDenormalizer,
                 $answerDenormalizer
             ),
+            new QuizFinishedNormalizer(),
+            new QuizFinishedDenormalizer(),
         ];
 
         $encoders = [
@@ -171,7 +175,8 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
         $this->assertEquals(
             new DomainEventStream(
                 [
-                    $domainEvents[4]
+                    $domainEvents[4],
+                    $domainEvents[5],
                 ]
             ),
             $actualDomainEventStream
@@ -236,6 +241,12 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                 4,
                 new Metadata(),
                 ModelsFactory::createAnsweredIncorrect()
+            ),
+            DomainMessage::recordNow(
+                $quiz->getId()->toString(),
+                5,
+                new Metadata(),
+                ModelsFactory::createQuizFinished()
             )
         ];
     }

@@ -24,6 +24,7 @@ use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
+use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
@@ -790,6 +791,16 @@ class ModelsFactory
                 false
             ),
             new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+        );
+    }
+
+    /**
+     * @return QuizFinished
+     */
+    public static function createQuizFinished(): QuizFinished
+    {
+        return new QuizFinished(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6')
         );
     }
 
