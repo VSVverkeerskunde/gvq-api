@@ -6,10 +6,13 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Factory\QuestionsGenerator;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
@@ -76,7 +79,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_throws_on_saving_a_question_with_non_existing_category(): void
     {
-        $question = ModelsFactory::createQuestionWithAlternateCategory();
+        $question = ModelsFactory::createQuestionWithMissingCategory();
 
         $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage('A new entity was found through the relationship');
@@ -145,7 +148,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         $this->questionDoctrineRepository->save($this->question);
 
-        $updatedQuestion = ModelsFactory::createQuestionWithAlternateCategory();
+        $updatedQuestion = ModelsFactory::createQuestionWithMissingCategory();
 
         $this->expectException(ORMInvalidArgumentException::class);
         $this->expectExceptionMessage('A new entity was found through the relationship');
@@ -156,7 +159,7 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
-    public function it_can_delete_a_question()
+    public function it_can_delete_a_question(): void
     {
         $uuid = Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d');
 
@@ -166,6 +169,47 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $foundQuestion = $this->questionDoctrineRepository->getById($uuid);
         $this->assertNull($foundQuestion);
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_by_year_and_language_and_category(): void
+    {
+        $category = ModelsFactory::createGeneralCategory();
+        $questions = QuestionsGenerator::generateForCategory($category);
+
+        foreach ($questions as $question) {
+            $this->questionDoctrineRepository->save($question);
+        }
+
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
+            new Year(2018),
+            new Language('nl'),
+            $category
+        );
+
+        $this->assertEquals(
+            $questions,
+            $foundQuestions
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_questions_of_given_year_language_and_category_are_present(): void
+    {
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
+            new Year(2018),
+            new Language('nl'),
+            ModelsFactory::createGeneralCategory()
+        );
+
+        $this->assertNull(
+            $foundQuestions
+        );
     }
 
     /**

@@ -65,42 +65,14 @@ class SwiftMailService implements MailService
      */
     public function sendActivationMail(Registration $registration): void
     {
-        $message = (new Swift_Message())
-            ->setFrom(
-                $this->sender->getEmail()->toNative(),
-                $this->sender->getName()->toNative()
-            )
-            ->setTo(
-                $registration->getUser()->getEmail()->toNative(),
-                $registration->getUser()->getFirstName()->toNative().' '.
-                $registration->getUser()->getLastName()->toNative()
-            )
-            ->setSubject(
-                $this->translator->trans(
-                    'Activation.mail.subject',
-                    [],
-                    null,
-                    $registration->getUser()->getLanguage()->toNative()
-                )
-            )
-            ->setBody(
-                $this->twig->render(
-                    $this->getActivationHtmlTemplate(
-                        $registration->getUser()->getLanguage()
-                    ),
-                    $this->generateActivationTemplateParameters($registration)
-                ),
-                'text/html'
-            )
-            ->addPart(
-                $this->twig->render(
-                    $this->getActivationTextTemplate(
-                        $registration->getUser()->getLanguage()
-                    ),
-                    $this->generateActivationTemplateParameters($registration)
-                ),
-                'text/plain'
-            );
+        $subjectId = 'Activation.mail.subject';
+        $templateName = 'activate';
+        $templateParameters = $this->generateAccountChangeTemplateParameters(
+            $registration,
+            'accounts_view_activate'
+        );
+
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
 
         $this->swiftMailer->send($message);
     }
@@ -111,7 +83,72 @@ class SwiftMailService implements MailService
      */
     public function sendPasswordRequestMail(Registration $registration): void
     {
-        $message = (new Swift_Message())
+        $subjectId = 'Password.reset.mail.subject';
+        $templateName = 'request_password';
+        $templateParameters = $this->generateAccountChangeTemplateParameters(
+            $registration,
+            'accounts_view_reset_password'
+        );
+
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
+    public function sendWelcomeMail(Registration $registration): void
+    {
+        $subjectId = 'Welcome.mail.subject';
+        $templateName = 'welcome';
+        $templateParameters = $this->generateWelcomeTemplateParameters($registration);
+
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
+    public function sendKickOffMail(Registration $registration): void
+    {
+        $subjectId = 'Kickoff.mail.subject';
+        $templateName = 'kick_off';
+        $templateParameters = $this->generateKickOffTemplateParameters($registration);
+
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
+
+        $message
+            ->attach(
+                \Swift_Attachment::fromPath(
+                    'documents/dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+                )
+            );
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
+     * @param Registration $registration
+     * @param string $subjectId
+     * @param string $templateName
+     * @param array $templateParameters
+     * @return Swift_Message
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    private function generateMessage(
+        Registration $registration,
+        string $subjectId,
+        string $templateName,
+        array $templateParameters
+    ): Swift_Message {
+        return (new Swift_Message())
             ->setFrom(
                 $this->sender->getEmail()->toNative(),
                 $this->sender->getName()->toNative()
@@ -122,80 +159,75 @@ class SwiftMailService implements MailService
                 $registration->getUser()->getLastName()->toNative()
             )
             ->setSubject(
-                $this->translator->trans(
-                    'Password.reset.mail.subject',
-                    [],
-                    null,
-                    $registration->getUser()->getLanguage()->toNative()
-                )
+                $this->generateSubject($registration, $subjectId)
             )
             ->setBody(
                 $this->twig->render(
-                    $this->getPasswordRequestHtmlTemplate(
-                        $registration->getUser()->getLanguage()
+                    $this->getHtmlTemplate(
+                        $registration->getUser()->getLanguage(),
+                        $templateName
                     ),
-                    $this->generatePasswordRequestTemplateParameters($registration)
+                    $templateParameters
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->twig->render(
-                    $this->getPasswordRequestTextTemplate(
-                        $registration->getUser()->getLanguage()
+                    $this->getTextTemplate(
+                        $registration->getUser()->getLanguage(),
+                        $templateName
                     ),
-                    $this->generatePasswordRequestTemplateParameters($registration)
+                    $templateParameters
                 ),
                 'text/plain'
             );
-
-        $this->swiftMailer->send($message);
-    }
-
-    /**
-     * @param Language $language
-     * @return string
-     */
-    private function getActivationHtmlTemplate(Language $language): string
-    {
-        return 'mails/activate.'.$language->toNative().'.html.twig';
-    }
-
-    /**
-     * @param Language $language
-     * @return string
-     */
-    private function getActivationTextTemplate(Language $language): string
-    {
-        return 'mails/activate.'.$language->toNative().'.text.twig';
-    }
-
-    /**
-     * @param Language $language
-     * @return string
-     */
-    private function getPasswordRequestHtmlTemplate(Language $language): string
-    {
-        return 'mails/request_password.'.$language->toNative().'.html.twig';
-    }
-
-    /**
-     * @param Language $language
-     * @return string
-     */
-    private function getPasswordRequestTextTemplate(Language $language): string
-    {
-        return 'mails/request_password.'.$language->toNative().'.text.twig';
     }
 
     /**
      * @param Registration $registration
+     * @param string $subjectId
+     * @return string
+     */
+    private function generateSubject(Registration $registration, string $subjectId): string
+    {
+        return $this->translator->trans(
+            $subjectId,
+            [],
+            null,
+            $registration->getUser()->getLanguage()->toNative()
+        );
+    }
+
+    /**
+     * @param Language $language
+     * @param string $templateName
+     * @return string
+     */
+    private function getHtmlTemplate(Language $language, string $templateName): string
+    {
+        return 'mails/'.$templateName.'.'.$language->toNative().'.html.twig';
+    }
+
+    /**
+     * @param Language $language
+     * @param string $templateName
+     * @return string
+     */
+    private function getTextTemplate(Language $language, string $templateName): string
+    {
+        return 'mails/'.$templateName.'.'.$language->toNative().'.text.twig';
+    }
+
+    /**
+     * @param Registration $registration
+     * @param string $routeName
      * @return array
      */
-    private function generateActivationTemplateParameters(Registration $registration): array
+    private function generateAccountChangeTemplateParameters(Registration $registration, string $routeName): array
     {
         return [
             'registration' => $registration,
-            'activationUrl' => $this->generateActivationUrl($registration),
+            'activationUrl' => $this->generateUrlWithSuffix($registration, $routeName),
         ];
     }
 
@@ -203,22 +235,39 @@ class SwiftMailService implements MailService
      * @param Registration $registration
      * @return array
      */
-    private function generatePasswordRequestTemplateParameters(Registration $registration): array
+    private function generateWelcomeTemplateParameters(Registration $registration): array
     {
         return [
             'registration' => $registration,
-            'activationUrl' => $this->generatePasswordResetUrl($registration),
+            'loginUrl' => $this->generateLoginUrl($registration),
         ];
     }
 
     /**
      * @param Registration $registration
+     * @return array
+     */
+    private function generateKickOffTemplateParameters(Registration $registration): array
+    {
+        return [
+            'registration' => $registration,
+            'loginUrl' => $this->generateLoginUrl($registration),
+            'documentUrl' => $this->generateDocumentUrl(
+                'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+            ),
+        ];
+    }
+
+
+    /**
+     * @param Registration $registration
+     * @param string $routeName
      * @return string
      */
-    private function generateActivationUrl(Registration $registration): string
+    private function generateUrlWithSuffix(Registration $registration, string $routeName): string
     {
         return $this->urlGenerator->generate(
-            'accounts_view_activate',
+            $routeName,
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
                 'urlSuffix' => $registration->getUrlSuffix()->toNative(),
@@ -231,13 +280,27 @@ class SwiftMailService implements MailService
      * @param Registration $registration
      * @return string
      */
-    private function generatePasswordResetUrl(Registration $registration): string
+    private function generateLoginUrl(Registration $registration): string
     {
         return $this->urlGenerator->generate(
-            'accounts_view_reset_password',
+            'accounts_view_login',
             [
                 '_locale' => $registration->getUser()->getLanguage()->toNative(),
-                'urlSuffix' => $registration->getUrlSuffix()->toNative(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
+    /**
+     * @param string $documentName
+     * @return string
+     */
+    private function generateDocumentUrl(string $documentName): string
+    {
+        return $this->urlGenerator->generate(
+            'documents_kickoff',
+            [
+                'document' => $documentName,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

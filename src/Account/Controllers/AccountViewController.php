@@ -85,6 +85,11 @@ class AccountViewController extends AbstractController
     private $mailService;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $quizStartDate;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -92,6 +97,7 @@ class AccountViewController extends AbstractController
      * @param RegistrationRepository $registrationRepository
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
+     * @param \DateTimeImmutable $quizStartDate
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -100,7 +106,8 @@ class AccountViewController extends AbstractController
         CompanyRepository $companyRepository,
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
-        MailService $mailService
+        MailService $mailService,
+        \DateTimeImmutable $quizStartDate
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -109,6 +116,7 @@ class AccountViewController extends AbstractController
         $this->urlSuffixGenerator = $urlSuffixGenerator;
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
+        $this->quizStartDate = $quizStartDate;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
@@ -128,6 +136,11 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_register');
+            }
+
             $language = $request->getLocale();
 
             $user = $this->registrationFormType->createUserFromData(
@@ -184,6 +197,10 @@ class AccountViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_request_password');
+            }
+
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
             if ($user && $user->isActive()) {
@@ -198,10 +215,12 @@ class AccountViewController extends AbstractController
 
                 $this->registrationRepository->save($registration);
                 $this->mailService->sendPasswordRequestMail($registration);
+            }
 
-                return $this->redirectToRoute('accounts_view_request_password_success');
-            } elseif ($user && !$user->isActive()) {
+            if ($user && !$user->isActive()) {
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
+            } else {
+                return $this->redirectToRoute('accounts_view_request_password_success');
             }
         }
 
@@ -280,6 +299,10 @@ class AccountViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_login');
+            }
+
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
             if ($user && $user->getPassword() && $user->getPassword()->verifies($data['password'])) {
@@ -313,6 +336,7 @@ class AccountViewController extends AbstractController
     /**
      * @param string $urlSuffix
      * @return Response
+     * @throws \Exception
      */
     public function activate(string $urlSuffix): Response
     {
@@ -325,6 +349,11 @@ class AccountViewController extends AbstractController
             $this->userRepository->update($user);
 
             $this->registrationRepository->delete($registration->getId());
+            $this->mailService->sendWelcomeMail($registration);
+
+            if (new \DateTimeImmutable() >= $this->quizStartDate) {
+                $this->mailService->sendKickOffMail($registration);
+            }
 
             return $this->render('accounts/activate.html.twig');
         } else {
@@ -489,5 +518,23 @@ class AccountViewController extends AbstractController
             new \DateTimeImmutable(),
             $passwordReset
         );
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    private function honeypotTricked(array $data)
+    {
+        return !empty($data['userName']);
+    }
+
+    /**
+     * @param string $route
+     * @return Response
+     */
+    private function handleHoneypotField(string $route): Response
+    {
+        return $this->redirectToRoute($route);
     }
 }

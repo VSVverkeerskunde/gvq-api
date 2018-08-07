@@ -1,0 +1,15 @@
+// Bundle all bootstrap overrides
+
+.btn {
+	&-primary {
+		background-color: $brand-blue;
+		border-color: $brand-blue;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: darken($brand-blue, 10%);
+			border-color: darken($brand-blue, 10%);
+		}
+	}
+}

@@ -102,4 +102,46 @@ class AnswersTest extends TestCase
             $this->answers->toArray()
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_correct_answer(): void
+    {
+        $this->assertEquals(
+            new Answer(
+                Uuid::fromString('4caf0217-ca8d-46ca-8151-151d71420910'),
+                new PositiveNumber(3),
+                new NotEmptyString('answer 3'),
+                true
+            ),
+            $this->answers->getCorrectAnswer()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_when_no_correct_answer_found(): void
+    {
+        $answers = new Answers(
+            new Answer(
+                Uuid::fromString('bfc153e0-8fea-489b-9010-1dfe9f9dbba8'),
+                new PositiveNumber(2),
+                new NotEmptyString('answer 2'),
+                false
+            ),
+            new Answer(
+                Uuid::fromString('b1a4a8a4-6419-449f-bde2-10122d90a916'),
+                new PositiveNumber(1),
+                new NotEmptyString('answer 1'),
+                false
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Did not find a correct answer!');
+
+        $answers->getCorrectAnswer();
+    }
 }
