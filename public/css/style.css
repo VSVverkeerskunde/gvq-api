@@ -25,7 +25,7 @@ html {
 body {
   min-width: 260px;
   background-color: #ffffff;
-  color: #6c6f70;
+  color: #65696b;
   font-family: "Open Sans", sans-serif;
   font-weight: regular;
   line-height: 1.65em;
@@ -53,7 +53,7 @@ hr {
   margin-top: 1.65em;
   margin-bottom: 1.65em;
   border: 0;
-  border-top: 1px solid #6c6f70; }
+  border-top: 1px solid #65696b; }
 
 svg {
   fill: currentColor; }
@@ -172,6 +172,45 @@ svg {
     background-color: #40b2e2;
     border-color: #40b2e2; }
 
+hr {
+  border-top-color: rgba(0, 0, 0, 0.125); }
+
+.text-muted {
+  color: #989c9e !important; }
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.85rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit; }
+
+h1, .h1 {
+  font-size: 2rem; }
+
+h2, .h2 {
+  font-size: 1.8rem; }
+
+h3, .h3 {
+  font-size: 1.4rem; }
+
+h4, .h4 {
+  font-size: 1.1rem; }
+
+h5, .h5 {
+  font-size: 1rem; }
+
+h6, .h6 {
+  font-size: .85rem; }
+
+.card-title {
+  margin-bottom: 0.85rem; }
+
+.card-link {
+  font-weight: 600;
+  text-decoration: underline; }
+
 .container {
   zoom: 1; }
   .container:before, .container:after {
@@ -191,6 +230,15 @@ svg {
     .page-main {
       padding-bottom: 80px;
       padding-top: 80px; } }
+
+small {
+  line-height: 1.15em; }
+
+form {
+  max-width: 750px; }
+
+.invalid-feedback {
+  line-height: 1.15em; }
 
 .footer-partners {
   border-top: 1px solid #6cc4e9;

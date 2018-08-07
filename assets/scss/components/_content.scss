@@ -14,3 +14,19 @@
 		padding-top: $global-margin*2;
 	}
 }
+
+small {
+	line-height: $line-height-small;
+}
+
+hr {
+
+}
+
+form {
+    max-width: 750px;
+}
+
+.invalid-feedback {
+    line-height: $line-height-small;
+}
