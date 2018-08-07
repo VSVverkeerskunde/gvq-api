@@ -147,4 +147,20 @@ class QuizService
 
         return new Questions(...$pickedQuestions);
     }
+
+    /**
+     * @return Year
+     */
+    public function getYear(): Year
+    {
+        return $this->year;
+    }
+
+    /**
+     * @return AllowedDelay
+     */
+    public function getAllowedDelay(): AllowedDelay
+    {
+        return $this->allowedDelay;
+    }
 }

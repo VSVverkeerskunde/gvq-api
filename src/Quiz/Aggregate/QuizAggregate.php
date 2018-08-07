@@ -32,6 +32,11 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private $questionAskedOn;
 
     /**
+     * @var bool
+     */
+    private $askingQuestion;
+
+    /**
      * @inheritdoc
      */
     public function getAggregateRootId(): string
@@ -60,6 +65,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
         $this->quiz = $quizStarted->getQuiz();
 
         $this->questionIndex = 0;
+        $this->askingQuestion = false;
     }
 
     /**
@@ -67,13 +73,15 @@ class QuizAggregate extends EventSourcedAggregateRoot
      */
     public function askQuestion(\DateTimeImmutable $askedOn): void
     {
-        $this->apply(
-            new QuestionAsked(
-                $this->quiz->getId(),
-                $this->getCurrentQuestion(),
-                $askedOn
-            )
-        );
+        if (!$this->askingQuestion) {
+            $this->apply(
+                new QuestionAsked(
+                    $this->quiz->getId(),
+                    $this->getCurrentQuestion(),
+                    $askedOn
+                )
+            );
+        }
     }
 
     /**
@@ -82,6 +90,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
     protected function applyQuestionAsked(QuestionAsked $questionAsked): void
     {
         $this->questionAskedOn = $questionAsked->getAskedOn();
+        $this->askingQuestion = true;
     }
 
     /**
@@ -92,51 +101,56 @@ class QuizAggregate extends EventSourcedAggregateRoot
         \DateTimeImmutable $answeredOn,
         Answer $answer
     ): void {
-        $currentQuestion = $this->getCurrentQuestion();
+        if ($this->askingQuestion) {
+            $currentQuestion = $this->getCurrentQuestion();
 
-        if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
-            !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
-            $this->apply(
-                new AnsweredIncorrect(
-                    $this->quiz->getId(),
-                    $currentQuestion,
-                    $answer,
-                    $answeredOn
-                )
-            );
-        } else {
-            $this->apply(
-                new AnsweredCorrect(
-                    $this->quiz->getId(),
-                    $currentQuestion,
-                    $answer,
-                    $answeredOn
-                )
-            );
-        }
+            if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
+                !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
+                $this->apply(
+                    new AnsweredIncorrect(
+                        $this->quiz->getId(),
+                        $currentQuestion,
+                        $answer,
+                        $answeredOn
+                    )
+                );
+            } else {
+                $this->apply(
+                    new AnsweredCorrect(
+                        $this->quiz->getId(),
+                        $currentQuestion,
+                        $answer,
+                        $answeredOn
+                    )
+                );
+            }
 
-        if (count($this->quiz->getQuestions()) === $this->questionIndex) {
-            $this->apply(
-                new QuizFinished(
-                    $this->quiz->getId()
-                )
-            );
+            if (count($this->quiz->getQuestions()) === $this->questionIndex) {
+                $this->apply(
+                    new QuizFinished(
+                        $this->quiz->getId()
+                    )
+                );
+            }
         }
     }
 
     protected function applyAnsweredIncorrect(): void
     {
         $this->questionIndex++;
+        $this->askingQuestion = false;
     }
 
     protected function applyAnsweredCorrect(): void
     {
         $this->questionIndex++;
+        $this->askingQuestion = false;
     }
 
     protected function applyQuizFinished(): void
     {
         $this->questionIndex = -1;
+        $this->askingQuestion = false;
     }
 
     /**

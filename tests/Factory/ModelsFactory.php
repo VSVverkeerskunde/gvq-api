@@ -20,6 +20,12 @@ use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Commands\StartQuiz;
+use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\QuestionAsked;
+use VSV\GVQ_API\Quiz\Events\QuizFinished;
+use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
@@ -646,9 +652,10 @@ class ModelsFactory
     /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
-     * @param null|Company $company
-     * @param null|Partner $partner
-     * @param null|Team $team
+     * @param Company|null $company
+     * @param Partner|null $partner
+     * @param Team|null $team
+     * @param Language|null $language
      * @return Quiz
      * @throws \Exception
      */
@@ -657,7 +664,8 @@ class ModelsFactory
         QuizChannel $channel,
         ?Company $company,
         ?Partner $partner,
-        ?Team $team
+        ?Team $team,
+        Language $language = null
     ): Quiz {
         return new Quiz(
             $uuid,
@@ -666,7 +674,7 @@ class ModelsFactory
             $company,
             $partner,
             $team,
-            new Language('nl'),
+            $language ? $language : new Language('nl'),
             new Year(2018),
             new AllowedDelay(40),
             self::createQuestions()
@@ -705,6 +713,94 @@ class ModelsFactory
         return new Team(
             Uuid::fromString('5c128cad-8727-4e3e-bfba-c51929ae14c4'),
             new NotEmptyString('Royal Antwerp FC')
+        );
+    }
+
+    /**
+     * @return QuizStarted
+     * @throws \Exception
+     */
+    public static function createQuizStarted(): QuizStarted
+    {
+        return new QuizStarted(
+            Uuid::fromString('eb7eb3bc-4d1f-4d40-817f-fba705aa8e49'),
+            ModelsFactory::createIndividualQuiz()
+        );
+    }
+
+    /**
+     * @return StartQuiz
+     */
+    public static function createStartQuiz(): StartQuiz
+    {
+        return new StartQuiz(
+            new QuizParticipant(new Email('par@ticipa.nt')),
+            new QuizChannel(QuizChannel::COMPANY),
+            new Alias('vsv'),
+            new Alias('dats'),
+            Uuid::fromString('9c2c62c3-655a-4444-89e5-6c493cf2c684'),
+            new Language(Language::NL)
+        );
+    }
+
+    /**
+     * @return QuestionAsked
+     * @throws \Exception
+     */
+    public static function createQuestionAsked(): QuestionAsked
+    {
+        return new QuestionAsked(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new \DateTimeImmutable('2020-11-11T11:12:13+00:00')
+        );
+    }
+
+    /**
+     * @return AnsweredCorrect
+     * @throws \Exception
+     */
+    public static function createAnsweredCorrect(): AnsweredCorrect
+    {
+        return new AnsweredCorrect(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new Answer(
+                Uuid::fromString('53780149-4ef9-405f-b4f4-45e55fde3d67'),
+                new PositiveNumber(3),
+                new NotEmptyString('Non.'),
+                true
+            ),
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+        );
+    }
+
+    /**
+     * @return AnsweredIncorrect
+     * @throws \Exception
+     */
+    public static function createAnsweredIncorrect(): AnsweredIncorrect
+    {
+        return new AnsweredIncorrect(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new Answer(
+                Uuid::fromString('96bbb677-0839-46ae-9554-bcb709e49cab'),
+                new PositiveNumber(2),
+                new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
+                false
+            ),
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+        );
+    }
+
+    /**
+     * @return QuizFinished
+     */
+    public static function createQuizFinished(): QuizFinished
+    {
+        return new QuizFinished(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6')
         );
     }
 

@@ -1,7 +1,6 @@
 #
 # VIEWS
 #
-
 accounts_view_register:
   path: /{_locale}/view/accounts/register
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
@@ -137,3 +136,19 @@ users_export:
 documents_kickoff:
   path: /documents/{document}
   methods: [GET]
+
+#
+# API
+#
+quiz_start:
+  path: /quiz
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizController::start
+  methods: [POST]
+quiz_ask_question:
+  path: /quiz/{quizId}/question
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizController::askQuestion
+  methods: [GET]
+quiz_answer_question:
+  path: /quiz/{quizId}/question/{answerId}
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizController::answerQuestion
+  methods: [POST]
