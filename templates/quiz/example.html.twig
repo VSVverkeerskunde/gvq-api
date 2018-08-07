@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        ul.gvq-answers li:hover {
+            cursor: pointer;
+            background-color: lightcyan;
+        }
+
+        ul.gvq-answers li.selected-answer {
+            list-style-type: '✔️';
+        }
+
+        ul.gvq-answers li.is-correct {
+            background-color: lightgreen;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h2>Quiz</h2>
+    <div id="gvq-quiz">
+        <div class="gvq-quiz-view"></div>
+        <div class="gvq-templates" data-language="nl" style="display: none;">
+            <div data-template="participation-form">
+                <input class="gvq-participant-email" placeholder="email adres">
+                <button class="gvq-start-button">Start de quiz</button>
+            </div>
+
+            <div data-template="ask-question">
+                <div class="gvq-question-counter">
+                    Vraag <span data-value="questionNr"></span>/15
+                </div>
+                <div class="gvq-question-content">
+                    <span data-value="questionText"></span>
+                    <ul class="gvq-answers">
+                        <li data-value="answer1"></li>
+                        <li data-value="answer2"></li>
+                        <li data-value="answer3"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div data-template="show-answer">
+                <div class="gvq-question-counter">
+                    Vraag <span data-value="questionNr"></span>/15
+                </div>
+                <div class="gvq-question-content">
+                    <span data-value="questionText"></span>
+                    <ul class="gvq-answers">
+                        <li data-value="answer1"></li>
+                        <li data-value="answer2"></li>
+                        <li data-value="answer3"></li>
+                    </ul>
+                    <span data-value="feedback"></span>
+                </div>
+                <button class="gvq-next-question">Volgende vraag</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/quiz.js') }}"></script>
+{% endblock %}
