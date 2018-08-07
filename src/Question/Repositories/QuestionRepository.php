@@ -3,8 +3,11 @@
 namespace VSV\GVQ_API\Question\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 interface QuestionRepository
 {
@@ -28,6 +31,18 @@ interface QuestionRepository
      * @return null|Question
      */
     public function getById(UuidInterface $id): ?Question;
+
+    /**
+     * @param Year $year
+     * @param Language $language
+     * @param Category $category
+     * @return null|Questions
+     */
+    public function getByYearAndLanguageAndCategory(
+        Year $year,
+        Language $language,
+        Category $category
+    ): ?Questions;
 
     /**
      * @return null|Questions

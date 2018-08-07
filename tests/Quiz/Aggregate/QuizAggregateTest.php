@@ -303,4 +303,81 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
                 ]
             );
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_prevents_asking_new_question_before_answer_question()
+    {
+        $askedOn = new \DateTimeImmutable();
+        $question = $this->quiz->getQuestions()->toArray()[0];
+
+        $this->scenario
+            ->withAggregateId($this->quiz->getId()->toString())
+            ->given(
+                [
+                    new QuizStarted(
+                        $this->quiz->getId(),
+                        $this->quiz
+                    ),
+                ]
+            )
+            ->when(function (QuizAggregate $quizAggregate) use ($askedOn) {
+                $quizAggregate->askQuestion($askedOn);
+                $quizAggregate->askQuestion($askedOn);
+            })
+            ->then(
+                [
+                    new QuestionAsked(
+                        $this->quiz->getId(),
+                        $question,
+                        $askedOn
+                    )
+                ]
+            );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_prevents_answering_same_question()
+    {
+        $askedOn = new \DateTimeImmutable();
+        $question = $this->quiz->getQuestions()->toArray()[0];
+
+        $answeredOn = $askedOn->add(new \DateInterval('PT30S'));
+        $correctAnswer = $question->getAnswers()->toArray()[2];
+
+        $this->scenario
+            ->withAggregateId($this->quiz->getId()->toString())
+            ->given(
+                [
+                    new QuizStarted(
+                        $this->quiz->getId(),
+                        $this->quiz
+                    ),
+                    new QuestionAsked(
+                        $this->quiz->getId(),
+                        $question,
+                        $askedOn
+                    ),
+                ]
+            )
+            ->when(function (QuizAggregate $quizAggregate) use ($answeredOn, $correctAnswer) {
+                $quizAggregate->answerQuestion($answeredOn, $correctAnswer);
+                $quizAggregate->answerQuestion($answeredOn, $correctAnswer);
+            })
+            ->then(
+                [
+                    new AnsweredCorrect(
+                        $this->quiz->getId(),
+                        $question,
+                        $correctAnswer,
+                        $answeredOn
+                    ),
+                ]
+            );
+    }
 }

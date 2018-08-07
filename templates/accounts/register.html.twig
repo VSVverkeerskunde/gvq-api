@@ -10,6 +10,11 @@
         {{ form_errors(form.email) }}
     </div>
 
+    <div class="form-group" style="display: none">
+        <label for="form_username">{% trans %}Username{% endtrans %}</label>
+        {{ form_widget(form.userName) }}
+    </div>
+
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6">

@@ -66,7 +66,7 @@ class PartnerSerializerTest extends TestCase
     {
         $actualPartner = $this->serializer->deserialize(
             $this->partnerAsJson,
-            partner::class,
+            Partner::class,
             'json'
         );
 

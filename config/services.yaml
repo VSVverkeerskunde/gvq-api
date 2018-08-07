@@ -81,6 +81,16 @@ services:
       arguments:
         - 'Europe/Brussels'
 
+    quiz_delay:
+      class: VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay
+      arguments:
+        $value: 40
+
+    quiz_year:
+      class: \VSV\GVQ_API\Question\ValueObjects\Year
+      arguments:
+        $value: 2018
+
     quiz_start_date:
       class: \DateTimeImmutable
       arguments:
@@ -97,6 +107,80 @@ services:
       class: VSV\GVQ_API\Partner\Repositories\PartnerYamlRepository
       arguments:
         $partnerFile: '%kernel.project_dir%/config/partners.yaml'
+
+    redis_service:
+      class: \Redis
+      calls:
+        - method: connect
+          arguments:
+            - 'redis'
+            - 6379
+
+    quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    started_quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\StartedQuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    current_question_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    quiz_started_listener:
+      class: VSV\GVQ_API\Quiz\EventListeners\QuizStartedListener
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
+        $startedQuizRepository: '@started_quiz_redis_repository'
+
+    question_asked_listener:
+      class: VSV\GVQ_API\Quiz\EventListeners\QuestionAskedListener
+      arguments:
+        $currentQuestionRepository: '@current_question_redis_repository'
+
+    in_memory_event_store:
+      class: Broadway\EventStore\InMemoryEventStore
+
+    doctrine_event_store:
+      class: VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore
+
+    simple_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+        - method: subscribe
+          arguments:
+            - '@quiz_started_listener'
+        - method: subscribe
+          arguments:
+            - '@question_asked_listener'
+
+    quiz_aggregate_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
+      arguments:
+        $eventStore: '@doctrine_event_store'
+        $eventBus: '@simple_event_bus'
+
+    quiz_composition_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuizCompositionYamlRepository
+      arguments:
+        $quizCompositionFile: '%kernel.project_dir%/config/quiz_composition.yaml'
+
+    team_repository:
+      class: VSV\GVQ_API\Team\Repositories\TeamYamlRepository
+      arguments:
+        $teamFile: '%kernel.project_dir%/config/teams.yaml'
+
+    quiz_service:
+      class: VSV\GVQ_API\Quiz\Service\QuizService
+      arguments:
+        $uuidFactory: '@uuid_factory'
+        $quizCompositionRepository: '@quiz_composition_repository'
+        $year: '@quiz_year'
+        $allowedDelay: '@quiz_delay'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -144,4 +228,13 @@ services:
         $fileSystem: '@fly_system'
         $imageValidator: '@image_validator'
         $uuidFactory: '@uuid_factory'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Quiz\Controllers\QuizController:
+      arguments:
+        $quizService: '@quiz_service'
+        $quizAggregateRepository: '@quiz_aggregate_repository'
+        $partnerRepository: '@partner_yaml_repository'
+        $teamRepository: '@team_repository'
+        $currentQuestionRepository: '@current_question_redis_repository'
       tags: ['controller.service_arguments']
