@@ -245,7 +245,7 @@ form {
   .footer-partners img {
     height: auto;
     max-height: 80px;
-    max-width: 100%;
+    max-width: 150px;
     margin-bottom: 40px; }
 
 .footer-sponsors {
@@ -258,7 +258,7 @@ form {
       padding: 40px 0; } }
   .footer-sponsors img {
     height: auto;
-    max-height: 30px;
+    max-height: 25px;
     max-width: 100%; }
 
 .page-footer {
