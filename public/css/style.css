@@ -206,12 +206,25 @@ h5, .h5 {
 h6, .h6 {
   font-size: .85rem; }
 
+.card-header,
+.card-footer {
+  background-color: #fff; }
+
 .card-title {
-  margin-bottom: 0.85rem; }
+  font-size: 1.2em; }
+
+.card-subtitle {
+  font-size: 1em; }
+
+.card-title + .card-subtitle {
+  margin-top: 1rem; }
 
 .card-link {
   font-weight: 600;
   text-decoration: underline; }
+
+input, button, select, optgroup, textarea {
+  max-width: 350px; }
 
 .page-main {
   background-color: #f5f5f5;
