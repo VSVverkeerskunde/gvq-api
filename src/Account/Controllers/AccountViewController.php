@@ -134,6 +134,11 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_register');
+            }
+
             $language = $request->getLocale();
 
             $user = $this->registrationFormType->createUserFromData(
@@ -189,6 +194,10 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_request_password');
+            }
 
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
@@ -287,6 +296,10 @@ class AccountViewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_login');
+            }
 
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
@@ -493,5 +506,23 @@ class AccountViewController extends AbstractController
             new \DateTimeImmutable(),
             $passwordReset
         );
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    private function honeypotTricked(array $data)
+    {
+        return !empty($data['userName']);
+    }
+
+    /**
+     * @param string $route
+     * @return Response
+     */
+    private function handleHoneypotField(string $route): Response
+    {
+        return $this->redirectToRoute($route);
     }
 }

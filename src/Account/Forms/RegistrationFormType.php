@@ -27,9 +27,9 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class RegistrationFormType extends AbstractType
 {
@@ -177,6 +177,15 @@ class RegistrationFormType extends AbstractType
                 [
                     'constraints' => $this->createAliasConstraints($translator),
                 ]
+            )
+            ->add(
+                'userName',
+                TextType::class,
+                [
+                    'attr' => [
+                        'autocomplete' => "null",
+                    ],
+                ]
             );
     }
 
@@ -197,6 +206,7 @@ class RegistrationFormType extends AbstractType
      * @param array $data
      * @param string $language
      * @return User
+     * @throws \Exception
      */
     public function createUserFromData(
         UuidFactoryInterface $uuidFactory,
@@ -225,6 +235,7 @@ class RegistrationFormType extends AbstractType
      * @param array $data
      * @param User $user
      * @return Company
+     * @throws \Exception
      */
     public function createCompanyFromData(
         UuidFactoryInterface $uuidFactory,
