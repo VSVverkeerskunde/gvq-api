@@ -20,6 +20,8 @@ accounts_view_login:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+accounts_logout:
+  path: /logout
 accounts_view_activate:
   path: /{_locale}/view/accounts/activate/{urlSuffix}
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::activate

@@ -13,6 +13,9 @@ security:
             provider: persistent
             form_login:
               login_path: accounts_view_login
+            logout:
+                path: accounts_logout
+                target: accounts_view_login
     access_control:
         - { path: '^/(nl|fr)/view/questions', roles: [ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/users', roles: [ROLE_VSV, ROLE_ADMIN] }
