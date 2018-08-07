@@ -206,6 +206,7 @@ class RegistrationFormType extends AbstractType
      * @param array $data
      * @param string $language
      * @return User
+     * @throws \Exception
      */
     public function createUserFromData(
         UuidFactoryInterface $uuidFactory,
@@ -234,6 +235,7 @@ class RegistrationFormType extends AbstractType
      * @param array $data
      * @param User $user
      * @return Company
+     * @throws \Exception
      */
     public function createCompanyFromData(
         UuidFactoryInterface $uuidFactory,
