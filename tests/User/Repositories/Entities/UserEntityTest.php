@@ -33,7 +33,7 @@ class UserEntityTest extends TestCase
     {
         $this->assertEquals(
             'john@gvq.be',
-            $this->userEntity->getEmail()
+            $this->userEntity->getUsername()
         );
     }
 
