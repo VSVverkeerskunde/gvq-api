@@ -1,8 +1,5 @@
-.container {
-	@include clearfix();
-}
-
 .page-main {
+	background-color: #f5f5f5;
 	padding-bottom: $global-margin/2;
 	padding-top: $global-margin/2;
 	@include breakpoint(map-get($breakpoints, med)) {
@@ -13,4 +10,20 @@
 		padding-bottom: $global-margin*2;
 		padding-top: $global-margin*2;
 	}
+}
+
+small {
+	line-height: $line-height-small;
+}
+
+hr {
+
+}
+
+form {
+	max-width: 750px;
+}
+
+.invalid-feedback {
+	line-height: $line-height-small;
 }
