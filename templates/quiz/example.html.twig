@@ -4,6 +4,10 @@
     {{ parent() }}
 
     <style>
+        #form {
+            max-width: 576px;
+        }
+
         ul.gvq-answers li:hover {
             cursor: pointer;
             background-color: lightcyan;
@@ -45,6 +49,9 @@
 {% endblock %}
 
 {% block body %}
+    <div class="container-fluid">
+    {{ form(form) }}
+
     <h2>Quiz</h2>
     <div id="gvq-quiz">
         <div class="gvq-quiz-old-view"></div>
@@ -91,12 +98,14 @@
             </div>
         </div>
     </div>
+
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
     <script>
-        Quiz();
+        Quiz({{ quizConfig|json_encode|raw }});
     </script>
 {% endblock %}
