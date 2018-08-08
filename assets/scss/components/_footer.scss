@@ -1,5 +1,4 @@
 .footer-partners {
-	border-top: 1px solid $brand-blue;
 	padding: $global-margin/2 0;
 	text-align: center;
 	@include breakpoint(map-get($breakpoints, med)) {

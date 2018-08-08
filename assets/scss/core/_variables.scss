@@ -3,6 +3,7 @@
 
 $black: #1a1a1a;
 $gray-50: #65696b;
+$gray-25: #f5f5f5;
 $white: #ffffff;
 
 $brand-blue: #6cc4e9; // blue
@@ -59,6 +60,6 @@ $transition-easing-base: cubic-bezier(0.000, 0.000, 0.150, 0.825);
 // Border radius
 // -------------
 //
-$border-radius-base: 5px;
-$border-radius-small: 3px;
-$border-radius-large: 10px;
+$border-radius-base: .25rem;
+$border-radius-small: .15rem;
+$border-radius-large: .5rem;

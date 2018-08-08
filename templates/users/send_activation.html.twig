@@ -4,6 +4,8 @@
 
 {% block content %}
 
+    <h1 class="page-title">{% trans %}Activation.send.title{% endtrans %}</h1>
+
     <p>{% trans with {'%email%': email} %}Activation.send.confirmation{% endtrans %}</p>
 
     <form method="post">
