@@ -79,10 +79,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 new QuestionAsked(
                     $this->quiz->getId(),
                     $this->getCurrentQuestion(),
-                    $askedOn,
-                    [
-                        'questionAsked' => true,
-                    ]
+                    $askedOn
                 )
             );
         }
@@ -106,17 +103,6 @@ class QuizAggregate extends EventSourcedAggregateRoot
         Answer $answer
     ): void {
         if ($this->askingQuestion) {
-            $this->apply(
-                new QuestionAsked(
-                    $this->quiz->getId(),
-                    $this->getCurrentQuestion(),
-                    $this->questionAskedOn,
-                    [
-                        'questionAsked' => false,
-                    ]
-                )
-            );
-
             $currentQuestion = $this->getCurrentQuestion();
 
             if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||

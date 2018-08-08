@@ -4,11 +4,10 @@ namespace VSV\GVQ_API\Quiz\EventListeners;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
-use VSV\GVQ_API\Quiz\Events\QuestionAnswered;
-use VSV\GVQ_API\Quiz\Events\QuestionAsked;
+use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
 use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
 
-class QuestionAskedListener implements EventListener
+class AnsweredEventListener implements EventListener
 {
     /**
      * @var CurrentQuestionRepository
@@ -30,13 +29,10 @@ class QuestionAskedListener implements EventListener
     {
         $payload = $domainMessage->getPayload();
 
-        if ($payload instanceof QuestionAsked) {
+        if ($payload instanceof AbstractAnsweredEvent) {
             $this->currentQuestionRepository->save(
                 $payload->getId(),
-                $payload->getQuestion(),
-                [
-                    'questionAsked' => true,
-                ]
+                $payload->getQuestion()
             );
         }
     }

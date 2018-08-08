@@ -37,8 +37,7 @@ class QuestionAskedDenormalizer implements DenormalizerInterface
                 $format,
                 $context
             ),
-            new \DateTimeImmutable($data['askedOn']),
-            $context
+            new \DateTimeImmutable($data['askedOn'])
         );
     }
 

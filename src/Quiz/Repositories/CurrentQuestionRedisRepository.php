@@ -35,9 +35,8 @@ class CurrentQuestionRedisRepository implements CurrentQuestionRepository
     /**
      * @inheritdoc
      */
-    public function save(UuidInterface $quizId, Question $question, ?array $context): void
+    public function save(UuidInterface $quizId, Question $question, array $context = []): void
     {
-        $context = $context === null ? [] : $context;
         $questionAsJson = $this->serializer->serialize($question, 'json', $context);
 
         $this->redis->set($this->createKey($quizId), $questionAsJson);
