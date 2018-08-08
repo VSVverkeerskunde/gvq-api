@@ -41,11 +41,14 @@ class QuestionNormalizer implements NormalizerInterface
             $format
         );
 
+        $questionAsked = !empty($context['questionAsked']) && $context['questionAsked'] === true;
+
         $answers = array_map(
-            function (Answer $answer) use ($format) {
+            function (Answer $answer) use ($format, $context) {
                 return $this->answerNormalizer->normalize(
                     $answer,
-                    $format
+                    $format,
+                    $context
                 );
             },
             $question->getAnswers()->toArray()
@@ -59,7 +62,7 @@ class QuestionNormalizer implements NormalizerInterface
             'text' => $question->getText()->toNative(),
             'imageFileName' => $question->getImageFileName()->toNative(),
             'answers' => $answers,
-            'feedback' => $question->getFeedback()->toNative(),
+            'feedback' => $questionAsked ? null : $question->getFeedback()->toNative(),
             'createdOn' => $question->getCreatedOn()->format(DATE_ATOM)
         ];
     }

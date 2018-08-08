@@ -63,7 +63,8 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
 
         $this->currentQuestionRedisRepository->save(
             $quizId,
-            $question
+            $question,
+            null
         );
     }
 

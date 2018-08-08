@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Quiz\EventListeners;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\QuestionAnswered;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
 
@@ -32,7 +33,8 @@ class QuestionAskedListener implements EventListener
         if ($payload instanceof QuestionAsked) {
             $this->currentQuestionRepository->save(
                 $payload->getId(),
-                $payload->getQuestion()
+                $payload->getQuestion(),
+                $payload->getContext()
             );
         }
     }

@@ -10,8 +10,9 @@ interface CurrentQuestionRepository
     /**
      * @param UuidInterface $quizId
      * @param Question $question
+     * @param array|null $context
      */
-    public function save(UuidInterface $quizId, Question $question): void;
+    public function save(UuidInterface $quizId, Question $question, ?array $context): void;
 
     /**
      * @param UuidInterface $quizId

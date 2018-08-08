@@ -18,20 +18,28 @@ class QuestionAsked extends AbstractQuizEvent
     private $askedOn;
 
     /**
+     * @var array
+     */
+    private $context;
+
+    /**
      * QuestionAsked constructor.
      * @param UuidInterface $id
      * @param Question $question
      * @param \DateTimeImmutable $askedOn
+     * @param array $context
      */
     public function __construct(
         UuidInterface $id,
         Question $question,
-        \DateTimeImmutable $askedOn
+        \DateTimeImmutable $askedOn,
+        array $context
     ) {
         parent::__construct($id);
 
         $this->question = $question;
         $this->askedOn = $askedOn;
+        $this->context = $context;
     }
 
     /**
@@ -48,5 +56,13 @@ class QuestionAsked extends AbstractQuizEvent
     public function getAskedOn(): \DateTimeImmutable
     {
         return $this->askedOn;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContext(): array
+    {
+        return $this->context;
     }
 }

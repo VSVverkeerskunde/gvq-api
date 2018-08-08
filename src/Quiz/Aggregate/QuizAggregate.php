@@ -8,6 +8,7 @@ use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\QuestionAnswered;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
@@ -78,7 +79,10 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 new QuestionAsked(
                     $this->quiz->getId(),
                     $this->getCurrentQuestion(),
-                    $askedOn
+                    $askedOn,
+                    [
+                        'questionAsked' => true,
+                    ]
                 )
             );
         }
@@ -102,6 +106,17 @@ class QuizAggregate extends EventSourcedAggregateRoot
         Answer $answer
     ): void {
         if ($this->askingQuestion) {
+            $this->apply(
+                new QuestionAsked(
+                    $this->quiz->getId(),
+                    $this->getCurrentQuestion(),
+                    $this->questionAskedOn,
+                    [
+                        'questionAsked' => false,
+                    ]
+                )
+            );
+
             $currentQuestion = $this->getCurrentQuestion();
 
             if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
