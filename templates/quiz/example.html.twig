@@ -16,6 +16,10 @@
         ul.gvq-answers li.is-correct {
             background-color: lightgreen;
         }
+
+        .gvq-countdown.finished {
+            color: red;
+        }
     </style>
 {% endblock %}
 
@@ -32,6 +36,9 @@
             <div data-template="ask-question">
                 <div class="gvq-question-counter">
                     Vraag <span data-value="questionNr"></span>/15
+                    <span class="gvq-countdown">
+                        Resterende tijd: <span class="gvq-time-left">40</span>
+                    </span>
                 </div>
                 <div class="gvq-question-content">
                     <span data-value="questionText"></span>
