@@ -20,12 +20,34 @@
         .gvq-countdown.finished {
             color: red;
         }
+
+        .gvq-question-image {
+            width: 50%;
+            float: left;
+        }
+
+        .gvq-question-text,
+        .gvq-answers,
+        .gvq-question-feedback{
+            width: 50%;
+            float: right;
+        }
+
+        .gvq-next-question {
+            float: right;
+            clear: both;
+        }
+
+        .gvq-quiz-old-view {
+            pointer-events: none;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <h2>Quiz</h2>
     <div id="gvq-quiz">
+        <div class="gvq-quiz-old-view"></div>
         <div class="gvq-quiz-view"></div>
         <div class="gvq-templates" data-language="nl" style="display: none;">
             <div data-template="participation-form">
@@ -40,9 +62,9 @@
                         Resterende tijd: <span class="gvq-time-left">40</span>
                     </span>
                 </div>
-                <img data-src="question-image" src="">
                 <div class="gvq-question-content">
-                    <span data-value="questionText"></span>
+                    <img class="gvq-question-image" src="">
+                    <span class="gvq-question-text" data-value="questionText"></span>
                     <ul class="gvq-answers">
                         <li data-value="answer1"></li>
                         <li data-value="answer2"></li>
@@ -55,15 +77,15 @@
                 <div class="gvq-question-counter">
                     Vraag <span data-value="questionNr"></span>/15
                 </div>
-                <img data-src="question-image" src="">
                 <div class="gvq-question-content">
-                    <span data-value="questionText"></span>
+                    <img class="gvq-question-image" src="">
+                    <span class="gvq-question-text" data-value="questionText"></span>
                     <ul class="gvq-answers">
                         <li data-value="answer1"></li>
                         <li data-value="answer2"></li>
                         <li data-value="answer3"></li>
                     </ul>
-                    <span data-value="feedback"></span>
+                    <span class="gvq-question-feedback" data-value="feedback"></span>
                 </div>
                 <button class="gvq-next-question">Volgende vraag</button>
             </div>
