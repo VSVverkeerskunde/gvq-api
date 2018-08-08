@@ -7,9 +7,10 @@ use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
 use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
 
-class QuestionAskedListenerTest extends TestCase
+class AnsweredEventListenerTest extends TestCase
 {
     /**
      * @var CurrentQuestionRepository|MockObject
@@ -17,9 +18,9 @@ class QuestionAskedListenerTest extends TestCase
     private $currentQuestionRepository;
 
     /**
-     * @var QuestionAskedListener
+     * @var AnsweredEventListener
      */
-    private $questionAskedListener;
+    private $answeredEventListener;
 
     protected function setUp(): void
     {
@@ -27,36 +28,49 @@ class QuestionAskedListenerTest extends TestCase
         $currentQuestionRepository = $this->createMock(CurrentQuestionRepository::class);
         $this->currentQuestionRepository = $currentQuestionRepository;
 
-        $this->questionAskedListener = new QuestionAskedListener(
+        $this->answeredEventListener = new AnsweredEventListener(
             $this->currentQuestionRepository
         );
     }
 
     /**
      * @test
+     * @dataProvider answeredEventProvider
+     * @param AbstractAnsweredEvent $answeredEvent
      * @throws \Exception
      */
-    public function it_handles_question_asked(): void
+    public function it_handles_answered_events(AbstractAnsweredEvent $answeredEvent): void
     {
-        $questionAsked = ModelsFactory::createQuestionAsked();
-
         $domainMessage = DomainMessage::recordNow(
-            $questionAsked->getId(),
+            $answeredEvent->getId(),
             0,
             new Metadata(),
-            $questionAsked
+            $answeredEvent
         );
 
         $this->currentQuestionRepository->expects($this->once())
             ->method('save')
             ->with(
-                $questionAsked->getId(),
-                $questionAsked->getQuestion(),
-                [
-                    'questionAsked' => true,
-                ]
+                $answeredEvent->getId(),
+                $answeredEvent->getQuestion()
             );
 
-        $this->questionAskedListener->handle($domainMessage);
+        $this->answeredEventListener->handle($domainMessage);
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function answeredEventProvider(): array
+    {
+        return [
+            [
+                ModelsFactory::createAnsweredCorrect(),
+            ],
+            [
+                ModelsFactory::createAnsweredIncorrect(),
+            ],
+        ];
     }
 }
