@@ -18,10 +18,12 @@ hr {
 	border-top-color: rgba(0, 0, 0, 0.125);
 }
 
+
+// Typo
+
 .text-muted {
 	color: lighten($color-text, 20%) !important;
 }
-
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -56,6 +58,9 @@ h6, .h6 {
 	font-size: .85rem;
 }
 
+
+// Cards
+
 .card-header,
 .card-footer {
 	background-color: #fff;
@@ -72,7 +77,6 @@ h6, .h6 {
 .card-title + .card-subtitle {
 	margin-top: 1rem;
 }
-
 
 .card-link {
 	font-weight: 600;

@@ -242,9 +242,6 @@ input, button, select, optgroup, textarea {
 small {
   line-height: 1.15em; }
 
-form {
-  max-width: 750px; }
-
 .invalid-feedback {
   line-height: 1.15em; }
 
