@@ -4,7 +4,8 @@
     "company": null,
     "partner": null,
     "team": null,
-    "language": "nl"
+    "language": "nl",
+    "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/"
   };
 
   let Quiz =  function (quizConfig) {
@@ -74,6 +75,10 @@
                 renderView('showAnswer', quizId, questionNr, chosenAnswer.id);
               });
 
+            view
+              .find('[data-src="question-image"]')
+              .attr('src', quizConfig.imageDirectory + data.imageFileName);
+
             deferredRender.resolve();
             startCountdown();
           }
@@ -96,6 +101,10 @@
                 .toggleClass('selected-answer', answer.id === answerId)
                 .toggleClass('is-correct', answer.correct);
             });
+
+            view
+              .find('[data-src="question-image"]')
+              .attr('src', quizConfig.imageDirectory + data.imageFileName);
 
             setViewValue('questionText', data.text);
             setViewValue('feedback', data.feedback);
