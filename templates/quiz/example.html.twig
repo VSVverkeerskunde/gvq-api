@@ -96,4 +96,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
+    <script>
+        Quiz();
+    </script>
 {% endblock %}

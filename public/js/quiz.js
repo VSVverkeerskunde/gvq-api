@@ -8,8 +8,8 @@
     "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/"
   };
 
-  let Quiz =  function (quizConfig) {
-    quizConfig = quizConfig || defaultQuizConfig;
+  function Quiz (quizConfig) {
+    quizConfig = Object.assign({}, defaultQuizConfig, quizConfig);
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
 
@@ -136,5 +136,5 @@
     renderView('participationForm');
   };
 
-  Quiz();
+  window.Quiz = Quiz;
 }(window, document, jQuery));
