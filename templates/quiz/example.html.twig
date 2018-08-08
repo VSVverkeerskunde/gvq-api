@@ -51,15 +51,15 @@
         <div class="gvq-quiz-view"></div>
         <div class="gvq-templates" data-language="nl" style="display: none;">
             <div data-template="participation-form">
-                <input class="gvq-participant-email" placeholder="email adres">
-                <button class="gvq-start-button">Start de quiz</button>
+                <input class="gvq-participant-email" placeholder="email">
+                <button class="gvq-start-button" data-translate="START_QUIZ">Start the quiz</button>
             </div>
 
             <div data-template="ask-question">
                 <div class="gvq-question-counter">
-                    Vraag <span data-value="questionNr"></span>/15
+                    <span data-translate="QUESTION">Question</span> <span data-value="questionNr"></span>/15
                     <span class="gvq-countdown">
-                        Resterende tijd: <span class="gvq-time-left">40</span>
+                        <span data-translate="TIME_LEFT">Time left</span>: <span class="gvq-time-left">40</span>
                     </span>
                 </div>
                 <div class="gvq-question-content">
@@ -75,7 +75,7 @@
 
             <div data-template="show-answer">
                 <div class="gvq-question-counter">
-                    Vraag <span data-value="questionNr"></span>/15
+                    <span data-translate="QUESTION">Question</span> <span data-value="questionNr"></span>/15
                 </div>
                 <div class="gvq-question-content">
                     <img class="gvq-question-image" src="">
@@ -87,7 +87,7 @@
                     </ul>
                     <span class="gvq-question-feedback" data-value="feedback"></span>
                 </div>
-                <button class="gvq-next-question">Volgende vraag</button>
+                <button class="gvq-next-question" data-translate="NEXT_QUESTION">Next question</button>
             </div>
         </div>
     </div>

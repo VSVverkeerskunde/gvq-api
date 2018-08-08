@@ -7,6 +7,33 @@
     "language": "nl",
     "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/"
   };
+  let translations = {
+    nl: {
+      START_QUIZ: 'Start de quiz',
+      QUESTION: 'Vraag',
+      TIME_LEFT: 'Resterende tijd',
+      NEXT_QUESTION: 'Volgende vraag'
+    },
+    fr: {
+      START_QUIZ: 'Commencer le quiz',
+      QUESTION: 'Question',
+      TIME_LEFT: 'Temps restant',
+      NEXT_QUESTION: 'Question suivante'
+    }
+  };
+
+  function loadTemplate(name, language) {
+    let template = $('div[data-template="'+name+'"]')
+    template
+      .find('[data-translate]')
+      .each(function () {
+        let translatable = $(this);
+        let reference = translatable.attr('data-translate');
+        translatable.text(translations[language][reference]);
+      })
+
+    return template.prop('outerHTML');
+  }
 
   function Quiz (quizConfig) {
     quizConfig = Object.assign({}, defaultQuizConfig, quizConfig);
@@ -47,7 +74,7 @@
 
           return $.Deferred().resolve().promise();
         },
-        template: $('div[data-template="participation-form"]').prop('outerHTML')
+        template: loadTemplate('participation-form', quizConfig.language)
       },
       askQuestion: {
         controller: function (quizId, questionNr) {
@@ -96,7 +123,7 @@
           $.get('/quiz/'+quizId+'/question').done(renderQuestion);
           return deferredRender.promise();
         },
-        template: $('div[data-template="ask-question"]').prop('outerHTML')
+        template: loadTemplate('ask-question', quizConfig.language)
       },
       showAnswer: {
         controller: function(quizId, questionNr, answerId) {
@@ -129,7 +156,7 @@
 
           return deferredRender.promise();
         },
-        template: $('div[data-template="show-answer"]').prop('outerHTML')
+        template: loadTemplate('show-answer', quizConfig.language)
       }
     };
 
