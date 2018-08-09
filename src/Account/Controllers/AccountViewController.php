@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Account\Forms\LoginFormType;
@@ -21,6 +22,7 @@ use VSV\GVQ_API\Registration\Repositories\RegistrationRepository;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffixGenerator;
 use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -305,6 +307,16 @@ class AccountViewController extends AbstractController
 
             if ($user && $user->getPassword() && $user->getPassword()->verifies($data['password'])) {
                 if ($user->isActive()) {
+                    $securityUser = UserEntity::fromUser($user);
+                    $token = new UsernamePasswordToken(
+                        $securityUser,
+                        null,
+                        'main',
+                        $securityUser->getRoles()
+                    );
+                    $this->get('security.token_storage')->setToken($token);
+                    $this->get('session')->set('_security_main', serialize($token));
+
                     return $this->redirectToRoute('questions_view_index');
                 }
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));

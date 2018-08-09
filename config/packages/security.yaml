@@ -1,0 +1,22 @@
+security:
+    providers:
+        in_memory: { memory: ~ }
+        persistent:
+          entity:
+            class: VSV\GVQ_API\User\Repositories\Entities\UserEntity
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            provider: persistent
+            form_login:
+              login_path: accounts_view_login
+            logout:
+                path: accounts_logout
+                target: accounts_view_login
+    access_control:
+        - { path: '^/(nl|fr)/view/questions', roles: [ROLE_VSV, ROLE_ADMIN] }
+        - { path: '^/(nl|fr)/view/users', roles: [ROLE_VSV, ROLE_ADMIN] }
+        - { path: '^/(nl|fr)/view/companies', roles: [ROLE_VSV, ROLE_ADMIN] }

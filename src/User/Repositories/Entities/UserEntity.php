@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\User\Repositories\Entities;
 
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Core\User\UserInterface;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -16,7 +17,7 @@ use VSV\GVQ_API\User\ValueObjects\Role;
  * @ORM\Entity()
  * @ORM\Table(name="user")
  */
-class UserEntity extends Entity
+class UserEntity extends Entity implements UserInterface
 {
     /**
      * @var string
@@ -194,5 +195,51 @@ class UserEntity extends Entity
     public function isActive(): bool
     {
         return $this->active;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoles(): array
+    {
+        $roles = [];
+
+        if ($this->role === Role::CONTACT) {
+            $roles[] = 'ROLE_CONTACT';
+        }
+
+        if ($this->role === Role::VSV) {
+            $roles[] = 'ROLE_VSV';
+        }
+
+        if ($this->role === Role::ADMIN) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function eraseCredentials()
+    {
+        $this->password = null;
     }
 }
