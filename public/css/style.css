@@ -237,7 +237,22 @@ form {
 input, button, select, optgroup, textarea {
   max-width: 350px; }
 
-.col-sm-12 input, .col-sm-12 button, .col-sm-12 select, .col-sm-12 optgroup, .col-sm-12 textarea {
+.col-12 input, .col-12 button, .col-12 select, .col-12 optgroup, .col-12 textarea,
+.col-sm-12 input,
+.col-sm-12 button,
+.col-sm-12 select,
+.col-sm-12 optgroup,
+.col-sm-12 textarea,
+.col-md-12 input,
+.col-md-12 button,
+.col-md-12 select,
+.col-md-12 optgroup,
+.col-md-12 textarea,
+.col-lg-12 input,
+.col-lg-12 button,
+.col-lg-12 select,
+.col-lg-12 optgroup,
+.col-lg-12 textarea {
   max-width: 100%; }
 
 .btn {
@@ -250,6 +265,8 @@ input, button, select, optgroup, textarea {
       background-color: #40b2e2;
       border-color: #40b2e2;
       color: #ffffff; }
+  .btn:focus {
+    color: #ffffff; }
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
   background-color: #40b2e2;
@@ -319,7 +336,10 @@ small {
 .page-title {
   font-size: 1.1em;
   font-weight: bold;
-  margin-bottom: 1em; }
+  border-bottom: 1px solid #e8e8e8;
+  margin: -40px -15px 40px;
+  padding: 15px;
+  background-color: #ffffff; }
 
 .footer-partners {
   padding: 20px 0;

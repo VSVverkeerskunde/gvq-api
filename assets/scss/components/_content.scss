@@ -20,5 +20,8 @@ small {
 .page-title {
 	font-size: 1.1em;
 	font-weight: bold;
-    margin-bottom: 1em;
+	border-bottom: 1px solid darken($gray-25, 5%);
+	margin: -$global-margin -15px $global-margin;
+	padding: 15px;
+	background-color: $white;
 }

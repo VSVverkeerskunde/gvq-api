@@ -106,10 +106,17 @@ input, button, select, optgroup, textarea {
     max-width: 350px;
 }
 
-.col-sm-12 {
+.col-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
     input, button, select, optgroup, textarea {
         max-width: 100%;
     }
+}
+
+.custom-file-input {
+    //opacity: 0 !important;
 }
 
 
@@ -129,6 +136,9 @@ input, button, select, optgroup, textarea {
             border-color: darken($brand-blue, 10%);
             color: $white;
         }
+    }
+    &:focus {
+        color: $white;
     }
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {

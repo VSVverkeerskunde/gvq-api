@@ -1,10 +1,12 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}{% trans %}titel{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Questions{% endtrans %}{% endblock %}
 
 {% block content %}
 
-    <h1 class="page-title">{% trans %}titel{% endtrans %}</h1>
+    <h1 class="page-title">{% trans %}Questions{% endtrans %}</h1>
+
+    {% include '/includes/flash.html.twig' %}
 
     <form method="get"
           action="{{ path('questions_view_print') }}"
