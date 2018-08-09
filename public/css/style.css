@@ -255,6 +255,9 @@ input, button, select, optgroup, textarea {
 .col-lg-12 textarea {
   max-width: 100%; }
 
+.custom-file .custom-file-label {
+  display: none; }
+
 .btn {
   font-weight: bold; }
   .btn-primary {
