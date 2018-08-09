@@ -12,12 +12,12 @@ abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
     /**
      * @var QuestionNormalizer
      */
-    private $questionNormalizer;
+    protected $questionNormalizer;
 
     /**
      * @var AnswerNormalizer
      */
-    private $answerNormalizer;
+    protected $answerNormalizer;
 
     /**
      * @param QuestionNormalizer $questionNormalizer
@@ -29,27 +29,5 @@ abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
     ) {
         $this->questionNormalizer = $questionNormalizer;
         $this->answerNormalizer = $answerNormalizer;
-    }
-
-    /**
-     * @inheritdoc
-     * @param AbstractAnsweredEvent $answeredEvent
-     */
-    public function normalize($answeredEvent, $format = null, array $context = []): array
-    {
-        return [
-            'id' => $answeredEvent->getId()->toString(),
-            'question' => $this->questionNormalizer->normalize($answeredEvent->getQuestion()),
-            'answer' => $this->answerNormalizer->normalize($answeredEvent->getAnswer()),
-            'answeredOn' => $answeredEvent->getAnsweredOn()->format(DATE_ATOM),
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return ($data instanceof AbstractAnsweredEvent) && ($format === 'json');
     }
 }
