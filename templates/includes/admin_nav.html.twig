@@ -16,17 +16,17 @@
             <div class="collapse navbar-collapse justify-content-stretch" id="navbar_content">
                 <ul class="nav nav-pills mr-auto">
                     <li class="nav-item {% if 'questions' in app.request.get('_route') %}active{% endif %}">
-                        <a class="nav-link active"
+                        <a class="nav-link {% if 'questions' in app.request.get('_route') %}active{% endif %}"
                            href="{{ path('questions_view_index') }}">{% trans %}Questions{% endtrans %}
                         </a>
                     </li>
                     <li class="nav-item {% if 'users' in app.request.get('_route') %}active{% endif %}">
-                        <a class="nav-link"
+                        <a class="nav-link {% if 'users' in app.request.get('_route') %}active{% endif %}"
                            href="{{ path('users_view_index') }}">{% trans %}Users{% endtrans %}
                         </a>
                     </li>
                     <li class="nav-item {% if 'companies' in app.request.get('_route') %}active{% endif %}">
-                        <a class="nav-link"
+                        <a class="nav-link {% if 'companies' in app.request.get('_route') %}active{% endif %}"
                            href="{{ path('companies_view_index') }}">{% trans %}Companies{% endtrans %}
                         </a>
                     </li>

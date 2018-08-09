@@ -127,6 +127,7 @@ input, button, select, optgroup, textarea {
         &:focus {
             background-color: darken($brand-blue, 10%);
             border-color: darken($brand-blue, 10%);
+            color: $white;
         }
     }
 }
