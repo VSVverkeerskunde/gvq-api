@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
-class CurrentQuestionRedisRepositoryTest extends TestCase
+class QuestionResultRedisRepositoryTest extends TestCase
 {
     /**
      * @var \Redis|MockObject
@@ -22,9 +22,9 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
     private $serializer;
 
     /**
-     * @var CurrentQuestionRedisRepository
+     * @var QuestionResultRedisRepository
      */
-    private $currentQuestionRedisRepository;
+    private $questionResultRedisRepository;
 
     protected function setUp(): void
     {
@@ -36,7 +36,7 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
         $serializer = $this->createMock(SerializerInterface::class);
         $this->serializer = $serializer;
 
-        $this->currentQuestionRedisRepository = new CurrentQuestionRedisRepository(
+        $this->questionResultRedisRepository = new QuestionResultRedisRepository(
             $this->redis,
             $this->serializer
         );
@@ -46,24 +46,24 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_save_the_current_question(): void
+    public function it_can_save_the_question_result(): void
     {
         $quizId = Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b');
-        $question = ModelsFactory::createGeneralQuestion();
-        $questionAsJson = ModelsFactory::createJson('question');
+        $questionResult = ModelsFactory::createQuestionResult();
+        $questionResultAsJson = ModelsFactory::createJson('question_result');
 
         $this->serializer->expects($this->once())
             ->method('serialize')
-            ->with($question, 'json')
-            ->willReturn($questionAsJson);
+            ->with($questionResult, 'json')
+            ->willReturn($questionResultAsJson);
 
         $this->redis->expects($this->once())
             ->method('set')
-            ->with('current_question_'.$quizId->toString(), $questionAsJson);
+            ->with('current_question_result_'.$quizId->toString(), $questionResultAsJson);
 
-        $this->currentQuestionRedisRepository->save(
+        $this->questionResultRedisRepository->save(
             $quizId,
-            $question
+            $questionResult
         );
     }
 
@@ -74,22 +74,22 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
     public function it_can_get_the_current_question_by_quiz_id(): void
     {
         $quizId = Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b');
-        $question = ModelsFactory::createGeneralQuestion();
-        $questionAsJson = ModelsFactory::createJson('question');
+        $questionResult = ModelsFactory::createQuestionResult();
+        $questionResultAsJson = ModelsFactory::createJson('question_result');
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('current_question_'.$quizId->toString())
-            ->willReturn($questionAsJson);
+            ->with('current_question_result_'.$quizId->toString())
+            ->willReturn($questionResultAsJson);
 
         $this->serializer->expects($this->once())
             ->method('deserialize')
-            ->with($questionAsJson, Question::class, 'json')
-            ->willReturn($question);
+            ->with($questionResultAsJson, QuestionResult::class, 'json')
+            ->willReturn($questionResult);
 
-        $currentQuestion = $this->currentQuestionRedisRepository->getById($quizId);
+        $currentQuestion = $this->questionResultRedisRepository->getById($quizId);
 
-        $this->assertEquals($question, $currentQuestion);
+        $this->assertEquals($questionResult, $currentQuestion);
     }
 
     /**
@@ -99,15 +99,15 @@ class CurrentQuestionRedisRepositoryTest extends TestCase
     public function it_can_get_the_current_question_as_json_by_quiz_id(): void
     {
         $quizId = Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b');
-        $questionAsJson = ModelsFactory::createJson('question');
+        $questionResultAsJson = ModelsFactory::createJson('question_result');
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('current_question_'.$quizId->toString())
-            ->willReturn($questionAsJson);
+            ->with('current_question_result_'.$quizId->toString())
+            ->willReturn($questionResultAsJson);
 
-        $currentQuestionAsJson = $this->currentQuestionRedisRepository->getByIdAsJson($quizId);
+        $currentQuestionAsJson = $this->questionResultRedisRepository->getByIdAsJson($quizId);
 
-        $this->assertEquals($questionAsJson, $currentQuestionAsJson);
+        $this->assertEquals($questionResultAsJson, $currentQuestionAsJson);
     }
 }

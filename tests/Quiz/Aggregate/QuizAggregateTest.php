@@ -129,7 +129,8 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
                         $this->quiz->getId(),
                         $question,
                         $correctAnswer,
-                        $answeredOn
+                        $answeredOn,
+                        true
                     ),
                 ]
             );
@@ -174,7 +175,8 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
                         $this->quiz->getId(),
                         $question,
                         $inCorrectAnswer,
-                        $answeredOn
+                        $answeredOn,
+                        false
                     ),
                 ]
             );
@@ -298,7 +300,8 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
                         $question2AnsweredOn
                     ),
                     new QuizFinished(
-                        $this->quiz->getId()
+                        $this->quiz->getId(),
+                        2
                     ),
                 ]
             );

@@ -22,7 +22,7 @@ class AnsweredIncorrectSerializerTest extends AbstractAnsweredEventSerializerTes
     public function it_can_serialize_to_json(): void
     {
         $answeredIncorrectAsJson = ModelsFactory::createJson('answered_incorrect');
-        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect();
+        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(false);
 
         $actualJson = $this->serializer->serialize(
             $answeredIncorrect,
@@ -42,7 +42,7 @@ class AnsweredIncorrectSerializerTest extends AbstractAnsweredEventSerializerTes
     public function it_can_deserialize_to_answered_incorrect(): void
     {
         $answeredIncorrectAsJson = ModelsFactory::createJson('answered_incorrect');
-        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect();
+        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(false);
 
         $actualAnsweredCorrect = $this->serializer->deserialize(
             $answeredIncorrectAsJson,
