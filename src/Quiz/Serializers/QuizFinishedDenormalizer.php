@@ -11,10 +11,11 @@ class QuizFinishedDenormalizer implements DenormalizerInterface
     /**
      * @inheritdoc
      */
-    public function denormalize($data, $class, $format = null, array $context = array()): QuizFinished
+    public function denormalize($data, $class, $format = null, array $context = []): QuizFinished
     {
         return new QuizFinished(
-            Uuid::fromString($data['id'])
+            Uuid::fromString($data['id']),
+            $data['score']
         );
     }
 

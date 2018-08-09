@@ -3,13 +3,11 @@
 namespace VSV\GVQ_API\Quiz\Aggregate;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
-use VSV\GVQ_API\Quiz\Events\QuestionAnswered;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
@@ -40,6 +38,11 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private $askingQuestion;
 
     /**
+     * @var int
+     */
+    private $score;
+
+    /**
      * @inheritdoc
      */
     public function getAggregateRootId(): string
@@ -68,6 +71,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
         $this->quiz = $quizStarted->getQuiz();
 
         $this->questionIndex = 0;
+        $this->score = 0;
         $this->askingQuestion = false;
     }
 
@@ -80,7 +84,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
             $this->apply(
                 new QuestionAsked(
                     $this->quiz->getId(),
-                    $this->getCurrentQuestionResult(),
+                    $this->getCurrentQuestion(),
                     $askedOn
                 )
             );
@@ -105,27 +109,29 @@ class QuizAggregate extends EventSourcedAggregateRoot
         Answer $answer
     ): void {
         if ($this->askingQuestion) {
-            $currentQuestionResult = $this->getCurrentQuestionResult();
+            $currentQuestion = $this->getCurrentQuestion();
             $answeredToolate = $this->answeredTooLate(
                 $this->questionAskedOn,
                 $answeredOn,
                 $this->quiz->getAllowedDelay()
             );
             if ($answeredToolate ||
-                !$this->answeredCorrect($currentQuestionResult->getQuestion()->getAnswers(), $answer)) {
+                !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
                 $this->apply(
                     new AnsweredIncorrect(
                         $this->quiz->getId(),
-                        $currentQuestionResult,
+                        $currentQuestion,
                         $answer,
-                        $answeredOn
+                        $answeredOn,
+                        $answeredToolate
                     )
                 );
             } else {
+                $this->score += 1;
                 $this->apply(
                     new AnsweredCorrect(
                         $this->quiz->getId(),
-                        $currentQuestionResult,
+                        $currentQuestion,
                         $answer,
                         $answeredOn
                     )
@@ -135,7 +141,8 @@ class QuizAggregate extends EventSourcedAggregateRoot
             if (count($this->quiz->getQuestions()) === $this->questionIndex) {
                 $this->apply(
                     new QuizFinished(
-                        $this->quiz->getId()
+                        $this->quiz->getId(),
+                        $this->score
                     )
                 );
             }
@@ -194,14 +201,5 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private function getCurrentQuestion(): Question
     {
         return $this->quiz->getQuestions()->toArray()[$this->questionIndex];
-    }
-
-    private function getCurrentQuestionResult(): QuestionResult
-    {
-        return new QuestionResult(
-            $this->getCurrentQuestion(),
-            false,
-            new PositiveNumber(5)
-        );
     }
 }

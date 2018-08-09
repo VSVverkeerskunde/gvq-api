@@ -6,14 +6,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
 use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
-use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
 {
     /**
-     * @var QuestionResultNormalizer
+     * @var QuestionNormalizer
      */
-    private $questionResultNormalizer;
+    private $questionNormalizer;
 
     /**
      * @var AnswerNormalizer
@@ -21,25 +20,26 @@ abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
     private $answerNormalizer;
 
     /**
-     * @param QuestionResultNormalizer $questionResultNormalizer
+     * @param QuestionNormalizer $questionNormalizer
      * @param AnswerNormalizer $answerNormalizer
      */
     public function __construct(
-        QuestionResultNormalizer $questionResultNormalizer,
+        QuestionNormalizer $questionNormalizer,
         AnswerNormalizer $answerNormalizer
     ) {
-        $this->questionResultNormalizer = $questionResultNormalizer;
+        $this->questionNormalizer = $questionNormalizer;
         $this->answerNormalizer = $answerNormalizer;
     }
 
     /**
      * @inheritdoc
+     * @param AbstractAnsweredEvent $answeredEvent
      */
     public function normalize($answeredEvent, $format = null, array $context = []): array
     {
         return [
             'id' => $answeredEvent->getId()->toString(),
-            'questionResult' => $this->questionResultNormalizer->normalize($answeredEvent->getQuestionResult()),
+            'question' => $this->questionNormalizer->normalize($answeredEvent->getQuestion()),
             'answer' => $this->answerNormalizer->normalize($answeredEvent->getAnswer()),
             'answeredOn' => $answeredEvent->getAnsweredOn()->format(DATE_ATOM),
         ];

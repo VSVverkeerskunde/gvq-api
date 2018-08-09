@@ -2,13 +2,9 @@
 
 namespace VSV\GVQ_API\Quiz\Serializers;
 
-use http\Exception\InvalidArgumentException;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
-use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionResultDenormalizer implements DenormalizerInterface
@@ -39,7 +35,7 @@ class QuestionResultDenormalizer implements DenormalizerInterface
                 'json'
             ),
             $data['answeredTooLate'],
-            new PositiveNumber($data['score'])
+            $data['score']
         );
     }
 

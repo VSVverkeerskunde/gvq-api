@@ -34,7 +34,7 @@ class QuestionResultNormalizer implements NormalizerInterface
                 $context
             ),
             'answeredTooLate' => $questionResult->isAnsweredTooLate(),
-            'score' => $questionResult->getScore()->toNative(),
+            'score' => $questionResult->getScore(),
         ];
     }
 

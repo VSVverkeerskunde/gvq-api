@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Quiz\ValueObjects;
 
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Question;
 
 class QuestionResult
@@ -13,21 +12,21 @@ class QuestionResult
     private $question;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     private $answeredTooLate;
 
     /**
-     * @var PositiveNumber
+     * @var int|null
      */
     private $score;
 
     /**
      * @param Question $question
-     * @param bool $answeredTooLate
-     * @param PositiveNumber $score
+     * @param bool|null $answeredTooLate
+     * @param int|null $score
      */
-    public function __construct(Question $question, bool $answeredTooLate, PositiveNumber $score)
+    public function __construct(Question $question, ?bool $answeredTooLate, ?int $score)
     {
         $this->question = $question;
         $this->answeredTooLate = $answeredTooLate;
@@ -43,17 +42,17 @@ class QuestionResult
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isAnsweredTooLate(): bool
+    public function isAnsweredTooLate(): ?bool
     {
         return $this->answeredTooLate;
     }
 
     /**
-     * @return PositiveNumber
+     * @return int|null
      */
-    public function getScore(): PositiveNumber
+    public function getScore(): ?int
     {
         return $this->score;
     }

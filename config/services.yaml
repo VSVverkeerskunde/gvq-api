@@ -126,26 +126,21 @@ services:
       arguments:
         $redis: '@redis_service'
 
-    current_question_result_redis_repository:
-      class: VSV\GVQ_API\Quiz\Repositories\CurrentQuestionResultRedisRepository
+    question_result_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
       arguments:
         $redis: '@redis_service'
 
-    answered_event_listener:
-      class: VSV\GVQ_API\Quiz\EventListeners\AnsweredEventListener
+    question_result_listener:
+      class: VSV\GVQ_API\Quiz\EventListeners\QuestionResultListener
       arguments:
-        $currentQuestionResultRepository: '@current_question_result_redis_repository'
+        $questionResultRepository: '@question_result_redis_repository'
 
     quiz_started_listener:
       class: VSV\GVQ_API\Quiz\EventListeners\QuizStartedListener
       arguments:
         $quizRepository: '@quiz_redis_repository'
         $startedQuizRepository: '@started_quiz_redis_repository'
-
-    question_asked_listener:
-      class: VSV\GVQ_API\Quiz\EventListeners\QuestionAskedListener
-      arguments:
-        $currentQuestionResultRepository: '@current_question_result_redis_repository'
 
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
@@ -161,10 +156,7 @@ services:
             - '@quiz_started_listener'
         - method: subscribe
           arguments:
-            - '@question_asked_listener'
-        - method: subscribe
-          arguments:
-            - '@answered_event_listener'
+            - '@question_result_listener'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
@@ -201,7 +193,7 @@ services:
         $uuidFactory: '@uuid_factory'
         $quizStartDate: '@quiz_start_date'
       tags: ['controller.service_arguments']
-      
+
     VSV\GVQ_API\Question\Controllers\CategoryController:
       tags: ['controller.service_arguments']
 
@@ -244,5 +236,5 @@ services:
         $quizAggregateRepository: '@quiz_aggregate_repository'
         $partnerRepository: '@partner_yaml_repository'
         $teamRepository: '@team_repository'
-        $currentQuestionResultRepository: '@current_question_result_redis_repository'
+        $questionResultRepository: '@question_result_redis_repository'
       tags: ['controller.service_arguments']

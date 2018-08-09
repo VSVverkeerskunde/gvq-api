@@ -13,7 +13,7 @@ use VSV\GVQ_API\Question\Repositories\AnswerRepository;
 use VSV\GVQ_API\Quiz\Aggregate\QuizAggregate;
 use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
-use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionResultRepository;
+use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Service\QuizService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
 
@@ -45,9 +45,9 @@ class QuizController
     private $answerRepository;
 
     /**
-     * @var CurrentQuestionResultRepository
+     * @var QuestionResultRepository
      */
-    private $currentQuestionResultRepository;
+    private $questionResultRepository;
 
     /**
      * @var EventSourcingRepository
@@ -65,7 +65,7 @@ class QuizController
      * @param PartnerRepository $partnerRepository
      * @param TeamRepository $teamRepository
      * @param AnswerRepository $answerRepository
-     * @param CurrentQuestionResultRepository $currentQuestionResultRepository
+     * @param QuestionResultRepository $questionResultRepository
      * @param EventSourcingRepository $quizAggregateRepository
      * @param SerializerInterface $serializer
      */
@@ -75,7 +75,7 @@ class QuizController
         PartnerRepository $partnerRepository,
         TeamRepository $teamRepository,
         AnswerRepository $answerRepository,
-        CurrentQuestionResultRepository $currentQuestionResultRepository,
+        QuestionResultRepository $questionResultRepository,
         EventSourcingRepository $quizAggregateRepository,
         SerializerInterface $serializer
     ) {
@@ -84,7 +84,7 @@ class QuizController
         $this->partnerRepository = $partnerRepository;
         $this->teamRepository = $teamRepository;
         $this->answerRepository = $answerRepository;
-        $this->currentQuestionResultRepository = $currentQuestionResultRepository;
+        $this->questionResultRepository = $questionResultRepository;
         $this->quizAggregateRepository = $quizAggregateRepository;
         $this->serializer = $serializer;
     }
@@ -191,10 +191,10 @@ class QuizController
      */
     private function createCurrentQuestionResponse(string $quizId): Response
     {
-        $currentQuestionAsJson = $this->currentQuestionResultRepository->getByIdAsJson(
+        $questionResult = $this->questionResultRepository->getByIdAsJson(
             Uuid::fromString($quizId)
         );
-        $response = new Response($currentQuestionAsJson);
+        $response = new Response($questionResult);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

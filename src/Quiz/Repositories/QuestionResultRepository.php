@@ -6,7 +6,7 @@ use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
-interface CurrentQuestionResultRepository
+interface QuestionResultRepository
 {
     /**
      * @param UuidInterface $quizId
