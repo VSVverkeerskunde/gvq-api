@@ -51,7 +51,7 @@ class QuestionAskedListenerTest extends TestCase
             ->method('save')
             ->with(
                 $questionAsked->getId(),
-                $questionAsked->getQuestion(),
+                $questionAsked->getQuestionResult(),
                 [
                     'questionAsked' => true,
                 ]

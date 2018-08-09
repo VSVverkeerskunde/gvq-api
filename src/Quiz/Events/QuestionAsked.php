@@ -3,14 +3,14 @@
 namespace VSV\GVQ_API\Quiz\Events;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionAsked extends AbstractQuizEvent
 {
     /**
-     * @var Question
+     * @var QuestionResult
      */
-    private $question;
+    private $questionResult;
 
     /**
      * @var \DateTimeImmutable
@@ -20,26 +20,26 @@ class QuestionAsked extends AbstractQuizEvent
     /**
      * QuestionAsked constructor.
      * @param UuidInterface $id
-     * @param Question $question
+     * @param QuestionResult $questionResultResult
      * @param \DateTimeImmutable $askedOn
      */
     public function __construct(
         UuidInterface $id,
-        Question $question,
+        QuestionResult $questionResultResult,
         \DateTimeImmutable $askedOn
     ) {
         parent::__construct($id);
 
-        $this->question = $question;
+        $this->questionResult = $questionResultResult;
         $this->askedOn = $askedOn;
     }
 
     /**
-     * @return Question
+     * @return QuestionResult
      */
-    public function getQuestion(): Question
+    public function getQuestionResult(): QuestionResult
     {
-        return $this->question;
+        return $this->questionResult;
     }
 
     /**

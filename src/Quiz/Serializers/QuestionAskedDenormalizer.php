@@ -7,20 +7,21 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionAskedDenormalizer implements DenormalizerInterface
 {
     /**
-     * @var QuestionDenormalizer
+     * @var QuestionResultDenormalizer
      */
-    private $questionDenormalizer;
+    private $questionResultDenormalizer;
 
     /**
-     * @param QuestionDenormalizer $questionDenormalizer
+     * @param QuestionResultDenormalizer $questionResultDenormalizer
      */
-    public function __construct(QuestionDenormalizer $questionDenormalizer)
+    public function __construct(QuestionResultDenormalizer $questionResultDenormalizer)
     {
-        $this->questionDenormalizer = $questionDenormalizer;
+        $this->questionResultDenormalizer = $questionResultDenormalizer;
     }
 
     /**
@@ -31,9 +32,9 @@ class QuestionAskedDenormalizer implements DenormalizerInterface
     {
         return new QuestionAsked(
             Uuid::fromString($data['id']),
-            $this->questionDenormalizer->denormalize(
-                $data['question'],
-                Question::class,
+            $this->questionResultDenormalizer->denormalize(
+                $data['questionResult'],
+                QuestionResult::class,
                 $format,
                 $context
             ),

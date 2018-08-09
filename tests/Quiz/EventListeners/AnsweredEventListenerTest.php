@@ -52,7 +52,7 @@ class AnsweredEventListenerTest extends TestCase
             ->method('save')
             ->with(
                 $answeredEvent->getId(),
-                $answeredEvent->getQuestion()
+                $answeredEvent->getQuestionResult()
             );
 
         $this->answeredEventListener->handle($domainMessage);

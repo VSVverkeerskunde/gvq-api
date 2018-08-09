@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Quiz\Aggregate;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;
@@ -14,6 +15,7 @@ use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuizAggregate extends EventSourcedAggregateRoot
 {
@@ -78,7 +80,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
             $this->apply(
                 new QuestionAsked(
                     $this->quiz->getId(),
-                    $this->getCurrentQuestion(),
+                    $this->getCurrentQuestionResult(),
                     $askedOn
                 )
             );
@@ -103,14 +105,18 @@ class QuizAggregate extends EventSourcedAggregateRoot
         Answer $answer
     ): void {
         if ($this->askingQuestion) {
-            $currentQuestion = $this->getCurrentQuestion();
-
-            if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
-                !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
+            $currentQuestionResult = $this->getCurrentQuestionResult();
+            $answeredToolate = $this->answeredTooLate(
+                $this->questionAskedOn,
+                $answeredOn,
+                $this->quiz->getAllowedDelay()
+            );
+            if ($answeredToolate ||
+                !$this->answeredCorrect($currentQuestionResult->getQuestion()->getAnswers(), $answer)) {
                 $this->apply(
                     new AnsweredIncorrect(
                         $this->quiz->getId(),
-                        $currentQuestion,
+                        $currentQuestionResult,
                         $answer,
                         $answeredOn
                     )
@@ -119,7 +125,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 $this->apply(
                     new AnsweredCorrect(
                         $this->quiz->getId(),
-                        $currentQuestion,
+                        $currentQuestionResult,
                         $answer,
                         $answeredOn
                     )
@@ -160,7 +166,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
      * @param AllowedDelay $allowedDelay
      * @return bool
      */
-    private function answeredToLate(
+    private function answeredTooLate(
         \DateTimeImmutable $askedOn,
         \DateTimeImmutable $answeredOn,
         AllowedDelay $allowedDelay
@@ -188,5 +194,14 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private function getCurrentQuestion(): Question
     {
         return $this->quiz->getQuestions()->toArray()[$this->questionIndex];
+    }
+
+    private function getCurrentQuestionResult(): QuestionResult
+    {
+        return new QuestionResult(
+            $this->getCurrentQuestion(),
+            false,
+            new PositiveNumber(5)
+        );
     }
 }

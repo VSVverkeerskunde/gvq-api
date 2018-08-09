@@ -5,21 +5,21 @@ namespace VSV\GVQ_API\Quiz\EventListeners;
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
-use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
+use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionResultRepository;
 
 class AnsweredEventListener implements EventListener
 {
     /**
-     * @var CurrentQuestionRepository
+     * @var CurrentQuestionResultRepository
      */
-    private $currentQuestionRepository;
+    private $currentQuestionResultRepository;
 
     /**
-     * @param CurrentQuestionRepository $currentQuestionRepository
+     * @param CurrentQuestionResultRepository $currentQuestionResultRepository
      */
-    public function __construct(CurrentQuestionRepository $currentQuestionRepository)
+    public function __construct(CurrentQuestionResultRepository $currentQuestionResultRepository)
     {
-        $this->currentQuestionRepository = $currentQuestionRepository;
+        $this->currentQuestionResultRepository = $currentQuestionResultRepository;
     }
 
     /**
@@ -30,9 +30,9 @@ class AnsweredEventListener implements EventListener
         $payload = $domainMessage->getPayload();
 
         if ($payload instanceof AbstractAnsweredEvent) {
-            $this->currentQuestionRepository->save(
+            $this->currentQuestionResultRepository->save(
                 $payload->getId(),
-                $payload->getQuestion()
+                $payload->getQuestionResult()
             );
         }
     }

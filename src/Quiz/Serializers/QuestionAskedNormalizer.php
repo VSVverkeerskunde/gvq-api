@@ -9,16 +9,16 @@ use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 class QuestionAskedNormalizer implements NormalizerInterface
 {
     /**
-     * @var QuestionNormalizer
+     * @var QuestionResultNormalizer
      */
-    private $questionNormalizer;
+    private $questionResultNormalizer;
 
     /**
-     * @param QuestionNormalizer $questionNormalizer
+     * @param QuestionResultNormalizer $questionResultNormalizer
      */
-    public function __construct(QuestionNormalizer $questionNormalizer)
+    public function __construct(QuestionResultNormalizer $questionResultNormalizer)
     {
-        $this->questionNormalizer = $questionNormalizer;
+        $this->questionResultNormalizer = $questionResultNormalizer;
     }
 
     /**
@@ -29,7 +29,7 @@ class QuestionAskedNormalizer implements NormalizerInterface
     {
         return [
             'id' => $questionAsked->getId()->toString(),
-            'question' => $this->questionNormalizer->normalize($questionAsked->getQuestion()),
+            'questionResult' => $this->questionResultNormalizer->normalize($questionAsked->getQuestionResult()),
             'askedOn' => $questionAsked->getAskedOn()->format(DATE_ATOM),
         ];
     }

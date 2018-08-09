@@ -79,7 +79,7 @@ class AbstractAnsweredEventTest extends TestCase
     {
         $this->assertEquals(
             $this->question,
-            $this->answeredEvent->getQuestion()
+            $this->answeredEvent->getQuestionResult()
         );
     }
 

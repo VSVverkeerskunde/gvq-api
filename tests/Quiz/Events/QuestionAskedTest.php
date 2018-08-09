@@ -64,7 +64,7 @@ class QuestionAskedTest extends TestCase
     {
         $this->assertEquals(
             $this->question,
-            $this->questionAsked->getQuestion()
+            $this->questionAsked->getQuestionResult()
         );
     }
 
