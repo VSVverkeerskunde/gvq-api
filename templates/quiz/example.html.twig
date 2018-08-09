@@ -37,9 +37,11 @@
             float: right;
         }
 
-        .gvq-next-question {
+        .gvq-next-question,
+        .gvq-view-score {
             float: right;
             clear: both;
+            display: none;
         }
 
         .gvq-quiz-old-view {
@@ -95,6 +97,16 @@
                     <span class="gvq-question-feedback" data-value="feedback"></span>
                 </div>
                 <button class="gvq-next-question" data-translate="NEXT_QUESTION">Next question</button>
+                <button class="gvq-view-score" data-translate="VIEW_SCORE">view score</button>
+            </div>
+
+            <div data-template="show-result">
+                <span class="gvq-score">
+                    <span data-translate="SCORE">Score</span>
+                    <span class="right-answers" data-value="score"></span>/
+                    <span class="total-questions" data-value="totalQuestions"></span>
+                </span>
+                <button class="gvq-play-again" data-translate="PLAY_AGAIN">Play again</button>
             </div>
         </div>
     </div>

@@ -12,15 +12,22 @@
       START_QUIZ: 'Start de quiz',
       QUESTION: 'Vraag',
       TIME_LEFT: 'Resterende tijd',
-      NEXT_QUESTION: 'Volgende vraag'
+      NEXT_QUESTION: 'Volgende vraag',
+      VIEW_SCORE: 'Bekijk score',
+      SCORE: 'Score',
+      PLAY_AGAIN: 'Speel nog eens'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
       QUESTION: 'Question',
       TIME_LEFT: 'Temps restant',
-      NEXT_QUESTION: 'Question suivante'
+      NEXT_QUESTION: 'Question suivante',
+      VIEW_SCORE: 'Voir mon score',
+      SCORE: 'Score',
+      PLAY_AGAIN: 'Jouer encore une fois'
     }
   };
+  let cachedConfig = {};
 
   function loadTemplate(name, language) {
     let template = $('div[data-template="'+name+'"]')
@@ -36,9 +43,11 @@
   }
 
   function Quiz (quizConfig) {
-    quizConfig = Object.assign({}, defaultQuizConfig, quizConfig);
+    quizConfig = Object.assign({}, defaultQuizConfig, quizConfig || cachedConfig);
+    cachedConfig = quizConfig;
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
+    let score = 0;
 
     function renderView(viewName, ...args) {
       let oldContent = view.children();
@@ -68,7 +77,7 @@
               });
           }
 
-          $('button.gvq-start-button').on('click', function () {
+          view.find('button.gvq-start-button').on('click', function () {
             start($('input.gvq-participant-email').val());
           });
 
@@ -136,6 +145,8 @@
               view.find('[data-value="answer'+answer.index+'"]')
                 .toggleClass('selected-answer', answer.id === answerId)
                 .toggleClass('is-correct', answer.correct);
+
+              if (answer.correct && answer.id === answerId) ++score;
             });
 
             view
@@ -144,19 +155,41 @@
 
             setViewValue('questionText', data.text);
             setViewValue('feedback', data.feedback);
-
             deferredRender.resolve();
           }
 
           setViewValue('questionNr', questionNr);
           $.post('/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
-          $('button.gvq-next-question').on('click', function () {
-            renderView('askQuestion', quizId, ++questionNr);
-          });
+          if (questionNr === 15) {
+            view.find('button.gvq-view-score')
+              .on('click', function () {
+                renderView('showResult', quizId, questionNr);
+              })
+              .show();
+          } else {
+            view.find('button.gvq-next-question')
+              .on('click', function () {
+                renderView('askQuestion', quizId, ++questionNr);
+              })
+              .show();
+          }
 
           return deferredRender.promise();
         },
         template: loadTemplate('show-answer', quizConfig.language)
+      },
+      showResult: {
+        controller: function (quizId, totalQuestions) {
+          setViewValue('score', score);
+          setViewValue('totalQuestions', totalQuestions);
+
+          view.find('button.gvq-play-again').on('click', function () {
+            Quiz();
+          })
+
+          return $.Deferred().resolve().promise();
+        },
+        template: loadTemplate('show-result', quizConfig.language)
       }
     };
 
