@@ -5,7 +5,10 @@
     "partner": null,
     "team": null,
     "language": "nl",
-    "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/"
+    "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
+    "teams": {
+      "922391c4-fc5b-4148-b69d-d347d48caaef": "Club Brugge KV"
+    }
   };
   let translations = {
     nl: {
@@ -18,7 +21,8 @@
       PLAY_AGAIN: 'Speel nog eens',
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
-      ANSWERED_LATE: 'Te laat'
+      ANSWERED_LATE: 'Te laat',
+      CHOOSE_TEAM: 'Maak een keuze'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -30,7 +34,8 @@
       PLAY_AGAIN: 'Jouer encore une fois',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
-      ANSWERED_LATE: 'Trop tard'
+      ANSWERED_LATE: 'Trop tard',
+      CHOOSE_TEAM: 'Faites un choix'
     }
   };
   let cachedConfig = {};
@@ -53,6 +58,7 @@
     cachedConfig = quizConfig;
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
+    let cupModeOn = ('cup' === quizConfig.channel);
 
     function renderView(viewName, ...args) {
       let oldContent = view.children();
@@ -75,15 +81,35 @@
     let views = {
       participationForm: {
         controller: function () {
-          function start(email) {
-            $.post('/quiz', JSON.stringify(Object.assign({}, quizConfig, {email: email})))
+          let startButton = view.find('button.gvq-start-button');
+          let teamSelect = view.find('select[name="choose-team"]');
+
+          function start(email, team) {
+            $.post('/quiz', JSON.stringify(Object.assign({}, quizConfig, {email: email, team: team})))
               .done(function( data ) {
                 renderView('askQuestion', data.id, 1);
               });
           }
 
-          view.find('button.gvq-start-button').on('click', function () {
-            start($('input.gvq-participant-email').val());
+          if (cupModeOn) {
+            $.each(quizConfig['teams'], function (id, team) {
+              teamSelect.append($('<option>', {value: id, text : team}));
+            });
+
+            teamSelect
+              .on('change', function () {
+                startButton.prop('disabled', this.value === '')
+              })
+              .trigger('change');
+          } else {
+            teamSelect.remove();
+          }
+
+          startButton.on('click', function () {
+            start(
+              $('input.gvq-participant-email').val(),
+              cupModeOn ? teamSelect.val() : null
+            );
           });
 
           return $.Deferred().resolve().promise();
