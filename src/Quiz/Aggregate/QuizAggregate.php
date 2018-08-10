@@ -127,7 +127,6 @@ class QuizAggregate extends EventSourcedAggregateRoot
                     )
                 );
             } else {
-                $this->score += 1;
                 $this->apply(
                     new AnsweredCorrect(
                         $this->quiz->getId(),
@@ -157,6 +156,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
 
     protected function applyAnsweredCorrect(): void
     {
+        $this->score += 1;
         $this->questionIndex++;
         $this->askingQuestion = false;
     }
