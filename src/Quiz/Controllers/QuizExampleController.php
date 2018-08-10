@@ -44,10 +44,6 @@ class QuizExampleController extends AbstractController
                 'required' => false,
                 'empty_data' => null
             ))
-            ->add('team', TextType::class, array(
-                'required' => false,
-                'empty_data' => null
-            ))
             ->add('configure', SubmitType::class);
 
         $form = $formBuilder->getForm();
@@ -59,7 +55,6 @@ class QuizExampleController extends AbstractController
                 'channel' => $form->get('channel')->getNormData(),
                 'company' => $form->get('company')->getNormData(),
                 'partner' => $form->get('partner')->getNormData(),
-                'team' => $form->get('team')->getNormData(),
                 'teams' => $teams['2018'],
             ];
         }

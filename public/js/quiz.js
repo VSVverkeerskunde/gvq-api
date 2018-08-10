@@ -3,7 +3,6 @@
     "channel": "individual",
     "company": null,
     "partner": null,
-    "team": null,
     "language": "nl",
     "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
     "teams": {
