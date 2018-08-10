@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Quiz\Serializers;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use VSV\GVQ_API\Question\Serializers\AnswerNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
-use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
 
 abstract class AbstractAnsweredEventNormalizer implements NormalizerInterface
 {
