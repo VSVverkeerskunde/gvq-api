@@ -7,7 +7,9 @@
     "language": "nl",
     "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
     "teams": {
-      "922391c4-fc5b-4148-b69d-d347d48caaef": "Club Brugge KV"
+      "922391c4-fc5b-4148-b69d-d347d48caaef": {
+        "name": "Club Brugge KV"
+      }
     }
   };
   let translations = {
@@ -93,7 +95,7 @@
 
           if (cupModeOn) {
             $.each(quizConfig['teams'], function (id, team) {
-              teamSelect.append($('<option>', {value: id, text : team}));
+              teamSelect.append($('<option>', {value: id, text : team.name}));
             });
 
             teamSelect

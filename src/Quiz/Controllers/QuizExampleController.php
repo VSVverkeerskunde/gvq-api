@@ -3,17 +3,22 @@
 namespace VSV\GVQ_API\Quiz\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Yaml;
 
 class QuizExampleController extends AbstractController
 {
-    public function showQuiz(Request $request): Response
-    {
+    public function showQuiz(
+        Request $request,
+        ContainerInterface $container
+    ): Response {
         $quizConfig = array();
+        $teams = Yaml::parseFile($container->getParameter('kernel.project_dir').'/config/teams.yaml');
 
         $formBuilder = $this->createFormBuilder();
         $formBuilder
@@ -55,6 +60,7 @@ class QuizExampleController extends AbstractController
                 'company' => $form->get('company')->getNormData(),
                 'partner' => $form->get('partner')->getNormData(),
                 'team' => $form->get('team')->getNormData(),
+                'teams' => $teams['2018'],
             ];
         }
 
