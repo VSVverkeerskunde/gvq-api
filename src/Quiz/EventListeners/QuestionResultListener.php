@@ -38,7 +38,7 @@ class QuestionResultListener implements EventListener
         if ($payload instanceof QuestionAsked) {
             $this->questionResultRepository->save(
                 $payload->getId(),
-                $this->createQuestionResult(
+                new QuestionResult(
                     $payload->getQuestion(),
                     null,
                     null
@@ -50,7 +50,7 @@ class QuestionResultListener implements EventListener
         } elseif ($payload instanceof AnsweredCorrect) {
             $this->questionResultRepository->save(
                 $payload->getId(),
-                $this->createQuestionResult(
+                new QuestionResult(
                     $payload->getQuestion(),
                     null,
                     null
@@ -59,7 +59,7 @@ class QuestionResultListener implements EventListener
         } elseif ($payload instanceof AnsweredIncorrect) {
             $this->questionResultRepository->save(
                 $payload->getId(),
-                $this->createQuestionResult(
+                new QuestionResult(
                     $payload->getQuestion(),
                     $payload->isAnsweredTooLate(),
                     null
@@ -71,30 +71,12 @@ class QuestionResultListener implements EventListener
             );
             $this->questionResultRepository->save(
                 $payload->getId(),
-                $this->createQuestionResult(
+                new QuestionResult(
                     $questionResult->getQuestion(),
                     $questionResult->isAnsweredTooLate(),
                     $payload->getScore()
                 )
             );
         }
-    }
-
-    /**
-     * @param Question $question
-     * @param bool|null $answeredTooLate
-     * @param int|null $score
-     * @return QuestionResult
-     */
-    private function createQuestionResult(
-        Question $question,
-        ?bool $answeredTooLate,
-        ?int $score
-    ): QuestionResult {
-        return new QuestionResult(
-            $question,
-            $answeredTooLate,
-            $score
-        );
     }
 }

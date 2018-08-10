@@ -777,24 +777,6 @@ class ModelsFactory
     }
 
     /**
-     * @return AnsweredIncorrect
-     * @throws \Exception
-     */
-    public static function createAnsweredIncorrectOnTime(): AnsweredIncorrect
-    {
-        return self::createAnsweredIncorrect(false);
-    }
-
-    /**
-     * @return AnsweredIncorrect
-     * @throws \Exception
-     */
-    public static function createAnsweredTooLate(): AnsweredIncorrect
-    {
-        return self::createAnsweredIncorrect(true);
-    }
-
-    /**
      * @param bool $answeredTooLate
      * @return AnsweredIncorrect
      * @throws \Exception

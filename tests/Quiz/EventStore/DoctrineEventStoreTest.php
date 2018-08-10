@@ -240,7 +240,7 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
                 $quiz->getId()->toString(),
                 4,
                 new Metadata(),
-                ModelsFactory::createAnsweredIncorrectOnTime()
+                ModelsFactory::createAnsweredIncorrect(false)
             ),
             DomainMessage::recordNow(
                 $quiz->getId()->toString(),

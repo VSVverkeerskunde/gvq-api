@@ -72,7 +72,7 @@ class QuestionResultListenerTest extends TestCase
      */
     public function it_handles_answered_incorrect(): void
     {
-        $answeredIncorrect = ModelsFactory::createAnsweredIncorrectOnTime();
+        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(false);
 
         $domainMessage = DomainMessage::recordNow(
             $answeredIncorrect->getId(),
@@ -103,7 +103,7 @@ class QuestionResultListenerTest extends TestCase
      */
     public function it_handles_answered_too_late(): void
     {
-        $answeredIncorrect = ModelsFactory::createAnsweredTooLate();
+        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(true);
 
         $domainMessage = DomainMessage::recordNow(
             $answeredIncorrect->getId(),
