@@ -834,8 +834,8 @@ class ModelsFactory
     {
         return self::createCustomQuestionResult(
             ModelsFactory::createAccidentQuestion(),
-            null,
-            null
+            true,
+            2
         );
     }
 
