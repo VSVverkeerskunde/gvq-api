@@ -4,12 +4,11 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionResultRedisRepository implements QuestionResultRepository
 {
-    const KEY_PREFIX = 'current_question_result_';
+    const KEY_PREFIX = 'question_result_';
 
     /**
      * @var \Redis
@@ -36,8 +35,11 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     /**
      * @inheritdoc
      */
-    public function save(UuidInterface $quizId, QuestionResult $questionResult, array $context = []): void
-    {
+    public function save(
+        UuidInterface $quizId,
+        QuestionResult $questionResult,
+        array $context = []
+    ): void {
         $questionResultAsJson = $this->serializer->serialize($questionResult, 'json', $context);
 
         $this->redis->set($this->createKey($quizId), $questionResultAsJson);

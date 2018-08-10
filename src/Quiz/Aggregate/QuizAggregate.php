@@ -13,7 +13,6 @@ use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
-use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuizAggregate extends EventSourcedAggregateRoot
 {
@@ -110,12 +109,13 @@ class QuizAggregate extends EventSourcedAggregateRoot
     ): void {
         if ($this->askingQuestion) {
             $currentQuestion = $this->getCurrentQuestion();
-            $answeredToolate = $this->answeredTooLate(
+            $answeredTooLate = $this->answeredTooLate(
                 $this->questionAskedOn,
                 $answeredOn,
                 $this->quiz->getAllowedDelay()
             );
-            if ($answeredToolate ||
+
+            if ($answeredTooLate ||
                 !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
                 $this->apply(
                     new AnsweredIncorrect(
@@ -123,7 +123,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
                         $currentQuestion,
                         $answer,
                         $answeredOn,
-                        $answeredToolate
+                        $answeredTooLate
                     )
                 );
             } else {

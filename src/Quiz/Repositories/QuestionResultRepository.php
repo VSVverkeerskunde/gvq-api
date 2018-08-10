@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Quiz\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 interface QuestionResultRepository
@@ -13,7 +12,11 @@ interface QuestionResultRepository
      * @param QuestionResult $questionResult
      * @param array $context
      */
-    public function save(UuidInterface $quizId, QuestionResult $questionResult, array $context = []): void;
+    public function save(
+        UuidInterface $quizId,
+        QuestionResult $questionResult,
+        array $context = []
+    ): void;
 
     /**
      * @param UuidInterface $quizId

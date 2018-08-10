@@ -795,11 +795,11 @@ class ModelsFactory
     }
 
     /**
-     * @param bool $answeredtooLate
+     * @param bool $answeredTooLate
      * @return AnsweredIncorrect
      * @throws \Exception
      */
-    public static function createAnsweredIncorrect(bool $answeredtooLate): AnsweredIncorrect
+    public static function createAnsweredIncorrect(bool $answeredTooLate): AnsweredIncorrect
     {
         return new AnsweredIncorrect(
             Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
@@ -811,7 +811,7 @@ class ModelsFactory
                 false
             ),
             new \DateTimeImmutable('2020-11-11T11:12:33+00:00'),
-            $answeredtooLate
+            $answeredTooLate
         );
     }
 

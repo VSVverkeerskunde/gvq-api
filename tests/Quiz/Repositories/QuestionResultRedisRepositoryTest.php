@@ -59,7 +59,7 @@ class QuestionResultRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('set')
-            ->with('current_question_result_'.$quizId->toString(), $questionResultAsJson);
+            ->with('question_result_'.$quizId->toString(), $questionResultAsJson);
 
         $this->questionResultRedisRepository->save(
             $quizId,
@@ -79,7 +79,7 @@ class QuestionResultRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('current_question_result_'.$quizId->toString())
+            ->with('question_result_'.$quizId->toString())
             ->willReturn($questionResultAsJson);
 
         $this->serializer->expects($this->once())
@@ -103,7 +103,7 @@ class QuestionResultRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('current_question_result_'.$quizId->toString())
+            ->with('question_result_'.$quizId->toString())
             ->willReturn($questionResultAsJson);
 
         $currentQuestionAsJson = $this->questionResultRedisRepository->getByIdAsJson($quizId);
