@@ -109,10 +109,17 @@
           let teamSelect = view.find('select[name="choose-team"]');
 
           function start(email, team) {
-            $.post('/quiz', JSON.stringify(Object.assign({}, quizConfig, {email: email, team: team})))
-              .done(function( data ) {
-                renderView('askQuestion', data.id, 1);
-              });
+            $.post('/quiz', JSON.stringify({
+                channel: quizConfig['channel'],
+                company: quizConfig['company'],
+                partner: quizConfig['partner'],
+                language: quizConfig['language'],
+                email: email,
+                team: team
+            }))
+            .done(function( data ) {
+              renderView('askQuestion', data.id, 1);
+            });
           }
 
           if (cupModeOn) {
