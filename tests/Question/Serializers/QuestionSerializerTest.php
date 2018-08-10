@@ -71,6 +71,32 @@ class QuestionSerializerTest extends TestCase
     /**
      * @test
      */
+    public function it_can_serialize_with_question_asked_context(): void
+    {
+        $actualJson = $this->serializer->serialize(
+            $this->question,
+            'json',
+            [
+                'questionAsked' => true,
+            ]
+        );
+
+        $jsonArray = json_decode($actualJson, true);
+
+        $this->assertNull(
+            $jsonArray['feedback']
+        );
+
+        foreach ($jsonArray['answers'] as $answer) {
+            $this->assertNull(
+                $answer['correct']
+            );
+        }
+    }
+
+    /**
+     * @test
+     */
     public function it_can_deserialize_to_question(): void
     {
         $actualQuestion = $this->serializer->deserialize(

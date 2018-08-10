@@ -28,6 +28,7 @@ use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Registration\Models\Registration;
@@ -776,10 +777,11 @@ class ModelsFactory
     }
 
     /**
+     * @param bool $answeredTooLate
      * @return AnsweredIncorrect
      * @throws \Exception
      */
-    public static function createAnsweredIncorrect(): AnsweredIncorrect
+    public static function createAnsweredIncorrect(bool $answeredTooLate): AnsweredIncorrect
     {
         return new AnsweredIncorrect(
             Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
@@ -790,7 +792,8 @@ class ModelsFactory
                 new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                 false
             ),
-            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00'),
+            $answeredTooLate
         );
     }
 
@@ -800,7 +803,39 @@ class ModelsFactory
     public static function createQuizFinished(): QuizFinished
     {
         return new QuizFinished(
-            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6')
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            2
+        );
+    }
+
+    /**
+     * @return QuestionResult
+     * @throws \Exception
+     */
+    public static function createQuestionResult(): QuestionResult
+    {
+        return self::createCustomQuestionResult(
+            ModelsFactory::createAccidentQuestion(),
+            true,
+            2
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param bool|null $answeredTooLate
+     * @param int|null $score
+     * @return QuestionResult
+     */
+    public static function createCustomQuestionResult(
+        Question $question,
+        ?bool $answeredTooLate,
+        ?int $score
+    ): QuestionResult {
+        return new QuestionResult(
+            $question,
+            $answeredTooLate,
+            $score
         );
     }
 

@@ -13,11 +13,13 @@ class AnswerNormalizer implements NormalizerInterface
      */
     public function normalize($answer, $format = null, array $context = []): array
     {
+        $questionAsked = !empty($context['questionAsked']) && $context['questionAsked'] === true;
+
         return [
             'id' => $answer->getId()->toString(),
             'index' => $answer->getIndex()->toNative(),
             'text' => $answer->getText()->toNative(),
-            'correct' => $answer->isCorrect(),
+            'correct' => $questionAsked ? null : $answer->isCorrect(),
         ];
     }
 

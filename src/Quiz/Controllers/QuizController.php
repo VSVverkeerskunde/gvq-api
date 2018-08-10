@@ -12,7 +12,7 @@ use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\Repositories\AnswerRepository;
 use VSV\GVQ_API\Quiz\Aggregate\QuizAggregate;
 use VSV\GVQ_API\Quiz\Commands\StartQuiz;
-use VSV\GVQ_API\Quiz\Repositories\CurrentQuestionRepository;
+use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Service\QuizService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
 
@@ -44,9 +44,9 @@ class QuizController
     private $answerRepository;
 
     /**
-     * @var CurrentQuestionRepository
+     * @var QuestionResultRepository
      */
-    private $currentQuestionRepository;
+    private $questionResultRepository;
 
     /**
      * @var EventSourcingRepository
@@ -64,7 +64,7 @@ class QuizController
      * @param PartnerRepository $partnerRepository
      * @param TeamRepository $teamRepository
      * @param AnswerRepository $answerRepository
-     * @param CurrentQuestionRepository $currentQuestionRepository
+     * @param QuestionResultRepository $questionResultRepository
      * @param EventSourcingRepository $quizAggregateRepository
      * @param SerializerInterface $serializer
      */
@@ -74,7 +74,7 @@ class QuizController
         PartnerRepository $partnerRepository,
         TeamRepository $teamRepository,
         AnswerRepository $answerRepository,
-        CurrentQuestionRepository $currentQuestionRepository,
+        QuestionResultRepository $questionResultRepository,
         EventSourcingRepository $quizAggregateRepository,
         SerializerInterface $serializer
     ) {
@@ -83,7 +83,7 @@ class QuizController
         $this->partnerRepository = $partnerRepository;
         $this->teamRepository = $teamRepository;
         $this->answerRepository = $answerRepository;
-        $this->currentQuestionRepository = $currentQuestionRepository;
+        $this->questionResultRepository = $questionResultRepository;
         $this->quizAggregateRepository = $quizAggregateRepository;
         $this->serializer = $serializer;
     }
@@ -138,13 +138,11 @@ class QuizController
     }
 
     /**
-     * @param Request $request
      * @param string $quizId
      * @return Response
      * @throws \Exception
      */
     public function askQuestion(
-        Request $request,
         string $quizId
     ): Response {
         /** @var QuizAggregate $quizAggregate */
@@ -154,19 +152,16 @@ class QuizController
 
         $this->quizAggregateRepository->save($quizAggregate);
 
-        // TODO: No feedback and no correct answer info.
         return $this->createCurrentQuestionResponse($quizId);
     }
 
     /**
-     * @param Request $request
      * @param string $quizId
      * @param string $answerId
      * @return Response
      * @throws \Exception
      */
     public function answerQuestion(
-        Request $request,
         string $quizId,
         string $answerId
     ): Response {
@@ -181,6 +176,10 @@ class QuizController
             $this->quizAggregateRepository->save($quizAggregate);
 
             return $this->createCurrentQuestionResponse($quizId);
+        } else {
+            throw new \InvalidArgumentException(
+                'No answer with id "'.$answerId.'"'
+            );
         }
     }
 
@@ -190,10 +189,11 @@ class QuizController
      */
     private function createCurrentQuestionResponse(string $quizId): Response
     {
-        $currentQuestionAsJson = $this->currentQuestionRepository->getByIdAsJson(
+        $questionResult = $this->questionResultRepository->getByIdAsJson(
             Uuid::fromString($quizId)
         );
-        $response = new Response($currentQuestionAsJson);
+
+        $response = new Response($questionResult);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

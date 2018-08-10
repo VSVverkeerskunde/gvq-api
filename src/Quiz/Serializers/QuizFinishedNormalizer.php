@@ -11,10 +11,11 @@ class QuizFinishedNormalizer implements NormalizerInterface
      * @inheritdoc
      * @param QuizFinished $quizFinished
      */
-    public function normalize($quizFinished, $format = null, array $context = array())
+    public function normalize($quizFinished, $format = null, array $context = [])
     {
         return [
             'id' => $quizFinished->getId()->toString(),
+            'score' => $quizFinished->getScore(),
         ];
     }
 

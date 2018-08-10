@@ -37,6 +37,11 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private $askingQuestion;
 
     /**
+     * @var int
+     */
+    private $score;
+
+    /**
      * @inheritdoc
      */
     public function getAggregateRootId(): string
@@ -65,6 +70,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
         $this->quiz = $quizStarted->getQuiz();
 
         $this->questionIndex = 0;
+        $this->score = 0;
         $this->askingQuestion = false;
     }
 
@@ -103,15 +109,21 @@ class QuizAggregate extends EventSourcedAggregateRoot
     ): void {
         if ($this->askingQuestion) {
             $currentQuestion = $this->getCurrentQuestion();
+            $answeredTooLate = $this->answeredTooLate(
+                $this->questionAskedOn,
+                $answeredOn,
+                $this->quiz->getAllowedDelay()
+            );
 
-            if ($this->answeredToLate($this->questionAskedOn, $answeredOn, $this->quiz->getAllowedDelay()) ||
+            if ($answeredTooLate ||
                 !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
                 $this->apply(
                     new AnsweredIncorrect(
                         $this->quiz->getId(),
                         $currentQuestion,
                         $answer,
-                        $answeredOn
+                        $answeredOn,
+                        $answeredTooLate
                     )
                 );
             } else {
@@ -128,7 +140,8 @@ class QuizAggregate extends EventSourcedAggregateRoot
             if (count($this->quiz->getQuestions()) === $this->questionIndex) {
                 $this->apply(
                     new QuizFinished(
-                        $this->quiz->getId()
+                        $this->quiz->getId(),
+                        $this->score
                     )
                 );
             }
@@ -143,6 +156,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
 
     protected function applyAnsweredCorrect(): void
     {
+        $this->score += 1;
         $this->questionIndex++;
         $this->askingQuestion = false;
     }
@@ -159,7 +173,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
      * @param AllowedDelay $allowedDelay
      * @return bool
      */
-    private function answeredToLate(
+    private function answeredTooLate(
         \DateTimeImmutable $askedOn,
         \DateTimeImmutable $answeredOn,
         AllowedDelay $allowedDelay

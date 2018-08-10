@@ -4,11 +4,11 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use VSV\GVQ_API\Question\Models\Question;
+use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
-class CurrentQuestionRedisRepository implements CurrentQuestionRepository
+class QuestionResultRedisRepository implements QuestionResultRepository
 {
-    const KEY_PREFIX = 'current_question_';
+    const KEY_PREFIX = 'question_result_';
 
     /**
      * @var \Redis
@@ -35,23 +35,26 @@ class CurrentQuestionRedisRepository implements CurrentQuestionRepository
     /**
      * @inheritdoc
      */
-    public function save(UuidInterface $quizId, Question $question): void
-    {
-        $questionAsJson = $this->serializer->serialize($question, 'json');
+    public function save(
+        UuidInterface $quizId,
+        QuestionResult $questionResult,
+        array $context = []
+    ): void {
+        $questionResultAsJson = $this->serializer->serialize($questionResult, 'json', $context);
 
-        $this->redis->set($this->createKey($quizId), $questionAsJson);
+        $this->redis->set($this->createKey($quizId), $questionResultAsJson);
     }
 
     /**
      * @inheritdoc
      */
-    public function getById(UuidInterface $quizId): Question
+    public function getById(UuidInterface $quizId): QuestionResult
     {
-        $questionAsJson = $this->redis->get($this->createKey($quizId));
+        $questionResultAsJson = $this->redis->get($this->createKey($quizId));
 
-        /** @var Question $question */
-        $question = $this->serializer->deserialize($questionAsJson, Question::class, 'json');
-        return $question;
+        /** @var QuestionResult $questionResult */
+        $questionResult = $this->serializer->deserialize($questionResultAsJson, QuestionResult::class, 'json');
+        return $questionResult;
     }
 
     /**
