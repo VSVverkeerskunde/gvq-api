@@ -56,6 +56,19 @@
         .gvq-answer-result.wrong {
             color: red;
         }
+
+        .gvq-team-banner {
+            height: 150px;
+            width: 100%;
+        }
+
+        .gvq-team-banner img {
+            height: 150px;
+            width: 150px;
+            margin: auto;
+            display: block;
+            background-color: white;
+        }
     </style>
 {% endblock %}
 
@@ -65,6 +78,7 @@
 
     <h2>Quiz</h2>
     <div id="gvq-quiz">
+        <div class="gvq-team-banner"><img src="" alt=""></div>
         <div class="gvq-quiz-old-view"></div>
         <div class="gvq-quiz-view"></div>
         <div class="gvq-templates" data-language="nl" style="display: none;">

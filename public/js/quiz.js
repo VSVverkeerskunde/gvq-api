@@ -8,7 +8,9 @@
     "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
     "teams": {
       "922391c4-fc5b-4148-b69d-d347d48caaef": {
-        "name": "Club Brugge KV"
+        "name": "Club Brugge KV",
+        "primary": "#387cda",
+        "secondary": "#3c3c3c"
       }
     }
   };
@@ -80,6 +82,26 @@
       view.find('[data-value="'+name+'"]').text(value);
     }
 
+    function renderTeamBanner(teamId) {
+      let banner = $('#gvq-quiz .gvq-team-banner');
+      let team = false;
+
+      if (false === teamId) {
+        banner.remove();
+        return;
+      }
+
+      if ('' !== teamId) {
+        team = quizConfig['teams'][teamId];
+      }
+
+      banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
+      banner.css({
+        'background-color': team ? team['primary'] : 'white',
+        'border': 'solid ' + (team ? team['secondary'] : 'white'),
+      })
+    }
+
     let views = {
       participationForm: {
         controller: function () {
@@ -101,9 +123,11 @@
             teamSelect
               .on('change', function () {
                 startButton.prop('disabled', this.value === '')
+                renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
           } else {
+            renderTeamBanner(false);
             teamSelect.remove();
           }
 
