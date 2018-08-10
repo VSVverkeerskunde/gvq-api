@@ -47,6 +47,15 @@
         .gvq-quiz-old-view {
             pointer-events: none;
         }
+
+        .gvq-answer-result.correct {
+            color: green;
+        }
+
+        .gvq-answer-result.late,
+        .gvq-answer-result.wrong {
+            color: red;
+        }
     </style>
 {% endblock %}
 
@@ -96,6 +105,11 @@
                     </ul>
                     <span class="gvq-question-feedback" data-value="feedback"></span>
                 </div>
+                <div>
+                    <span class="gvq-answer-result correct" data-translate="ANSWERED_CORRECT">Correct</span>
+                    <span class="gvq-answer-result wrong" data-translate="ANSWERED_WRONG">Wrong</span>
+                    <span class="gvq-answer-result late" data-translate="ANSWERED_LATE">Too late</span>
+                </div>
                 <button class="gvq-next-question" data-translate="NEXT_QUESTION">Next question</button>
                 <button class="gvq-view-score" data-translate="VIEW_SCORE">view score</button>
             </div>
@@ -103,8 +117,7 @@
             <div data-template="show-result">
                 <span class="gvq-score">
                     <span data-translate="SCORE">Score</span>
-                    <span class="right-answers" data-value="score"></span>/
-                    <span class="total-questions" data-value="totalQuestions"></span>
+                    <span class="right-answers" data-value="score"></span>/<span class="total-questions" data-value="totalQuestions"></span>
                 </span>
                 <button class="gvq-play-again" data-translate="PLAY_AGAIN">Play again</button>
             </div>

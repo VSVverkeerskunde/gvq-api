@@ -15,7 +15,10 @@
       NEXT_QUESTION: 'Volgende vraag',
       VIEW_SCORE: 'Bekijk score',
       SCORE: 'Score',
-      PLAY_AGAIN: 'Speel nog eens'
+      PLAY_AGAIN: 'Speel nog eens',
+      ANSWERED_CORRECT: 'Juist',
+      ANSWERED_WRONG: 'Fout',
+      ANSWERED_LATE: 'Te laat'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -24,7 +27,10 @@
       NEXT_QUESTION: 'Question suivante',
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
-      PLAY_AGAIN: 'Jouer encore une fois'
+      PLAY_AGAIN: 'Jouer encore une fois',
+      ANSWERED_CORRECT: 'Correct',
+      ANSWERED_WRONG: 'Faux',
+      ANSWERED_LATE: 'Trop tard'
     }
   };
   let cachedConfig = {};
@@ -47,7 +53,6 @@
     cachedConfig = quizConfig;
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
-    let score = 0;
 
     function renderView(viewName, ...args) {
       let oldContent = view.children();
@@ -103,17 +108,17 @@
           }
 
           function renderQuestion(data) {
-            let imageLocation = quizConfig.imageDirectory + data.imageFileName;
+            let imageLocation = quizConfig.imageDirectory + data.question.imageFileName;
             let questionImage = new Image();
-            setViewValue('questionText', data.text);
-            $.each(data.answers, function (index, answer) {
+            setViewValue('questionText', data.question.text);
+            $.each(data.question.answers, function (index, answer) {
               setViewValue('answer'+answer.index, answer.text);
             });
 
             view
               .find('ul.gvq-answers')
               .on('click', 'li', function () {
-                let chosenAnswer = data.answers[$(this).index()];
+                let chosenAnswer = data.question.answers[$(this).index()];
                 clearInterval(counterInterval);
                 renderView('showAnswer', quizId, questionNr, chosenAnswer.id);
               });
@@ -139,47 +144,58 @@
           let deferredRender = $.Deferred();
 
           function renderAnsweredQuestion(data) {
-            setViewValue('questionText', data.text);
-            $.each(data.answers, function (index, answer) {
+            let answerResult = 'correct';
+            if (false === data.answeredTooLate) answerResult = 'wrong';
+            if (true === data.answeredTooLate) answerResult = 'late';
+
+            setViewValue('questionText', data.question.text);
+            $.each(data.question.answers, function (index, answer) {
               setViewValue('answer'+answer.index, answer.text);
               view.find('[data-value="answer'+answer.index+'"]')
                 .toggleClass('selected-answer', answer.id === answerId)
                 .toggleClass('is-correct', answer.correct);
+              });
 
-              if (answer.correct && answer.id === answerId) ++score;
-            });
+            view
+              .find('.gvq-answer-result')
+              .filter(function () {
+                return false === $(this).hasClass(answerResult);
+              })
+              .remove();
 
             view
               .find('.gvq-question-image')
-              .attr('src', quizConfig.imageDirectory + data.imageFileName);
+              .attr('src', quizConfig.imageDirectory + data.question.imageFileName);
 
-            setViewValue('questionText', data.text);
-            setViewValue('feedback', data.feedback);
+            setViewValue('questionText', data.question.text);
+            setViewValue('feedback', data.question.feedback);
+
+            if (typeof data.score === 'number') {
+              view.find('button.gvq-view-score')
+                .on('click', function () {
+                  renderView('showResult', quizId, data.score, questionNr);
+                })
+                .show();
+            } else {
+              view.find('button.gvq-next-question')
+                .on('click', function () {
+                  renderView('askQuestion', quizId, ++questionNr);
+                })
+                .show();
+            }
+
             deferredRender.resolve();
           }
 
           setViewValue('questionNr', questionNr);
           $.post('/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
-          if (questionNr === 15) {
-            view.find('button.gvq-view-score')
-              .on('click', function () {
-                renderView('showResult', quizId, questionNr);
-              })
-              .show();
-          } else {
-            view.find('button.gvq-next-question')
-              .on('click', function () {
-                renderView('askQuestion', quizId, ++questionNr);
-              })
-              .show();
-          }
 
           return deferredRender.promise();
         },
         template: loadTemplate('show-answer', quizConfig.language)
       },
       showResult: {
-        controller: function (quizId, totalQuestions) {
+        controller: function (quizId, score, totalQuestions) {
           setViewValue('score', score);
           setViewValue('totalQuestions', totalQuestions);
 
