@@ -4,77 +4,107 @@
 
 {% block content %}
 
+    <h1 class="page-title">{% trans %}Question.add.title{% endtrans %}</h1>
+
+    {% include '/includes/flash.html.twig' %}
+
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-3">
-                    <label for="question_form_language">{% trans %}Language{% endtrans %}</label>
-                    {{ form_widget(form.language) }}
-                </div>
-
-                <div class="col-sm-3">
-                    <label for="question_form_year">{% trans %}Year{% endtrans %}</label>
-                    {{ form_widget(form.year) }}
-                    {{ form_errors(form.year) }}
-                </div>
-
-                <div class="col-sm-6">
-                    <label for="question_form_category">{% trans %}Category{% endtrans %}</label>
-                    {{ form_widget(form.category) }}
-                </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="question_form_language">{% trans %}Language{% endtrans %}</label>
+                {{ form_widget(form.language) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="question_form_year">{% trans %}Year{% endtrans %}</label>
+                {{ form_widget(form.year) }}
+                {{ form_errors(form.year) }}
             </div>
         </div>
+    </div>
 
-        {% if form.image is defined %}
-            <div class="form-group">
-                <label for="question_form_image">{% trans %}Image{% endtrans %}</label>
-                {{ form_widget(form.image, {'attr': {'style': 'opacity: 1'}}) }}
-                {{ form_errors(form.image) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="question_form_category">{% trans %}Category{% endtrans %}</label>
+                {{ form_widget(form.category) }}
             </div>
-        {% endif %}
-
-        <div class="form-group">
-            <label for="question_form_text">{% trans %}Question{% endtrans %}</label>
-            {{ form_widget(form.text) }}
-            {{ form_errors(form.text) }}
+            <div class="col-sm-6">
+                {% if form.image is defined %}
+                    <label for="question_form_image">{% trans %}Image{% endtrans %}</label>
+                    {{ form_widget(form.image, {'attr': {'style': 'opacity: 1'}}) }}
+                    {{ form_errors(form.image) }}
+                {% endif %}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="question_form_answer1">{% trans %}Answer.1{% endtrans %}</label>
-            {{ form_widget(form.answer1) }}
-            {{ form_errors(form.answer1) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_text">{% trans %}Question{% endtrans %}</label>
+                {{ form_widget(form.text) }}
+                {{ form_errors(form.text) }}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="question_form_answer2">{% trans %}Answer.2{% endtrans %}</label>
-            {{ form_widget(form.answer2) }}
-            {{ form_errors(form.answer2) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_answer1">{% trans %}Answer.1{% endtrans %}</label>
+                {{ form_widget(form.answer1) }}
+                {{ form_errors(form.answer1) }}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="question_form_answer3">{% trans %}Answer.3{% endtrans %}</label>
-            {{ form_widget(form.answer3) }}
-            {{ form_errors(form.answer3) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_answer2">{% trans %}Answer.2{% endtrans %}</label>
+                {{ form_widget(form.answer2) }}
+                {{ form_errors(form.answer2) }}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="question_form_feedback">{% trans %}Feedback{% endtrans %}</label>
-            {{ form_widget(form.feedback) }}
-            {{ form_errors(form.feedback) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_answer3">{% trans %}Answer.3{% endtrans %}</label>
+                {{ form_widget(form.answer3) }}
+                {{ form_errors(form.answer3) }}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="question_form_correctAnswer">{% trans %}Answer.correct{% endtrans %}</label>
-            {{ form_widget(form.correctAnswer) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_feedback">{% trans %}Feedback{% endtrans %}</label>
+                {{ form_widget(form.feedback) }}
+                {{ form_errors(form.feedback) }}
+            </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <a role="button"
-               class="btn btn-secondary"
-               href="{{ path('questions_view_index') }}">{% trans %}Button.cancel{% endtrans %}
-            </a>
-            <button type="submit" class="btn btn-primary">{% trans %}Question.add.submit{% endtrans %}</button>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="question_form_correctAnswer">{% trans %}Answer.correct{% endtrans %}</label>
+                {{ form_widget(form.correctAnswer) }}
+            </div>
+
         </div>
+    </div>
+    <div class="form-group">
+        <a role="button"
+           class="btn btn-secondary"
+           href="{{ path('questions_view_index') }}">{% trans %}Button.cancel{% endtrans %}
+        </a>
+        <button type="submit" class="btn btn-primary">{% trans %}Question.add.submit{% endtrans %}</button>
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}

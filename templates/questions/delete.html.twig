@@ -4,6 +4,8 @@
 
 {% block content %}
 
+    <h1 class="page-title">{% trans %}Question.delete.title{% endtrans %}</h1>
+
     <p>{% trans with {'%id%': id} %}Question.delete.confirmation{% endtrans %}</p>
 
     <form method="post">
