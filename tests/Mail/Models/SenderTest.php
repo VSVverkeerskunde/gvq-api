@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Mail\Models;
 
 use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -16,7 +17,7 @@ class SenderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->sender = ModelsFactory::createSender();
+        $this->sender = ModelsFactory::createSenderNl();
     }
 
     /**
@@ -25,7 +26,7 @@ class SenderTest extends TestCase
     public function it_stores_an_email()
     {
         $this->assertEquals(
-            new Email('info@gvq.be'),
+            new Email('quiz@vsv.be'),
             $this->sender->getEmail()
         );
     }
@@ -36,8 +37,19 @@ class SenderTest extends TestCase
     public function it_stores_a_name()
     {
         $this->assertEquals(
-            new NotEmptyString('Info GVQ'),
+            new NotEmptyString('Grote verkeersquiz 2018'),
             $this->sender->getName()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_a_language()
+    {
+        $this->assertEquals(
+            new Language('nl'),
+            $this->sender->getLanguage()
         );
     }
 }

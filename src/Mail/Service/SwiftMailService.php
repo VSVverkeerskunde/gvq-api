@@ -34,29 +34,29 @@ class SwiftMailService implements MailService
     private $urlGenerator;
 
     /**
-     * @var Sender
+     * @var Sender[]
      */
-    private $sender;
+    private $senders;
 
     /**
      * @param Swift_Mailer $swiftMailer
      * @param Twig_Environment $twig
      * @param TranslatorInterface $translator
      * @param UrlGeneratorInterface $urlGenerator
-     * @param Sender $sender
+     * @param Sender ...$senders
      */
     public function __construct(
         Swift_Mailer $swiftMailer,
         Twig_Environment $twig,
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
-        Sender $sender
+        Sender ...$senders
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->twig = $twig;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
-        $this->sender = $sender;
+        $this->senders = $senders;
     }
 
     /**
@@ -148,10 +148,12 @@ class SwiftMailService implements MailService
         string $templateName,
         array $templateParameters
     ): Swift_Message {
+        $sender = $this->getSenderForLanguage($registration);
+
         return (new Swift_Message())
             ->setFrom(
-                $this->sender->getEmail()->toNative(),
-                $this->sender->getName()->toNative()
+                $sender->getEmail()->toNative(),
+                $sender->getName()->toNative()
             )
             ->setTo(
                 $registration->getUser()->getEmail()->toNative(),
@@ -181,6 +183,23 @@ class SwiftMailService implements MailService
                 ),
                 'text/plain'
             );
+    }
+
+    /**
+     * @param Registration $registration
+     * @return Sender
+     */
+    private function getSenderForLanguage(Registration $registration): Sender
+    {
+        $senderForLanguage = $this->senders[0];
+
+        foreach ($this->senders as $sender) {
+            if ($registration->getUser()->getLanguage()->equals($sender->getLanguage())) {
+                $senderForLanguage = $sender;
+            }
+        }
+
+        return $senderForLanguage;
     }
 
     /**

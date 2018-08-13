@@ -627,11 +627,24 @@ class ModelsFactory
     /**
      * @return Sender
      */
-    public static function createSender(): Sender
+    public static function createSenderNl(): Sender
     {
         return new Sender(
-            new Email('info@gvq.be'),
-            new NotEmptyString('Info GVQ')
+            new Email('quiz@vsv.be'),
+            new NotEmptyString('Grote verkeersquiz 2018'),
+            new Language('nl')
+        );
+    }
+
+    /**
+     * @return Sender
+     */
+    public static function createSenderFr(): Sender
+    {
+        return new Sender(
+            new Email('quiz@awsr.be'),
+            new NotEmptyString('Quiz de la Route 2018'),
+            new Language('fr')
         );
     }
 
