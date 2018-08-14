@@ -84,7 +84,7 @@ Password.request.title: 'Wachtwoord vergeten'
 Password.request.submit: 'Wachtwoord herstellen'
 Password.request.footer: 'Wachtwoord herstel uitleg'
 
-Password.request.success.title: 'Success! '
+Password.request.success.title: 'Gelukt! '
 Password.request.success.subtitle: 'Er is een aanvraag verzonden om het wachtwoord te herstellen.'
 Password.request.success.text: 'Als er een account bestaat voor het opgegeven e-mailadres, wordt er een e-mail verstuurd met een link om een nieuw wachtwoord te kiezen.'
 Password.request.success.extra: 'Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
@@ -92,7 +92,7 @@ Password.request.success.extra: 'Het kan enkele minuten duren voor u de mail ont
 Password.reset.title: 'Nieuw paswoord instellen'
 Password.reset.submit: 'Herstel wachtwoord'
 
-Password.reset.success.title: 'Success! '
+Password.reset.success.title: 'Gelukt! '
 Password.reset.success.subtitle: 'Uw wachtwoord is hersteld.'
 Password.reset.success.text: 'U kan nu inloggen met de nieuwe gegevens'
 Password.reset.success.extra: 'Password reset extra'

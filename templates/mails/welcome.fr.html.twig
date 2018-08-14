@@ -1,10 +1,11 @@
 {% extends 'base_mail.html.twig' %}
 
 {% block content %}
-    <p>__Beste {{ registration.user.firstName.toNative }},</p>
-    <p>__Welkom bij de grote verkeersquiz. Uw account werd succesvol aangemaakt.</p>
-    <p>__Je kan inloggen met de onderstaande link en beginnen je bedrijven te beheren.</p>
+    <p>Madame, Monsieur,</p>
+    <p>Merci pour votre inscription au Quiz de la Route 2018!</p>
+    <p>Votre compte a été activé avec succès.</p>
+    <p>Pour commencer à jouer pour votre entreprise, connectez-vous avec le lien suivant:</p>
     <a href="{{ loginUrl }}">{{ loginUrl }}</a>
-    <p>__Met vriendelijke groeten,</p>
-    <p>__Team GVQ</p
+    <p>Bien à vous,</p>
+    <p>L’équipe du Quiz de la Route</p
 {% endblock %}

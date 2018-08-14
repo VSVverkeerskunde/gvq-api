@@ -1,170 +1,170 @@
 #General translations
-GVQ.title: '_Grote Verkeersquiz - 2018'
+GVQ.title: Quiz de la route - 2018
 
-Id: '_Id'
-LastName: '_Achternaam'
-FirstName: '_Voornaam'
-isActive: '_Actief'
-Active:  'Actief'
-Inactive: '_Inactief'
-Role: '_Rol'
-Language: '_Taal'
-Year: '_Jaar'
-Category: '_Thema'
-CreatedOn: '_Aangemaakt'
-Image: '_Foto'
-Question: '_Vraag'
-Answer.1: '_Antwoord 1'
-Answer.2: '_Antwoord 2'
-Answer.3: '_Antwoord 3'
-Answer.correct: '_Het correcte antwoord is'
-Feedback: '_Feedback'
-Company.name: '_Bedrijfsnaam'
-Employees: '_#Werknemers'
-Alias.dutch: '_Alias NL'
-Alias.french: '_Alias FR'
-Actions: '_Acties'
-Email: '_E-mail'
-Password: '_Wachtwoord'
-Password.confirm: '_Bevestig wachtwoord'
+Id: Id
+LastName: Nom
+FirstName: Prénom
+isActive: Actif/Active
+Active: Actif/Active
+Inactive: Inactif/Inactive
+Role: Rôle
+Language: Langue
+Year: Année
+Category: Thème
+CreatedOn: Créé
+Image: Photo
+Question: Question
+Answer.1: Réponse 1
+Answer.2: Réponse 2
+Answer.3: Réponse 3
+Answer.correct: La bonne réponse est
+Feedback: Commentaires
+Company.name: Nom de l'entreprise
+Employees: Travailleurs
+Alias.dutch: URL NL
+Alias.french: URL FR
+Actions: Actions
+Email: Email
+Password: Mot de passe
+Password.confirm: Mot de passe confirmé
 
-Questions: '_Vragen'
-Users: '_Gebruikers'
-Companies: '_Bedrijven'
-Statistics: '_Statistieken'
+Questions: Questions
+Users: Utilisateurs
+Companies: Entreprises
+Statistics: Statistiques
 
-Questions.dutch: '_Vragen in NL'
-Questions.french: '_Vragen in FR'
+Questions.dutch: Questions en NL
+Questions.french: Questions en FR
 
-#Buttons
-Button.cancel: '_Annuleren'
+#Buttons Boutons
+Button.cancel: Annuler
 
-Button.add: '_Toevoegen'
-Button.print: '_Afdrukken'
-Button.edit: '_Aanpassen'
-Button.edit.picture: '_Wijzig foto'
-Button.remove: '_Verwijderen'
-Button.export: '_Exporteren'
+Button.add: Ajouter
+Button.print: Imprimer
+Button.edit: Modifier
+Button.edit.picture: Changer la photo
+Button.remove: Supprimer
+Button.export: Exporter
 
-#Links
-To.login: '_Naar login pagina'
-To.request.password: '_Wachtwoord vergeten'
-To.site: '_Naar GVQ site'
+#Links 
+To.login: S'identifier
+To.request.password: Mot de passe oublié
+To.site: Vers quizdelaroute.be
 
-#Actions and success/error pages
-Registration.title: '_Registreren'
-Registration.submit: '_Registeren'
+#Actions 
+Registration.title: S'inscrire
+Registration.submit: S'inscrire
 
-Registration.success.title: '_Welkom!'
-Registration.success.subtitle: '_Uw registratie is geslaagd.'
-Registration.success.text: '_Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
-Registration.success.extra: '_Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+Registration.success.title: Bienvenue!
+Registration.success.subtitle: Votre inscription a bien été enregistrée
+Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien figurant dans le mail pour activer votre compte
+Registration.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
-Activation.title: '_Activatie account'
-Activation.success.title: '_Activatie gelukt!'
-Activation.success.subtitle: '_Uw activatie is geslaagd.'
-Activation.success.text: '_Je kan nu inloggen met je gekozen email adres en paswoord.'
-Activation.success.extra: '_Je zal ook nog een mail ontvangen met alle details van de Grote Verkeersquiz.'
+Activation.title: Activer le compte
+Activation.success.title: Activé avec succès
+Activation.success.subtitle: Votre compte a été activé avec succès
+Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe
+Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route
 
-Activation.error.title: '_Activatie mislukt!'
-Activation.error.subtitle: '_Uw activatie is niet gelukt.'
-Activation.error.text: '_Kijk goed na of je de correct link hebt gebruikt in je activatie mail.'
-Activation.error.extra: '_Voor extra informatie kan je ook contact opnemen met VSV.'
+Activation.error.title: Erreur
+Activation.error.subtitle: Votre compte n'a pas pu être activé
+Activation.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail
+Activation.error.extra: Pour plus d'infos , n'hésitez pas à nous contacter via quiz@awsr.be
 
-Activation.send: '__Stuur activatiemail'
-Activation.send.title: '__Activatiemail sturen'
-Activation.send.confirmation: '__Ben je zeker dat je een activatiemail wilt sturen naar %email%?'
-Activation.send.confirm: '__Versturen'
-Activation.send.success: '__Er is een activatiemail verstuurd naar  %email%'
+Activation.send: Envoyer le mail d'activation
+Activation.send.title: Envoyer le mail d'activation
+Activation.send.confirmation: Etes-vous sûr de vouloir envoyer un mail d'activation à %email%
+Activation.send.confirm: Envoyer
+Activation.send.success: Un mail d'activation a été envoyé à %email%
 
-Login.title: '_Inloggen'
-Login.submit: '_Inloggen'
+Login.title: Se connecter
+Login.submit: Se connecter
 
-Password.request.title: '_Wachtwoord vergeten'
-Password.request.submit: '_Wachtwoord herstellen'
-Password.request.footer: '_Wachtwoord herstel uitleg'
+Password.request.title: Mot de passe oublié
+Password.request.submit: Récupérer mon mot de passe
+Password.request.footer: Récupération du mot de passe
 
-Password.request.success.title: '_Success! '
-Password.request.success.subtitle: '_Er is een aanvraag verzonden om het wachtwoord te herstellen.'
-Password.request.success.text: '_Als er een account bestaat voor het opgegeven e-mailadres, wordt er een e-mail verstuurd met een link om een nieuw wachtwoord te kiezen.'
-Password.request.success.extra: '_Het kan enkele minuten duren voor u de mail ontvangt. Vergeet niet in je spamfolder te kijken.'
+Password.request.success.title: Succès
+Password.request.success.subtitle: Votre demande a bien été envoyée
+Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe
+Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
-Password.reset.title: '_Nieuw paswoord instellen'
-Password.reset.submit: '_Herstel wachtwoord'
+Password.reset.title: Choisir un nouveau mot de passe
+Password.reset.submit: Nouveau mot de passe
 
-Password.reset.success.title: '_Success! '
-Password.reset.success.subtitle: '_Uw wachtwoord is hersteld.'
-Password.reset.success.text: '_U kan nu inloggen met de nieuwe gegevens'
-Password.reset.success.extra: '_Password reset extra'
+Password.reset.success.title: Succès
+Password.reset.success.subtitle: Votre nouveau mot de passe a été enregistré
+Password.reset.success.text: Vous pouvez maintenant vous connecter avec vos nouvelles données
+Password.reset.success.extra: Réinitialisation du mot de passe extra
 
-Password.reset.error.title: '_Oeps! '
-Password.reset.error.subtitle: '_Er liep iets mis'
-Password.reset.error.text: '_Gelieve opnieuw te proberen.'
-Password.reset.error.extra: '_Password reset extra'
+Password.reset.error.title: Oups!
+Password.reset.error.subtitle: Une erreur s'est glissée
+Password.reset.error.text: Réessayez à nouveau
+Password.reset.error.extra: Réinitialisation du mot de passe extra
 
-Password.reset.link.error.title: '_Oeps! '
-Password.reset.link.error.subtitle: '_Dit is een ongeldige link.'
-Password.reset.link.error.text: '_Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
-Password.reset.link.error.extra: '_Password reset extra'
+Password.reset.link.error.title: Oups!
+Password.reset.link.error.subtitle: Ce lien n'est pas valide
+Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail
+Password.reset.link.error.extra: Réinitialisation du mot de passe extra
 
-Question.add.title: '_Vraag wijzigen/toevoegen'
-Question.add.submit: '_Bewaren'
+Question.add.title: Modifier/ajouter une question
+Question.add.submit: Conserver
 
-Question.delete.title: '_Vraag verwijderen'
-Question.delete.confirmation: '_Ben je zeker dat je vraag met id %id% wil verwijderen?'
-Question.delete.submit: '_Verwijderen'
+Question.delete.title: Supprimer la question
+Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question
+Question.delete.submit: Supprimer
 
-Question.edit.image.title: '_Foto aanpassen'
-Question.edit.image.submit: '_Aanpassen'
+Question.edit.image.title: Modifier la photo
+Question.edit.image.submit: Modifier
 
-User.add.title: '_Gebruiker wijzigen/toevoegen'
-User.add.submit: '_Bewaar'
+User.add.title: Modifier/ajouter un utilisateur
+User.add.submit: Conserver
 
-Company.add.title: '_Bedrijf wijzigen/toevoegen'
-Company.add.submit: '_Bewaren'
+Company.add.title: Modifier/ajouter une entreprise
+Company.add.submit: Conserver
 
-#Mails
-Activation.mail.subject: '_Activatie Grote Verkeersquiz 2018'
-Password.reset.mail.subject: '_Aanvraag tot wachtwoord herstel'
-Welcome.mail.subject: '__Welkom op de Grote Verkeersquiz 2018'
-Kickoff.mail.subject: '_Kick-off Grote Verkeersquiz 2018'
+#Mails 
+Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
+Password.reset.mail.subject: Demande de récupération de mot de passe
+Welcome.mail.subject: Bienvenue au Quiz de la Route 2018
+Kickoff.mail.subject: Le quiz de la route 2018, c'est pour bientôt!
 
-#Input constraints
-Field.empty: '_Dit veld is verplicht'
-Field.email.pattern: '_Dit is geen geldig e-mailadres'
-Field.email.in.use: '_Het e-mailadres "{{ email }}" is al in gebruik'
-Field.length.max: '_Dit veld mag maximum {{ limit }} karakters bevatten.'
-Field.length.min: '_Dit veld moet minimum {{ limit }} karakters bevatten.'
-Field.passwords.different: '_De paswoorden komen niet overeen'
-Field.password.pattern: '_Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
-Field.company.in.use: '_De bedrijfsnaam "{{ company }}" is al in gebruik'
-Field.employees.positive: '_Het aantal werknemers moet groter zijn dan 0.'
-Field.alias.pattern: '_Alias moet tussen 3 en 40 karakters lang zijn en mag enkel bestaan uit kleine letters, cijfers en een koppelteken'
-Field.alias.in.use: '_De alias "{{ alias }}" is al in gebruik.'
-Field.employees.empty: '_Het aantal medewerkers mag niet leeg zijn.'
-Field.image.empty: '_Foto mag niet leeg zijn.'
-Field.text.max: '_De tekst mag niet meer dan {{ limit }} karakters hebben.'
-Field.text.empty: '_De tekst mag niet leeg zijn.'
-Field.year.empty: '_Het jaar mag niet leeg zijn.'
-Field.year.min: '_Het jaar moet {{ limit }} of groter zijn.'
-Field.year.max: '_Het jaar moet {{ limit }} of kleiner zijn.'
+#Input 
+Field.empty: Ce champ est obligatoire
+Field.email.pattern: Cette adresse n'est pas valide
+Field.email.in.use: Cette adresse mail est déjà utilisée
+Field.length.max: Ce champ peut contenir {{ limit }} caractères maximum
+Field.length.min: Ce champ doit contenir {{ limit }} caractères minimum
+Field.passwords.different: Les mots de passe ne correspondent pas
+Field.password.pattern: Le mot de passe doit contenir au moins 8 caractères et au moins une lettre minuscule, une majuscule et un autre caractère
+Field.company.in.use: Le nom de cette entreprise est déjà utilisé
+Field.employees.positive: Le nombre de travailleurs doit être supérieur à 0
+Field.alias.pattern: L'URL doit contenir entre 3 et 40 caractères et peut uniquement être composé de minuscules, de chiffres et d'un trait d'union
+Field.alias.in.use: Cette URL est déjà utilisée
+Field.employees.empty: Le nombre de travailleurs ne peut pas rester vide
+Field.image.empty: Photo obligatoire
+Field.text.max: Le texte ne peut pas dépasser plus de {{ limit }} caractères
+Field.text.empty: Le texte est obligatoire
+Field.year.empty: L'âge est obligatoire
+Field.year.min: L'âge doit être de {{ limit }} ans ou plus
+Field.year.max: L'âge doit être de {{ limit }} ou moins
 
-#Flash messages
-Registration.error: '_Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
-Account.inactive: '_Gelieve eerst uw account te activeren via de link in de bevestigingsmail van uw registratie.'
-Credentials.invalid: '_De gegevens die u opgaf zijn niet juist.'
+#Flash 
+Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau
+Account.inactive: Veuillez d'abord activer votre compte via le lien figurant dans l'e-mail de confirmation de votre inscription
+Credentials.invalid: Les informations encodées ne sont pas correctes
 
-Company.edit.not.found: '_Geen bedrijf gevonden met id %id% om aan te passen.'
-Company.edit.success: '_Bedrijf met id %id% is aangepast.'
+Company.edit.not.found: Aucune entreprise avec ce nom n'a été trouvée
+Company.edit.success: Les informations de l'entreprise %id% ont été modifiées
 
-Questions.print.none: '_Geen vragen om af te drukken.'
+Questions.print.none: Aucune question à imprimer
 
-Question.add.success: '_De nieuwe vraag %id% is bewaard.'
-Question.edit.not.found: '_Geen vraag gevonden met id %id% om aan te passen.'
-Question.edit.success: '_Vraag %id% is aangepast.'
-Question.edit.image.success: '_Foto van vraag %id% is aangepast.'
-Question.delete.success: '_Vraag %id% is verwijderd.'
+Question.add.success: La nouvelle question %id% est enregistrée
+Question.edit.not.found: La question %id% n'a pas été trouvée
+Question.edit.success: La question %id% est modifiée
+Question.edit.image.success: La photo de la question %id% est modifiée
+Question.delete.success: La question %id% est supprimée
 
-User.edit.not.found: '_Geen gebruiker gevonden met id %id% om aan te passen.'
-User.edit.success: '_Gebruiker %id% is aangepast.'
-User.id.invalid: '_Geen gebruiker gevonden met id %id%'
+User.edit.not.found: Aucun utilisateur %id% n'a été trouvé
+User.edit.success: L'utilisateur %id% est modifié
+User.id.invalid: L'utilisateur %id% n'a pas été trouvé

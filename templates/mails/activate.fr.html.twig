@@ -1,10 +1,10 @@
 {% extends 'base_mail.html.twig' %}
 
 {% block content %}
-    <p>__Beste {{ registration.user.firstName.toNative }},</p>
-    <p>__Bedankt voor je interesse in de Grote Verkeersquiz 2018.</p>
-    <p>__Om je activatie te voltooien moet je enkel nog op volgende link klikken</p>
+    <p>Madame, Monsieur,</p>
+    <p>Merci pour votre inscription au Quiz de la Route 2018.</p>
+    <p>Pour activer votre compte, il vous suffit de cliquer sur le lien suivant: </p>
     <a href="{{ activationUrl }}">{{ activationUrl }}</a>
-    <p>__Met vriendelijke groeten,</p>
-    <p>__Team GVQ</p
+    <p>Bien à vous,</p>
+    <p>L’équipe du Quiz de la Route</p>
 {% endblock %}
