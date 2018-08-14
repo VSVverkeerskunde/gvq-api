@@ -363,6 +363,9 @@ small {
   padding: 15px;
   background-color: #ffffff; }
 
+.azijnpotje {
+  display: none; }
+
 .footer-partners {
   padding: 20px 0;
   text-align: center; }
