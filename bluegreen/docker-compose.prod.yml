@@ -31,3 +31,7 @@ services:
     restart: always
     tmpfs:
       - /tmp
+
+  redis:
+    image: redis:alpine
+    restart: always
