@@ -53,7 +53,10 @@ class SwiftMailServiceTest extends KernelTestCase
             $twig,
             $translator,
             $this->urlGenerator,
-            ModelsFactory::createSender()
+            ...[
+                ModelsFactory::createSenderNl(),
+                ModelsFactory::createSenderFr(),
+            ]
         );
     }
 
@@ -238,8 +241,8 @@ class SwiftMailServiceTest extends KernelTestCase
     ): void {
         $this->assertCount(1, $message->getFrom());
         $this->assertEquals(
-            'Info GVQ',
-            $message->getFrom()['info@gvq.be']
+            'Grote verkeersquiz 2018',
+            $message->getFrom()['quiz@vsv.be']
         );
 
         $this->assertCount(1, $message->getTo());

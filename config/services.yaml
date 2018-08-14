@@ -2,8 +2,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'nl'
-    sender_email: 'info@gvq.be'
-    sender_name: 'Info GVQ'
+    sender_email_nl: 'quiz@vsv.be'
+    sender_name_nl: 'Grote verkeersquiz 2018'
+    sender_email_fr: 'quiz@awsr.be'
+    sender_name_fr: 'Quiz de la Route 2018'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
 
@@ -97,11 +99,53 @@ services:
         $time: '2018-10-15'
         $timezone: '@time_zone'
 
-    VSV\GVQ_API\Mail\Models\Sender:
-      factory: VSV\GVQ_API\Mail\Models\SenderFactory:fromNative
+    sender_email_nl:
+      class: VSV\GVQ_API\User\ValueObjects\Email
       arguments:
-       $email: '%sender_email%'
-       $name: '%sender_name%'
+        $value: '%sender_email_nl%'
+
+    sender_name_nl:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: '%sender_name_nl%'
+
+    language_nl:
+      class: VSV\GVQ_API\Common\ValueObjects\Language
+      arguments:
+        $value: 'nl'
+
+    sender_nl:
+      class: VSV\GVQ_API\Mail\Models\Sender
+      arguments:
+       $email: '@sender_email_nl'
+       $name: '@sender_name_nl'
+       $language: '@language_nl'
+
+    sender_email_fr:
+      class: VSV\GVQ_API\User\ValueObjects\Email
+      arguments:
+        $value: '%sender_email_fr%'
+
+    sender_name_fr:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: '%sender_name_fr%'
+
+    language_fr:
+      class: VSV\GVQ_API\Common\ValueObjects\Language
+      arguments:
+        $value: 'fr'
+
+    sender_fr:
+      class: VSV\GVQ_API\Mail\Models\Sender
+      arguments:
+       $email: '@sender_email_fr'
+       $name: '@sender_name_fr'
+       $language: '@language_fr'
+
+    VSV\GVQ_API\Mail\Service\SwiftMailService:
+      arguments:
+        $senders: ['@sender_nl', '@sender_fr']
 
     partner_yaml_repository:
       class: VSV\GVQ_API\Partner\Repositories\PartnerYamlRepository
