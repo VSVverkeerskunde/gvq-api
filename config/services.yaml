@@ -99,15 +99,6 @@ services:
         $time: '2018-10-15'
         $timezone: '@time_zone'
 
-    VSV\GVQ_API\User\ValueObjects\Email:
-      autowire: false
-
-    VSV\GVQ_API\Common\ValueObjects\NotEmptyString:
-      autowire: false
-
-    VSV\GVQ_API\Common\ValueObjects\Language:
-      autowire: false
-
     sender_email_nl:
       class: VSV\GVQ_API\User\ValueObjects\Email
       arguments:
