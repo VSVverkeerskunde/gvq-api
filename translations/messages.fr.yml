@@ -139,7 +139,7 @@ Field.passwords.different: Les mots de passe ne correspondent pas
 Field.password.pattern: Le mot de passe doit contenir au moins 8 caractères et au moins une lettre minuscule, une majuscule et un autre caractère
 Field.company.in.use: Le nom de cette entreprise est déjà utilisé
 Field.employees.positive: Le nombre de travailleurs doit être supérieur à 0
-Field.alias.pattern: L'URL doit contenir entre 3 et 40 caractères et peut uniquement être composé de minuscules, de chiffres et d' un trait d'union
+Field.alias.pattern: L'URL doit contenir entre 3 et 40 caractères et peut uniquement être composé de minuscules, de chiffres et d'un trait d'union
 Field.alias.in.use: Cette URL est déjà utilisée
 Field.employees.empty: Le nombre de travailleurs ne peut pas rester vide
 Field.image.empty: Photo obligatoire
@@ -155,7 +155,7 @@ Account.inactive: Veuillez d'abord activer votre compte via le lien figurant dan
 Credentials.invalid: Les informations encodées ne sont pas correctes
 
 Company.edit.not.found: Aucune entreprise avec ce nom n'a été trouvée
-Company.edit.success: Les informations de l'entreprise … ont été modifiées
+Company.edit.success: Les informations de l'entreprise %id% ont été modifiées
 
 Questions.print.none: Aucune question à imprimer
 
@@ -165,6 +165,6 @@ Question.edit.success: La question %id% est modifiée
 Question.edit.image.success: La photo de la question %id% est modifiée
 Question.delete.success: La question %id% est supprimée
 
-User.edit.not.found: Aucun utilisateur %id%  n'a été trouvé
+User.edit.not.found: Aucun utilisateur %id% n'a été trouvé
 User.edit.success: L'utilisateur %id% est modifié
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé
