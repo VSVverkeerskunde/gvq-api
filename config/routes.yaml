@@ -154,3 +154,7 @@ quiz_answer_question:
   path: /quiz/{quizId}/question/{answerId}
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::answerQuestion
   methods: [POST]
+quiz_example:
+  path: /quiz/example
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizExampleController::showQuiz
+  methods: [GET, POST]
