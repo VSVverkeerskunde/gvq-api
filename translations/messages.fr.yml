@@ -61,7 +61,7 @@ Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien fig
 Registration.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
 Activation.title: Activer le compte
-Activation.success.title:
+Activation.success.title: Activé avec succès
 Activation.success.subtitle: Votre compte a été activé avec succès
 Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe
 Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route
@@ -84,7 +84,7 @@ Password.request.title: Mot de passe oublié
 Password.request.submit: Récupérer mon mot de passe
 Password.request.footer: Récupération du mot de passe
 
-Password.request.success.title:
+Password.request.success.title: Succès
 Password.request.success.subtitle: Votre demande a bien été envoyée
 Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe
 Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
@@ -92,7 +92,7 @@ Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes
 Password.reset.title: Choisir un nouveau mot de passe
 Password.reset.submit: Nouveau mot de passe
 
-Password.reset.success.title:
+Password.reset.success.title: Succès
 Password.reset.success.subtitle: Votre nouveau mot de passe a été enregistré
 Password.reset.success.text: Vous pouvez maintenant vous connecter avec vos nouvelles données
 Password.reset.success.extra: Réinitialisation du mot de passe extra
