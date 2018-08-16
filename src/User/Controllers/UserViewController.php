@@ -158,7 +158,7 @@ class UserViewController extends AbstractController
         if ($id === null) {
             $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_CONTACT')) {
-            return $this->redirectToRoute('contacts_view_edit', ['id' => null]);
+            throw new AccessDeniedHttpException();
         } else {
             $user = $this->userRepository->getById($this->uuidFactory->fromString($id));
         }
