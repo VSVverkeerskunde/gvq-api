@@ -155,7 +155,7 @@ class UserViewController extends AbstractController
 
     public function editContact(Request $request, ?string $id): Response
     {
-        if (empty($id)) {
+        if ($id === null) {
             $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
         } else {
             $user = $this->userRepository->getById($this->uuidFactory->fromString($id));
@@ -164,7 +164,7 @@ class UserViewController extends AbstractController
         $form = $this->createEditDataForm($user);
 
         return $this->render(
-            'users/edit_data.html.twig',
+            'users/edit_contact.html.twig',
             [
                 'form' => $form->createView(),
             ]

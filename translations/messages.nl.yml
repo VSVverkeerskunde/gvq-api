@@ -123,7 +123,7 @@ User.add.submit: 'Bewaar'
 Company.add.title: 'Bedrijf wijzigen/toevoegen'
 Company.add.submit: 'Bewaren'
 
-Contact.edit.data.title: 'Gegevens wijzigen'
+Contact.edit.title: 'Gegevens wijzigen'
 
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
