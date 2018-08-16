@@ -6,4 +6,8 @@
 
     <h1 class="page-title">{% trans %}Dashboard{% endtrans %}</h1>
 
+    {% for company in companies %}
+        <p>{{ company.name.toNative }}</p>
+    {% endfor %}
+
 {% endblock %}
