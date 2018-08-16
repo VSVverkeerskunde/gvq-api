@@ -136,9 +136,10 @@ users_export:
     _locale: nl|fr
 
 dashboard:
-  path: /{_locale}/view/dashboard
+  path: /{_locale}/view/dashboard/{companyId}
   controller: VSV\GVQ_API\Dashboard\Controllers\DashboardViewController::dashboard
   methods: [GET]
+  defaults: { companyId: null }
   requirements:
     _locale: nl|fr
 
