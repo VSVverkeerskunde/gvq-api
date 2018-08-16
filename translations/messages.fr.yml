@@ -32,6 +32,9 @@ Questions: Questions
 Users: Utilisateurs
 Companies: Entreprises
 Statistics: Statistiques
+Dashboard: Dashboard
+Documents: Documents
+Results: Rapport final
 
 Questions.dutch: Questions en NL
 Questions.french: Questions en FR
@@ -170,6 +173,6 @@ User.edit.success: L'utilisateur %id% est modifié
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé
 
 #Dropdown menu
-Menu.change.password: 'Wachtwoord wijzigen'
-Menu.edit.data: 'Gegevens wijzigen'
-Menu.logout: 'Afmelden'
+Menu.change.password: '_Wachtwoord wijzigen'
+Menu.edit.data: '_Gegevens wijzigen'
+Menu.logout: '_Afmelden'
