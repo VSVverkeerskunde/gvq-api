@@ -56,41 +56,48 @@ class DashboardViewController extends AbstractController
     }
 
     /**
-     * @return null|Companies
+     * @return Companies|null
      */
     private function getCompaniesForUser(): ?Companies
     {
-        $companies = null;
-
-        if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
-            $companies = $this->companyRepository->getAll();
-        } elseif ($this->get('security.authorization_checker')->isGranted(['ROLE_CONTACT'])) {
-            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
-            if ($user !== null) {
-                $companies = $this->companyRepository->getAllByUser($user);
-            }
+        $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+        if ($user === null) {
+            return null;
         }
 
-        return $companies;
+        if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
+            return $this->companyRepository->getAll();
+        }
+
+        if ($this->get('security.authorization_checker')->isGranted(['ROLE_CONTACT'])) {
+            return $this->companyRepository->getAllByUser($user);
+        }
     }
 
     /**
-     * @param Companies $companies
-     * @param null|string $companyId
+     * @param Companies|null $companies
+     * @param string|null $companyId
      * @return Company
      */
     private function getActiveCompany(
-        Companies $companies,
+        ?Companies $companies,
         ?string $companyId
-    ): Company {
-        if (!empty($companyId)) {
-            $company = $this->companyRepository->getById(Uuid::fromString($companyId));
+    ): ?Company {
+        if ($companies === null) {
+            return null;
+        }
 
-            if (!$this->hasAccessRightsOnCompany($companies, $company)) {
-                throw new AccessDeniedHttpException();
-            }
-        } else {
-            $company = $companies->getIterator()->current();
+        if ($companyId === null) {
+            return $companies->getIterator()->current();
+        }
+
+        $company = $this->companyRepository->getById(Uuid::fromString($companyId));
+        if ($company === null) {
+            return null;
+        }
+
+        if (!$this->hasAccessRightsOnCompany($companies, $company)) {
+            throw new AccessDeniedHttpException();
         }
 
         return $company;
