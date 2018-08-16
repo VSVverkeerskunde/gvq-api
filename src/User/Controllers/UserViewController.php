@@ -7,14 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\User\Forms\EditContactFormType;
 use VSV\GVQ_API\User\Forms\UserFormType;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Role;
 use VSV\GVQ_API\User\ValueObjects\Roles;
 
@@ -51,6 +55,11 @@ class UserViewController extends AbstractController
     private $userFormType;
 
     /**
+     * @var EditContactFormType
+     */
+    private $editContactFormType;
+
+    /**
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
      * @param SerializerInterface $serializer
@@ -71,6 +80,7 @@ class UserViewController extends AbstractController
         $this->responseFactory = $responseFactory;
 
         $this->userFormType = new UserFormType();
+        $this->editContactFormType = new EditContactFormType();
     }
 
     /**
@@ -83,7 +93,7 @@ class UserViewController extends AbstractController
         return $this->render(
             'users/index.html.twig',
             [
-                'users' => $users ? $users->toArray(): [],
+                'users' => $users ? $users->toArray() : [],
             ]
         );
     }
@@ -109,6 +119,7 @@ class UserViewController extends AbstractController
                     ]
                 )
             );
+
             return $this->redirectToRoute('users_view_index');
         }
 
@@ -132,13 +143,65 @@ class UserViewController extends AbstractController
                     ]
                 )
             );
+
             return $this->redirectToRoute('users_view_index');
         }
 
         return $this->render(
             'users/add.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    public function editContact(Request $request, ?string $id): Response
+    {
+        if ($id === null) {
+            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_CONTACT')) {
+            throw new AccessDeniedHttpException();
+        } else {
+            $user = $this->userRepository->getById($this->uuidFactory->fromString($id));
+        }
+
+        if (!$user) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
+        $form = $this->createEditDataForm($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->editContactFormType->updateUserFromData(
+                $user,
+                $form->getData()
+            );
+
+            $this->userRepository->update($user);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Contact.edit.success'
+                )
+            );
+        }
+
+        return $this->render(
+            'users/edit_contact.html.twig',
+            [
+                'form' => $form->createView(),
             ]
         );
     }
@@ -186,6 +249,25 @@ class UserViewController extends AbstractController
                     new Role('admin')
                 ),
                 'languages' => new Languages(),
+                'user' => $user,
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    /**
+     * @param null|User $user
+     * @return FormInterface
+     */
+    private function createEditDataForm(?User $user): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->editContactFormType->buildForm(
+            $formBuilder,
+            [
                 'user' => $user,
                 'translator' => $this->translator,
             ]

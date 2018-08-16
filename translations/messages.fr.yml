@@ -132,6 +132,9 @@ User.add.submit: Conserver
 Company.add.title: Modifier/ajouter une entreprise
 Company.add.submit: Conserver
 
+Contact.edit.title: __Gegevens wijzigen
+Contact.edit.success: __Uw gegevens werden gewijzigd
+
 #Mails 
 Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
 Password.reset.mail.subject: Demande de récupération de mot de passe

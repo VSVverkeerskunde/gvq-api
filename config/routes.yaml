@@ -168,6 +168,14 @@ documents_kickoff:
   path: /documents/{document}
   methods: [GET]
 
+contacts_view_edit:
+  path: /{_locale}/view/contacts/edit/{id}
+  controller: VSV\GVQ_API\User\Controllers\UserViewController::editContact
+  methods: [GET, POST]
+  defaults: { id: null }
+  requirements:
+    _locale: nl|fr
+
 #
 # API
 #
