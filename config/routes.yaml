@@ -157,6 +157,13 @@ report:
   requirements:
     _locale: nl|fr
 
+documents:
+  path: /{_locale}/view/documents
+  controller: VSV\GVQ_API\Document\Controllers\DocumentViewController::documents
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
 documents_kickoff:
   path: /documents/{document}
   methods: [GET]
