@@ -82,7 +82,7 @@ Login.submit: 'Inloggen'
 
 Password.request.title: 'Wachtwoord vergeten'
 Password.request.submit: 'Wachtwoord herstellen'
-Password.request.footer: 'Wachtwoord herstel uitleg'
+Password.request.footer: 'Er wordt naar het opgegeven e-mailadres een mail gestuurd met verdere instructies.'
 
 Password.request.success.title: 'Gelukt! '
 Password.request.success.subtitle: 'Er is een aanvraag verzonden om het wachtwoord te herstellen.'
@@ -124,10 +124,10 @@ Company.add.title: 'Bedrijf wijzigen/toevoegen'
 Company.add.submit: 'Bewaren'
 
 #Mails
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
+Activation.mail.subject: 'Activatie De Grote Verkeersquiz'
 Password.reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
-Welcome.mail.subject: 'Welkom op de Grote Verkeersquiz 2018'
-Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2018'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz'
+Kickoff.mail.subject: 'Kick-off De Grote Verkeersquiz'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht'
@@ -168,3 +168,8 @@ Question.delete.success: 'Vraag %id% is verwijderd.'
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%'
+
+#Dropdown menu
+Menu.change.password: 'Wachtwoord wijzigen'
+Menu.edit.data: 'Gegevens wijzigen'
+Menu.logout: 'Afmelden'
