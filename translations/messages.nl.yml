@@ -177,3 +177,5 @@ Question.delete.success: 'Vraag %id% is verwijderd.'
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%'
+
+Dashboard.welcome: 'Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.'
