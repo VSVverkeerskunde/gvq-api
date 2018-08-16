@@ -35,7 +35,8 @@
             {% for company in companies %}
                 <tr>
                     <td>
-                        {{ company.id.toString }}
+                        <a href="{{ path('dashboard', {'companyId': company.id.toString}) }}"
+                           target="_blank" >{{ company.id.toString }}</a>
                     </td>
                     <td>
                         {{ company.name.toNative }}

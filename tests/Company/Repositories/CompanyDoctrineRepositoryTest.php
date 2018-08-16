@@ -211,17 +211,12 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_can_get_all_companies(): void
     {
-        $this->companyDoctrineRepository->save($this->company);
-
-        $alternateCompany = ModelsFactory::createAlternateCompany();
-        $this->userDoctrineRepository->save($alternateCompany->getUser());
-
-        $this->companyDoctrineRepository->save($alternateCompany);
+        $this->saveAlternateUserAndCompany();
 
         $foundCompanies = $this->companyDoctrineRepository->getAll();
 
         $this->assertEquals(
-            new Companies($this->company, $alternateCompany),
+            new Companies($this->company, ModelsFactory::createAlternateCompany()),
             $foundCompanies
         );
     }
@@ -234,5 +229,44 @@ class CompanyDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $foundCompanies = $this->companyDoctrineRepository->getAll();
 
         $this->assertNull($foundCompanies);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_companies_for_a_user(): void
+    {
+        $this->saveAlternateUserAndCompany();
+
+        $foundCompanies = $this->companyDoctrineRepository->getAllByUser(
+            $this->company->getUser()
+        );
+
+        $this->assertEquals(
+            new Companies($this->company),
+            $foundCompanies
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_company_present_for_given_user(): void
+    {
+        $foundCompanies = $this->companyDoctrineRepository->getAllByUser(
+            ModelsFactory::createAlternateUser()
+        );
+
+        $this->assertNull($foundCompanies);
+    }
+
+    private function saveAlternateUserAndCompany(): void
+    {
+        $this->companyDoctrineRepository->save($this->company);
+
+        $alternateCompany = ModelsFactory::createAlternateCompany();
+        $this->userDoctrineRepository->save($alternateCompany->getUser());
+
+        $this->companyDoctrineRepository->save($alternateCompany);
     }
 }

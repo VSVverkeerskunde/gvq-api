@@ -317,10 +317,10 @@ class AccountViewController extends AbstractController
                     $this->get('security.token_storage')->setToken($token);
                     $this->get('session')->set('_security_main', serialize($token));
 
-                    if ($this->get('security.authorization_checker')->isGranted('ROLE_VSV')) {
+                    if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
                         return $this->redirectToRoute('questions_view_index');
                     } else {
-                        return $this->redirectToRoute('companies_view_index');
+                        return $this->redirectToRoute('dashboard');
                     }
                 }
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));

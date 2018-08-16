@@ -282,3 +282,6 @@ services:
         $teamRepository: '@team_repository'
         $questionResultRepository: '@question_result_redis_repository'
       tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:
+      tags: ['controller.service_arguments']
