@@ -1,12 +1,14 @@
 {% extends 'base_mail.html.twig' %}
 
 {% block content %}
-    <p>__Beste {{ registration.user.firstName.toNative }},</p>
-    <p>__Je bent geregistreerd met één of meerdere bedrijven voor de Grote Verkeersquiz 2018.</p>
-    <p>__De quiz is van start gegaan op 15 oktober. In bijlage vind je meer informatie. U kan dit document ook
-        raadplegen op deze link: <a href="{{ documentUrl }}">Kick-off document</a>.</p>
-    <p>__Je kan via de link hieronder inloggen.</p>
+    <p>Madame, Monsieur,</p>
+    <p>Vous avez inscrit votre entreprise au Quiz de la Route 2018 et nous vous en remercions!</p>
+    <p>Le quiz est lancé depuis le 15 octobre. Vous trouvez toutes les informations pratiques dans le
+        document ci-joint. Vous pouvez également le télécharger via ce lien: </p>
+    <a href="{{ documentUrl }}">{{ documentUrl }}</a>
+    <p>Pour vous connecter, il vous suffit de cliquer sur ce lien :</p>
     <a href="{{ loginUrl }}">{{ loginUrl }}</a>
-    <p>__Met vriendelijke groeten,</p>
-    <p>__Team GVQ</p
+
+    <p>Bien à vous,</p>
+    <p>L’équipe du Quiz de la Route</p>
 {% endblock %}
