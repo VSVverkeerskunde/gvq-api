@@ -17,6 +17,7 @@
                 <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
+                <file>./src/Dashboard/Controllers/DashboardViewController.php</file>
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
                 <file>./src/Question/Forms/QuestionFormType.php</file>
                 <file>./src/Quiz/Controllers/QuizController.php</file>
