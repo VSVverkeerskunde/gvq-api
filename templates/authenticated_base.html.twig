@@ -7,11 +7,7 @@
 
 {% block body %}
 
-    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
-        {% include '/includes/admin_nav.html.twig' %}
-    {% elseif is_granted("ROLE_CONTACT") %}
-        {% include '/includes/contact_nav.html.twig' %}
-    {% endif %}
+    {% include '/includes/base_nav.html.twig' %}
 
     <div class="page-main" id="main">
         <div class="container-fluid">
