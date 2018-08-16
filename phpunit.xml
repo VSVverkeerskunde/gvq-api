@@ -24,6 +24,7 @@
                 <file>./src/Quiz/Controllers/QuizExampleController.php</file>
                 <file>./src/User/Controllers/UserViewController.php</file>
                 <file>./src/User/Forms/UserFormType.php</file>
+                <file>./src/User/Forms/EditContactFormType.php</file>
             </exclude>
         </whitelist>
     </filter>
