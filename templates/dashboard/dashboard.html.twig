@@ -1,0 +1,21 @@
+{% extends 'authenticated_base.html.twig' %}
+
+{% block title %}{% trans %}Dashboard{% endtrans %}{% endblock %}
+
+{% block content %}
+
+    <h1 class="page-title">{% trans %}Dashboard{% endtrans %}</h1>
+
+    {% include '/includes/flash.html.twig' %}
+
+    <select class="form-control" id="company">
+        {% for company in companies %}
+            <option value="{{ company.id.toString }}">{{ company.name.toNative }}</option>
+        {% endfor %}
+    </select>
+
+    <h1>{{ company.name.toNative }}</h1>
+
+    <p>{% trans %}Dashboard.welcome{% endtrans %}</p>
+
+{% endblock %}

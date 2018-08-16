@@ -21,3 +21,4 @@ security:
         - { path: '^/(nl|fr)/view/users', roles: [ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/companies', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/contacts', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
+        - { path: '^/(nl|fr)/view/dashboard', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }

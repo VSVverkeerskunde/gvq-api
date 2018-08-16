@@ -10,6 +10,8 @@ use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\Entities\CompanyEntity;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\User\Models\User;
+use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
 
 class CompanyDoctrineRepository extends AbstractDoctrineRepository implements CompanyRepository
 {
@@ -114,6 +116,30 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         /** @var CompanyEntity[] $companyEntities */
         $companyEntities = $this->objectRepository->findAll();
 
+        return $this->toCompanies($companyEntities);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllByUser(User $user): ?Companies
+    {
+        /** @var CompanyEntity[] $companyEntities */
+        $companyEntities = $this->objectRepository->findBy(
+            [
+                'userEntity' => UserEntity::fromUser($user),
+            ]
+        );
+
+        return $this->toCompanies($companyEntities);
+    }
+
+    /**
+     * @param CompanyEntity[] $companyEntities
+     * @return null|Companies
+     */
+    private function toCompanies(array $companyEntities): ?Companies
+    {
         if (empty($companyEntities)) {
             return null;
         }

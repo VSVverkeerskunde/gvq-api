@@ -7,6 +7,7 @@ use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
+use VSV\GVQ_API\User\Models\User;
 
 interface CompanyRepository
 {
@@ -42,4 +43,10 @@ interface CompanyRepository
      * @return null|Companies
      */
     public function getAll(): ?Companies;
+
+    /**
+     * @param User $user
+     * @return null|Companies
+     */
+    public function getAllByUser(User $user): ?Companies;
 }
