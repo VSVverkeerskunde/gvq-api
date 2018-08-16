@@ -150,6 +150,13 @@ statistics:
   requirements:
     _locale: nl|fr
 
+report:
+  path: /{_locale}/view/report
+  controller: VSV\GVQ_API\Report\Controllers\ReportViewController::report
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
 documents_kickoff:
   path: /documents/{document}
   methods: [GET]
