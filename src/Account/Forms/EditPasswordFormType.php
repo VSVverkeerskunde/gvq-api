@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -23,7 +24,17 @@ class EditPasswordFormType extends AbstractType
         $builder
             ->add(
                 'oldPassword',
-                PasswordType::class
+                PasswordType::class,
+                [
+                    'constraints' => [
+                        new UserPassword(
+                            [
+                                'message' => $translator->trans('Field.password.old.incorrect'),
+                            ]
+                        ),
+                    ],
+                    'always_empty' => false,
+                ]
             )
             ->add(
                 'password',

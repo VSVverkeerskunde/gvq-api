@@ -1,4 +1,6 @@
 security:
+    encoders:
+        VSV\GVQ_API\User\Repositories\Entities\UserEntity: bcrypt
     providers:
         in_memory: { memory: ~ }
         persistent:
