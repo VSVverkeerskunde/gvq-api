@@ -2,13 +2,11 @@
 
 namespace VSV\GVQ_API\User\Controllers;
 
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
@@ -155,12 +153,12 @@ class UserViewController extends AbstractController
         );
     }
 
-    public function editData(Request $request, UserInterface $user): Response
+    public function editContact(Request $request, ?string $id): Response
     {
-        if ($request->get('id') === '') {
-            $user = $this->userRepository->getByEmail(new Email($user->getUsername()));
+        if (empty($id)) {
+            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
         } else {
-            $user = $this->userRepository->getById($this->uuidFactory->fromString($request->get('id')));
+            $user = $this->userRepository->getById($this->uuidFactory->fromString($id));
         }
 
         $form = $this->createEditDataForm($user);
