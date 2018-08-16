@@ -28,6 +28,7 @@ Email: 'E-mail'
 Password: 'Wachtwoord'
 Password.confirm: 'Bevestig wachtwoord'
 
+#Menu
 Questions: 'Vragen'
 Users: 'Gebruikers'
 Companies: 'Bedrijven'
@@ -35,6 +36,11 @@ Statistics: 'Statistieken'
 Dashboard: 'Dashbord'
 Documents: 'Documenten'
 Results: 'Eindrapport'
+
+#Dropdown menu
+Menu.change.password: 'Wachtwoord wijzigen'
+Menu.edit.contact: 'Gegevens wijzigen'
+Menu.logout: 'Afmelden'
 
 Questions.dutch: 'Vragen in NL'
 Questions.french: 'Vragen in FR'
@@ -171,8 +177,3 @@ Question.delete.success: 'Vraag %id% is verwijderd.'
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%'
-
-#Dropdown menu
-Menu.change.password: 'Wachtwoord wijzigen'
-Menu.edit.data: 'Gegevens wijzigen'
-Menu.logout: 'Afmelden'

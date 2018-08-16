@@ -28,6 +28,7 @@ Email: Email
 Password: Mot de passe
 Password.confirm: Mot de passe confirmé
 
+#Menu
 Questions: Questions
 Users: Utilisateurs
 Companies: Entreprises
@@ -35,6 +36,11 @@ Statistics: Statistiques
 Dashboard: Dashboard
 Documents: Documents
 Results: Rapport final
+
+#Dropdown menu
+Menu.change.password: '_Wachtwoord wijzigen'
+Menu.edit.contact: '_Gegevens wijzigen'
+Menu.logout: '_Afmelden'
 
 Questions.dutch: Questions en NL
 Questions.french: Questions en FR
@@ -171,8 +177,3 @@ Question.delete.success: La question %id% est supprimée
 User.edit.not.found: Aucun utilisateur %id% n'a été trouvé
 User.edit.success: L'utilisateur %id% est modifié
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé
-
-#Dropdown menu
-Menu.change.password: '_Wachtwoord wijzigen'
-Menu.edit.data: '_Gegevens wijzigen'
-Menu.logout: '_Afmelden'
