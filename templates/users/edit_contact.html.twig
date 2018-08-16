@@ -5,6 +5,8 @@
 {% block content %}
     <h1 class="page-title">{% trans %}Contact.edit.title{% endtrans %}</h1>
 
+    {% include '/includes/flash.html.twig' %}
+
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     <div class="form-group">
         <div class="row">

@@ -133,6 +133,7 @@ Company.add.title: 'Bedrijf wijzigen/toevoegen'
 Company.add.submit: 'Bewaren'
 
 Contact.edit.title: 'Gegevens wijzigen'
+Contact.edit.success: 'Uw gegevens werden gewijzigd'
 
 #Mails
 Activation.mail.subject: 'Activatie De Grote Verkeersquiz'

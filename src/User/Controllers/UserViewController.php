@@ -169,7 +169,6 @@ class UserViewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
             $user = $this->editContactFormType->updateUserFromData(
                 $user,
