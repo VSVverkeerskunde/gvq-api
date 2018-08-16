@@ -13,6 +13,7 @@
             <exclude>
                 <file>./src/Kernel.php</file>
                 <file>./src/Account/Controllers/AccountViewController.php</file>
+                <file>./src/Account/Forms/EditPasswordType.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
                 <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
@@ -31,8 +32,8 @@
         </whitelist>
     </filter>
     <php>
-        <ini name="error_reporting" value="E_ALL" />
-        <ini name="display_errors" value="1" />
-        <ini name="display_startup_errors" value="1" />
+        <ini name="error_reporting" value="E_ALL"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="display_startup_errors" value="1"/>
     </php>
 </phpunit>
