@@ -16,7 +16,7 @@ use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
-class EditDataFormType extends AbstractType
+class EditContactFormType extends AbstractType
 {
     /**
      * @inheritdoc

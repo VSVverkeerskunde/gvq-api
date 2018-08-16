@@ -12,7 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
-use VSV\GVQ_API\User\Forms\EditDataFormType;
+use VSV\GVQ_API\User\Forms\EditContactFormType;
 use VSV\GVQ_API\User\Forms\UserFormType;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
@@ -53,9 +53,9 @@ class UserViewController extends AbstractController
     private $userFormType;
 
     /**
-     * @var EditDataFormType
+     * @var EditContactFormType
      */
-    private $editDataDFormType;
+    private $editContactFormType;
 
     /**
      * @param UuidFactoryInterface $uuidFactory
@@ -78,7 +78,7 @@ class UserViewController extends AbstractController
         $this->responseFactory = $responseFactory;
 
         $this->userFormType = new UserFormType();
-        $this->editDataDFormType = new EditDataFormType();
+        $this->editContactFormType = new EditContactFormType();
     }
 
     /**
@@ -232,7 +232,7 @@ class UserViewController extends AbstractController
     {
         $formBuilder = $this->createFormBuilder();
 
-        $this->editDataDFormType->buildForm(
+        $this->editContactFormType->buildForm(
             $formBuilder,
             [
                 'user' => $user,
