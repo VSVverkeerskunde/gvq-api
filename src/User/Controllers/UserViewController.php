@@ -165,11 +165,24 @@ class UserViewController extends AbstractController
             $user = $this->userRepository->getById($this->uuidFactory->fromString($id));
         }
 
+        if (!$user) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans(
+                    'User.edit.not.found',
+                    [
+                        '%id%' => $id,
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('users_view_index');
+        }
+
         $form = $this->createEditDataForm($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->editContactFormType->updateUserFromData(
                 $user,
                 $form->getData()
