@@ -7,11 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Forms\EditContactFormType;
 use VSV\GVQ_API\User\Forms\UserFormType;
 use VSV\GVQ_API\User\Models\User;
@@ -164,6 +166,25 @@ class UserViewController extends AbstractController
         }
 
         $form = $this->createEditDataForm($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->editContactFormType->updateUserFromData(
+                $user,
+                $form->getData()
+            );
+
+            $this->userRepository->update($user);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Contact.edit.success'
+                )
+            );
+        }
 
         return $this->render(
             'users/edit_contact.html.twig',

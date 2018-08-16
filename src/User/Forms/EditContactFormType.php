@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use VSV\GVQ_API\Account\Constraints\UserIsUnique;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -92,6 +93,26 @@ class EditContactFormType extends AbstractType
                 'user' => null,
                 'translator' => null,
             ]
+        );
+    }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return User
+     */
+    public function updateUserFromData(
+        User $user,
+        array $data
+    ): User {
+        return new User(
+            $user->getId(),
+            new Email($data['email']),
+            new NotEmptyString($data['lastName']),
+            new NotEmptyString($data['firstName']),
+            $user->getRole(),
+            $user->getLanguage(),
+            $user->isActive()
         );
     }
 
