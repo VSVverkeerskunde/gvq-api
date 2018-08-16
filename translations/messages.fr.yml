@@ -4,9 +4,9 @@ GVQ.title: Quiz de la route - 2018
 Id: Id
 LastName: Nom
 FirstName: Prénom
-isActive: Actif/Active
-Active: Actif/Active
-Inactive: Inactif/Inactive
+isActive: Active
+Active: Active
+Inactive: Inactive
 Role: Rôle
 Language: Langue
 Year: Année
@@ -28,10 +28,19 @@ Email: Email
 Password: Mot de passe
 Password.confirm: Mot de passe confirmé
 
+#Menu
 Questions: Questions
 Users: Utilisateurs
 Companies: Entreprises
 Statistics: Statistiques
+Dashboard: Dashboard
+Documents: Documents
+Results: Rapport final
+
+#Dropdown menu
+Menu.change.password: '_Wachtwoord wijzigen'
+Menu.edit.contact: '_Gegevens wijzigen'
+Menu.logout: '_Afmelden'
 
 Questions.dutch: Questions en NL
 Questions.french: Questions en FR
@@ -82,7 +91,7 @@ Login.submit: Se connecter
 
 Password.request.title: Mot de passe oublié
 Password.request.submit: Récupérer mon mot de passe
-Password.request.footer: Récupération du mot de passe
+Password.request.footer: Un mail va vous être envoyé avec de plus amples informations
 
 Password.request.success.title: Succès
 Password.request.success.subtitle: Votre demande a bien été envoyée
@@ -147,9 +156,9 @@ Field.employees.empty: Le nombre de travailleurs ne peut pas rester vide
 Field.image.empty: Photo obligatoire
 Field.text.max: Le texte ne peut pas dépasser plus de {{ limit }} caractères
 Field.text.empty: Le texte est obligatoire
-Field.year.empty: L'âge est obligatoire
-Field.year.min: L'âge doit être de {{ limit }} ans ou plus
-Field.year.max: L'âge doit être de {{ limit }} ou moins
+Field.year.empty: L'année est obligatoire
+Field.year.min: L'année doit être {{ limit }} ou plus
+Field.year.max: L'année doit être {{ limit }} ou moins
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau

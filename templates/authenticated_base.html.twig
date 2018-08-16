@@ -2,12 +2,12 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-table.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
 
-    {% include '/includes/admin_nav.html.twig' %}
+    {% include '/includes/base_nav.html.twig' %}
 
     <div class="page-main" id="main">
         <div class="container-fluid">

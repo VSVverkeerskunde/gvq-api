@@ -28,10 +28,19 @@ Email: 'E-mail'
 Password: 'Wachtwoord'
 Password.confirm: 'Bevestig wachtwoord'
 
+#Menu
 Questions: 'Vragen'
 Users: 'Gebruikers'
 Companies: 'Bedrijven'
 Statistics: 'Statistieken'
+Dashboard: 'Dashbord'
+Documents: 'Documenten'
+Results: 'Eindrapport'
+
+#Dropdown menu
+Menu.change.password: 'Wachtwoord wijzigen'
+Menu.edit.contact: 'Gegevens wijzigen'
+Menu.logout: 'Afmelden'
 
 Questions.dutch: 'Vragen in NL'
 Questions.french: 'Vragen in FR'
@@ -82,7 +91,7 @@ Login.submit: 'Inloggen'
 
 Password.request.title: 'Wachtwoord vergeten'
 Password.request.submit: 'Wachtwoord herstellen'
-Password.request.footer: 'Wachtwoord herstel uitleg'
+Password.request.footer: 'Er wordt naar het opgegeven e-mailadres een mail gestuurd met verdere instructies.'
 
 Password.request.success.title: 'Gelukt! '
 Password.request.success.subtitle: 'Er is een aanvraag verzonden om het wachtwoord te herstellen.'
@@ -126,10 +135,10 @@ Company.add.submit: 'Bewaren'
 Contact.edit.title: 'Gegevens wijzigen'
 
 #Mails
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
+Activation.mail.subject: 'Activatie De Grote Verkeersquiz'
 Password.reset.mail.subject: 'Aanvraag tot wachtwoord herstel'
-Welcome.mail.subject: 'Welkom op de Grote Verkeersquiz 2018'
-Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2018'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz'
+Kickoff.mail.subject: 'Kick-off De Grote Verkeersquiz'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht'
