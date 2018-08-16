@@ -135,6 +135,13 @@ users_export:
   requirements:
     _locale: nl|fr
 
+dashboard:
+  path: /{_locale}/view/dashboard
+  controller: VSV\GVQ_API\Dashboard\Controllers\DashboardViewController::dashboard
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
 documents_kickoff:
   path: /documents/{document}
   methods: [GET]
