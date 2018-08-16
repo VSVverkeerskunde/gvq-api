@@ -13,7 +13,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\ValueObjects\Languages;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\User\Forms\EditContactFormType;
 use VSV\GVQ_API\User\Forms\UserFormType;
 use VSV\GVQ_API\User\Models\User;
@@ -155,6 +154,11 @@ class UserViewController extends AbstractController
         );
     }
 
+    /**
+     * @param Request $request
+     * @param null|string $id
+     * @return Response
+     */
     public function editContact(Request $request, ?string $id): Response
     {
         if ($id === null) {
