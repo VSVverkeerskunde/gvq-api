@@ -122,7 +122,7 @@ class UserFormType extends AbstractType
                 'active',
                 CheckboxType::class,
                 [
-                    'label' => $translator->trans('Actief'),
+                    'label' => $translator->trans('Active'),
                     'data' => $user ? $user->isActive() : false,
                 ]
             );
