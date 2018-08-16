@@ -283,6 +283,9 @@ services:
         $questionResultRepository: '@question_result_redis_repository'
       tags: ['controller.service_arguments']
 
+    VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
+      tags: ['controller.service_arguments']
+
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:
       tags: ['controller.service_arguments']
 
