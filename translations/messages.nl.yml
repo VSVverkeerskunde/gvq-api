@@ -27,6 +27,9 @@ Actions: 'Acties'
 Email: 'E-mail'
 Password: 'Wachtwoord'
 Password.confirm: 'Bevestig wachtwoord'
+Password.old: 'Huidig wachtwoord'
+Password.new: 'Nieuw wachtwoord'
+Password.new.confirm: 'Bevestig nieuw wachtwoord'
 
 #Menu
 Questions: 'Vragen'
@@ -115,6 +118,8 @@ Password.reset.link.error.title: 'Oeps! '
 Password.reset.link.error.subtitle: 'Dit is een ongeldige link.'
 Password.reset.link.error.text: 'Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
 Password.reset.link.error.extra: 'Password reset extra'
+
+Password.edit.title: 'Wachtwoord wijzigen'
 
 Question.add.title: 'Vraag wijzigen/toevoegen'
 Question.add.submit: 'Bewaren'

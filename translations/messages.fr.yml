@@ -27,6 +27,9 @@ Actions: Actions
 Email: Email
 Password: Mot de passe
 Password.confirm: Mot de passe confirmé
+Password.old: __Huidig wachtwoord
+Password.new: __Nieuw wachtwoord
+Password.new.confirm: __Bevestig nieuw wachtwoord
 
 #Menu
 Questions: Questions
@@ -115,6 +118,8 @@ Password.reset.link.error.title: Oups!
 Password.reset.link.error.subtitle: Ce lien n'est pas valide
 Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail
 Password.reset.link.error.extra: Réinitialisation du mot de passe extra
+
+Password.edit.title: __Wachtwoord wijzigen
 
 Question.add.title: Modifier/ajouter une question
 Question.add.submit: Conserver
