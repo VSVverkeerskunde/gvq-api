@@ -143,6 +143,13 @@ dashboard:
   requirements:
     _locale: nl|fr
 
+statistics:
+  path: /{_locale}/view/statistics
+  controller: VSV\GVQ_API\Statistics\Controllers\StatisticsViewController::statistics
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
 documents_kickoff:
   path: /documents/{document}
   methods: [GET]
