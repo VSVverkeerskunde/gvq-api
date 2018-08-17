@@ -43,27 +43,7 @@ class CompanyFormType extends AbstractType
                 TextType::class,
                 [
                     'data' => $company ? $company->getName()->toNative() : null,
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => $translator->trans('Field.empty'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                        new Length(
-                            [
-                                'max' => 255,
-                                'maxMessage' => $translator->trans('Field.length.max'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                        new CompanyIsUnique(
-                            [
-                                'message' => $translator->trans('Field.company.in.use'),
-                                'companyId' => $company ? $company->getId()->toString() : null,
-                            ]
-                        ),
-                    ],
+                    'constraints' => $this->createCompanyNameConstraints($translator, $company),
                 ]
             )
             ->add(
@@ -71,21 +51,7 @@ class CompanyFormType extends AbstractType
                 IntegerType::class,
                 [
                     'data' => $company ? $company->getNumberOfEmployees()->toNative() : null,
-                    'constraints' => [
-                        new GreaterThan(
-                            [
-                                'value' => 0,
-                                'message' => $translator->trans('Field.employees.positive'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                        new NotBlank(
-                            [
-                                'message' => $translator->trans('Field.empty'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                    ]
+                    'constraints' => $this->createNrOfEmployeesConstraints($translator),
                 ]
             )
             ->add(
@@ -208,11 +174,68 @@ class CompanyFormType extends AbstractType
 
     /**
      * @param TranslatorInterface $translator
+     * @param null|Company $company
+     * @return array
+     */
+    protected function createCompanyNameConstraints(
+        TranslatorInterface $translator,
+        ?Company $company
+    ): array {
+        return [
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Field.empty'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new Length(
+                [
+                    'max' => 255,
+                    'maxMessage' => $translator->trans('Field.length.max'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new CompanyIsUnique(
+                [
+                    'message' => $translator->trans('Field.company.in.use'),
+                    'companyId' => $company ? $company->getId()->toString() : null,
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @return array
+     */
+    protected function createNrOfEmployeesConstraints(TranslatorInterface $translator): array
+    {
+        return [
+            new GreaterThan(
+                [
+                    'value' => 0,
+                    'message' => $translator->trans('Field.employees.positive'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Field.empty'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
      * @param Company|null $company
      * @return array
      */
-    private function createAliasConstraints(TranslatorInterface $translator, ?Company $company): array
-    {
+    protected function createAliasConstraints(
+        TranslatorInterface $translator,
+        ?Company $company
+    ): array {
         return [
             new NotBlank(
                 [
