@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Common\Controllers;
 
-use http\Exception\RuntimeException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -13,7 +12,7 @@ use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
-class CompanyAwareController extends AbstractController
+abstract class CompanyAwareController extends AbstractController
 {
     /**
      * @var UserRepository
@@ -69,6 +68,8 @@ class CompanyAwareController extends AbstractController
                 $this->getCurrentUser()
             );
         }
+
+        return null;
     }
 
     /**

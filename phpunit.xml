@@ -15,6 +15,7 @@
                 <file>./src/Account/Controllers/AccountViewController.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
                 <file>./src/Command/RedisCommand.php</file>
+                <file>./src/Common/Controllers/CompanyAwareController.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
                 <file>./src/Dashboard/Controllers/DashboardViewController.php</file>
