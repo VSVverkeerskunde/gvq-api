@@ -85,6 +85,47 @@ class CompanyViewController extends CompanyAwareController
 
     /**
      * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function add(Request $request): Response
+    {
+        $form = $this->createCompanyForm(null);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $company = $this->companyFormType->newCompanyFromData(
+                $this->uuidFactory,
+                $data,
+                $this->getCurrentUser()
+            );
+            $this->saveCompany($company);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'Company.add.success',
+                    [
+                        '%id%' => $company->getId()->toString(),
+                    ]
+                )
+            );
+
+            return $this->redirectToRoute('companies_view_index');
+        }
+
+        return $this->render(
+            'companies/add.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
      * @param string $id
      * @return Response
      */

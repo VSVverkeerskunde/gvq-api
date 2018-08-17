@@ -166,6 +166,7 @@ Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, geli
 Account.inactive: 'Gelieve eerst uw account te activeren via de link in de bevestigingsmail van uw registratie.'
 Credentials.invalid: 'De gegevens die u opgaf zijn niet juist.'
 
+Company.add.success: 'Bedrijf met id %id% is bewaard.'
 Company.edit.not.found: 'Geen bedrijf gevonden met id %id% om aan te passen.'
 Company.edit.success: 'Bedrijf met id %id% is aangepast.'
 

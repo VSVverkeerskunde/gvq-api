@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Company\Forms;
 
+use Ramsey\Uuid\UuidFactory;
+use Ramsey\Uuid\UuidFactoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,6 +22,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\User\Models\User;
 
 class CompanyFormType extends AbstractType
 {
@@ -113,6 +116,38 @@ class CompanyFormType extends AbstractType
     }
 
     /**
+     * @param UuidFactoryInterface $uuidFactory
+     * @param array $data
+     * @param User $user
+     * @return Company
+     * @throws \Exception
+     */
+    public function newCompanyFromData(
+        UuidFactoryInterface $uuidFactory,
+        array $data,
+        User $user
+    ): Company {
+        return new Company(
+            $uuidFactory->uuid4(),
+            new NotEmptyString($data['name']),
+            new PositiveNumber($data['nrOfEmployees']),
+            new TranslatedAliases(
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('nl'),
+                    new Alias($data['aliasNl'])
+                ),
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('fr'),
+                    new Alias($data['aliasFr'])
+                )
+            ),
+            $user
+        );
+    }
+
+    /**
      * @param Company $company
      * @param array $data
      * @return Company
@@ -121,7 +156,6 @@ class CompanyFormType extends AbstractType
         Company $company,
         array $data
     ): Company {
-
         return new Company(
             $company->getId(),
             new NotEmptyString($data['name']),

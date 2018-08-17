@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -36,11 +37,19 @@ class CompanyAwareController extends AbstractController
     }
 
     /**
+     * @return null|User
+     */
+    protected function getCurrentUser(): ?User
+    {
+        return $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+    }
+
+    /**
      * @return Companies|null
      */
     protected function getCompaniesForUser(): ?Companies
     {
-        $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+        $user = $this->getCurrentUser();
         if ($user === null) {
             return null;
         }
@@ -89,6 +98,14 @@ class CompanyAwareController extends AbstractController
     protected function updateCompany(Company $company): void
     {
         $this->companyRepository->update($company);
+    }
+
+    /**
+     * @param Company $company
+     */
+    protected function saveCompany(Company $company): void
+    {
+        $this->companyRepository->save($company);
     }
 
     /**
