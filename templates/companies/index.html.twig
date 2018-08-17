@@ -51,8 +51,13 @@
                         {{ company.translatedAliases | getAliasByLanguage('fr') }}
                     </td>
                     <td>
-                        <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
-                           target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
+                            <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
+                               target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% elseif is_granted("ROLE_CONTACT") %}
+                            <a href="{{ path('contacts_view_edit') }}"
+                               target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% endif %}
                     </td>
                     <td>
                         <a role="button"
