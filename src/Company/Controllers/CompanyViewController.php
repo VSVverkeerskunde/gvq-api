@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\CompanyAwareController;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Company\Forms\CompanyFormType;
@@ -194,7 +195,17 @@ class CompanyViewController extends CompanyAwareController
      */
     private function createCompanyForm(?Company $company): FormInterface
     {
-        $formBuilder = $this->createFormBuilder();
+        $formBuilder = $this->createFormBuilder(
+            null,
+            [
+                'validation_groups' => new GroupSequence(
+                    [
+                        'CorrectSyntax',
+                        'Default',
+                    ]
+                ),
+            ]
+        );
 
         $this->companyFormType->buildForm(
             $formBuilder,
