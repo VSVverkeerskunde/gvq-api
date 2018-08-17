@@ -3,28 +3,24 @@
 namespace VSV\GVQ_API\Company\Controllers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\Controllers\CompanyAwareController;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Company\Forms\CompanyFormType;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\User\Repositories\UserRepository;
 
-class CompanyViewController extends AbstractController
+class CompanyViewController extends CompanyAwareController
 {
     /**
      * @var UuidFactoryInterface
      */
     private $uuidFactory;
-
-    /**
-     * @var CompanyRepository
-     */
-    private $companyRepository;
 
     /**
      * @var SerializerInterface
@@ -48,6 +44,7 @@ class CompanyViewController extends AbstractController
 
     /**
      * @param UuidFactoryInterface $uuidFactory
+     * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
      * @param SerializerInterface $serializer
      * @param TranslatorInterface $translator
@@ -55,13 +52,15 @@ class CompanyViewController extends AbstractController
      */
     public function __construct(
         UuidFactoryInterface $uuidFactory,
+        UserRepository $userRepository,
         CompanyRepository $companyRepository,
         SerializerInterface $serializer,
         TranslatorInterface $translator,
         ResponseFactory $responseFactory
     ) {
+        parent::__construct($userRepository, $companyRepository);
+
         $this->uuidFactory = $uuidFactory;
-        $this->companyRepository = $companyRepository;
         $this->serializer = $serializer;
         $this->translator = $translator;
         $this->responseFactory = $responseFactory;
@@ -74,7 +73,7 @@ class CompanyViewController extends AbstractController
      */
     public function index(): Response
     {
-        $companies = $this->companyRepository->getAll();
+        $companies = $this->getCompaniesForUser();
 
         return $this->render(
             'companies/index.html.twig',
@@ -91,9 +90,9 @@ class CompanyViewController extends AbstractController
      */
     public function edit(Request $request, string $id): Response
     {
-        $company = $this->companyRepository->getById(
-            $this->uuidFactory->fromString($id)
-        );
+        $companies = $this->getCompaniesForUser();
+
+        $company = $this->getActiveCompany($companies, $id);
 
         if (!$company) {
             $this->addFlash('warning', $this->translator->trans('Company.edit.not.found', ['%id%' => $id]));
@@ -109,7 +108,7 @@ class CompanyViewController extends AbstractController
                 $company,
                 $form->getData()
             );
-            $this->companyRepository->update($company);
+            $this->updateCompany($company);
 
             $this->addFlash(
                 'success',
@@ -137,7 +136,7 @@ class CompanyViewController extends AbstractController
      */
     public function export(): Response
     {
-        $companies = $this->companyRepository->getAll();
+        $companies = $this->getCompaniesForUser();
         $companiesAsCsv = $this->serializer->serialize($companies, 'csv');
 
         $response = $this->responseFactory->createCsvResponse(

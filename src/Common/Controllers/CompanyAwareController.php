@@ -84,6 +84,14 @@ class CompanyAwareController extends AbstractController
     }
 
     /**
+     * @param Company $company
+     */
+    protected function updateCompany(Company $company): void
+    {
+        $this->companyRepository->update($company);
+    }
+
+    /**
      * @param Companies $companies
      * @param Company $activeCompany
      * @return bool
