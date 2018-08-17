@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Common\Controllers;
 
+use http\Exception\RuntimeException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -37,11 +38,21 @@ class CompanyAwareController extends AbstractController
     }
 
     /**
-     * @return null|User
+     * @return User
      */
-    protected function getCurrentUser(): ?User
+    protected function getCurrentUser(): User
     {
-        return $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+        $user = $this->userRepository->getByEmail(
+            new Email($this->getUser()->getUsername())
+        );
+
+        if ($user === null) {
+            throw new \RuntimeException(
+                'No user found with e-mail "'.$this->getUser()->getUsername().'"'
+            );
+        }
+
+        return $user;
     }
 
     /**
@@ -49,17 +60,14 @@ class CompanyAwareController extends AbstractController
      */
     protected function getCompaniesForUser(): ?Companies
     {
-        $user = $this->getCurrentUser();
-        if ($user === null) {
-            return null;
-        }
-
         if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
             return $this->companyRepository->getAll();
         }
 
         if ($this->get('security.authorization_checker')->isGranted(['ROLE_CONTACT'])) {
-            return $this->companyRepository->getAllByUser($user);
+            return $this->companyRepository->getAllByUser(
+                $this->getCurrentUser()
+            );
         }
     }
 
