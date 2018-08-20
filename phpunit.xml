@@ -13,7 +13,7 @@
             <exclude>
                 <file>./src/Kernel.php</file>
                 <file>./src/Account/Controllers/AccountViewController.php</file>
-                <file>./src/Account/Forms/EditPasswordType.php</file>
+                <file>./src/Account/Forms/EditPasswordFormType.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
                 <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>

@@ -443,10 +443,23 @@ class AccountViewController extends AbstractController
         $form = $this->createEditPasswordForm();
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+
+            if ($user) {
+                $user = $this->editPasswordFormType->editUserPassword($user, $data);
+                $this->userRepository->updatePassword($user);
+            }
+
+            return $this->redirectToRoute('accounts_logout');
+        }
+
         return $this->render(
             'accounts/edit_password.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
             ]
         );
     }

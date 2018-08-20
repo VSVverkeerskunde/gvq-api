@@ -12,6 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Password;
 
 class EditPasswordFormType extends AbstractType
@@ -81,5 +82,19 @@ class EditPasswordFormType extends AbstractType
                 'translator' => null,
             ]
         );
+    }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return User
+     */
+    public function editUserPassword(User $user, array $data): User
+    {
+        $user = $user->withPassword(
+            Password::fromPlainText($data['password'])
+        );
+
+        return $user;
     }
 }
