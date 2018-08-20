@@ -132,10 +132,13 @@ Question.edit.image.title: 'Foto aanpassen'
 Question.edit.image.submit: 'Aanpassen'
 
 User.add.title: 'Gebruiker wijzigen/toevoegen'
-User.add.submit: 'Bewaar'
+User.add.submit: 'Bewaren'
 
 Company.add.title: 'Bedrijf wijzigen/toevoegen'
 Company.add.submit: 'Bewaren'
+
+Contact.edit.title: 'Gegevens wijzigen'
+Contact.edit.success: 'Uw gegevens werden gewijzigd'
 
 #Mails
 Activation.mail.subject: 'Activatie De Grote Verkeersquiz'
