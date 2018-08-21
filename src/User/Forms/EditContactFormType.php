@@ -20,46 +20,54 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 class EditContactFormType extends AbstractType
 {
     /**
+     * @var User
+     */
+    protected $user;
+
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @var User $user */
-        $user = $options['user'];
-        /** @var TranslatorInterface $translator */
-        $translator = $options['translator'];
+        $this->user = $options['user'];
+        $this->translator = $options['translator'];
 
         $builder
             ->add(
                 'email',
                 EmailType::class,
                 [
-                    'data' => $user ? $user->getEmail()->toNative() : null,
+                    'data' => $this->user ? $this->user->getEmail()->toNative() : null,
                     'constraints' => [
                         new Regex(
                             [
                                 'pattern' => Email::PATTERN,
-                                'message' => $translator->trans('Field.email.pattern'),
+                                'message' => $this->translator->trans('Field.email.pattern'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new Length(
                             [
                                 'max' => 255,
-                                'maxMessage' => $translator->trans('Field.length.max'),
+                                'maxMessage' => $this->translator->trans('Field.length.max'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new NotBlank(
                             [
-                                'message' => $translator->trans('Field.empty'),
+                                'message' => $this->translator->trans('Field.empty'),
                                 'groups' => ['CorrectSyntax'],
                             ]
                         ),
                         new UserIsUnique(
                             [
-                                'message' => $translator->trans('Field.email.in.use'),
-                                'userId' => $user ? $user->getId()->toString() : null,
+                                'message' => $this->translator->trans('Field.email.in.use'),
+                                'userId' => $this->user ? $this->user->getId()->toString() : null,
                             ]
                         ),
                     ],
@@ -69,16 +77,16 @@ class EditContactFormType extends AbstractType
                 'firstName',
                 TextType::class,
                 [
-                    'data' => $user ? $user->getFirstName()->toNative() : null,
-                    'constraints' => $this->createNameConstraint($translator),
+                    'data' => $this->user ? $this->user->getFirstName()->toNative() : null,
+                    'constraints' => $this->createNameConstraint($this->translator),
                 ]
             )
             ->add(
                 'lastName',
                 TextType::class,
                 [
-                    'data' => $user ? $user->getLastName()->toNative() : null,
-                    'constraints' => $this->createNameConstraint($translator),
+                    'data' => $this->user ? $this->user->getLastName()->toNative() : null,
+                    'constraints' => $this->createNameConstraint($this->translator),
                 ]
             );
     }
@@ -108,8 +116,8 @@ class EditContactFormType extends AbstractType
         return new User(
             $user->getId(),
             new Email($data['email']),
-            new NotEmptyString($data['lastName']),
             new NotEmptyString($data['firstName']),
+            new NotEmptyString($data['lastName']),
             $user->getRole(),
             $user->getLanguage(),
             $user->isActive()
