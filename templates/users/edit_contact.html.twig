@@ -14,6 +14,10 @@
                 <label for="form_email">{% trans %}Email{% endtrans %}</label>
                 {{ form_widget(form.email) }}
                 {{ form_errors(form.email) }}
+                {% if (app.request.get('id') == null) %}
+                <small id="form_password_help" class="form-text text-muted">{% trans %}
+                        Field.login.warning{% endtrans %}</small>
+                {% endif %}
             </div>
         </div>
     </div>

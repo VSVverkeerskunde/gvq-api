@@ -188,12 +188,12 @@ class UserViewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->editContactFormType->updateUserFromData(
+            $updatedUser = $this->editContactFormType->updateUserFromData(
                 $user,
                 $form->getData()
             );
 
-            $this->userRepository->update($user);
+            $this->userRepository->update($updatedUser);
 
             $this->addFlash(
                 'success',
@@ -201,6 +201,10 @@ class UserViewController extends AbstractController
                     'Contact.edit.success'
                 )
             );
+
+            if ($id === null && !$user->getEmail()->equals($updatedUser->getEmail())) {
+                return $this->redirectToRoute('accounts_logout');
+            }
         }
 
         return $this->render(
