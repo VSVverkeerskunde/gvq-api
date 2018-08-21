@@ -97,6 +97,12 @@ companies_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+companies_view_add:
+  path: /{_locale}/view/companies/add
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::add
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 companies_view_edit:
   path: /{_locale}/view/companies/edit/{id}
   controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::edit
@@ -140,6 +146,27 @@ dashboard:
   controller: VSV\GVQ_API\Dashboard\Controllers\DashboardViewController::dashboard
   methods: [GET]
   defaults: { companyId: null }
+  requirements:
+    _locale: nl|fr
+
+statistics:
+  path: /{_locale}/view/statistics
+  controller: VSV\GVQ_API\Statistics\Controllers\StatisticsViewController::statistics
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
+report:
+  path: /{_locale}/view/report
+  controller: VSV\GVQ_API\Report\Controllers\ReportViewController::report
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+
+documents:
+  path: /{_locale}/view/documents
+  controller: VSV\GVQ_API\Document\Controllers\DocumentViewController::documents
+  methods: [GET]
   requirements:
     _locale: nl|fr
 

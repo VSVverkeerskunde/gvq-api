@@ -1,0 +1,11 @@
+{% extends 'authenticated_base.html.twig' %}
+
+{% block title %}{% trans %}Documents{% endtrans %}{% endblock %}
+
+{% block content %}
+
+    <h1 class="page-title">{% trans %}Documents{% endtrans %}</h1>
+
+    {% include '/includes/flash.html.twig' %}
+    
+{% endblock %}

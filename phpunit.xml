@@ -15,13 +15,17 @@
                 <file>./src/Account/Controllers/AccountViewController.php</file>
                 <file>./src/Account/Forms/RegistrationFormType.php</file>
                 <file>./src/Command/RedisCommand.php</file>
+                <file>./src/Common/Controllers/CompanyAwareController.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
                 <file>./src/Dashboard/Controllers/DashboardViewController.php</file>
+                <file>./src/Document/Controllers/DocumentViewController.php</file>
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
                 <file>./src/Question/Forms/QuestionFormType.php</file>
                 <file>./src/Quiz/Controllers/QuizController.php</file>
                 <file>./src/Quiz/Controllers/QuizExampleController.php</file>
+                <file>./src/Report/Controllers/ReportViewController.php</file>
+                <file>./src/Statistics/Controllers/StatisticsViewController.php</file>
                 <file>./src/User/Controllers/UserViewController.php</file>
                 <file>./src/User/Forms/UserFormType.php</file>
                 <file>./src/User/Forms/EditContactFormType.php</file>
