@@ -27,6 +27,9 @@ Actions: 'Acties'
 Email: 'E-mail'
 Password: 'Wachtwoord'
 Password.confirm: 'Bevestig wachtwoord'
+Password.old: 'Huidig wachtwoord'
+Password.new: 'Nieuw wachtwoord'
+Password.new.confirm: 'Bevestig nieuw wachtwoord'
 
 #Menu
 Questions: 'Vragen'
@@ -116,6 +119,8 @@ Password.reset.link.error.subtitle: 'Dit is een ongeldige link.'
 Password.reset.link.error.text: 'Kijk goed na of u de juiste link uit uw e-mail gebruikt hebt.'
 Password.reset.link.error.extra: 'Password reset extra'
 
+Password.edit.title: 'Wachtwoord wijzigen'
+
 Question.add.title: 'Vraag wijzigen/toevoegen'
 Question.add.submit: 'Bewaren'
 
@@ -149,6 +154,7 @@ Field.length.max: 'Dit veld mag maximum {{ limit }} karakters bevatten.'
 Field.length.min: 'Dit veld moet minimum {{ limit }} karakters bevatten.'
 Field.passwords.different: 'De paswoorden komen niet overeen'
 Field.password.pattern: 'Het wachtwoord moet minstens 8 karakters lang zijn en minstens één kleine letter, hoofdletter en ander karakter bevatten'
+Field.password.old.incorrect: 'Dit wachtwoord is niet correct'
 Field.company.in.use: 'De bedrijfsnaam "{{ company }}" is al in gebruik'
 Field.employees.positive: 'Het aantal werknemers moet groter zijn dan 0.'
 Field.alias.pattern: 'Alias moet tussen 3 en 40 karakters lang zijn en mag enkel bestaan uit kleine letters, cijfers en een koppelteken'
