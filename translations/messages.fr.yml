@@ -166,6 +166,7 @@ Registration.error: Une erreur est survenue lors de votre inscription. Réessaye
 Account.inactive: Veuillez d'abord activer votre compte via le lien figurant dans l'e-mail de confirmation de votre inscription
 Credentials.invalid: Les informations encodées ne sont pas correctes
 
+Company.add.success: La nouvelle entreprise %id% est enregistrée
 Company.edit.not.found: Aucune entreprise avec ce nom n'a été trouvée
 Company.edit.success: Les informations de l'entreprise %id% ont été modifiées
 

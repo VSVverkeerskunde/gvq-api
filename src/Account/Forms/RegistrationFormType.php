@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Account\Forms;
 
 use Ramsey\Uuid\UuidFactoryInterface;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -12,15 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
-use VSV\GVQ_API\Account\Constraints\AliasIsUnique;
-use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Account\Constraints\UserIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
+use VSV\GVQ_API\Company\Forms\CompanyFormType;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
@@ -31,7 +28,7 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
 use VSV\GVQ_API\User\ValueObjects\Role;
 
-class RegistrationFormType extends AbstractType
+class RegistrationFormType extends CompanyFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -123,59 +120,28 @@ class RegistrationFormType extends AbstractType
                 'companyName',
                 TextType::class,
                 [
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => $translator->trans('Field.empty'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                        new Length(
-                            [
-                                'max' => 255,
-                                'maxMessage' => $translator->trans('Field.length.max'),
-                                'groups' => ['CorrectSyntax'],
-                            ]
-                        ),
-                        new CompanyIsUnique(
-                            [
-                                'message' => $translator->trans('Field.company.in.use'),
-                            ]
-                        ),
-                    ],
+                    'constraints' => $this->createCompanyNameConstraints($translator, null),
                 ]
             )
             ->add(
                 'numberOfEmployees',
                 IntegerType::class,
                 [
-                    'constraints' => [
-                        new GreaterThan(
-                            [
-                                'value' => 0,
-                                'message' => $translator->trans('Field.employees.positive'),
-                            ]
-                        ),
-                        new NotBlank(
-                            [
-                                'message' => $translator->trans('Field.empty'),
-                            ]
-                        ),
-                    ],
+                    'constraints' => $this->createNrOfEmployeesConstraints($translator),
                 ]
             )
             ->add(
                 'aliasNl',
                 TextType::class,
                 [
-                    'constraints' => $this->createAliasConstraints($translator),
+                    'constraints' => $this->createAliasConstraints($translator, null),
                 ]
             )
             ->add(
                 'aliasFr',
                 TextType::class,
                 [
-                    'constraints' => $this->createAliasConstraints($translator),
+                    'constraints' => $this->createAliasConstraints($translator, null),
                 ]
             )
             ->add(
@@ -278,34 +244,6 @@ class RegistrationFormType extends AbstractType
                 [
                     'max' => 255,
                     'maxMessage' => $translator->trans('Field.length.max'),
-                ]
-            ),
-        ];
-    }
-
-    /**
-     * @param TranslatorInterface $translator
-     * @return array
-     */
-    private function createAliasConstraints(TranslatorInterface $translator): array
-    {
-        return [
-            new NotBlank(
-                [
-                    'message' => $translator->trans('Field.empty'),
-                    'groups' => ['CorrectSyntax'],
-                ]
-            ),
-            new Regex(
-                [
-                    'pattern' => Alias::PATTERN,
-                    'message' => $translator->trans('Field.alias.pattern'),
-                    'groups' => ['CorrectSyntax'],
-                ]
-            ),
-            new AliasIsUnique(
-                [
-                    'message' => $translator->trans('Field.alias.in.use'),
                 ]
             ),
         ];
