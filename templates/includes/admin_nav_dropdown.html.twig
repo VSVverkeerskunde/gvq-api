@@ -1,5 +1,5 @@
 <div class="dropdown-menu" aria-labelledby="user_dropdown">
-    <a class="dropdown-item" href="#">{% trans %}Menu.change.password{% endtrans %}</a>
+    <a class="dropdown-item" href="{{ path('accounts_view_edit_password') }}">{% trans %}Menu.change.password{% endtrans %}</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="{{ path('accounts_logout') }}">{% trans %}Menu.logout{% endtrans %}</a>
 </div>
