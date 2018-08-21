@@ -116,8 +116,8 @@ class EditContactFormType extends AbstractType
         return new User(
             $user->getId(),
             new Email($data['email']),
-            new NotEmptyString($data['firstName']),
             new NotEmptyString($data['lastName']),
+            new NotEmptyString($data['firstName']),
             $user->getRole(),
             $user->getLanguage(),
             $user->isActive()
