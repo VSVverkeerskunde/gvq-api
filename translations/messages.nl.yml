@@ -166,6 +166,7 @@ Field.text.empty: 'De tekst mag niet leeg zijn.'
 Field.year.empty: 'Het jaar mag niet leeg zijn.'
 Field.year.min: 'Het jaar moet {{ limit }} of groter zijn.'
 Field.year.max: 'Het jaar moet {{ limit }} of kleiner zijn.'
+Field.login.warning: 'Als je dit veld wijzigt moet je opnieuw inloggen.'
 
 #Flash messages
 Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
