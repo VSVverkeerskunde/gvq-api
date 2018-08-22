@@ -103,6 +103,12 @@ companies_view_index:
   methods: [GET]
   requirements:
     _locale: nl|fr
+companies_view_add:
+  path: /{_locale}/view/companies/add
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::add
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 companies_view_edit:
   path: /{_locale}/view/companies/edit/{id}
   controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::edit

@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\User\Controllers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -183,7 +184,7 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
-        $form = $this->createEditDataForm($user);
+        $form = $this->createEditContactForm($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -232,17 +233,7 @@ class UserViewController extends AbstractController
      */
     private function createUserForm(?User $user): FormInterface
     {
-        $formBuilder = $this->createFormBuilder(
-            null,
-            [
-                'validation_groups' => new GroupSequence(
-                    [
-                        'CorrectSyntax',
-                        'Default',
-                    ]
-                ),
-            ]
-        );
+        $formBuilder = $this->createFormBuilderWithValidationGroups();
 
         $this->userFormType->buildForm(
             $formBuilder,
@@ -265,9 +256,9 @@ class UserViewController extends AbstractController
      * @param null|User $user
      * @return FormInterface
      */
-    private function createEditDataForm(?User $user): FormInterface
+    private function createEditContactForm(?User $user): FormInterface
     {
-        $formBuilder = $this->createFormBuilder();
+        $formBuilder = $this->createFormBuilderWithValidationGroups();
 
         $this->editContactFormType->buildForm(
             $formBuilder,
@@ -278,5 +269,23 @@ class UserViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @return FormBuilderInterface
+     */
+    private function createFormBuilderWithValidationGroups(): FormBuilderInterface
+    {
+        return $this->createFormBuilder(
+            null,
+            [
+                'validation_groups' => new GroupSequence(
+                    [
+                        'CorrectSyntax',
+                        'Default',
+                    ]
+                ),
+            ]
+        );
     }
 }

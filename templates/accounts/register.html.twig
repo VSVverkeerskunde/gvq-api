@@ -94,3 +94,15 @@
     </div>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/slugify.js') }}"></script>
+    <script>
+        $("#form_companyName").focusout(function () {
+            let slug = slugify($("#form_companyName").val());
+            $("#form_aliasNl").val(slug);
+            $("#form_aliasFr").val(slug);
+        });
+    </script>
+{% endblock %}
