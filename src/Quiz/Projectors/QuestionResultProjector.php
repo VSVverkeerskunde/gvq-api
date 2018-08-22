@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\EventListeners;
+namespace VSV\GVQ_API\Quiz\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
@@ -12,7 +12,7 @@ use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
-class QuestionResultListener implements EventListener
+class QuestionResultProjector implements EventListener
 {
 
     /**

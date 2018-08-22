@@ -1,15 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\EventListeners;
+namespace VSV\GVQ_API\Quiz\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 
-class QuestionResultListenerTest extends TestCase
+class QuestionResultProjectorTest extends TestCase
 {
     /**
      * @var QuestionResultRepository|MockObject
@@ -17,9 +18,9 @@ class QuestionResultListenerTest extends TestCase
     private $questionResultRepository;
 
     /**
-     * @var QuestionResultListener
+     * @var QuestionResultProjector
      */
-    private $questionResultListener;
+    private $questionResultProjector;
 
     protected function setUp(): void
     {
@@ -27,7 +28,7 @@ class QuestionResultListenerTest extends TestCase
         $questionResultRepository = $this->createMock(QuestionResultRepository::class);
         $this->questionResultRepository = $questionResultRepository;
 
-        $this->questionResultListener = new QuestionResultListener(
+        $this->questionResultProjector = new QuestionResultProjector(
             $this->questionResultRepository
         );
     }
@@ -63,7 +64,7 @@ class QuestionResultListenerTest extends TestCase
                 ]
             );
 
-        $this->questionResultListener->handle($domainMessage);
+        $this->questionResultProjector->handle($domainMessage);
     }
 
     /**
@@ -94,7 +95,7 @@ class QuestionResultListenerTest extends TestCase
                 $questionResult
             );
 
-        $this->questionResultListener->handle($domainMessage);
+        $this->questionResultProjector->handle($domainMessage);
     }
 
     /**
@@ -125,7 +126,7 @@ class QuestionResultListenerTest extends TestCase
                 $questionResult
             );
 
-        $this->questionResultListener->handle($domainMessage);
+        $this->questionResultProjector->handle($domainMessage);
     }
 
     /**
@@ -156,7 +157,7 @@ class QuestionResultListenerTest extends TestCase
                 $questionResult
             );
 
-        $this->questionResultListener->handle($domainMessage);
+        $this->questionResultProjector->handle($domainMessage);
     }
 
     /**
@@ -193,6 +194,6 @@ class QuestionResultListenerTest extends TestCase
                 $quizFinished->getId(),
                 $questionResult
             );
-        $this->questionResultListener->handle($domainMessage);
+        $this->questionResultProjector->handle($domainMessage);
     }
 }
