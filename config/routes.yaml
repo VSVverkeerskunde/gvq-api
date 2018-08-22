@@ -53,6 +53,12 @@ accounts_view_reset_password_success:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+accounts_view_edit_password:
+  path: /{_locale}/view/accounts/password/edit
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::editPassword
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions

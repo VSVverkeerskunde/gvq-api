@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use VSV\GVQ_API\Account\Forms\EditPasswordFormType;
 use VSV\GVQ_API\Account\Forms\LoginFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Account\Forms\RequestPasswordFormType;
@@ -43,6 +44,11 @@ class AccountViewController extends AbstractController
      * @var ResetPasswordFormType
      */
     private $resetPasswordFormType;
+
+    /**
+     * @var EditPasswordFormType
+     */
+    private $editPasswordFormType;
 
     /**
      * @var LoginFormType
@@ -122,6 +128,7 @@ class AccountViewController extends AbstractController
         $this->requestPasswordFormType = new RequestPasswordFormType();
         $this->resetPasswordFormType = new ResetPasswordFormType();
         $this->loginFormType = new LoginFormType();
+        $this->editPasswordFormType = new EditPasswordFormType();
     }
 
     /**
@@ -428,6 +435,36 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function editPassword(Request $request): Response
+    {
+        $form = $this->createEditPasswordForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+
+            if ($user) {
+                $user = $this->editPasswordFormType->editUserPassword($user, $data);
+                $this->userRepository->updatePassword($user);
+            }
+
+            return $this->redirectToRoute('accounts_logout');
+        }
+
+        return $this->render(
+            'accounts/edit_password.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
@@ -496,6 +533,20 @@ class AccountViewController extends AbstractController
         $formBuilder = $this->createFormBuilder();
 
         $this->resetPasswordFormType->buildForm(
+            $formBuilder,
+            [
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    private function createEditPasswordForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->editPasswordFormType->buildForm(
             $formBuilder,
             [
                 'translator' => $this->translator,
