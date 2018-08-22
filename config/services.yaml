@@ -185,6 +185,11 @@ services:
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
 
+    quiz_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
+
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
 
@@ -200,6 +205,9 @@ services:
         - method: subscribe
           arguments:
             - '@question_result_projector'
+        - method: subscribe
+          arguments:
+            - '@quiz_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
