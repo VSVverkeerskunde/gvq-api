@@ -58,7 +58,7 @@ class UserFormType extends EditContactFormType
                 'active',
                 CheckboxType::class,
                 [
-                    'label' => $this->translator->trans('Actief'),
+                    'label' => $this->translator->trans('Active'),
                     'data' => $this->user ? $this->user->isActive() : false,
                 ]
             );
