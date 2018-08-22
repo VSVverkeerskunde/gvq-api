@@ -123,16 +123,18 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
+        $isOwnData = $user->getId()->toString() === $this->getUser()->getId();
+
         $form = $this->createUserForm($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userFormType->updateUserFromData(
+            $updatedUser = $this->userFormType->updateUserFromData(
                 $user,
                 $form->getData()
             );
 
-            $this->userRepository->update($user);
+            $this->userRepository->update($updatedUser);
 
             $this->addFlash(
                 'success',
@@ -144,6 +146,10 @@ class UserViewController extends AbstractController
                 )
             );
 
+            if ($isOwnData && !$user->getEmail()->equals($updatedUser->getEmail())) {
+                return $this->redirectToRoute('accounts_logout');
+            }
+
             return $this->redirectToRoute('users_view_index');
         }
 
@@ -151,6 +157,7 @@ class UserViewController extends AbstractController
             'users/add.html.twig',
             [
                 'form' => $form->createView(),
+                'isOwnData' => $isOwnData
             ]
         );
     }

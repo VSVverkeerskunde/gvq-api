@@ -14,7 +14,7 @@
                 <label for="form_email">{% trans %}Email{% endtrans %}</label>
                 {{ form_widget(form.email) }}
                 {{ form_errors(form.email) }}
-                {% if isOwnData == true %}
+                {% if isOwnData is defined and isOwnData == true %}
                 <small id="form_email_help" class="form-text text-muted">{% trans %}
                         Field.login.warning{% endtrans %}</small>
                 {% endif %}
