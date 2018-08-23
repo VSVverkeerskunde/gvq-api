@@ -123,16 +123,18 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
+        $isOwnData = $this->isOwnUser($user);
+
         $form = $this->createUserForm($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->userFormType->updateUserFromData(
+            $updatedUser = $this->userFormType->updateUserFromData(
                 $user,
                 $form->getData()
             );
 
-            $this->userRepository->update($user);
+            $this->userRepository->update($updatedUser);
 
             $this->addFlash(
                 'success',
@@ -144,6 +146,10 @@ class UserViewController extends AbstractController
                 )
             );
 
+            if ($isOwnData && !$user->getEmail()->equals($updatedUser->getEmail())) {
+                return $this->redirectToRoute('accounts_logout');
+            }
+
             return $this->redirectToRoute('users_view_index');
         }
 
@@ -151,6 +157,7 @@ class UserViewController extends AbstractController
             'users/add.html.twig',
             [
                 'form' => $form->createView(),
+                'isOwnData' => $isOwnData
             ]
         );
     }
@@ -184,16 +191,18 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
+        $isOwnData = $this->isOwnUser($user);
+
         $form = $this->createEditContactForm($user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->editContactFormType->updateUserFromData(
+            $updatedUser = $this->editContactFormType->updateUserFromData(
                 $user,
                 $form->getData()
             );
 
-            $this->userRepository->update($user);
+            $this->userRepository->update($updatedUser);
 
             $this->addFlash(
                 'success',
@@ -201,12 +210,17 @@ class UserViewController extends AbstractController
                     'Contact.edit.success'
                 )
             );
+
+            if ($isOwnData && !$user->getEmail()->equals($updatedUser->getEmail())) {
+                return $this->redirectToRoute('accounts_logout');
+            }
         }
 
         return $this->render(
             'users/edit_contact.html.twig',
             [
                 'form' => $form->createView(),
+                'isOwnData' => $isOwnData,
             ]
         );
     }
@@ -287,5 +301,14 @@ class UserViewController extends AbstractController
                 ),
             ]
         );
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    private function isOwnUser(User $user): bool
+    {
+        return $user->getId()->toString() === $this->getUser()->getId();
     }
 }

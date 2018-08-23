@@ -120,6 +120,7 @@ Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur
 Password.reset.link.error.extra: Réinitialisation du mot de passe extra
 
 Password.edit.title: __Wachtwoord wijzigen
+Password.edit.warning: __Na aanpassen van je wachtwoord moet je opnieuw inloggen.
 
 Question.add.title: Modifier/ajouter une question
 Question.add.submit: Conserver
@@ -166,6 +167,7 @@ Field.text.empty: Le texte est obligatoire
 Field.year.empty: L'année est obligatoire
 Field.year.min: L'année doit être {{ limit }} ou plus
 Field.year.max: L'année doit être {{ limit }} ou moins
+Field.login.warning: __Als je dit veld wijzigt moet je opnieuw inloggen
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau
