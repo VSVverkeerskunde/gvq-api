@@ -120,6 +120,7 @@ Password.reset.link.error.text: 'Kijk goed na of u de juiste link uit uw e-mail 
 Password.reset.link.error.extra: 'Password reset extra'
 
 Password.edit.title: 'Wachtwoord wijzigen'
+Password.edit.warning: 'Na aanpassen van je wachtwoord moet je opnieuw inloggen.'
 
 Question.add.title: 'Vraag wijzigen/toevoegen'
 Question.add.submit: 'Bewaren'

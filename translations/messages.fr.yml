@@ -120,6 +120,7 @@ Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur
 Password.reset.link.error.extra: Réinitialisation du mot de passe extra
 
 Password.edit.title: __Wachtwoord wijzigen
+Password.edit.warning: __Na aanpassen van je wachtwoord moet je opnieuw inloggen.
 
 Question.add.title: Modifier/ajouter une question
 Question.add.submit: Conserver
