@@ -180,8 +180,8 @@ services:
       arguments:
         $questionResultRepository: '@question_result_redis_repository'
 
-    started_quizes_projector:
-      class: VSV\GVQ_API\Quiz\Projectors\StartedQuizesProjector
+    started_quizzes_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\StartedQuizzesProjector
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
 
@@ -201,7 +201,7 @@ services:
       calls:
         - method: subscribe
           arguments:
-            - '@started_quizes_projector'
+            - '@started_quizzes_projector'
         - method: subscribe
           arguments:
             - '@question_result_projector'

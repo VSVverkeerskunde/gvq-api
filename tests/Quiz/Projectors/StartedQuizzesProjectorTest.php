@@ -11,7 +11,7 @@ use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class StartedQuizesProjectorTest extends TestCase
+class StartedQuizzesProjectorTest extends TestCase
 {
     /**
      * @var StartedQuizRepository|MockObject
@@ -19,9 +19,9 @@ class StartedQuizesProjectorTest extends TestCase
     private $startedQuizRepository;
 
     /**
-     * @var StartedQuizesProjector
+     * @var StartedQuizzesProjector
      */
-    private $startedQuizesProjector;
+    private $startedQuizzesProjector;
 
     protected function setUp(): void
     {
@@ -29,7 +29,7 @@ class StartedQuizesProjectorTest extends TestCase
         $startedQuizRepository = $this->createMock(StartedQuizRepository::class);
         $this->startedQuizRepository = $startedQuizRepository;
 
-        $this->startedQuizesProjector = new StartedQuizesProjector(
+        $this->startedQuizzesProjector = new StartedQuizzesProjector(
             $this->startedQuizRepository
         );
     }
@@ -56,6 +56,6 @@ class StartedQuizesProjectorTest extends TestCase
             ->method('incrementCount')
             ->with(StatisticsKey::createFromQuiz($quiz));
 
-        $this->startedQuizesProjector->handle($domainMessage);
+        $this->startedQuizzesProjector->handle($domainMessage);
     }
 }
