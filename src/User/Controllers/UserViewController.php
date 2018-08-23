@@ -123,7 +123,7 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
-        $isOwnData = $user->getId()->toString() === $this->getUser()->getId();
+        $isOwnData = $this->isOwnUser($user);
 
         $form = $this->createUserForm($user);
         $form->handleRequest($request);
@@ -191,7 +191,7 @@ class UserViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
-        $isOwnData = $user->getId()->toString() === $this->getUser()->getId();
+        $isOwnData = $this->isOwnUser($user);
 
         $form = $this->createEditContactForm($user);
         $form->handleRequest($request);
@@ -301,5 +301,14 @@ class UserViewController extends AbstractController
                 ),
             ]
         );
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    private function isOwnUser(User $user): bool
+    {
+        return $user->getId()->toString() === $this->getUser()->getId();
     }
 }
