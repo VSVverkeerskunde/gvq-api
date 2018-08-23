@@ -2,47 +2,15 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
-use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-
-class FinishedQuizRedisRepository implements FinishedQuizRepository
+class FinishedQuizRedisRepository extends AbstractCounterRedisRepository
 {
     const KEY_PREFIX = 'finished_quizzes_';
 
     /**
-     * @var \Redis
-     */
-    private $redis;
-
-    /**
-     * @param \Redis $redis
-     */
-    public function __construct(\Redis $redis)
-    {
-        $this->redis = $redis;
-    }
-
-    /**
      * @inheritdoc
      */
-    public function getCount(StatisticsKey $statisticsKey): int
+    public function getPrefix(): string
     {
-        return (int)$this->redis->get($this->createKey($statisticsKey));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function incrementCount(StatisticsKey $statisticsKey): void
-    {
-        $this->redis->incr($this->createKey($statisticsKey));
-    }
-
-    /**
-     * @param StatisticsKey $statisticsKey
-     * @return string
-     */
-    private function createKey(StatisticsKey $statisticsKey): string
-    {
-        return self::KEY_PREFIX.$statisticsKey->toNative();
+        return self::KEY_PREFIX;
     }
 }
