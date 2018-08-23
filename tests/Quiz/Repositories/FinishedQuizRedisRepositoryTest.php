@@ -34,6 +34,22 @@ class FinishedQuizRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
+    public function it_can_get_total_count_of_started_quiz()
+    {
+        $quiz = ModelsFactory::createIndividualQuiz();
+        $statisticsKey = StatisticsKey::createFromQuiz($quiz);
+
+        $this->redis->expects($this->once())
+            ->method('get')
+            ->with('finished_quizzes_'.$statisticsKey->toNative());
+
+        $this->finishedQuizRepository->getCount($statisticsKey);
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_can_increment_count_of_finished_quiz()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
