@@ -12,6 +12,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Mail\Models\Sender;
+use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
@@ -849,6 +850,21 @@ class ModelsFactory
             $question,
             $answeredTooLate,
             $score
+        );
+    }
+
+    /**
+     * @return TieBreaker
+     */
+    public static function createTieBreaker(): TieBreaker
+    {
+        return new TieBreaker(
+            Uuid::fromString('72a90e90-d54e-48f4-b29d-32e88e06b86c'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            new Language('nl'),
+            new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
+            new PositiveNumber(14564)
         );
     }
 
