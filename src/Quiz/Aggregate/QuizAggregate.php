@@ -137,7 +137,7 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 );
             }
 
-            if (count($this->quiz->getQuestions()) === $this->questionIndex) {
+            if (count($this->quiz->getQuestions()) === ($this->questionIndex)) {
                 $this->apply(
                     new QuizFinished(
                         $this->quiz->getId(),
