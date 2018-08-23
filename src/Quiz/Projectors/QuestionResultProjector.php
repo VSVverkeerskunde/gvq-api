@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Quiz\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
-use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
