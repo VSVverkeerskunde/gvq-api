@@ -8,7 +8,7 @@ use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class StartedQuizesProjector implements EventListener
+class StartedQuizzesProjector implements EventListener
 {
     /**
      * @var StartedQuizRepository

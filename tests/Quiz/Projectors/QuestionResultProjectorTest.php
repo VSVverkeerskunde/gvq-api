@@ -7,7 +7,6 @@ use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 
 class QuestionResultProjectorTest extends TestCase
