@@ -2,8 +2,6 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
-use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-
 class StartedQuizRedisRepository extends AbstractCounterRedisRepository
 {
     const KEY_PREFIX = 'started_quizzes_';
