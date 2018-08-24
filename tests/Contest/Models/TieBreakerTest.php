@@ -20,7 +20,7 @@ class TieBreakerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tieBreaker = ModelsFactory::createTieBreaker();
+        $this->tieBreaker = ModelsFactory::createQuizTieBreaker();
     }
 
     /**

@@ -856,7 +856,7 @@ class ModelsFactory
     /**
      * @return TieBreaker
      */
-    public static function createTieBreaker(): TieBreaker
+    public static function createQuizTieBreaker(): TieBreaker
     {
         return new TieBreaker(
             Uuid::fromString('72a90e90-d54e-48f4-b29d-32e88e06b86c'),
@@ -865,6 +865,21 @@ class ModelsFactory
             new Language('nl'),
             new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
             new PositiveNumber(14564)
+        );
+    }
+
+    /**
+     * @return TieBreaker
+     */
+    public static function createCupTieBreaker(): TieBreaker
+    {
+        return new TieBreaker(
+            Uuid::fromString('f6e4bcf3-e069-4d40-8b72-2f5961ec31b5'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::CUP),
+            new Language('nl'),
+            new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
+            new PositiveNumber(11245)
         );
     }
 
