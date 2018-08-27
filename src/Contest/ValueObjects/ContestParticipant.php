@@ -26,4 +26,54 @@ class ContestParticipant
      * @var \DateTimeImmutable
      */
     private $dateOfBirth;
+
+    /**
+     * @param Email $email
+     * @param NotEmptyString $firstName
+     * @param NotEmptyString $lastName
+     * @param \DateTimeImmutable $dateOfBirth
+     */
+    public function __construct(
+        Email $email,
+        NotEmptyString $firstName,
+        NotEmptyString $lastName,
+        \DateTimeImmutable $dateOfBirth
+    ) {
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->dateOfBirth = $dateOfBirth;
+    }
+
+    /**
+     * @return Email
+     */
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return NotEmptyString
+     */
+    public function getFirstName(): NotEmptyString
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @return NotEmptyString
+     */
+    public function getLastName(): NotEmptyString
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getDateOfBirth(): \DateTimeImmutable
+    {
+        return $this->dateOfBirth;
+    }
 }

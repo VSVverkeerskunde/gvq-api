@@ -12,6 +12,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\ValueObjects\Address;
+use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
 use VSV\GVQ_API\Mail\Models\Sender;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Partner\Models\Partner;
@@ -907,6 +908,20 @@ class ModelsFactory
             new NotEmptyString('14'),
             new NotEmptyString('5000'),
             new NotEmptyString('Namur')
+        );
+    }
+
+    /**
+     * @return ContestParticipant
+     * @throws \Exception
+     */
+    public static function createContestParticipant(): ContestParticipant
+    {
+        return new ContestParticipant(
+            new Email('jane@gvq.be'),
+            new NotEmptyString('Jane'),
+            new NotEmptyString('Doe'),
+            new \DateTimeImmutable('1980-01-01T11:12:13+00:00')
         );
     }
 
