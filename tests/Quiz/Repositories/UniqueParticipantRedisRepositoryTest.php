@@ -1,0 +1,62 @@
+<?php declare(strict_types=1);
+
+namespace VSV\GVQ_API\Quiz\Repositories;
+
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\User\ValueObjects\Email;
+
+class UniqueParticipantRedisRepositoryTest extends TestCase
+{
+    /**
+     * @var \Redis|MockObject
+     */
+    private $redis;
+
+    /**
+     * @var UniqueParticipantRepository
+     */
+    private $uniqueParticipantRepository;
+
+    protected function setUp(): void
+    {
+        /** @var \Redis|MockObject $redis */
+        $redis = $this->createMock(\Redis::class);
+        $this->redis = $redis;
+
+        $this->uniqueParticipantRepository = new UniqueParticipantRedisRepository(
+            $this->redis
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_add_a_unique_participant(): void
+    {
+        $email = new Email('test@test.be');
+        $statisticsKey = new StatisticsKey('individual_nl');
+
+        $this->redis->expects($this->once())
+            ->method('sAdd')
+            ->with('unique_participants_'.$statisticsKey->toNative(), $email->toNative());
+
+        $this->uniqueParticipantRepository->add($statisticsKey, $email);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_count_of_unique_participants(): void
+    {
+        $statisticsKey = new StatisticsKey('individual_nl');
+
+        $this->redis->expects($this->once())
+            ->method('sCard')
+            ->with('unique_participants_'.$statisticsKey->toNative())
+            ->willReturn(0);
+
+        $this->uniqueParticipantRepository->getCount($statisticsKey);
+    }
+}
