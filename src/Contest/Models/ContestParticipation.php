@@ -39,4 +39,92 @@ class ContestParticipation
      * @var PositiveNumber
      */
     private $answer2;
+
+    /**
+     * @param Year $year
+     * @param QuizChannel $channel
+     * @param ContestParticipant $contestParticipant
+     * @param Address $address
+     * @param PositiveNumber $answer1
+     * @param PositiveNumber $answer2
+     */
+    public function __construct(
+        Year $year,
+        QuizChannel $channel,
+        ContestParticipant $contestParticipant,
+        Address $address,
+        PositiveNumber $answer1,
+        PositiveNumber $answer2
+    ) {
+        $this->guardChannel($channel);
+
+        $this->year = $year;
+        $this->channel = $channel;
+        $this->contestParticipant = $contestParticipant;
+        $this->address = $address;
+        $this->answer1 = $answer1;
+        $this->answer2 = $answer2;
+    }
+
+    /**
+     * @return Year
+     */
+    public function getYear(): Year
+    {
+        return $this->year;
+    }
+
+    /**
+     * @return QuizChannel
+     */
+    public function getChannel(): QuizChannel
+    {
+        return $this->channel;
+    }
+
+    /**
+     * @return ContestParticipant
+     */
+    public function getContestParticipant(): ContestParticipant
+    {
+        return $this->contestParticipant;
+    }
+
+    /**
+     * @return Address
+     */
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+
+    /**
+     * @return PositiveNumber
+     */
+    public function getAnswer1(): PositiveNumber
+    {
+        return $this->answer1;
+    }
+
+    /**
+     * @return PositiveNumber
+     */
+    public function getAnswer2(): PositiveNumber
+    {
+        return $this->answer2;
+    }
+
+    /**
+     * @param QuizChannel $quizChannel
+     */
+    private function guardChannel(QuizChannel $quizChannel): void
+    {
+        if (!$quizChannel->equals(new QuizChannel(QuizChannel::INDIVIDUAL)) &&
+            !$quizChannel->equals(new QuizChannel(QuizChannel::CUP))) {
+            throw new \InvalidArgumentException(
+                'Invalid value "'.$quizChannel->toNative().'" for quiz channel.'.
+                ' Allowed values are '.QuizChannel::INDIVIDUAL.' and '.QuizChannel::CUP.'.'
+            );
+        }
+    }
 }
