@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
-class StartedQuizRedisRepository extends AbstractCounterRedisRepository
+class StartedQuizRedisRepository extends AbstractCounterRedisRepository implements StartedQuizRepository
 {
     const KEY_PREFIX = 'started_quizzes_';
 
