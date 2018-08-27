@@ -6,6 +6,8 @@ use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 {
@@ -42,6 +44,27 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
         $this->contestParticipationDoctrineRepository->save($contestParticipation);
 
         $contestParticipations = $this->contestParticipationDoctrineRepository->getAll();
+
+        $this->assertEquals(
+            new ContestParticipations($contestParticipation),
+            $contestParticipations
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_by_year_and_email(): void
+    {
+        $contestParticipation = ModelsFactory::createQuizContestParticipation();
+
+        $this->contestParticipationDoctrineRepository->save($contestParticipation);
+
+        $contestParticipations = $this->contestParticipationDoctrineRepository->getAllByYearAndEmail(
+            new Year(2018),
+            new Email('jane@gvq.be')
+        );
 
         $this->assertEquals(
             new ContestParticipations($contestParticipation),
