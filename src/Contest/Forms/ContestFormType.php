@@ -27,14 +27,14 @@ class ContestFormType extends AbstractType
             'firstName',
             TextType::class,
             [
-                'constraints' => $this->createNameConstraint($translator),
+                'constraints' => $this->createTextConstraint($translator),
             ]
         )
         ->add(
             'lastName',
             TextType::class,
             [
-                'constraints' => $this->createNameConstraint($translator),
+                'constraints' => $this->createTextConstraint($translator),
             ]
         )
         ->add(
@@ -43,19 +43,31 @@ class ContestFormType extends AbstractType
         )
         ->add(
             'street',
-            TextType::class
+            TextType::class,
+            [
+                'constraints' => $this->createTextConstraint($translator),
+            ]
         )
         ->add(
             'number',
-            TextType::class
+            TextType::class,
+            [
+                'constraints' => $this->createTextConstraint($translator),
+            ]
         )
         ->add(
             'postalCode',
-            TextType::class
+            TextType::class,
+            [
+                'constraints' => $this->createTextConstraint($translator),
+            ]
         )
         ->add(
             'town',
-            TextType::class
+            TextType::class,
+            [
+                'constraints' => $this->createTextConstraint($translator),
+            ]
         )
         ->add(
             'answer1',
@@ -71,7 +83,7 @@ class ContestFormType extends AbstractType
      * @param TranslatorInterface $translator
      * @return Constraint[]
      */
-    private function createNameConstraint(TranslatorInterface $translator): array
+    private function createTextConstraint(TranslatorInterface $translator): array
     {
         return [
             new NotBlank(

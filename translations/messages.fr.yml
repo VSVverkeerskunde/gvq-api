@@ -27,6 +27,11 @@ Actions: Actions
 Email: Email
 Password: Mot de passe
 Password.confirm: Mot de passe confirmé
+DateOfBirth: __Geboortedatum
+Street: __Straat
+Number: __Nummer
+PostalCode: __Postcode
+Town: __Gemeente
 
 #Menu
 Questions: Questions
@@ -134,6 +139,8 @@ Company.add.submit: Conserver
 
 Contact.edit.title: __Gegevens wijzigen
 Contact.edit.success: __Uw gegevens werden gewijzigd
+
+Contest.submit: __Deelnemen
 
 #Mails 
 Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
