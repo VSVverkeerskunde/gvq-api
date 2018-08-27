@@ -55,6 +55,17 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
      * @test
      * @throws \Exception
      */
+    public function it_returns_null_when_no_contest_participations_present(): void
+    {
+        $contestParticipations = $this->contestParticipationDoctrineRepository->getAll();
+
+        $this->assertNull($contestParticipations);
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_can_get_by_year_and_email(): void
     {
         $contestParticipation = ModelsFactory::createQuizContestParticipation();
