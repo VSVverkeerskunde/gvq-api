@@ -175,6 +175,11 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    unique_participant_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\UniqueParticipantRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
@@ -188,6 +193,12 @@ services:
     quiz_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
       arguments:
+        $quizRepository: '@quiz_redis_repository'
+
+    unique_participant_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\UniqueParticipantProjector
+      arguments:
+        $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
 
     in_memory_event_store:
@@ -208,6 +219,9 @@ services:
         - method: subscribe
           arguments:
             - '@quiz_projector'
+        - method: subscribe
+          arguments:
+            - '@unique_participant_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
