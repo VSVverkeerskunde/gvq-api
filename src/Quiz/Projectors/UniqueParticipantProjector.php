@@ -44,7 +44,7 @@ class UniqueParticipantProjector implements EventListener
             $quiz = $this->quizRepository->getById($payload->getId());
             $this->uniqueParticipantRepository->add(
                 StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()->getEmail()
+                $quiz->getParticipant()
             );
         }
     }

@@ -2,8 +2,8 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class UniqueParticipantRedisRepository implements UniqueParticipantRepository
 {
@@ -25,9 +25,9 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     /**
      * @inheritdoc
      */
-    public function add(StatisticsKey $statisticsKey, Email $email): void
+    public function add(StatisticsKey $statisticsKey, QuizParticipant $participant): void
     {
-        $this->redis->sAdd($this->createKey($statisticsKey), $email->toNative());
+        $this->redis->sAdd($this->createKey($statisticsKey), $participant->getEmail()->toNative());
     }
 
     /**

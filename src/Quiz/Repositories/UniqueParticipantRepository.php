@@ -2,16 +2,16 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
+use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 interface UniqueParticipantRepository
 {
     /**
      * @param StatisticsKey $statisticsKey
-     * @param Email $email
+     * @param QuizParticipant $participant
      */
-    public function add(StatisticsKey $statisticsKey, Email $email): void;
+    public function add(StatisticsKey $statisticsKey, QuizParticipant $participant): void;
 
     /**
      * @param StatisticsKey $statisticsKey

@@ -4,8 +4,8 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-use VSV\GVQ_API\User\ValueObjects\Email;
 
 class UniqueParticipantRedisRepositoryTest extends TestCase
 {
@@ -35,14 +35,17 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
      */
     public function it_can_add_a_unique_participant(): void
     {
-        $email = new Email('test@test.be');
+        $quiz = ModelsFactory::createIndividualQuiz();
         $statisticsKey = new StatisticsKey('individual_nl');
 
         $this->redis->expects($this->once())
             ->method('sAdd')
-            ->with('unique_participants_'.$statisticsKey->toNative(), $email->toNative());
+            ->with(
+                'unique_participants_'.$statisticsKey->toNative(),
+                $quiz->getParticipant()->getEmail()->toNative()
+            );
 
-        $this->uniqueParticipantRepository->add($statisticsKey, $email);
+        $this->uniqueParticipantRepository->add($statisticsKey, $quiz->getParticipant());
     }
 
     /**
