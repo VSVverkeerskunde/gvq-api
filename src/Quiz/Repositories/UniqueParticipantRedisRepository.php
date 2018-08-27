@@ -35,7 +35,7 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
      */
     public function getCount(StatisticsKey $statisticsKey): int
     {
-        return $this->redis->sCard($this->createKey($statisticsKey));
+        return $this->redis->scard($this->createKey($statisticsKey));
     }
 
     /**
