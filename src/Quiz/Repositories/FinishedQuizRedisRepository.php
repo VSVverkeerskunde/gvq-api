@@ -2,9 +2,9 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
-class StartedQuizRedisRepository extends AbstractCounterRedisRepository
+class FinishedQuizRedisRepository extends AbstractCounterRedisRepository
 {
-    const KEY_PREFIX = 'started_quizzes_';
+    const KEY_PREFIX = 'finished_quizzes_';
 
     /**
      * @inheritdoc

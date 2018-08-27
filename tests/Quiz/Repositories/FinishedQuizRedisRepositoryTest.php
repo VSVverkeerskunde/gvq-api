@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class StartedQuizRedisRepositoryTest extends TestCase
+class FinishedQuizRedisRepositoryTest extends TestCase
 {
     /**
      * @var \Redis|MockObject
@@ -17,7 +17,7 @@ class StartedQuizRedisRepositoryTest extends TestCase
     /**
      * @var CounterRepository
      */
-    private $startedQuizRepository;
+    private $finishedQuizRepository;
 
     protected function setUp(): void
     {
@@ -25,7 +25,7 @@ class StartedQuizRedisRepositoryTest extends TestCase
         $redis = $this->createMock(\Redis::class);
         $this->redis = $redis;
 
-        $this->startedQuizRepository = new StartedQuizRedisRepository(
+        $this->finishedQuizRepository = new FinishedQuizRedisRepository(
             $this->redis
         );
     }
@@ -41,24 +41,24 @@ class StartedQuizRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('started_quizzes_'.$statisticsKey->toNative());
+            ->with('finished_quizzes_'.$statisticsKey->toNative());
 
-        $this->startedQuizRepository->getCount($statisticsKey);
+        $this->finishedQuizRepository->getCount($statisticsKey);
     }
 
     /**
      * @test
      * @throws \Exception
      */
-    public function it_can_increment_count_of_started_quiz()
+    public function it_can_increment_count_of_finished_quiz()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $statisticsKey = StatisticsKey::createFromQuiz($quiz);
 
         $this->redis->expects($this->once())
             ->method('incr')
-            ->with('started_quizzes_'.$statisticsKey->toNative());
+            ->with('finished_quizzes_'.$statisticsKey->toNative());
 
-        $this->startedQuizRepository->incrementCount($statisticsKey);
+        $this->finishedQuizRepository->incrementCount($statisticsKey);
     }
 }
