@@ -33,7 +33,8 @@ class ContestParticipationEntity extends Entity
     /**
      * @var ContestParticipantEmbeddable
      *
-     * @ORM\Embedded(class="VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipantEmbeddable")
+     * @ORM\Embedded(
+     *     class="VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipantEmbeddable", columnPrefix="participant_")
      */
     private $contestParticipant;
 
