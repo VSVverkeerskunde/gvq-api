@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Contest\Models;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\ValueObjects\Address;
 use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
@@ -10,6 +11,11 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 
 class ContestParticipation
 {
+    /**
+     * @var UuidInterface
+     */
+    private $id;
+
     /**
      * @var Year
      */
@@ -41,6 +47,7 @@ class ContestParticipation
     private $answer2;
 
     /**
+     * @param UuidInterface $id
      * @param Year $year
      * @param QuizChannel $channel
      * @param ContestParticipant $contestParticipant
@@ -49,6 +56,7 @@ class ContestParticipation
      * @param PositiveNumber $answer2
      */
     public function __construct(
+        UuidInterface $id,
         Year $year,
         QuizChannel $channel,
         ContestParticipant $contestParticipant,
@@ -58,12 +66,21 @@ class ContestParticipation
     ) {
         $this->guardChannel($channel);
 
+        $this->id = $id;
         $this->year = $year;
         $this->channel = $channel;
         $this->contestParticipant = $contestParticipant;
         $this->address = $address;
         $this->answer1 = $answer1;
         $this->answer2 = $answer2;
+    }
+
+    /**
+     * @return UuidInterface
+     */
+    public function getId(): UuidInterface
+    {
+        return $this->id;
     }
 
     /**

@@ -933,6 +933,7 @@ class ModelsFactory
     public static function createQuizContestParticipation(): ContestParticipation
     {
         return new ContestParticipation(
+            Uuid::fromString('c1eb30d1-990a-4a72-945f-190d00a26e9d'),
             new Year(2018),
             new QuizChannel(QuizChannel::INDIVIDUAL),
             ModelsFactory::createContestParticipant(),
@@ -949,6 +950,7 @@ class ModelsFactory
     public static function createCupContestParticipation(): ContestParticipation
     {
         return new ContestParticipation(
+            Uuid::fromString('cb79548e-e856-4efa-a064-894c1c9b66fe'),
             new Year(2018),
             new QuizChannel(QuizChannel::CUP),
             ModelsFactory::createContestParticipant(),

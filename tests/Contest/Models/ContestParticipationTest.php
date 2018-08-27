@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Contest\Models;
 
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -21,6 +22,17 @@ class ContestParticipationTest extends TestCase
     protected function setUp()
     {
         $this->contestParticipation = ModelsFactory::createQuizContestParticipation();
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_a_id(): void
+    {
+        $this->assertEquals(
+            Uuid::fromString('c1eb30d1-990a-4a72-945f-190d00a26e9d'),
+            $this->contestParticipation->getId()
+        );
     }
 
     /**
@@ -102,6 +114,7 @@ class ContestParticipationTest extends TestCase
         );
 
         new ContestParticipation(
+            Uuid::fromString('c1eb30d1-990a-4a72-945f-190d00a26e9d'),
             new Year(2018),
             new QuizChannel(QuizChannel::COMPANY),
             ModelsFactory::createContestParticipant(),
