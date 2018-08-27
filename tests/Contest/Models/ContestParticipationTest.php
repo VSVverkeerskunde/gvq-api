@@ -20,14 +20,7 @@ class ContestParticipationTest extends TestCase
      */
     protected function setUp()
     {
-        $this->contestParticipation = new ContestParticipation(
-            new Year(2018),
-            new QuizChannel(QuizChannel::INDIVIDUAL),
-            ModelsFactory::createContestParticipant(),
-            ModelsFactory::createVsvAddress(),
-            new PositiveNumber(12345),
-            new PositiveNumber(54321)
-        );
+        $this->contestParticipation = ModelsFactory::createQuizContestParticipation();
     }
 
     /**
@@ -94,6 +87,27 @@ class ContestParticipationTest extends TestCase
         $this->assertEquals(
             new PositiveNumber(54321),
             $this->contestParticipation->getAnswer2()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_throws_on_invalid_quiz_channel(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Invalid value "company" for quiz channel. Allowed values are individual and cup.'
+        );
+
+        new ContestParticipation(
+            new Year(2018),
+            new QuizChannel(QuizChannel::COMPANY),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(12345),
+            new PositiveNumber(54321)
         );
     }
 }

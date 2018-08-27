@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\ValueObjects\Address;
 use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
 use VSV\GVQ_API\Mail\Models\Sender;
@@ -922,6 +923,38 @@ class ModelsFactory
             new NotEmptyString('Jane'),
             new NotEmptyString('Doe'),
             new \DateTimeImmutable('1980-01-01T11:12:13+00:00')
+        );
+    }
+
+    /**
+     * @return ContestParticipation
+     * @throws \Exception
+     */
+    public static function createQuizContestParticipation(): ContestParticipation
+    {
+        return new ContestParticipation(
+            new Year(2018),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(12345),
+            new PositiveNumber(54321)
+        );
+    }
+
+    /**
+     * @return ContestParticipation
+     * @throws \Exception
+     */
+    public static function createCupContestParticipation(): ContestParticipation
+    {
+        return new ContestParticipation(
+            new Year(2018),
+            new QuizChannel(QuizChannel::CUP),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(1234),
+            new PositiveNumber(4321)
         );
     }
 
