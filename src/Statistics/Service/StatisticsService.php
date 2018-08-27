@@ -3,17 +3,19 @@
 namespace VSV\GVQ_API\Statistics\Service;
 
 use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
+use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsService
 {
     /**
-     * @var CounterRepository
+     * @var StartedQuizRepository
      */
     private $startedQuizRepository;
 
     /**
-     * @var CounterRepository
+     * @var FinishedQuizRepository
      */
     private $finishedQuizRepository;
 
@@ -23,12 +25,12 @@ class StatisticsService
     private $statisticsKeys;
 
     /**
-     * @param CounterRepository $startedQuizRepository
-     * @param CounterRepository $finishedQuizRepository
+     * @param StartedQuizRepository $startedQuizRepository
+     * @param FinishedQuizRepository $finishedQuizRepository
      */
     public function __construct(
-        CounterRepository $startedQuizRepository,
-        CounterRepository $finishedQuizRepository
+        StartedQuizRepository $startedQuizRepository,
+        FinishedQuizRepository $finishedQuizRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
