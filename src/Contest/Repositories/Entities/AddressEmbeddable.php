@@ -76,39 +76,7 @@ class AddressEmbeddable
             new NotEmptyString($this->street),
             new NotEmptyString($this->number),
             new NotEmptyString($this->postalCode),
-            new NotEmptyString($this->getTown())
+            new NotEmptyString($this->town)
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet(): string
-    {
-        return $this->street;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNumber(): string
-    {
-        return $this->number;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPostalCode(): string
-    {
-        return $this->postalCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTown(): string
-    {
-        return $this->town;
     }
 }
