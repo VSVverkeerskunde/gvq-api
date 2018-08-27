@@ -60,10 +60,11 @@
         </div>
     </div>
 
+    <!-- TODO: Work with loop based on number of tie breakers -->
     <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
-                <label for="form_answer1">Tiebreaker 1</label>
+                <label for="form_answer1">{{ tieBreaker1.question.toNative }}</label>
             </div>
         </div>
         <div class="row">
@@ -77,7 +78,7 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
-                <label for="form_answer2">Tiebreaker 2</label>
+                <label for="form_answer2">{{ tieBreaker2.question.toNative }}</label>
             </div>
         </div>
         <div class="row">

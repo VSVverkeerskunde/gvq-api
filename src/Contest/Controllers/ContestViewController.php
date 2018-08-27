@@ -8,9 +8,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Contest\Forms\ContestFormType;
+use VSV\GVQ_API\Contest\Models\TieBreaker;
+use VSV\GVQ_API\Contest\Repositories\TieBreakerRepository;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class ContestViewController extends AbstractController
 {
+    /**
+     * @var TieBreakerRepository
+     */
+    private $tieBreakerRepository;
+
     /**
      * @var TranslatorInterface
      */
@@ -22,10 +30,14 @@ class ContestViewController extends AbstractController
     private $contestFormType;
 
     /**
+     * @param TieBreakerRepository $tieBreakerRepository
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
-    {
+    public function __construct(
+        TieBreakerRepository $tieBreakerRepository,
+        TranslatorInterface $translator
+    ) {
+        $this->tieBreakerRepository = $tieBreakerRepository;
         $this->translator = $translator;
 
         $this->contestFormType = new ContestFormType();
@@ -43,10 +55,14 @@ class ContestViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         }
 
+        $tieBreakers = $this->getTieBreakerByLocale($request->getLocale());
+
         return $this->render(
             'contest/contest.html.twig',
             [
                 'form' => $form->createView(),
+                'tieBreaker1' => $tieBreakers[0],
+                'tieBreaker2' => $tieBreakers[1],
             ]
         );
     }
@@ -66,5 +82,25 @@ class ContestViewController extends AbstractController
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @param string $locale
+     * @return TieBreaker[]
+     */
+    private function getTieBreakerByLocale(string $locale): array
+    {
+        // TODO: Inject year or create ContestService.
+        $tieBreakers = $this->tieBreakerRepository->getAllByYear(new Year(2018));
+
+        $tieBreakersArray = [];
+        /** @var TieBreaker $tieBreaker */
+        foreach ($tieBreakers as $tieBreaker) {
+            if ($tieBreaker->getLanguage()->toNative() === $locale) {
+                $tieBreakersArray[] = $tieBreaker;
+            }
+        }
+
+        return $tieBreakersArray;
     }
 }

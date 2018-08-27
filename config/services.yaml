@@ -226,6 +226,11 @@ services:
         $year: '@quiz_year'
         $allowedDelay: '@quiz_delay'
 
+    tie_breaker_yaml_repository:
+      class: VSV\GVQ_API\Contest\Repositories\TieBreakerYamlRepository
+      arguments:
+        $tieBreakersFile: '%kernel.project_dir%/config/tie_breakers.yaml'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
@@ -293,4 +298,9 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Document\Controllers\DocumentViewController:
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Contest\Controllers\ContestViewController:
+      arguments:
+          $tieBreakerRepository: '@tie_breaker_yaml_repository'
       tags: ['controller.service_arguments']
