@@ -170,6 +170,11 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    finished_quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\FinishedQuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_redis_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
       arguments:
@@ -184,6 +189,12 @@ services:
       class: VSV\GVQ_API\Quiz\Projectors\StartedQuizzesProjector
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
+
+    finished_quizzes_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\FinishedQuizzesProjector
+      arguments:
+        $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
 
     quiz_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
@@ -208,6 +219,9 @@ services:
         - method: subscribe
           arguments:
             - '@quiz_projector'
+        - method: subscribe
+          arguments:
+          - '@finished_quizzes_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
