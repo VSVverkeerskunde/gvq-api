@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Contest\ValueObjects\Address;
 use VSV\GVQ_API\Mail\Models\Sender;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Partner\Models\Partner;
@@ -880,6 +881,32 @@ class ModelsFactory
             new Language('nl'),
             new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
             new PositiveNumber(11245)
+        );
+    }
+
+    /**
+     * @return Address
+     */
+    public static function createVsvAddress(): Address
+    {
+        return new Address(
+            new NotEmptyString('Stationsstraat'),
+            new NotEmptyString('110'),
+            new NotEmptyString('2800'),
+            new NotEmptyString('Mechelen')
+        );
+    }
+
+    /**
+     * @return Address
+     */
+    public static function createAwsrAddress(): Address
+    {
+        return new Address(
+            new NotEmptyString('Avenue Comte de Smet de Nayer'),
+            new NotEmptyString('14'),
+            new NotEmptyString('5000'),
+            new NotEmptyString('Namur')
         );
     }
 
