@@ -145,7 +145,7 @@ class RegistrationFormType extends CompanyFormType
                 ]
             )
             ->add(
-                'userName',
+                'azijnpotje',
                 TextType::class,
                 [
                     'attr' => [

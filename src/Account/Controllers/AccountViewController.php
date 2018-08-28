@@ -581,7 +581,7 @@ class AccountViewController extends AbstractController
      */
     private function honeypotTricked(array $data)
     {
-        return !empty($data['userName']);
+        return !empty($data['azijnpotje']);
     }
 
     /**
