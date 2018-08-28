@@ -20,12 +20,7 @@ services:
       - "be.2dotstwice.bluegreen.http_route.pattern={{base}}"
     environment:
       - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@mysql:3306/${DB_NAME}
-      - MAILER_HOST=${MAILER_HOST}
-      - MAILER_PORT=${MAILER_PORT}
-      - MAILER_ENCRYPTION=${MAILER_ENCRYPTION}
-      - MAILER_USER=${MAILER_USER}
-      - MAILER_PASSWORD=${MAILER_PASSWORD}
-      - MAILER_URL=${MAILER_URL}
+      - MAILER_URL=smtp://${MAILER_HOST}:${MAILER_PORT}?encryption=${MAILER_ENCRYPTION}&username=${MAILER_USER}&password=${MAILER_PASSWORD}
       - UPLOAD_TARGET=${UPLOAD_TARGET}
       - UPLOAD_PATH=${UPLOAD_PATH}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
