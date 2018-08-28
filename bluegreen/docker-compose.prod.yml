@@ -26,6 +26,8 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - BUCKET_NAME=${BUCKET_NAME}
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always
