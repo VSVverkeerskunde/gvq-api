@@ -1,34 +1,50 @@
-$("#form_companyName").focusout(function () {
-    let slug = slugify($("#form_companyName").val());
-    if ($("#form_aliasNl").val().trim() === '') {
-        $("#form_aliasNl").val(slug).trigger("change");
+// Make sure to init the URLs
+handleNlUrlState();
+handleFrUrlState();
 
+// Handle company name change => only when alias empty
+$("#form_companyName").focusout(function () {
+
+    let slug = slugify($("#form_companyName").val());
+
+    if ($("#form_aliasNl").val().trim() === '') {
+        $("#form_aliasNl").val(slug);
+        handleNlUrlState();
     }
+
     if ($("#form_aliasFr").val().trim() === '') {
-        let slug = slugify($("#form_companyName").val());
-        $("#form_aliasFr").val(slug).trigger("change");
+        $("#form_aliasFr").val(slug);
+        handleFrUrlState();
     }
 });
 
-$("#form_aliasNl").on("change paste keyup input", function () {
+// Handle NL alias changes => always update URL
+$("#form_aliasNl").focusout(function () {
     handleNlUrlState();
 });
 
-$("#form_aliasFr").on("change paste keyup input", function () {
+// Handle FR alias change => always change URL
+$("#form_aliasFr").focusout(function () {
     handleFrUrlState();
 });
 
+// Set the Nl URL
 function handleNlUrlState() {
-    if ($("#form_aliasNl").val().trim() != '') {
-        $("#form_alias_url_nl").text('www.degroteverkeersquiz.be/quiz/'+$("#form_aliasNl").val());
+    let aliasNl = $("#form_aliasNl").val().trim();
+
+    if (aliasNl !== '') {
+        $("#form_alias_url_nl").text('www.degroteverkeersquiz.be/quiz/' + aliasNl);
     } else {
         $("#form_alias_url_nl").text('');
     }
 }
 
+// Set the Fr URL
 function handleFrUrlState() {
-    if ($("#form_aliasFr").val().trim() != '') {
-        $("#form_alias_url_fr").text('www.quizdelaroute.be/quiz/'+$("#form_aliasFr").val());
+    let aliasFr = $("#form_aliasFr").val().trim();
+
+    if (aliasFr !== '') {
+        $("#form_alias_url_fr").text('www.quizdelaroute.be/quiz/' + aliasFr);
     } else {
         $("#form_alias_url_fr").text('');
     }
