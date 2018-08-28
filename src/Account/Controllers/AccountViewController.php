@@ -6,6 +6,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -129,6 +130,14 @@ class AccountViewController extends AbstractController
         $this->resetPasswordFormType = new ResetPasswordFormType();
         $this->loginFormType = new LoginFormType();
         $this->editPasswordFormType = new EditPasswordFormType();
+    }
+
+    /**
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return $this->redirectToLandingPage();
     }
 
     /**
@@ -324,11 +333,7 @@ class AccountViewController extends AbstractController
                     $this->get('security.token_storage')->setToken($token);
                     $this->get('session')->set('_security_main', serialize($token));
 
-                    if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
-                        return $this->redirectToRoute('questions_view_index');
-                    } else {
-                        return $this->redirectToRoute('dashboard');
-                    }
+                    return $this->redirectToLandingPage();
                 }
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
             } else {
@@ -591,5 +596,17 @@ class AccountViewController extends AbstractController
     private function handleHoneypotField(string $route): Response
     {
         return $this->redirectToRoute($route);
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    private function redirectToLandingPage(): RedirectResponse
+    {
+        if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
+            return $this->redirectToRoute('questions_view_index');
+        } else {
+            return $this->redirectToRoute('dashboard');
+        }
     }
 }

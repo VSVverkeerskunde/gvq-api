@@ -1,6 +1,9 @@
 #
 # VIEWS
 #
+accounts_view_index:
+  path: /
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::index
 accounts_view_register:
   path: /{_locale}/view/accounts/register
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
