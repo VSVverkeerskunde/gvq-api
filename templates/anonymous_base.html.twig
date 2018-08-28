@@ -15,7 +15,11 @@
         </div>
     </div>
 
-    {% include '/includes/page-footer.html.twig' %}
+    {% if app.request.locale == 'fr' %}
+        {% include '/includes/page-footer-fr.html.twig' %}
+    {% else %}
+        {% include '/includes/page-footer-nl.html.twig' %}
+    {% endif %}
 
 {% endblock %}
 
