@@ -41,9 +41,9 @@ Documents: Documents
 Report: Rapport final
 
 #Dropdown menu
-Menu.change.password: __Wachtwoord wijzigen
-Menu.edit.contact: __Gegevens wijzigen
-Menu.logout: __Afmelden
+Menu.change.password: Modifier mon mot de passe
+Menu.edit.contact: Modifier mes données
+Menu.logout: Se déconnecter
 
 Questions.dutch: Questions en NL
 Questions.french: Questions en FR
@@ -65,7 +65,7 @@ To.site: Vers quizdelaroute.be
 
 #Actions 
 Registration.title: S'inscrire
-Registration.submit: S'inscrire
+Registration.submit: Inscrire mon entreprise
 
 Registration.success.title: Bienvenue!
 Registration.success.subtitle: Votre inscription a bien été enregistrée.
@@ -117,7 +117,7 @@ Password.reset.link.error.subtitle: Ce lien n'est pas valide.
 Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail.
 
 Password.edit.title: Modifier le mot de passe
-Password.edit.warning: __Na aanpassen van je wachtwoord moet je opnieuw inloggen.
+Password.edit.warning: Après avoir modifié votre mot de passe, vous devrez vous reconnecter.
 
 Question.add.title: Modifier/ajouter une question
 Question.add.submit: Conserver
@@ -164,7 +164,7 @@ Field.text.empty: Le texte est obligatoire.
 Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
-Field.login.warning: __Als je dit veld wijzigt moet je opnieuw inloggen.
+Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.
