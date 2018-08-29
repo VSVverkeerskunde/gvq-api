@@ -140,7 +140,7 @@ class CompanyFormType extends AbstractType
     ): Company {
         return new Company(
             $company->getId(),
-            new NotEmptyString($data['name']),
+            new NotEmptyString($data['companyName']),
             new PositiveNumber($data['nrOfEmployees']),
             new TranslatedAliases(
                 new TranslatedAlias(
