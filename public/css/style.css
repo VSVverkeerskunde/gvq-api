@@ -388,8 +388,8 @@ small {
       padding: 40px 0; } }
   .footer-sponsors img {
     height: auto;
-    max-height: 25px;
-    max-width: 100%; }
+    max-width: 100%;
+    margin-bottom: 20px; }
 
 .page-footer {
   padding: 20px 0;
