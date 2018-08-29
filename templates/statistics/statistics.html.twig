@@ -32,12 +32,12 @@
         <tr class="text-center">
             <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
                 {% trans %}Statistics.row.started{% endtrans %}</td>
-            {% include '/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
         </tr>
         <tr class="text-center">
             <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
                 {% trans %}Statistics.row.finished{% endtrans %}</td>
-            {% include '/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
         </tr>
         </tbody>
     </table>
