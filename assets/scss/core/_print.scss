@@ -62,5 +62,22 @@
     .print-only-inline {
         display: inline;
     }
+    table.print {
+        display: block;
+    }
+    table.print tr {
+        display: block;
+        overflow: hidden;
+    }
+    table.print .image {
+        width: 20%;
+    }
+    table.print .question {
+        width: 55%;
+    }
+    table.print tfoot img {
+        height: 50px;
+        width: auto;
+    }
 
 }
