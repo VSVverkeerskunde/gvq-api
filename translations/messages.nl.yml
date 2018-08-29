@@ -164,7 +164,8 @@ Field.text.empty: 'De tekst mag niet leeg zijn.'
 Field.year.empty: 'Het jaar mag niet leeg zijn.'
 Field.year.min: 'Het jaar moet {{ limit }} of groter zijn.'
 Field.year.max: 'Het jaar moet {{ limit }} of kleiner zijn.'
-Field.login.warning: 'Als je dit veld wijzigt, moet je opnieuw inloggen.'
+Field.login.warning: 'Als je dit veld wijzigt moet je opnieuw inloggen.'
+Field.alias.info: 'Via bovenstaande links spelen je collega’s de quiz in het Nederlands of het Frans. Enkel alfanumerieke tekens en een koppeltekens zijn toegestaan in de links.'
 
 #Flash messages
 Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'

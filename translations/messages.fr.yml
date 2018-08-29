@@ -165,6 +165,7 @@ Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
 Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
+Field.alias.info: __Via bovenstaande links spelen je collega’s de quiz in het Nederlands of het Frans. Enkel alfanumerieke tekens en een koppeltekens zijn toegestaan in de links.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.
