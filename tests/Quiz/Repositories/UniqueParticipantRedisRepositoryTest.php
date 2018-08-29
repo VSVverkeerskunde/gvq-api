@@ -32,20 +32,31 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_add_a_unique_participant(): void
     {
-        $quiz = ModelsFactory::createIndividualQuiz();
-        $statisticsKey = new StatisticsKey('individual_nl');
+        $quiz = ModelsFactory::createPartnerQuiz();
+        $statisticsKey = new StatisticsKey('partner_nl');
 
-        $this->redis->expects($this->once())
+        $this->redis->expects($this->exactly(2))
             ->method('sAdd')
-            ->with(
-                'unique_participants_'.$statisticsKey->toNative(),
-                $quiz->getParticipant()->getEmail()->toNative()
+            ->withConsecutive(
+                [
+                    'unique_participants_partner_nl',
+                    $quiz->getParticipant()->getEmail()->toNative(),
+                ],
+                [
+                    'unique_participants_dats24_nl',
+                    $quiz->getParticipant()->getEmail()->toNative(),
+                ]
             );
 
-        $this->uniqueParticipantRepository->add($statisticsKey, $quiz->getParticipant());
+        $this->uniqueParticipantRepository->add(
+            $statisticsKey,
+            $quiz->getParticipant(),
+            $quiz->getPartner()
+        );
     }
 
     /**

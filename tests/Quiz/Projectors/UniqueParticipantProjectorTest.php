@@ -72,7 +72,8 @@ class UniqueParticipantProjectorTest extends TestCase
             ->method('add')
             ->with(
                 StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+                $quiz->getParticipant(),
+                $quiz->getPartner()
             );
 
         $this->uniqueParticipantProjector->handle($domainMessage);

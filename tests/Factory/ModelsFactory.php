@@ -664,6 +664,21 @@ class ModelsFactory
     }
 
     /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createPartnerQuiz(): Quiz
+    {
+        return self::createCustomQuiz(
+            Uuid::fromString('68e6585d-96ba-48d4-ac4b-dca103f2280b'),
+            new QuizChannel(QuizChannel::PARTNER),
+            null,
+            self::createDatsPartner(),
+            null
+        );
+    }
+
+    /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
      * @param Company|null $company
