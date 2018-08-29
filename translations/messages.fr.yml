@@ -190,4 +190,23 @@ User.edit.not.found: Aucun utilisateur %id% n'a été trouvé
 User.edit.success: L'utilisateur %id% est modifié
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé
 
-Dashboard.welcome: '_Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.welcome: _Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.
+
+#Statistics
+Statistics.header.individual: __Individueel
+Statistics.header.company: __Bedrijf
+Statistics.header.partner: __Partner
+Statistics.header.quiz.total: __Quiz totaal
+Statistics.header.cup: __Cup
+Statistics.header.total: __Totaal
+
+Statistics.subheader.NL: __NL
+Statistics.subheader.FR: __FR
+Statistics.subheader.Total: __Totaal
+
+Statistics.row.started: __Gestart
+Statistics.row.finished: __Beëindigd
+
+Statistics.info.tooltip: __Zweef over de rijtitels voor meer uitleg.
+Statistics.info.started: __Aantal keer dat een quiz werd gestart.
+Statistics.info.finished: __Aantal keer dat een quiz werd uitgespeeld.
