@@ -35,7 +35,8 @@
 
 <h3>MATÉRIEL DE PROMOTION</h3>
 <ul>
-    <li>Vous inscrivez préalablement votre entreprise sur <a href="https://app.quizdelaroute.be/fr/inscription">https://app.quizdelaroute.be/fr/inscription</a>.</li>
+    <li>Vous inscrivez préalablement votre entreprise sur <a href="{{ path('accounts_view_register') }}">https://app.quizdelaroute.be/fr/inscription</a>.
+    </li>
     <li>Un hyperlien personnalisé sera automatiquement généré, via lequel vos collègues pourront jouer à partir du 15
         octobre (p. ex. <a href="https://www.quizdelaroute.be/quiz/awsr">https://www.quizdelaroute.be/quiz/awsr</a>).
     </li>
@@ -44,8 +45,13 @@
     </li>
 </ul>
 
-<p>De plus amples informations suivront après votre inscription.</p>
-
+<p class="text-center">
+    <a role="button"
+       class="btn btn-primary "
+       href="{{ path('accounts_view_register') }}">{% trans %}Registration.submit{% endtrans %}
+    </a><br>
+    <span class="text-muted">De plus amples informations suivront après votre inscription.</span>
+</p>
 
 <h3>DES QUESTIONS?</h3>
 <address>
