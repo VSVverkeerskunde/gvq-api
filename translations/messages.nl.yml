@@ -188,4 +188,23 @@ User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%.'
 
-Dashboard.welcome: 'De quiz start op 15 oktober. Vanaf dan kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.welcome: 'Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.'
+
+#Statistics
+Statistics.header.individual: 'Individueel'
+Statistics.header.company: 'Bedrijf'
+Statistics.header.partner: 'Partner'
+Statistics.header.quiz.total: 'Quiz totaal'
+Statistics.header.cup: 'Cup'
+Statistics.header.total: 'Totaal'
+
+Statistics.subheader.NL: 'NL'
+Statistics.subheader.FR: 'FR'
+Statistics.subheader.Total: 'Totaal'
+
+Statistics.row.started: 'Gestart'
+Statistics.row.finished: 'Beëindigd'
+
+Statistics.info.tooltip: 'Zweef over de rijtitels voor meer uitleg.'
+Statistics.info.started: 'Aantal keer dat een quiz werd gestart.'
+Statistics.info.finished: 'Aantal keer dat een quiz werd uitgespeeld.'

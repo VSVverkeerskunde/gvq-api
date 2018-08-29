@@ -63,4 +63,21 @@ class StatisticsKey extends Enumeration
 
         return new StatisticsKey($statisticsKey);
     }
+
+    /**
+     * @return StatisticsKey[]
+     */
+    public static function getAllKeys(): array
+    {
+        return [
+            new StatisticsKey(self::INDIVIDUAL_NL),
+            new StatisticsKey(self::INDIVIDUAL_FR),
+            new StatisticsKey(self::PARTNER_NL),
+            new StatisticsKey(self::PARTNER_FR),
+            new StatisticsKey(self::COMPANY_NL),
+            new StatisticsKey(self::COMPANY_FR),
+            new StatisticsKey(self::CUP_NL),
+            new StatisticsKey(self::CUP_FR),
+        ];
+    }
 }
