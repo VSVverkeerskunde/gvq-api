@@ -7,10 +7,10 @@
     {% include '/includes/flash.html.twig' %}
 
     <h1 class="page-title">{% trans %}Statistics{% endtrans %}</h1>
-    <table class="table">
-        <thead class="thead-dark thead-primary">
+    <table class="table table-bordered">
+        <thead class="thead-dark thead-primary text-center">
         <tr>
-            <td></td>
+            <td class="border-0"></td>
             <th colspan="3">{% trans %}Individual{% endtrans %}</th>
             <th colspan="3">{% trans %}Company{% endtrans %}</th>
             <th colspan="3">{% trans %}Partner{% endtrans %}</th>
@@ -18,7 +18,7 @@
             <th colspan="3">{% trans %}Total{% endtrans %}</th>
         </tr>
         <tr>
-            <td></td>
+            <td class="border-0"></td>
             {% for i in range(1,5) %}
             <th>{% trans %}NL{% endtrans %}</th>
             <th>{% trans %}FR{% endtrans %}</th>
@@ -27,12 +27,12 @@
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>{% trans %}Started{% endtrans %}</td>
+            <tr class="text-center">
+                <td class="text-left">{% trans %}Started{% endtrans %}</td>
                 {% include '/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
             </tr>
-            <tr>
-                <td>{% trans %}Finished{% endtrans %}</td>
+            <tr class="text-center">
+                <td class="text-left">{% trans %}Finished{% endtrans %}</td>
                 {% include '/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
             </tr>
         </tbody>
