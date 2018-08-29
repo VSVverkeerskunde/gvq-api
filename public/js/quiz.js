@@ -11,7 +11,8 @@
         "primary": "#387cda",
         "secondary": "#3c3c3c"
       }
-    }
+    },
+    "apiUrl": "/api"
   };
   let translations = {
     nl: {
@@ -108,7 +109,7 @@
           let teamSelect = view.find('select[name="choose-team"]');
 
           function start(email, team) {
-            $.post('/quiz', JSON.stringify({
+            $.post(quizConfig.apiUrl+'/quiz', JSON.stringify({
                 channel: quizConfig['channel'],
                 company: quizConfig['company'],
                 partner: quizConfig['partner'],
@@ -192,7 +193,7 @@
           }
 
           setViewValue('questionNr', questionNr);
-          $.get('/quiz/'+quizId+'/question').done(renderQuestion);
+          $.get(quizConfig.apiUrl+'/quiz/'+quizId+'/question').done(renderQuestion);
           return deferredRender.promise();
         },
         template: loadTemplate('ask-question', quizConfig.language)
@@ -246,7 +247,7 @@
           }
 
           setViewValue('questionNr', questionNr);
-          $.post('/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
+          $.post(quizConfig.apiUrl+'/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
 
           return deferredRender.promise();
         },
