@@ -96,14 +96,22 @@ class StatisticsServiceTest extends TestCase
             [
                 'individual_nl' => 1,
                 'individual_fr' => 2,
+                'individual_total' => 3,
                 'partner_nl' => 3,
                 'partner_fr' => 4,
+                'partner_total' => 7,
                 'company_nl' => 5,
                 'company_fr' => 6,
+                'company_total' => 11,
+                'quiz_total_nl' => 9,
+                'quiz_total_fr' => 12,
+                'quiz_total' => 21,
                 'cup_nl' => 7,
                 'cup_fr' => 8,
+                'cup_total' => 15,
                 'total_nl' => 16,
                 'total_fr' => 20,
+                'total' => 36,
             ],
             $counts
         );

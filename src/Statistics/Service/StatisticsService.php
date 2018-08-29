@@ -62,6 +62,7 @@ class StatisticsService
     {
         $totalNL = 0;
         $totalFR = 0;
+        $counts = [];
 
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
@@ -71,10 +72,23 @@ class StatisticsService
             } else {
                 $totalFR += $counts[$key];
             }
+
+            $totalKey = substr($key, 0, -2).'total';
+
+            if (key_exists($totalKey, $counts)) {
+                $counts[$totalKey] += $counts[$key];
+            } else {
+                $counts[$totalKey] = $counts[$key];
+            }
         }
 
+        $counts['quiz_total_nl'] = $totalNL - $counts['cup_nl'];
+        $counts['quiz_total_fr'] = $totalFR - $counts['cup_fr'];
+        $counts['quiz_total'] = $counts['quiz_total_nl'] + $counts['quiz_total_fr'];
         $counts['total_nl'] = $totalNL;
         $counts['total_fr'] = $totalFR;
+        $counts['total'] = $totalNL + $totalFR;
+
 
         return $counts;
     }
