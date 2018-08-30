@@ -24,59 +24,59 @@ class ContestFormType extends AbstractType
 
         $builder
             ->add(
-            'firstName',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'lastName',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'dateOfBirth',
-            DateType::class
-        )
-        ->add(
-            'street',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'number',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'postalCode',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'town',
-            TextType::class,
-            [
-                'constraints' => $this->createTextConstraint($translator),
-            ]
-        )
-        ->add(
-            'answer1',
-            IntegerType::class
-        )
-        ->add(
-            'answer2',
-            IntegerType::class
-        );
+                'firstName',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'lastName',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'dateOfBirth',
+                DateType::class
+            )
+            ->add(
+                'street',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'number',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'postalCode',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'town',
+                TextType::class,
+                [
+                    'constraints' => $this->createTextConstraint($translator),
+                ]
+            )
+            ->add(
+                'answer1',
+                IntegerType::class
+            )
+            ->add(
+                'answer2',
+                IntegerType::class
+            );
     }
 
     /**

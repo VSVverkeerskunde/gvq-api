@@ -94,10 +94,13 @@ class ContestViewController extends AbstractController
         $tieBreakers = $this->tieBreakerRepository->getAllByYear(new Year(2018));
 
         $tieBreakersArray = [];
-        /** @var TieBreaker $tieBreaker */
-        foreach ($tieBreakers as $tieBreaker) {
-            if ($tieBreaker->getLanguage()->toNative() === $locale) {
-                $tieBreakersArray[] = $tieBreaker;
+
+        if ($tieBreakers !== null) {
+            /** @var TieBreaker $tieBreaker */
+            foreach ($tieBreakers as $tieBreaker) {
+                if ($tieBreaker->getLanguage()->toNative() === $locale) {
+                    $tieBreakersArray[] = $tieBreaker;
+                }
             }
         }
 
