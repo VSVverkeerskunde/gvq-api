@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
 use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Quiz\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsServiceTest extends TestCase
@@ -26,6 +27,11 @@ class StatisticsServiceTest extends TestCase
      */
     private $finishedQuizRepository;
 
+    /**
+     * @var UniqueParticipantRepository|MockObject
+     */
+    private $uniqueParticipantRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -36,9 +42,14 @@ class StatisticsServiceTest extends TestCase
         $finishedQuizRepository = $this->createMock(FinishedQuizRepository::class);
         $this->finishedQuizRepository = $finishedQuizRepository;
 
+        /** @var UniqueParticipantRepository|MockObject $uniqueParticipantRepository */
+        $uniqueParticipantRepository = $this->createMock(UniqueParticipantRepository::class);
+        $this->uniqueParticipantRepository = $uniqueParticipantRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
-            $this->finishedQuizRepository
+            $this->finishedQuizRepository,
+            $this->uniqueParticipantRepository
         );
     }
 

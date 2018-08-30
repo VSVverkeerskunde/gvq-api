@@ -5,6 +5,8 @@ namespace VSV\GVQ_API\Statistics\Service;
 use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
 use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Quiz\Repositories\StatisticsRepository;
+use VSV\GVQ_API\Quiz\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsService
@@ -20,6 +22,11 @@ class StatisticsService
     private $finishedQuizRepository;
 
     /**
+     * @var UniqueParticipantRepository
+     */
+    private $uniqueParticipantRepository;
+
+    /**
      * @var StatisticsKey[]
      */
     private $statisticsKeys;
@@ -27,13 +34,16 @@ class StatisticsService
     /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
+     * @param UniqueParticipantRepository $uniqueParticipantRepository
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
-        FinishedQuizRepository $finishedQuizRepository
+        FinishedQuizRepository $finishedQuizRepository,
+        UniqueParticipantRepository $uniqueParticipantRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
+        $this->uniqueParticipantRepository = $uniqueParticipantRepository;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -54,11 +64,16 @@ class StatisticsService
         return $this->getCountsFromRepository($this->finishedQuizRepository);
     }
 
+    public function getUniqueParticipantCounts(): array
+    {
+        return $this->getCountsFromRepository($this->uniqueParticipantRepository);
+    }
+
     /**
-     * @param CounterRepository $counterRepository
+     * @param StatisticsRepository $statisticsRepository
      * @return array
      */
-    private function getCountsFromRepository(CounterRepository $counterRepository): array
+    private function getCountsFromRepository(StatisticsRepository $statisticsRepository): array
     {
         $totalNL = 0;
         $totalFR = 0;
