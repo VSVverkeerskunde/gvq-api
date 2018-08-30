@@ -59,10 +59,10 @@ Button.remove: Supprimer
 Button.export: Exporter
 
 #Links 
-To.login: S'identifier
+To.login: Se connecter
 To.request.password: Mot de passe oublié
 To.site: Vers quizdelaroute.be
-To.info: Vers info
+To.info: Plus d’infos sur le quiz
 
 #Actions 
 Registration.title: S'inscrire
@@ -76,10 +76,10 @@ Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien fig
 Registration.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
 Activation.title: Activer le compte
-Activation.success.title: Activé avec succès
+Activation.success.title: Félicitations
 Activation.success.subtitle: Votre compte a été activé avec succès.
 Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe.
-Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route.
+Activation.success.extra: Vous recevrez prochainement un mail avec toutes les informations utiles sur le Quiz de la Route.
 
 Activation.error.title: Erreur
 Activation.error.subtitle: Votre compte n'a pas pu être activé.
@@ -99,7 +99,7 @@ Password.request.title: Mot de passe oublié
 Password.request.submit: Récupérer mon mot de passe
 Password.request.footer: Un mail va vous être envoyé avec de plus amples informations.
 
-Password.request.success.title: Succès
+Password.request.success.title: Félicitations
 Password.request.success.subtitle: Votre demande a bien été envoyée.
 Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe.
 Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
