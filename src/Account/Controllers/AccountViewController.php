@@ -6,11 +6,13 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use VSV\GVQ_API\Account\Forms\EditPasswordFormType;
 use VSV\GVQ_API\Account\Forms\LoginFormType;
 use VSV\GVQ_API\Account\Forms\RegistrationFormType;
 use VSV\GVQ_API\Account\Forms\RequestPasswordFormType;
@@ -43,6 +45,11 @@ class AccountViewController extends AbstractController
      * @var ResetPasswordFormType
      */
     private $resetPasswordFormType;
+
+    /**
+     * @var EditPasswordFormType
+     */
+    private $editPasswordFormType;
 
     /**
      * @var LoginFormType
@@ -122,6 +129,15 @@ class AccountViewController extends AbstractController
         $this->requestPasswordFormType = new RequestPasswordFormType();
         $this->resetPasswordFormType = new ResetPasswordFormType();
         $this->loginFormType = new LoginFormType();
+        $this->editPasswordFormType = new EditPasswordFormType();
+    }
+
+    /**
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return $this->redirectToLandingPage();
     }
 
     /**
@@ -174,6 +190,14 @@ class AccountViewController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function info(): Response
+    {
+        return $this->render('accounts/info.html.twig');
     }
 
     /**
@@ -317,11 +341,7 @@ class AccountViewController extends AbstractController
                     $this->get('security.token_storage')->setToken($token);
                     $this->get('session')->set('_security_main', serialize($token));
 
-                    if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
-                        return $this->redirectToRoute('questions_view_index');
-                    } else {
-                        return $this->redirectToRoute('dashboard');
-                    }
+                    return $this->redirectToLandingPage();
                 }
                 $this->addFlash('warning', $this->translator->trans('Account.inactive'));
             } else {
@@ -428,6 +448,36 @@ class AccountViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @return Response
+     */
+    public function editPassword(Request $request): Response
+    {
+        $form = $this->createEditPasswordForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->userRepository->getByEmail(new Email($this->getUser()->getUsername()));
+
+            if ($user) {
+                $user = $this->editPasswordFormType->editUserPassword($user, $data);
+                $this->userRepository->updatePassword($user);
+            }
+
+            return $this->redirectToRoute('accounts_logout');
+        }
+
+        return $this->render(
+            'accounts/edit_password.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
      * @return FormInterface
      */
     private function createRegisterForm(): FormInterface
@@ -505,6 +555,20 @@ class AccountViewController extends AbstractController
         return $formBuilder->getForm();
     }
 
+    private function createEditPasswordForm(): FormInterface
+    {
+        $formBuilder = $this->createFormBuilder();
+
+        $this->editPasswordFormType->buildForm(
+            $formBuilder,
+            [
+                'translator' => $this->translator,
+            ]
+        );
+
+        return $formBuilder->getForm();
+    }
+
     /**
      * @param User $user
      * @param bool $passwordReset
@@ -530,7 +594,7 @@ class AccountViewController extends AbstractController
      */
     private function honeypotTricked(array $data)
     {
-        return !empty($data['userName']);
+        return !empty($data['azijnpotje']);
     }
 
     /**
@@ -540,5 +604,17 @@ class AccountViewController extends AbstractController
     private function handleHoneypotField(string $route): Response
     {
         return $this->redirectToRoute($route);
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    private function redirectToLandingPage(): RedirectResponse
+    {
+        if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
+            return $this->redirectToRoute('questions_view_index');
+        } else {
+            return $this->redirectToRoute('dashboard');
+        }
     }
 }

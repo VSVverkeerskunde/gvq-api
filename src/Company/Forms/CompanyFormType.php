@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Forms;
 
+use Ramsey\Uuid\UuidFactoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -9,8 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Regex;
 use VSV\GVQ_API\Account\Constraints\AliasIsUnique;
 use VSV\GVQ_API\Account\Constraints\CompanyIsUnique;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -20,6 +23,7 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\User\Models\User;
 
 class CompanyFormType extends AbstractType
 {
@@ -35,18 +39,11 @@ class CompanyFormType extends AbstractType
 
         $builder
             ->add(
-                'name',
+                'companyName',
                 TextType::class,
                 [
                     'data' => $company ? $company->getName()->toNative() : null,
-                    'constraints' => [
-                        new CompanyIsUnique(
-                            [
-                                'message' => $translator->trans('Field.company.in.use'),
-                                'companyId' => $company ? $company->getId()->toString() : null,
-                            ]
-                        ),
-                    ],
+                    'constraints' => $this->createCompanyNameConstraints($translator, $company),
                 ]
             )
             ->add(
@@ -54,19 +51,7 @@ class CompanyFormType extends AbstractType
                 IntegerType::class,
                 [
                     'data' => $company ? $company->getNumberOfEmployees()->toNative() : null,
-                    'constraints' => [
-                        new NotBlank(
-                            [
-                                'message' => $translator->trans('Field.employees.empty'),
-                            ]
-                        ),
-                        new Range(
-                            [
-                                'min' => 1,
-                                'minMessage' => $translator->trans('Field.employees.positive'),
-                            ]
-                        ),
-                    ]
+                    'constraints' => $this->createNrOfEmployeesConstraints($translator),
                 ]
             )
             ->add(
@@ -113,6 +98,38 @@ class CompanyFormType extends AbstractType
     }
 
     /**
+     * @param UuidFactoryInterface $uuidFactory
+     * @param array $data
+     * @param User $user
+     * @return Company
+     * @throws \Exception
+     */
+    public function newCompanyFromData(
+        UuidFactoryInterface $uuidFactory,
+        array $data,
+        User $user
+    ): Company {
+        return new Company(
+            $uuidFactory->uuid4(),
+            new NotEmptyString($data['companyName']),
+            new PositiveNumber($data['nrOfEmployees']),
+            new TranslatedAliases(
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('nl'),
+                    new Alias($data['aliasNl'])
+                ),
+                new TranslatedAlias(
+                    $uuidFactory->uuid4(),
+                    new Language('fr'),
+                    new Alias($data['aliasFr'])
+                )
+            ),
+            $user
+        );
+    }
+
+    /**
      * @param Company $company
      * @param array $data
      * @return Company
@@ -121,10 +138,9 @@ class CompanyFormType extends AbstractType
         Company $company,
         array $data
     ): Company {
-
         return new Company(
             $company->getId(),
-            new NotEmptyString($data['name']),
+            new NotEmptyString($data['companyName']),
             new PositiveNumber($data['nrOfEmployees']),
             new TranslatedAliases(
                 new TranslatedAlias(
@@ -158,12 +174,82 @@ class CompanyFormType extends AbstractType
 
     /**
      * @param TranslatorInterface $translator
+     * @param null|Company $company
+     * @return array
+     */
+    protected function createCompanyNameConstraints(
+        TranslatorInterface $translator,
+        ?Company $company
+    ): array {
+        return [
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Field.empty'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new Length(
+                [
+                    'max' => 255,
+                    'maxMessage' => $translator->trans('Field.length.max'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new CompanyIsUnique(
+                [
+                    'message' => $translator->trans('Field.company.in.use'),
+                    'companyId' => $company ? $company->getId()->toString() : null,
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @return array
+     */
+    protected function createNrOfEmployeesConstraints(TranslatorInterface $translator): array
+    {
+        return [
+            new GreaterThan(
+                [
+                    'value' => 0,
+                    'message' => $translator->trans('Field.employees.positive'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Field.empty'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param TranslatorInterface $translator
      * @param Company|null $company
      * @return array
      */
-    private function createAliasConstraints(TranslatorInterface $translator, ?Company $company): array
-    {
+    protected function createAliasConstraints(
+        TranslatorInterface $translator,
+        ?Company $company
+    ): array {
         return [
+            new NotBlank(
+                [
+                    'message' => $translator->trans('Field.empty'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
+            new Regex(
+                [
+                    'pattern' => Alias::PATTERN,
+                    'message' => $translator->trans('Field.alias.pattern'),
+                    'groups' => ['CorrectSyntax'],
+                ]
+            ),
             new AliasIsUnique(
                 [
                     'message' => $translator->trans('Field.alias.in.use'),

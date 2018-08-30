@@ -170,21 +170,36 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    finished_quiz_redis_repository:
+      class: VSV\GVQ_API\Quiz\Repositories\FinishedQuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_redis_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
       arguments:
         $redis: '@redis_service'
 
-    question_result_listener:
-      class: VSV\GVQ_API\Quiz\EventListeners\QuestionResultListener
+    question_result_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
         $questionResultRepository: '@question_result_redis_repository'
 
-    quiz_started_listener:
-      class: VSV\GVQ_API\Quiz\EventListeners\QuizStartedListener
+    started_quizzes_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\StartedQuizzesProjector
+      arguments:
+        $startedQuizRepository: '@started_quiz_redis_repository'
+
+    finished_quizzes_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\FinishedQuizzesProjector
+      arguments:
+        $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
+    quiz_projector:
+      class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
       arguments:
         $quizRepository: '@quiz_redis_repository'
-        $startedQuizRepository: '@started_quiz_redis_repository'
 
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
@@ -197,10 +212,16 @@ services:
       calls:
         - method: subscribe
           arguments:
-            - '@quiz_started_listener'
+            - '@started_quizzes_projector'
         - method: subscribe
           arguments:
-            - '@question_result_listener'
+            - '@question_result_projector'
+        - method: subscribe
+          arguments:
+            - '@quiz_projector'
+        - method: subscribe
+          arguments:
+          - '@finished_quizzes_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
@@ -230,6 +251,12 @@ services:
       class: VSV\GVQ_API\Contest\Repositories\TieBreakerYamlRepository
       arguments:
         $tieBreakersFile: '%kernel.project_dir%/config/tie_breakers.yaml'
+
+    statistics_service:
+      class: VSV\GVQ_API\Statistics\Service\StatisticsService
+      arguments:
+        $startedQuizRepository: '@started_quiz_redis_repository'
+        $finishedQuizRepository: '@finished_quiz_redis_repository'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -289,6 +316,8 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
+      arguments:
+        $statisticsService: '@statistics_service'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:

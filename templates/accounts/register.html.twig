@@ -17,8 +17,8 @@
     <div class="form-group azijnpotje">
         <div class="row">
             <div class="col-sm-12">
-                <label for="form_username">{% trans %}Username{% endtrans %}</label>
-                {{ form_widget(form.userName) }}
+                <label for="form_azijnpotje">Azijnpotje</label>
+                {{ form_widget(form.azijnpotje) }}
             </div>
         </div>
     </div>
@@ -74,23 +74,16 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
-                {{ form_widget(form.aliasNl) }}
-                {{ form_errors(form.aliasNl) }}
-            </div>
-            <div class="col-sm-6">
-                <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
-                {{ form_widget(form.aliasFr) }}
-                {{ form_errors(form.aliasFr) }}
-            </div>
-        </div>
-    </div>
+    {% include 'companies/aliases.html.twig' %}
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">{% trans %}Registration.submit{% endtrans %}</button>
     </div>
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/slugify.js') }}"></script>
+    <script src="{{ asset('js/handleAliases.js') }}"></script>
 {% endblock %}

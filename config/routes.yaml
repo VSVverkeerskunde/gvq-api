@@ -1,10 +1,37 @@
 #
 # VIEWS
 #
+accounts_view_index:
+  path: /
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::index
+accounts_inschrijven:
+  path: /{_locale}/inschrijven
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl
+accounts_inscription:
+  path: /{_locale}/inscription
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: fr
 accounts_view_register:
   path: /{_locale}/view/accounts/register
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_info:
+  path: /{_locale}/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+accounts_view_info:
+  path: /{_locale}/view/accounts/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
   requirements:
     _locale: nl|fr
 accounts_view_register_success:
@@ -53,6 +80,12 @@ accounts_view_reset_password_success:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+accounts_view_edit_password:
+  path: /{_locale}/view/accounts/password/edit
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::editPassword
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 
 questions_view_index:
   path: /{_locale}/view/questions
@@ -95,6 +128,12 @@ companies_view_index:
   path: /{_locale}/view/companies
   controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::index
   methods: [GET]
+  requirements:
+    _locale: nl|fr
+companies_view_add:
+  path: /{_locale}/view/companies/add
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::add
+  methods: [GET, POST]
   requirements:
     _locale: nl|fr
 companies_view_edit:

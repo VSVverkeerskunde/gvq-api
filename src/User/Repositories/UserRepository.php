@@ -15,9 +15,20 @@ interface UserRepository
 
     public function updatePassword(User $user): void;
 
+    /**
+     * @param UuidInterface $id
+     * @return null|User
+     */
     public function getById(UuidInterface $id): ?User;
 
+    /**
+     * @param Email $email
+     * @return null|User
+     */
     public function getByEmail(Email $email): ?User;
 
+    /**
+     * @return null|Users
+     */
     public function getAll(): ?Users;
 }

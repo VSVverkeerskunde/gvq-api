@@ -8,13 +8,21 @@
 
     {% include '/includes/flash.html.twig' %}
 
+    {% if is_granted("ROLE_CONTACT") %}
+        <a role="button"
+           class="btn btn-primary"
+           href="{{ path('companies_view_add') }}"><span class="oi oi-plus"></span>
+            {% trans %}Button.add{% endtrans %}
+        </a>
+    {% endif %}
+
     <a role="button"
        class="btn btn-primary"
        href="{{ path('companies_export') }}" ><span class="oi oi-data-transfer-download"></span>
         {% trans %}Button.export{% endtrans %}
     </a>
 
-    <table class="table"
+    <table class="table table-responsive-md"
            data-toggle="table"
            data-search="true"
            data-page-size=5
@@ -51,8 +59,13 @@
                         {{ company.translatedAliases | getAliasByLanguage('fr') }}
                     </td>
                     <td>
-                        <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
-                           target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
+                            <a href="{{ path('users_view_edit', {'id': company.user.id.toString}) }}"
+                               target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% elseif is_granted("ROLE_CONTACT") %}
+                            <a href="{{ path('contacts_view_edit') }}"
+                               target="_blank" >{{ company.user.email.toNative}}</a>
+                        {% endif %}
                     </td>
                     <td>
                         <a role="button"
