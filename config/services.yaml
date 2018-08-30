@@ -267,6 +267,8 @@ services:
         $startedQuizRepository: '@started_quiz_redis_repository'
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
+        $partnerRepository: '@partner_yaml_repository'
+        $year : '@quiz_year'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:

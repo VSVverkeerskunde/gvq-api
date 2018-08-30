@@ -2,7 +2,9 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
-use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
+use VSV\GVQ_API\Partner\Models\Partners;
+use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\StatisticsRepository;
@@ -27,23 +29,39 @@ class StatisticsService
     private $uniqueParticipantRepository;
 
     /**
+     * @var PartnerRepository
+     */
+    private $partnerRepository;
+
+    /**
      * @var StatisticsKey[]
      */
     private $statisticsKeys;
 
     /**
+     * @var Year
+     */
+    private $year;
+
+    /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
+     * @param PartnerRepository $partnerRepository
+     * @param Year $year
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
-        UniqueParticipantRepository $uniqueParticipantRepository
+        UniqueParticipantRepository $uniqueParticipantRepository,
+        PartnerRepository $partnerRepository,
+        Year $year
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
+        $this->partnerRepository = $partnerRepository;
+        $this->year = $year;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -64,9 +82,46 @@ class StatisticsService
         return $this->getCountsFromRepository($this->finishedQuizRepository);
     }
 
+    /**
+     * @return int[]
+     */
     public function getUniqueParticipantCounts(): array
     {
         return $this->getCountsFromRepository($this->uniqueParticipantRepository);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getUniqueParticipantCountsForPartners(): ?array
+    {
+        $partners = $this->partnerRepository->getAllByYear($this->year);
+
+        if (empty($partners)) {
+            return null;
+        }
+
+        $counts = [];
+
+        foreach ($partners as $partner) {
+            $nlCount = $this->uniqueParticipantRepository->getPartnerCount(
+                new StatisticsKey(StatisticsKey::PARTNER_NL),
+                $partner
+            );
+
+            $frCount = $this->uniqueParticipantRepository->getPartnerCount(
+                new StatisticsKey(StatisticsKey::PARTNER_FR),
+                $partner
+            );
+
+            $totalCount = $nlCount + $frCount;
+
+            $counts[$partner->getName()->toNative()]['nl'] = $nlCount;
+            $counts[$partner->getName()->toNative()]['fr'] = $frCount;
+            $counts[$partner->getName()->toNative()]['total'] = $totalCount;
+        }
+
+        return $counts;
     }
 
     /**

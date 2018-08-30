@@ -29,6 +29,7 @@ class StatisticsViewController extends AbstractController
         $startedCounts = $this->statisticsService->getStartedQuizCounts();
         $finishedCounts = $this->statisticsService->getFinishedQuizCounts();
         $uniqueParticipantCounts = $this->statisticsService->getUniqueParticipantCounts();
+        $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartners();
 
         return $this->render(
             'statistics/statistics.html.twig',
@@ -36,6 +37,7 @@ class StatisticsViewController extends AbstractController
                 'startedCounts' => $startedCounts,
                 'finishedCounts' => $finishedCounts,
                 'uniqueParticipantCounts' => $uniqueParticipantCounts,
+                'partnersCounts' => $partnersCounts,
             ]
         );
     }
