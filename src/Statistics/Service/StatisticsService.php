@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
-use VSV\GVQ_API\Partner\Models\Partners;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
@@ -104,6 +104,7 @@ class StatisticsService
         $counts = [];
 
         foreach ($partners as $partner) {
+            /** @var Partner $partner */
             $nlCount = $this->uniqueParticipantRepository->getPartnerCount(
                 new StatisticsKey(StatisticsKey::PARTNER_NL),
                 $partner
