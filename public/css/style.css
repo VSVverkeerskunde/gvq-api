@@ -379,7 +379,7 @@ small {
     height: auto;
     max-height: 80px;
     max-width: 150px;
-    margin-bottom: 40px; }
+    margin: 20px 0; }
 
 .footer-sponsors {
   background-color: #6cc4e9;
@@ -392,7 +392,7 @@ small {
   .footer-sponsors img {
     height: auto;
     max-width: 100%;
-    margin-bottom: 20px; }
+    margin: 10px 0; }
 
 .page-footer {
   padding: 20px 0;
