@@ -78,6 +78,18 @@ class StatisticsServiceTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_can_get_unique_participant_counts(): void
+    {
+        $this->mockGetCountMethod($this->uniqueParticipantRepository);
+
+        $counts = $this->statisticsService->getUniqueParticipantCounts();
+
+        $this->checkCounts($counts);
+    }
+
+    /**
      * @param CounterRepository|MockObject $counterRepository
      */
     private function mockGetCountMethod(MockObject $counterRepository): void

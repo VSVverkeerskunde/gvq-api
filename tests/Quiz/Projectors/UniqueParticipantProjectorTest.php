@@ -77,4 +77,45 @@ class UniqueParticipantProjectorTest extends TestCase
 
         $this->uniqueParticipantProjector->handle($domainMessage);
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_handles_quiz_finished_for_partner_channel(): void
+    {
+        $quiz = ModelsFactory::createPartnerQuiz();
+
+        $domainMessage = DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new QuizFinished(
+                $quiz->getId(),
+                11
+            )
+        );
+
+        $this->quizRepository->expects($this->once())
+            ->method('getById')
+            ->with($quiz->getId())
+            ->willReturn($quiz);
+
+        $this->uniqueParticipantRepository->expects($this->once())
+            ->method('add')
+            ->with(
+                StatisticsKey::createFromQuiz($quiz),
+                $quiz->getParticipant()
+            );
+
+        $this->uniqueParticipantRepository->expects($this->once())
+            ->method('addForPartner')
+            ->with(
+                StatisticsKey::createFromQuiz($quiz),
+                $quiz->getParticipant(),
+                $quiz->getPartner()
+            );
+
+        $this->uniqueParticipantProjector->handle($domainMessage);
+    }
 }
