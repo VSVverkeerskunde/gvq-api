@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class UniqueParticipantRedisRepositoryTest extends TestCase
@@ -60,18 +61,20 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
     {
         $quiz = ModelsFactory::createPartnerQuiz();
         $statisticsKey = new StatisticsKey(StatisticsKey::PARTNER_NL);
+        /** @var Partner $partner */
+        $partner = $quiz->getPartner();
 
         $this->redis->expects($this->once())
             ->method('sAdd')
             ->with(
-                'unique_participants_'.$quiz->getPartner()->getId()->toString().'_'.$statisticsKey->getLanguage(),
+                'unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage(),
                 $quiz->getParticipant()->getEmail()->toNative()
             );
 
         $this->uniqueParticipantRepository->addForPartner(
             $statisticsKey,
             $quiz->getParticipant(),
-            $quiz->getPartner()
+            $partner
         );
     }
 
