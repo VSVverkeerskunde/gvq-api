@@ -63,7 +63,7 @@
         <tbody>
         {% for partnerName, partnerCounts in partnersCounts %}
             <tr class="text-right">
-                <td class="text-left">
+                <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.partners.unique{% endtrans %}">
                     {{ partnerName }}
                 </td>
                 <td>{{ partnerCounts.nl }}</td>
