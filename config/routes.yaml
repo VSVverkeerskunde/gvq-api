@@ -4,10 +4,34 @@
 accounts_view_index:
   path: /
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::index
+accounts_inschrijven:
+  path: /{_locale}/inschrijven
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl
+accounts_inscription:
+  path: /{_locale}/inscription
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: fr
 accounts_view_register:
   path: /{_locale}/view/accounts/register
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_info:
+  path: /{_locale}/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+accounts_view_info:
+  path: /{_locale}/view/accounts/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
   requirements:
     _locale: nl|fr
 accounts_view_register_success:

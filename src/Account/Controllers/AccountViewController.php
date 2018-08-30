@@ -195,6 +195,14 @@ class AccountViewController extends AbstractController
     /**
      * @return Response
      */
+    public function info(): Response
+    {
+        return $this->render('accounts/info.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
     public function registerSuccess(): Response
     {
         return $this->render('accounts/register_success.html.twig');
