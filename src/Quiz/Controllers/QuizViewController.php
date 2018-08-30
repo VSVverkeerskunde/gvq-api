@@ -9,15 +9,21 @@ use Symfony\Component\Yaml\Yaml;
 
 class QuizViewController extends AbstractController
 {
-    public function showQuiz(
-        ContainerInterface $container
-    ): Response {
-        $teams = Yaml::parseFile($container->getParameter('kernel.project_dir').'/config/teams.yaml');
+    /**
+     * @param ContainerInterface $container
+     * @return Response
+     */
+    public function showQuiz(ContainerInterface $container): Response
+    {
+        $teams = Yaml::parseFile(
+            $container->getParameter('kernel.project_dir').'/config/teams.yaml'
+        );
 
-        return new Response(
-            $this->renderView('quiz/quiz.html.twig', array(
+        return $this->render(
+            'quiz/quiz.html.twig',
+            [
                 'teams' => (object) $teams['2018'],
-            ))
+            ]
         );
     }
 }
