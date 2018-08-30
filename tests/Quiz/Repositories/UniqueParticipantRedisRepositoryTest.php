@@ -36,23 +36,39 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
      */
     public function it_can_add_a_unique_participant(): void
     {
-        $quiz = ModelsFactory::createPartnerQuiz();
-        $statisticsKey = new StatisticsKey('partner_nl');
+        $quiz = ModelsFactory::createIndividualQuiz();
+        $statisticsKey = new StatisticsKey(StatisticsKey::INDIVIDUAL_NL);
 
-        $this->redis->expects($this->exactly(2))
+        $this->redis->expects($this->once())
             ->method('sAdd')
-            ->withConsecutive(
-                [
-                    'unique_participants_partner_nl',
-                    $quiz->getParticipant()->getEmail()->toNative(),
-                ],
-                [
-                    'unique_participants_dats24_nl',
-                    $quiz->getParticipant()->getEmail()->toNative(),
-                ]
+            ->with(
+                'unique_participants_individual_nl',
+                $quiz->getParticipant()->getEmail()->toNative()
             );
 
         $this->uniqueParticipantRepository->add(
+            $statisticsKey,
+            $quiz->getParticipant()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_add_a_unique_participant_for_a_partner(): void
+    {
+        $quiz = ModelsFactory::createPartnerQuiz();
+        $statisticsKey = new StatisticsKey(StatisticsKey::PARTNER_NL);
+
+        $this->redis->expects($this->once())
+            ->method('sAdd')
+            ->with(
+                'unique_participants_'.$quiz->getPartner()->getId()->toString().'_'.$statisticsKey->getLanguage(),
+                $quiz->getParticipant()->getEmail()->toNative()
+            );
+
+        $this->uniqueParticipantRepository->addForPartner(
             $statisticsKey,
             $quiz->getParticipant(),
             $quiz->getPartner()
@@ -64,7 +80,7 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
      */
     public function it_can_get_count_of_unique_participants(): void
     {
-        $statisticsKey = new StatisticsKey('individual_nl');
+        $statisticsKey = new StatisticsKey(StatisticsKey::INDIVIDUAL_NL);
 
         $this->redis->expects($this->once())
             ->method('sCard')
@@ -72,5 +88,21 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
             ->willReturn(0);
 
         $this->uniqueParticipantRepository->getCount($statisticsKey);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_count_of_unique_participants_for_partner(): void
+    {
+        $statisticsKey = new StatisticsKey(StatisticsKey::PARTNER_NL);
+        $partner = ModelsFactory::createDatsPartner();
+
+        $this->redis->expects($this->once())
+            ->method('sCard')
+            ->with('unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage())
+            ->willReturn(0);
+
+        $this->uniqueParticipantRepository->getPartnerCount($statisticsKey, $partner);
     }
 }
