@@ -27,9 +27,9 @@ Actions: Actions
 Email: Email
 Password: Mot de passe
 Password.confirm: Mot de passe confirmé
-Password.old: __Huidig wachtwoord
-Password.new: __Nieuw wachtwoord
-Password.new.confirm: __Bevestig nieuw wachtwoord
+Password.old: Mot de passe actuel
+Password.new: Nouveau mot de passe
+Password.new.confirm: Confirmer le nouveau mot de passe
 
 #Menu
 Questions: Questions
@@ -41,9 +41,9 @@ Documents: Documents
 Report: Rapport final
 
 #Dropdown menu
-Menu.change.password: '_Wachtwoord wijzigen'
-Menu.edit.contact: '_Gegevens wijzigen'
-Menu.logout: '_Afmelden'
+Menu.change.password: Modifier mon mot de passe
+Menu.edit.contact: Modifier mes données
+Menu.logout: Se déconnecter
 
 Questions.dutch: Questions en NL
 Questions.french: Questions en FR
@@ -65,68 +65,65 @@ To.site: Vers quizdelaroute.be
 
 #Actions 
 Registration.title: S'inscrire
-Registration.submit: S'inscrire
+Registration.submit: Inscrire mon entreprise
 
 Registration.success.title: Bienvenue!
-Registration.success.subtitle: Votre inscription a bien été enregistrée
-Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien figurant dans le mail pour activer votre compte
+Registration.success.subtitle: Votre inscription a bien été enregistrée.
+Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien figurant dans le mail pour activer votre compte.
 Registration.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
 Activation.title: Activer le compte
 Activation.success.title: Activé avec succès
-Activation.success.subtitle: Votre compte a été activé avec succès
-Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe
-Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route
+Activation.success.subtitle: Votre compte a été activé avec succès.
+Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe.
+Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route.
 
 Activation.error.title: Erreur
-Activation.error.subtitle: Votre compte n'a pas pu être activé
-Activation.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail
-Activation.error.extra: Pour plus d'infos , n'hésitez pas à nous contacter via quiz@awsr.be
+Activation.error.subtitle: Votre compte n'a pas pu être activé.
+Activation.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail.
+Activation.error.extra: Pour plus d'infos, n'hésitez pas à nous contacter via quiz@awsr.be.
 
 Activation.send: Envoyer le mail d'activation
 Activation.send.title: Envoyer le mail d'activation
-Activation.send.confirmation: Etes-vous sûr de vouloir envoyer un mail d'activation à %email%
+Activation.send.confirmation: Etes-vous sûr de vouloir envoyer un mail d'activation à %email%?
 Activation.send.confirm: Envoyer
-Activation.send.success: Un mail d'activation a été envoyé à %email%
+Activation.send.success: Un mail d'activation a été envoyé à %email%.
 
 Login.title: Se connecter
 Login.submit: Se connecter
 
 Password.request.title: Mot de passe oublié
 Password.request.submit: Récupérer mon mot de passe
-Password.request.footer: Un mail va vous être envoyé avec de plus amples informations
+Password.request.footer: Un mail va vous être envoyé avec de plus amples informations.
 
 Password.request.success.title: Succès
-Password.request.success.subtitle: Votre demande a bien été envoyée
-Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe
+Password.request.success.subtitle: Votre demande a bien été envoyée.
+Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe.
 Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
 Password.reset.title: Choisir un nouveau mot de passe
 Password.reset.submit: Nouveau mot de passe
 
 Password.reset.success.title: Succès
-Password.reset.success.subtitle: Votre nouveau mot de passe a été enregistré
-Password.reset.success.text: Vous pouvez maintenant vous connecter avec vos nouvelles données
-Password.reset.success.extra: Réinitialisation du mot de passe extra
+Password.reset.success.subtitle: Votre nouveau mot de passe a été enregistré.
+Password.reset.success.text: Vous pouvez maintenant vous connecter avec vos nouvelles données.
 
 Password.reset.error.title: Oups!
-Password.reset.error.subtitle: Une erreur s'est glissée
-Password.reset.error.text: Réessayez à nouveau
-Password.reset.error.extra: Réinitialisation du mot de passe extra
+Password.reset.error.subtitle: Une erreur s'est glissée.
+Password.reset.error.text: Réessayez à nouveau.
 
 Password.reset.link.error.title: Oups!
-Password.reset.link.error.subtitle: Ce lien n'est pas valide
-Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail
-Password.reset.link.error.extra: Réinitialisation du mot de passe extra
+Password.reset.link.error.subtitle: Ce lien n'est pas valide.
+Password.reset.link.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail.
 
-Password.edit.title: __Wachtwoord wijzigen
-Password.edit.warning: __Na aanpassen van je wachtwoord moet je opnieuw inloggen.
+Password.edit.title: Modifier le mot de passe
+Password.edit.warning: Après avoir modifié votre mot de passe, vous devrez vous reconnecter.
 
 Question.add.title: Modifier/ajouter une question
 Question.add.submit: Conserver
 
 Question.delete.title: Supprimer la question
-Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question
+Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question?
 Question.delete.submit: Supprimer
 
 Question.edit.image.title: Modifier la photo
@@ -138,8 +135,8 @@ User.add.submit: Conserver
 Company.add.title: Modifier/ajouter une entreprise
 Company.add.submit: Conserver
 
-Contact.edit.title: __Gegevens wijzigen
-Contact.edit.success: __Uw gegevens werden gewijzigd
+Contact.edit.title: Modifier les données
+Contact.edit.success: Vos données ont été modifiées
 
 #Mails 
 Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
@@ -148,46 +145,66 @@ Welcome.mail.subject: Bienvenue au Quiz de la Route 2018
 Kickoff.mail.subject: Le quiz de la route 2018, c'est pour bientôt!
 
 #Input 
-Field.empty: Ce champ est obligatoire
-Field.email.pattern: Cette adresse n'est pas valide
-Field.email.in.use: Cette adresse mail est déjà utilisée
-Field.length.max: Ce champ peut contenir {{ limit }} caractères maximum
-Field.length.min: Ce champ doit contenir {{ limit }} caractères minimum
-Field.passwords.different: Les mots de passe ne correspondent pas
-Field.password.pattern: Le mot de passe doit contenir au moins 8 caractères et au moins une lettre minuscule, une majuscule et un autre caractère
-Field.password.old.incorrect: __Dit wachtwoord is niet correct
-Field.company.in.use: Le nom de cette entreprise est déjà utilisé
-Field.employees.positive: Le nombre de travailleurs doit être supérieur à 0
-Field.alias.pattern: L'URL doit contenir entre 3 et 40 caractères et peut uniquement être composé de minuscules, de chiffres et d'un trait d'union
-Field.alias.in.use: Cette URL est déjà utilisée
-Field.employees.empty: Le nombre de travailleurs ne peut pas rester vide
-Field.image.empty: Photo obligatoire
-Field.text.max: Le texte ne peut pas dépasser plus de {{ limit }} caractères
-Field.text.empty: Le texte est obligatoire
-Field.year.empty: L'année est obligatoire
-Field.year.min: L'année doit être {{ limit }} ou plus
-Field.year.max: L'année doit être {{ limit }} ou moins
-Field.login.warning: __Als je dit veld wijzigt moet je opnieuw inloggen
+Field.empty: Ce champ est obligatoire.
+Field.email.pattern: Cette adresse n'est pas valide.
+Field.email.in.use: Cette adresse mail est déjà utilisée.
+Field.length.max: Ce champ peut contenir {{ limit }} caractères maximum.
+Field.length.min: Ce champ doit contenir {{ limit }} caractères minimum.
+Field.passwords.different: Les mots de passe ne correspondent pas.
+Field.password.pattern: Le mot de passe doit contenir au moins 8 caractères et au moins une lettre minuscule, une majuscule et un autre caractère.
+Field.password.old.incorrect: Cette réponse n'est pas correcte.
+Field.company.in.use: Le nom de cette entreprise est déjà utilisé.
+Field.employees.positive: Le nombre de travailleurs doit être supérieur à 0.
+Field.alias.pattern: L'URL doit contenir entre 3 et 40 caractères et peut uniquement être composé de minuscules, de chiffres et d'un trait d'union.
+Field.alias.in.use: Cette URL est déjà utilisée.
+Field.employees.empty: Le nombre de travailleurs ne peut pas rester vide.
+Field.image.empty: Photo obligatoire.
+Field.text.max: Le texte ne peut pas dépasser plus de {{ limit }} caractères.
+Field.text.empty: Le texte est obligatoire.
+Field.year.empty: L'année est obligatoire.
+Field.year.min: L'année doit être {{ limit }} ou plus.
+Field.year.max: L'année doit être {{ limit }} ou moins.
+Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
+Field.alias.info: C’est via cette url que vous jouerez au quiz avec vos collèges. Cette url a été générée automatiquemen mais vous pouvez la modifier ici. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés.
 
 #Flash 
-Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau
-Account.inactive: Veuillez d'abord activer votre compte via le lien figurant dans l'e-mail de confirmation de votre inscription
-Credentials.invalid: Les informations encodées ne sont pas correctes
+Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.
+Account.inactive: Veuillez d'abord activer votre compte via le lien figurant dans l'e-mail de confirmation de votre inscription.
+Credentials.invalid: Les informations encodées ne sont pas correctes.
 
-Company.add.success: La nouvelle entreprise %id% est enregistrée
-Company.edit.not.found: Aucune entreprise avec ce nom n'a été trouvée
-Company.edit.success: Les informations de l'entreprise %id% ont été modifiées
+Company.add.success: La nouvelle entreprise %id% est enregistrée.
+Company.edit.not.found: Aucune entreprise avec ce nom n'a été trouvée.
+Company.edit.success: Les informations de l'entreprise %id% ont été modifiées.
 
-Questions.print.none: Aucune question à imprimer
+Questions.print.none: Aucune question à imprimer.
 
-Question.add.success: La nouvelle question %id% est enregistrée
-Question.edit.not.found: La question %id% n'a pas été trouvée
-Question.edit.success: La question %id% est modifiée
-Question.edit.image.success: La photo de la question %id% est modifiée
-Question.delete.success: La question %id% est supprimée
+Question.add.success: La nouvelle question %id% est enregistrée.
+Question.edit.not.found: La question %id% n'a pas été trouvée.
+Question.edit.success: La question %id% est modifiée.
+Question.edit.image.success: La photo de la question %id% est modifiée.
+Question.delete.success: La question %id% est supprimée.
 
-User.edit.not.found: Aucun utilisateur %id% n'a été trouvé
-User.edit.success: L'utilisateur %id% est modifié
-User.id.invalid: L'utilisateur %id% n'a pas été trouvé
+User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
+User.edit.success: L'utilisateur %id% est modifié.
+User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
-Dashboard.welcome: '_Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.welcome: _Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.
+
+#Statistics
+Statistics.header.individual: __Individueel
+Statistics.header.company: __Bedrijf
+Statistics.header.partner: __Partner
+Statistics.header.quiz.total: __Quiz totaal
+Statistics.header.cup: __Cup
+Statistics.header.total: __Totaal
+
+Statistics.subheader.NL: __NL
+Statistics.subheader.FR: __FR
+Statistics.subheader.Total: __Totaal
+
+Statistics.row.started: __Gestart
+Statistics.row.finished: __Beëindigd
+
+Statistics.info.tooltip: __Zweef over de rijtitels voor meer uitleg.
+Statistics.info.started: __Aantal keer dat een quiz werd gestart.
+Statistics.info.finished: __Aantal keer dat een quiz werd uitgespeeld.

@@ -15,6 +15,7 @@ services:
     image: ${IMAGE}
     volumes:
       - ./extra/fixed_users.yaml:/usr/share/nginx/html/src/Command/fixed_users.yaml:ro
+      - /usr/share/nginx/html/var
     labels:
       - "be.2dotstwice.bluegreen.http_route.enable=true"
       - "be.2dotstwice.bluegreen.http_route.pattern={{base}}"
@@ -26,6 +27,8 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - BUCKET_NAME=${BUCKET_NAME}
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always

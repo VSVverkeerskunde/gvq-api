@@ -15,7 +15,7 @@ class StartedQuizRedisRepositoryTest extends TestCase
     private $redis;
 
     /**
-     * @var StartedQuizRedisRepository
+     * @var StartedQuizRepository
      */
     private $startedQuizRepository;
 
