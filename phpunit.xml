@@ -24,7 +24,7 @@
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
                 <file>./src/Question/Forms/QuestionFormType.php</file>
                 <file>./src/Quiz/Controllers/QuizController.php</file>
-                <file>./src/Quiz/Controllers/QuizExampleController.php</file>
+                <file>./src/Quiz/Controllers/QuizViewController.php</file>
                 <file>./src/Report/Controllers/ReportViewController.php</file>
                 <file>./src/Statistics/Controllers/StatisticsViewController.php</file>
                 <file>./src/User/Controllers/UserViewController.php</file>
