@@ -28,12 +28,14 @@ class StatisticsViewController extends AbstractController
     {
         $startedCounts = $this->statisticsService->getStartedQuizCounts();
         $finishedCounts = $this->statisticsService->getFinishedQuizCounts();
+        $uniqueParticipantCounts = $this->statisticsService->getUniqueParticipantCounts();
 
         return $this->render(
             'statistics/statistics.html.twig',
             [
                 'startedCounts' => $startedCounts,
                 'finishedCounts' => $finishedCounts,
+                'uniqueParticipantCounts' => $uniqueParticipantCounts,
             ]
         );
     }

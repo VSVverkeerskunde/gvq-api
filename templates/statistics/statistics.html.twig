@@ -39,6 +39,11 @@
                 {% trans %}Statistics.row.finished{% endtrans %}</td>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
         </tr>
+        <tr class="text-right">
+            <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+                {% trans %}Statistics.row.unique{% endtrans %}</td>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
+        </tr>
         </tbody>
     </table>
 

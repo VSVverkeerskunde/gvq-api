@@ -204,7 +204,9 @@ Statistics.subheader.Total: __Totaal
 
 Statistics.row.started: __Gestart
 Statistics.row.finished: __Beëindigd
+Statistics.row.unique: __Unieke deelnemers
 
 Statistics.info.tooltip: __Zweef over de rijtitels voor meer uitleg.
 Statistics.info.started: __Aantal keer dat een quiz werd gestart.
 Statistics.info.finished: __Aantal keer dat een quiz werd uitgespeeld.
+Statistics.info.unique: __Aantal unieke spelers dat de quiz heeft uitgespeeld. Dubbele deelnames zijn hier uitgefilterd.
