@@ -20,13 +20,13 @@ Answer.3: Réponse 3
 Answer.correct: La bonne réponse est
 Feedback: Commentaires
 Company.name: Nom de l'entreprise
-Employees: Travailleurs
+Employees: Nombre de travailleurs
 Alias.dutch: URL NL
 Alias.french: URL FR
 Actions: Actions
 Email: Email
 Password: Mot de passe
-Password.confirm: Mot de passe confirmé
+Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
@@ -168,7 +168,7 @@ Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
 Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
-Field.alias.info: C’est via cette url que vous jouerez au quiz avec vos collèges. Cette url a été générée automatiquemen mais vous pouvez la modifier ici. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés.
+Field.alias.info: C’est via ces urls que vous jouerez au quiz avec vos collègues, en français ou en néerlandais. Ces urls ont été générées automatiquement mais vous pouvez les modifier ci-dessous. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés. Vous pourrez encore modifier ces urls plus tard  sur la page de votre entreprise.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.

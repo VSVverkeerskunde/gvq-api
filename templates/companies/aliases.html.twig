@@ -1,17 +1,32 @@
 <div class="form-group">
     <div class="row">
-        <div class="col-sm-6">
-            <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
-            {{ form_widget(form.aliasNl) }}
-            {{ form_errors(form.aliasNl) }}
-            <small id="form_alias_url_nl" class="form-text font-weight-bold"></small>
-        </div>
-        <div class="col-sm-6">
-            <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
-            {{ form_widget(form.aliasFr) }}
-            {{ form_errors(form.aliasFr) }}
-            <small id="form_alias_url_fr" class="form-text font-weight-bold"></small>
-        </div>
+        {% if app.request.locale == 'fr' %}
+            <div class="col-sm-6">
+                <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
+                {{ form_widget(form.aliasFr) }}
+                {{ form_errors(form.aliasFr) }}
+                <small id="form_alias_url_fr" class="form-text font-weight-bold"></small>
+            </div>
+            <div class="col-sm-6">
+                <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
+                {{ form_widget(form.aliasNl) }}
+                {{ form_errors(form.aliasNl) }}
+                <small id="form_alias_url_nl" class="form-text font-weight-bold"></small>
+            </div>
+        {% else %}
+            <div class="col-sm-6">
+                <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
+                {{ form_widget(form.aliasNl) }}
+                {{ form_errors(form.aliasNl) }}
+                <small id="form_alias_url_nl" class="form-text font-weight-bold"></small>
+            </div>
+            <div class="col-sm-6">
+                <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
+                {{ form_widget(form.aliasFr) }}
+                {{ form_errors(form.aliasFr) }}
+                <small id="form_alias_url_fr" class="form-text font-weight-bold"></small>
+            </div>
+        {% endif %}
     </div>
     <small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
 </div>
