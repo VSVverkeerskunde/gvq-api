@@ -67,6 +67,8 @@ To.site: 'Naar GVQ site'
 Registration.title: 'Registreren'
 Registration.submit: 'Registeren'
 
+Info.title: 'Bedrijven'
+
 Registration.success.title: 'Welkom!'
 Registration.success.subtitle: 'Uw registratie is geslaagd.'
 Registration.success.text: 'Er werd een e-mail naar het opgegeven adres verstuurd. Klik op de bijgevoegde link om uw account te activeren.'
