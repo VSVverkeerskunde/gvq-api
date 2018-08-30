@@ -167,7 +167,7 @@ Field.year.empty: 'Het jaar mag niet leeg zijn.'
 Field.year.min: 'Het jaar moet {{ limit }} of groter zijn.'
 Field.year.max: 'Het jaar moet {{ limit }} of kleiner zijn.'
 Field.login.warning: 'Als je dit veld wijzigt moet je opnieuw inloggen.'
-Field.alias.info: 'Via bovenstaande links zullen je collega’s de quiz kunnen spelen, in het Nederlands of het Frans. De links zijn opgesteld op basis van de alias. Enkel alfanumerieke tekens en een koppelteken zijn toegestaan. Later kan je ze ook nog steeds wijzingen op je bedrijfspagina.'
+Field.alias.info: 'Via bovenstaande links zullen je collega’s de quiz kunnen spelen, in het Nederlands of het Frans. De links worden automatisch opgesteld op basis van de bedrijfsnaam, maar je kan ze hierboven zelf aanpassen. Enkel alfanumerieke tekens en een koppelteken zijn toegestaan. Je kan de links later ook nog aanpassen op het detailscherm van je bedrijf.'
 
 #Flash messages
 Registration.error: 'Er ging iets mis bij het wegschrijven van de gegevens, gelieve opnieuw te proberen.'
