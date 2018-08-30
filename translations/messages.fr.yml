@@ -62,6 +62,7 @@ Button.export: Exporter
 To.login: S'identifier
 To.request.password: Mot de passe oublié
 To.site: Vers quizdelaroute.be
+To.info: Vers info
 
 #Actions 
 Registration.title: S'inscrire
