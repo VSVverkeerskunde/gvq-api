@@ -96,7 +96,7 @@ services:
     quiz_start_date:
       class: \DateTimeImmutable
       arguments:
-        $time: '2018-10-15'
+        $time: '2018-10-18'
         $timezone: '@time_zone'
 
     sender_email_nl:
