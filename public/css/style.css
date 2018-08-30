@@ -353,6 +353,10 @@ small {
   margin-right: 40px; }
 
 @media print {
+  body {
+    padding-left: 1em;
+    padding-right: 1em; }
+
   * {
     background: transparent !important;
     color: #000 !important;
@@ -405,13 +409,6 @@ small {
 
   .print-only-inline {
     display: inline; }
-
-  table.print {
-    display: block; }
-
-  table.print tr {
-    display: block;
-    overflow: hidden; }
 
   table.print .image {
     width: 20%; }
