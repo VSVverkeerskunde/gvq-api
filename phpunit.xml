@@ -19,6 +19,8 @@
                 <file>./src/Common/Controllers/CompanyAwareController.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
+                <file>./src/Contest/Controllers/ContestViewController.php</file>
+                <file>./src/Contest/Forms/ContestFormType.php</file>
                 <file>./src/Dashboard/Controllers/DashboardViewController.php</file>
                 <file>./src/Document/Controllers/DocumentViewController.php</file>
                 <file>./src/Question/Controllers/QuestionViewController.php</file>
