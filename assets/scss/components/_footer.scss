@@ -9,7 +9,7 @@
 		height: auto;
 		max-height: 80px;
 		max-width: 150px;
-		margin-bottom: $global-margin;
+		margin: $global-margin/2 0;
 	}
 }
 
@@ -23,8 +23,8 @@
 	}
 	img {
 		height: auto;
-		max-height: 25px;
 		max-width: 100%;
+		margin: $global-margin/4 0;
 	}
 }
 

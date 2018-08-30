@@ -96,7 +96,7 @@ services:
     quiz_start_date:
       class: \DateTimeImmutable
       arguments:
-        $time: '2018-10-15'
+        $time: '2018-10-18'
         $timezone: '@time_zone'
 
     sender_email_nl:
@@ -247,6 +247,12 @@ services:
         $year: '@quiz_year'
         $allowedDelay: '@quiz_delay'
 
+    statistics_service:
+      class: VSV\GVQ_API\Statistics\Service\StatisticsService
+      arguments:
+        $startedQuizRepository: '@started_quiz_redis_repository'
+        $finishedQuizRepository: '@finished_quiz_redis_repository'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
@@ -305,6 +311,8 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
+      arguments:
+        $statisticsService: '@statistics_service'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:

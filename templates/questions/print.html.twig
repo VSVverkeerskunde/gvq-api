@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <table class="table">
+    <table class="table print">
         <thead>
             <tr>
                 <th colspan="5">{% trans %}GVQ.title{% endtrans %}</th>
@@ -22,11 +22,11 @@
         <tbody>
             {% for question in questions %}
                 <tr>
-                    <td>
+                    <td class="image">
                         <img src="{{ uploadPath ~ question.imageFileName.toNative }}"
                              width="200">
                     </td>
-                    <td>
+                    <td class="question">
                         <strong>{{ question.text.toNative }}</strong>
                         <ul>
                             {% for answer in question.answers.toArray %}
@@ -38,13 +38,13 @@
                         <p>{{ question.feedback.toNative }}</p>
                         <h5><span class="badge badge-secondary">{{ question.id.toString }}</span></h5>
                     </td>
-                    <td>
+                    <td class="year">
                         {{ question.year.toNative }}
                     </td>
-                    <td>
+                    <td class="lang">
                         {{ question.language.toNative }}
                     </td>
-                    <td>
+                    <td class="cat">
                         {{ question.category.name.toNative }}
                     </td>
                 </tr>

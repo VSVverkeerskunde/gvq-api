@@ -20,13 +20,13 @@ Answer.3: Réponse 3
 Answer.correct: La bonne réponse est
 Feedback: Commentaires
 Company.name: Nom de l'entreprise
-Employees: Travailleurs
+Employees: Nombre de travailleurs
 Alias.dutch: URL NL
 Alias.french: URL FR
 Actions: Actions
 Email: Email
 Password: Mot de passe
-Password.confirm: Mot de passe confirmé
+Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
@@ -62,10 +62,13 @@ Button.export: Exporter
 To.login: S'identifier
 To.request.password: Mot de passe oublié
 To.site: Vers quizdelaroute.be
+To.info: Vers info
 
 #Actions 
 Registration.title: S'inscrire
 Registration.submit: Inscrire mon entreprise
+
+Info.title: Entreprises
 
 Registration.success.title: Bienvenue!
 Registration.success.subtitle: Votre inscription a bien été enregistrée.
@@ -165,6 +168,7 @@ Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
 Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
+Field.alias.info: C’est via ces urls que vous jouerez au quiz avec vos collègues, en français ou en néerlandais. Ces urls ont été générées automatiquement mais vous pouvez les modifier ci-dessous. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés. Vous pourrez encore modifier ces urls plus tard  sur la page de votre entreprise.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.
@@ -187,4 +191,23 @@ User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
 User.edit.success: L'utilisateur %id% est modifié.
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
-Dashboard.welcome: A partir du  15 octobre, vous pourrez suivre les statistiques de votre entreprise ici.
+Dashboard.welcome: _Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.
+
+#Statistics
+Statistics.header.individual: __Individueel
+Statistics.header.company: __Bedrijf
+Statistics.header.partner: __Partner
+Statistics.header.quiz.total: __Quiz totaal
+Statistics.header.cup: __Cup
+Statistics.header.total: __Totaal
+
+Statistics.subheader.NL: __NL
+Statistics.subheader.FR: __FR
+Statistics.subheader.Total: __Totaal
+
+Statistics.row.started: __Gestart
+Statistics.row.finished: __Beëindigd
+
+Statistics.info.tooltip: __Zweef over de rijtitels voor meer uitleg.
+Statistics.info.started: __Aantal keer dat een quiz werd gestart.
+Statistics.info.finished: __Aantal keer dat een quiz werd uitgespeeld.

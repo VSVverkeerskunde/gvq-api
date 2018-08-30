@@ -39,7 +39,7 @@ class CompanyFormType extends AbstractType
 
         $builder
             ->add(
-                'name',
+                'companyName',
                 TextType::class,
                 [
                     'data' => $company ? $company->getName()->toNative() : null,
@@ -111,7 +111,7 @@ class CompanyFormType extends AbstractType
     ): Company {
         return new Company(
             $uuidFactory->uuid4(),
-            new NotEmptyString($data['name']),
+            new NotEmptyString($data['companyName']),
             new PositiveNumber($data['nrOfEmployees']),
             new TranslatedAliases(
                 new TranslatedAlias(
@@ -140,7 +140,7 @@ class CompanyFormType extends AbstractType
     ): Company {
         return new Company(
             $company->getId(),
-            new NotEmptyString($data['name']),
+            new NotEmptyString($data['companyName']),
             new PositiveNumber($data['nrOfEmployees']),
             new TranslatedAliases(
                 new TranslatedAlias(

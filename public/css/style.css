@@ -112,59 +112,6 @@ svg {
 .pull--right {
   float: right; }
 
-@media print {
-  * {
-    background: transparent !important;
-    color: #000 !important;
-    /* Black prints faster: h5bp.com/s */
-    box-shadow: none !important;
-    text-shadow: none !important; }
-
-  a,
-  a:visited {
-    text-decoration: underline; }
-
-  /*
-   * Don't show links for images, or javascript/internal links
-   */
-  .ir a:after,
-  a[href^="javascript:"]:after,
-  a[href^="#"]:after {
-    content: ""; }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid; }
-
-  thead {
-    display: table-header-group;
-    /* h5bp.com/t */ }
-
-  tr,
-  img {
-    page-break-inside: avoid; }
-
-  img {
-    max-width: 100% !important; }
-
-  @page {
-    margin: 0.5cm; }
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3; }
-
-  h2,
-  h3 {
-    page-break-after: avoid; }
-
-  .print-only {
-    display: block; }
-
-  .print-only-inline {
-    display: inline; } }
 hr {
   border-top-color: rgba(0, 0, 0, 0.125); }
 
@@ -269,6 +216,9 @@ input, button, select, optgroup, textarea {
 
 .fixed-table-pagination .page-list {
   padding-left: 1em; }
+
+.fixed-table-pagination .dropdown-menu.show {
+  transform: translate3d(0px, -100%, 0px) !important; }
 
 .page-link {
   color: #6cc4e9;
@@ -376,7 +326,7 @@ small {
     height: auto;
     max-height: 80px;
     max-width: 150px;
-    margin-bottom: 40px; }
+    margin: 20px 0; }
 
 .footer-sponsors {
   background-color: #6cc4e9;
@@ -388,8 +338,8 @@ small {
       padding: 40px 0; } }
   .footer-sponsors img {
     height: auto;
-    max-height: 25px;
-    max-width: 100%; }
+    max-width: 100%;
+    margin: 10px 0; }
 
 .page-footer {
   padding: 20px 0;
@@ -401,5 +351,73 @@ small {
 
 .navbar-brand {
   margin-right: 40px; }
+
+@media print {
+  body {
+    padding-left: 1em;
+    padding-right: 1em; }
+
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important; }
+
+  a,
+  a:visited {
+    text-decoration: underline; }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: ""; }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */ }
+
+  tr,
+  img {
+    page-break-inside: avoid; }
+
+  img {
+    max-width: 100% !important; }
+
+  @page {
+    margin: 0.5cm; }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2,
+  h3 {
+    page-break-after: avoid; }
+
+  .print-only {
+    display: block; }
+
+  .print-only-inline {
+    display: inline; }
+
+  table.print .image {
+    width: 20%; }
+
+  table.print .question {
+    width: 55%; }
+
+  table.print tfoot img {
+    height: 50px;
+    width: auto; } }
 
 /*# sourceMappingURL=style.css.map */
