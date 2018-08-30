@@ -7,6 +7,7 @@ use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\UniqueParticipantRepository;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class UniqueParticipantProjector implements EventListener
@@ -42,11 +43,19 @@ class UniqueParticipantProjector implements EventListener
 
         if ($payload instanceof QuizFinished) {
             $quiz = $this->quizRepository->getById($payload->getId());
+            $statisticsKey = StatisticsKey::createFromQuiz($quiz);
+
             $this->uniqueParticipantRepository->add(
                 StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant(),
-                $quiz->getPartner()
+                $quiz->getParticipant()
             );
+            if ($quiz->getChannel()->equals(new QuizChannel(QuizChannel::PARTNER))) {
+                $this->uniqueParticipantRepository->addForPartner(
+                    $statisticsKey,
+                    $quiz->getParticipant(),
+                    $quiz->getPartner()
+                );
+            }
         }
     }
 }
