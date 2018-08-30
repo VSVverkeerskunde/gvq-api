@@ -4,10 +4,11 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-interface CounterRepository extends StatisticsRepository
+interface StatisticsRepository
 {
     /**
      * @param StatisticsKey $statisticsKey
+     * @return int
      */
-    public function incrementCount(StatisticsKey $statisticsKey): void;
+    public function getCount(StatisticsKey $statisticsKey): int;
 }

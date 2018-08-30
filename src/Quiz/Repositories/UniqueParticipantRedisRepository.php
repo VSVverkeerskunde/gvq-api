@@ -26,15 +26,20 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     /**
      * @inheritdoc
      */
-    public function add(StatisticsKey $statisticsKey, QuizParticipant $participant, ?Partner $partner): void
+    public function add(StatisticsKey $statisticsKey, QuizParticipant $participant): void
     {
         $this->redis->sAdd($this->createKey($statisticsKey), $participant->getEmail()->toNative());
-        if ($partner !== null) {
-            $this->redis->sAdd(
-                $this->createPartnerKey($statisticsKey, $partner),
-                $participant->getEmail()->toNative()
-            );
-        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addForPartner(StatisticsKey $statisticsKey, QuizParticipant $participant, Partner $partner): void
+    {
+        $this->redis->sAdd(
+            $this->createPartnerKey($statisticsKey, $partner),
+            $participant->getEmail()->toNative()
+        );
     }
 
     /**
@@ -43,6 +48,14 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     public function getCount(StatisticsKey $statisticsKey): int
     {
         return $this->redis->scard($this->createKey($statisticsKey));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPartnerCount(StatisticsKey $statisticsKey, Partner $partner): int
+    {
+        return $this->redis->scard($this->createPartnerKey($statisticsKey, $partner));
     }
 
     /**

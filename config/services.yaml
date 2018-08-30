@@ -266,6 +266,7 @@ services:
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
         $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $uniqueParticipantRepository: '@unique_participant_redis_repository'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
