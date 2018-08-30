@@ -80,4 +80,12 @@ class StatisticsKey extends Enumeration
             new StatisticsKey(self::CUP_FR),
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return substr($this->toNative(), -2);
+    }
 }

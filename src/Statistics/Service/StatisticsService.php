@@ -66,8 +66,8 @@ class StatisticsService
 
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
-            $counts[$key] = $counterRepository->getCount($statisticsKey);
-            if (substr($key, -2) === 'nl') {
+            $counts[$key] = $statisticsRepository->getCount($statisticsKey);
+            if ($statisticsKey->getLanguage() === 'nl') {
                 $totalNL += $counts[$key];
             } else {
                 $totalFR += $counts[$key];
