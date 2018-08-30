@@ -4,8 +4,6 @@
 
 {% block content %}
 
-    <h1 class="text-center">{% trans %}Info.title{% endtrans %}</h1>
-
     {% if app.request.locale == 'fr' %}
         {% include '/accounts/info-fr.html.twig' %}
     {% else %}
