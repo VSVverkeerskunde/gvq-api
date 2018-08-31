@@ -7,8 +7,10 @@
     {% include '/includes/flash.html.twig' %}
 
     <h1 class="page-title">{% trans %}Statistics{% endtrans %}</h1>
+
+    <small>{% trans %}Statistics.info.tooltip{% endtrans %}</small>
+
     <table class="table table-bordered small table-responsive">
-        <small>{% trans %}Statistics.info.tooltip{% endtrans %}</small>
         <thead class="thead-dark thead-primary text-center">
         <tr>
             <td class="border-0"></td>
@@ -32,17 +34,17 @@
         </thead>
         <tbody>
         <tr class="text-right">
-            <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
                 {% trans %}Statistics.row.started{% endtrans %}</td>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
         </tr>
         <tr class="text-right">
-            <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
                 {% trans %}Statistics.row.finished{% endtrans %}</td>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
         </tr>
         <tr class="text-right">
-            <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
                 {% trans %}Statistics.row.unique{% endtrans %}</td>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
         </tr>
@@ -63,7 +65,7 @@
         <tbody>
         {% for partnerName, partnerCounts in partnersCounts %}
             <tr class="text-right">
-                <td class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.partners.unique{% endtrans %}">
+                <td data-toggle="tooltip" title="{% trans %}Statistics.info.partners.unique{% endtrans %}">
                     {{ partnerName }}
                 </td>
                 <td>{{ partnerCounts.nl }}</td>
