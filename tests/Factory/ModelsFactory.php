@@ -735,6 +735,18 @@ class ModelsFactory
     }
 
     /**
+     * @return Partner
+     */
+    public static function createSudPressePartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('2f763a5c-32bb-4dec-ad21-835546ff7c25'),
+            new NotEmptyString('SudPresse'),
+            new Alias('sudpresse')
+        );
+    }
+
+    /**
      * @return Team
      */
     public static function createTeam(): Team
