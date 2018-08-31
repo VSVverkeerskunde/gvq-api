@@ -82,10 +82,10 @@ class StatisticsKey extends Enumeration
     }
 
     /**
-     * @return string
+     * @return Language
      */
-    public function getLanguage(): string
+    public function getLanguage(): Language
     {
-        return substr($this->toNative(), -2);
+        return new Language(substr($this->toNative(), -2));
     }
 }

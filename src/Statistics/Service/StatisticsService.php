@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -117,8 +118,8 @@ class StatisticsService
 
             $totalCount = $nlCount + $frCount;
 
-            $counts[$partner->getName()->toNative()]['nl'] = $nlCount;
-            $counts[$partner->getName()->toNative()]['fr'] = $frCount;
+            $counts[$partner->getName()->toNative()][Language::NL] = $nlCount;
+            $counts[$partner->getName()->toNative()][Language::FR] = $frCount;
             $counts[$partner->getName()->toNative()]['total'] = $totalCount;
         }
 
@@ -138,7 +139,7 @@ class StatisticsService
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
             $counts[$key] = $statisticsRepository->getCount($statisticsKey);
-            if ($statisticsKey->getLanguage() === 'nl') {
+            if ($statisticsKey->getLanguage()->toNative() === Language::NL) {
                 $totalNL += $counts[$key];
             } else {
                 $totalFR += $counts[$key];

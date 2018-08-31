@@ -67,7 +67,7 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
         $this->redis->expects($this->once())
             ->method('sAdd')
             ->with(
-                'unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage(),
+                'unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage()->toNative(),
                 $quiz->getParticipant()->getEmail()->toNative()
             );
 
@@ -103,7 +103,7 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('sCard')
-            ->with('unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage())
+            ->with('unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage()->toNative())
             ->willReturn(0);
 
         $this->uniqueParticipantRepository->getPartnerCount($statisticsKey, $partner);

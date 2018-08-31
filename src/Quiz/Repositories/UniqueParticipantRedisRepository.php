@@ -77,6 +77,6 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
         Partner $partner
     ): string {
         return self::KEY_PREFIX.$partner->getId()->toString().'_'.
-            $statisticsKey->getLanguage();
+            $statisticsKey->getLanguage()->toNative();
     }
 }

@@ -124,4 +124,62 @@ class StatisticsKeyTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider statisticsKeyProvider
+     * @param StatisticsKey $statisticsKey
+     * @param Language $language
+     */
+    public function it_can_get_the_language_of_a_key(
+        StatisticsKey $statisticsKey,
+        Language $language
+    ): void {
+        $this->assertEquals(
+            $language,
+            $statisticsKey->getLanguage()
+        );
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function statisticsKeyProvider(): array
+    {
+        return [
+            [
+                new StatisticsKey(StatisticsKey::INDIVIDUAL_NL),
+                new Language(Language::NL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::INDIVIDUAL_FR),
+                new Language(Language::FR),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::COMPANY_NL),
+                new Language(Language::NL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::COMPANY_FR),
+                new Language(Language::FR),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::PARTNER_NL),
+                new Language(Language::NL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::PARTNER_FR),
+                new Language(Language::FR),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::CUP_NL),
+                new Language(Language::NL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::CUP_FR),
+                new Language(Language::FR),
+            ],
+        ];
+    }
 }

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 
 class QuizExampleController extends AbstractController
 {
@@ -24,8 +25,8 @@ class QuizExampleController extends AbstractController
         $formBuilder
             ->add('language', ChoiceType::class, array(
                 'choices' => array(
-                    'nl' => 'nl',
-                    'fr' => 'fr',
+                    Language::NL => Language::NL,
+                    Language::FR => Language::FR,
                 ),
             ))
             ->add('channel', ChoiceType::class, array(

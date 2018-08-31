@@ -375,11 +375,11 @@ class QuestionViewController extends AbstractController
         $printFR = $request->query->get('print_fr') === 'on';
 
         if ($printNL && !$printFR) {
-            return new Language('nl');
+            return new Language(Language::NL);
         }
 
         if (!$printNL && $printFR) {
-            return new Language('fr');
+            return new Language(Language::FR);
         }
 
         return null;
