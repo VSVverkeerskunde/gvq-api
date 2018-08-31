@@ -20,13 +20,13 @@ Answer.3: Réponse 3
 Answer.correct: La bonne réponse est
 Feedback: Commentaires
 Company.name: Nom de l'entreprise
-Employees: Travailleurs
+Employees: Nombre de travailleurs
 Alias.dutch: URL NL
 Alias.french: URL FR
 Actions: Actions
 Email: Email
 Password: Mot de passe
-Password.confirm: Mot de passe confirmé
+Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
@@ -59,13 +59,16 @@ Button.remove: Supprimer
 Button.export: Exporter
 
 #Links 
-To.login: S'identifier
+To.login: Se connecter
 To.request.password: Mot de passe oublié
 To.site: Vers quizdelaroute.be
+To.info: Plus d’infos sur le quiz
 
 #Actions 
 Registration.title: S'inscrire
 Registration.submit: Inscrire mon entreprise
+
+Info.title: Entreprises
 
 Registration.success.title: Bienvenue!
 Registration.success.subtitle: Votre inscription a bien été enregistrée.
@@ -73,10 +76,10 @@ Registration.success.text: Un mail vous a été envoyé. Cliquez sur le lien fig
 Registration.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
 
 Activation.title: Activer le compte
-Activation.success.title: Activé avec succès
+Activation.success.title: Félicitations
 Activation.success.subtitle: Votre compte a été activé avec succès.
 Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe.
-Activation.success.extra: Vous recevrez prochainement un mail avec tous les infos utiles sur le Quiz de la Route.
+Activation.success.extra: Vous recevrez prochainement un mail avec toutes les informations utiles sur le Quiz de la Route.
 
 Activation.error.title: Erreur
 Activation.error.subtitle: Votre compte n'a pas pu être activé.
@@ -96,7 +99,7 @@ Password.request.title: Mot de passe oublié
 Password.request.submit: Récupérer mon mot de passe
 Password.request.footer: Un mail va vous être envoyé avec de plus amples informations.
 
-Password.request.success.title: Succès
+Password.request.success.title: Félicitations
 Password.request.success.subtitle: Votre demande a bien été envoyée.
 Password.request.success.text: Un mail va vous être envoyé sur l'adresse mentionnée. Cliquez sur le lien dans ce mail pour choisir un nouveau mot de passe.
 Password.request.success.extra: L'envoi de ce mail peut prendre quelques minutes. Assurez-vous que le mail ne se trouve pas dans le dossier "spam" de votre boite mail.
@@ -165,7 +168,7 @@ Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
 Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
-Field.alias.info: C’est via cette url que vous jouerez au quiz avec vos collèges. Cette url a été générée automatiquemen mais vous pouvez la modifier ici. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés.
+Field.alias.info: C’est via ces urls que vous jouerez au quiz avec vos collègues, en français ou en néerlandais. Ces urls ont été générées automatiquement mais vous pouvez les modifier ci-dessous. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés. Vous pourrez encore modifier ces urls plus tard  sur la page de votre entreprise.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.

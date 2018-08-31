@@ -12,7 +12,7 @@
             <p class="card-text">{% trans %}Registration.success.text{% endtrans %}</p>
             <p class="card-text">{% trans %}Registration.success.extra{% endtrans %}</p>
             <hr>
-            <a href="#" class="card-link">{% trans %}To.site{% endtrans %}</a>
+            <a href="{{ path('accounts_view_info') }}" class="card-link">{% trans %}To.info{% endtrans %}</a>
         </div>
     </div>
 {% endblock %}

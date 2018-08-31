@@ -4,10 +4,34 @@
 accounts_view_index:
   path: /
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::index
+accounts_inschrijven:
+  path: /{_locale}/inschrijven
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: nl
+accounts_inscription:
+  path: /{_locale}/inscription
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
+  methods: [GET, POST]
+  requirements:
+    _locale: fr
 accounts_view_register:
   path: /{_locale}/view/accounts/register
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_info:
+  path: /{_locale}/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
+accounts_view_info:
+  path: /{_locale}/view/accounts/info
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::info
+  methods: [GET]
   requirements:
     _locale: nl|fr
 accounts_view_register_success:
@@ -190,23 +214,23 @@ contacts_view_edit:
   defaults: { id: null }
   requirements:
     _locale: nl|fr
+quiz:
+  path: /quiz
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizViewController::showQuiz
+  methods: [GET]
 
 #
 # API
 #
 quiz_start:
-  path: /quiz
+  path: /api/quiz
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::start
   methods: [POST]
 quiz_ask_question:
-  path: /quiz/{quizId}/question
+  path: /api/quiz/{quizId}/question
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::askQuestion
   methods: [GET]
 quiz_answer_question:
-  path: /quiz/{quizId}/question/{answerId}
+  path: /api/quiz/{quizId}/question/{answerId}
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::answerQuestion
   methods: [POST]
-quiz_example:
-  path: /quiz/example
-  controller: VSV\GVQ_API\Quiz\Controllers\QuizExampleController::showQuiz
-  methods: [GET, POST]
