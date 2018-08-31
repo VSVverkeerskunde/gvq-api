@@ -63,8 +63,7 @@ class StatisticsServiceTest extends TestCase
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
-            $this->partnerRepository,
-            new Year(2018)
+            $this->partnerRepository
         );
     }
 
@@ -123,7 +122,7 @@ class StatisticsServiceTest extends TestCase
             );
 
         $this->uniqueParticipantRepository->expects($this->exactly(4))
-            ->method('getPartnerCount')
+            ->method('getCountForPartner')
             ->withConsecutive(
                 [
                     new StatisticsKey(StatisticsKey::PARTNER_NL),
@@ -144,7 +143,7 @@ class StatisticsServiceTest extends TestCase
             )
             ->willReturnOnConsecutiveCalls(1, 2, 3, 4);
 
-        $counts = $this->statisticsService->getUniqueParticipantCountsForPartners();
+        $counts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018));
 
 
         $this->assertEquals(
@@ -177,7 +176,7 @@ class StatisticsServiceTest extends TestCase
             ->willReturn(null);
 
         $this->assertNull(
-            $this->statisticsService->getUniqueParticipantCountsForPartners()
+            $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018))
         );
     }
 

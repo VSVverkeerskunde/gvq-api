@@ -53,7 +53,7 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     /**
      * @inheritdoc
      */
-    public function getPartnerCount(StatisticsKey $statisticsKey, Partner $partner): int
+    public function getCountForPartner(StatisticsKey $statisticsKey, Partner $partner): int
     {
         return $this->redis->scard($this->createPartnerKey($statisticsKey, $partner));
     }

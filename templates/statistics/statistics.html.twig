@@ -44,6 +44,18 @@
         <tr class="text-right">
             <th scope="row" class="text-left" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
                 {% trans %}Statistics.row.unique{% endtrans %}</th>
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
+                {% trans %}Statistics.row.started{% endtrans %}</td>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
+        </tr>
+        <tr class="text-right">
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
+                {% trans %}Statistics.row.finished{% endtrans %}</td>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
+        </tr>
+        <tr class="text-right">
+            <td data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+                {% trans %}Statistics.row.unique{% endtrans %}</td>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
         </tr>
 
@@ -57,7 +69,6 @@
             <th scope="col" class="border-right">{% trans %}Statistics.subheader.NL{% endtrans %}</th>
             <th scope="col" class="border-right">{% trans %}Statistics.subheader.FR{% endtrans %}</th>
             <th scope="col">{% trans %}Statistics.subheader.Total{% endtrans %}</th>
-
         </tr>
         </thead>
         <tbody>
