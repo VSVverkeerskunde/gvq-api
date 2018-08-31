@@ -7,6 +7,7 @@ use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
@@ -81,5 +82,42 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
             new ContestParticipations($contestParticipation),
             $contestParticipations
         );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_by_year_and_email_and_channel(): void
+    {
+        $expectedContestParticipation = ModelsFactory::createQuizContestParticipation();
+
+        $this->contestParticipationDoctrineRepository->save($expectedContestParticipation);
+
+        $foundContestParticipation = $this->contestParticipationDoctrineRepository->getByYearAndEmailAndChannel(
+            new Year(2018),
+            new Email('jane@gvq.be'),
+            new QuizChannel(QuizChannel::INDIVIDUAL)
+        );
+
+        $this->assertEquals(
+            $expectedContestParticipation,
+            $foundContestParticipation
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_returns_null_when_no_contest_for_year_and_email_and_channel(): void
+    {
+        $foundContestParticipation = $this->contestParticipationDoctrineRepository->getByYearAndEmailAndChannel(
+            new Year(2018),
+            new Email('jane@gvq.be'),
+            new QuizChannel(QuizChannel::INDIVIDUAL)
+        );
+
+        $this->assertNull($foundContestParticipation);
     }
 }
