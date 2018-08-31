@@ -7,6 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Partner\Models\Partner;
+use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class PartnerYamlRepository implements PartnerRepository
@@ -44,5 +45,27 @@ class PartnerYamlRepository implements PartnerRepository
         }
 
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllByYear(Year $year): ?Partners
+    {
+        if (!key_exists($year->toNative(), $this->partnersAsYml)) {
+            return null;
+        }
+
+        $partners = [];
+
+        foreach ($this->partnersAsYml[$year->toNative()] as $partnerAsYml) {
+            $partners[] = new Partner(
+                Uuid::fromString($partnerAsYml['id']),
+                new NotEmptyString($partnerAsYml['name']),
+                new Alias($partnerAsYml['alias'])
+            );
+        }
+
+        return new Partners(...$partners);
     }
 }

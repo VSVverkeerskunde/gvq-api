@@ -166,17 +166,22 @@ services:
         $redis: '@redis_service'
 
     started_quiz_redis_repository:
-      class: VSV\GVQ_API\Quiz\Repositories\StartedQuizRedisRepository
+      class: VSV\GVQ_API\Statistics\Repositories\StartedQuizRedisRepository
       arguments:
         $redis: '@redis_service'
 
     finished_quiz_redis_repository:
-      class: VSV\GVQ_API\Quiz\Repositories\FinishedQuizRedisRepository
+      class: VSV\GVQ_API\Statistics\Repositories\FinishedQuizRedisRepository
       arguments:
         $redis: '@redis_service'
 
     question_result_redis_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    unique_participant_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRedisRepository
       arguments:
         $redis: '@redis_service'
 
@@ -186,12 +191,12 @@ services:
         $questionResultRepository: '@question_result_redis_repository'
 
     started_quizzes_projector:
-      class: VSV\GVQ_API\Quiz\Projectors\StartedQuizzesProjector
+      class: VSV\GVQ_API\Statistics\Projectors\StartedQuizzesProjector
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
 
     finished_quizzes_projector:
-      class: VSV\GVQ_API\Quiz\Projectors\FinishedQuizzesProjector
+      class: VSV\GVQ_API\Statistics\Projectors\FinishedQuizzesProjector
       arguments:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $quizRepository: '@quiz_redis_repository'
@@ -199,6 +204,12 @@ services:
     quiz_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
       arguments:
+        $quizRepository: '@quiz_redis_repository'
+
+    unique_participant_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\UniqueParticipantProjector
+      arguments:
+        $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
 
     in_memory_event_store:
@@ -222,6 +233,9 @@ services:
         - method: subscribe
           arguments:
           - '@finished_quizzes_projector'
+        - method: subscribe
+          arguments:
+            - '@unique_participant_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
@@ -252,6 +266,8 @@ services:
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
         $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $uniqueParticipantRepository: '@unique_participant_redis_repository'
+        $partnerRepository: '@partner_yaml_repository'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -317,6 +333,7 @@ services:
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
       arguments:
+        $year : '@quiz_year'
         $statisticsService: '@statistics_service'
       tags: ['controller.service_arguments']
 

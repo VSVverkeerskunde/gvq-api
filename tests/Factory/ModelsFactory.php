@@ -664,6 +664,21 @@ class ModelsFactory
     }
 
     /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createPartnerQuiz(): Quiz
+    {
+        return self::createCustomQuiz(
+            Uuid::fromString('68e6585d-96ba-48d4-ac4b-dca103f2280b'),
+            new QuizChannel(QuizChannel::PARTNER),
+            null,
+            self::createDatsPartner(),
+            null
+        );
+    }
+
+    /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
      * @param Company|null $company
@@ -716,6 +731,18 @@ class ModelsFactory
             Uuid::fromString('adf0796d-4f9f-470e-9bbe-17d4d9c900cd'),
             new NotEmptyString('Dats24'),
             new Alias('dats24')
+        );
+    }
+
+    /**
+     * @return Partner
+     */
+    public static function createSudPressePartner(): Partner
+    {
+        return new Partner(
+            Uuid::fromString('2f763a5c-32bb-4dec-ad21-835546ff7c25'),
+            new NotEmptyString('SudPresse'),
+            new Alias('sudpresse')
         );
     }
 

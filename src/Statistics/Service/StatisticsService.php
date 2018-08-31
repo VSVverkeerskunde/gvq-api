@@ -2,9 +2,14 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
-use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
-use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
-use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Partner\Models\Partner;
+use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
+use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
+use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsService
@@ -20,6 +25,16 @@ class StatisticsService
     private $finishedQuizRepository;
 
     /**
+     * @var UniqueParticipantRepository
+     */
+    private $uniqueParticipantRepository;
+
+    /**
+     * @var PartnerRepository
+     */
+    private $partnerRepository;
+
+    /**
      * @var StatisticsKey[]
      */
     private $statisticsKeys;
@@ -27,13 +42,19 @@ class StatisticsService
     /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
+     * @param UniqueParticipantRepository $uniqueParticipantRepository
+     * @param PartnerRepository $partnerRepository
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
-        FinishedQuizRepository $finishedQuizRepository
+        FinishedQuizRepository $finishedQuizRepository,
+        UniqueParticipantRepository $uniqueParticipantRepository,
+        PartnerRepository $partnerRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
+        $this->uniqueParticipantRepository = $uniqueParticipantRepository;
+        $this->partnerRepository = $partnerRepository;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -55,10 +76,54 @@ class StatisticsService
     }
 
     /**
-     * @param CounterRepository $counterRepository
+     * @return int[]
+     */
+    public function getUniqueParticipantCounts(): array
+    {
+        return $this->getCountsFromRepository($this->uniqueParticipantRepository);
+    }
+
+    /**
+     * @param Year $year
+     * @return array|null
+     */
+    public function getUniqueParticipantCountsForPartnersByYear(Year $year): ?array
+    {
+        $partners = $this->partnerRepository->getAllByYear($year);
+
+        if (empty($partners)) {
+            return null;
+        }
+
+        $counts = [];
+
+        foreach ($partners as $partner) {
+            /** @var Partner $partner */
+            $nlCount = $this->uniqueParticipantRepository->getCountForPartner(
+                new StatisticsKey(StatisticsKey::PARTNER_NL),
+                $partner
+            );
+
+            $frCount = $this->uniqueParticipantRepository->getCountForPartner(
+                new StatisticsKey(StatisticsKey::PARTNER_FR),
+                $partner
+            );
+
+            $totalCount = $nlCount + $frCount;
+
+            $counts[$partner->getName()->toNative()][Language::NL] = $nlCount;
+            $counts[$partner->getName()->toNative()][Language::FR] = $frCount;
+            $counts[$partner->getName()->toNative()]['total'] = $totalCount;
+        }
+
+        return $counts;
+    }
+
+    /**
+     * @param CountableRepository $statisticsRepository
      * @return array
      */
-    private function getCountsFromRepository(CounterRepository $counterRepository): array
+    private function getCountsFromRepository(CountableRepository $statisticsRepository): array
     {
         $totalNL = 0;
         $totalFR = 0;
@@ -66,8 +131,10 @@ class StatisticsService
 
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
-            $counts[$key] = $counterRepository->getCount($statisticsKey);
-            if (substr($key, -2) === 'nl') {
+
+            $counts[$key] = $statisticsRepository->getCount($statisticsKey);
+
+            if ($statisticsKey->getLanguage()->toNative() === Language::NL) {
                 $totalNL += $counts[$key];
             } else {
                 $totalFR += $counts[$key];

@@ -12,8 +12,8 @@ class Languages implements \IteratorAggregate, \Countable
     public function __construct()
     {
         $this->languages = [
-            new Language('nl'),
-            new Language('fr')
+            new Language(Language::NL),
+            new Language(Language::FR)
         ];
     }
 

@@ -61,7 +61,7 @@ class CompanyFormType extends AbstractType
                     'data' => $company ? $company
                         ->getTranslatedAliases()
                         ->getByLanguage(
-                            new Language('nl')
+                            new Language(Language::NL)
                         )
                         ->getAlias()
                         ->toNative() : null,
@@ -75,7 +75,7 @@ class CompanyFormType extends AbstractType
                     'data' => $company ? $company
                         ->getTranslatedAliases()
                         ->getByLanguage(
-                            new Language('fr')
+                            new Language(Language::FR)
                         )
                         ->getAlias()
                         ->toNative() : null,
@@ -116,12 +116,12 @@ class CompanyFormType extends AbstractType
             new TranslatedAliases(
                 new TranslatedAlias(
                     $uuidFactory->uuid4(),
-                    new Language('nl'),
+                    new Language(Language::NL),
                     new Alias($data['aliasNl'])
                 ),
                 new TranslatedAlias(
                     $uuidFactory->uuid4(),
-                    new Language('fr'),
+                    new Language(Language::FR),
                     new Alias($data['aliasFr'])
                 )
             ),
@@ -144,13 +144,13 @@ class CompanyFormType extends AbstractType
             new PositiveNumber($data['nrOfEmployees']),
             new TranslatedAliases(
                 new TranslatedAlias(
-                    $this->getTranslatedId($company, new Language('nl')),
-                    new Language('nl'),
+                    $this->getTranslatedId($company, new Language(Language::NL)),
+                    new Language(Language::NL),
                     new Alias($data['aliasNl'])
                 ),
                 new TranslatedAlias(
-                    $this->getTranslatedId($company, new Language('fr')),
-                    new Language('fr'),
+                    $this->getTranslatedId($company, new Language(Language::FR)),
+                    new Language(Language::FR),
                     new Alias($data['aliasFr'])
                 )
             ),
