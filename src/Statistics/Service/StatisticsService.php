@@ -40,29 +40,21 @@ class StatisticsService
     private $statisticsKeys;
 
     /**
-     * @var Year
-     */
-    private $year;
-
-    /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
      * @param PartnerRepository $partnerRepository
-     * @param Year $year
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
         UniqueParticipantRepository $uniqueParticipantRepository,
-        PartnerRepository $partnerRepository,
-        Year $year
+        PartnerRepository $partnerRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
         $this->partnerRepository = $partnerRepository;
-        $this->year = $year;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -92,11 +84,12 @@ class StatisticsService
     }
 
     /**
+     * @param Year $year
      * @return array|null
      */
-    public function getUniqueParticipantCountsForPartners(): ?array
+    public function getUniqueParticipantCountsForPartnersByYear(Year $year): ?array
     {
-        $partners = $this->partnerRepository->getAllByYear($this->year);
+        $partners = $this->partnerRepository->getAllByYear($year);
 
         if (empty($partners)) {
             return null;

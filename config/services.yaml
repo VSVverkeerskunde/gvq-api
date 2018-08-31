@@ -268,7 +268,6 @@ services:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
-        $year : '@quiz_year'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -334,6 +333,7 @@ services:
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
       arguments:
+        $year : '@quiz_year'
         $statisticsService: '@statistics_service'
       tags: ['controller.service_arguments']
 
