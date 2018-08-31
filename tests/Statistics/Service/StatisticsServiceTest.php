@@ -111,6 +111,7 @@ class StatisticsServiceTest extends TestCase
     {
         $datsPartner = ModelsFactory::createDatsPartner();
         $nieuwsbladPartner = ModelsFactory::createNBPartner();
+
         $this->partnerRepository->expects($this->once())
             ->method('getAllByYear')
             ->with(new Year(2018))
@@ -120,6 +121,7 @@ class StatisticsServiceTest extends TestCase
                     $nieuwsbladPartner
                 )
             );
+
         $this->uniqueParticipantRepository->expects($this->exactly(4))
             ->method('getPartnerCount')
             ->withConsecutive(
@@ -161,6 +163,21 @@ class StatisticsServiceTest extends TestCase
                     ],
             ],
             $counts
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_for_unique_participants_when_no_partners_present(): void
+    {
+        $this->partnerRepository->expects($this->once())
+            ->method('getAllByYear')
+            ->with(new Year(2018))
+            ->willReturn(null);
+
+        $this->assertNull(
+            $this->statisticsService->getUniqueParticipantCountsForPartners()
         );
     }
 
