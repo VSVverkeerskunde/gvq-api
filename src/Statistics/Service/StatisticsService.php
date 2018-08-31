@@ -106,12 +106,12 @@ class StatisticsService
 
         foreach ($partners as $partner) {
             /** @var Partner $partner */
-            $nlCount = $this->uniqueParticipantRepository->getPartnerCount(
+            $nlCount = $this->uniqueParticipantRepository->getCountForPartner(
                 new StatisticsKey(StatisticsKey::PARTNER_NL),
                 $partner
             );
 
-            $frCount = $this->uniqueParticipantRepository->getPartnerCount(
+            $frCount = $this->uniqueParticipantRepository->getCountForPartner(
                 new StatisticsKey(StatisticsKey::PARTNER_FR),
                 $partner
             );
@@ -138,7 +138,9 @@ class StatisticsService
 
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
+
             $counts[$key] = $statisticsRepository->getCount($statisticsKey);
+
             if ($statisticsKey->getLanguage()->toNative() === Language::NL) {
                 $totalNL += $counts[$key];
             } else {

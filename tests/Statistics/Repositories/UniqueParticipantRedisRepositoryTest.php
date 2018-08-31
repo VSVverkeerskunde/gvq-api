@@ -106,6 +106,6 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
             ->with('unique_participants_'.$partner->getId()->toString().'_'.$statisticsKey->getLanguage()->toNative())
             ->willReturn(0);
 
-        $this->uniqueParticipantRepository->getPartnerCount($statisticsKey, $partner);
+        $this->uniqueParticipantRepository->getCountForPartner($statisticsKey, $partner);
     }
 }

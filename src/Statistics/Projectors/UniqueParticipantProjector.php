@@ -50,8 +50,7 @@ class UniqueParticipantProjector implements EventListener
                 $quiz->getParticipant()
             );
 
-            if ($quiz->getChannel()->equals(new QuizChannel(QuizChannel::PARTNER)) &&
-                $quiz->getPartner() !== null) {
+            if ($quiz->getChannel()->toNative() === QuizChannel::PARTNER) {
                 $this->uniqueParticipantRepository->addForPartner(
                     $statisticsKey,
                     $quiz->getParticipant(),

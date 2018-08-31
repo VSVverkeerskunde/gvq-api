@@ -26,5 +26,5 @@ interface UniqueParticipantRepository extends CountableRepository
      * @param Partner $partner
      * @return int
      */
-    public function getPartnerCount(StatisticsKey $statisticsKey, Partner $partner): int;
+    public function getCountForPartner(StatisticsKey $statisticsKey, Partner $partner): int;
 }
