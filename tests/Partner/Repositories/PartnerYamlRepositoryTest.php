@@ -65,7 +65,7 @@ class PartnerYamlRepositoryTest extends TestCase
     public function it_returns_null_when_year_is_not_present(): void
     {
         $foundPartner = $this->partnerYamlRepository->getByYearAndAlias(
-            new Year(2019),
+            new Year(2020),
             new Alias('nieuwsblad')
         );
 
