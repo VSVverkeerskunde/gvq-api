@@ -229,9 +229,13 @@ input, button, select, optgroup, textarea {
     font-weight: bold;
 }
 
-.table th[scope=row] {
+.table .fit {
     white-space: nowrap;
-    width: 1%;
+    width: 1em;
+}
+
+.table-non-fluid {
+    width: auto !important;
 }
 
 .fixed-table-container .thead-primary th .both {

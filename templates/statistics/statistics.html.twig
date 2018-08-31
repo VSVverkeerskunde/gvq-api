@@ -8,7 +8,7 @@
 
     <h1 class="page-title">{% trans %}Statistics{% endtrans %}</h1>
     <small>{% trans %}Statistics.info.tooltip{% endtrans %}</small>
-    <table class="table table-bordered small table-responsive-md">
+    <table class="table table-bordered small">
         <thead class="thead-dark thead-primary text-center">
         <tr>
             <td class="border-0"></td>
@@ -32,17 +32,17 @@
         </thead>
         <tbody>
         <tr class="text-right">
-            <th scope="row"" data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.started{% endtrans %}">
                 {% trans %}Statistics.row.started{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': startedCounts} %}
         </tr>
         <tr class="text-right">
-            <th scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
                 {% trans %}Statistics.row.finished{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
         </tr>
         <tr class="text-right">
-            <th scope="row"" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
                 {% trans %}Statistics.row.unique{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
         </tr>
@@ -50,10 +50,10 @@
         </tbody>
     </table>
 
-    <table class="table table-bordered small table-responsive-sm">
+    <table class="table table-non-fluid table-bordered small">
         <thead class="thead-dark thead-primary text-center">
         <tr>
-            <td></td>
+            <td class="border-0"></td>
             <th scope="col" class="border-right">{% trans %}Statistics.subheader.NL{% endtrans %}</th>
             <th scope="col" class="border-right">{% trans %}Statistics.subheader.FR{% endtrans %}</th>
             <th scope="col">{% trans %}Statistics.subheader.Total{% endtrans %}</th>
@@ -63,7 +63,7 @@
         <tbody>
         {% for partnerName, partnerCounts in partnersCounts %}
             <tr class="text-right">
-                <th scope="row"" data-toggle="tooltip" title="{% trans %}Statistics.info.partners.unique{% endtrans %}">
+                <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.partners.unique{% endtrans %}">
                     {{ partnerName }}
                 </th>
                 <td>{{ partnerCounts.nl }}</td>
