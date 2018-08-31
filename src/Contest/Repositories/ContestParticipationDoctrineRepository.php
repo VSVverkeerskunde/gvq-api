@@ -43,7 +43,7 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
         Email $email,
         QuizChannel $channel
     ): ?ContestParticipation {
-        /** @var ContestParticipationEntity $contestParticipationEntity */
+        /** @var ContestParticipationEntity|null $contestParticipationEntity */
         $contestParticipationEntity = $this->objectRepository->findOneBy(
             [
                 'year' => $year->toNative(),
@@ -76,15 +76,15 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
         Year $year,
         Email $email
     ): ?ContestParticipations {
-        /** @var ContestParticipation[] $contestParticipations */
-        $contestParticipations = $this->objectRepository->findBy(
+        /** @var ContestParticipationEntity[] $contestParticipationEntities */
+        $contestParticipationEntities = $this->objectRepository->findBy(
             [
                 'year' => $year->toNative(),
                 'contestParticipant.email' => $email->toNative(),
             ]
         );
 
-        return $this->toContestParticipations($contestParticipations);
+        return $this->toContestParticipations($contestParticipationEntities);
     }
 
     /**
