@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-abstract class AbstractCounterRedisRepository implements CounterRepository
+abstract class IncrementableAndCountableRedisRepository implements CountableRepository, IncrementableRepository
 {
     /**
      * @var \Redis

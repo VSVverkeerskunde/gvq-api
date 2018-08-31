@@ -2,7 +2,7 @@
 
 namespace VSV\GVQ_API\Quiz\Repositories;
 
-interface StartedQuizRepository extends CounterRepository
+interface StartedQuizRepository extends IncrementableRepository, CountableRepository
 {
 
 }

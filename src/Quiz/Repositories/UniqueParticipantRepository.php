@@ -6,7 +6,7 @@ use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-interface UniqueParticipantRepository extends StatisticsRepository
+interface UniqueParticipantRepository extends CountableRepository
 {
     /**
      * @param StatisticsKey $statisticsKey
