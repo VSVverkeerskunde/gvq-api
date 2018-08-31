@@ -96,7 +96,7 @@ services:
     quiz_start_date:
       class: \DateTimeImmutable
       arguments:
-        $time: '2018-10-15'
+        $time: '2018-10-18'
         $timezone: '@time_zone'
 
     sender_email_nl:
@@ -308,6 +308,11 @@ services:
         $partnerRepository: '@partner_yaml_repository'
         $teamRepository: '@team_repository'
         $questionResultRepository: '@question_result_redis_repository'
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Quiz\Controllers\QuizViewController:
+      arguments:
+        $year: '@quiz_year'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:

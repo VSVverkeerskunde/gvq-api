@@ -74,8 +74,6 @@
 
 {% block body %}
     <div class="container-fluid">
-    {{ form(form) }}
-
     <h2>Quiz</h2>
     <div id="gvq-quiz">
         <div class="gvq-team-banner"><img src="" alt=""></div>
@@ -148,6 +146,17 @@
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
     <script>
-        Quiz({{ quizConfig|json_encode|raw }});
+        Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
+
+        function getConfigFromUrlParameters() {
+          return decodeURIComponent(window.location.search.substring(1))
+            .split('&')
+            .reduce(function (config, urlParameter) {
+                let keyValue = urlParameter.split('=');
+                config[keyValue[0]] = keyValue[1];
+
+                return config;
+            }, {});
+        }
     </script>
 {% endblock %}
