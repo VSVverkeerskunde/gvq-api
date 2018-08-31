@@ -6,10 +6,10 @@ use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
-use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
-use VSV\GVQ_API\Quiz\Repositories\CountableRepository;
-use VSV\GVQ_API\Quiz\Repositories\UniqueParticipantRepository;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
+use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsService

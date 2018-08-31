@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\Projectors;
+namespace VSV\GVQ_API\Statistics\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
@@ -8,7 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
-use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
