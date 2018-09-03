@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Contest\Forms\ContestFormType;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
@@ -49,6 +50,11 @@ class ContestViewController extends AbstractController
     private $translator;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
      * @var ContestFormType
      */
     private $contestFormType;
@@ -60,6 +66,7 @@ class ContestViewController extends AbstractController
      * @param QuizRepository $quizRepository
      * @param TieBreakerRepository $tieBreakerRepository
      * @param TranslatorInterface $translator
+     * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
         Year $year,
@@ -67,7 +74,8 @@ class ContestViewController extends AbstractController
         UuidFactoryInterface $uuidFactory,
         QuizRepository $quizRepository,
         TieBreakerRepository $tieBreakerRepository,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->year = $year;
         $this->contestService = $contestService;
@@ -75,6 +83,7 @@ class ContestViewController extends AbstractController
         $this->quizRepository = $quizRepository;
         $this->tieBreakerRepository = $tieBreakerRepository;
         $this->translator = $translator;
+        $this->urlGenerator = $urlGenerator;
 
         $this->contestFormType = new ContestFormType();
     }
@@ -120,6 +129,7 @@ class ContestViewController extends AbstractController
         }
 
         $tieBreakers = $this->getTieBreakerByLocale($request->getLocale());
+        $privacy_pdf = $this->generatePrivacyPdfUrl($request->getLocale());
 
         return $this->render(
             'contest/contest.html.twig',
@@ -127,6 +137,7 @@ class ContestViewController extends AbstractController
                 'form' => $form->createView(),
                 'tieBreaker1' => $tieBreakers[0],
                 'tieBreaker2' => $tieBreakers[1],
+                'privacy_pdf' => $privacy_pdf,
             ]
         );
     }
@@ -141,11 +152,24 @@ class ContestViewController extends AbstractController
         $this->contestFormType->buildForm(
             $formBuilder,
             [
-                'translator' => $this->translator,
+                'translator' => $this->translator
             ]
         );
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * @param string $locale
+     * @return string
+     */
+    private function generatePrivacyPdfUrl(string $locale): string
+    {
+        return $this->urlGenerator->generate(
+            $locale === 'nl' ? 'privacy_pdf_nl' : 'privacy_pdf_fr',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     /**

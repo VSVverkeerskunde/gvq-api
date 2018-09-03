@@ -90,6 +90,25 @@
     </div>
 
     <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_widget(form.gdpr1) }}
+                {{ form_errors(form.gdpr1) }}
+                <a href="{{ privacy_pdf }}" target="_blank" class="ml-4">Download Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_widget(form.gdpr2) }}
+                {{ form_errors(form.gdpr2) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
         <button type="submit" class="btn btn-primary">{% trans %}Contest.submit{% endtrans %}</button>
     </div>
     {{ form_end(form) }}

@@ -207,6 +207,11 @@ documents_kickoff:
   path: /documents/{document}
   methods: [GET]
 
+privacy_pdf_nl:
+  path: /documents/privacy_policy-nl.pdf
+privacy_pdf_fr:
+  path: /documents/privacy_policy-fr.pdf
+
 contacts_view_edit:
   path: /{_locale}/view/contacts/edit/{id}
   controller: VSV\GVQ_API\User\Controllers\UserViewController::editContact

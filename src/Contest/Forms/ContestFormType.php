@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Contest\Forms;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -86,6 +87,20 @@ class ContestFormType extends AbstractType
             ->add(
                 'answer2',
                 IntegerType::class
+            )
+            ->add(
+                'gdpr1',
+                CheckboxType::class,
+                [
+                    'label' => $translator->trans('Contest.gdpr1'),
+                ]
+            )
+            ->add(
+                'gdpr2',
+                CheckboxType::class,
+                [
+                    'label' => $translator->trans('Contest.gdpr2'),
+                ]
             );
     }
 
