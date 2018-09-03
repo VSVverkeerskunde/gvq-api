@@ -83,7 +83,7 @@
     }
 
     function setViewHtmlValue(name, value) {
-      view.find('[data-value="'+name+'"]').html(value);
+      view.find('[data-value="'+name+'"]').html(value.replace(/\</g, "&lt;").replace(/\>/g, "&gt;"));
     }
 
     function renderTeamBanner(teamId) {
