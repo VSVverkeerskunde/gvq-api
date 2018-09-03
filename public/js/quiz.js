@@ -4,7 +4,7 @@
     "company": null,
     "partner": null,
     "language": "nl",
-    "imageDirectory": "/images/",
+    "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
     "teams": {
       "922391c4-fc5b-4148-b69d-d347d48caaef": {
         "name": "Club Brugge KV",
