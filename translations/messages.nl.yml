@@ -191,7 +191,7 @@ User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%.'
 
-Dashboard.welcome: 'De quiz start op 15 oktober. Vanaf dan kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.welcome: 'De quiz start op 18 oktober. Vanaf dan kan je hier de statistieken van je bedrijf opvolgen.'
 
 #Statistics
 Statistics.header.individual: 'Individueel'

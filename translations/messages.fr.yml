@@ -191,7 +191,7 @@ User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
 User.edit.success: L'utilisateur %id% est modifié.
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
-Dashboard.welcome: _Wanneer de quiz van start gaat op 15 oktober kan je hier de statistieken van je bedrijf opvolgen.
+Dashboard.welcome: A partir du 18 octobre, vous pourrez suivre les statistiques de votre entreprise ici.
 
 #Statistics
 Statistics.header.individual: __Individueel
