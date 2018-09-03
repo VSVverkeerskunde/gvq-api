@@ -919,9 +919,9 @@ class ModelsFactory
     public static function createContestParticipant(): ContestParticipant
     {
         return new ContestParticipant(
-            new Email('jane@gvq.be'),
-            new NotEmptyString('Jane'),
-            new NotEmptyString('Doe'),
+            new Email('par@ticipa.nt'),
+            new NotEmptyString('Par'),
+            new NotEmptyString('Ticipa'),
             new \DateTimeImmutable('1980-01-01T11:12:13+00:00')
         );
     }

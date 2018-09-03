@@ -28,7 +28,7 @@ class ContestParticipantTest extends TestCase
     public function it_stores_an_email(): void
     {
         $this->assertEquals(
-            new Email('jane@gvq.be'),
+            new Email('par@ticipa.nt'),
             $this->contestParticipant->getEmail()
         );
     }
@@ -39,7 +39,7 @@ class ContestParticipantTest extends TestCase
     public function it_stores_a_first_name(): void
     {
         $this->assertEquals(
-            new NotEmptyString('Jane'),
+            new NotEmptyString('Par'),
             $this->contestParticipant->getFirstName()
         );
     }
@@ -50,7 +50,7 @@ class ContestParticipantTest extends TestCase
     public function it_stores_a_last_name(): void
     {
         $this->assertEquals(
-            new NotEmptyString('Doe'),
+            new NotEmptyString('Ticipa'),
             $this->contestParticipant->getLastName()
         );
     }

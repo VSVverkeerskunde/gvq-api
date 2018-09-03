@@ -14,7 +14,7 @@ class ContestService
     /**
      * @var QuestionResultRepository
      */
-    private $quizResultRepository;
+    private $questionResultRepository;
 
     /**
      * @var QuizRepository
@@ -27,6 +27,21 @@ class ContestService
     private $contestParticipationRepository;
 
     /**
+     * @param QuestionResultRepository $quizResultRepository
+     * @param QuizRepository $quizRepository
+     * @param ContestParticipationRepository $contestParticipationRepository
+     */
+    public function __construct(
+        QuestionResultRepository $quizResultRepository,
+        QuizRepository $quizRepository,
+        ContestParticipationRepository $contestParticipationRepository
+    ) {
+        $this->questionResultRepository = $quizResultRepository;
+        $this->quizRepository = $quizRepository;
+        $this->contestParticipationRepository = $contestParticipationRepository;
+    }
+
+    /**
      * Can only participate if 11 or more and no previous participation for given channel.
      *
      * @param Year $year
@@ -35,8 +50,8 @@ class ContestService
      */
     public function canParticipate(Year $year, UuidInterface $quizId): bool
     {
-        $quizResult = $this->quizResultRepository->getById($quizId);
-        if ($quizResult->getScore() < 11) {
+        $questionResult = $this->questionResultRepository->getById($quizId);
+        if ($questionResult->getScore() < 11) {
             return false;
         }
 

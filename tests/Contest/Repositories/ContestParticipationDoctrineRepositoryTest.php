@@ -75,7 +75,7 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
 
         $contestParticipations = $this->contestParticipationDoctrineRepository->getAllByYearAndEmail(
             new Year(2018),
-            new Email('jane@gvq.be')
+            new Email('par@ticipa.nt')
         );
 
         $this->assertEquals(
@@ -96,7 +96,7 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
 
         $foundContestParticipation = $this->contestParticipationDoctrineRepository->getByYearAndEmailAndChannel(
             new Year(2018),
-            new Email('jane@gvq.be'),
+            new Email('par@ticipa.nt'),
             new QuizChannel(QuizChannel::INDIVIDUAL)
         );
 
