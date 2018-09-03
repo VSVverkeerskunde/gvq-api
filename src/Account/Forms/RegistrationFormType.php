@@ -215,12 +215,12 @@ class RegistrationFormType extends CompanyFormType
             new TranslatedAliases(
                 new TranslatedAlias(
                     $uuidFactory->uuid4(),
-                    new Language('nl'),
+                    new Language(Language::NL),
                     new Alias($data['aliasNl'])
                 ),
                 new TranslatedAlias(
                     $uuidFactory->uuid4(),
-                    new Language('fr'),
+                    new Language(Language::FR),
                     new Alias($data['aliasFr'])
                 )
             ),

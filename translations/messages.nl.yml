@@ -215,7 +215,10 @@ Statistics.subheader.Total: 'Totaal'
 
 Statistics.row.started: 'Gestart'
 Statistics.row.finished: 'Beëindigd'
+Statistics.row.unique: 'Unieke deelnemers'
 
 Statistics.info.tooltip: 'Zweef over de rijtitels voor meer uitleg.'
 Statistics.info.started: 'Aantal keer dat een quiz werd gestart.'
 Statistics.info.finished: 'Aantal keer dat een quiz werd uitgespeeld.'
+Statistics.info.unique: 'Aantal unieke spelers dat de quiz heeft uitgespeeld. Dubbele deelnames zijn hier uitgefilterd.'
+Statistics.info.partners.unique: 'Aantal unieke spelers dat de quiz heeft uitgespeeld voor deze partner.'

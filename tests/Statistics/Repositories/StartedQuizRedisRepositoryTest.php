@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\Repositories;
+namespace VSV\GVQ_API\Statistics\Repositories;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class FinishedQuizRedisRepositoryTest extends TestCase
+class StartedQuizRedisRepositoryTest extends TestCase
 {
     /**
      * @var \Redis|MockObject
@@ -15,9 +15,9 @@ class FinishedQuizRedisRepositoryTest extends TestCase
     private $redis;
 
     /**
-     * @var FinishedQuizRepository
+     * @var StartedQuizRepository
      */
-    private $finishedQuizRepository;
+    private $startedQuizRepository;
 
     protected function setUp(): void
     {
@@ -25,7 +25,7 @@ class FinishedQuizRedisRepositoryTest extends TestCase
         $redis = $this->createMock(\Redis::class);
         $this->redis = $redis;
 
-        $this->finishedQuizRepository = new FinishedQuizRedisRepository(
+        $this->startedQuizRepository = new StartedQuizRedisRepository(
             $this->redis
         );
     }
@@ -41,24 +41,24 @@ class FinishedQuizRedisRepositoryTest extends TestCase
 
         $this->redis->expects($this->once())
             ->method('get')
-            ->with('finished_quizzes_'.$statisticsKey->toNative());
+            ->with('started_quizzes_'.$statisticsKey->toNative());
 
-        $this->finishedQuizRepository->getCount($statisticsKey);
+        $this->startedQuizRepository->getCount($statisticsKey);
     }
 
     /**
      * @test
      * @throws \Exception
      */
-    public function it_can_increment_count_of_finished_quiz()
+    public function it_can_increment_count_of_started_quiz()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $statisticsKey = StatisticsKey::createFromQuiz($quiz);
 
         $this->redis->expects($this->once())
             ->method('incr')
-            ->with('finished_quizzes_'.$statisticsKey->toNative());
+            ->with('started_quizzes_'.$statisticsKey->toNative());
 
-        $this->finishedQuizRepository->incrementCount($statisticsKey);
+        $this->startedQuizRepository->incrementCount($statisticsKey);
     }
 }

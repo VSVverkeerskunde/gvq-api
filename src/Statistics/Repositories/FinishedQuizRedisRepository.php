@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Quiz\Repositories;
+namespace VSV\GVQ_API\Statistics\Repositories;
 
-class FinishedQuizRedisRepository extends AbstractCounterRedisRepository implements FinishedQuizRepository
+class FinishedQuizRedisRepository extends IncrementableAndCountableRedisRepository implements FinishedQuizRepository
 {
     const KEY_PREFIX = 'finished_quizzes_';
 

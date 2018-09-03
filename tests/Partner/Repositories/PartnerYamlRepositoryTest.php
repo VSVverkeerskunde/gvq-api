@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partner;
+use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class PartnerYamlRepositoryTest extends TestCase
@@ -64,10 +65,33 @@ class PartnerYamlRepositoryTest extends TestCase
     public function it_returns_null_when_year_is_not_present(): void
     {
         $foundPartner = $this->partnerYamlRepository->getByYearAndAlias(
-            new Year(2019),
+            new Year(2020),
             new Alias('nieuwsblad')
         );
 
         $this->assertNull($foundPartner);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_partners_by_year(): void
+    {
+        $foundPartner = $this->partnerYamlRepository->getAllByYear(new Year(2019));
+
+        $this->assertEquals(
+            new Partners(ModelsFactory::createSudPressePartner()),
+            $foundPartner
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_partners_for_the_given_year(): void
+    {
+        $this->assertNull(
+            $this->partnerYamlRepository->getAllByYear(new Year(2020))
+        );
     }
 }

@@ -4,9 +4,14 @@ namespace VSV\GVQ_API\Statistics\Service;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use VSV\GVQ_API\Quiz\Repositories\CounterRepository;
-use VSV\GVQ_API\Quiz\Repositories\FinishedQuizRepository;
-use VSV\GVQ_API\Quiz\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Partner\Models\Partners;
+use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
+use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
+use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
 class StatisticsServiceTest extends TestCase
@@ -26,6 +31,16 @@ class StatisticsServiceTest extends TestCase
      */
     private $finishedQuizRepository;
 
+    /**
+     * @var UniqueParticipantRepository|MockObject
+     */
+    private $uniqueParticipantRepository;
+
+    /**
+     * @var PartnerRepository|MockObject
+     */
+    private $partnerRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -36,9 +51,19 @@ class StatisticsServiceTest extends TestCase
         $finishedQuizRepository = $this->createMock(FinishedQuizRepository::class);
         $this->finishedQuizRepository = $finishedQuizRepository;
 
+        /** @var UniqueParticipantRepository|MockObject $uniqueParticipantRepository */
+        $uniqueParticipantRepository = $this->createMock(UniqueParticipantRepository::class);
+        $this->uniqueParticipantRepository = $uniqueParticipantRepository;
+
+        /** @var PartnerRepository|MockObject $partnerRepository */
+        $partnerRepository = $this->createMock(PartnerRepository::class);
+        $this->partnerRepository = $partnerRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
-            $this->finishedQuizRepository
+            $this->finishedQuizRepository,
+            $this->uniqueParticipantRepository,
+            $this->partnerRepository
         );
     }
 
@@ -67,11 +92,100 @@ class StatisticsServiceTest extends TestCase
     }
 
     /**
-     * @param CounterRepository|MockObject $counterRepository
+     * @test
      */
-    private function mockGetCountMethod(MockObject $counterRepository): void
+    public function it_can_get_unique_participant_counts(): void
     {
-        $counterRepository
+        $this->mockGetCountMethod($this->uniqueParticipantRepository);
+
+        $counts = $this->statisticsService->getUniqueParticipantCounts();
+
+        $this->checkCounts($counts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_unique_participant_counts_for_partners(): void
+    {
+        $datsPartner = ModelsFactory::createDatsPartner();
+        $nieuwsbladPartner = ModelsFactory::createNBPartner();
+
+        $this->partnerRepository->expects($this->once())
+            ->method('getAllByYear')
+            ->with(new Year(2018))
+            ->willReturn(
+                new Partners(
+                    $datsPartner,
+                    $nieuwsbladPartner
+                )
+            );
+
+        $this->uniqueParticipantRepository->expects($this->exactly(4))
+            ->method('getCountForPartner')
+            ->withConsecutive(
+                [
+                    new StatisticsKey(StatisticsKey::PARTNER_NL),
+                    $datsPartner,
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::PARTNER_FR),
+                    $datsPartner,
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::PARTNER_NL),
+                    $nieuwsbladPartner,
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::PARTNER_FR),
+                    $nieuwsbladPartner,
+                ]
+            )
+            ->willReturnOnConsecutiveCalls(1, 2, 3, 4);
+
+        $counts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018));
+
+
+        $this->assertEquals(
+            [
+                'Dats24' =>
+                    [
+                        'nl' => 1,
+                        'fr' => 2,
+                        'total' => 3,
+                    ],
+                'Nieuwsblad' =>
+                    [
+                        'nl' => 3,
+                        'fr' => 4,
+                        'total' => 7,
+                    ],
+            ],
+            $counts
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_for_unique_participants_when_no_partners_present(): void
+    {
+        $this->partnerRepository->expects($this->once())
+            ->method('getAllByYear')
+            ->with(new Year(2018))
+            ->willReturn(null);
+
+        $this->assertNull(
+            $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018))
+        );
+    }
+
+    /**
+     * @param CountableRepository|MockObject $statisticsRepository
+     */
+    private function mockGetCountMethod(MockObject $statisticsRepository): void
+    {
+        $statisticsRepository
             ->expects($this->exactly(8))
             ->method('getCount')
             ->withConsecutive(

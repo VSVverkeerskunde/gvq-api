@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Company\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\User\Models\User;
@@ -108,7 +109,7 @@ class Company
         }
         $languageCount = array_count_values($languages);
 
-        if ($aliases->count() !== 2 || $languageCount['nl'] !== 1 || $languageCount['fr'] !== 1) {
+        if ($aliases->count() !== 2 || $languageCount[Language::NL] !== 1 || $languageCount[Language::FR] !== 1) {
             $suppliedAliases = [];
             foreach ($aliases as $alias) {
                 $suppliedAliases[] = $alias->getAlias()->toNative().' ('.$alias->getLanguage()->toNative().')';
