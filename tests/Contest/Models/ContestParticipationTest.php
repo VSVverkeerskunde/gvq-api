@@ -120,7 +120,31 @@ class ContestParticipationTest extends TestCase
             ModelsFactory::createContestParticipant(),
             ModelsFactory::createVsvAddress(),
             new PositiveNumber(12345),
-            new PositiveNumber(54321)
+            new PositiveNumber(54321),
+            true,
+            true
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_throws_on_invalid_gdpr1(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('GDPR1 should be accepted.');
+
+        new ContestParticipation(
+            Uuid::fromString('c1eb30d1-990a-4a72-945f-190d00a26e9d'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(12345),
+            new PositiveNumber(54321),
+            false,
+            true
         );
     }
 }

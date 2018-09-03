@@ -50,7 +50,21 @@ class ContestFormType extends AbstractType
             )
             ->add(
                 'dateOfBirth',
-                BirthdayType::class
+                BirthdayType::class,
+                [
+                    'placeholder' => [
+                        'year' => '----',
+                        'month' => '--',
+                        'day' => '--',
+                    ],
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Field.empty'),
+                            ]
+                        ),
+                    ],
+                ]
             )
             ->add(
                 'street',
@@ -82,17 +96,42 @@ class ContestFormType extends AbstractType
             )
             ->add(
                 'answer1',
-                IntegerType::class
+                IntegerType::class,
+                [
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Field.empty'),
+                            ]
+                        ),
+                    ],
+                ]
             )
             ->add(
                 'answer2',
-                IntegerType::class
+                IntegerType::class,
+                [
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Field.empty'),
+                            ]
+                        ),
+                    ],
+                ]
             )
             ->add(
                 'gdpr1',
                 CheckboxType::class,
                 [
                     'label' => $translator->trans('Contest.gdpr1'),
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => $translator->trans('Field.empty'),
+                            ]
+                        ),
+                    ],
                 ]
             )
             ->add(
@@ -149,7 +188,9 @@ class ContestFormType extends AbstractType
                 new NotEmptyString($data['town'])
             ),
             new PositiveNumber($data['answer1']),
-            new PositiveNumber($data['answer2'])
+            new PositiveNumber($data['answer2']),
+            $data['gdpr1'],
+            $data['gdpr2']
         );
     }
 

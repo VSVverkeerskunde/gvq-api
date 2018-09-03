@@ -47,6 +47,16 @@ class ContestParticipation
     private $answer2;
 
     /**
+     * @var bool
+     */
+    private $gdpr1;
+
+    /**
+     * @var bool
+     */
+    private $gdpr2;
+
+    /**
      * @param UuidInterface $id
      * @param Year $year
      * @param QuizChannel $channel
@@ -54,6 +64,8 @@ class ContestParticipation
      * @param Address $address
      * @param PositiveNumber $answer1
      * @param PositiveNumber $answer2
+     * @param bool $gdpr1
+     * @param bool $gdpr2
      */
     public function __construct(
         UuidInterface $id,
@@ -62,9 +74,12 @@ class ContestParticipation
         ContestParticipant $contestParticipant,
         Address $address,
         PositiveNumber $answer1,
-        PositiveNumber $answer2
+        PositiveNumber $answer2,
+        bool $gdpr1,
+        bool $gdpr2
     ) {
         $this->guardChannel($channel);
+        $this->guardGdpr($gdpr1);
 
         $this->id = $id;
         $this->year = $year;
@@ -73,6 +88,8 @@ class ContestParticipation
         $this->address = $address;
         $this->answer1 = $answer1;
         $this->answer2 = $answer2;
+        $this->gdpr1 = $gdpr1;
+        $this->gdpr2 = $gdpr2;
     }
 
     /**
@@ -132,6 +149,22 @@ class ContestParticipation
     }
 
     /**
+     * @return bool
+     */
+    public function isGdpr1(): bool
+    {
+        return $this->gdpr1;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGdpr2(): bool
+    {
+        return $this->gdpr2;
+    }
+
+    /**
      * @param QuizChannel $quizChannel
      */
     private function guardChannel(QuizChannel $quizChannel): void
@@ -142,6 +175,16 @@ class ContestParticipation
                 'Invalid value "'.$quizChannel->toNative().'" for quiz channel.'.
                 ' Allowed values are '.QuizChannel::INDIVIDUAL.' and '.QuizChannel::CUP.'.'
             );
+        }
+    }
+
+    /**
+     * @param bool $gdpr
+     */
+    private function guardGdpr(bool $gdpr): void
+    {
+        if ($gdpr === false) {
+            throw new \InvalidArgumentException('GDPR1 should be accepted.');
         }
     }
 }

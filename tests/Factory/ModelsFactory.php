@@ -966,7 +966,9 @@ class ModelsFactory
             ModelsFactory::createContestParticipant(),
             ModelsFactory::createVsvAddress(),
             new PositiveNumber(12345),
-            new PositiveNumber(54321)
+            new PositiveNumber(54321),
+            true,
+            true
         );
     }
 
@@ -983,7 +985,9 @@ class ModelsFactory
             ModelsFactory::createContestParticipant(),
             ModelsFactory::createVsvAddress(),
             new PositiveNumber(1234),
-            new PositiveNumber(4321)
+            new PositiveNumber(4321),
+            true,
+            true
         );
     }
 

@@ -60,6 +60,20 @@ class ContestParticipationEntity extends Entity
     private $answer2;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $gdpr1;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $gdpr2;
+
+    /**
      * @param string $id
      * @param int $year
      * @param string $channel
@@ -67,6 +81,8 @@ class ContestParticipationEntity extends Entity
      * @param AddressEmbeddable $address
      * @param int $answer1
      * @param int $answer2
+     * @param bool $gdpr1
+     * @param bool $gdpr2
      */
     private function __construct(
         string $id,
@@ -75,7 +91,9 @@ class ContestParticipationEntity extends Entity
         ContestParticipantEmbeddable $contestParticipant,
         AddressEmbeddable $address,
         int $answer1,
-        int $answer2
+        int $answer2,
+        bool $gdpr1,
+        bool $gdpr2
     ) {
         parent::__construct($id);
 
@@ -85,6 +103,8 @@ class ContestParticipationEntity extends Entity
         $this->address = $address;
         $this->answer1 = $answer1;
         $this->answer2 = $answer2;
+        $this->gdpr1 = $gdpr1;
+        $this->gdpr2 = $gdpr2;
     }
 
     /**
@@ -105,7 +125,9 @@ class ContestParticipationEntity extends Entity
                 $contestParticipation->getAddress()
             ),
             $contestParticipation->getAnswer1()->toNative(),
-            $contestParticipation->getAnswer2()->toNative()
+            $contestParticipation->getAnswer2()->toNative(),
+            $contestParticipation->isGdpr1(),
+            $contestParticipation->isGdpr2()
         );
     }
 
@@ -121,7 +143,9 @@ class ContestParticipationEntity extends Entity
             $this->contestParticipant->toContestParticipant(),
             $this->address->toAddress(),
             new PositiveNumber($this->answer1),
-            new PositiveNumber($this->answer2)
+            new PositiveNumber($this->answer2),
+            $this->gdpr1,
+            $this->gdpr2
         );
     }
 }
