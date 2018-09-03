@@ -168,7 +168,7 @@ Field.year.empty: L'année est obligatoire.
 Field.year.min: L'année doit être {{ limit }} ou plus.
 Field.year.max: L'année doit être {{ limit }} ou moins.
 Field.login.warning: Si vous modifiez ce champ, vous devrez vous reconnecter.
-Field.alias.info: C’est via ces urls que vous jouerez au quiz avec vos collègues, en français ou en néerlandais. Ces urls ont été générées automatiquement mais vous pouvez les modifier ci-dessous. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés. Vous pourrez encore modifier ces urls plus tard  sur la page de votre entreprise.
+Field.alias.info: C’est via ces urls que vous jouerez au quiz avec vos collègues, en français ou en néerlandais. Ces urls ont été générées automatiquement mais vous pouvez les modifier ci-dessus. Attention, seuls les chiffres, les lettres et un trait d”union sont autorisés. Vous pourrez encore modifier ces urls plus tard  sur la page de votre entreprise.
 
 #Flash 
 Registration.error: Une erreur est survenue lors de votre inscription. Réessayez à nouveau.
