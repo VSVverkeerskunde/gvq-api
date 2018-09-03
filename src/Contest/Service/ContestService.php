@@ -27,16 +27,16 @@ class ContestService
     private $contestParticipationRepository;
 
     /**
-     * @param QuestionResultRepository $quizResultRepository
+     * @param QuestionResultRepository $questionResultRepository
      * @param QuizRepository $quizRepository
      * @param ContestParticipationRepository $contestParticipationRepository
      */
     public function __construct(
-        QuestionResultRepository $quizResultRepository,
+        QuestionResultRepository $questionResultRepository,
         QuizRepository $quizRepository,
         ContestParticipationRepository $contestParticipationRepository
     ) {
-        $this->questionResultRepository = $quizResultRepository;
+        $this->questionResultRepository = $questionResultRepository;
         $this->quizRepository = $quizRepository;
         $this->contestParticipationRepository = $contestParticipationRepository;
     }

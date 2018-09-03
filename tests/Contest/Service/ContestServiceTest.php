@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Contest\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\Repositories\ContestParticipationRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;

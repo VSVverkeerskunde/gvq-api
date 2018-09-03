@@ -274,6 +274,12 @@ services:
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
 
+    contest_service:
+      class: VSV\GVQ_API\Contest\Service\ContestService
+      arguments:
+        $questionResultRepository: '@question_result_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
       arguments:
@@ -353,5 +359,9 @@ services:
 
     VSV\GVQ_API\Contest\Controllers\ContestViewController:
       arguments:
-          $tieBreakerRepository: '@tie_breaker_yaml_repository'
+        $year: '@quiz_year'
+        $contestService: '@contest_service'
+        $uuidFactory: '@uuid_factory'
+        $quizRepository: '@quiz_redis_repository'
+        $tieBreakerRepository: '@tie_breaker_yaml_repository'
       tags: ['controller.service_arguments']

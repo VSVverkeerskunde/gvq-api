@@ -225,7 +225,7 @@ quiz_example:
   methods: [GET, POST]
 
 contest:
-  path: /{_locale}/view/contest
+  path: /{_locale}/view/contest/{quizId}
   controller: VSV\GVQ_API\Contest\Controllers\ContestViewController::contest
   methods: [GET, POST]
 
