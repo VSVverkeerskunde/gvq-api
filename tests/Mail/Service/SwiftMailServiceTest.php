@@ -150,7 +150,7 @@ class SwiftMailServiceTest extends KernelTestCase
         /** @var \Swift_Message $message */
         $message = $this->messageLogger->getMessages()[0];
 
-        $subject = 'Welkom op de Grote Verkeersquiz 2018';
+        $subject = 'Welkom op De Grote Verkeersquiz 2018';
         $this->checkCommonMessageAsserts($message, $registration, $url, $subject);
         $this->assertEquals(
             1,
