@@ -28,10 +28,7 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
     {
         $contestParticipantEntity = ContestParticipationEntity::fromContestParticipation($contestParticipation);
 
-        // The user object inside company is not managed,
-        // therefore we need to use merge instead of persist.
-        // When user wouldn't exist yet, the user is not created.
-        $this->entityManager->merge($contestParticipantEntity);
+        $this->entityManager->persist($contestParticipantEntity);
         $this->entityManager->flush();
     }
 
