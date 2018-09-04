@@ -8,7 +8,7 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="company")
+ * @ORM\Table(name="top_score")
  */
 class TopScoreEntity
 {

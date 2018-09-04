@@ -2,10 +2,16 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
+use InvalidArgumentException;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\EmployeeParticipationShare;
+use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
@@ -40,16 +46,30 @@ class StatisticsService
     private $statisticsKeys;
 
     /**
+     * @var CompanyRepository
+     */
+    private $companies;
+
+    /**
+     * @var EmployeeParticipationRepository
+     */
+    private $employeeParticipations;
+
+    /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
      * @param PartnerRepository $partnerRepository
+     * @param CompanyRepository $companies
+     * @param EmployeeParticipationRepository $employeeParticipations
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
         UniqueParticipantRepository $uniqueParticipantRepository,
-        PartnerRepository $partnerRepository
+        PartnerRepository $partnerRepository,
+        CompanyRepository $companies,
+        EmployeeParticipationRepository $employeeParticipations
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
@@ -57,6 +77,8 @@ class StatisticsService
         $this->partnerRepository = $partnerRepository;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
+        $this->companies = $companies;
+        $this->employeeParticipations = $employeeParticipations;
     }
 
     /**
@@ -117,6 +139,25 @@ class StatisticsService
         }
 
         return $counts;
+    }
+
+    /**
+     * @param UuidInterface $companyId
+     * @return EmployeeParticipationShare
+     * @throws InvalidArgumentException
+     */
+    public function getEmployeeParticipationShare(UuidInterface $companyId): EmployeeParticipationShare
+    {
+        $company = $this->companies->getById($companyId);
+
+        if (null === $company) {
+            throw new InvalidArgumentException('Unknown company');
+        }
+
+        return new EmployeeParticipationShare(
+            $this->employeeParticipations->countParticipatingEmployeesByCompany($companyId),
+            $company->getNumberOfEmployees()
+        );
     }
 
     /**
