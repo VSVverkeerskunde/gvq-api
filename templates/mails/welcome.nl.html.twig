@@ -1,7 +1,7 @@
 {% extends 'base_mail.html.twig' %}
 
 {% block content %}
-    <p>Beste {{ registration.user.firstName.toNative }},</p>
+    <p>Beste {{ registration.user.firstName.toNative }}</p>
     <p>Welkom bij De Grote Verkeersquiz. Je account werd succesvol aangemaakt.</p>
     <p>Via onderstaande link kan je inloggen en de gegevens van je bedrijf beheren.</p>
     <a href="{{ loginUrl }}">{{ loginUrl }}</a>
