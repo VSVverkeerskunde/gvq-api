@@ -52,11 +52,8 @@ class ContestFormType extends AbstractType
                 'dateOfBirth',
                 BirthdayType::class,
                 [
-                    'placeholder' => [
-                        'year' => '----',
-                        'month' => '--',
-                        'day' => '--',
-                    ],
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd',
                     'constraints' => [
                         new NotBlank(
                             [
