@@ -512,6 +512,18 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
+    public static function createArchivedGeneralQuestion(): Question
+    {
+        $question = self::createGeneralQuestion();
+        $question->archiveOn(new \DateTimeImmutable('2020-02-02T14:12:13+01:00'));
+
+        return $question;
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
     public static function createQuestionWithMissingCategory(): Question
     {
         $missingCategory = self::createMissingCategory();
