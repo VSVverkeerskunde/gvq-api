@@ -122,10 +122,7 @@ class ContestViewController extends AbstractController
 
             $this->contestService->save($contestParticipation);
 
-            return new Response(
-                'Participation saved '.$contestParticipation->getId()->toString(),
-                Response::HTTP_CREATED
-            );
+            return $this->render('contest/contest_success.html.twig');
         }
 
         $tieBreakers = $this->getTieBreakerByLocale($request->getLocale());
