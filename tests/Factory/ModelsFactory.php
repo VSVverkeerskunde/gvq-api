@@ -377,6 +377,18 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
+    public static function createArchivedAccidentQuestion(): Question
+    {
+        $question = self::createAccidentQuestion();
+        $question->archiveOn(new \DateTimeImmutable('2020-02-02T14:12:13+00:00'));
+
+        return $question;
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
     public static function createUpdatedAccidentQuestion(): Question
     {
         return new Question(
@@ -506,18 +518,6 @@ class ModelsFactory
             ),
             new \DateTimeImmutable('2020-02-02T13:12:13+01:00')
         );
-    }
-
-    /**
-     * @return Question
-     * @throws \Exception
-     */
-    public static function createArchivedGeneralQuestion(): Question
-    {
-        $question = self::createGeneralQuestion();
-        $question->archiveOn(new \DateTimeImmutable('2020-02-02T14:12:13+01:00'));
-
-        return $question;
     }
 
     /**

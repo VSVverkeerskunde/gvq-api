@@ -110,4 +110,45 @@ class QuestionSerializerTest extends TestCase
             $actualQuestion
         );
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_serialize_an_archived_question_to_json(): void
+    {
+        $question = ModelsFactory::createArchivedAccidentQuestion();
+        $questionAsJson = ModelsFactory::createJson('archived_question');
+
+        $actualJson = $this->serializer->serialize(
+            $question,
+            'json'
+        );
+
+        $this->assertEquals(
+            $questionAsJson,
+            $actualJson
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_deserialize_an_archived_question_to_question(): void
+    {
+        $question = ModelsFactory::createArchivedAccidentQuestion();
+        $questionAsJson = ModelsFactory::createJson('archived_question');
+
+        $actualQuestion = $this->serializer->deserialize(
+            $questionAsJson,
+            Question::class,
+            'json'
+        );
+
+        $this->assertEquals(
+            $question,
+            $actualQuestion
+        );
+    }
 }

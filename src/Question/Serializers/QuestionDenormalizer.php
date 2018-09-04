@@ -62,7 +62,7 @@ class QuestionDenormalizer implements DenormalizerInterface
             $data['answers']
         );
 
-        return new Question(
+        $question =  new Question(
             Uuid::fromString($data['id']),
             new Language($data['language']),
             new Year($data['year']),
@@ -73,6 +73,12 @@ class QuestionDenormalizer implements DenormalizerInterface
             new NotEmptyString($data['feedback']),
             new \DateTimeImmutable($data['createdOn'])
         );
+
+        if ($data['archivedOn'] !== null) {
+            $question->archiveOn(new \DateTimeImmutable($data['archivedOn']));
+        }
+
+        return $question;
     }
 
     /**

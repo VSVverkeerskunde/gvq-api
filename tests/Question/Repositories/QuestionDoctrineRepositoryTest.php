@@ -190,11 +190,11 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      */
     public function it_can_get_an_archived_question(): void
     {
-        $question = ModelsFactory::createArchivedGeneralQuestion();
+        $question = ModelsFactory::createArchivedAccidentQuestion();
         $this->questionDoctrineRepository->save($question);
 
         $foundQuestion = $this->questionDoctrineRepository->getById(
-            Uuid::fromString('5ffcac55-74e3-4836-a890-3e89a8a1cc15')
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d')
         );
 
         $this->assertEquals(
