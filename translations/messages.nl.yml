@@ -144,7 +144,7 @@ Contact.edit.success: 'Je gegevens werden gewijzigd'
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
-Welcome.mail.subject: 'Welkom op de Grote Verkeersquiz 2018'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2018'
 Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2018'
 
 #Input constraints
