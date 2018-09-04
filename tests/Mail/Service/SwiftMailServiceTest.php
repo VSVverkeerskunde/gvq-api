@@ -276,7 +276,7 @@ class SwiftMailServiceTest extends KernelTestCase
         */
 
         $this->assertContains(
-            'Beste John,',
+            'Beste John',
             $message->getChildren()[0]->getBody()
         );
 
