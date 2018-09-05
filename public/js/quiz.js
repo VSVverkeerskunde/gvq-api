@@ -88,6 +88,7 @@
 
     function renderTeamBanner(teamId) {
       let banner = $('#gvq-quiz .gvq-team-banner');
+      let form = $('.participation-form');
       let team = false;
 
       if (false === teamId) {
@@ -99,10 +100,14 @@
         team = quizConfig['teams'][teamId];
       }
 
+      let colorPrimary = team ? team['primary'] : 'white';
+      let colorSecondary = team ? team['secondary'] : 'white';
+
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
-      banner.css({
-        'background-color': team ? team['primary'] : 'white',
-        'border': 'solid ' + (team ? team['secondary'] : 'white'),
+      form.css({
+        'background-color': colorSecondary,
+        'background': 'linear-gradient(' + colorSecondary + ',' + colorPrimary + ')',
+        'border': '1px solid' + colorSecondary + '!important',
       })
     }
 
