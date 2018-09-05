@@ -26,8 +26,7 @@ body {
   min-width: 260px;
   background-color: #ffffff;
   color: #65696b;
-  font-family: "Open Sans", sans-serif;
-  font-weight: regular;
+  font-weight: 400;
   line-height: 1.65em;
   font-size: 1rem;
   margin: 0; }
@@ -178,6 +177,9 @@ h6, .h6 {
   font-weight: 600;
   text-decoration: underline; }
 
+.bg-primary {
+  background-color: #6cc4e9 !important; }
+
 form {
   max-width: 700px; }
 
@@ -240,6 +242,9 @@ input, button, select, optgroup, textarea {
       background-color: #40b2e2;
       border-color: #40b2e2;
       color: #ffffff; }
+    .btn-primary:disabled {
+      background-color: #98d6f0;
+      border-color: #98d6f0; }
   .btn:focus {
     color: #ffffff; }
 
