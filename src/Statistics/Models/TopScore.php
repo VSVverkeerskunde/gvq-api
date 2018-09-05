@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Statistics;
+namespace VSV\GVQ_API\Statistics\Models;
 
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -17,6 +17,10 @@ class TopScore
 
     public function __construct(Email $email, int $score)
     {
+        if ($score < 0) {
+            throw new \InvalidArgumentException('score has to be at least zero');
+        }
+
         $this->email = $email;
         $this->score = $score;
     }

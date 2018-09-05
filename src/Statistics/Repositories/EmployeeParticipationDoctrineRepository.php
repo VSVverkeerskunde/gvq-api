@@ -4,10 +4,10 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
-use VSV\GVQ_API\Statistics\EmployeeParticipation;
+use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 
-class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository implements EmployeeParticipationRepository
+class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository implements EmployeeParticipationRepository // phpcs:ignore
 {
     protected function getRepositoryName(): string
     {
@@ -27,7 +27,7 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
      *
      * @return int
      */
-    public function countParticipatingEmployeesByCompany(UuidInterface $companyId): int
+    public function countByCompany(UuidInterface $companyId): int
     {
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('count(participation.email)');

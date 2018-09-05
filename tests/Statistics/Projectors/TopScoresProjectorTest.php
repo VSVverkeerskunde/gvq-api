@@ -10,7 +10,7 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
-use VSV\GVQ_API\Statistics\TopScore;
+use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class TopScoresProjectorTest extends TestCase
@@ -64,13 +64,13 @@ class TopScoresProjectorTest extends TestCase
 
         $this->topScores
             ->expects($this->once())
-            ->method('findByEmail')
+            ->method('getByEmail')
             ->with($email)
             ->willReturn(null);
 
         $this->topScores
             ->expects($this->once())
-            ->method('set')
+            ->method('save')
             ->with(new TopScore($email, 16));
 
         $this->projector->handle($quizFinishedMessage);
@@ -98,13 +98,13 @@ class TopScoresProjectorTest extends TestCase
 
         $this->topScores
             ->expects($this->once())
-            ->method('findByEmail')
+            ->method('getByEmail')
             ->with($email)
             ->willReturn(new TopScore($email, 17));
 
         $this->topScores
             ->expects($this->never())
-            ->method('set');
+            ->method('save');
 
         $this->projector->handle($quizFinishedMessage);
     }
@@ -131,13 +131,13 @@ class TopScoresProjectorTest extends TestCase
 
         $this->topScores
             ->expects($this->once())
-            ->method('findByEmail')
+            ->method('getByEmail')
             ->with($email)
             ->willReturn(new TopScore($email, 17));
 
         $this->topScores
             ->expects($this->once())
-            ->method('set')
+            ->method('save')
             ->with(new TopScore($email, 19));
 
         $this->projector->handle($quizFinishedMessage);

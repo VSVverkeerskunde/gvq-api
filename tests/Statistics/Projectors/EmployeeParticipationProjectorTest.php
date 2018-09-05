@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
-use VSV\GVQ_API\Statistics\EmployeeParticipation;
+use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 

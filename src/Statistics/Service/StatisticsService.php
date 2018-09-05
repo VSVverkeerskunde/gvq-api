@@ -10,7 +10,7 @@ use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Statistics\EmployeeParticipationShare;
+use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
@@ -143,10 +143,10 @@ class StatisticsService
 
     /**
      * @param UuidInterface $companyId
-     * @return EmployeeParticipationShare
+     * @return EmployeeParticipationRatio
      * @throws InvalidArgumentException
      */
-    public function getEmployeeParticipationShare(UuidInterface $companyId): EmployeeParticipationShare
+    public function getEmployeeParticipationRatio(UuidInterface $companyId): EmployeeParticipationRatio
     {
         $company = $this->companies->getById($companyId);
 
@@ -154,8 +154,8 @@ class StatisticsService
             throw new InvalidArgumentException('Unknown company');
         }
 
-        return new EmployeeParticipationShare(
-            $this->employeeParticipations->countParticipatingEmployeesByCompany($companyId),
+        return new EmployeeParticipationRatio(
+            $this->employeeParticipations->countByCompany($companyId),
             $company->getNumberOfEmployees()
         );
     }

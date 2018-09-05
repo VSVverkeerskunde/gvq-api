@@ -3,11 +3,11 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Statistics\EmployeeParticipation;
+use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 
 interface EmployeeParticipationRepository
 {
     public function save(EmployeeParticipation $employee): void;
 
-    public function countParticipatingEmployeesByCompany(UuidInterface $companyId): int;
+    public function countByCompany(UuidInterface $companyId): int;
 }

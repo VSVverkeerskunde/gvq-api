@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Statistics;
+namespace VSV\GVQ_API\Statistics\ValueObjects;
 
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 
-class EmployeeParticipationShare
+class EmployeeParticipationRatio
 {
     /**
      * @var PositiveNumber
@@ -22,6 +22,10 @@ class EmployeeParticipationShare
      */
     public function __construct(int $participationCount, PositiveNumber $totalEmployees)
     {
+        if ($participationCount < 0) {
+            throw new \InvalidArgumentException('participation count has to be at least zero');
+        }
+
         $this->totalEmployees = $totalEmployees;
         $this->participationCount = $participationCount;
     }

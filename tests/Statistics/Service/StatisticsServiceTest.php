@@ -11,7 +11,7 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Statistics\EmployeeParticipationShare;
+use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
@@ -224,8 +224,8 @@ class StatisticsServiceTest extends TestCase
             ->with($company->getId())
             ->willReturn(3);
 
-        $participationShare = $this->statisticsService->getEmployeeParticipationShare($company->getId());
-        $expectedParticipationShare = new EmployeeParticipationShare(3, new PositiveNumber(49));
+        $participationShare = $this->statisticsService->getEmployeeParticipationRatio($company->getId());
+        $expectedParticipationShare = new EmployeeParticipationRatio(3, new PositiveNumber(49));
 
         $this->assertEquals($expectedParticipationShare, $participationShare);
     }

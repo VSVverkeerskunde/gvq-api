@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use VSV\GVQ_API\Statistics\EmployeeParticipation;
+use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 
 /**
  * @ORM\Entity()

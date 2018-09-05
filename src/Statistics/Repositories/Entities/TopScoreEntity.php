@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use VSV\GVQ_API\Statistics\TopScore;
+use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 /**

@@ -7,7 +7,7 @@ use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
-use VSV\GVQ_API\Statistics\TopScore;
+use VSV\GVQ_API\Statistics\Models\TopScore;
 
 class TopScoresProjector implements EventListener
 {
@@ -15,6 +15,7 @@ class TopScoresProjector implements EventListener
      * @var TopScoreRepository
      */
     private $topScores;
+
     /**
      * @var QuizRepository
      */
@@ -38,13 +39,13 @@ class TopScoresProjector implements EventListener
 
         if ($payload instanceof QuizFinished) {
             $quiz = $this->quizzes->getById($payload->getId());
-            $existingTopScore = $this->topScores->findByEmail($quiz->getParticipant()->getEmail());
+            $existingTopScore = $this->topScores->getByEmail($quiz->getParticipant()->getEmail());
 
             if ($existingTopScore instanceof TopScore && $existingTopScore->getScore() >= $payload->getScore()) {
                 return;
             }
 
-            $this->topScores->set(new TopScore($quiz->getParticipant()->getEmail(), $payload->getScore()));
+            $this->topScores->save(new TopScore($quiz->getParticipant()->getEmail(), $payload->getScore()));
         }
     }
 }
