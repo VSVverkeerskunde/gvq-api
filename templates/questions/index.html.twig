@@ -74,7 +74,7 @@
                     {% if question.isArchived %}
                         <h5><span class="badge badge-danger">
                                 <span class="oi oi-folder"></span>
-                            {% trans %} Question.isArchived {% endtrans %}
+                            {% trans with {'%archivedOn%': question.archivedOn|date('d-m-Y H:i:s', 'Europe/Brussels')}%} Question.isArchived {% endtrans %}
                              </span></h5>
                     {% endif %}
 

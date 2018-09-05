@@ -30,7 +30,7 @@ Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
-Question.isArchived: Question archivée
+Question.isArchived: Question archivée le %archivedOn%
 
 #Menu
 Questions: Questions
