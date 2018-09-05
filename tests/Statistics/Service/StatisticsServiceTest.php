@@ -220,7 +220,7 @@ class StatisticsServiceTest extends TestCase
 
         $this->employeeParticipations
             ->expects($this->once())
-            ->method('countParticipatingEmployeesByCompany')
+            ->method('countByCompany')
             ->with($company->getId())
             ->willReturn(3);
 
