@@ -30,6 +30,7 @@ Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
+Question.isArchived: Question archivée
 
 #Menu
 Questions: Questions
@@ -57,6 +58,7 @@ Button.edit: Modifier
 Button.edit.picture: Changer la photo
 Button.remove: Supprimer
 Button.export: Exporter
+Button.archive: Archiver
 
 #Links 
 To.login: Se connecter
@@ -128,6 +130,10 @@ Question.add.submit: Conserver
 Question.delete.title: Supprimer la question
 Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question?
 Question.delete.submit: Supprimer
+
+Question.archive.title: Archiver la question
+Question.archive.confirmation: Etes-vous sûr de vouloir archiver la question?
+Question.archive.submit: Archiver
 
 Question.edit.image.title: Modifier la photo
 Question.edit.image.submit: Modifier

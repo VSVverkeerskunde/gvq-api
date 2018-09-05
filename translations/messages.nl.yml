@@ -30,6 +30,7 @@ Password.confirm: 'Bevestig wachtwoord'
 Password.old: 'Huidig wachtwoord'
 Password.new: 'Nieuw wachtwoord'
 Password.new.confirm: 'Bevestig nieuw wachtwoord'
+Question.isArchived: 'Gearchiveerde vraag'
 
 #Menu
 Questions: 'Vragen'
@@ -57,6 +58,7 @@ Button.edit: 'Aanpassen'
 Button.edit.picture: 'Wijzig foto'
 Button.remove: 'Verwijderen'
 Button.export: 'Exporteren'
+Button.archive: 'Archiveren'
 
 #Links
 To.login: 'Naar loginpagina'
@@ -128,6 +130,10 @@ Question.add.submit: 'Bewaar'
 Question.delete.title: 'Vraag verwijderen'
 Question.delete.confirmation: 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
 Question.delete.submit: 'Verwijder'
+
+Question.archive.title: 'Vraag archiveren'
+Question.archive.confirmation: 'Ben je zeker dat je de vraag met id %id% wil archiveren?'
+Question.archive.submit: 'Archiveer'
 
 Question.edit.image.title: 'Foto aanpassen'
 Question.edit.image.submit: 'Aanpassen'

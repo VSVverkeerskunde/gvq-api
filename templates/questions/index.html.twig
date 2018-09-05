@@ -70,6 +70,14 @@
                          width="200">
                 </td>
                 <td>
+
+                    {% if question.isArchived %}
+                        <h5><span class="badge badge-danger">
+                                <span class="oi oi-folder"></span>
+                            {% trans %} Question.isArchived {% endtrans %}
+                             </span></h5>
+                    {% endif %}
+
                     <strong>{{ question.text.toNative }}</strong>
                     <ul>
                         {% for answer in question.answers.toArray %}
@@ -105,11 +113,13 @@
                            href="{{ path('questions_view_edit_image', {'id': question.id.toString}) }}">
                             <span class="oi oi-image"></span>{% trans %}Button.edit.picture{% endtrans %}
                         </a>
-                        <a role="button"
-                           class="btn btn-sm btn-outline-danger text-left"
-                           href="{{ path('questions_view_delete', {'id': question.id.toString}) }}">
-                            <span class="oi oi-trash"></span>{% trans %}Button.remove{% endtrans %}
-                        </a>
+                        {% if not question.isArchived %}
+                            <a role="button"
+                               class="btn btn-sm btn-outline-danger text-left"
+                               href="{{ path('questions_view_archive', {'id': question.id.toString}) }}">
+                                <span class="oi oi-folder"></span>{% trans %}Button.archive{% endtrans %}
+                            </a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
