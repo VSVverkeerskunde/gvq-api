@@ -328,6 +328,45 @@ class QuestionViewController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param string $id
+     * @return Response
+     * @throws \Exception
+     */
+    public function archive(Request $request, string $id): Response
+    {
+        if ($request->getMethod() === 'POST') {
+            $question = $this->questionRepository->getById(
+                $this->uuidFactory->fromString($id)
+            );
+
+            if ($question) {
+                $question->archiveOn(new \DateTimeImmutable('now'));
+                $this->questionRepository->update($question);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans(
+                        'Question.archive.success',
+                        [
+                            '%id%' => $id,
+                        ]
+                    )
+                );
+            }
+
+            return $this->redirectToRoute('questions_view_index');
+        }
+
+        return $this->render(
+            'questions/archive.html.twig',
+            [
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
      * @param null|Question $question
      * @return FormInterface
      */

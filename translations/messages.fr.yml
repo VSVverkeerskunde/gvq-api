@@ -186,6 +186,7 @@ Question.edit.not.found: La question %id% n'a pas été trouvée.
 Question.edit.success: La question %id% est modifiée.
 Question.edit.image.success: La photo de la question %id% est modifiée.
 Question.delete.success: La question %id% est supprimée.
+Question.archive.success: La question %id% est archivée.
 
 User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
 User.edit.success: L'utilisateur %id% est modifié.

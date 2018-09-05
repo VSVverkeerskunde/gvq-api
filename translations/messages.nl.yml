@@ -186,6 +186,7 @@ Question.edit.not.found: 'Geen vraag gevonden met id %id% om aan te passen.'
 Question.edit.success: 'Vraag %id% is aangepast.'
 Question.edit.image.success: 'Foto van vraag %id% is aangepast.'
 Question.delete.success: 'Vraag %id% is verwijderd.'
+Question.archive.success: 'Vraag %id% is gearchiveerd.'
 
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'

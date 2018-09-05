@@ -123,6 +123,13 @@ questions_view_delete:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+questions_view_archive:
+  path: /{_locale}/view/questions/archive/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::archive
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+
 
 companies_view_index:
   path: /{_locale}/view/companies
