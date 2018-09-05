@@ -265,7 +265,7 @@ class QuestionViewController extends AbstractController
             $data = $form->getData();
 
             $fileName = $this->imageController->handleImage($data['image']);
-            $this->imageController->delete($question->getImageFileName()->toNative());
+            $this->imageController->delete($question->getImageFileName());
 
             $question = $this->updateQuestionImage(
                 $question,
@@ -298,23 +298,30 @@ class QuestionViewController extends AbstractController
      * @param Request $request
      * @param string $id
      * @return Response
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function delete(Request $request, string $id): Response
     {
         if ($request->getMethod() === 'POST') {
-            $this->questionRepository->delete(
-                $this->uuidFactory->fromString($id)
-            );
+            $question = $this->questionRepository->getById($this->uuidFactory->fromString($id));
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans(
-                    'Question.delete.success',
-                    [
-                        '%id%' => $id,
-                    ]
-                )
-            );
+            if ($question) {
+                $this->questionRepository->delete(
+                    $this->uuidFactory->fromString($id)
+                );
+
+                $this->imageController->delete($question->getImageFileName());
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans(
+                        'Question.delete.success',
+                        [
+                            '%id%' => $id,
+                        ]
+                    )
+                );
+            }
 
             return $this->redirectToRoute('questions_view_index');
         }

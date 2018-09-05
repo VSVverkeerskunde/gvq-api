@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Image\Validation\UploadFileValidator;
 
 class ImageControllerTest extends TestCase
@@ -149,18 +150,18 @@ class ImageControllerTest extends TestCase
      */
     public function it_deletes_the_previous_image_if_it_exists(): void
     {
-        $fileName = 'existingImage.jpg';
+        $fileName = new NotEmptyString('existingImage.jpg');
 
         $this->fileSystem
             ->expects($this->once())
             ->method('has')
-            ->with($fileName)
+            ->with($fileName->toNative())
             ->willReturn(true);
 
         $this->fileSystem
             ->expects($this->once())
             ->method('delete')
-            ->with($fileName);
+            ->with($fileName->toNative());
 
         $this->imageController->delete($fileName);
     }
@@ -171,18 +172,18 @@ class ImageControllerTest extends TestCase
      */
     public function it_does_not_try_to_delete_nonexisting_image(): void
     {
-        $fileName = 'existingImage.jpg';
+        $fileName = new NotEmptyString('existingImage.jpg');
 
         $this->fileSystem
             ->expects($this->once())
             ->method('has')
-            ->with($fileName)
+            ->with($fileName->toNative())
             ->willReturn(false);
 
         $this->fileSystem
             ->expects($this->never())
             ->method('delete')
-            ->with($fileName);
+            ->with($fileName->toNative());
 
         $this->imageController->delete($fileName);
     }
