@@ -10,5 +10,5 @@ RUN touch /usr/share/nginx/html/.env && \
     rm /usr/share/nginx/html/index.html && \
     rm /usr/share/nginx/html/50x.html && \
     chown www-data:www-data /usr/share/nginx/html/public/uploads && \
-    chown -R www-data:www-data /usr/share/nginx/html/var \
+    chown -R www-data:www-data /usr/share/nginx/html/var && \
     chown -R www-data:www-data /var/lib/php/sessions
