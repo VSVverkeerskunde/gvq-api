@@ -30,7 +30,7 @@ Password.confirm: 'Bevestig wachtwoord'
 Password.old: 'Huidig wachtwoord'
 Password.new: 'Nieuw wachtwoord'
 Password.new.confirm: 'Bevestig nieuw wachtwoord'
-Question.isArchived: 'Vraag gearchiveerd op %archivedOn%'
+Question.isArchived: 'Vraag gearchiveerd op %archivedOnDate% om %archivedOnTime%'
 
 #Menu
 Questions: 'Vragen'
