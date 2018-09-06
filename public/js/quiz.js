@@ -23,6 +23,7 @@
       VIEW_SCORE: 'Bekijk score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Speel nog eens',
+      PLAY_CONTEST: 'Neem deel aan de wedstrijd',
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
@@ -36,6 +37,7 @@
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Jouer encore une fois',
+      PLAY_CONTEST: 'Participer à la compétition',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
@@ -45,14 +47,14 @@
   let cachedConfig = {};
 
   function loadTemplate(name, language) {
-    let template = $('div[data-template="'+name+'"]')
+    let template = $('div[data-template="'+name+'"]');
     template
       .find('[data-translate]')
       .each(function () {
         let translatable = $(this);
         let reference = translatable.attr('data-translate');
         translatable.text(translations[language][reference]);
-      })
+      });
 
     return template.prop('outerHTML');
   }
@@ -133,7 +135,7 @@
 
             teamSelect
               .on('change', function () {
-                startButton.prop('disabled', this.value === '')
+                startButton.prop('disabled', this.value === '');
                 renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
@@ -267,7 +269,16 @@
 
           view.find('button.gvq-play-again').on('click', function () {
             Quiz();
-          })
+          });
+
+          let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+          $.get(contestUrl).done(function () {
+              view.find('button.gvq-play-contest').show();
+          });
+
+          view.find('button.gvq-play-contest').on('click', function () {
+              $(location).attr("href", contestUrl);
+          });
 
           return $.Deferred().resolve().promise();
         },
@@ -276,7 +287,7 @@
     };
 
     renderView('participationForm');
-  };
+  }
 
   window.Quiz = Quiz;
 }(window, document, jQuery));

@@ -26,6 +26,12 @@ Alias.french: URL FR
 Actions: Actions
 Email: Email
 Password: Mot de passe
+DateOfBirth: __Geboortedatum
+Street: __Straat
+Number: __Nummer
+PostalCode: __Postcode
+Town: __Gemeente
+
 Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
@@ -140,6 +146,11 @@ Company.add.submit: Conserver
 
 Contact.edit.title: Modifier les données
 Contact.edit.success: Vos données ont été modifiées
+
+Contest.submit: __Deelnemen
+Contest.success: __Bedankt om deel te nemen aan de wedstrijd
+Contest.gdpr1: J'ai lu et j’accepte le règlement du Quiz de la Route 2018 et la déclaration relative à la protection des données à caractère personnel.
+Contest.gdpr2: J’autorise l’AWSR à conserver mes données pour rester informé-e des actualités, projets, concours de l’AWSR. Conformément au au règlement (UE) 2016/679 sur la protection des personnes physiques à l’égard du traitement de données à caractère personnel, vous avez notamment le droit d’accéder, de corriger ou de supprimer à tout moment vos données. Vos données ne seront pas transmises à des tiers.
 
 #Mails 
 Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
