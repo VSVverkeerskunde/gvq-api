@@ -53,9 +53,13 @@ ul.gvq-answers li.is-correct {
   pointer-events: none;
 }
 
+.gvq-team-banner {
+  padding: 20px;
+}
+
 .gvq-team-banner img {
   height: 150px;
-  width: 150px;
+  width: auto;
   margin: auto;
   display: block;
   background-color: white;
