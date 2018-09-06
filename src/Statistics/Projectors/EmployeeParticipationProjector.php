@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
-use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;

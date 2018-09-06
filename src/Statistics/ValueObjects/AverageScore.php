@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Statistics\ValueObjects;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class AverageScore
 {

@@ -6,10 +6,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Tester\CommandTester;
-use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Repositories\UserRepository;
-use VSV\GVQ_API\User\ValueObjects\Password;
 
 class SeedUsersCommandTest extends TestCase
 {

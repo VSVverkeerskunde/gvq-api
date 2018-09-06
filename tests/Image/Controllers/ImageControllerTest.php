@@ -58,11 +58,8 @@ class ImageControllerTest extends TestCase
 
     /**
      * @test
-<<<<<<< HEAD
-     * @throws \League\Flysystem\FileExistsException
-=======
      * @throws FileExistsException
->>>>>>> master
+     * @throws \Exception
      */
     public function it_can_handle_a_file_upload(): void
     {
