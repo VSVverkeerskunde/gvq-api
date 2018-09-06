@@ -66,6 +66,7 @@ class ImageController
      * @param UploadedFile $uploadedFile
      * @return NotEmptyString
      * @throws FileExistsException
+     * @throws \Exception
      */
     public function handleImage(UploadedFile $uploadedFile): NotEmptyString
     {
