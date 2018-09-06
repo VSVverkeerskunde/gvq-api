@@ -19,12 +19,16 @@ class EmployeeParticipationEntity
     private $companyId;
 
     /**
-     * @ORM\Id()
      * @var string
+     * @ORM\Id()
      * @ORM\Column(type="string", length=255, unique=false, nullable=false)
      */
     private $email;
 
+    /**
+     * @param EmployeeParticipation $employeeParticipation
+     * @return EmployeeParticipationEntity
+     */
     public static function fromEmployeeParticipation(EmployeeParticipation $employeeParticipation): self
     {
         $entity = new self();

@@ -15,11 +15,17 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 
 class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements TopScoreRepository
 {
+    /**
+     * @inheritdoc
+     */
     protected function getRepositoryName(): string
     {
         return TopScoreEntity::class;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getByEmail(Email $email): ?TopScore
     {
         /** @var TopScoreEntity|null $topScoreEntity */
@@ -32,15 +38,17 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
         return $topScoreEntity ? $topScoreEntity->toTopScore() : null;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function save(TopScore $topScore): void
     {
-        $this->entityManager->merge(TopScoreEntity::fromTopScore($topScore));
+        $this->entityManager->persist(TopScoreEntity::fromTopScore($topScore));
         $this->entityManager->flush();
     }
 
     /**
-     * @param UuidInterface $companyId
-     * @return AverageScore
+     * @inheritdoc
      * @throws NonUniqueResultException
      */
     public function getAverageScoreForCompany(UuidInterface $companyId): AverageScore

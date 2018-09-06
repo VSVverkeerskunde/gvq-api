@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Statistics\Service;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
@@ -18,6 +17,7 @@ use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class StatisticsServiceTest extends TestCase
 {
@@ -222,10 +222,13 @@ class StatisticsServiceTest extends TestCase
             ->expects($this->once())
             ->method('countByCompany')
             ->with($company->getId())
-            ->willReturn(3);
+            ->willReturn(new NaturalNumber(3));
 
         $participationShare = $this->statisticsService->getEmployeeParticipationRatio($company->getId());
-        $expectedParticipationShare = new EmployeeParticipationRatio(3, new PositiveNumber(49));
+        $expectedParticipationShare = new EmployeeParticipationRatio(
+            new NaturalNumber(3),
+            new PositiveNumber(49)
+        );
 
         $this->assertEquals($expectedParticipationShare, $participationShare);
     }

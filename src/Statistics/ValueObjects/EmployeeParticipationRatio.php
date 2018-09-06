@@ -12,17 +12,17 @@ class EmployeeParticipationRatio
     private $totalEmployees;
 
     /**
-     * @var int
+     * @var NaturalNumber
      */
     private $participationCount;
 
     /**
      * @param PositiveNumber $totalEmployees
-     * @param int $participationCount
+     * @param NaturalNumber $participationCount
      */
-    public function __construct(int $participationCount, PositiveNumber $totalEmployees)
+    public function __construct(NaturalNumber $participationCount, PositiveNumber $totalEmployees)
     {
-        if ($participationCount < 0) {
+        if ($participationCount->toNative() < 0) {
             throw new \InvalidArgumentException('participation count has to be at least zero');
         }
 
@@ -39,9 +39,9 @@ class EmployeeParticipationRatio
     }
 
     /**
-     * @return int
+     * @return NaturalNumber
      */
-    public function getParticipationCount(): int
+    public function getParticipationCount(): NaturalNumber
     {
         return $this->participationCount;
     }

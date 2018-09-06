@@ -15,42 +15,46 @@ class TopScoresProjector implements EventListener
     /**
      * @var TopScoreRepository
      */
-    private $topScores;
+    private $topScoreRepository;
 
     /**
      * @var QuizRepository
      */
-    private $quizzes;
+    private $quizRepository;
 
     /**
-     * @param TopScoreRepository $topScores
-     * @param QuizRepository $quizzes
+     * @param TopScoreRepository $topScoreRepository
+     * @param QuizRepository $quizRepository
      */
     public function __construct(
-        TopScoreRepository $topScores,
-        QuizRepository $quizzes
+        TopScoreRepository $topScoreRepository,
+        QuizRepository $quizRepository
     ) {
-        $this->topScores = $topScores;
-        $this->quizzes = $quizzes;
+        $this->topScoreRepository = $topScoreRepository;
+        $this->quizRepository = $quizRepository;
     }
 
-    public function handle(DomainMessage $domainMessage)
+    /**
+     * @param DomainMessage $domainMessage
+     */
+    public function handle(DomainMessage $domainMessage): void
     {
         $payload = $domainMessage->getPayload();
 
         if ($payload instanceof QuizFinished) {
-            $quiz = $this->quizzes->getById($payload->getId());
-            $existingTopScore = $this->topScores->getByEmail($quiz->getParticipant()->getEmail());
+            $quiz = $this->quizRepository->getById($payload->getId());
+            $existingTopScore = $this->topScoreRepository->getByEmail($quiz->getParticipant()->getEmail());
 
-            if ($existingTopScore instanceof TopScore
-                && $existingTopScore->getScore()->toNative() >= $payload->getScore()) {
+            if ($existingTopScore && $existingTopScore->getScore()->toNative() >= $payload->getScore()) {
                 return;
             }
 
-            $this->topScores->save(new TopScore(
-                $quiz->getParticipant()->getEmail(),
-                new NaturalNumber($payload->getScore())
-            ));
+            $this->topScoreRepository->save(
+                new TopScore(
+                    $quiz->getParticipant()->getEmail(),
+                    new NaturalNumber($payload->getScore())
+                )
+            );
         }
     }
 }

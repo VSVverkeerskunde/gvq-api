@@ -15,35 +15,41 @@ class EmployeeParticipationProjector implements EventListener
     /**
      * @var EmployeeParticipationRepository
      */
-    private $employeeParticipations;
+    private $employeeParticipationRepository;
     /**
      * @var QuizRepository
      */
-    private $quizzes;
+    private $quizRepository;
 
     /**
-     * @param EmployeeParticipationRepository $employeeParticipations
-     * @param QuizRepository $quizzes
+     * @param EmployeeParticipationRepository $employeeParticipationRepository
+     * @param QuizRepository $quizRepository
      */
     public function __construct(
-        EmployeeParticipationRepository $employeeParticipations,
-        QuizRepository $quizzes
+        EmployeeParticipationRepository $employeeParticipationRepository,
+        QuizRepository $quizRepository
     ) {
-        $this->employeeParticipations = $employeeParticipations;
-        $this->quizzes = $quizzes;
+        $this->employeeParticipationRepository = $employeeParticipationRepository;
+        $this->quizRepository = $quizRepository;
     }
 
-    public function handle(DomainMessage $domainMessage)
+    /**
+     * @param DomainMessage $domainMessage
+     */
+    public function handle(DomainMessage $domainMessage): void
     {
         $payload = $domainMessage->getPayload();
 
         if ($payload instanceof QuizFinished) {
-            $quiz = $this->quizzes->getById($payload->getId());
+            $quiz = $this->quizRepository->getById($payload->getId());
             $company = $quiz->getCompany();
 
-            if ($company instanceof Company) {
-                $this->employeeParticipations->save(
-                    new EmployeeParticipation($company->getId(), $quiz->getParticipant()->getEmail())
+            if ($company) {
+                $this->employeeParticipationRepository->save(
+                    new EmployeeParticipation(
+                        $company->getId(),
+                        $quiz->getParticipant()->getEmail()
+                    )
                 );
             }
         }
