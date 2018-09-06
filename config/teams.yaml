@@ -16,7 +16,7 @@
     primary: '#009e47'
     secondary: '#3c3c3c'
   35a453a5-175b-4e52-ab24-2023a581f47a:
-    name: 'Royal Charleroi Sporting Club'
+    name: 'Sporting De Charleroi'
     primary: '#fff'
     secondary: '#3c3c3c'
   922391c4-fc5b-4148-b69d-d347d48caaef:
@@ -36,11 +36,11 @@
     primary: '#ffd200'
     secondary: '#b80000'
   debe61b8-3021-445d-b275-73fc99702510:
-    name: 'KSC Lokeren OV'
+    name: 'Sporting Lokeren'
     primary: '#fff'
     secondary: '#3c3c3c'
   84d02f01-dc54-4a6d-a7d4-eaad91de8a7b:
-    name: 'Royal Excel Moeskroen'
+    name: 'Excel Mouscron'
     primary: '#264fc4'
     secondary: '#b80000'
   395b3906-9855-4db7-9e4c-6672ecabfe1b:
@@ -48,15 +48,15 @@
     primary: '#fff'
     secondary: '#214ec1'
   2e97a234-eb94-4c0f-b9f8-680c2a71580e:
-    name: 'Sint-Truidense VV'
+    name: 'STVV'
     primary: '#1a5cc0'
     secondary: '#ffea00'
   46acc61b-c989-40e4-91be-77ed9c12eaea:
-    name: 'Standard Luik'
+    name: 'Standard De Liège'
     primary: '#fff'
     secondary: '#b80000'
   72206a00-4c5a-407d-b1de-5c8cc0806d54:
-    name: 'KVRS Waasland - SK Beveren'
+    name: 'Waasland-Beveren'
     primary: '#ffd200'
     secondary: '#2359c6'
   d8b04678-8228-4aba-9fdc-644f52d1a4da:
@@ -76,11 +76,11 @@
     primary: '#fff'
     secondary: '#3c3c3c'
   8bdd0b90-3337-4408-871f-258658c53280:
-    name: 'KFCO Beerschot Wilrijk'
+    name: 'Beerschot-Wilrijk'
     primary: '#fff'
     secondary: '#663e8b'
   6b57b57d-f9eb-45cb-aa51-f1681f13ff0e:
-    name: 'Union Sint-Gillis'
+    name: 'R Union Saint-Gilloise'
     primary: '#fed430'
     secondary: '#15599f'
   924f1974-6eff-4ad2-abb2-d5d38826d884:
