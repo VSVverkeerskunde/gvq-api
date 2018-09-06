@@ -261,6 +261,11 @@ services:
         $year: '@quiz_year'
         $allowedDelay: '@quiz_delay'
 
+    tie_breaker_yaml_repository:
+      class: VSV\GVQ_API\Contest\Repositories\TieBreakerYamlRepository
+      arguments:
+        $tieBreakersFile: '%kernel.project_dir%/config/tie_breakers.yaml'
+
     statistics_service:
       class: VSV\GVQ_API\Statistics\Service\StatisticsService
       arguments:
@@ -268,6 +273,12 @@ services:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
+
+    contest_service:
+      class: VSV\GVQ_API\Contest\Service\ContestService
+      arguments:
+        $questionResultRepository: '@question_result_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -344,4 +355,13 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Document\Controllers\DocumentViewController:
+      tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Contest\Controllers\ContestViewController:
+      arguments:
+        $year: '@quiz_year'
+        $contestService: '@contest_service'
+        $uuidFactory: '@uuid_factory'
+        $quizRepository: '@quiz_redis_repository'
+        $tieBreakerRepository: '@tie_breaker_yaml_repository'
       tags: ['controller.service_arguments']

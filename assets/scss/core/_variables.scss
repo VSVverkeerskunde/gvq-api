@@ -9,19 +9,16 @@ $white: #ffffff;
 $brand-blue: #6cc4e9; // blue
 $brand-yellow: #fbb800; // yellow
 $brand-red: #e40521; // red
+$brand-green: #28a745; // bootstrap green
 
-$color-primary: $brand-blue;
-$color-text: $gray-50; // gray
-$color-link: $brand-blue;
+$color-primary: $brand-blue !default;
+$color-text: $gray-50 !default; // gray
+$color-link: $brand-blue !default;
 
 $global-margin: 40px;
 
 
 //== Typography
-//
-//## Font, line-height, and color for body text, headings, and more.
-$font-family-base: 'Open Sans', sans-serif !default;
-
 $font-size-base: 16px !default;
 $font-size-base-value: 16 !default;
 $font-size-root: 16px !default;

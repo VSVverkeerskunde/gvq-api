@@ -66,6 +66,7 @@ class ImageController
      * @param UploadedFile $uploadedFile
      * @return NotEmptyString
      * @throws FileExistsException
+     * @throws \Exception
      */
     public function handleImage(UploadedFile $uploadedFile): NotEmptyString
     {
@@ -82,13 +83,13 @@ class ImageController
     }
 
     /**
-     * @param string $fileName
+     * @param NotEmptyString $fileName
      * @throws FileNotFoundException
      */
-    public function delete(string $fileName)
+    public function delete(NotEmptyString $fileName)
     {
-        if ($this->fileSystem->has($fileName)) {
-            $this->fileSystem->delete($fileName);
+        if ($this->fileSystem->has($fileName->toNative())) {
+            $this->fileSystem->delete($fileName->toNative());
         }
     }
 

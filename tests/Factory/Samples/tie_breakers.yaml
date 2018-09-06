@@ -1,0 +1,13 @@
+2018:
+  0:
+    id: '72a90e90-d54e-48f4-b29d-32e88e06b86c'
+    channel: 'individual'
+    language: 'nl'
+    question: 'Hoeveel van hen behaalden 11/15 of meer?'
+    answer: 14564
+  1:
+    id: 'f6e4bcf3-e069-4d40-8b72-2f5961ec31b5'
+    channel: 'cup'
+    language: 'nl'
+    question: 'Hoeveel van hen behaalden 11/15 of meer?'
+    answer: 11245

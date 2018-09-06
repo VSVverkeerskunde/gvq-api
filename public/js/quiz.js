@@ -23,6 +23,7 @@
       VIEW_SCORE: 'Bekijk score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Speel nog eens',
+      PLAY_CONTEST: 'Neem deel aan de wedstrijd',
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
@@ -36,6 +37,7 @@
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Jouer encore une fois',
+      PLAY_CONTEST: 'Participer à la compétition',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
@@ -45,14 +47,14 @@
   let cachedConfig = {};
 
   function loadTemplate(name, language) {
-    let template = $('div[data-template="'+name+'"]')
+    let template = $('div[data-template="'+name+'"]');
     template
       .find('[data-translate]')
       .each(function () {
         let translatable = $(this);
         let reference = translatable.attr('data-translate');
         translatable.text(translations[language][reference]);
-      })
+      });
 
     return template.prop('outerHTML');
   }
@@ -82,8 +84,13 @@
       view.find('[data-value="'+name+'"]').text(value);
     }
 
+    function setViewHtmlValue(name, value) {
+      view.find('[data-value="'+name+'"]').html(value);
+    }
+
     function renderTeamBanner(teamId) {
       let banner = $('#gvq-quiz .gvq-team-banner');
+      let form = $('.participation-form');
       let team = false;
 
       if (false === teamId) {
@@ -95,10 +102,14 @@
         team = quizConfig['teams'][teamId];
       }
 
+      let colorPrimary = team ? team['primary'] : 'white';
+      let colorSecondary = team ? team['secondary'] : 'white';
+
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
-      banner.css({
-        'background-color': team ? team['primary'] : 'white',
-        'border': 'solid ' + (team ? team['secondary'] : 'white'),
+      form.css({
+        'background-color': colorSecondary,
+        'background': 'linear-gradient(' + colorSecondary + ',' + colorPrimary + ')',
+        'border': '1px solid' + colorSecondary + '!important',
       })
     }
 
@@ -129,7 +140,7 @@
 
             teamSelect
               .on('change', function () {
-                startButton.prop('disabled', this.value === '')
+                startButton.prop('disabled', this.value === '');
                 renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
@@ -227,7 +238,10 @@
               .attr('src', quizConfig.imageDirectory + data.question.imageFileName);
 
             setViewValue('questionText', data.question.text);
-            setViewValue('feedback', data.question.feedback);
+
+            //replace newlines with line breaks as pragmatic solution for bullet lists in feedback
+            let feedbackWithLineBreaks = data.question.feedback.replace(/\n/g, '<br>');
+            setViewHtmlValue('feedback', feedbackWithLineBreaks);
 
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
@@ -260,7 +274,16 @@
 
           view.find('button.gvq-play-again').on('click', function () {
             Quiz();
-          })
+          });
+
+          let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+          $.get(contestUrl).done(function () {
+              view.find('button.gvq-play-contest').show();
+          });
+
+          view.find('button.gvq-play-contest').on('click', function () {
+              $(location).attr("href", contestUrl);
+          });
 
           return $.Deferred().resolve().promise();
         },
@@ -269,7 +292,7 @@
     };
 
     renderView('participationForm');
-  };
+  }
 
   window.Quiz = Quiz;
 }(window, document, jQuery));

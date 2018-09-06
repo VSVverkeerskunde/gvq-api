@@ -19,6 +19,7 @@ security:
                 path: accounts_logout
                 target: accounts_view_login
     access_control:
+        - { path: '^/(nl|fr)/view/questions/delete', roles: [ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/questions', roles: [ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/users', roles: [ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/statistics', roles: [ROLE_VSV, ROLE_ADMIN] }

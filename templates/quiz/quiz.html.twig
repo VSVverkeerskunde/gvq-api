@@ -3,141 +3,119 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <style>
-        #form {
-            max-width: 576px;
-        }
+    <link href="{{ asset('css/quiz.css') }}" rel="stylesheet"/>
 
-        ul.gvq-answers li:hover {
-            cursor: pointer;
-            background-color: lightcyan;
-        }
-
-        ul.gvq-answers li.selected-answer {
-            list-style-type: '✔️';
-        }
-
-        ul.gvq-answers li.is-correct {
-            color: green;
-        }
-
-        .gvq-countdown.finished {
-            color: red;
-        }
-
-        .gvq-question-image {
-            width: 50%;
-            float: left;
-        }
-
-        .gvq-question-text,
-        .gvq-answers,
-        .gvq-question-feedback{
-            width: 50%;
-            float: right;
-        }
-
-        .gvq-next-question,
-        .gvq-view-score {
-            float: right;
-            clear: both;
-            display: none;
-        }
-
-        .gvq-quiz-old-view {
-            pointer-events: none;
-        }
-
-        .gvq-answer-result.correct {
-            color: green;
-        }
-
-        .gvq-answer-result.late,
-        .gvq-answer-result.wrong {
-            color: red;
-        }
-
-        .gvq-team-banner {
-            height: 150px;
-            width: 100%;
-        }
-
-        .gvq-team-banner img {
-            height: 150px;
-            width: 150px;
-            margin: auto;
-            display: block;
-            background-color: white;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
-    <h2>Quiz</h2>
-    <div id="gvq-quiz">
-        <div class="gvq-team-banner"><img src="" alt=""></div>
-        <div class="gvq-quiz-old-view"></div>
-        <div class="gvq-quiz-view"></div>
-        <div class="gvq-templates" data-language="nl" style="display: none;">
-            <div data-template="participation-form">
-                <select name="choose-team" id="choose-team">
-                    <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
-                </select>
-                <input class="gvq-participant-email" placeholder="email">
-                <button class="gvq-start-button" data-translate="START_QUIZ">Start the quiz</button>
-            </div>
+        <div id="gvq-quiz">
+            <div class="gvq-team-banner"><img src="" alt=""></div>
+            <div class="gvq-quiz-old-view"></div>
+            <div class="gvq-quiz-view"></div>
+            <div class="gvq-templates" data-language="nl" style="display: none;">
+                <div class="participation-form form border p-4" data-template="participation-form">
+                    <div class="form-group row">
+                        <div class="col">
+                            <select class="custom-select" name="choose-team" id="choose-team">
+                                <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="gvq-participant-email form-control" id="gvq-participant-email"
+                                   placeholder="email">
+                        </div>
+                        <div class="col-auto">
+                            <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-            <div data-template="ask-question">
-                <div class="gvq-question-counter">
-                    <span data-translate="QUESTION">Question</span> <span data-value="questionNr"></span>/15
-                    <span class="gvq-countdown">
-                        <span data-translate="TIME_LEFT">Time left</span>: <span class="gvq-time-left">40</span>
-                    </span>
+                <div class="ask-question card" data-template="ask-question">
+                    <div class="gvq-question-counter card-header">
+                        <div class="row align-items-center">
+                            <h2 class="col m-0"><span data-translate="QUESTION">Question</span> <span class="questionNr"
+                                                                                                      data-value="questionNr"></span>/15
+                            </h2>
+                            <div class="gvq-countdown col-auto">
+                                <span class="color-primary" data-translate="TIME_LEFT">Time left</span>
+                                <span class="counter gvq-time-left">40</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gvq-question-content card-body">
+                        <div class="row">
+                            <figure class="col-sm-6 mb-3">
+                                <img class="gvq-question-image" src="">
+                            </figure>
+                            <div class="gvq-question-text col-sm-6 mb-3">
+                                <p class="text-dark h4" data-value="questionText"></p>
+                                <ul class="gvq-answers list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-action" data-value="answer1"></li>
+                                    <li class="list-group-item list-group-item-action" data-value="answer2"></li>
+                                    <li class="list-group-item list-group-item-action" data-value="answer3"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="gvq-question-content">
-                    <img class="gvq-question-image" src="">
-                    <span class="gvq-question-text" data-value="questionText"></span>
-                    <ul class="gvq-answers">
-                        <li data-value="answer1"></li>
-                        <li data-value="answer2"></li>
-                        <li data-value="answer3"></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div data-template="show-answer">
-                <div class="gvq-question-counter">
-                    <span data-translate="QUESTION">Question</span> <span data-value="questionNr"></span>/15
-                </div>
-                <div class="gvq-question-content">
-                    <img class="gvq-question-image" src="">
-                    <span class="gvq-question-text" data-value="questionText"></span>
-                    <ul class="gvq-answers">
-                        <li data-value="answer1"></li>
-                        <li data-value="answer2"></li>
-                        <li data-value="answer3"></li>
-                    </ul>
-                    <span class="gvq-question-feedback" data-value="feedback"></span>
-                </div>
-                <div>
-                    <span class="gvq-answer-result correct" data-translate="ANSWERED_CORRECT">Correct</span>
-                    <span class="gvq-answer-result wrong" data-translate="ANSWERED_WRONG">Wrong</span>
-                    <span class="gvq-answer-result late" data-translate="ANSWERED_LATE">Too late</span>
-                </div>
-                <button class="gvq-next-question" data-translate="NEXT_QUESTION">Next question</button>
-                <button class="gvq-view-score" data-translate="VIEW_SCORE">view score</button>
-            </div>
+                <div class="show-answer card" data-template="show-answer">
+                    <div class="gvq-question-counter card-header">
+                            <h2 class="m-0"><span data-translate="QUESTION">Question</span> <span class="questionNr"
+                                                                                                      data-value="questionNr"></span>/15
+                                <span class="gvq-answer-result float-right badge badge-success correct"
+                                      data-translate="ANSWERED_CORRECT">Correct</span>
+                                <span class="gvq-answer-result float-right badge badge-danger wrong"
+                                      data-translate="ANSWERED_WRONG">Wrong</span>
+                                <span class="gvq-answer-result float-right badge badge-danger late" data-translate="ANSWERED_LATE">Too late</span>
+                            </h2>
+                    </div>
 
-            <div data-template="show-result">
-                <span class="gvq-score">
-                    <span data-translate="SCORE">Score</span>
-                    <span class="right-answers" data-value="score"></span>/<span class="total-questions" data-value="totalQuestions"></span>
-                </span>
-                <button class="gvq-play-again" data-translate="PLAY_AGAIN">Play again</button>
+                    <div class="gvq-question-content card-body">
+                        <div class="row">
+                            <figure class="col-sm-6 mb-3">
+                                <img class="gvq-question-image" src="">
+                            </figure>
+                            <div class="gvq-question-text col-sm-6 mb-3">
+                                <p class="text-dark h4" data-value="questionText"></p>
+                                <ul class="gvq-answers list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-action" data-value="answer1"></li>
+                                    <li class="list-group-item list-group-item-action" data-value="answer2"></li>
+                                    <li class="list-group-item list-group-item-action" data-value="answer3"></li>
+                                </ul>
+                            </div>
+                            <div class="col-12">
+                                <p class="gvq-question-feedback" data-value="feedback"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="gvq-next-question btn btn-primary" data-translate="NEXT_QUESTION">Next question
+                        </button>
+                        <button class="gvq-view-score btn btn-primary" data-translate="VIEW_SCORE">view score</button>
+                    </div>
+                </div>
+
+                <div class="show-result card" data-template="show-result">
+                    <div class="gvq-question-counter card-header text-center">
+                        <h2><span data-translate="SCORE">Score</span></h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <span class="gvq-score">
+                            <span class="right-answers" data-value="score"></span>/<span class="total-questions" data-value="totalQuestions"></span>
+                        </span>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again</button>
+                        <button class="gvq-play-contest" data-translate="PLAY_CONTEST" style="display: none">Play contest</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
     </div>
 {% endblock %}
@@ -149,14 +127,14 @@
         Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
         function getConfigFromUrlParameters() {
-          return decodeURIComponent(window.location.search.substring(1))
-            .split('&')
-            .reduce(function (config, urlParameter) {
-                let keyValue = urlParameter.split('=');
-                config[keyValue[0]] = keyValue[1];
+            return decodeURIComponent(window.location.search.substring(1))
+                    .split('&')
+                    .reduce(function (config, urlParameter) {
+                        let keyValue = urlParameter.split('=');
+                        config[keyValue[0]] = keyValue[1];
 
-                return config;
-            }, {});
+                        return config;
+                    }, {});
         }
     </script>
 {% endblock %}
