@@ -26,6 +26,15 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     /**
      * @inheritdoc
      */
+    public function save(TopScore $topScore): void
+    {
+        $this->entityManager->persist(TopScoreEntity::fromTopScore($topScore));
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getByEmail(Email $email): ?TopScore
     {
         /** @var TopScoreEntity|null $topScoreEntity */
@@ -36,15 +45,6 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
         );
 
         return $topScoreEntity ? $topScoreEntity->toTopScore() : null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function save(TopScore $topScore): void
-    {
-        $this->entityManager->persist(TopScoreEntity::fromTopScore($topScore));
-        $this->entityManager->flush();
     }
 
     /**

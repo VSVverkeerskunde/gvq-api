@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Statistics\Repositories;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
@@ -29,7 +30,7 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
 
     /**
      * @inheritdoc
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function countByCompany(UuidInterface $companyId): NaturalNumber
     {

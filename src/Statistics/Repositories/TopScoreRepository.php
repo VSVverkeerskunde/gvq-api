@@ -10,15 +10,15 @@ use VSV\GVQ_API\User\ValueObjects\Email;
 interface TopScoreRepository
 {
     /**
+     * @param TopScore $topScore
+     */
+    public function save(TopScore $topScore): void;
+
+    /**
      * @param Email $email
      * @return null|TopScore
      */
     public function getByEmail(Email $email): ?TopScore;
-
-    /**
-     * @param TopScore $topScore
-     */
-    public function save(TopScore $topScore): void;
 
     /**
      * @param UuidInterface $companyId
