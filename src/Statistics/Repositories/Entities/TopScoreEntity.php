@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 /**
@@ -34,7 +35,7 @@ class TopScoreEntity
     {
         $entity = new self();
         $entity->email = $topScore->getEmail()->toNative();
-        $entity->score = $topScore->getScore();
+        $entity->score = $topScore->getScore()->toNative();
 
         return $entity;
     }
@@ -46,7 +47,7 @@ class TopScoreEntity
     {
         return new TopScore(
             new Email($this->email),
-            $this->score
+            new NaturalNumber($this->score)
         );
     }
 }

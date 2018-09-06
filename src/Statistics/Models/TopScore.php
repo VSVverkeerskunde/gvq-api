@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Statistics\Models;
 
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class TopScore
@@ -10,17 +11,14 @@ class TopScore
      * @var Email
      */
     private $email;
+
     /**
-     * @var int
+     * @var NaturalNumber
      */
     private $score;
 
-    public function __construct(Email $email, int $score)
+    public function __construct(Email $email, NaturalNumber $score)
     {
-        if ($score < 0) {
-            throw new \InvalidArgumentException('score has to be at least zero');
-        }
-
         $this->email = $email;
         $this->score = $score;
     }
@@ -34,9 +32,9 @@ class TopScore
     }
 
     /**
-     * @return int
+     * @return NaturalNumber
      */
-    public function getScore(): int
+    public function getScore(): NaturalNumber
     {
         return $this->score;
     }

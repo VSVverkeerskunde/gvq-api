@@ -33,6 +33,7 @@ abstract class AbstractDoctrineRepositoryTest extends TestCase
                 __DIR__.'/../../../src/Company/Repositories/Entities',
                 __DIR__.'/../../../src/Registration/Repositories/Entities',
                 __DIR__.'/../../../src/Quiz/EventStore',
+                __DIR__.'/../../../src/Statistics/Repositories/Entities',
             ],
             true,
             null,

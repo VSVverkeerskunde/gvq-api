@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Service;
 
 use InvalidArgumentException;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
@@ -158,6 +159,15 @@ class StatisticsService
             $this->employeeParticipations->countByCompany($companyId),
             $company->getNumberOfEmployees()
         );
+    }
+
+    public function getAverageEmployeeTopScore(UuidInterface $companyId): int
+    {
+        $company = $this->companies->getById($companyId);
+
+        if (null === $company) {
+            throw new InvalidArgumentException('Unknown company');
+        }
     }
 
     /**
