@@ -140,13 +140,32 @@
 
             teamSelect
               .on('change', function () {
-                startButton.prop('disabled', this.value === '')
+                startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
                 renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
+
+            emailInput.on('keyup change', function() {
+                startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
+            }).trigger('change');
+
+
           } else {
             renderTeamBanner(false);
             teamSelect.remove();
+            emailInput.on('keyup change', function() {
+                startButton.prop('disabled', checkEmail() === false);
+            })
+            .trigger('change');
+          }
+
+          function checkEmail() {
+            let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
+            return emailRegex.test(emailInput.val());
+          }
+
+          function checkTeamSelect() {
+            return teamSelect.val() !== '';
           }
 
           startButton.on('click', function () {

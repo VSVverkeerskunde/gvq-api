@@ -24,8 +24,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col">
-                            <input class="gvq-participant-email form-control" id="gvq-participant-email"
-                                   placeholder="email">
+                            <input class="gvq-participant-email form-control" id="gvq-participant-email">
                         </div>
                         <div class="col-auto">
                             <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the quiz
@@ -65,14 +64,15 @@
 
                 <div class="show-answer card" data-template="show-answer">
                     <div class="gvq-question-counter card-header">
-                            <h2 class="m-0"><span data-translate="QUESTION">Question</span> <span class="questionNr"
-                                                                                                      data-value="questionNr"></span>/15
-                                <span class="gvq-answer-result float-right badge badge-success correct"
-                                      data-translate="ANSWERED_CORRECT">Correct</span>
-                                <span class="gvq-answer-result float-right badge badge-danger wrong"
-                                      data-translate="ANSWERED_WRONG">Wrong</span>
-                                <span class="gvq-answer-result float-right badge badge-danger late" data-translate="ANSWERED_LATE">Too late</span>
-                            </h2>
+                        <h2 class="m-0"><span data-translate="QUESTION">Question</span> <span class="questionNr"
+                                                                                              data-value="questionNr"></span>/15
+                            <span class="gvq-answer-result float-right badge badge-success correct"
+                                  data-translate="ANSWERED_CORRECT">Correct</span>
+                            <span class="gvq-answer-result float-right badge badge-danger wrong"
+                                  data-translate="ANSWERED_WRONG">Wrong</span>
+                            <span class="gvq-answer-result float-right badge badge-danger late"
+                                  data-translate="ANSWERED_LATE">Too late</span>
+                        </h2>
                     </div>
 
                     <div class="gvq-question-content card-body">
@@ -130,13 +130,13 @@
 
         function getConfigFromUrlParameters() {
             return decodeURIComponent(window.location.search.substring(1))
-                    .split('&')
-                    .reduce(function (config, urlParameter) {
-                        let keyValue = urlParameter.split('=');
-                        config[keyValue[0]] = keyValue[1];
+                .split('&')
+                .reduce(function (config, urlParameter) {
+                    let keyValue = urlParameter.split('=');
+                    config[keyValue[0]] = keyValue[1];
 
-                        return config;
-                    }, {});
+                    return config;
+                }, {});
         }
     </script>
 {% endblock %}
