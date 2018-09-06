@@ -26,7 +26,7 @@
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
-      CHOOSE_TEAM: 'Maak een keuze'
+      CHOOSE_TEAM: 'Selecteer een club naar keuze'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -39,7 +39,7 @@
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
-      CHOOSE_TEAM: 'Faites un choix'
+      CHOOSE_TEAM: 'Sélectionnez un club de votre choix'
     }
   };
   let cachedConfig = {};
