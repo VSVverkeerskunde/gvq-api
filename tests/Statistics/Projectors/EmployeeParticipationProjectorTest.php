@@ -19,12 +19,12 @@ class EmployeeParticipationProjectorTest extends TestCase
     /**
      * @var EmployeeParticipationRepository|MockObject
      */
-    private $employeeParticipations;
+    private $employeeParticipationRepository;
 
     /**
      * @var QuizRepository|MockObject
      */
-    private $quizzes;
+    private $quizRepository;
 
     /**
      * @var EmployeeParticipationProjector
@@ -33,14 +33,18 @@ class EmployeeParticipationProjectorTest extends TestCase
 
     public function setUp()
     {
-        /** @var EmployeeParticipationRepository|MockObject $employeeParticipations */
-        $employeeParticipations = $this->createMock(EmployeeParticipationRepository::class);
-        /** @var QuizRepository|MockObject $quizzes */
-        $quizzes = $this->createMock(QuizRepository::class);
+        /** @var EmployeeParticipationRepository|MockObject $employeeParticipationRepository */
+        $employeeParticipationRepository = $this->createMock(EmployeeParticipationRepository::class);
+        $this->employeeParticipationRepository = $employeeParticipationRepository;
 
-        $this->employeeParticipations = $employeeParticipations;
-        $this->quizzes = $quizzes;
-        $this->projector = new EmployeeParticipationProjector($employeeParticipations, $quizzes);
+        /** @var QuizRepository|MockObject $quizRepository */
+        $quizRepository = $this->createMock(QuizRepository::class);
+        $this->quizRepository = $quizRepository;
+
+        $this->projector = new EmployeeParticipationProjector(
+            $this->employeeParticipationRepository,
+            $this->quizRepository
+        );
     }
 
     /**
@@ -60,12 +64,12 @@ class EmployeeParticipationProjectorTest extends TestCase
             new QuizFinished($quiz->getId(), 16)
         );
 
-        $this->quizzes
+        $this->quizRepository
             ->expects($this->once())
             ->method('getById')
             ->willReturn($quiz);
 
-        $this->employeeParticipations
+        $this->employeeParticipationRepository
             ->expects($this->once())
             ->method('save')
             ->with(new EmployeeParticipation($companyId, $email))

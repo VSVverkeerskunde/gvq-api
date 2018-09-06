@@ -6,7 +6,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
-use VSV\GVQ_API\Statistics\Models\AverageScore;
+use VSV\GVQ_API\Statistics\ValueObjects\AverageScore;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
 use VSV\GVQ_API\Statistics\Models\TopScore;

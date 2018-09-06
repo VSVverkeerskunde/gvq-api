@@ -4,20 +4,15 @@ namespace VSV\GVQ_API\Statistics\Service;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use VSV\GVQ_API\Company\Repositories\CompanyRepository;
-use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
-use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
-use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class StatisticsServiceTest extends TestCase
 {
@@ -46,16 +41,6 @@ class StatisticsServiceTest extends TestCase
      */
     private $partnerRepository;
 
-    /**
-     * @var EmployeeParticipationRepository|MockObject
-     */
-    private $employeeParticipations;
-
-    /**
-     * @var CompanyRepository|MockObject
-     */
-    private $companies;
-
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -74,21 +59,11 @@ class StatisticsServiceTest extends TestCase
         $partnerRepository = $this->createMock(PartnerRepository::class);
         $this->partnerRepository = $partnerRepository;
 
-        /** @var EmployeeParticipationRepository|MockObject $employeeParticipations */
-        $employeeParticipations = $this->createMock(EmployeeParticipationRepository::class);
-        $this->employeeParticipations = $employeeParticipations;
-
-        /** @var CompanyRepository|MockObject $companies */
-        $companies = $this->createMock(CompanyRepository::class);
-        $this->companies = $companies;
-
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
-            $this->partnerRepository,
-            $companies,
-            $employeeParticipations
+            $this->partnerRepository
         );
     }
 
@@ -203,34 +178,6 @@ class StatisticsServiceTest extends TestCase
         $this->assertNull(
             $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018))
         );
-    }
-
-    /**
-     * @test
-     */
-    public function it_should_return_the_employee_participation_share_for_a_company(): void
-    {
-        $company = ModelsFactory::createCompany();
-
-        $this->companies
-            ->expects($this->once())
-            ->method('getById')
-            ->with($company->getId())
-            ->willReturn($company);
-
-        $this->employeeParticipations
-            ->expects($this->once())
-            ->method('countByCompany')
-            ->with($company->getId())
-            ->willReturn(new NaturalNumber(3));
-
-        $participationShare = $this->statisticsService->getEmployeeParticipationRatio($company->getId());
-        $expectedParticipationShare = new EmployeeParticipationRatio(
-            new NaturalNumber(3),
-            new PositiveNumber(49)
-        );
-
-        $this->assertEquals($expectedParticipationShare, $participationShare);
     }
 
     /**

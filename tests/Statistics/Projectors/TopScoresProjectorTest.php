@@ -19,32 +19,37 @@ class TopScoresProjectorTest extends TestCase
     /**
      * @var TopScoreRepository|MockObject
      */
-    private $topScores;
+    private $topScoreRepository;
 
     /**
      * @var QuizRepository|MockObject
      */
-    private $quizzes;
+    private $quizRepository;
 
     /**
      * @var TopScoresProjector
      */
-    private $projector;
+    private $topScoresProjector;
 
     public function setUp()
     {
-        /** @var TopScoreRepository|MockObject $topScores */
-        $topScores = $this->createMock(TopScoreRepository::class);
-        /** @var QuizRepository|MockObject $quizzes */
-        $quizzes = $this->createMock(QuizRepository::class);
+        /** @var TopScoreRepository|MockObject $topScoreRepository */
+        $topScoreRepository = $this->createMock(TopScoreRepository::class);
+        $this->topScoreRepository = $topScoreRepository;
 
-        $this->topScores = $topScores;
-        $this->quizzes = $quizzes;
-        $this->projector = new TopScoresProjector($topScores, $quizzes);
+        /** @var QuizRepository|MockObject $quizRepository */
+        $quizRepository = $this->createMock(QuizRepository::class);
+        $this->quizRepository = $quizRepository;
+
+        $this->topScoresProjector = new TopScoresProjector(
+            $this->topScoreRepository,
+            $this->quizRepository
+        );
     }
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_should_save_the_first_score_as_top_score(): void
     {
@@ -58,27 +63,28 @@ class TopScoresProjectorTest extends TestCase
             new QuizFinished($quiz->getId(), 16)
         );
 
-        $this->quizzes
+        $this->quizRepository
             ->expects($this->once())
             ->method('getById')
             ->willReturn($quiz);
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->once())
             ->method('getByEmail')
             ->with($email)
             ->willReturn(null);
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->once())
             ->method('save')
             ->with(new TopScore($email, new NaturalNumber(16)));
 
-        $this->projector->handle($quizFinishedMessage);
+        $this->topScoresProjector->handle($quizFinishedMessage);
     }
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_should_not_lower_an_existing_top_score(): void
     {
@@ -92,26 +98,27 @@ class TopScoresProjectorTest extends TestCase
             new QuizFinished($quiz->getId(), 10)
         );
 
-        $this->quizzes
+        $this->quizRepository
             ->expects($this->once())
             ->method('getById')
             ->willReturn($quiz);
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->once())
             ->method('getByEmail')
             ->with($email)
             ->willReturn(new TopScore($email, new NaturalNumber(17)));
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->never())
             ->method('save');
 
-        $this->projector->handle($quizFinishedMessage);
+        $this->topScoresProjector->handle($quizFinishedMessage);
     }
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_should_increase_an_existing_top_score(): void
     {
@@ -125,22 +132,22 @@ class TopScoresProjectorTest extends TestCase
             new QuizFinished($quiz->getId(), 19)
         );
 
-        $this->quizzes
+        $this->quizRepository
             ->expects($this->once())
             ->method('getById')
             ->willReturn($quiz);
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->once())
             ->method('getByEmail')
             ->with($email)
             ->willReturn(new TopScore($email, new NaturalNumber(17)));
 
-        $this->topScores
+        $this->topScoreRepository
             ->expects($this->once())
             ->method('save')
             ->with(new TopScore($email, new NaturalNumber(19)));
 
-        $this->projector->handle($quizFinishedMessage);
+        $this->topScoresProjector->handle($quizFinishedMessage);
     }
 }

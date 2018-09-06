@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Statistics\Models\AverageScore;
+use VSV\GVQ_API\Statistics\ValueObjects\AverageScore;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 

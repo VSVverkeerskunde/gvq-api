@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Statistics\Models;
+namespace VSV\GVQ_API\Statistics\ValueObjects;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
