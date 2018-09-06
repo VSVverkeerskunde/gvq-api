@@ -7,7 +7,6 @@ use VSV\GVQ_API\Question\Models\Question;
 
 class AnsweredTooLate extends AbstractQuizEvent
 {
-
     /**
      * @var Question
      */
