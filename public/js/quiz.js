@@ -191,6 +191,7 @@
               if (0 === secondsLeft) {
                 clearInterval(counterInterval);
                 view.find('.gvq-countdown').addClass('finished');
+                  renderView('showAnswer', quizId, questionNr);
               }
               counter.text(secondsLeft);
             }, 1000);
@@ -233,12 +234,13 @@
           let deferredRender = $.Deferred();
 
           function renderAnsweredQuestion(data) {
-            let answerResult = 'correct';
-            if (false === data.answeredTooLate) answerResult = 'wrong';
-            if (true === data.answeredTooLate) answerResult = 'late';
+            let answerResult = 'wrong';
 
             setViewValue('questionText', data.question.text);
             $.each(data.question.answers, function (index, answer) {
+              if(answerId && answer.correct && answerId === answer.id) {
+                answerResult = 'correct';
+              }
               setViewValue('answer'+answer.index, answer.text);
               view.find('[data-value="answer'+answer.index+'"]')
                 .toggleClass('selected-answer', answer.id === answerId)
@@ -280,6 +282,7 @@
           }
 
           setViewValue('questionNr', questionNr);
+          answerId = answerId || 'late';
           $.post(quizConfig.apiUrl+'/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
 
           return deferredRender.promise();

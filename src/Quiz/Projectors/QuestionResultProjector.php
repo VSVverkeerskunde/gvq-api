@@ -6,6 +6,7 @@ use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
@@ -60,7 +61,16 @@ class QuestionResultProjector implements EventListener
                 $payload->getId(),
                 new QuestionResult(
                     $payload->getQuestion(),
-                    $payload->isAnsweredTooLate(),
+                    null,
+                    null
+                )
+            );
+        } elseif ($payload instanceof AnsweredTooLate) {
+            $this->questionResultRepository->save(
+                $payload->getId(),
+                new QuestionResult(
+                    $payload->getQuestion(),
+                    true,
                     null
                 )
             );
@@ -70,6 +80,7 @@ class QuestionResultProjector implements EventListener
             );
             $this->questionResultRepository->save(
                 $payload->getId(),
+                //update score of questionresult, take other parameters of last questionResult
                 new QuestionResult(
                     $questionResult->getQuestion(),
                     $questionResult->isAnsweredTooLate(),
