@@ -95,6 +95,10 @@ h6, .h6 {
     text-decoration: underline;
 }
 
+.bg-primary {
+    background-color: $color-primary !important;
+}
+
 
 // Forms
 
@@ -162,16 +166,20 @@ input, button, select, optgroup, textarea {
 .btn {
     font-weight: bold;
     &-primary {
-        background-color: $brand-blue;
-        border-color: $brand-blue;
+        background-color: $color-primary;
+        border-color: $color-primary;
         color: $white;
 
         &:hover,
         &:active,
         &:focus {
-            background-color: darken($brand-blue, 10%);
-            border-color: darken($brand-blue, 10%);
+            background-color: darken($color-primary, 10%);
+            border-color: darken($color-primary, 10%);
             color: $white;
+        }
+        &:disabled {
+            background-color: lighten($color-primary, 10%);
+            border-color: lighten($color-primary, 10%);
         }
     }
     &:focus {
@@ -179,8 +187,8 @@ input, button, select, optgroup, textarea {
     }
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-    background-color: darken($brand-blue, 10%);
-    border-color: darken($brand-blue, 10%);
+    background-color: darken($color-primary, 10%);
+    border-color: darken($color-primary, 10%);
 }
 
 

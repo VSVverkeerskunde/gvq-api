@@ -1,0 +1,306 @@
+/*
+--breakpoint-xs: 0;
+--breakpoint-sm: 576px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 992px;
+--breakpoint-xl: 1200px;
+*/
+::-moz-selection {
+  background: rgba(108, 196, 233, 0.8);
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: rgba(108, 196, 233, 0.8);
+  color: #fff;
+  text-shadow: none; }
+
+*, *:before, *:after {
+  box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+body {
+  min-width: 260px;
+  background-color: #ffffff;
+  color: #65696b;
+  font-weight: 400;
+  line-height: 1.65em;
+  font-size: 1rem;
+  margin: 0; }
+
+html, body, .dialog-off-canvas-main-canvas, .site-container {
+  height: 100%; }
+
+textarea {
+  resize: vertical; }
+
+a {
+  transition: color 200ms cubic-bezier(0, 0, 0.15, 0.825), background-color 200ms cubic-bezier(0, 0, 0.15, 0.825), background-image 200ms cubic-bezier(0, 0, 0.15, 0.825), border 200ms cubic-bezier(0, 0, 0.15, 0.825);
+  color: #6cc4e9;
+  cursor: pointer; }
+  a:hover, a:focus {
+    color: #29a9df;
+    text-decoration: none; }
+
+p {
+  margin: 0 0 1em; }
+
+hr {
+  margin-top: 1.65em;
+  margin-bottom: 1.65em;
+  border: 0;
+  border-top: 1px solid #65696b; }
+
+svg {
+  fill: currentColor; }
+
+/*! == Helper classes == */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px; }
+  .ir:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 100%; }
+
+.superhidden {
+  display: none !important;
+  visibility: hidden; }
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute; }
+  .visually-hidden.focusable:active, .visually-hidden.focusable:focus {
+    clip: auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static; }
+
+.invisible {
+  visibility: hidden; }
+
+.clearfix {
+  zoom: 1; }
+  .clearfix:before, .clearfix:after {
+    content: "";
+    display: table; }
+  .clearfix:after {
+    clear: both; }
+
+.print-only,
+.print-only-inline {
+  display: none; }
+
+.pull--left {
+  float: left; }
+
+.pull--right {
+  float: right; }
+
+#gvq-quiz {
+  margin: auto;
+  padding: 1em;
+  max-width: 800px; }
+  #gvq-quiz input, #gvq-quiz button, #gvq-quiz select, #gvq-quiz optgroup, #gvq-quiz textarea {
+    max-width: 100%; }
+  #gvq-quiz h2 {
+    color: #6cc4e9;
+    text-transform: uppercase; }
+
+ul.gvq-answers li:hover {
+  cursor: pointer; }
+
+ul.gvq-answers li.selected-answer:before {
+  content: '\2713';
+  font-weight: bold;
+  padding-right: .5em; }
+
+ul.gvq-answers li.is-correct {
+  background-color: #28a745;
+  color: #ffffff; }
+  ul.gvq-answers li.is-correct:before {
+    color: #ffffff; }
+
+.gvq-countdown.finished {
+  color: #e40521; }
+
+.gvq-question-image {
+  height: auto;
+  width: 100%; }
+
+.gvq-next-question,
+.gvq-view-score {
+  float: right;
+  clear: both;
+  display: none; }
+
+.gvq-quiz-old-view {
+  opacity: .7;
+  pointer-events: none; }
+
+.gvq-team-banner img {
+  height: 150px;
+  width: 150px;
+  margin: auto;
+  display: block;
+  background-color: white; }
+
+.counter {
+  background-color: #e40521;
+  border-radius: 100%;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  height: 2.2rem;
+  width: 2.2rem;
+  text-align: center; }
+
+.gvq-score {
+  border: 2px solid #6cc4e9;
+  border-radius: 100%;
+  color: #6cc4e9;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 6.5rem;
+  height: 7rem;
+  width: 7rem;
+  text-align: center; }
+
+.questionNr {
+  color: #65696b; }
+
+.quiz-score {
+  position: relative;
+  font-weight: 700;
+  height: calc(100% - 296px);
+  min-height: 800px;
+  text-align: center;
+  padding-top: 180px; }
+  .quiz-score .top-score {
+    display: none; }
+  .quiz-score .contest-message {
+    color: #ffffff;
+    margin-bottom: 30px; }
+  .quiz-score .score {
+    font-size: 3em;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 55px; }
+  .quiz-score .score-number,
+  .quiz-score .score-total {
+    border-bottom: 5px solid #ffffff; }
+  .quiz-score .share {
+    color: #ffffff;
+    font-weight: 700;
+    max-width: 120px;
+    font-style: normal;
+    display: inline-block;
+    margin-right: 10px;
+    padding-top: 50px;
+    text-decoration: none; }
+  .quiz-score .share--facebook {
+    background: url("../img/facebook-share.png") no-repeat center top; }
+  .quiz-score .share--twitter {
+    background: url("../img/twitter-share.png") no-repeat center top; }
+  .quiz-score .participate,
+  .quiz-score .retry {
+    font-size: 1.875em;
+    display: inline-block;
+    margin: 0 20px 30px;
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #6cc4e9;
+    padding: 5px 20px;
+    border-radius: 5px;
+    transition: 0.3s all; }
+    .quiz-score .participate:hover,
+    .quiz-score .retry:hover {
+      background-color: #6cc4e9;
+      color: #ffffff; }
+
+@media print {
+  body {
+    padding-left: 1em;
+    padding-right: 1em; }
+
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important; }
+
+  a,
+  a:visited {
+    text-decoration: underline; }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: ""; }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */ }
+
+  tr,
+  img {
+    page-break-inside: avoid; }
+
+  img {
+    max-width: 100% !important; }
+
+  @page {
+    margin: 0.5cm; }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2,
+  h3 {
+    page-break-after: avoid; }
+
+  .print-only {
+    display: block; }
+
+  .print-only-inline {
+    display: inline; }
+
+  table.print .image {
+    width: 20%; }
+
+  table.print .question {
+    width: 55%; }
+
+  table.print tfoot img {
+    height: 50px;
+    width: auto; } }
+
+/*# sourceMappingURL=quiz.css.map */

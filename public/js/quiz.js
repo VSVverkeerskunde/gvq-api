@@ -84,6 +84,10 @@
       view.find('[data-value="'+name+'"]').text(value);
     }
 
+    function setViewHtmlValue(name, value) {
+      view.find('[data-value="'+name+'"]').html(value);
+    }
+
     function renderTeamBanner(teamId) {
       let banner = $('#gvq-quiz .gvq-team-banner');
       let team = false;
@@ -229,7 +233,10 @@
               .attr('src', quizConfig.imageDirectory + data.question.imageFileName);
 
             setViewValue('questionText', data.question.text);
-            setViewValue('feedback', data.question.feedback);
+
+            //replace newlines with line breaks as pragmatic solution for bullet lists in feedback
+            let feedbackWithLineBreaks = data.question.feedback.replace(/\n/g, '<br>');
+            setViewHtmlValue('feedback', feedbackWithLineBreaks);
 
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
