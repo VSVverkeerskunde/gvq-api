@@ -12,7 +12,8 @@
         "secondary": "#3c3c3c"
       }
     },
-    "apiUrl": "/api"
+    "apiUrl": "/api",
+    "email": ''
   };
   let translations = {
     nl: {
@@ -26,7 +27,8 @@
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
-      CHOOSE_TEAM: 'Selecteer een club naar keuze'
+      CHOOSE_TEAM: 'Selecteer een club naar keuze',
+      EMAIL: 'E-mail'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -39,7 +41,8 @@
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
-      CHOOSE_TEAM: 'Sélectionnez un club de votre choix'
+      CHOOSE_TEAM: 'Sélectionnez un club de votre choix',
+      EMAIL: 'Email'
     }
   };
   let cachedConfig = {};
@@ -111,6 +114,9 @@
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
           let teamSelect = view.find('select[name="choose-team"]');
+          let emailInput = view.find('input#gvq-participant-email');
+          emailInput.attr("placeholder", translations[quizConfig['language']]['EMAIL']);
+          emailInput.val(quizConfig['email']);
 
           function start(email, team) {
             $.post(quizConfig.apiUrl+'/quiz', JSON.stringify({
@@ -124,6 +130,7 @@
             .done(function( data ) {
               renderView('askQuestion', data.id, 1);
             });
+            quizConfig['email'] = email;
           }
 
           if (cupModeOn) {
@@ -144,7 +151,7 @@
 
           startButton.on('click', function () {
             start(
-              $('input.gvq-participant-email').val(),
+              emailInput.val(),
               cupModeOn ? teamSelect.val() : null
             );
           });
