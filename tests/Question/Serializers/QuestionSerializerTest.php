@@ -135,7 +135,7 @@ class QuestionSerializerTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_deserialize_an_archived_question_to_question(): void
+    public function it_can_deserialize_to_an_archived_question(): void
     {
         $question = ModelsFactory::createArchivedAccidentQuestion();
         $questionAsJson = ModelsFactory::createJson('archived_question');
