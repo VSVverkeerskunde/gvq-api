@@ -9,6 +9,7 @@ use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Factory\QuestionsGenerator;
+use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\Entities\QuestionEntity;
@@ -25,6 +26,16 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @var Question
      */
     private $question;
+
+    /**
+     * @var Category
+     */
+    private $category;
+
+    /**
+     * @var Questions
+     */
+    private $questions;
 
     /**
      * @throws \Doctrine\ORM\ORMException
@@ -49,6 +60,8 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->question = ModelsFactory::createAccidentQuestion();
+        $this->category = ModelsFactory::createGeneralCategory();
+        $this->questions = QuestionsGenerator::generateForCategory($this->category);
     }
 
     /**
@@ -175,23 +188,62 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      * @throws \Exception
      */
-    public function it_can_get_by_year_and_language_and_category(): void
+    public function it_can_get_an_archived_question(): void
     {
-        $category = ModelsFactory::createGeneralCategory();
-        $questions = QuestionsGenerator::generateForCategory($category);
+        $question = ModelsFactory::createArchivedAccidentQuestion();
+        $this->questionDoctrineRepository->save($question);
 
-        foreach ($questions as $question) {
-            $this->questionDoctrineRepository->save($question);
-        }
-
-        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
-            new Year(2018),
-            new Language('nl'),
-            $category
+        $foundQuestion = $this->questionDoctrineRepository->getById(
+            Uuid::fromString('448c6bd8-0075-4302-a4de-fe34d1554b8d')
         );
 
         $this->assertEquals(
-            $questions,
+            $question,
+            $foundQuestion
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_unarchived_questions_by_year_and_language_and_category(): void
+    {
+        foreach ($this->questions as $question) {
+            $this->questionDoctrineRepository->save($question);
+        }
+
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategoryAndNotArchived(
+            new Year(2018),
+            new Language('nl'),
+            $this->category
+        );
+
+        $this->assertEquals(
+            $this->questions,
+            $foundQuestions
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_will_not_return_archived_questions_by_year_and_language_and_category(): void
+    {
+        foreach ($this->questions as $question) {
+            /** @var Question $question */
+            $question->archiveOn(new \DateTimeImmutable('2020-02-02T12:12:13+00:00'));
+            $this->questionDoctrineRepository->save($question);
+        }
+
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategoryAndNotArchived(
+            new Year(2018),
+            new Language('nl'),
+            $this->category
+        );
+
+        $this->assertNull(
             $foundQuestions
         );
     }
@@ -199,9 +251,9 @@ class QuestionDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
-    public function it_returns_null_when_no_questions_of_given_year_language_and_category_are_present(): void
+    public function it_returns_null_when_no_unarchived_questions_of_given_year_language_and_category_are_present(): void
     {
-        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategory(
+        $foundQuestions = $this->questionDoctrineRepository->getByYearAndLanguageAndCategoryAndNotArchived(
             new Year(2018),
             new Language('nl'),
             ModelsFactory::createGeneralCategory()

@@ -27,6 +27,16 @@
                              width="200">
                     </td>
                     <td class="question">
+                        {% if question.isArchived %}
+                            <h5><span class="badge badge-danger">
+                                <span class="oi oi-folder"></span>
+                                    {% trans with
+                                        {'%archivedOnDate%': question.archivedOn|date('d-m-Y', 'Europe/Brussels'),
+                                        '%archivedOnTime%': question.archivedOn|date('H:i:s', 'Europe/Brussels')} %}
+                                        Question.isArchived
+                                    {% endtrans %}
+                             </span></h5>
+                        {% endif %}
                         <strong>{{ question.text.toNative }}</strong>
                         <ul>
                             {% for answer in question.answers.toArray %}

@@ -36,6 +36,7 @@ Password.confirm: 'Bevestig wachtwoord'
 Password.old: 'Huidig wachtwoord'
 Password.new: 'Nieuw wachtwoord'
 Password.new.confirm: 'Bevestig nieuw wachtwoord'
+Question.isArchived: 'Vraag gearchiveerd op %archivedOnDate% om %archivedOnTime%'
 
 #Menu
 Questions: 'Vragen'
@@ -63,6 +64,7 @@ Button.edit: 'Aanpassen'
 Button.edit.picture: 'Wijzig foto'
 Button.remove: 'Verwijderen'
 Button.export: 'Exporteren'
+Button.archive: 'Archiveren'
 
 #Links
 To.login: 'Naar loginpagina'
@@ -135,6 +137,10 @@ Question.delete.title: 'Vraag verwijderen'
 Question.delete.confirmation: 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
 Question.delete.submit: 'Verwijder'
 
+Question.archive.title: 'Vraag archiveren'
+Question.archive.confirmation: 'Ben je zeker dat je de vraag met id %id% wil archiveren?'
+Question.archive.submit: 'Archiveer'
+
 Question.edit.image.title: 'Foto aanpassen'
 Question.edit.image.submit: 'Aanpassen'
 
@@ -197,6 +203,7 @@ Question.edit.not.found: 'Geen vraag gevonden met id %id% om aan te passen.'
 Question.edit.success: 'Vraag %id% is aangepast.'
 Question.edit.image.success: 'Foto van vraag %id% is aangepast.'
 Question.delete.success: 'Vraag %id% is verwijderd.'
+Question.archive.success: 'Vraag %id% is gearchiveerd.'
 
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'

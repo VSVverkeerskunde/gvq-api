@@ -7,11 +7,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
+use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 /**
@@ -78,6 +78,13 @@ class QuestionEntity extends Entity
     private $createdOn;
 
     /**
+     * @var \DateTimeImmutable|null
+     *
+     * @ORM\Column(type="datetime_immutable", name="archived_on", nullable=true)
+     */
+    private $archivedOn;
+
+    /**
      * @param string $id
      * @param string $language
      * @param int $year
@@ -87,6 +94,7 @@ class QuestionEntity extends Entity
      * @param Collection $answerEntities
      * @param string $feedback
      * @param \DateTimeImmutable $createdOn
+     * @param \DateTimeImmutable|null $archivedOn
      */
     private function __construct(
         string $id,
@@ -97,7 +105,8 @@ class QuestionEntity extends Entity
         string $imageFileName,
         Collection $answerEntities,
         string $feedback,
-        \DateTimeImmutable $createdOn
+        \DateTimeImmutable $createdOn,
+        ?\DateTimeImmutable $archivedOn
     ) {
         parent::__construct($id);
 
@@ -109,6 +118,7 @@ class QuestionEntity extends Entity
         $this->answerEntities = $answerEntities;
         $this->feedback = $feedback;
         $this->createdOn = $createdOn;
+        $this->archivedOn = $archivedOn;
 
         foreach ($answerEntities as $answerEntity) {
             $answerEntity->setQuestionEntity($this);
@@ -138,7 +148,8 @@ class QuestionEntity extends Entity
             $question->getImageFileName()->toNative(),
             new ArrayCollection($answerEntities),
             $question->getFeedback()->toNative(),
-            $question->getCreatedOn()
+            $question->getCreatedOn(),
+            $question->getArchivedOn()
         );
 
         return $questionEntity;
@@ -158,7 +169,7 @@ class QuestionEntity extends Entity
             )
         );
 
-        return new Question(
+        $question = new Question(
             Uuid::fromString($this->getId()),
             new Language($this->getLanguage()),
             new Year($this->getYear()),
@@ -169,6 +180,12 @@ class QuestionEntity extends Entity
             new NotEmptyString($this->getFeedback()),
             $this->getCreatedOn()
         );
+
+        if ($this->getArchivedOn()) {
+            $question->archiveOn($this->getArchivedOn());
+        }
+
+        return $question;
     }
 
     /**
@@ -233,5 +250,13 @@ class QuestionEntity extends Entity
     public function getCreatedOn(): \DateTimeImmutable
     {
         return $this->createdOn;
+    }
+
+    /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getArchivedOn(): ?\DateTimeImmutable
+    {
+        return $this->archivedOn;
     }
 }

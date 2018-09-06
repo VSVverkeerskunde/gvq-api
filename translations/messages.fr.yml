@@ -36,6 +36,7 @@ Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
 Password.new: Nouveau mot de passe
 Password.new.confirm: Confirmer le nouveau mot de passe
+Question.isArchived: Question archivée le %archivedOnDate% à %archivedOnTime%
 
 #Menu
 Questions: Questions
@@ -63,6 +64,7 @@ Button.edit: Modifier
 Button.edit.picture: Changer la photo
 Button.remove: Supprimer
 Button.export: Exporter
+Button.archive: Archiver
 
 #Links 
 To.login: Se connecter
@@ -135,6 +137,10 @@ Question.delete.title: Supprimer la question
 Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question?
 Question.delete.submit: Supprimer
 
+Question.archive.title: Archiver la question
+Question.archive.confirmation: Etes-vous sûr de vouloir archiver la question?
+Question.archive.submit: Archiver
+
 Question.edit.image.title: Modifier la photo
 Question.edit.image.submit: Modifier
 
@@ -197,6 +203,7 @@ Question.edit.not.found: La question %id% n'a pas été trouvée.
 Question.edit.success: La question %id% est modifiée.
 Question.edit.image.success: La photo de la question %id% est modifiée.
 Question.delete.success: La question %id% est supprimée.
+Question.archive.success: La question %id% est archivée.
 
 User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
 User.edit.success: L'utilisateur %id% est modifié.

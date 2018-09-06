@@ -381,6 +381,18 @@ class ModelsFactory
      * @return Question
      * @throws \Exception
      */
+    public static function createArchivedAccidentQuestion(): Question
+    {
+        $question = self::createAccidentQuestion();
+        $question->archiveOn(new \DateTimeImmutable('2020-02-02T14:12:13+00:00'));
+
+        return $question;
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
     public static function createUpdatedAccidentQuestion(): Question
     {
         return new Question(
