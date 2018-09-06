@@ -74,7 +74,7 @@ class QuestionDenormalizer implements DenormalizerInterface
             new \DateTimeImmutable($data['createdOn'])
         );
 
-        if ($data['archivedOn'] !== null) {
+        if (isset($data['archivedOn']) && $data['archivedOn'] !== null) {
             $question->archiveOn(new \DateTimeImmutable($data['archivedOn']));
         }
 
