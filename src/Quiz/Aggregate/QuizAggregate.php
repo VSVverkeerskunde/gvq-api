@@ -116,7 +116,8 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 $this->quiz->getAllowedDelay()
             );
 
-            //frontend sends null answer if answered too late, backend still tests on time if answer given
+            // When the timer finishes in the quiz frontend an empty answered is send.
+            // But to make sure that no question is answered too late, always check the elapsed time.
             if ($answeredTooLate || $answer === null) {
                 $this->apply(
                     new AnsweredTooLate(

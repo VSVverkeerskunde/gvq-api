@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Quiz\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
@@ -14,7 +15,6 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionResultProjector implements EventListener
 {
-
     /**
      * @var QuestionResultRepository
      */
@@ -47,16 +47,7 @@ class QuestionResultProjector implements EventListener
                     'questionAsked' => true,
                 ]
             );
-        } elseif ($payload instanceof AnsweredCorrect) {
-            $this->questionResultRepository->save(
-                $payload->getId(),
-                new QuestionResult(
-                    $payload->getQuestion(),
-                    null,
-                    null
-                )
-            );
-        } elseif ($payload instanceof AnsweredIncorrect) {
+        } elseif ($payload instanceof AbstractAnsweredEvent) {
             $this->questionResultRepository->save(
                 $payload->getId(),
                 new QuestionResult(
@@ -80,7 +71,9 @@ class QuestionResultProjector implements EventListener
             );
             $this->questionResultRepository->save(
                 $payload->getId(),
-                //update score of questionresult, take other parameters of last questionResult
+                // Extra event gets triggered on last question.
+                // This QuizFinished event is used to update the score
+                // of the last question result.
                 new QuestionResult(
                     $questionResult->getQuestion(),
                     $questionResult->isAnsweredTooLate(),

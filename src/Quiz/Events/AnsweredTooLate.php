@@ -27,9 +27,8 @@ class AnsweredTooLate extends AbstractQuizEvent
         Question $question,
         \DateTimeImmutable $answeredOn
     ) {
-        parent::__construct(
-            $id
-        );
+        parent::__construct($id);
+
         $this->question = $question;
         $this->answeredOn = $answeredOn;
     }
