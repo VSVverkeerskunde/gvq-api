@@ -139,6 +139,49 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
+    public function it_triggers_answered_too_late_when_answered_empty(): void
+    {
+        $askedOn = new \DateTimeImmutable();
+        $question = $this->quiz->getQuestions()->toArray()[0];
+
+        $answeredOn = $askedOn->add(new \DateInterval('PT30S'));
+
+        $this->scenario
+            ->withAggregateId($this->quiz->getId()->toString())
+            ->given(
+                [
+                    new QuizStarted(
+                        $this->quiz->getId(),
+                        $this->quiz
+                    ),
+                    new QuestionAsked(
+                        $this->quiz->getId(),
+                        $question,
+                        $askedOn
+                    ),
+                ]
+            )
+            ->when(function (QuizAggregate $quizAggregate) use ($answeredOn) {
+                $quizAggregate->answerQuestion(
+                    $answeredOn,
+                    null
+                );
+            })
+            ->then(
+                [
+                    new AnsweredTooLate(
+                        $this->quiz->getId(),
+                        $question,
+                        $answeredOn
+                    ),
+                ]
+            );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_triggers_answered_incorrect_event_when_answered_wrong(): void
     {
         $askedOn = new \DateTimeImmutable();
