@@ -13,7 +13,6 @@ use VSV\GVQ_API\Question\Serializers\CategoryDenormalizer;
 use VSV\GVQ_API\Question\Serializers\CategoryNormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionDenormalizer;
 use VSV\GVQ_API\Question\Serializers\QuestionNormalizer;
-use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 
 class AnsweredTooLateSerializerTest extends TestCase
@@ -83,7 +82,7 @@ class AnsweredTooLateSerializerTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_deserialize_to_answered_incorrect(): void
+    public function it_can_deserialize_to_answered_too_late(): void
     {
         $actualAnsweredTooLate = $this->serializer->deserialize(
             $this->answeredTooLateAsJson,

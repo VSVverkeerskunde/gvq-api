@@ -24,6 +24,7 @@ class AnsweredTooLateNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      * @param AnsweredTooLate $answeredTooLate
+     * @throws \Exception
      */
     public function normalize($answeredTooLate, $format = null, array $context = []): array
     {
