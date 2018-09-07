@@ -33,6 +33,7 @@ class QuestionNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      * @param Question $question
+     * @throws \Exception
      */
     public function normalize($question, $format = null, array $context = []): array
     {
@@ -54,6 +55,8 @@ class QuestionNormalizer implements NormalizerInterface
             $question->getAnswers()->toArray()
         );
 
+        $archivedOn = $question->getArchivedOn() ? $question->getArchivedOn()->format(DATE_ATOM) : null;
+
         return [
             'id' => $question->getId()->toString(),
             'language' => $question->getLanguage()->toNative(),
@@ -63,7 +66,8 @@ class QuestionNormalizer implements NormalizerInterface
             'imageFileName' => $question->getImageFileName()->toNative(),
             'answers' => $answers,
             'feedback' => $questionAsked ? null : $question->getFeedback()->toNative(),
-            'createdOn' => $question->getCreatedOn()->format(DATE_ATOM)
+            'createdOn' => $question->getCreatedOn()->format(DATE_ATOM),
+            'archivedOn' => $archivedOn,
         ];
     }
 

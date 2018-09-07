@@ -26,10 +26,17 @@ Alias.french: 'Franstalige url'
 Actions: 'Acties'
 Email: 'E-mail'
 Password: 'Wachtwoord'
+DateOfBirth: 'Geboortedatum'
+Street: 'Straat'
+Number: 'Nummer'
+PostalCode: 'Postcode'
+Town: 'Gemeente'
+
 Password.confirm: 'Bevestig wachtwoord'
 Password.old: 'Huidig wachtwoord'
 Password.new: 'Nieuw wachtwoord'
 Password.new.confirm: 'Bevestig nieuw wachtwoord'
+Question.isArchived: 'Vraag gearchiveerd op %archivedOnDate% om %archivedOnTime%'
 
 #Menu
 Questions: 'Vragen'
@@ -57,6 +64,7 @@ Button.edit: 'Aanpassen'
 Button.edit.picture: 'Wijzig foto'
 Button.remove: 'Verwijderen'
 Button.export: 'Exporteren'
+Button.archive: 'Archiveren'
 
 #Links
 To.login: 'Naar loginpagina'
@@ -129,6 +137,10 @@ Question.delete.title: 'Vraag verwijderen'
 Question.delete.confirmation: 'Ben je zeker dat je vraag met id %id% wil verwijderen?'
 Question.delete.submit: 'Verwijder'
 
+Question.archive.title: 'Vraag archiveren'
+Question.archive.confirmation: 'Ben je zeker dat je de vraag met id %id% wil archiveren?'
+Question.archive.submit: 'Archiveer'
+
 Question.edit.image.title: 'Foto aanpassen'
 Question.edit.image.submit: 'Aanpassen'
 
@@ -140,6 +152,11 @@ Company.add.submit: 'Bewaar'
 
 Contact.edit.title: 'Gegevens wijzigen'
 Contact.edit.success: 'Je gegevens werden gewijzigd'
+
+Contest.submit: 'Deelnemen'
+Contest.success: 'Bedankt om deel te nemen aan de wedstrijd'
+Contest.gdpr1: 'Ik geef mijn toestemming dat de VSV mijn gegevens bewaart en gebruikt om de dienstverlening in het kader van dit project zo optimaal mogelijk te laten verlopen en u over dit project op de hoogte te houden.'
+Contest.gdpr2: 'Ik geef mijn toestemming dat de VSV mijn gegevens gebruikt om me te informeren over (nieuwe) VSV-projecten, -producten en -diensten. Overeenkomstig de Europese Algemene Verordening Gegevensbescherming van 27 april 2016 heb je recht op onder meer inzage, correctie en schrapping van de door ons bewaarde informatie. We geven je gegevens niet door aan derden.'
 
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
@@ -186,6 +203,7 @@ Question.edit.not.found: 'Geen vraag gevonden met id %id% om aan te passen.'
 Question.edit.success: 'Vraag %id% is aangepast.'
 Question.edit.image.success: 'Foto van vraag %id% is aangepast.'
 Question.delete.success: 'Vraag %id% is verwijderd.'
+Question.archive.success: 'Vraag %id% is gearchiveerd.'
 
 User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'

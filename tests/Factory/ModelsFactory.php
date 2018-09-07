@@ -11,7 +11,11 @@ use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Contest\Models\ContestParticipation;
+use VSV\GVQ_API\Contest\ValueObjects\Address;
+use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
 use VSV\GVQ_API\Mail\Models\Sender;
+use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
@@ -372,6 +376,18 @@ class ModelsFactory
             Uuid::fromString('9e316101-4c99-473e-ae2d-2fcb8674da0a'),
             $createdOn
         );
+    }
+
+    /**
+     * @return Question
+     * @throws \Exception
+     */
+    public static function createArchivedAccidentQuestion(): Question
+    {
+        $question = self::createAccidentQuestion();
+        $question->archiveOn(new \DateTimeImmutable('2020-02-02T14:12:13+00:00'));
+
+        return $question;
     }
 
     /**
@@ -888,6 +904,114 @@ class ModelsFactory
             $question,
             $answeredTooLate,
             $score
+        );
+    }
+
+    /**
+     * @return TieBreaker
+     */
+    public static function createQuizTieBreaker(): TieBreaker
+    {
+        return new TieBreaker(
+            Uuid::fromString('72a90e90-d54e-48f4-b29d-32e88e06b86c'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            new Language('nl'),
+            new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
+            new PositiveNumber(14564)
+        );
+    }
+
+    /**
+     * @return TieBreaker
+     */
+    public static function createCupTieBreaker(): TieBreaker
+    {
+        return new TieBreaker(
+            Uuid::fromString('f6e4bcf3-e069-4d40-8b72-2f5961ec31b5'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::CUP),
+            new Language('nl'),
+            new NotEmptyString('Hoeveel van hen behaalden 11/15 of meer?'),
+            new PositiveNumber(11245)
+        );
+    }
+
+    /**
+     * @return Address
+     */
+    public static function createVsvAddress(): Address
+    {
+        return new Address(
+            new NotEmptyString('Stationsstraat'),
+            new NotEmptyString('110'),
+            new NotEmptyString('2800'),
+            new NotEmptyString('Mechelen')
+        );
+    }
+
+    /**
+     * @return Address
+     */
+    public static function createAwsrAddress(): Address
+    {
+        return new Address(
+            new NotEmptyString('Avenue Comte de Smet de Nayer'),
+            new NotEmptyString('14'),
+            new NotEmptyString('5000'),
+            new NotEmptyString('Namur')
+        );
+    }
+
+    /**
+     * @return ContestParticipant
+     * @throws \Exception
+     */
+    public static function createContestParticipant(): ContestParticipant
+    {
+        return new ContestParticipant(
+            new Email('par@ticipa.nt'),
+            new NotEmptyString('Par'),
+            new NotEmptyString('Ticipa'),
+            new \DateTimeImmutable('1980-01-01T11:12:13+00:00')
+        );
+    }
+
+    /**
+     * @return ContestParticipation
+     * @throws \Exception
+     */
+    public static function createQuizContestParticipation(): ContestParticipation
+    {
+        return new ContestParticipation(
+            Uuid::fromString('c1eb30d1-990a-4a72-945f-190d00a26e9d'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(12345),
+            new PositiveNumber(54321),
+            true,
+            true
+        );
+    }
+
+    /**
+     * @return ContestParticipation
+     * @throws \Exception
+     */
+    public static function createCupContestParticipation(): ContestParticipation
+    {
+        return new ContestParticipation(
+            Uuid::fromString('cb79548e-e856-4efa-a064-894c1c9b66fe'),
+            new Year(2018),
+            new QuizChannel(QuizChannel::CUP),
+            ModelsFactory::createContestParticipant(),
+            ModelsFactory::createVsvAddress(),
+            new PositiveNumber(1234),
+            new PositiveNumber(4321),
+            true,
+            true
         );
     }
 

@@ -24,6 +24,7 @@
       VIEW_SCORE: 'Bekijk score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Speel nog eens',
+      PLAY_CONTEST: 'Neem deel aan de wedstrijd',
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
@@ -38,6 +39,7 @@
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Jouer encore une fois',
+      PLAY_CONTEST: 'Participer à la compétition',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
@@ -47,8 +49,9 @@
   };
   let cachedConfig = {};
 
-  function loadTemplate (name, language) {
-    let template = $('div[data-template="' + name + '"]');
+
+  function loadTemplate(name, language) {
+    let template = $('div[data-template="'+name+'"]');
     template
       .find('[data-translate]')
       .each(function () {
@@ -91,6 +94,7 @@
 
     function renderTeamBanner (teamId) {
       let banner = $('#gvq-quiz .gvq-team-banner');
+      let form = $('.participation-form');
       let team = false;
 
       if (false === teamId) {
@@ -102,11 +106,15 @@
         team = quizConfig['teams'][teamId];
       }
 
-      banner.find('img').attr('src', team ? (quizConfig.imageDirectory + 'teams/' + teamId + '.png') : '');
-      banner.css({
-        'background-color': team ? team['primary'] : 'white',
-        'border': 'solid ' + (team ? team['secondary'] : 'white'),
-      });
+      let colorPrimary = team ? team['primary'] : 'white';
+      let colorSecondary = team ? team['secondary'] : 'white';
+
+      banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
+      form.css({
+        'background-color': colorSecondary,
+        'background': 'linear-gradient(' + colorSecondary + ',' + colorPrimary + ')',
+        'border': '1px solid' + colorSecondary + '!important',
+      })
     }
 
     let views = {
@@ -295,6 +303,15 @@
 
           view.find('button.gvq-play-again').on('click', function () {
             Quiz();
+          });
+
+          let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+          $.get(contestUrl).done(function () {
+              view.find('button.gvq-play-contest').show();
+          });
+
+          view.find('button.gvq-play-contest').on('click', function () {
+              $(location).attr("href", contestUrl);
           });
 
           return $.Deferred().resolve().promise();

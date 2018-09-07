@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% include '/includes/flash.html.twig' %}
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate','class': 'form-register'}}) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_firstName">{% trans %}FirstName{% endtrans %}</label>
+                {{ form_widget(form.firstName) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="form_lastName">{% trans %}LastName{% endtrans %}</label>
+                {{ form_widget(form.lastName) }}
+                {{ form_errors(form.lastName) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_dateOfBirth">{% trans %}DateOfBirth{% endtrans %}</label>
+                {{ form_widget(form.dateOfBirth) }}
+                {{ form_errors(form.dateOfBirth) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_street">{% trans %}Street{% endtrans %}</label>
+                {{ form_widget(form.street) }}
+                {{ form_errors(form.street) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="form_number">{% trans %}Number{% endtrans %}</label>
+                {{ form_widget(form.number) }}
+                {{ form_errors(form.number) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_postalCode">{% trans %}PostalCode{% endtrans %}</label>
+                {{ form_widget(form.postalCode) }}
+                {{ form_errors(form.postalCode) }}
+            </div>
+            <div class="col-sm-6">
+                <label for="form_town">{% trans %}Town{% endtrans %}</label>
+                {{ form_widget(form.town) }}
+                {{ form_errors(form.town) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="form_answer1">{{ tieBreaker1.question.toNative }}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                {{ form_widget(form.answer1) }}
+                {{ form_errors(form.answer1) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="form_answer2">{{ tieBreaker2.question.toNative }}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                {{ form_widget(form.answer2) }}
+                {{ form_errors(form.answer2) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_widget(form.gdpr1) }}
+                <a href="{{ privacy_pdf }}" target="_blank" class="ml-4">Download Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_widget(form.gdpr2) }}
+                {{ form_errors(form.gdpr2) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{% trans %}Contest.submit{% endtrans %}</button>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

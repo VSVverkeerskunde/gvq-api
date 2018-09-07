@@ -86,7 +86,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
     /**
      * @inheritdoc
      */
-    public function getByYearAndLanguageAndCategory(
+    public function getByYearAndLanguageAndCategoryAndNotArchived(
         Year $year,
         Language $language,
         Category $category
@@ -96,6 +96,7 @@ class QuestionDoctrineRepository extends AbstractDoctrineRepository implements Q
                 'year' => $year->toNative(),
                 'language' => $language->toNative(),
                 'categoryEntity' => $category->getId()->toString(),
+                'archivedOn' => null,
             ]
         );
 

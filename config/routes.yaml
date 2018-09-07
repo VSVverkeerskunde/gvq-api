@@ -123,6 +123,13 @@ questions_view_delete:
   methods: [GET, POST]
   requirements:
     _locale: nl|fr
+questions_view_archive:
+  path: /{_locale}/view/questions/archive/{id}
+  controller: VSV\GVQ_API\Question\Controllers\QuestionViewController::archive
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+
 
 companies_view_index:
   path: /{_locale}/view/companies
@@ -207,6 +214,11 @@ documents_kickoff:
   path: /documents/{document}
   methods: [GET]
 
+privacy_pdf_nl:
+  path: /documents/privacy_policy-nl.pdf
+privacy_pdf_fr:
+  path: /documents/privacy_policy-fr.pdf
+
 contacts_view_edit:
   path: /{_locale}/view/contacts/edit/{id}
   controller: VSV\GVQ_API\User\Controllers\UserViewController::editContact
@@ -218,6 +230,16 @@ quiz:
   path: /quiz
   controller: VSV\GVQ_API\Quiz\Controllers\QuizViewController::showQuiz
   methods: [GET]
+
+quiz_example:
+  path: /quiz/example
+  controller: VSV\GVQ_API\Quiz\Controllers\QuizExampleController::showQuiz
+  methods: [GET, POST]
+
+contest:
+  path: /{_locale}/view/contest/{quizId}
+  controller: VSV\GVQ_API\Contest\Controllers\ContestViewController::contest
+  methods: [GET, POST]
 
 #
 # API
