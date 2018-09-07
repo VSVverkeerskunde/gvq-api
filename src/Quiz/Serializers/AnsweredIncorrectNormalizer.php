@@ -9,6 +9,7 @@ class AnsweredIncorrectNormalizer extends AbstractAnsweredEventNormalizer
     /**
      * @inheritdoc
      * @param AnsweredIncorrect $answeredIncorrect
+     * @throws \Exception
      */
     public function normalize($answeredIncorrect, $format = null, array $context = []): array
     {
@@ -17,7 +18,6 @@ class AnsweredIncorrectNormalizer extends AbstractAnsweredEventNormalizer
             'question' => $this->questionNormalizer->normalize($answeredIncorrect->getQuestion()),
             'answer' => $this->answerNormalizer->normalize($answeredIncorrect->getAnswer()),
             'answeredOn' => $answeredIncorrect->getAnsweredOn()->format(DATE_ATOM),
-            'answeredTooLate' => $answeredIncorrect->isAnsweredTooLate(),
         ];
     }
 

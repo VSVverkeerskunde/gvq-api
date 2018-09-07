@@ -27,6 +27,7 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
@@ -833,11 +834,10 @@ class ModelsFactory
     }
 
     /**
-     * @param bool $answeredTooLate
      * @return AnsweredIncorrect
      * @throws \Exception
      */
-    public static function createAnsweredIncorrect(bool $answeredTooLate): AnsweredIncorrect
+    public static function createAnsweredIncorrect(): AnsweredIncorrect
     {
         return new AnsweredIncorrect(
             Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
@@ -848,8 +848,20 @@ class ModelsFactory
                 new NotEmptyString('Non, on ne peut jamais rouler sur une voie ferrée.'),
                 false
             ),
-            new \DateTimeImmutable('2020-11-11T11:12:33+00:00'),
-            $answeredTooLate
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
+        );
+    }
+
+    /**
+     * @return AnsweredTooLate
+     * @throws \Exception
+     */
+    public static function createAnsweredTooLate(): AnsweredTooLate
+    {
+        return new AnsweredTooLate(
+            Uuid::fromString('366f4484-78d5-4051-9a6f-79c3e00589c6'),
+            ModelsFactory::createAccidentQuestion(),
+            new \DateTimeImmutable('2020-11-11T11:12:33+00:00')
         );
     }
 

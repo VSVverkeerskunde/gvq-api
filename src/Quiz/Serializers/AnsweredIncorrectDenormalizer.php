@@ -28,8 +28,7 @@ class AnsweredIncorrectDenormalizer extends AbstractAnsweredEventDenormalizer
                 Answer::class,
                 'json'
             ),
-            new \DateTimeImmutable($data['answeredOn']),
-            $data['answeredTooLate']
+            new \DateTimeImmutable($data['answeredOn'])
         );
     }
 
