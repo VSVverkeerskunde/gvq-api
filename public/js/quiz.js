@@ -13,7 +13,8 @@
       }
     },
     'apiUrl': '/api',
-    'email': ''
+    'email': '',
+    'team': ''
   };
   let translations = {
     nl: {
@@ -121,7 +122,9 @@
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
+
           let teamSelect = view.find('select[name="choose-team"]');
+
           let emailInput = view.find('input#gvq-participant-email');
           emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
           emailInput.val(quizConfig['email']);
@@ -139,12 +142,14 @@
                 renderView('askQuestion', data.id, 1);
               });
             quizConfig['email'] = email;
+            quizConfig['team'] = team;
           }
 
           if (cupModeOn) {
             $.each(quizConfig['teams'], function (id, team) {
               teamSelect.append($('<option>', {value: id, text: team.name}));
             });
+            teamSelect.val(quizConfig['team']);
 
             teamSelect
               .on('change', function () {
