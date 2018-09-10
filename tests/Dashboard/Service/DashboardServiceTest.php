@@ -9,6 +9,7 @@ use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
@@ -58,7 +59,7 @@ class DashboardServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_should_return_the_employee_participation_share_for_a_company(): void
+    public function it_should_return_the_employee_participation_ratio_for_a_company(): void
     {
         $company = ModelsFactory::createCompany();
 
@@ -81,5 +82,69 @@ class DashboardServiceTest extends TestCase
         );
 
         $this->assertEquals($expectedParticipationShare, $participationShare);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_for_unknown_company_when_getting_ratio(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown company');
+
+        $company = ModelsFactory::createCompany();
+
+        $this->companyRepository
+            ->expects($this->once())
+            ->method('getById')
+            ->with($company->getId())
+            ->willReturn(null);
+
+        $this->dashboardService->getEmployeeParticipationRatio($company->getId());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_employee_average_top_score(): void
+    {
+        $company = ModelsFactory::createCompany();
+
+        $this->companyRepository
+            ->expects($this->once())
+            ->method('getById')
+            ->with($company->getId())
+            ->willReturn($company);
+
+        $this->topScoreRepository->expects($this->once())
+            ->method('getAverageForCompany')
+            ->with($company->getId())
+            ->willReturn(new Average(10));
+
+        $average = $this->dashboardService->getAverageEmployeeTopScore($company->getId());
+
+        $this->assertEquals(
+            new Average(10),
+            $average
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_for_unknown_company_when_getting_employee_average(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown company');
+
+        $company = ModelsFactory::createCompany();
+
+        $this->companyRepository
+            ->expects($this->once())
+            ->method('getById')
+            ->with($company->getId())
+            ->willReturn(null);
+
+        $this->dashboardService->getAverageEmployeeTopScore($company->getId());
     }
 }

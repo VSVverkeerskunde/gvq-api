@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Dashboard\Service;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
@@ -48,11 +49,7 @@ class DashboardService
      */
     public function getEmployeeParticipationRatio(UuidInterface $companyId): EmployeeParticipationRatio
     {
-        $company = $this->companyRepository->getById($companyId);
-
-        if (null === $company) {
-            throw new \InvalidArgumentException('Unknown company');
-        }
+        $company = $this->getCompany($companyId);
 
         return new EmployeeParticipationRatio(
             $this->employeeParticipationRepository->countByCompany($companyId),
@@ -66,12 +63,25 @@ class DashboardService
      */
     public function getAverageEmployeeTopScore(UuidInterface $companyId): Average
     {
+        $company = $this->getCompany($companyId);
+
+        return $this->topScoreRepository->getAverageForCompany(
+            $company->getId()
+        );
+    }
+
+    /**
+     * @param UuidInterface $companyId
+     * @return Company
+     */
+    private function getCompany(UuidInterface $companyId): Company
+    {
         $company = $this->companyRepository->getById($companyId);
 
         if (null === $company) {
             throw new \InvalidArgumentException('Unknown company');
         }
 
-        return $this->topScoreRepository->getAverageForCompany($companyId);
+        return $company;
     }
 }
