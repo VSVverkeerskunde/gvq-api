@@ -4,9 +4,8 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-// @codingStandardsIgnoreStart
+// @codingStandardsIgnoreLine
 abstract class IncrementableAndCountableRedisRepository extends AbstractRedisRepository implements CountableRepository, IncrementableRepository
-// @codingStandardsIgnoreEnd
 {
     /**
      * @inheritdoc
