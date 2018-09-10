@@ -18,4 +18,10 @@
 
     <p>{% trans %}Dashboard.welcome{% endtrans %}</p>
 
+    <p>Aantal deelnemers / Aantal medewerkers</p>
+    <p>{{ employeeParticipationRatio.participationCount.toNative }} / {{ employeeParticipationRatio.totalEmployees.toNative }}</p>
+
+    <p>Gemiddelde bedrijf / Totaal gemiddelde</p>
+    <p>{{ companyAverage.toNative }} / {{ average.toNative }}</p>
+
 {% endblock %}

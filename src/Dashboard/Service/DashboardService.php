@@ -70,6 +70,11 @@ class DashboardService
         );
     }
 
+    public function getAverageTopScore(): Average
+    {
+        return $this->topScoreRepository->getAverage();
+    }
+
     /**
      * @param UuidInterface $companyId
      * @return Company
