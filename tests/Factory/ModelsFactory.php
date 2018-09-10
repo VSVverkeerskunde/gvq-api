@@ -696,6 +696,21 @@ class ModelsFactory
     }
 
     /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createCupQuiz(): Quiz
+    {
+        return self::createCustomQuiz(
+            Uuid::fromString('5f677528-1700-4fac-9e57-1718d1c3e667'),
+            new QuizChannel(QuizChannel::CUP),
+            null,
+            null,
+            self::createTeam()
+        );
+    }
+
+    /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
      * @param Company|null $company

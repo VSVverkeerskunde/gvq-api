@@ -8,21 +8,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
+use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class UniqueParticipantProjectorTest extends TestCase
+class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
 {
     /**
      * @var UniqueParticipantRepository|MockObject
      */
     private $uniqueParticipantRepository;
-
-    /**
-     * @var QuizRepository|MockObject
-     */
-    private $quizRepository;
 
     /**
      * @var UniqueParticipantProjector
@@ -31,13 +27,11 @@ class UniqueParticipantProjectorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         /** @var UniqueParticipantRepository|MockObject $uniqueParticipantRepository */
         $uniqueParticipantRepository = $this->createMock(UniqueParticipantRepository::class);
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
-
-        /** @var QuizRepository|MockObject $quizRepository */
-        $quizRepository = $this->createMock(QuizRepository::class);
-        $this->quizRepository = $quizRepository;
 
         $this->uniqueParticipantProjector = new UniqueParticipantProjector(
             $this->uniqueParticipantRepository,
@@ -46,33 +40,29 @@ class UniqueParticipantProjectorTest extends TestCase
     }
 
     /**
+     * @inheritdoc
+     * @throws \Exception
+     */
+    protected function createQuiz(): Quiz
+    {
+        return ModelsFactory::createIndividualQuiz();
+    }
+
+    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $quiz = ModelsFactory::createIndividualQuiz();
+        $domainMessage = $this->createDomainMessage();
 
-        $domainMessage = DomainMessage::recordNow(
-            $quiz->getId(),
-            0,
-            new Metadata(),
-            new QuizFinished(
-                $quiz->getId(),
-                11
-            )
-        );
-
-        $this->quizRepository->expects($this->once())
-            ->method('getById')
-            ->with($quiz->getId())
-            ->willReturn($quiz);
+        $this->doCommonQuizRepositoryExpect();
 
         $this->uniqueParticipantRepository->expects($this->once())
             ->method('add')
             ->with(
-                StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+                StatisticsKey::createFromQuiz($this->quiz),
+                $this->quiz->getParticipant()
             );
 
         $this->uniqueParticipantProjector->handle($domainMessage);

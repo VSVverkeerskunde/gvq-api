@@ -2,27 +2,18 @@
 
 namespace VSV\GVQ_API\Statistics\Projectors;
 
-use Broadway\Domain\DomainMessage;
-use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Events\QuizFinished;
-use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
-use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
+use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 
-class FinishedQuizzesProjectorTest extends TestCase
+class FinishedQuizzesProjectorTest extends QuizFinishedHandlingProjectorTest
 {
     /**
      * @var FinishedQuizRepository|MockObject
      */
     private $finishedQuizRepository;
-
-    /**
-     * @var QuizRepository|MockObject
-     */
-    private $quizRepository;
 
     /**
      * @var FinishedQuizzesProjector
@@ -31,13 +22,11 @@ class FinishedQuizzesProjectorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         /** @var FinishedQuizRepository|MockObject $finishedQuizRepository */
         $finishedQuizRepository = $this->createMock(FinishedQuizRepository::class);
         $this->finishedQuizRepository = $finishedQuizRepository;
-
-        /** @var QuizRepository|MockObject $quizRepository */
-        $quizRepository = $this->createMock(QuizRepository::class);
-        $this->quizRepository = $quizRepository;
 
         $this->finishedQuizzesProjector = new FinishedQuizzesProjector(
             $this->finishedQuizRepository,
@@ -46,31 +35,27 @@ class FinishedQuizzesProjectorTest extends TestCase
     }
 
     /**
+     * @inheritdoc
+     * @throws \Exception
+     */
+    protected function createQuiz(): Quiz
+    {
+        return ModelsFactory::createIndividualQuiz();
+    }
+
+    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $quiz = ModelsFactory::createIndividualQuiz();
+        $domainMessage = $this->createDomainMessage();
 
-        $domainMessage = DomainMessage::recordNow(
-            $quiz->getId(),
-            0,
-            new Metadata(),
-            new QuizFinished(
-                $quiz->getId(),
-                10
-            )
-        );
-
-        $this->quizRepository->expects($this->once())
-            ->method('getById')
-            ->with($quiz->getId())
-            ->willReturn($quiz);
+        $this->doCommonQuizRepositoryExpect();
 
         $this->finishedQuizRepository->expects($this->once())
             ->method('incrementCount')
-            ->with(StatisticsKey::createFromQuiz($quiz));
+            ->with(StatisticsKey::createFromQuiz($this->quiz));
 
         $this->finishedQuizzesProjector->handle($domainMessage);
     }
