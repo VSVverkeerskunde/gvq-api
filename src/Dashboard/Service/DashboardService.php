@@ -70,6 +70,9 @@ class DashboardService
         );
     }
 
+    /**
+     * @return Average
+     */
     public function getAverageTopScore(): Average
     {
         return $this->topScoreRepository->getAverage();

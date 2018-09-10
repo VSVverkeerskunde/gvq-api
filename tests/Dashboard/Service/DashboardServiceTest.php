@@ -147,4 +147,19 @@ class DashboardServiceTest extends TestCase
 
         $this->dashboardService->getAverageEmployeeTopScore($company->getId());
     }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_overal_average_top_score(): void
+    {
+        $this->topScoreRepository->expects($this->once())
+            ->method('getAverage')
+            ->willReturn(new Average(10));
+
+        $this->assertEquals(
+            new Average(10),
+            $this->dashboardService->getAverageTopScore()
+        );
+    }
 }
