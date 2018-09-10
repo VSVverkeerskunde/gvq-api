@@ -8,20 +8,26 @@ use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
+use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class DashboardServiceTest extends TestCase
 {
     /**
+     * @var CompanyRepository|MockObject
+     */
+    private $companyRepository;
+
+    /**
      * @var EmployeeParticipationRepository|MockObject
      */
     private $employeeParticipationRepository;
 
     /**
-     * @var CompanyRepository|MockObject
+     * @var TopScoreRepository|MockObject
      */
-    private $companyRepository;
+    private $topScoreRepository;
 
     /**
      * @var DashboardService
@@ -38,9 +44,14 @@ class DashboardServiceTest extends TestCase
         $employeeParticipationRepository = $this->createMock(EmployeeParticipationRepository::class);
         $this->employeeParticipationRepository = $employeeParticipationRepository;
 
+        /** @var TopScoreRepository|MockObject $topScoreRepository */
+        $topScoreRepository = $this->createMock(TopScoreRepository::class);
+        $this->topScoreRepository = $topScoreRepository;
+
         $this->dashboardService = new DashboardService(
             $this->companyRepository,
-            $this->employeeParticipationRepository
+            $this->employeeParticipationRepository,
+            $this->topScoreRepository
         );
     }
 

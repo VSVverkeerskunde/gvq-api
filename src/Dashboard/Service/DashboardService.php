@@ -5,6 +5,8 @@ namespace VSV\GVQ_API\Dashboard\Service;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
+use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 
 class DashboardService
@@ -20,15 +22,23 @@ class DashboardService
     private $employeeParticipationRepository;
 
     /**
+     * @var TopScoreRepository
+     */
+    private $topScoreRepository;
+
+    /**
      * @param CompanyRepository $companyRepository
      * @param EmployeeParticipationRepository $employeeParticipationRepository
+     * @param TopScoreRepository $topScoreRepository
      */
     public function __construct(
         CompanyRepository $companyRepository,
-        EmployeeParticipationRepository $employeeParticipationRepository
+        EmployeeParticipationRepository $employeeParticipationRepository,
+        TopScoreRepository $topScoreRepository
     ) {
         $this->companyRepository = $companyRepository;
         $this->employeeParticipationRepository = $employeeParticipationRepository;
+        $this->topScoreRepository = $topScoreRepository;
     }
 
     /**
@@ -52,14 +62,16 @@ class DashboardService
 
     /**
      * @param UuidInterface $companyId
-     * @return int
+     * @return Average
      */
-    public function getAverageEmployeeTopScore(UuidInterface $companyId): int
+    public function getAverageEmployeeTopScore(UuidInterface $companyId): Average
     {
         $company = $this->companyRepository->getById($companyId);
 
         if (null === $company) {
             throw new \InvalidArgumentException('Unknown company');
         }
+
+        return $this->topScoreRepository->getAverageForCompany($companyId);
     }
 }

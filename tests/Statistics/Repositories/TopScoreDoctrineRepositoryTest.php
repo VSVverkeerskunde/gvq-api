@@ -27,6 +27,15 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     {
         parent::setUp();
 
+        $employeeParticipationDoctrineRepository = new EmployeeParticipationDoctrineRepository(
+            $this->entityManager
+        );
+
+        $employeeParticipations = ModelsFactory::createEmployeeParticipations();
+        foreach ($employeeParticipations as $employeeParticipation) {
+            $employeeParticipationDoctrineRepository->save($employeeParticipation);
+        }
+
         $this->topScoreDoctrineRepository = new TopScoreDoctrineRepository(
             $this->entityManager
         );
@@ -103,17 +112,22 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
      * @test
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
+    public function it_can_get_average_top_score(): void
+    {
+        $score = $this->topScoreDoctrineRepository->getAverage();
+
+        $this->assertEquals(
+            new Average(11.5),
+            $score
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function it_can_get_average_top_score_for_company(): void
     {
-        $employeeParticipationDoctrineRepository = new EmployeeParticipationDoctrineRepository(
-            $this->entityManager
-        );
-
-        $employeeParticipations = ModelsFactory::createEmployeeParticipations();
-        foreach ($employeeParticipations as $employeeParticipation) {
-            $employeeParticipationDoctrineRepository->save($employeeParticipation);
-        }
-
         $score = $this->topScoreDoctrineRepository->getAverageForCompany(
             Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e')
         );

@@ -56,6 +56,23 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
      * @inheritdoc
      * @throws NonUniqueResultException
      */
+    public function getAverage(): Average
+    {
+        $scalarScore = $this->entityManager->createQueryBuilder()
+            ->select('avg(topScore.score)')
+            ->from(TopScoreEntity::class, 'topScore')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $score = null === $scalarScore ? 0 : floatval($scalarScore);
+
+        return new Average($score);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws NonUniqueResultException
+     */
     public function getAverageForCompany(UuidInterface $companyId): Average
     {
         $scalarScore = $this->entityManager->createQueryBuilder()
