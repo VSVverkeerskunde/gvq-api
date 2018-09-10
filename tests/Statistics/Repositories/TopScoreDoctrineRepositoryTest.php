@@ -7,6 +7,7 @@ use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\AverageScore;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -37,11 +38,19 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
                 new NaturalNumber(11)
             ),
             new TopScore(
+                new Email('elli@vsv.be'),
+                new NaturalNumber(10)
+            ),
+            new TopScore(
                 new Email('john@awsr.be'),
                 new NaturalNumber(13)
             ),
             new TopScore(
                 new Email('john@awsr.be'),
+                new NaturalNumber(12)
+            ),
+            new TopScore(
+                new Email('andy@awsr.be'),
                 new NaturalNumber(12)
             ),
         ];
@@ -113,7 +122,19 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->assertEquals(
             new AverageScore(
                 Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
-                new NaturalNumber(11)
+                new Average(10.5)
+            ),
+            $score
+        );
+
+        $score = $this->topScoreDoctrineRepository->getAverageScoreForCompany(
+            Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f')
+        );
+
+        $this->assertEquals(
+            new AverageScore(
+                Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f'),
+                new Average(12.5)
             ),
             $score
         );

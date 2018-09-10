@@ -12,15 +12,15 @@ class AverageScore
     private $companyId;
 
     /**
-     * @var NaturalNumber
+     * @var Average
      */
     private $score;
 
     /**
      * @param UuidInterface $companyId
-     * @param NaturalNumber $score
+     * @param Average $score
      */
-    public function __construct(UuidInterface $companyId, NaturalNumber $score)
+    public function __construct(UuidInterface $companyId, Average $score)
     {
         $this->companyId = $companyId;
         $this->score = $score;
@@ -35,9 +35,9 @@ class AverageScore
     }
 
     /**
-     * @return NaturalNumber
+     * @return Average
      */
-    public function getScore(): NaturalNumber
+    public function getScore(): Average
     {
         return $this->score;
     }
