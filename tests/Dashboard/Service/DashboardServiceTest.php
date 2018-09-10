@@ -151,7 +151,7 @@ class DashboardServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_the_overal_average_top_score(): void
+    public function it_gets_the_overall_average_top_score(): void
     {
         $this->topScoreRepository->expects($this->once())
             ->method('getAverage')

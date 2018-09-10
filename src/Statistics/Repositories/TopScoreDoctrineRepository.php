@@ -54,6 +54,29 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
 
     /**
      * @inheritdoc
+     */
+    public function getAllByCompany(UuidInterface $companyId): array
+    {
+        /** @var TopScoreEntity[] $topScoreEntities */
+        $topScoreEntities = $this->entityManager->createQueryBuilder()
+            ->select('topScore')
+            ->from(EmployeeParticipationEntity::class, 'employee')
+            ->where('employee.companyId = :companyId')
+            ->setParameter('companyId', $companyId->toString())
+            ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
+            ->getQuery()
+            ->getResult();
+
+        $topScores = [];
+        foreach ($topScoreEntities as $topScoreEntity) {
+            $topScores[] = $topScoreEntity->toTopScore();
+        }
+
+        return $topScores;
+    }
+
+    /**
+     * @inheritdoc
      * @throws NonUniqueResultException
      */
     public function getAverage(): Average

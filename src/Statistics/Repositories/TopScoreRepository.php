@@ -23,6 +23,12 @@ interface TopScoreRepository
     public function getByEmail(Email $email): ?TopScore;
 
     /**
+     * @param UuidInterface $companyId
+     * @return TopScore[]
+     */
+    public function getAllByCompany(UuidInterface $companyId): array;
+
+    /**
      * @return Average
      */
     public function getAverage(): Average;

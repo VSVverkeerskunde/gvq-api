@@ -79,6 +79,30 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     /**
      * @test
      */
+    public function it_can_get_all_top_scores_by_company(): void
+    {
+        $topScores = $this->topScoreDoctrineRepository->getAllByCompany(
+            Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f')
+        );
+
+        $this->assertEquals(
+            [
+                new TopScore(
+                    new Email('andy@awsr.be'),
+                    new NaturalNumber(12)
+                ),
+                new TopScore(
+                    new Email('john@awsr.be'),
+                    new NaturalNumber(13)
+                ),
+            ],
+            $topScores
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_a_top_score_by_email(): void
     {
         $foundTopScore = $this->topScoreDoctrineRepository->getByEmail(new Email('jane@vsv.be'));
