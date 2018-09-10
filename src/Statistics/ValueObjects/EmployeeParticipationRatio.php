@@ -7,14 +7,14 @@ use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 class EmployeeParticipationRatio
 {
     /**
-     * @var PositiveNumber
-     */
-    private $totalEmployees;
-
-    /**
      * @var NaturalNumber
      */
     private $participationCount;
+
+    /**
+     * @var PositiveNumber
+     */
+    private $totalEmployees;
 
     /**
      * @param PositiveNumber $totalEmployees
@@ -22,20 +22,8 @@ class EmployeeParticipationRatio
      */
     public function __construct(NaturalNumber $participationCount, PositiveNumber $totalEmployees)
     {
-        if ($participationCount->toNative() < 0) {
-            throw new \InvalidArgumentException('participation count has to be at least zero');
-        }
-
         $this->totalEmployees = $totalEmployees;
         $this->participationCount = $participationCount;
-    }
-
-    /**
-     * @return PositiveNumber
-     */
-    public function getTotalEmployees(): PositiveNumber
-    {
-        return $this->totalEmployees;
     }
 
     /**
@@ -44,5 +32,13 @@ class EmployeeParticipationRatio
     public function getParticipationCount(): NaturalNumber
     {
         return $this->participationCount;
+    }
+
+    /**
+     * @return PositiveNumber
+     */
+    public function getTotalEmployees(): PositiveNumber
+    {
+        return $this->totalEmployees;
     }
 }
