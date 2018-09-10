@@ -40,6 +40,10 @@ class DashboardViewController extends CompanyAwareController
 
         $company = $this->getActiveCompany($companies, $companyId);
 
+        if ($company === null) {
+            throw new \InvalidArgumentException('Found no active company!');
+        }
+
         $employeeParticipationRatio = $this->dashboardService->getEmployeeParticipationRatio(
             $company->getId()
         );
