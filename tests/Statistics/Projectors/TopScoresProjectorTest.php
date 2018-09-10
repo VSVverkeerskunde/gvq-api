@@ -51,7 +51,7 @@ class TopScoresProjectorTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_should_save_the_first_score_as_top_score(): void
+    public function it_stores_a_top_score(): void
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $email = new Email('par@ticipa.nt');
@@ -70,83 +70,8 @@ class TopScoresProjectorTest extends TestCase
 
         $this->topScoreRepository
             ->expects($this->once())
-            ->method('getByEmail')
-            ->with($email)
-            ->willReturn(null);
-
-        $this->topScoreRepository
-            ->expects($this->once())
-            ->method('save')
+            ->method('saveWhenHigher')
             ->with(new TopScore($email, new NaturalNumber(16)));
-
-        $this->topScoresProjector->handle($quizFinishedMessage);
-    }
-
-    /**
-     * @test
-     * @throws \Exception
-     */
-    public function it_should_not_lower_an_existing_top_score(): void
-    {
-        $quiz = ModelsFactory::createIndividualQuiz();
-        $email = new Email('par@ticipa.nt');
-
-        $quizFinishedMessage = DomainMessage::recordNow(
-            $quiz->getId(),
-            0,
-            new Metadata(),
-            new QuizFinished($quiz->getId(), 10)
-        );
-
-        $this->quizRepository
-            ->expects($this->once())
-            ->method('getById')
-            ->willReturn($quiz);
-
-        $this->topScoreRepository
-            ->expects($this->once())
-            ->method('getByEmail')
-            ->with($email)
-            ->willReturn(new TopScore($email, new NaturalNumber(17)));
-
-        $this->topScoreRepository
-            ->expects($this->never())
-            ->method('save');
-
-        $this->topScoresProjector->handle($quizFinishedMessage);
-    }
-
-    /**
-     * @test
-     * @throws \Exception
-     */
-    public function it_should_increase_an_existing_top_score(): void
-    {
-        $quiz = ModelsFactory::createIndividualQuiz();
-        $email = new Email('par@ticipa.nt');
-
-        $quizFinishedMessage = DomainMessage::recordNow(
-            $quiz->getId(),
-            0,
-            new Metadata(),
-            new QuizFinished($quiz->getId(), 19)
-        );
-
-        $this->quizRepository
-            ->expects($this->once())
-            ->method('getById')
-            ->willReturn($quiz);
-
-        $this->topScoreRepository
-            ->expects($this->once())
-            ->method('getByEmail')
-            ->with($email)
-            ->willReturn(new TopScore($email, new NaturalNumber(17)));
-
-        $this->topScoreRepository
-            ->expects($this->once())
-            ->method('save')
-            ->with(new TopScore($email, new NaturalNumber(19)));
 
         $this->topScoresProjector->handle($quizFinishedMessage);
     }

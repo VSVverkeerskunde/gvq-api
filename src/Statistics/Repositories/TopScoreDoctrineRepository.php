@@ -26,9 +26,15 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     /**
      * @inheritdoc
      */
-    public function save(TopScore $topScore): void
+    public function saveWhenHigher(TopScore $topScore): void
     {
-        $this->entityManager->persist(TopScoreEntity::fromTopScore($topScore));
+        $foundTopScore = $this->getByEmail($topScore->getEmail());
+
+        if ($foundTopScore && $foundTopScore->getScore()->toNative() >= $topScore->getScore()->toNative()) {
+            return;
+        }
+
+        $this->entityManager->merge(TopScoreEntity::fromTopScore($topScore));
         $this->entityManager->flush();
     }
 
@@ -58,7 +64,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             ->from(EmployeeParticipationEntity::class, 'employee')
             ->where('employee.companyId = :companyId')
             ->setParameter('companyId', $companyId->toString())
-            ->leftJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
+            ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
             ->getQuery()
             ->getSingleScalarResult();
 

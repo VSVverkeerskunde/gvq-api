@@ -11,8 +11,10 @@ interface TopScoreRepository
 {
     /**
      * @param TopScore $topScore
+     *
+     * Only store new top score when the given top score is higher then the current one.
      */
-    public function save(TopScore $topScore): void;
+    public function saveWhenHigher(TopScore $topScore): void;
 
     /**
      * @param Email $email

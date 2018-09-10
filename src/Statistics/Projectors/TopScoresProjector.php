@@ -43,13 +43,8 @@ class TopScoresProjector implements EventListener
 
         if ($payload instanceof QuizFinished) {
             $quiz = $this->quizRepository->getById($payload->getId());
-            $existingTopScore = $this->topScoreRepository->getByEmail($quiz->getParticipant()->getEmail());
 
-            if ($existingTopScore && $existingTopScore->getScore()->toNative() >= $payload->getScore()) {
-                return;
-            }
-
-            $this->topScoreRepository->save(
+            $this->topScoreRepository->saveWhenHigher(
                 new TopScore(
                     $quiz->getParticipant()->getEmail(),
                     new NaturalNumber($payload->getScore())

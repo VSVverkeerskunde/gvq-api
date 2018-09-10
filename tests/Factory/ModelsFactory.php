@@ -37,6 +37,7 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
+use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Team\Models\Team;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -1016,6 +1017,35 @@ class ModelsFactory
             true,
             true
         );
+    }
+
+    /**
+     * @return EmployeeParticipation[]
+     */
+    public static function createEmployeeParticipations(): array
+    {
+        return [
+            new EmployeeParticipation(
+                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                new Email('jane@vsv.be')
+            ),
+            new EmployeeParticipation(
+                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                new Email('jane@vsv.be')
+            ),
+            new EmployeeParticipation(
+                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                new Email('elli@vsv.be')
+            ),
+            new EmployeeParticipation(
+                Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f'),
+                new Email('andy@awsr.be')
+            ),
+            new EmployeeParticipation(
+                Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f'),
+                new Email('john@awsr.be')
+            ),
+        ];
     }
 
     /**

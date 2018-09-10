@@ -9,7 +9,8 @@ use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
-class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository implements EmployeeParticipationRepository // phpcs:ignore
+class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository implements
+    EmployeeParticipationRepository
 {
     /**
      * @inheritdoc
@@ -24,6 +25,18 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
      */
     public function save(EmployeeParticipation $employeeParticipation): void
     {
+        /** @var EmployeeParticipationEntity $employeeParticipationEntity */
+        $employeeParticipationEntity = $this->objectRepository->findOneBy(
+            [
+                'email' => $employeeParticipation->getEmail()->toNative(),
+                'companyId' => $employeeParticipation->getCompanyId()->toString(),
+            ]
+        );
+
+        if ($employeeParticipationEntity) {
+            return;
+        }
+
         $this->entityManager->persist(EmployeeParticipationEntity::fromEmployeeParticipation($employeeParticipation));
         $this->entityManager->flush();
     }
@@ -35,11 +48,13 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
     public function countByCompany(UuidInterface $companyId): NaturalNumber
     {
         $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('count(participation.email)');
-        $qb->from($this->getRepositoryName(), 'participation');
 
-        $count = new NaturalNumber($qb->getQuery()->getSingleScalarResult());
+        $qb->select('count(participation.email)')
+            ->from($this->getRepositoryName(), 'participation')
+            ->where('participation.companyId = :companyId')
+            ->setParameter(':companyId', $companyId->toString());
 
-        return $count;
+        $result = intval($qb->getQuery()->getSingleScalarResult());
+        return new NaturalNumber($result);
     }
 }
