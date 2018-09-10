@@ -185,6 +185,16 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    team_total_score_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    team_participation_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\TeamParticipationRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
@@ -212,6 +222,18 @@ services:
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
 
+    team_total_score_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TeamTotalScoreProjector
+      arguments:
+        $teamTotalScoreRepository: '@team_total_score_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
+    team_participations_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TeamParticipationsProjector
+      arguments:
+        $teamParticipationRepository: '@team_participation_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
 
@@ -232,10 +254,16 @@ services:
             - '@quiz_projector'
         - method: subscribe
           arguments:
-          - '@finished_quizzes_projector'
+            - '@finished_quizzes_projector'
         - method: subscribe
           arguments:
             - '@unique_participant_projector'
+        - method: subscribe
+          arguments:
+            - '@team_total_score_projector'
+        - method: subscribe
+          arguments:
+            - '@team_participations_projector'
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
