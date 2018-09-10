@@ -6,6 +6,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
+use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
@@ -55,7 +56,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     /**
      * @inheritdoc
      */
-    public function getAllByCompany(UuidInterface $companyId): array
+    public function getAllByCompany(UuidInterface $companyId): TopScores
     {
         /** @var TopScoreEntity[] $topScoreEntities */
         $topScoreEntities = $this->entityManager->createQueryBuilder()
@@ -72,7 +73,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             $topScores[] = $topScoreEntity->toTopScore();
         }
 
-        return $topScores;
+        return new TopScores(...$topScores);
     }
 
     /**

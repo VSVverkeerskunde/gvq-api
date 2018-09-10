@@ -6,6 +6,7 @@ use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
@@ -86,16 +87,16 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         );
 
         $this->assertEquals(
-            [
-                new TopScore(
-                    new Email('andy@awsr.be'),
-                    new NaturalNumber(12)
-                ),
+            new TopScores(
                 new TopScore(
                     new Email('john@awsr.be'),
                     new NaturalNumber(13)
                 ),
-            ],
+                new TopScore(
+                    new Email('andy@awsr.be'),
+                    new NaturalNumber(12)
+                )
+            ),
             $topScores
         );
     }

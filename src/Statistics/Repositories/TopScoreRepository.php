@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\User\ValueObjects\Email;
@@ -24,9 +25,9 @@ interface TopScoreRepository
 
     /**
      * @param UuidInterface $companyId
-     * @return TopScore[]
+     * @return TopScores
      */
-    public function getAllByCompany(UuidInterface $companyId): array;
+    public function getAllByCompany(UuidInterface $companyId): TopScores;
 
     /**
      * @return Average
