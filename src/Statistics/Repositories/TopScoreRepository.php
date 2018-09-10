@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
-use VSV\GVQ_API\Statistics\ValueObjects\AverageScore;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
@@ -24,7 +24,7 @@ interface TopScoreRepository
 
     /**
      * @param UuidInterface $companyId
-     * @return AverageScore
+     * @return Average
      */
-    public function getAverageScoreForCompany(UuidInterface $companyId): AverageScore;
+    public function getAverageForCompany(UuidInterface $companyId): Average;
 }

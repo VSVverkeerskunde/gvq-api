@@ -7,11 +7,9 @@ use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
-use VSV\GVQ_API\Statistics\ValueObjects\AverageScore;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
 use VSV\GVQ_API\Statistics\Models\TopScore;
-use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements TopScoreRepository
@@ -58,7 +56,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
      * @inheritdoc
      * @throws NonUniqueResultException
      */
-    public function getAverageScoreForCompany(UuidInterface $companyId): AverageScore
+    public function getAverageForCompany(UuidInterface $companyId): Average
     {
         $scalarScore = $this->entityManager->createQueryBuilder()
             ->select('avg(topScore.score)')
@@ -71,6 +69,6 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
 
         $score = null === $scalarScore ? 0 : floatval($scalarScore);
 
-        return new AverageScore($companyId, new Average($score));
+        return new Average($score);
     }
 }
