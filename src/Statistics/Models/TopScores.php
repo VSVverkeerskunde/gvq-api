@@ -23,10 +23,7 @@ class TopScores implements Collection
             $this->topScores,
             function (TopScore $t1, TopScore $t2) {
                 if ($t1->getScore()->toNative() === $t2->getScore()->toNative()) {
-                    if ($t1->getEmail()->toNative() === $t2->getEmail()->toNative()) {
-                        return 0;
-                    }
-
+                    // One e-mail always has one top score. So no equal needed.
                     return $t1->getEmail()->toNative() > $t2->getEmail()->toNative();
                 }
 
