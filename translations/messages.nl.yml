@@ -31,6 +31,9 @@ Street: 'Straat'
 Number: 'Nummer'
 PostalCode: 'Postcode'
 Town: 'Gemeente'
+Rank: 'Rank'
+Score: 'Score'
+Top.scores: 'Top Scores'
 
 Password.confirm: 'Bevestig wachtwoord'
 Password.old: 'Huidig wachtwoord'
@@ -210,6 +213,9 @@ User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%.'
 
 Dashboard.welcome: 'De quiz start op 18 oktober. Vanaf dan kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.ratio.title: 'Aantal werknemers die de grote verkeersquiz hebben gespeeld'
+Dashboard.average.title: 'Gemiddelde top score van'
+Dashboard.average.all: 'Alle deelnemers'
 
 #Statistics
 Statistics.header.individual: 'Individueel'

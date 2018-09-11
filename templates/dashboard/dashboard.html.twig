@@ -8,33 +8,63 @@
 
     {% include '/includes/flash.html.twig' %}
 
+    <h1>{{ company.name.toNative }}</h1>
+
     <select class="form-control" id="company">
         {% for company in companies %}
             <option value="{{ company.id.toString }}">{{ company.name.toNative }}</option>
         {% endfor %}
     </select>
 
-    <h1>{{ company.name.toNative }}</h1>
-
     <p>{% trans %}Dashboard.welcome{% endtrans %}</p>
 
-    <p>Aantal deelnemers / Aantal medewerkers</p>
-    <p>{{ employeeParticipationRatio.participationCount.toNative }} / {{ employeeParticipationRatio.totalEmployees.toNative }}</p>
+    <div class="row">
+        <div class="col-4">
+            <div class="card text-center">
+                <div class="card-header">
+                    <div class="card-title">{% trans %}Dashboard.ratio.title{% endtrans %}</div>
+                </div>
+                <div class="card-body">
+                    <h2>{{ employeeParticipationRatio.participationCount.toNative }} / {{ employeeParticipationRatio.totalEmployees.toNative }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-center">
+                <div class="card-header">
+                    <div class="card-title">{% trans %}Dashboard.average.title{% endtrans %}</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 border-right">
+                            <h3>{{ company.name.toNative }}</h3>
+                            <h2>{{ companyAverage.toNative }}</h2>
+                        </div>
+                        <div class="col-6">
+                            <h3>{% trans %}Dashboard.average.all{% endtrans %}</h3>
+                            <h2>{{ average.toNative }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <p>Gemiddelde bedrijf / Totaal gemiddelde</p>
-    <p>{{ companyAverage.toNative }} / {{ average.toNative }}</p>
-
-    <p>Top Scores</p>
-    <table class="table table-non-fluid table-bordered small">
+    <table class="table table-non-fluid table-bordered">
         <thead class="thead-dark thead-primary text-center">
             <tr>
-                <th scope="col" class="border-right border-bottom">Email</th>
-                <th scope="col" class="border-right border-bottom">Score</th>
+                <th scope="col" colspan="3" class="border-right border-bottom">{% trans %}Top.scores{% endtrans %}</th>
+            </tr>
+            <tr>
+                <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
+                <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
+                <th scope="col" class="border-right border-bottom">{% trans %}Score{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
             {% for topScore in topScores  %}
                 <tr>
+                    <td class="text-right">{{ loop.index }}</td>
                     <td>{{ topScore.email.toNative }}</td>
                     <td class="text-right">{{ topScore.score.toNative }}</td>
                 </tr>

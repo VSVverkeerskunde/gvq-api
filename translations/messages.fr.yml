@@ -31,6 +31,9 @@ Street: __Straat
 Number: __Nummer
 PostalCode: __Postcode
 Town: __Gemeente
+Rank: __Rank
+Score: __Score
+Top.scores: __Top Scores
 
 Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
@@ -210,6 +213,9 @@ User.edit.success: L'utilisateur %id% est modifié.
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
 Dashboard.welcome: A partir du 18 octobre, vous pourrez suivre les statistiques de votre entreprise ici.
+Dashboard.ratio.title: __Aantal werknemers die de grote verkeersquiz hebben gespeeld
+Dashboard.average.title: __Gemiddelde top score van
+Dashboard.average.all: __Alle deelnemers
 
 #Statistics
 Statistics.header.individual: __Individueel
