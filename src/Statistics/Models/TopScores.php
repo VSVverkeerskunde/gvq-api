@@ -27,7 +27,7 @@ class TopScores implements Collection
                         return 0;
                     }
 
-                    return $t1->getEmail()->toNative() < $t2->getEmail()->toNative();
+                    return $t1->getEmail()->toNative() > $t2->getEmail()->toNative();
                 }
 
                 return $t1->getScore()->toNative() <  $t2->getScore()->toNative();
