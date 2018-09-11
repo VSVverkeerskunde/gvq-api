@@ -256,3 +256,7 @@ quiz_answer_question:
   path: /api/quiz/{quizId}/question/{answerId}
   controller: VSV\GVQ_API\Quiz\Controllers\QuizController::answerQuestion
   methods: [POST]
+team_ranking:
+  path: /api/teamranking
+  controller: VSV\GVQ_API\Team\Controllers\TeamController::teamRanking
+  methods: [GET]
