@@ -24,4 +24,22 @@
     <p>Gemiddelde bedrijf / Totaal gemiddelde</p>
     <p>{{ companyAverage.toNative }} / {{ average.toNative }}</p>
 
+    <p>Top Scores</p>
+    <table class="table table-non-fluid table-bordered small">
+        <thead class="thead-dark thead-primary text-center">
+            <tr>
+                <th scope="col" class="border-right border-bottom">Email</th>
+                <th scope="col" class="border-right border-bottom">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for topScore in topScores  %}
+                <tr>
+                    <td>{{ topScore.email.toNative }}</td>
+                    <td class="text-right">{{ topScore.score.toNative }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
