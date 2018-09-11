@@ -7,11 +7,14 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\EmployeeParticipationRatio;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class DashboardServiceTest extends TestCase
 {
@@ -160,6 +163,35 @@ class DashboardServiceTest extends TestCase
         $this->assertEquals(
             new Average(10),
             $this->dashboardService->getAverageTopScore()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_top_scores_by_company(): void
+    {
+        $company = ModelsFactory::createCompany();
+
+        $topScores = new TopScores(
+            new TopScore(
+                new Email('jane@vsv.be'),
+                new NaturalNumber(12)
+            ),
+            new TopScore(
+                new Email('john@vsv.be'),
+                new NaturalNumber(12)
+            )
+        );
+
+        $this->topScoreRepository->expects($this->once())
+            ->method('getAllByCompany')
+            ->with($company->getId())
+            ->willReturn($topScores);
+
+        $this->assertEquals(
+            $topScores,
+            $this->dashboardService->getTopScoresByCompany($company->getId())
         );
     }
 }
