@@ -8,6 +8,7 @@ use VSV\GVQ_API\Question\Models\Answers;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
@@ -101,11 +102,11 @@ class QuizAggregate extends EventSourcedAggregateRoot
 
     /**
      * @param \DateTimeImmutable $answeredOn
-     * @param Answer $answer
+     * @param Answer|null $answer
      */
     public function answerQuestion(
         \DateTimeImmutable $answeredOn,
-        Answer $answer
+        ?Answer $answer
     ): void {
         if ($this->askingQuestion) {
             $currentQuestion = $this->getCurrentQuestion();
@@ -115,15 +116,23 @@ class QuizAggregate extends EventSourcedAggregateRoot
                 $this->quiz->getAllowedDelay()
             );
 
-            if ($answeredTooLate ||
-                !$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
+            // When the timer finishes in the quiz frontend an empty answered is send.
+            // But to make sure that no question is answered too late, always check the elapsed time.
+            if ($answeredTooLate || $answer === null) {
+                $this->apply(
+                    new AnsweredTooLate(
+                        $this->quiz->getId(),
+                        $currentQuestion,
+                        $answeredOn
+                    )
+                );
+            } elseif (!$this->answeredCorrect($currentQuestion->getAnswers(), $answer)) {
                 $this->apply(
                     new AnsweredIncorrect(
                         $this->quiz->getId(),
                         $currentQuestion,
                         $answer,
-                        $answeredOn,
-                        $answeredTooLate
+                        $answeredOn
                     )
                 );
             } else {
@@ -149,6 +158,12 @@ class QuizAggregate extends EventSourcedAggregateRoot
     }
 
     protected function applyAnsweredIncorrect(): void
+    {
+        $this->questionIndex++;
+        $this->askingQuestion = false;
+    }
+
+    protected function applyAnsweredTooLate(): void
     {
         $this->questionIndex++;
         $this->askingQuestion = false;

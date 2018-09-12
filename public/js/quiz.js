@@ -1,18 +1,20 @@
 (function (window, document, $) {
   let defaultQuizConfig = {
-    "channel": "individual",
-    "company": null,
-    "partner": null,
-    "language": "nl",
-    "imageDirectory": "https://s3-eu-west-1.amazonaws.com/verkeersquiz/",
-    "teams": {
-      "922391c4-fc5b-4148-b69d-d347d48caaef": {
-        "name": "Club Brugge KV",
-        "primary": "#387cda",
-        "secondary": "#3c3c3c"
+    'channel': 'individual',
+    'company': null,
+    'partner': null,
+    'language': 'nl',
+    'imageDirectory': 'https://s3-eu-west-1.amazonaws.com/verkeersquiz/',
+    'teams': {
+      '922391c4-fc5b-4148-b69d-d347d48caaef': {
+        'name': 'Club Brugge KV',
+        'primary': '#387cda',
+        'secondary': '#3c3c3c'
       }
     },
-    "apiUrl": "/api"
+    'apiUrl': '/api',
+    'email': '',
+    'team': ''
   };
   let translations = {
     nl: {
@@ -27,7 +29,8 @@
       ANSWERED_CORRECT: 'Juist',
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
-      CHOOSE_TEAM: 'Maak een keuze'
+      CHOOSE_TEAM: 'Selecteer een club naar keuze',
+      EMAIL: 'E-mail'
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -41,10 +44,12 @@
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
-      CHOOSE_TEAM: 'Faites un choix'
+      CHOOSE_TEAM: 'Sélectionnez un club de votre choix',
+      EMAIL: 'Email'
     }
   };
   let cachedConfig = {};
+
 
   function loadTemplate(name, language) {
     let template = $('div[data-template="'+name+'"]');
@@ -66,11 +71,11 @@
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
     let cupModeOn = ('cup' === quizConfig.channel);
 
-    function renderView(viewName, ...args) {
+    function renderView (viewName, ...args) {
       let oldContent = view.children();
       let newContent = $(views[viewName].template).hide();
 
-      function showNewContent() {
+      function showNewContent () {
         oldContent.remove();
         newContent.show();
       }
@@ -80,15 +85,15 @@
       views[viewName].controller(...args).done(showNewContent);
     }
 
-    function setViewValue(name, value) {
-      view.find('[data-value="'+name+'"]').text(value);
+    function setViewValue (name, value) {
+      view.find('[data-value="' + name + '"]').text(value);
     }
 
-    function setViewHtmlValue(name, value) {
-      view.find('[data-value="'+name+'"]').html(value);
+    function setViewHtmlValue (name, value) {
+      view.find('[data-value="' + name + '"]').html(value);
     }
 
-    function renderTeamBanner(teamId) {
+    function renderTeamBanner (teamId) {
       let banner = $('#gvq-quiz .gvq-team-banner');
       let form = $('.participation-form');
       let team = false;
@@ -117,41 +122,67 @@
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
+
           let teamSelect = view.find('select[name="choose-team"]');
 
-          function start(email, team) {
-            $.post(quizConfig.apiUrl+'/quiz', JSON.stringify({
-                channel: quizConfig['channel'],
-                company: quizConfig['company'],
-                partner: quizConfig['partner'],
-                language: quizConfig['language'],
-                email: email,
-                team: team
+          let emailInput = view.find('input#gvq-participant-email');
+          emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
+          emailInput.val(quizConfig['email']);
+
+          function start (email, team) {
+            $.post(quizConfig.apiUrl + '/quiz', JSON.stringify({
+              channel: quizConfig['channel'],
+              company: quizConfig['company'],
+              partner: quizConfig['partner'],
+              language: quizConfig['language'],
+              email: email,
+              team: team
             }))
-            .done(function( data ) {
-              renderView('askQuestion', data.id, 1);
-            });
+              .done(function (data) {
+                renderView('askQuestion', data.id, 1);
+              });
+            quizConfig['email'] = email;
+            quizConfig['team'] = team;
           }
 
           if (cupModeOn) {
             $.each(quizConfig['teams'], function (id, team) {
-              teamSelect.append($('<option>', {value: id, text : team.name}));
+              teamSelect.append($('<option>', {value: id, text: team.name}));
             });
+            teamSelect.val(quizConfig['team']);
 
             teamSelect
               .on('change', function () {
-                startButton.prop('disabled', this.value === '');
+                startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
                 renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
+
+            emailInput.on('keyup change', function () {
+              startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
+            }).trigger('change');
+
           } else {
             renderTeamBanner(false);
             teamSelect.remove();
+            emailInput.on('keyup change', function () {
+              startButton.prop('disabled', checkEmail() === false);
+            })
+              .trigger('change');
+          }
+
+          function checkEmail () {
+            let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
+            return emailRegex.test(emailInput.val());
+          }
+
+          function checkTeamSelect () {
+            return teamSelect.val() !== '';
           }
 
           startButton.on('click', function () {
             start(
-              $('input.gvq-participant-email').val(),
+              emailInput.val(),
               cupModeOn ? teamSelect.val() : null
             );
           });
@@ -165,24 +196,25 @@
           let deferredRender = $.Deferred();
           let counterInterval;
 
-          function startCountdown() {
+          function startCountdown () {
             let counter = view.find('.gvq-time-left');
             counterInterval = window.setInterval(function () {
-              let secondsLeft = parseInt(counter.text(),10) - 1;
+              let secondsLeft = parseInt(counter.text(), 10) - 1;
               if (0 === secondsLeft) {
                 clearInterval(counterInterval);
                 view.find('.gvq-countdown').addClass('finished');
+                renderView('showAnswer', quizId, questionNr);
               }
               counter.text(secondsLeft);
             }, 1000);
           }
 
-          function renderQuestion(data) {
+          function renderQuestion (data) {
             let imageLocation = quizConfig.imageDirectory + data.question.imageFileName;
             let questionImage = new Image();
             setViewValue('questionText', data.question.text);
             $.each(data.question.answers, function (index, answer) {
-              setViewValue('answer'+answer.index, answer.text);
+              setViewValue('answer' + answer.index, answer.text);
             });
 
             view
@@ -204,27 +236,28 @@
           }
 
           setViewValue('questionNr', questionNr);
-          $.get(quizConfig.apiUrl+'/quiz/'+quizId+'/question').done(renderQuestion);
+          $.get(quizConfig.apiUrl + '/quiz/' + quizId + '/question').done(renderQuestion);
           return deferredRender.promise();
         },
         template: loadTemplate('ask-question', quizConfig.language)
       },
       showAnswer: {
-        controller: function(quizId, questionNr, answerId) {
+        controller: function (quizId, questionNr, answerId) {
           let deferredRender = $.Deferred();
 
-          function renderAnsweredQuestion(data) {
-            let answerResult = 'correct';
-            if (false === data.answeredTooLate) answerResult = 'wrong';
-            if (true === data.answeredTooLate) answerResult = 'late';
+          function renderAnsweredQuestion (data) {
+            let answerResult = 'wrong';
 
             setViewValue('questionText', data.question.text);
             $.each(data.question.answers, function (index, answer) {
-              setViewValue('answer'+answer.index, answer.text);
-              view.find('[data-value="answer'+answer.index+'"]')
+              if (answerId && answer.correct && answerId === answer.id) {
+                answerResult = 'correct';
+              }
+              setViewValue('answer' + answer.index, answer.text);
+              view.find('[data-value="answer' + answer.index + '"]')
                 .toggleClass('selected-answer', answer.id === answerId)
                 .toggleClass('is-correct', answer.correct);
-              });
+            });
 
             view
               .find('.gvq-answer-result')
@@ -261,7 +294,8 @@
           }
 
           setViewValue('questionNr', questionNr);
-          $.post(quizConfig.apiUrl+'/quiz/'+quizId+'/question/'+answerId).done(renderAnsweredQuestion);
+          answerId = answerId || 'late';
+          $.post(quizConfig.apiUrl + '/quiz/' + quizId + '/question/' + answerId).done(renderAnsweredQuestion);
 
           return deferredRender.promise();
         },

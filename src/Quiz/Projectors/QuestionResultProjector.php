@@ -4,8 +4,10 @@ namespace VSV\GVQ_API\Quiz\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\AbstractAnsweredEvent;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
@@ -13,7 +15,6 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionResultProjector implements EventListener
 {
-
     /**
      * @var QuestionResultRepository
      */
@@ -46,7 +47,7 @@ class QuestionResultProjector implements EventListener
                     'questionAsked' => true,
                 ]
             );
-        } elseif ($payload instanceof AnsweredCorrect) {
+        } elseif ($payload instanceof AbstractAnsweredEvent) {
             $this->questionResultRepository->save(
                 $payload->getId(),
                 new QuestionResult(
@@ -55,12 +56,12 @@ class QuestionResultProjector implements EventListener
                     null
                 )
             );
-        } elseif ($payload instanceof AnsweredIncorrect) {
+        } elseif ($payload instanceof AnsweredTooLate) {
             $this->questionResultRepository->save(
                 $payload->getId(),
                 new QuestionResult(
                     $payload->getQuestion(),
-                    $payload->isAnsweredTooLate(),
+                    true,
                     null
                 )
             );
@@ -70,6 +71,9 @@ class QuestionResultProjector implements EventListener
             );
             $this->questionResultRepository->save(
                 $payload->getId(),
+                // Extra event gets triggered on last question.
+                // This QuizFinished event is used to update the score
+                // of the last question result.
                 new QuestionResult(
                     $questionResult->getQuestion(),
                     $questionResult->isAnsweredTooLate(),

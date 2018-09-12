@@ -6,6 +6,7 @@ use Broadway\EventSourcing\Testing\AggregateRootScenarioTestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
@@ -94,7 +95,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
      * @test
      * @throws \Exception
      */
-    public function it_triggers_answered_incorrect_event_when_answered_too_late(): void
+    public function it_triggers_answered_too_late_event_when_answered_too_late(): void
     {
         $askedOn = new \DateTimeImmutable();
         $question = $this->quiz->getQuestions()->toArray()[0];
@@ -125,12 +126,53 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
             })
             ->then(
                 [
-                    new AnsweredIncorrect(
+                    new AnsweredTooLate(
                         $this->quiz->getId(),
                         $question,
-                        $correctAnswer,
-                        $answeredOn,
-                        true
+                        $answeredOn
+                    ),
+                ]
+            );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_triggers_answered_too_late_when_answered_empty(): void
+    {
+        $askedOn = new \DateTimeImmutable();
+        $question = $this->quiz->getQuestions()->toArray()[0];
+
+        $answeredOn = $askedOn->add(new \DateInterval('PT30S'));
+
+        $this->scenario
+            ->withAggregateId($this->quiz->getId()->toString())
+            ->given(
+                [
+                    new QuizStarted(
+                        $this->quiz->getId(),
+                        $this->quiz
+                    ),
+                    new QuestionAsked(
+                        $this->quiz->getId(),
+                        $question,
+                        $askedOn
+                    ),
+                ]
+            )
+            ->when(function (QuizAggregate $quizAggregate) use ($answeredOn) {
+                $quizAggregate->answerQuestion(
+                    $answeredOn,
+                    null
+                );
+            })
+            ->then(
+                [
+                    new AnsweredTooLate(
+                        $this->quiz->getId(),
+                        $question,
+                        $answeredOn
                     ),
                 ]
             );
@@ -175,8 +217,7 @@ class QuizAggregateTest extends AggregateRootScenarioTestCase
                         $this->quiz->getId(),
                         $question,
                         $inCorrectAnswer,
-                        $answeredOn,
-                        false
+                        $answeredOn
                     ),
                 ]
             );

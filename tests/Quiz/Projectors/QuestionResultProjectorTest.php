@@ -72,7 +72,7 @@ class QuestionResultProjectorTest extends TestCase
      */
     public function it_handles_answered_incorrect(): void
     {
-        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(false);
+        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect();
 
         $domainMessage = DomainMessage::recordNow(
             $answeredIncorrect->getId(),
@@ -103,17 +103,17 @@ class QuestionResultProjectorTest extends TestCase
      */
     public function it_handles_answered_too_late(): void
     {
-        $answeredIncorrect = ModelsFactory::createAnsweredIncorrect(true);
+        $answeredTooLate = ModelsFactory::createAnsweredTooLate();
 
         $domainMessage = DomainMessage::recordNow(
-            $answeredIncorrect->getId(),
+            $answeredTooLate->getId(),
             0,
             new Metadata(),
-            $answeredIncorrect
+            $answeredTooLate
         );
 
         $questionResult = ModelsFactory::createCustomQuestionResult(
-            $answeredIncorrect->getQuestion(),
+            $answeredTooLate->getQuestion(),
             true,
             null
         );
@@ -121,7 +121,7 @@ class QuestionResultProjectorTest extends TestCase
         $this->questionResultRepository->expects($this->once())
             ->method('save')
             ->with(
-                $answeredIncorrect->getId(),
+                $answeredTooLate->getId(),
                 $questionResult
             );
 

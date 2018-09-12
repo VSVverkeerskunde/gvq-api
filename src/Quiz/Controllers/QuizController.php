@@ -165,22 +165,26 @@ class QuizController
         string $quizId,
         string $answerId
     ): Response {
-        $answer = $this->answerRepository->getById(Uuid::fromString($answerId));
 
-        if ($answer) {
-            /** @var QuizAggregate $quizAggregate */
-            $quizAggregate = $this->quizAggregateRepository->load($quizId);
-
-            $quizAggregate->answerQuestion(new \DateTimeImmutable(), $answer);
-
-            $this->quizAggregateRepository->save($quizAggregate);
-
-            return $this->createCurrentQuestionResponse($quizId);
+        if ($answerId === 'late') {
+            $answer = null;
         } else {
-            throw new \InvalidArgumentException(
-                'No answer with id "'.$answerId.'"'
-            );
+            $answer = $this->answerRepository->getById(Uuid::fromString($answerId));
+            if (null === $answer) {
+                throw new \InvalidArgumentException(
+                    'No answer with id "'.$answerId.'"'
+                );
+            }
         }
+
+        /** @var QuizAggregate $quizAggregate */
+        $quizAggregate = $this->quizAggregateRepository->load($quizId);
+
+        $quizAggregate->answerQuestion(new \DateTimeImmutable(), $answer);
+
+        $this->quizAggregateRepository->save($quizAggregate);
+
+        return $this->createCurrentQuestionResponse($quizId);
     }
 
     /**
