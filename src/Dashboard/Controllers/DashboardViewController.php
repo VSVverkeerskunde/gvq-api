@@ -54,9 +54,14 @@ class DashboardViewController extends CompanyAwareController
 
         $average = $this->dashboardService->getAverageTopScore();
 
-        $topScores = $this->dashboardService->getTopScoresByCompany(
+        $allTopScores = $this->dashboardService->getTopScoresByCompany(
             $company->getId()
         )->toArray();
+
+        $firstTenTopScores = [];
+        for ($i = 0; $i < 10 && $i < count($allTopScores); $i++) {
+            $firstTenTopScores[] = $allTopScores[$i];
+        }
 
         return $this->render(
             'dashboard/dashboard.html.twig',
@@ -66,7 +71,7 @@ class DashboardViewController extends CompanyAwareController
                 'employeeParticipationRatio' => $employeeParticipationRatio,
                 'companyAverage' => $companyAverage,
                 'average' => $average,
-                'topScores' => $topScores
+                'topScores' => $firstTenTopScores
             ]
         );
     }
