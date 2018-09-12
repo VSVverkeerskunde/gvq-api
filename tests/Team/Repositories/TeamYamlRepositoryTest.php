@@ -26,7 +26,7 @@ class TeamYamlRepositoryTest extends TestCase
             __DIR__.'/../../Factory/Samples/teams.yaml'
         );
 
-        $this->team = ModelsFactory::createTeam();
+        $this->team = ModelsFactory::createAntwerpTeam();
     }
 
     /**
@@ -69,5 +69,30 @@ class TeamYamlRepositoryTest extends TestCase
         );
 
         $this->assertNull($foundTeam);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_all_teams_by_year(): void
+    {
+        $foundTeams = $this->teamYamlRepository->getAllByYear(new Year(2018));
+
+        $this->assertEquals(
+            ModelsFactory::createTeams(),
+            $foundTeams
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_year_is_not_present_when_getting_all_teams(): void
+    {
+        $foundTeams = $this->teamYamlRepository->getAllByYear(
+            new Year(2019)
+        );
+
+        $this->assertNull($foundTeams);
     }
 }

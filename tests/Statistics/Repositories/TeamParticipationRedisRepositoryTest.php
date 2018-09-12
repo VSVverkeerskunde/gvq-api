@@ -34,7 +34,7 @@ class TeamParticipationRedisRepositoryTest extends TestCase
             $this->redis
         );
 
-        $this->team = ModelsFactory::createTeam();
+        $this->team = ModelsFactory::createAntwerpTeam();
     }
 
     /**

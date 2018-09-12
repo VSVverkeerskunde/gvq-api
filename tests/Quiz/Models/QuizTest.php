@@ -83,7 +83,7 @@ class QuizTest extends TestCase
                 new QuizChannel(QuizChannel::INDIVIDUAL),
                 null,
                 null,
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
             [
                 Uuid::fromString('26ff775c-cd4c-4aab-bd3c-3afa9baebc6a'),
@@ -97,7 +97,7 @@ class QuizTest extends TestCase
                 new QuizChannel(QuizChannel::PARTNER),
                 null,
                 null,
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
             [
                 Uuid::fromString('d73f5383-19d5-47a2-8673-a123c89baf4b'),
@@ -111,21 +111,21 @@ class QuizTest extends TestCase
                 new QuizChannel(QuizChannel::COMPANY),
                 null,
                 null,
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
             [
                 Uuid::fromString('be57176b-3f5f-479a-9906-91c54faccb33'),
                 new QuizChannel(QuizChannel::CUP),
                 ModelsFactory::createCompany(),
                 null,
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
             [
                 Uuid::fromString('be57176b-3f5f-479a-9906-91c54faccb33'),
                 new QuizChannel(QuizChannel::CUP),
                 null,
                 ModelsFactory::createNBPartner(),
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
         ];
     }
