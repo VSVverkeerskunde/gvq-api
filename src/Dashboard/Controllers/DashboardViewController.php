@@ -56,21 +56,21 @@ class DashboardViewController extends CompanyAwareController
      */
     public function dashboard(?string $companyId): Response
     {
-        $company = $this->getCompany($companyId);
+        $activeCompany = $this->getCompany($companyId);
         $companies = $this->getCompaniesForUser();
 
         $employeeParticipationRatio = $this->dashboardService->getEmployeeParticipationRatio(
-            $company->getId()
+            $activeCompany->getId()
         );
 
         $companyAverage = $this->dashboardService->getAverageEmployeeTopScore(
-            $company->getId()
+            $activeCompany->getId()
         );
 
         $average = $this->dashboardService->getAverageTopScore();
 
         $allTopScores = $this->dashboardService->getTopScoresByCompany(
-            $company->getId()
+            $activeCompany->getId()
         )->toArray();
 
         $firstTenTopScores = [];
@@ -82,7 +82,7 @@ class DashboardViewController extends CompanyAwareController
             'dashboard/dashboard.html.twig',
             [
                 'companies' => $companies? $companies->toArray() : [],
-                'company' => $company,
+                'activeCompany' => $activeCompany,
                 'employeeParticipationRatio' => $employeeParticipationRatio,
                 'companyAverage' => $companyAverage,
                 'average' => $average,
@@ -97,9 +97,9 @@ class DashboardViewController extends CompanyAwareController
      */
     public function export(string $companyId): Response
     {
-        $company = $this->getCompany($companyId);
+        $activeCompany = $this->getCompany($companyId);
 
-        $topScores = $this->dashboardService->getTopScoresByCompany($company->getId());
+        $topScores = $this->dashboardService->getTopScoresByCompany($activeCompany->getId());
         $topScoresAsCsv = $this->serializer->serialize($topScores, 'csv');
 
         $response = $this->responseFactory->createCsvResponse(
@@ -114,15 +114,15 @@ class DashboardViewController extends CompanyAwareController
      * @param string $companyId
      * @return Company
      */
-    private function getCompany(string $companyId): Company
+    private function getCompany(?string $companyId): Company
     {
         $companies = $this->getCompaniesForUser();
-        $company = $this->getActiveCompany($companies, $companyId);
+        $activeCompany = $this->getActiveCompany($companies, $companyId);
 
-        if ($company === null) {
+        if ($activeCompany === null) {
             throw new \InvalidArgumentException('Found no active company!');
         }
 
-        return $company;
+        return $activeCompany;
     }
 }

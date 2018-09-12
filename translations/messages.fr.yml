@@ -68,6 +68,7 @@ Button.edit.picture: Changer la photo
 Button.remove: Supprimer
 Button.export: Exporter
 Button.archive: Archiver
+Button.apply: __Toepassen
 
 #Links 
 To.login: Se connecter

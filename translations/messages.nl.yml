@@ -68,6 +68,7 @@ Button.edit.picture: 'Wijzig foto'
 Button.remove: 'Verwijderen'
 Button.export: 'Exporteren'
 Button.archive: 'Archiveren'
+Button.apply: 'Toepassen'
 
 #Links
 To.login: 'Naar loginpagina'

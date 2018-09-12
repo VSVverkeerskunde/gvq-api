@@ -8,13 +8,23 @@
 
     {% include '/includes/flash.html.twig' %}
 
-    <h1>{{ company.name.toNative }}</h1>
+    <h1>{{ activeCompany.name.toNative }}</h1>
 
-    <select class="form-control" id="company">
-        {% for company in companies %}
-            <option value="{{ company.id.toString }}">{{ company.name.toNative }}</option>
-        {% endfor %}
-    </select>
+    {% if companies|length > 1 %}
+        <div class="form-group form-inline">
+            <select class="form-control" id="company">
+                {% for company in companies %}
+                    <option value="{{ company.id.toString }}" {% if activeCompany.id.equals(company.id) %}selected="selected"{% endif %}>{{ company.name.toNative }}</option>
+                {% endfor %}
+            </select>
+            <a role="button"
+               id="apply"
+               class="btn btn-primary ml-3"
+               href="{{ path('dashboard', {'companyId': activeCompany.id.toString}) }}" >
+                {% trans %}Button.apply{% endtrans %}
+            </a>
+        </div>
+    {% endif %}
 
     <p>{% trans %}Dashboard.welcome{% endtrans %}</p>
 
@@ -37,7 +47,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 border-right">
-                            <h3>{{ company.name.toNative }}</h3>
+                            <h3>{{ activeCompany.name.toNative }}</h3>
                             <h2>{{ companyAverage.toNative }}</h2>
                         </div>
                         <div class="col-6">
@@ -74,8 +84,21 @@
 
     <a role="button"
        class="btn btn-primary"
-       href="{{ path('dashboard_export_topscores', {'companyId': company.id.toString}) }}" ><span class="oi oi-data-transfer-download"></span>
+       href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}" ><span class="oi oi-data-transfer-download"></span>
         {% trans %}Button.export{% endtrans %}
     </a>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#company').change(function () {
+                var url = $("#apply").val().slice(0, -36);
+                url = url + $('#company').val();
+                $("#apply").prop("href", url);
+            });
+        });
+    </script>
 {% endblock %}
