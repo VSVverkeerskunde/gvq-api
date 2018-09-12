@@ -57,18 +57,14 @@ class TeamScore
     }
 
     /**
-     * @param Average $weightedParticipationScore
-     * @return TeamScore
+     * @param int $position
      */
-    public function withWeightedParticipationScore(Average $weightedParticipationScore): TeamScore
+    public function calculateWeightedParticipationScore(int $position): void
     {
-        $c = clone $this;
-        $c->weightedParticipationScore = $weightedParticipationScore;
-
-        return $c;
+        $this->weightedParticipationScore = new Average(($position / 24) * 15 * 0.1);
     }
 
-    public function calculateWeightedTotalScore(): void
+    public function calculateRankingScore(): void
     {
         $this->rankingScore = new Average(
             $this->weightedParticipationScore->toNative() +

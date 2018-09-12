@@ -85,7 +85,7 @@ class TeamService
      */
     private function rankTeamScores(Teams $teams): TeamScores
     {
-        $teamScores = [];
+        $teamScoresArray = [];
 
         foreach ($teams->toArray() as $team) {
             $participationCount = $this->teamParticipationRepository->getCountForTeam($team);
@@ -95,75 +95,22 @@ class TeamService
                 new NaturalNumber($totalScore),
                 new NaturalNumber($participationCount)
             );
-            $teamScores[] = $teamScore;
+            $teamScoresArray[] = $teamScore;
         }
 
-        usort(
-            $teamScores,
-            $this->sortByParticipationCount()
-        );
+        $teamScores = new TeamScores(...$teamScoresArray);
+        $teamScores = $teamScores->sortByParticipationCount();
 
-        $iterator = 24;
-        foreach ($teamScores as $key => $teamScore) {
-            /** @var TeamScore $teamScore */
-            $weightedParticipationScore = new Average(($iterator / 24) * 15 * 0.1);
-            $teamScore = $teamScore->withWeightedParticipationScore($weightedParticipationScore);
-            $teamScore->calculateWeightedTotalScore();
-            $teamScores[$key] = $teamScore;
+        $positionIterator = 24;
 
-            $iterator--;
+        foreach ($teamScores->toArray() as $teamScore) {
+            $teamScore->calculateWeightedParticipationScore($positionIterator);
+            $teamScore->calculateRankingScore();
+            $positionIterator--;
         }
 
-        usort(
-            $teamScores,
-            $this->sortByWeightedTotalScore()
-        );
+        $teamScores = $teamScores->sortByRankingScore();
 
-        return new TeamScores(...$teamScores);
-    }
-
-    /**
-     * @return \Closure
-     */
-    private function sortByParticipationCount(): \Closure
-    {
-        return function (TeamScore $ts1, TeamScore $ts2): int {
-            if ($ts1->getParticipationCount()->toNative() > $ts2->getParticipationCount()->toNative()) {
-                return -1;
-            } elseif ($ts1->getParticipationCount()->toNative() < $ts2->getParticipationCount()->toNative()) {
-                return 1;
-            } else {
-                return $this->sortAlphabetically($ts1, $ts2);
-            }
-        };
-    }
-
-    /**
-     * @return \Closure
-     */
-    private function sortByWeightedTotalScore(): \Closure
-    {
-        return function (TeamScore $ts1, TeamScore $ts2): int {
-            if ($ts1->getRankingScore()->toNative() > $ts2->getRankingScore()->toNative()) {
-                return -1;
-            } elseif ($ts1->getRankingScore()->toNative() < $ts2->getRankingScore()->toNative()) {
-                return 1;
-            } else {
-                return $this->sortAlphabetically($ts1, $ts2);
-            }
-        };
-    }
-
-    /**
-     * @param TeamScore $ts1
-     * @param TeamScore $ts2
-     * @return int
-     */
-    private function sortAlphabetically(TeamScore $ts1, TeamScore $ts2): int
-    {
-        return strcmp(
-            $ts1->getTeam()->getName()->toNative(),
-            $ts2->getTeam()->getName()->toNative()
-        );
+        return $teamScores;
     }
 }
