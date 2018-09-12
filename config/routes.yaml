@@ -188,6 +188,12 @@ dashboard:
   defaults: { companyId: null }
   requirements:
     _locale: nl|fr
+dashboard_export_topscores:
+  path: /{_locale}/csv/topscores/{companyId}
+  controller: VSV\GVQ_API\Dashboard\Controllers\DashboardViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 statistics:
   path: /{_locale}/view/statistics

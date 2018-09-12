@@ -72,4 +72,10 @@
         </tbody>
     </table>
 
+    <a role="button"
+       class="btn btn-primary"
+       href="{{ path('dashboard_export_topscores', {'companyId': company.id.toString}) }}" ><span class="oi oi-data-transfer-download"></span>
+        {% trans %}Button.export{% endtrans %}
+    </a>
+
 {% endblock %}
