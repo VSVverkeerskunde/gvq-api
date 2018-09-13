@@ -15,20 +15,23 @@
             <div class="gvq-quiz-view"></div>
             <div class="gvq-templates" data-language="nl" style="display: none;">
                 <div class="participation-form form border p-4" data-template="participation-form">
-                    <div class="form-group row">
-                        <div class="col">
-                            <select class="custom-select" name="choose-team" id="choose-team">
-                                <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
-                            </select>
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col">
+                                <select class="custom-select" name="choose-team" id="choose-team">
+                                    <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col">
-                            <input class="gvq-participant-email form-control" id="gvq-participant-email">
-                        </div>
-                        <div class="col-auto">
-                            <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the quiz
-                            </button>
+                        <div class="form-group row">
+                            <div class="col">
+                                <input class="gvq-participant-email form-control" id="gvq-participant-email">
+                            </div>
+                            <div class="col-auto">
+                                <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the
+                                    quiz
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,13 +108,42 @@
                         <h2><span data-translate="SCORE">Score</span></h2>
                     </div>
                     <div class="card-body text-center">
-                        <span class="gvq-score">
-                            <span class="right-answers" data-value="score"></span>/<span class="total-questions" data-value="totalQuestions"></span>
+                        <span class="gvq-score mb-4">
+                            <span class="right-answers" data-value="score"></span>/<span class="total-questions"
+                                                                                         data-value="totalQuestions"></span>
                         </span>
+
+                        <div class="social border-top text-center p-4">
+                            <h4>Goede of slechte score?</h4>
+                            <p>Laat je vrienden weten hoe je het ervanaf bracht en daag ze uit om beter te doen!</h5>
+                            <p>
+                                <!-- Sharingbutton Facebook -->
+                                <a class="btn btn-facebook text-white" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Fsgroteverkeersquiz.be" target="popup-1" aria-label="Delen op facebook" alt="Delen op facebook"
+                                   onclick="window.open(this.href,'popup-1','width=450,height=450'); return false;"><span class="visually-hidden">Delen op facebook</span>
+                                    <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                        <path d="M12 0C5.38 0 0 5.38 0 12s5.38 12 12 12 12-5.38 12-12S18.62 0 12 0zm3.6 11.5h-2.1v7h-3v-7h-2v-2h2V8.34c0-1.1.35-2.82 2.65-2.82h2.35v2.3h-1.4c-.25 0-.6.13-.6.66V9.5h2.34l-.24 2z"/>
+                                    </svg>
+                                </a>
+
+                                <!-- Sharingbutton Twitter -->
+                                <a class="btn btn-twitter text-white" href="https://twitter.com/intent/tweet/?text=Ik%20deed%20mee%20aan%20de%20Verkeersquiz.%20Doe%20ook%20mee%20en%20kijk%20of%20je%20beter%20kan!&amp;url=http%3A%2F%2Fsgroteverkeersquiz.be" target="popup-2" aria-label="Delen op twitter" alt="Delen op twitter" onclick="window.open(this.href,'popup-2','width=450,height=450'); return false;"><span class="visually-hidden">Delen op twitter</span>
+                                    <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                        <path d="M12 0C5.38 0 0 5.38 0 12s5.38 12 12 12 12-5.38 12-12S18.62 0 12 0zm5.26 9.38v.34c0 3.48-2.64 7.5-7.48 7.5-1.48 0-2.87-.44-4.03-1.2 1.37.17 2.77-.2 3.9-1.08-1.16-.02-2.13-.78-2.46-1.83.38.1.8.07 1.17-.03-1.2-.24-2.1-1.3-2.1-2.58v-.05c.35.2.75.32 1.18.33-.7-.47-1.17-1.28-1.17-2.2 0-.47.13-.92.36-1.3C7.94 8.85 9.88 9.9 12.06 10c-.04-.2-.06-.4-.06-.6 0-1.46 1.18-2.63 2.63-2.63.76 0 1.44.3 1.92.82.6-.12 1.95-.27 1.95-.27-.35.53-.72 1.66-1.24 2.04z"/>
+                                    </svg>
+                                </a>
+                            </p>
+                        </div>
+
                     </div>
                     <div class="card-footer text-center">
-                        <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again</button>
-                        <button class="gvq-play-contest" data-translate="PLAY_CONTEST" style="display: none">Play contest</button>
+                        <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again
+                        </button>
+                        <button class="gvq-play-contest btn btn-primary btn-lg" data-translate="PLAY_CONTEST"
+                                style="display: none">Play
+                            contest
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,13 +160,13 @@
 
         function getConfigFromUrlParameters() {
             return decodeURIComponent(window.location.search.substring(1))
-                .split('&')
-                .reduce(function (config, urlParameter) {
-                    let keyValue = urlParameter.split('=');
-                    config[keyValue[0]] = keyValue[1];
+                    .split('&')
+                    .reduce(function (config, urlParameter) {
+                        let keyValue = urlParameter.split('=');
+                        config[keyValue[0]] = keyValue[1];
 
-                    return config;
-                }, {});
+                        return config;
+                    }, {});
         }
     </script>
 {% endblock %}
