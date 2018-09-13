@@ -18,6 +18,7 @@
                 <file>./src/Command/RedisCommand.php</file>
                 <file>./src/Command/CleanEventStoreCommand.php</file>
                 <file>./src/Command/CleanReadModelsCommand.php</file>
+                <file>./src/Command/ReplayCommand.php</file>
                 <file>./src/Common/Controllers/CompanyAwareController.php</file>
                 <file>./src/Company/Controllers/CompanyViewController.php</file>
                 <file>./src/Company/Forms/CompanyFormType.php</file>
