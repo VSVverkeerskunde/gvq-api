@@ -35,6 +35,9 @@ class TeamScoresNormalizer implements NormalizerInterface
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function supportsNormalization($data, $format = null)
     {
         return ($data instanceof TeamScores) && ($format === 'json');
