@@ -38,6 +38,7 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScore;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScores;
@@ -868,7 +869,8 @@ class ModelsFactory
         return new TeamScore(
             self::createAntwerpTeam(),
             new NaturalNumber(10),
-            new NaturalNumber(3)
+            new NaturalNumber(3),
+            new Average(4.4375)
         );
     }
 
@@ -880,7 +882,8 @@ class ModelsFactory
         return new TeamScore(
             self::createLeuvenTeam(),
             new NaturalNumber(16),
-            new NaturalNumber(2)
+            new NaturalNumber(2),
+            new Average(8.575)
         );
     }
 
@@ -892,7 +895,8 @@ class ModelsFactory
         return new TeamScore(
             self::createWaaslandTeam(),
             new NaturalNumber(0),
-            new NaturalNumber(0)
+            new NaturalNumber(0),
+            new Average(1.1875)
         );
     }
 
@@ -904,7 +908,8 @@ class ModelsFactory
         return new TeamScore(
             self::createTubizeTeam(),
             new NaturalNumber(0),
-            new NaturalNumber(0)
+            new NaturalNumber(0),
+            new Average(1.25)
         );
     }
 
@@ -916,7 +921,8 @@ class ModelsFactory
         return new TeamScore(
             self::createLommelTeam(),
             new NaturalNumber(10),
-            new NaturalNumber(3)
+            new NaturalNumber(3),
+            new Average(4.5)
         );
     }
 
@@ -928,7 +934,8 @@ class ModelsFactory
         return new TeamScore(
             self::createRoeselareTeam(),
             new NaturalNumber(3),
-            new NaturalNumber(1)
+            new NaturalNumber(1),
+            new Average(4.0125)
         );
     }
 
@@ -938,22 +945,6 @@ class ModelsFactory
     public static function createTeamScores(): TeamScores
     {
         return new TeamScores(
-            self::createAntwerpTeamScore(),
-            self::createLeuvenTeamScore(),
-            self::createWaaslandTeamScore(),
-            self::createTubizeTeamScore(),
-            self::createLommelTeamScore(),
-            self::createRoeselareTeamScore()
-        );
-    }
-
-    /**
-     * @return TeamScores
-     */
-    public static function createRankedTeamScores(): TeamScores
-    {
-        return new TeamScores(
-
             self::createLeuvenTeamScore(),
             self::createLommelTeamScore(),
             self::createAntwerpTeamScore(),
@@ -967,17 +958,20 @@ class ModelsFactory
      * @param Team $team
      * @param NaturalNumber $totalScore
      * @param NaturalNumber $participationCount
+     * @param Average $rankingScore
      * @return TeamScore
      */
     public static function createCustomTeamScore(
         Team $team,
         NaturalNumber $totalScore,
-        NaturalNumber $participationCount
+        NaturalNumber $participationCount,
+        Average $rankingScore
     ): TeamScore {
         return new TeamScore(
             $team,
             $totalScore,
-            $participationCount
+            $participationCount,
+            $rankingScore
         );
     }
 

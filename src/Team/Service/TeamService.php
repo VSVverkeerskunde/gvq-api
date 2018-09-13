@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Team\Service;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRepository;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScore;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScores;
@@ -73,32 +74,71 @@ class TeamService
      */
     private function rankTeamScores(Teams $teams): TeamScores
     {
-        $teamScoresArray = [];
+        /** @var WeightedTeam[] $weightedTeams */
+        $weightedTeams = [];
 
-        foreach ($teams->toArray() as $team) {
+        foreach ($teams as $team) {
             $participationCount = $this->teamParticipationRepository->getForTeam($team);
             $totalScore = $this->teamTotalScoreRepository->getForTeam($team);
-            $teamScore = new TeamScore(
+
+            $weightedAverageScore = !empty($participationCount) ?
+                new Average(($totalScore / $participationCount) * 0.9) : new Average(0);
+
+            $weightedTeams[] = new WeightedTeam(
                 $team,
+                new NaturalNumber($participationCount),
                 new NaturalNumber($totalScore),
-                new NaturalNumber($participationCount)
+                $weightedAverageScore
             );
-            $teamScoresArray[] = $teamScore;
         }
 
-        $teamScores = new TeamScores(...$teamScoresArray);
-        $teamScores = $teamScores->sortByParticipationCount();
+        /** @var TeamScore[] $teamScores */
+        $teamScores = [];
 
-        $positionIterator = 24;
+        $weightedTeams = $this->sortByParticipationCount($weightedTeams);
 
-        foreach ($teamScores->toArray() as $teamScore) {
-            $teamScore->calculateWeightedParticipationScore($positionIterator);
-            $teamScore->calculateRankingScore();
-            $positionIterator--;
+        for ($index = count($weightedTeams); $index > 0; $index--) {
+            $weightedTeam = $weightedTeams[count($weightedTeams) - $index];
+
+            $weightedPositionScore = new Average(($index / 24) * 15 * 0.1);
+
+            $rankingScore = new Average(
+                $weightedTeam->getWeightedAverageScore()->toNative() + $weightedPositionScore->toNative()
+            );
+
+            $teamScores[] = new TeamScore(
+                $weightedTeam->getTeam(),
+                $weightedTeam->getTotalScore(),
+                $weightedTeam->getParticipationCount(),
+                $rankingScore
+            );
         }
 
-        $teamScores = $teamScores->sortByRankingScore();
+        return new TeamScores(...$teamScores);
+    }
 
-        return $teamScores;
+    /**
+     * @param WeightedTeam[] $weightedTeams
+     * @return WeightedTeam[]
+     */
+    public function sortByParticipationCount(array $weightedTeams): array
+    {
+        usort(
+            $weightedTeams,
+            function (WeightedTeam $wt1, WeightedTeam $wt2): int {
+                if ($wt1->getParticipationCount()->toNative() > $wt2->getParticipationCount()->toNative()) {
+                    return -1;
+                } elseif ($wt1->getParticipationCount()->toNative() < $wt2->getParticipationCount()->toNative()) {
+                    return 1;
+                } else {
+                    return strcmp(
+                        $wt1->getTeam()->getName()->toNative(),
+                        $wt2->getTeam()->getName()->toNative()
+                    );
+                }
+            }
+        );
+
+        return $weightedTeams;
     }
 }

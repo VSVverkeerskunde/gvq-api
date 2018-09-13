@@ -81,7 +81,7 @@ class TeamServiceTest extends TestCase
             )
             ->willReturnOnConsecutiveCalls(10, 16, 0, 0, 10, 3);
 
-        $expectedTeamScores = ModelsFactory::createRankedTeamScores();
+        $expectedTeamScores = ModelsFactory::createTeamScores();
 
         /** @var TeamScores $actualTeamScores */
         $actualTeamScores = $this->teamService->getRankedTeamScores();

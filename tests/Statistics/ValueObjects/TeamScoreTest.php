@@ -34,8 +34,8 @@ class TeamScoreTest extends TestCase
     public function it_can_store_total_score(): void
     {
         $this->assertEquals(
-            16,
-            $this->teamScore->getTotalScore()->toNative()
+            new NaturalNumber(16),
+            $this->teamScore->getTotalScore()
         );
     }
 
@@ -45,22 +45,19 @@ class TeamScoreTest extends TestCase
     public function it_can_store_participation_count(): void
     {
         $this->assertEquals(
-            2,
-            $this->teamScore->getParticipationCount()->toNative()
+            new NaturalNumber(2),
+            $this->teamScore->getParticipationCount()
         );
     }
 
     /**
      * @test
      */
-    public function it_can_calculate_ranking_score(): void
+    public function it_can_store_a_ranking_score(): void
     {
-        $this->teamScore->calculateWeightedParticipationScore(23);
-        $this->teamScore->calculateRankingScore();
-
         $this->assertEquals(
-            8.6375,
-            $this->teamScore->getRankingScore()->toNative()
+            new Average(8.575),
+            $this->teamScore->getRankingScore()
         );
     }
 }

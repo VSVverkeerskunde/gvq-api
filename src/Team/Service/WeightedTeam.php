@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace VSV\GVQ_API\Statistics\ValueObjects;
+namespace VSV\GVQ_API\Team\Service;
 
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\Team\Models\Team;
 
-class TeamScore
+class WeightedTeam
 {
     /**
      * @var Team
@@ -14,34 +16,34 @@ class TeamScore
     /**
      * @var NaturalNumber
      */
-    private $totalScore;
+    private $participationCount;
 
     /**
      * @var NaturalNumber
      */
-    private $participationCount;
+    private $totalScore;
 
     /**
      * @var Average
      */
-    private $rankingScore;
+    private $weightedAverageScore;
 
     /**
      * @param Team $team
-     * @param NaturalNumber $totalScore
      * @param NaturalNumber $participationCount
-     * @param Average $rankingScore
+     * @param NaturalNumber $totalScore
+     * @param Average $weightedAverageScore
      */
     public function __construct(
         Team $team,
-        NaturalNumber $totalScore,
         NaturalNumber $participationCount,
-        Average $rankingScore
+        NaturalNumber $totalScore,
+        Average $weightedAverageScore
     ) {
         $this->team = $team;
-        $this->totalScore = $totalScore;
         $this->participationCount = $participationCount;
-        $this->rankingScore = $rankingScore;
+        $this->totalScore = $totalScore;
+        $this->weightedAverageScore = $weightedAverageScore;
     }
 
     /**
@@ -55,24 +57,24 @@ class TeamScore
     /**
      * @return NaturalNumber
      */
-    public function getTotalScore(): NaturalNumber
-    {
-        return $this->totalScore;
-    }
-
-    /**
-     * @return NaturalNumber
-     */
     public function getParticipationCount(): NaturalNumber
     {
         return $this->participationCount;
     }
 
     /**
+     * @return NaturalNumber
+     */
+    public function getTotalScore(): NaturalNumber
+    {
+        return $this->totalScore;
+    }
+
+    /**
      * @return Average
      */
-    public function getRankingScore(): Average
+    public function getWeightedAverageScore(): Average
     {
-        return $this->rankingScore;
+        return $this->weightedAverageScore;
     }
 }
