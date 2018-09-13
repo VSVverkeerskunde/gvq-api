@@ -17,11 +17,6 @@ class CleanReadModelsCommand extends ContainerAwareCommand
     private $entityManager;
 
     /**
-     * @var \Redis
-     */
-    private $redis;
-
-    /**
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
@@ -43,10 +38,6 @@ class CleanReadModelsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        /** @var \Redis $redis */
-        $redis = $this->getContainer()->get('redis_service');
-        $this->redis = $redis;
-
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue with cleaning the read models? ', false);
 
@@ -67,7 +58,9 @@ class CleanReadModelsCommand extends ContainerAwareCommand
         );
 
         $output->writeln('Cleaning Redis...');
-        $this->redis->flushDB();
+        /** @var \Redis $redis */
+        $redis = $this->getContainer()->get('redis_service');
+        $redis->flushDB();
 
         $output->writeln('Finished cleaning read models...');
     }
