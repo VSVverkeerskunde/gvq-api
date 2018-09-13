@@ -33,6 +33,7 @@ class QuestionJsonEnricherTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_enrich_a_new_json_question()
     {

@@ -222,7 +222,17 @@ services:
       arguments:
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
+        
+    top_score_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TopScoresProjector
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
 
+    employee_participation_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\EmployeeParticipationProjector
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
+        
     team_total_score_projector:
       class: VSV\GVQ_API\Statistics\Projectors\TeamTotalScoreProjector
       arguments:
@@ -259,6 +269,12 @@ services:
         - method: subscribe
           arguments:
             - '@unique_participant_projector'
+        - method: subscribe
+          arguments:
+            - '@top_score_projector'
+        - method: subscribe
+          arguments:
+            - '@employee_participation_projector'
         - method: subscribe
           arguments:
             - '@team_total_score_projector'
@@ -308,6 +324,9 @@ services:
       arguments:
         $questionResultRepository: '@question_result_redis_repository'
         $quizRepository: '@quiz_redis_repository'
+
+    dashboard_service:
+      class: VSV\GVQ_API\Dashboard\Service\DashboardService
 
     team_service:
       class: VSV\GVQ_API\Team\Service\TeamService

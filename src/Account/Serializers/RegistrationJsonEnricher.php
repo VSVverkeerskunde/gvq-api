@@ -24,6 +24,7 @@ class RegistrationJsonEnricher implements JsonEnricher
     /**
      * @param string $json
      * @return string
+     * @throws \Exception
      */
     public function enrich(string $json): string
     {

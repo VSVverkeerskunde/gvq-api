@@ -44,6 +44,7 @@ class CompanyJsonEnricherTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function it_can_enrich_a_new_question_json()
     {
