@@ -159,6 +159,7 @@ services:
           arguments:
             - 'redis'
             - 6379
+      public: true
 
     quiz_redis_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository
@@ -227,6 +228,7 @@ services:
 
     doctrine_event_store:
       class: VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore
+      public: true
 
     simple_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
@@ -252,6 +254,7 @@ services:
         - method: subscribe
           arguments:
             - '@employee_participation_projector'
+      public: true
 
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
