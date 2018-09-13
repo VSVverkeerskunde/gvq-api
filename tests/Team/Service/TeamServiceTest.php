@@ -8,10 +8,9 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRepository;
-use VSV\GVQ_API\Statistics\Serializers\TeamScoreNormalizer;
-use VSV\GVQ_API\Statistics\Serializers\TeamScoresNormalizer;
+use VSV\GVQ_API\Statistics\ValueObjects\TeamScore;
+use VSV\GVQ_API\Statistics\ValueObjects\TeamScores;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
-use VSV\GVQ_API\Team\Serializers\TeamNormalizer;
 
 class TeamServiceTest extends TestCase
 {
@@ -35,12 +34,6 @@ class TeamServiceTest extends TestCase
      */
     private $teamParticipationRepository;
 
-    /**
-     * @var TeamScoresNormalizer
-     */
-    private $teamScoresNormalizer;
-
-
     public function setUp(): void
     {
         /** @var TeamRepository|MockObject $teamRepository */
@@ -55,25 +48,18 @@ class TeamServiceTest extends TestCase
         $teamParticipationRepository = $this->createMock(TeamParticipationRepository::class);
         $this->teamParticipationRepository = $teamParticipationRepository;
 
-        $this->teamScoresNormalizer = new TeamScoresNormalizer(
-            new TeamScoreNormalizer(
-                new TeamNormalizer()
-            )
-        );
-
         $this->teamService = new TeamService(
             new Year(2018),
             $this->teamRepository,
             $this->teamTotalScoreRepository,
-            $this->teamParticipationRepository,
-            $this->teamScoresNormalizer
+            $this->teamParticipationRepository
         );
     }
 
     /**
      * @test
      */
-    public function it_can_get_team_ranking_as_json(): void
+    public function it_can_get_ranked_team_scores(): void
     {
         $teams = ModelsFactory::createTeams();
 
@@ -95,29 +81,35 @@ class TeamServiceTest extends TestCase
             )
             ->willReturnOnConsecutiveCalls(10, 16, 0, 0, 10, 3);
 
-        $expectedJson = ModelsFactory::createJson('team_ranking');
+        $expectedTeamScores = ModelsFactory::createRankedTeamScores();
 
-        $actualJson = $this->teamService->getTeamRankingAsJson();
+        /** @var TeamScores $actualTeamScores */
+        $actualTeamScores = $this->teamService->getRankedTeamScores();
 
-        $this->assertEquals(
-            $expectedJson,
-            $actualJson
-        );
+        $iterator = 0;
+        foreach ($expectedTeamScores as $expectedTeamScore) {
+            /** @var TeamScore $expectedTeamScore */
+            $this->assertEquals(
+                $expectedTeamScore->getTeam(),
+                $actualTeamScores->toArray()[$iterator]->getTeam()
+            );
+
+            $iterator++;
+        }
     }
 
     /**
      * @test
      */
-    public function it_returns_empty_array_when_no_teams_found(): void
+    public function it_returns_null_when_no_teams_found(): void
     {
         $this->teamRepository->expects($this->once())
             ->method('getAllByYear')
             ->with(new Year(2018))
             ->willReturn(null);
 
-        $this->assertEquals(
-            '',
-            $this->teamService->getTeamRankingAsJson()
+        $this->assertNull(
+            $this->teamService->getRankedTeamScores()
         );
     }
 }

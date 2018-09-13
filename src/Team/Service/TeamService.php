@@ -5,8 +5,6 @@ namespace VSV\GVQ_API\Team\Service;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRepository;
 use VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRepository;
-use VSV\GVQ_API\Statistics\Serializers\TeamScoresNormalizer;
-use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScore;
 use VSV\GVQ_API\Statistics\ValueObjects\TeamScores;
@@ -36,47 +34,37 @@ class TeamService
     private $teamParticipationRepository;
 
     /**
-     * @var TeamScoresNormalizer
-     */
-    private $teamScoresNormalizer;
-
-    /**
      * @param Year $year
      * @param TeamRepository $teamRepository
      * @param TeamTotalScoreRepository $teamTotalScoreRepository
      * @param TeamParticipationRepository $teamParticipationRepository
-     * @param TeamScoresNormalizer $teamScoresNormalizer
      */
     public function __construct(
         Year $year,
         TeamRepository $teamRepository,
         TeamTotalScoreRepository $teamTotalScoreRepository,
-        TeamParticipationRepository $teamParticipationRepository,
-        TeamScoresNormalizer $teamScoresNormalizer
+        TeamParticipationRepository $teamParticipationRepository
     ) {
         $this->year = $year;
         $this->teamRepository = $teamRepository;
         $this->teamTotalScoreRepository = $teamTotalScoreRepository;
         $this->teamParticipationRepository = $teamParticipationRepository;
-        $this->teamScoresNormalizer = $teamScoresNormalizer;
     }
 
     /**
-     * @return string
+     * @return TeamScores|null
      */
-    public function getTeamRankingAsJson(): string
+    public function getRankedTeamScores(): ?TeamScores
     {
         $teams = $this->teamRepository->getAllByYear($this->year);
 
         if ($teams === null) {
-            return '';
+            return null;
         }
 
         $rankedTeamScores = $this->rankTeamScores($teams);
 
-        $teamRankingAsJson = $this->teamScoresNormalizer->normalize($rankedTeamScores);
-
-        return json_encode($teamRankingAsJson);
+        return $rankedTeamScores;
     }
 
     /**

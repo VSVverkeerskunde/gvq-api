@@ -8,6 +8,7 @@ parameters:
     sender_name_fr: 'Quiz de la Route 2018'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
+    team_file : '%kernel.project_dir%/config/teams.yaml'
 
 services:
     # default configuration for services in *this* file
@@ -279,7 +280,7 @@ services:
     team_repository:
       class: VSV\GVQ_API\Team\Repositories\TeamYamlRepository
       arguments:
-        $teamFile: '%kernel.project_dir%/config/teams.yaml'
+        $teamFile: '%team_file%'
 
     quiz_service:
       class: VSV\GVQ_API\Quiz\Service\QuizService
@@ -404,4 +405,6 @@ services:
     VSV\GVQ_API\Team\Controllers\TeamController:
       arguments:
         $teamService: '@team_service'
+        $teamFile: '%team_file%'
+        $year: '@quiz_year'
       tags: ['controller.service_arguments']

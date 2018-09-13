@@ -260,3 +260,7 @@ team_ranking:
   path: /api/teamranking
   controller: VSV\GVQ_API\Team\Controllers\TeamController::teamRanking
   methods: [GET]
+team_colors:
+  path: /api/teamcolors
+  controller: VSV\GVQ_API\Team\Controllers\TeamController::teamColors
+  methods: [GET]

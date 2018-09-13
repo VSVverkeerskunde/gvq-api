@@ -948,6 +948,22 @@ class ModelsFactory
     }
 
     /**
+     * @return TeamScores
+     */
+    public static function createRankedTeamScores(): TeamScores
+    {
+        return new TeamScores(
+
+            self::createLeuvenTeamScore(),
+            self::createLommelTeamScore(),
+            self::createAntwerpTeamScore(),
+            self::createRoeselareTeamScore(),
+            self::createTubizeTeamScore(),
+            self::createWaaslandTeamScore()
+        );
+    }
+
+    /**
      * @param Team $team
      * @param NaturalNumber $totalScore
      * @param NaturalNumber $participationCount
