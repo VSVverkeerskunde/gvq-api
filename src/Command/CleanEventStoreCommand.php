@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class CleanEventStore extends Command
+class CleanEventStoreCommand extends Command
 {
     /**
      * @var EntityManagerInterface
