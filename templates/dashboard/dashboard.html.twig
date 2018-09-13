@@ -60,6 +60,8 @@
         </div>
     </div>
 
+    {% if topScores|length > 0 %}
+
     <table class="table table-non-fluid table-bordered">
         <thead class="thead-dark thead-primary text-center">
             <tr>
@@ -87,6 +89,8 @@
        href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}" ><span class="oi oi-data-transfer-download"></span>
         {% trans %}Button.export{% endtrans %}
     </a>
+
+    {% endif %}
 
 {% endblock %}
 
