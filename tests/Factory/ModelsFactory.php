@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Factory;
 
+use Broadway\Domain\DomainMessage;
+use Broadway\Domain\Metadata;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -12,10 +14,10 @@ use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
+use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Contest\ValueObjects\Address;
 use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
 use VSV\GVQ_API\Mail\Models\Sender;
-use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Answer;
 use VSV\GVQ_API\Question\Models\Answers;
@@ -38,7 +40,12 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 use VSV\GVQ_API\Registration\Models\Registration;
 use VSV\GVQ_API\Registration\ValueObjects\UrlSuffix;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\TeamScore;
+use VSV\GVQ_API\Statistics\ValueObjects\TeamScores;
 use VSV\GVQ_API\Team\Models\Team;
+use VSV\GVQ_API\Team\Models\Teams;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\ValueObjects\Email;
 use VSV\GVQ_API\User\ValueObjects\Password;
@@ -696,6 +703,21 @@ class ModelsFactory
     }
 
     /**
+     * @return Quiz
+     * @throws \Exception
+     */
+    public static function createCupQuiz(): Quiz
+    {
+        return self::createCustomQuiz(
+            Uuid::fromString('5f677528-1700-4fac-9e57-1718d1c3e667'),
+            new QuizChannel(QuizChannel::CUP),
+            null,
+            null,
+            self::createAntwerpTeam()
+        );
+    }
+
+    /**
      * @param UuidInterface $uuid
      * @param QuizChannel $channel
      * @param Company|null $company
@@ -766,11 +788,216 @@ class ModelsFactory
     /**
      * @return Team
      */
-    public static function createTeam(): Team
+    public static function createAntwerpTeam(): Team
     {
         return new Team(
             Uuid::fromString('5c128cad-8727-4e3e-bfba-c51929ae14c4'),
             new NotEmptyString('Royal Antwerp FC')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createLeuvenTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('9c2c62c3-655a-4444-89e5-6c493cf2c684'),
+            new NotEmptyString('OH Leuven')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createWaaslandTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('72206a00-4c5a-407d-b1de-5c8cc0806d54'),
+            new NotEmptyString('Waasland-Beveren')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createTubizeTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('e36005ae-9e83-4620-8484-d03ce0106b2e'),
+            new NotEmptyString('AFC Tubize')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createLommelTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('924f1974-6eff-4ad2-abb2-d5d38826d884'),
+            new NotEmptyString('Lommel SK')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createRoeselareTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('4224d2c4-7ba7-4ff8-901e-f4265d24b09d'),
+            new NotEmptyString('KSV Roeselare')
+        );
+    }
+
+    /**
+     * @return Team
+     */
+    public static function createBruggeTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('922391c4-fc5b-4148-b69d-d347d48caaef'),
+            new NotEmptyString('Club Brugge KV')
+        );
+    }
+
+    public static function createTeams(): Teams
+    {
+        return new Teams(
+            self::createAntwerpTeam(),
+            self::createLeuvenTeam(),
+            self::createWaaslandTeam(),
+            self::createTubizeTeam(),
+            self::createLommelTeam(),
+            self::createRoeselareTeam()
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createAntwerpTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createAntwerpTeam(),
+            new NaturalNumber(10),
+            new NaturalNumber(3),
+            new Average(4.4375)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createLeuvenTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createLeuvenTeam(),
+            new NaturalNumber(16),
+            new NaturalNumber(2),
+            new Average(8.575)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createWaaslandTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createWaaslandTeam(),
+            new NaturalNumber(0),
+            new NaturalNumber(0),
+            new Average(1.1875)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createTubizeTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createTubizeTeam(),
+            new NaturalNumber(0),
+            new NaturalNumber(0),
+            new Average(1.25)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createLommelTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createLommelTeam(),
+            new NaturalNumber(10),
+            new NaturalNumber(3),
+            new Average(4.5)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createRoeselareTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createRoeselareTeam(),
+            new NaturalNumber(3),
+            new NaturalNumber(1),
+            new Average(4.0125)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createBruggeTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createBruggeTeam(),
+            new NaturalNumber(3),
+            new NaturalNumber(1),
+            new Average(4.0125)
+        );
+    }
+
+    /**
+     * @return TeamScores
+     */
+    public static function createTeamScores(): TeamScores
+    {
+        return new TeamScores(
+            self::createLeuvenTeamScore(),
+            self::createLommelTeamScore(),
+            self::createAntwerpTeamScore(),
+            self::createRoeselareTeamScore(),
+            self::createTubizeTeamScore(),
+            self::createWaaslandTeamScore()
+        );
+    }
+
+    /**
+     * @param Team $team
+     * @param NaturalNumber $totalScore
+     * @param NaturalNumber $participationCount
+     * @param Average $rankingScore
+     * @return TeamScore
+     */
+    public static function createCustomTeamScore(
+        Team $team,
+        NaturalNumber $totalScore,
+        NaturalNumber $participationCount,
+        Average $rankingScore
+    ): TeamScore {
+        return new TeamScore(
+            $team,
+            $totalScore,
+            $participationCount,
+            $rankingScore
         );
     }
 
@@ -1012,6 +1239,23 @@ class ModelsFactory
             new PositiveNumber(4321),
             true,
             true
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return DomainMessage
+     */
+    public static function createQuizFinishedDomainMessage(Quiz $quiz): DomainMessage
+    {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new QuizFinished(
+                $quiz->getId(),
+                10
+            )
         );
     }
 
