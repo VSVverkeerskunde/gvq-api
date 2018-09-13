@@ -3,13 +3,11 @@
 namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\Serializer\Tests\Model;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 
-class FinishedQuizzesProjectorTest extends QuizFinishedHandlingProjectorTest
+class FinishedQuizzesProjectorTest extends MockedQuizRepositoryTest
 {
     /**
      * @var FinishedQuizRepository|MockObject
@@ -36,28 +34,21 @@ class FinishedQuizzesProjectorTest extends QuizFinishedHandlingProjectorTest
     }
 
     /**
-     * @inheritdoc
-     * @throws \Exception
-     */
-    protected function createQuiz(): Quiz
-    {
-        return ModelsFactory::createIndividualQuiz();
-    }
-
-    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $this->mockQuizRepositoryGetById();
+        $quiz = ModelsFactory::createIndividualQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
 
         $this->finishedQuizRepository->expects($this->once())
             ->method('incrementCount')
-            ->with(StatisticsKey::createFromQuiz($this->quiz));
+            ->with(StatisticsKey::createFromQuiz($quiz));
 
         $this->finishedQuizzesProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
         );
     }
 }

@@ -2,16 +2,12 @@
 
 namespace VSV\GVQ_API\Statistics\Projectors;
 
-use Broadway\Domain\DomainMessage;
-use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Events\QuizFinished;
-use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
+class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
 {
     /**
      * @var UniqueParticipantRepository|MockObject
@@ -38,31 +34,24 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
     }
 
     /**
-     * @inheritdoc
-     * @throws \Exception
-     */
-    protected function createQuiz(): Quiz
-    {
-        return ModelsFactory::createIndividualQuiz();
-    }
-
-    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $this->mockQuizRepositoryGetById();
+        $quiz = ModelsFactory::createIndividualQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
 
         $this->uniqueParticipantRepository->expects($this->once())
             ->method('add')
             ->with(
-                StatisticsKey::createFromQuiz($this->quiz),
-                $this->quiz->getParticipant()
+                StatisticsKey::createFromQuiz($quiz),
+                $quiz->getParticipant()
             );
 
         $this->uniqueParticipantProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
         );
     }
 
@@ -74,10 +63,7 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
     {
         $quiz = ModelsFactory::createPartnerQuiz();
 
-        $this->quizRepository->expects($this->once())
-            ->method('getById')
-            ->with($quiz->getId())
-            ->willReturn($quiz);
+        $this->mockQuizRepositoryGetById($quiz);
 
         $this->uniqueParticipantRepository->expects($this->once())
             ->method('add')

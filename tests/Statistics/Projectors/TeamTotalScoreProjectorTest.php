@@ -4,10 +4,9 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRepository;
 
-class TeamTotalScoreProjectorTest extends QuizFinishedHandlingProjectorTest
+class TeamTotalScoreProjectorTest extends MockedQuizRepositoryTest
 {
     /**
      * @var TeamTotalScoreRepository|MockObject
@@ -34,28 +33,21 @@ class TeamTotalScoreProjectorTest extends QuizFinishedHandlingProjectorTest
     }
 
     /**
-     * @return Quiz
-     * @throws \Exception
-     */
-    protected function createQuiz(): Quiz
-    {
-        return ModelsFactory::createCupQuiz();
-    }
-
-    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $this->mockQuizRepositoryGetById();
+        $quiz = ModelsFactory::createCupQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
 
         $this->teamTotalScoreRepository->expects($this->once())
             ->method('incrementTotalScoreByQuizScore')
-            ->with($this->quiz->getTeam(), 10);
+            ->with($quiz->getTeam(), 10);
 
         $this->teamTotalScoreProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
         );
     }
 }

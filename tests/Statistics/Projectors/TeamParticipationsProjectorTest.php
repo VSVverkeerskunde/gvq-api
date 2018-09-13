@@ -4,10 +4,9 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use VSV\GVQ_API\Factory\ModelsFactory;
-use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRepository;
 
-class TeamParticipationsProjectorTest extends QuizFinishedHandlingProjectorTest
+class TeamParticipationsProjectorTest extends MockedQuizRepositoryTest
 {
     /**
      * @var TeamParticipationRepository|MockObject
@@ -37,28 +36,21 @@ class TeamParticipationsProjectorTest extends QuizFinishedHandlingProjectorTest
     }
 
     /**
-     * @inheritdoc
-     * @throws \Exception
-     */
-    protected function createQuiz(): Quiz
-    {
-        return ModelsFactory::createCupQuiz();
-    }
-
-    /**
      * @test
      * @throws \Exception
      */
     public function it_handles_quiz_finished(): void
     {
-        $this->mockQuizRepositoryGetById();
+        $quiz = ModelsFactory::createCupQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
 
         $this->teamParticipationRepository->expects($this->once())
             ->method('incrementCountForTeam')
-            ->with($this->quiz->getTeam());
+            ->with($quiz->getTeam());
 
         $this->teamParticipationsProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
         );
     }
 }
