@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Factory;
 
+use Broadway\Domain\DomainMessage;
+use Broadway\Domain\Metadata;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -1237,6 +1239,23 @@ class ModelsFactory
             new PositiveNumber(4321),
             true,
             true
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return DomainMessage
+     */
+    public static function createQuizFinishedDomainMessage(Quiz $quiz): DomainMessage
+    {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new QuizFinished(
+                $quiz->getId(),
+                10
+            )
         );
     }
 

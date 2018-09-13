@@ -5,11 +5,9 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Models\Quiz;
-use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
@@ -54,9 +52,7 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
      */
     public function it_handles_quiz_finished(): void
     {
-        $domainMessage = $this->createDomainMessage();
-
-        $this->doCommonQuizRepositoryExpect();
+        $this->mockQuizRepositoryGetById();
 
         $this->uniqueParticipantRepository->expects($this->once())
             ->method('add')
@@ -65,7 +61,9 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
                 $this->quiz->getParticipant()
             );
 
-        $this->uniqueParticipantProjector->handle($domainMessage);
+        $this->uniqueParticipantProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+        );
     }
 
     /**
@@ -75,16 +73,6 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
     public function it_handles_quiz_finished_for_partner_channel(): void
     {
         $quiz = ModelsFactory::createPartnerQuiz();
-
-        $domainMessage = DomainMessage::recordNow(
-            $quiz->getId(),
-            0,
-            new Metadata(),
-            new QuizFinished(
-                $quiz->getId(),
-                11
-            )
-        );
 
         $this->quizRepository->expects($this->once())
             ->method('getById')
@@ -106,6 +94,8 @@ class UniqueParticipantProjectorTest extends QuizFinishedHandlingProjectorTest
                 $quiz->getPartner()
             );
 
-        $this->uniqueParticipantProjector->handle($domainMessage);
+        $this->uniqueParticipantProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
+        );
     }
 }

@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Serializer\Tests\Model;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
@@ -49,14 +50,14 @@ class FinishedQuizzesProjectorTest extends QuizFinishedHandlingProjectorTest
      */
     public function it_handles_quiz_finished(): void
     {
-        $domainMessage = $this->createDomainMessage();
-
-        $this->doCommonQuizRepositoryExpect();
+        $this->mockQuizRepositoryGetById();
 
         $this->finishedQuizRepository->expects($this->once())
             ->method('incrementCount')
             ->with(StatisticsKey::createFromQuiz($this->quiz));
 
-        $this->finishedQuizzesProjector->handle($domainMessage);
+        $this->finishedQuizzesProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+        );
     }
 }

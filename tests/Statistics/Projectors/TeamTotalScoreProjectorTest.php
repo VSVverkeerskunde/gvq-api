@@ -48,14 +48,14 @@ class TeamTotalScoreProjectorTest extends QuizFinishedHandlingProjectorTest
      */
     public function it_handles_quiz_finished(): void
     {
-        $domainMessage = $this->createDomainMessage();
-
-        $this->doCommonQuizRepositoryExpect();
+        $this->mockQuizRepositoryGetById();
 
         $this->teamTotalScoreRepository->expects($this->once())
             ->method('incrementTotalScoreByQuizScore')
-            ->with($this->quiz->getTeam(), $this->score);
+            ->with($this->quiz->getTeam(), 10);
 
-        $this->teamTotalScoreProjector->handle($domainMessage);
+        $this->teamTotalScoreProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+        );
     }
 }

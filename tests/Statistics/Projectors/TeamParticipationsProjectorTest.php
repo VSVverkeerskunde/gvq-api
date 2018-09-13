@@ -51,14 +51,14 @@ class TeamParticipationsProjectorTest extends QuizFinishedHandlingProjectorTest
      */
     public function it_handles_quiz_finished(): void
     {
-        $domainMessage = $this->createDomainMessage();
-
-        $this->doCommonQuizRepositoryExpect();
+        $this->mockQuizRepositoryGetById();
 
         $this->teamParticipationRepository->expects($this->once())
             ->method('incrementCountForTeam')
             ->with($this->quiz->getTeam());
 
-        $this->teamParticipationsProjector->handle($domainMessage);
+        $this->teamParticipationsProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($this->quiz)
+        );
     }
 }
