@@ -70,7 +70,7 @@ class TeamController extends AbstractController
     /**
      * @return Response
      */
-    public function teamColors(): Response
+    public function teams(): Response
     {
         if (!key_exists($this->year->toNative(), $this->teamsAsYml)) {
             return new JsonResponse();

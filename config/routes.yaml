@@ -261,6 +261,6 @@ team_ranking:
   controller: VSV\GVQ_API\Team\Controllers\TeamController::teamRanking
   methods: [GET]
 team_colors:
-  path: /api/teamcolors
-  controller: VSV\GVQ_API\Team\Controllers\TeamController::teamColors
+  path: /api/teams
+  controller: VSV\GVQ_API\Team\Controllers\TeamController::teams
   methods: [GET]
