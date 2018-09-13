@@ -123,6 +123,9 @@ input, button, select, optgroup, textarea {
     display: none;
 }
 
+.form-group.small label {
+    line-height: 1.65em;
+}
 
 // Pager
 

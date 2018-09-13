@@ -207,6 +207,9 @@ input, button, select, optgroup, textarea {
 .custom-file .custom-file-label {
   display: none; }
 
+.form-group.small label {
+  line-height: 1.65em; }
+
 .fixed-table-pagination {
   margin-top: 20px; }
 
