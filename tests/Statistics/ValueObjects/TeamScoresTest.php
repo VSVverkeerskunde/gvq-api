@@ -29,6 +29,7 @@ class TeamScoresTest extends TestCase
             ModelsFactory::createLommelTeamScore(),
             ModelsFactory::createWaaslandTeamScore(),
             ModelsFactory::createLeuvenTeamScore(),
+            ModelsFactory::createBruggeTeamScore(),
             ModelsFactory::createAntwerpTeamScore(),
             ModelsFactory::createRoeselareTeamScore(),
         ];
@@ -37,6 +38,7 @@ class TeamScoresTest extends TestCase
             ModelsFactory::createLeuvenTeamScore(),
             ModelsFactory::createLommelTeamScore(),
             ModelsFactory::createAntwerpTeamScore(),
+            ModelsFactory::createBruggeTeamScore(),
             ModelsFactory::createRoeselareTeamScore(),
             ModelsFactory::createTubizeTeamScore(),
             ModelsFactory::createWaaslandTeamScore(),
@@ -63,7 +65,7 @@ class TeamScoresTest extends TestCase
      */
     public function it_can_be_counted(): void
     {
-        $this->assertEquals(6, count($this->teamScores));
+        $this->assertEquals(7, count($this->teamScores));
     }
 
     /**

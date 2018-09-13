@@ -849,6 +849,17 @@ class ModelsFactory
         );
     }
 
+    /**
+     * @return Team
+     */
+    public static function createBruggeTeam(): Team
+    {
+        return new Team(
+            Uuid::fromString('922391c4-fc5b-4148-b69d-d347d48caaef'),
+            new NotEmptyString('Club Brugge KV')
+        );
+    }
+
     public static function createTeams(): Teams
     {
         return new Teams(
@@ -933,6 +944,19 @@ class ModelsFactory
     {
         return new TeamScore(
             self::createRoeselareTeam(),
+            new NaturalNumber(3),
+            new NaturalNumber(1),
+            new Average(4.0125)
+        );
+    }
+
+    /**
+     * @return TeamScore
+     */
+    public static function createBruggeTeamScore(): TeamScore
+    {
+        return new TeamScore(
+            self::createBruggeTeam(),
             new NaturalNumber(3),
             new NaturalNumber(1),
             new Average(4.0125)
