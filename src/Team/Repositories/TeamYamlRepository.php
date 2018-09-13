@@ -2,11 +2,13 @@
 
 namespace VSV\GVQ_API\Team\Repositories;
 
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Yaml\Yaml;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Team\Models\Team;
+use VSV\GVQ_API\Team\Models\Teams;
 
 class TeamYamlRepository implements TeamRepository
 {
@@ -40,5 +42,26 @@ class TeamYamlRepository implements TeamRepository
         }
 
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllByYear(Year $year): ?Teams
+    {
+        if (!key_exists($year->toNative(), $this->teamsAsYml)) {
+            return null;
+        }
+
+        $teams = [];
+
+        foreach ($this->teamsAsYml[$year->toNative()] as $key => $teamAsYml) {
+            $teams[] = new Team(
+                Uuid::fromString($key),
+                new NotEmptyString($teamAsYml['name'])
+            );
+        }
+
+        return new Teams(...$teams);
     }
 }

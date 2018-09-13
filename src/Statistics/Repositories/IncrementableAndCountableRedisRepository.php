@@ -4,21 +4,10 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
-abstract class IncrementableAndCountableRedisRepository implements CountableRepository, IncrementableRepository
+abstract class IncrementableAndCountableRedisRepository extends AbstractRedisRepository implements
+    CountableRepository,
+    IncrementableRepository
 {
-    /**
-     * @var \Redis
-     */
-    private $redis;
-
-    /**
-     * @param \Redis $redis
-     */
-    public function __construct(\Redis $redis)
-    {
-        $this->redis = $redis;
-    }
-
     /**
      * @inheritdoc
      */

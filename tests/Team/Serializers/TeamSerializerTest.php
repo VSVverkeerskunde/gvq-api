@@ -40,7 +40,7 @@ class TeamSerializerTest extends TestCase
         $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->teamAsJson = ModelsFactory::createJson('team');
-        $this->team = ModelsFactory::createTeam();
+        $this->team = ModelsFactory::createAntwerpTeam();
     }
 
     /**
