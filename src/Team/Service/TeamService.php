@@ -76,8 +76,8 @@ class TeamService
         $teamScoresArray = [];
 
         foreach ($teams->toArray() as $team) {
-            $participationCount = $this->teamParticipationRepository->getCountForTeam($team);
-            $totalScore = $this->teamTotalScoreRepository->getCountForTeam($team);
+            $participationCount = $this->teamParticipationRepository->getForTeam($team);
+            $totalScore = $this->teamTotalScoreRepository->getForTeam($team);
             $teamScore = new TeamScore(
                 $team,
                 new NaturalNumber($totalScore),

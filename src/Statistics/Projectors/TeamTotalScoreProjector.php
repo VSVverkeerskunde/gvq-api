@@ -42,7 +42,7 @@ class TeamTotalScoreProjector implements EventListener
             $quiz = $this->quizRepository->getById($payload->getId());
             if ($quiz->getChannel()->toNative() === QuizChannel::CUP &&
                 $quiz->getTeam() !== null) {
-                $this->teamTotalScoreRepository->incrementCountByQuizScore($quiz->getTeam(), $payload->getScore());
+                $this->teamTotalScoreRepository->incrementTotalScoreByQuizScore($quiz->getTeam(), $payload->getScore());
             }
         }
     }

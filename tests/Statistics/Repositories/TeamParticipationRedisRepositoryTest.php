@@ -58,6 +58,6 @@ class TeamParticipationRedisRepositoryTest extends TestCase
             ->method('get')
             ->with('team_participations_'.$this->team->getId()->toString());
 
-        $this->teamParticipationRepository->getCountForTeam($this->team);
+        $this->teamParticipationRepository->getForTeam($this->team);
     }
 }

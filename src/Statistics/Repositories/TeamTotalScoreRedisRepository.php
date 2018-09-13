@@ -4,14 +4,14 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Team\Models\Team;
 
-class TeamTotalScoreRedisRepository extends CountableTeamRedisRepository implements TeamTotalScoreRepository
+class TeamTotalScoreRedisRepository extends TeamRedisRepository implements TeamTotalScoreRepository
 {
     const KEY_PREFIX = 'team_total_score_';
 
     /**
      * @inheritdoc
      */
-    public function incrementCountByQuizScore(Team $team, int $quizScore): void
+    public function incrementTotalScoreByQuizScore(Team $team, int $quizScore): void
     {
         $this->redis->incrBy($this->createTeamKey($team), $quizScore);
     }

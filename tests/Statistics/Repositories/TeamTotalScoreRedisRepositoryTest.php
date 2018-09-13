@@ -48,7 +48,7 @@ class TeamTotalScoreRedisRepositoryTest extends TestCase
             ->method('incrBy')
             ->with('team_total_score_'.$this->team->getId()->toString(), $score);
 
-        $this->teamTotalScoreRepository->incrementCountByQuizScore($this->team, $score);
+        $this->teamTotalScoreRepository->incrementTotalScoreByQuizScore($this->team, $score);
     }
 
     /**
@@ -60,6 +60,6 @@ class TeamTotalScoreRedisRepositoryTest extends TestCase
             ->method('get')
             ->with('team_total_score_'.$this->team->getId()->toString());
 
-        $this->teamTotalScoreRepository->getCountForTeam($this->team);
+        $this->teamTotalScoreRepository->getForTeam($this->team);
     }
 }

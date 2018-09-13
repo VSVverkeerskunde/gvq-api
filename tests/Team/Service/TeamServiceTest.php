@@ -69,13 +69,13 @@ class TeamServiceTest extends TestCase
             ->willReturn($teams);
 
         $this->teamParticipationRepository->expects($this->exactly($teams->count()))
-            ->method('getCountForTeam')
+            ->method('getForTeam')
             ->withConsecutive(
                 ...$teams->toArray()
             )
             ->willReturnOnConsecutiveCalls(3, 2, 0, 0, 3, 1);
         $this->teamTotalScoreRepository->expects(($this->exactly($teams->count())))
-            ->method('getCountForTeam')
+            ->method('getForTeam')
             ->withConsecutive(
                 ...$teams->toArray()
             )

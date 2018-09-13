@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Team\Models\Team;
 
-class TeamParticipationRedisRepository extends CountableTeamRedisRepository implements TeamParticipationRepository
+class TeamParticipationRedisRepository extends TeamRedisRepository implements TeamParticipationRepository
 {
     const KEY_PREFIX = 'team_participations_';
 

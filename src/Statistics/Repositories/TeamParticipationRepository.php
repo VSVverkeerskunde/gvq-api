@@ -4,7 +4,7 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Team\Models\Team;
 
-interface TeamParticipationRepository extends CountableTeamRepository
+interface TeamParticipationRepository extends TeamRepository
 {
     /**
      * @param Team $team

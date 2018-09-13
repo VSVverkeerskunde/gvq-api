@@ -53,7 +53,7 @@ class TeamTotalScoreProjectorTest extends QuizFinishedHandlingProjectorTest
         $this->doCommonQuizRepositoryExpect();
 
         $this->teamTotalScoreRepository->expects($this->once())
-            ->method('incrementCountByQuizScore')
+            ->method('incrementTotalScoreByQuizScore')
             ->with($this->quiz->getTeam(), $this->score);
 
         $this->teamTotalScoreProjector->handle($domainMessage);

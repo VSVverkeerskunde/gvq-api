@@ -4,12 +4,12 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Team\Models\Team;
 
-abstract class CountableTeamRedisRepository extends AbstractRedisRepository implements CountableTeamRepository
+abstract class TeamRedisRepository extends AbstractRedisRepository implements TeamRepository
 {
     /**
      * @inheritdoc
      */
-    public function getCountForTeam(Team $team): int
+    public function getForTeam(Team $team): int
     {
         return (int)$this->redis->get($this->createTeamKey($team));
     }
