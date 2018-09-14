@@ -76,9 +76,9 @@
                         <tbody>
                         {% for topScore in topScores %}
                             <tr>
-                                <td class="text-right">{{ loop.index }}</td>
+                                <td>{{ loop.index }}</td>
                                 <td>{{ topScore.email.toNative }}</td>
-                                <td class="text-right">{{ topScore.score.toNative }}</td>
+                                <td>{{ topScore.score.toNative }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
