@@ -1,0 +1,21 @@
+{
+  "id": "c1eb30d1-990a-4a72-945f-190d00a26e9d",
+  "year": 2018,
+  "channel": "individual",
+  "contestParticipant": {
+    "email": "par@ticipa.nt",
+    "firstName": "Par",
+    "lastName": "Ticipa",
+    "dateOfBirth": "1980-01-01T11:12:13+00:00"
+  },
+  "address": {
+    "street": "Stationsstraat",
+    "number": "110",
+    "postal": "2800",
+    "town": "Mechelen"
+  },
+  "answer1": 12345,
+  "answer2": 54321,
+  "gdpr1": true,
+  "gdpr2": true
+}
