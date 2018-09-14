@@ -30,7 +30,9 @@
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
-      EMAIL: 'E-mail'
+      EMAIL: 'E-mail',
+      SHARE_TITLE: 'Goede of slechte score?',
+      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag ze uit om beter te doen!',
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -45,11 +47,12 @@
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
       CHOOSE_TEAM: 'Sélectionnez un club de votre choix',
-      EMAIL: 'Email'
+      EMAIL: 'Email',
+      SHARE_TITLE: 'Bon ou mauvais score?',
+      SHARE_SUB_TITLE: 'Faites savoir à vos amis comment vous avez réussi et défiez-les de faire mieux!',
     }
   };
   let cachedConfig = {};
-
 
   function loadTemplate(name, language) {
     let template = $('div[data-template="'+name+'"]');

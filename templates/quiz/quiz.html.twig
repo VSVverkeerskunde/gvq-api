@@ -15,20 +15,23 @@
             <div class="gvq-quiz-view"></div>
             <div class="gvq-templates" data-language="nl" style="display: none;">
                 <div class="participation-form form border p-4" data-template="participation-form">
-                    <div class="form-group row">
-                        <div class="col">
-                            <select class="custom-select" name="choose-team" id="choose-team">
-                                <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
-                            </select>
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col">
+                                <select class="custom-select" name="choose-team" id="choose-team">
+                                    <option value="" data-translate="CHOOSE_TEAM">Make a choice</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col">
-                            <input class="gvq-participant-email form-control" id="gvq-participant-email">
-                        </div>
-                        <div class="col-auto">
-                            <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the quiz
-                            </button>
+                        <div class="form-group row">
+                            <div class="col">
+                                <input class="gvq-participant-email form-control" id="gvq-participant-email">
+                            </div>
+                            <div class="col-auto">
+                                <button class="gvq-start-button btn btn-primary" data-translate="START_QUIZ">Start the
+                                    quiz
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,13 +108,31 @@
                         <h2><span data-translate="SCORE">Score</span></h2>
                     </div>
                     <div class="card-body text-center">
-                        <span class="gvq-score">
-                            <span class="right-answers" data-value="score"></span>/<span class="total-questions" data-value="totalQuestions"></span>
+                        <span class="gvq-score mb-4">
+                            <span class="right-answers" data-value="score"></span>/<span class="total-questions"
+                                                                                         data-value="totalQuestions"></span>
                         </span>
+
+                        <div class="social border-top text-center p-4">
+                            <h4 data-translate="SHARE_TITLE">Good or bad score?</h4>
+                            <p data-translate="SHARE_SUB_TITLE">Let your friends know how you scored!</p>
+                            <p>
+                                {% if app.request.get('language') == 'fr' %}
+                                    {% include 'quiz/share-fr.html.twig' %}
+                                {% else %}
+                                    {% include 'quiz/share-nl.html.twig' %}
+                                {% endif %}
+                            </p>
+                        </div>
+
                     </div>
                     <div class="card-footer text-center">
-                        <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again</button>
-                        <button class="gvq-play-contest" data-translate="PLAY_CONTEST" style="display: none">Play contest</button>
+                        <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again
+                        </button>
+                        <button class="gvq-play-contest btn btn-primary btn-lg" data-translate="PLAY_CONTEST"
+                                style="display: none">Play
+                            contest
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,13 +149,13 @@
 
         function getConfigFromUrlParameters() {
             return decodeURIComponent(window.location.search.substring(1))
-                .split('&')
-                .reduce(function (config, urlParameter) {
-                    let keyValue = urlParameter.split('=');
-                    config[keyValue[0]] = keyValue[1];
+                    .split('&')
+                    .reduce(function (config, urlParameter) {
+                        let keyValue = urlParameter.split('=');
+                        config[keyValue[0]] = keyValue[1];
 
-                    return config;
-                }, {});
+                        return config;
+                    }, {});
         }
     </script>
 {% endblock %}
