@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('css/quiz.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
 {% block body %}
-
-    <p>{% trans %}Contest.success{% endtrans %}</p>
-
+    <div class="container-fluid">
+        <div id="gvq-quiz">
+            <div class="card m-4">
+                <div class="card-header"><h2 class="card-title">{% trans %}Contest.thanks{% endtrans %}</h2></div>
+                <div class="card-body"><p>{% trans %}Contest.success{% endtrans %}</p></div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
