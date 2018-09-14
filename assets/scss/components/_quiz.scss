@@ -12,18 +12,13 @@
     color: $color-primary;
     text-transform: uppercase;
   }
-
-}
-
-// Sign in
-.participation-form {
-
 }
 
   // Quiz answers
 ul.gvq-answers {
   counter-reset: numbering;
 }
+
 ul.gvq-answers li {
   padding-left: 2rem;
   position: relative;
@@ -36,6 +31,7 @@ ul.gvq-answers li {
     top: 0.75rem;
   }
 }
+
 ul.gvq-answers li:hover {
   cursor: pointer;
 }
@@ -45,6 +41,7 @@ ul.gvq-answers li.selected-answer:before {
   font-weight: bold;
   padding-right: .5em;
 }
+
 ul.gvq-answers li.selected-answer:not(.is-correct) {
   color: $brand-red;
 }
@@ -129,6 +126,7 @@ ul.gvq-answers li.is-correct {
     background-color: darken(#3b5998, 10%);
   }
 }
+
 .btn-twitter {
   background-color: #00aced;
   &:hover,

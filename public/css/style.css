@@ -165,7 +165,9 @@ h6, .h6 {
   background-color: #fff; }
 
 .card-title {
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  color: #6cc4e9;
+  text-transform: uppercase; }
 
 .card-subtitle {
   font-size: 1em; }

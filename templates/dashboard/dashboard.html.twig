@@ -8,19 +8,20 @@
 
     {% include '/includes/flash.html.twig' %}
 
-    <h1>{{ activeCompany.name.toNative }}</h1>
+    <h2>{{ activeCompany.name.toNative }}</h2>
 
     {% if companies|length > 1 %}
         <div class="form-group form-inline">
             <select class="form-control" id="company">
                 {% for company in companies %}
-                    <option value="{{ company.id.toString }}" {% if activeCompany.id.equals(company.id) %}selected="selected"{% endif %}>{{ company.name.toNative }}</option>
+                    <option value="{{ company.id.toString }}"
+                            {% if activeCompany.id.equals(company.id) %}selected="selected"{% endif %}>{{ company.name.toNative }}</option>
                 {% endfor %}
             </select>
             <a role="button"
                id="apply"
                class="btn btn-primary ml-3"
-               href="{{ path('dashboard', {'companyId': activeCompany.id.toString}) }}" >
+               href="{{ path('dashboard', {'companyId': activeCompany.id.toString}) }}">
                 {% trans %}Button.apply{% endtrans %}
             </a>
         </div>
@@ -28,21 +29,21 @@
 
     <p>{% trans %}Dashboard.welcome{% endtrans %}</p>
 
-    <div class="row">
-        <div class="col-4">
-            <div class="card text-center">
+    <div class="row justify-content-between">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card text-center mb-4">
                 <div class="card-header">
-                    <div class="card-title">{% trans %}Dashboard.ratio.title{% endtrans %}</div>
+                    <h3 class="card-title">{% trans %}Dashboard.ratio.title{% endtrans %}</h3>
                 </div>
                 <div class="card-body">
-                    <h2>{{ employeeParticipationRatio.participationCount.toNative }} / {{ employeeParticipationRatio.totalEmployees.toNative }}</h2>
+                    <h2>{{ employeeParticipationRatio.participationCount.toNative }}
+                        / {{ employeeParticipationRatio.totalEmployees.toNative }}</h2>
                 </div>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="card text-center">
+
+            <div class="card text-center mb-4">
                 <div class="card-header">
-                    <div class="card-title">{% trans %}Dashboard.average.title{% endtrans %}</div>
+                    <h3 class="card-title">{% trans %}Dashboard.average.title{% endtrans %}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -57,41 +58,50 @@
                     </div>
                 </div>
             </div>
+
+            {% if topScores|length > 0 %}
+                <div class="card text-center mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">{% trans %}Top.scores{% endtrans %}</h3>
+                    </div>
+
+                    <table class="card-body table">
+                        <thead class="thead-dark thead-primary text-center">
+                        <tr>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
+                            <th scope="col" class="border-bottom">{% trans %}Score{% endtrans %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for topScore in topScores %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ topScore.email.toNative }}</td>
+                                <td>{{ topScore.score.toNative }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="card-footer text-right">
+                        <a role="button"
+                           class="btn btn-primary"
+                           href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}"><span
+                                    class="oi oi-data-transfer-download"></span>
+                            {% trans %}Button.export{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <!-- ADD SECOND COL CONTENT HERE -->
         </div>
     </div>
-
-    {% if topScores|length > 0 %}
-
-    <table class="table table-non-fluid table-bordered">
-        <thead class="thead-dark thead-primary text-center">
-            <tr>
-                <th scope="col" colspan="3" class="border-right border-bottom">{% trans %}Top.scores{% endtrans %}</th>
-            </tr>
-            <tr>
-                <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
-                <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
-                <th scope="col" class="border-right border-bottom">{% trans %}Score{% endtrans %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for topScore in topScores  %}
-                <tr>
-                    <td class="text-right">{{ loop.index }}</td>
-                    <td>{{ topScore.email.toNative }}</td>
-                    <td class="text-right">{{ topScore.score.toNative }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <a role="button"
-       class="btn btn-primary"
-       href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}" ><span class="oi oi-data-transfer-download"></span>
-        {% trans %}Button.export{% endtrans %}
-    </a>
-
-    {% endif %}
-
+    
 {% endblock %}
 
 {% block javascripts %}
