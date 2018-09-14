@@ -13,10 +13,10 @@
 
             {% include '/includes/flash.html.twig' %}
 
-            <h2 class="m-4">Wedstrijd</h2>
+            <h2 class="m-4">{% trans %}Contest.title{% endtrans %}</h2>
 
             {{ form_start(form, {'attr': {'novalidate': 'novalidate','class': 'form-register m-4'}}) }}
-            <h3>Uw gegevens</h3>
+            <h3>{% trans %}Contest.details{% endtrans %}</h3>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
@@ -72,7 +72,7 @@
                 </div>
             </div>
 
-            <h3 class="mt-4 pt-4 border-top">Wedstrijdvraag</h3>
+            <h3 class="mt-4 pt-4 border-top">{% trans %}Contest.questions{% endtrans %}</h3>
 
             <div class="form-group">
                 <div class="row">
