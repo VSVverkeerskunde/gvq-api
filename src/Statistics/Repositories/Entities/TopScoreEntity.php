@@ -27,17 +27,25 @@ class TopScoreEntity
     private $score;
 
     /**
+     * @param string $email
+     * @param int $score
+     */
+    private function __construct(string $email, int $score)
+    {
+        $this->email = $email;
+        $this->score = $score;
+    }
+
+    /**
      * @param TopScore $topScore
-     *
      * @return TopScoreEntity
      */
-    public static function fromTopScore(TopScore $topScore): self
+    public static function fromTopScore(TopScore $topScore): TopScoreEntity
     {
-        $entity = new self();
-        $entity->email = $topScore->getEmail()->toNative();
-        $entity->score = $topScore->getScore()->toNative();
-
-        return $entity;
+        return new TopScoreEntity(
+            $topScore->getEmail()->toNative(),
+            $topScore->getScore()->toNative()
+        );
     }
 
     /**
