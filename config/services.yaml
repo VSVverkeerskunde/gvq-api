@@ -8,6 +8,7 @@ parameters:
     sender_name_fr: 'Quiz de la Route 2018'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
+    team_file : '%kernel.project_dir%/config/teams.yaml'
 
 services:
     # default configuration for services in *this* file
@@ -186,6 +187,16 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    team_total_score_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
+    team_participation_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\TeamParticipationRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
@@ -212,7 +223,7 @@ services:
       arguments:
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
-
+        
     top_score_projector:
       class: VSV\GVQ_API\Statistics\Projectors\TopScoresProjector
       arguments:
@@ -223,6 +234,18 @@ services:
       arguments:
         $quizRepository: '@quiz_redis_repository'
         
+    team_total_score_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TeamTotalScoreProjector
+      arguments:
+        $teamTotalScoreRepository: '@team_total_score_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
+    team_participations_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TeamParticipationsProjector
+      arguments:
+        $teamParticipationRepository: '@team_participation_redis_repository'
+        $quizRepository: '@quiz_redis_repository'
+
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
 
@@ -254,6 +277,12 @@ services:
         - method: subscribe
           arguments:
             - '@employee_participation_projector'
+        - method: subscribe
+          arguments:
+            - '@team_total_score_projector'
+        - method: subscribe
+          arguments:
+            - '@team_participations_projector'
       public: true
 
     quiz_aggregate_repository:
@@ -270,7 +299,7 @@ services:
     team_repository:
       class: VSV\GVQ_API\Team\Repositories\TeamYamlRepository
       arguments:
-        $teamFile: '%kernel.project_dir%/config/teams.yaml'
+        $teamFile: '%team_file%'
 
     quiz_service:
       class: VSV\GVQ_API\Quiz\Service\QuizService
@@ -301,6 +330,14 @@ services:
 
     dashboard_service:
       class: VSV\GVQ_API\Dashboard\Service\DashboardService
+
+    team_service:
+      class: VSV\GVQ_API\Team\Service\TeamService
+      arguments:
+        $year: '@quiz_year'
+        $teamTotalScoreRepository: '@team_total_score_redis_repository'
+        $teamParticipationRepository: '@team_participation_redis_repository'
+        $teamRepository: '@team_repository'
 
     ### CONTROLLERS ###
     VSV\GVQ_API\Account\Controllers\AccountController:
@@ -386,4 +423,10 @@ services:
         $uuidFactory: '@uuid_factory'
         $quizRepository: '@quiz_redis_repository'
         $tieBreakerRepository: '@tie_breaker_yaml_repository'
+      tags: ['controller.service_arguments']
+    VSV\GVQ_API\Team\Controllers\TeamController:
+      arguments:
+        $teamService: '@team_service'
+        $teamFile: '%team_file%'
+        $year: '@quiz_year'
       tags: ['controller.service_arguments']

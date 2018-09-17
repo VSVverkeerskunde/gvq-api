@@ -106,7 +106,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::CUP),
                     null,
                     null,
-                    ModelsFactory::createTeam(),
+                    ModelsFactory::createAntwerpTeam(),
                     new Language(Language::NL)
                 ),
                 new StatisticsKey(StatisticsKey::CUP_NL),
@@ -117,7 +117,7 @@ class StatisticsKeyTest extends TestCase
                     new QuizChannel(QuizChannel::CUP),
                     null,
                     null,
-                    ModelsFactory::createTeam(),
+                    ModelsFactory::createAntwerpTeam(),
                     new Language(Language::FR)
                 ),
                 new StatisticsKey(StatisticsKey::CUP_FR),

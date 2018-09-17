@@ -80,6 +80,8 @@ h6, .h6 {
 
 .card-title {
     font-size: 1.2em;
+    color: $color-primary;
+    text-transform: uppercase;
 }
 
 .card-subtitle {
@@ -123,6 +125,9 @@ input, button, select, optgroup, textarea {
     display: none;
 }
 
+.form-group.small label {
+    line-height: 1.65em;
+}
 
 // Pager
 

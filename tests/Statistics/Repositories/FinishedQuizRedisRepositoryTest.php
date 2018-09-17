@@ -34,7 +34,7 @@ class FinishedQuizRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_get_total_count_of_started_quiz()
+    public function it_can_get_total_count_of_started_quiz(): void
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $statisticsKey = StatisticsKey::createFromQuiz($quiz);
@@ -50,7 +50,7 @@ class FinishedQuizRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
-    public function it_can_increment_count_of_finished_quiz()
+    public function it_can_increment_count_of_finished_quiz(): void
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $statisticsKey = StatisticsKey::createFromQuiz($quiz);

@@ -170,7 +170,7 @@ class QuizSerializerTest extends TestCase
                 new QuizChannel(QuizChannel::CUP),
                 null,
                 null,
-                ModelsFactory::createTeam(),
+                ModelsFactory::createAntwerpTeam(),
             ],
             [
                 Uuid::fromString('26ff775c-cd4c-4aab-bd3c-3afa9baebc6a'),

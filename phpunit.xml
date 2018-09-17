@@ -35,6 +35,7 @@
                 <file>./src/User/Controllers/UserViewController.php</file>
                 <file>./src/User/Forms/UserFormType.php</file>
                 <file>./src/User/Forms/EditContactFormType.php</file>
+                <file>./src/Team/Controllers/TeamController.php</file>
             </exclude>
         </whitelist>
     </filter>

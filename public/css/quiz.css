@@ -113,13 +113,27 @@ svg {
 
 #gvq-quiz {
   margin: auto;
-  padding: 1em;
-  max-width: 800px; }
+  max-width: 1200px;
+  padding: 1em; }
   #gvq-quiz input, #gvq-quiz button, #gvq-quiz select, #gvq-quiz optgroup, #gvq-quiz textarea {
     max-width: 100%; }
   #gvq-quiz h2 {
     color: #6cc4e9;
     text-transform: uppercase; }
+
+ul.gvq-answers {
+  counter-reset: numbering; }
+
+ul.gvq-answers li {
+  padding-left: 2rem;
+  position: relative; }
+  ul.gvq-answers li:after {
+    content: counter(numbering,lower-alpha) ".";
+    counter-increment: numbering;
+    font-weight: bold;
+    left: .5rem;
+    position: absolute;
+    top: 0.75rem; }
 
 ul.gvq-answers li:hover {
   cursor: pointer; }
@@ -128,6 +142,9 @@ ul.gvq-answers li.selected-answer:before {
   content: '\2713';
   font-weight: bold;
   padding-right: .5em; }
+
+ul.gvq-answers li.selected-answer:not(.is-correct) {
+  color: #e40521; }
 
 ul.gvq-answers li.is-correct {
   background-color: #28a745;
@@ -188,6 +205,16 @@ ul.gvq-answers li.is-correct {
 
 .questionNr {
   color: #65696b; }
+
+.btn-facebook {
+  background-color: #3b5998; }
+  .btn-facebook:hover, .btn-facebook:focus, .btn-facebook:active {
+    background-color: #2d4373; }
+
+.btn-twitter {
+  background-color: #00aced; }
+  .btn-twitter:hover, .btn-twitter:focus, .btn-twitter:active {
+    background-color: #0087ba; }
 
 .quiz-score {
   position: relative;

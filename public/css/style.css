@@ -165,7 +165,9 @@ h6, .h6 {
   background-color: #fff; }
 
 .card-title {
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  color: #6cc4e9;
+  text-transform: uppercase; }
 
 .card-subtitle {
   font-size: 1em; }
@@ -206,6 +208,9 @@ input, button, select, optgroup, textarea {
 
 .custom-file .custom-file-label {
   display: none; }
+
+.form-group.small label {
+  line-height: 1.65em; }
 
 .fixed-table-pagination {
   margin-top: 20px; }
