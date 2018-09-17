@@ -30,3 +30,4 @@ security:
         - { path: '^/(nl|fr)/view/documents', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/accounts/password/edit', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/csv/contests', roles: [ROLE_VSV, ROLE_ADMIN] }
+        - { path: '^/quiz', roles: [ROLE_VSV, ROLE_ADMIN] }
