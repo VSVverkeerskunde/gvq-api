@@ -28,7 +28,7 @@ class DetailedTopScoreDoctrineRepository extends AbstractDoctrineRepository impl
         $foundDetailedTopScore = $this->getByDetail($detailedTopScore);
 
         if ($foundDetailedTopScore &&
-            $foundDetailedTopScore >= $detailedTopScore->getScore()->toNative()) {
+            $foundDetailedTopScore->getScore()->toNative() >= $detailedTopScore->getScore()->toNative()) {
             return;
         }
 
