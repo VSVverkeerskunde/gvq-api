@@ -57,6 +57,22 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
     }
 
     /**
+     * @return DomainEventStream
+     */
+    public function getFullDomainEventStream(): DomainEventStream
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder->select('e')
+            ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
+            ->orderBy('e.id', 'ASC');
+
+        $eventEntities = $queryBuilder->getQuery()->getResult();
+
+        return $this->createDomainEventStream($eventEntities);
+    }
+
+    /**
      * @param string $id
      * @param int $playhead
      * @return DomainEventStream
