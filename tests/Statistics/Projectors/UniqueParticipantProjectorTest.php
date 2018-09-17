@@ -61,6 +61,43 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
                 $quiz->getParticipant()
             );
 
+        $this->uniqueParticipantRepository->expects($this->never())
+            ->method('addPassed');
+
+        $this->uniqueParticipantProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_handles_quiz_finished_for_passed_score(): void
+    {
+        $quiz = ModelsFactory::createIndividualQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
+
+        $this->uniqueParticipantRepository->expects($this->once())
+            ->method('add')
+            ->with(
+                StatisticsKey::createFromQuiz($quiz),
+                $quiz->getParticipant()
+            );
+
+        $this->questionResultRepository->expects($this->once())
+            ->method('getById')
+            ->with($quiz->getId())
+            ->willReturn(ModelsFactory::createQuestionResult());
+
+        $this->uniqueParticipantRepository->expects($this->once())
+            ->method('addPassed')
+            ->with(
+                StatisticsKey::createFromQuiz($quiz),
+                $quiz->getParticipant()
+            );
+
         $this->uniqueParticipantProjector->handle(
             ModelsFactory::createQuizFinishedDomainMessage($quiz)
         );
