@@ -34,6 +34,14 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     /**
      * @inheritdoc
      */
+    public function addPassed(StatisticsKey $statisticsKey, QuizParticipant $participant): void
+    {
+        $this->redis->sAdd($this->createPassedKey($statisticsKey), $participant->getEmail()->toNative());
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addForPartner(StatisticsKey $statisticsKey, QuizParticipant $participant, Partner $partner): void
     {
         $this->redis->sAdd(
@@ -53,6 +61,14 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     /**
      * @inheritdoc
      */
+    public function getPassedCount(StatisticsKey $statisticsKey): int
+    {
+        return $this->redis->scard($this->createPassedKey($statisticsKey));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getCountForPartner(StatisticsKey $statisticsKey, Partner $partner): int
     {
         return $this->redis->scard($this->createPartnerKey($statisticsKey, $partner));
@@ -65,6 +81,15 @@ class UniqueParticipantRedisRepository implements UniqueParticipantRepository
     private function createKey(StatisticsKey $statisticsKey): string
     {
         return self::KEY_PREFIX.$statisticsKey->toNative();
+    }
+
+    /**
+     * @param StatisticsKey $statisticsKey
+     * @return string
+     */
+    private function createPassedKey(StatisticsKey $statisticsKey): string
+    {
+        return 'passed_'.self::KEY_PREFIX.$statisticsKey->toNative();
     }
 
     /**

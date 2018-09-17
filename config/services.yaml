@@ -222,6 +222,7 @@ services:
       arguments:
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $quizRepository: '@quiz_redis_repository'
+        $questionResultRepository: '@question_result_redis_repository'
         
     top_score_projector:
       class: VSV\GVQ_API\Statistics\Projectors\TopScoresProjector

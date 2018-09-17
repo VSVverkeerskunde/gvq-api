@@ -46,6 +46,11 @@
                 {% trans %}Statistics.row.unique{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
         </tr>
+        <tr class="text-right">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.passed{% endtrans %}">
+                {% trans %}Statistics.row.passed{% endtrans %}</th>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': passedUniqueParticipantCounts} %}
+        </tr>
 
         </tbody>
     </table>

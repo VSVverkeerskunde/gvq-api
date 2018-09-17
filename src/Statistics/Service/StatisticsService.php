@@ -8,7 +8,6 @@ use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
-use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
@@ -64,7 +63,11 @@ class StatisticsService
      */
     public function getStartedQuizCounts(): array
     {
-        return $this->getCountsFromRepository($this->startedQuizRepository);
+        return $this->getCountsFromRepository(
+            function (StatisticsKey $statisticsKey) {
+                return $this->startedQuizRepository->getCount($statisticsKey);
+            }
+        );
     }
 
     /**
@@ -72,7 +75,11 @@ class StatisticsService
      */
     public function getFinishedQuizCounts(): array
     {
-        return $this->getCountsFromRepository($this->finishedQuizRepository);
+        return $this->getCountsFromRepository(
+            function (StatisticsKey $statisticsKey) {
+                return $this->finishedQuizRepository->getCount($statisticsKey);
+            }
+        );
     }
 
     /**
@@ -80,7 +87,23 @@ class StatisticsService
      */
     public function getUniqueParticipantCounts(): array
     {
-        return $this->getCountsFromRepository($this->uniqueParticipantRepository);
+        return $this->getCountsFromRepository(
+            function (StatisticsKey $statisticsKey) {
+                return $this->uniqueParticipantRepository->getCount($statisticsKey);
+            }
+        );
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPassedUniqueParticipantCounts(): array
+    {
+        return $this->getCountsFromRepository(
+            function (StatisticsKey $statisticsKey) {
+                return $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
+            }
+        );
     }
 
     /**
@@ -120,10 +143,10 @@ class StatisticsService
     }
 
     /**
-     * @param CountableRepository $statisticsRepository
+     * @param callable $countFunction
      * @return array
      */
-    private function getCountsFromRepository(CountableRepository $statisticsRepository): array
+    private function getCountsFromRepository(callable $countFunction): array
     {
         $totalNL = 0;
         $totalFR = 0;
@@ -132,7 +155,7 @@ class StatisticsService
         foreach ($this->statisticsKeys as $statisticsKey) {
             $key = $statisticsKey->toNative();
 
-            $counts[$key] = $statisticsRepository->getCount($statisticsKey);
+            $counts[$key] = $countFunction($statisticsKey);
 
             if ($statisticsKey->getLanguage()->toNative() === Language::NL) {
                 $totalNL += $counts[$key];

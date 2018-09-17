@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
@@ -13,6 +14,11 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
      * @var UniqueParticipantRepository|MockObject
      */
     private $uniqueParticipantRepository;
+
+    /**
+     * @var QuestionResultRepository|MockObject
+     */
+    private $questionResultRepository;
 
     /**
      * @var UniqueParticipantProjector
@@ -27,9 +33,14 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
         $uniqueParticipantRepository = $this->createMock(UniqueParticipantRepository::class);
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
 
+        /** @var QuestionResultRepository|MockObject $questionResultRepository */
+        $questionResultRepository = $this->createMock(QuestionResultRepository::class);
+        $this->questionResultRepository = $questionResultRepository;
+
         $this->uniqueParticipantProjector = new UniqueParticipantProjector(
             $this->uniqueParticipantRepository,
-            $this->quizRepository
+            $this->quizRepository,
+            $this->questionResultRepository
         );
     }
 
