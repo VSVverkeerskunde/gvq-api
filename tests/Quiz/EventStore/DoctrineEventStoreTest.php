@@ -187,6 +187,28 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
      * @test
      * @throws \Exception
      */
+    public function it_can_get_a_full_domain_event_stream()
+    {
+        $quiz = ModelsFactory::createIndividualQuiz();
+        $domainEvents = $this->createDomainEvents($quiz);
+
+        $this->doctrineEventStore->append(
+            $quiz->getId()->toString(),
+            new DomainEventStream($domainEvents)
+        );
+
+        $domainEventStream = $this->doctrineEventStore->getFullDomainEventStream();
+
+        $this->assertEquals(
+            new DomainEventStream($domainEvents),
+            $domainEventStream
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_does_a_rollback_on_exception_in_append()
     {
         $domainEvent = DomainMessage::recordNow(
