@@ -39,6 +39,16 @@ class StatisticsService
     private $statisticsKeys;
 
     /**
+     * @var int[]
+     */
+    private $uniqueParticipantsCount;
+
+    /**
+     * @var int[]
+     */
+    private $passedUniqueParticipantsCount;
+
+    /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
@@ -87,11 +97,15 @@ class StatisticsService
      */
     public function getUniqueParticipantCounts(): array
     {
-        return $this->getCountsFromRepository(
-            function (StatisticsKey $statisticsKey) {
-                return $this->uniqueParticipantRepository->getCount($statisticsKey);
-            }
-        );
+        if ($this->uniqueParticipantsCount === null) {
+            $this->uniqueParticipantsCount = $this->getCountsFromRepository(
+                function (StatisticsKey $statisticsKey) {
+                    return $this->uniqueParticipantRepository->getCount($statisticsKey);
+                }
+            );
+        }
+
+        return $this->uniqueParticipantsCount;
     }
 
     /**
@@ -99,11 +113,36 @@ class StatisticsService
      */
     public function getPassedUniqueParticipantCounts(): array
     {
-        return $this->getCountsFromRepository(
-            function (StatisticsKey $statisticsKey) {
-                return $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
+        if ($this->passedUniqueParticipantsCount === null) {
+            $this->passedUniqueParticipantsCount = $this->getCountsFromRepository(
+                function (StatisticsKey $statisticsKey) {
+                    return $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
+                }
+            );
+        }
+
+        return $this->passedUniqueParticipantsCount;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPassedUniqueParticipantPercentage(): array
+    {
+        $uniqueParticipantsCounts = $this->getUniqueParticipantCounts();
+        $passedUniqueParticipantCounts = $this->getPassedUniqueParticipantCounts();
+
+        $passedUniqueParticipantPercentage = [];
+        foreach ($uniqueParticipantsCounts as $key => $uniqueParticipantsCount) {
+            if (empty($uniqueParticipantsCount[$key])) {
+                $passedUniqueParticipantPercentage[$key] = 0;
+            } else {
+                $passedUniqueParticipantPercentage[$key] =
+                    $passedUniqueParticipantCounts[$key] / $uniqueParticipantsCount[$key];
             }
-        );
+        }
+
+        return $passedUniqueParticipantPercentage;
     }
 
     /**
