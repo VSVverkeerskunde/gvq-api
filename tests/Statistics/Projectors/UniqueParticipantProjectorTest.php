@@ -16,11 +16,6 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
     private $uniqueParticipantRepository;
 
     /**
-     * @var QuestionResultRepository|MockObject
-     */
-    private $questionResultRepository;
-
-    /**
      * @var UniqueParticipantProjector
      */
     private $uniqueParticipantProjector;
@@ -33,14 +28,9 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
         $uniqueParticipantRepository = $this->createMock(UniqueParticipantRepository::class);
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
 
-        /** @var QuestionResultRepository|MockObject $questionResultRepository */
-        $questionResultRepository = $this->createMock(QuestionResultRepository::class);
-        $this->questionResultRepository = $questionResultRepository;
-
         $this->uniqueParticipantProjector = new UniqueParticipantProjector(
             $this->uniqueParticipantRepository,
-            $this->quizRepository,
-            $this->questionResultRepository
+            $this->quizRepository
         );
     }
 
@@ -86,11 +76,6 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
                 $quiz->getParticipant()
             );
 
-        $this->questionResultRepository->expects($this->once())
-            ->method('getById')
-            ->with($quiz->getId())
-            ->willReturn(ModelsFactory::createQuestionResult());
-
         $this->uniqueParticipantRepository->expects($this->once())
             ->method('addPassed')
             ->with(
@@ -99,7 +84,7 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
             );
 
         $this->uniqueParticipantProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($quiz)
+            ModelsFactory::createQuizFinishedDomainMessage($quiz, 12)
         );
     }
 

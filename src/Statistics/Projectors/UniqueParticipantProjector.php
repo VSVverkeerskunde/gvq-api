@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
-use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
@@ -24,23 +23,15 @@ class UniqueParticipantProjector implements EventListener
     private $quizRepository;
 
     /**
-     * @var QuestionResultRepository
-     */
-    private $questionResultRepository;
-
-    /**
      * @param UniqueParticipantRepository $uniqueParticipantRepository
      * @param QuizRepository $quizRepository
-     * @param QuestionResultRepository $questionResultRepository
      */
     public function __construct(
         UniqueParticipantRepository $uniqueParticipantRepository,
-        QuizRepository $quizRepository,
-        QuestionResultRepository $questionResultRepository
+        QuizRepository $quizRepository
     ) {
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
         $this->quizRepository = $quizRepository;
-        $this->questionResultRepository = $questionResultRepository;
     }
 
     /**
@@ -59,8 +50,7 @@ class UniqueParticipantProjector implements EventListener
                 $quiz->getParticipant()
             );
 
-            $questionResult = $this->questionResultRepository->getById($quiz->getId());
-            if ($questionResult->getScore() >= 11) {
+            if ($payload->getScore() >= 11) {
                 $this->uniqueParticipantRepository->addPassed(
                     $statisticsKey,
                     $quiz->getParticipant()

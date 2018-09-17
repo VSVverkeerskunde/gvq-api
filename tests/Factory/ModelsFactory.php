@@ -1289,17 +1289,20 @@ class ModelsFactory
 
     /**
      * @param Quiz $quiz
+     * @param int $score
      * @return DomainMessage
      */
-    public static function createQuizFinishedDomainMessage(Quiz $quiz): DomainMessage
-    {
+    public static function createQuizFinishedDomainMessage(
+        Quiz $quiz,
+        int $score = 10)
+    : DomainMessage {
         return DomainMessage::recordNow(
             $quiz->getId(),
             0,
             new Metadata(),
             new QuizFinished(
                 $quiz->getId(),
-                10
+                $score
             )
         );
     }
