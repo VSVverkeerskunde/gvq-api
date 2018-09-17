@@ -125,7 +125,7 @@ class StatisticsService
     }
 
     /**
-     * @return int[]
+     * @return float[]
      */
     public function getPassedUniqueParticipantPercentage(): array
     {
@@ -134,11 +134,13 @@ class StatisticsService
 
         $passedUniqueParticipantPercentage = [];
         foreach ($uniqueParticipantsCounts as $key => $uniqueParticipantsCount) {
-            if (empty($uniqueParticipantsCount[$key])) {
+            if (empty($uniqueParticipantsCounts[$key])) {
                 $passedUniqueParticipantPercentage[$key] = 0;
             } else {
-                $passedUniqueParticipantPercentage[$key] =
-                    $passedUniqueParticipantCounts[$key] / $uniqueParticipantsCount[$key];
+                $passedUniqueParticipantPercentage[$key] = round(
+                    (float)$passedUniqueParticipantCounts[$key] / (float)$uniqueParticipantsCounts[$key],
+                    2
+                ) * 100;
             }
         }
 
