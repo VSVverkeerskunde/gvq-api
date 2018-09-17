@@ -223,6 +223,10 @@ Dashboard.average.title: __Gemiddelde top score van
 Dashboard.average.all: __Alle deelnemers
 
 #Statistics
+Statistics.title.general: __Algemene Statistieken
+Statistics.title.partner: __Partner Statistieken
+Statistics.title.contest: __Wedstrijd deelnames
+
 Statistics.header.individual: __Individueel
 Statistics.header.company: __Bedrijf
 Statistics.header.partner: __Partner

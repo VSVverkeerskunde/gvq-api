@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Contest\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Contest\Repositories\ContestParticipationRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -51,6 +52,29 @@ class ContestServiceTest extends TestCase
             $this->questionResultRepository,
             $this->quizRepository,
             $this->contestParticipationRepository
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_export_all_contest_participations(): void
+    {
+        $contestParticipations = new ContestParticipations(
+            ModelsFactory::createCupContestParticipation(),
+            ModelsFactory::createQuizContestParticipation()
+        );
+
+        $this->contestParticipationRepository->expects($this->once())
+            ->method('getAll')
+            ->willReturn($contestParticipations);
+
+        $actualContestParticipations = $this->contestService->getAll();
+
+        $this->assertEquals(
+            $contestParticipations,
+            $actualContestParticipations
         );
     }
 

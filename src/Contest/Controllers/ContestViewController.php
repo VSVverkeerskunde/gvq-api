@@ -9,7 +9,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Contest\Forms\ContestFormType;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Contest\Repositories\TieBreakerRepository;
@@ -60,6 +62,16 @@ class ContestViewController extends AbstractController
     private $contestFormType;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $responseFactory;
+
+    /**
      * @param Year $year
      * @param ContestService $contestService
      * @param UuidFactoryInterface $uuidFactory
@@ -67,6 +79,8 @@ class ContestViewController extends AbstractController
      * @param TieBreakerRepository $tieBreakerRepository
      * @param TranslatorInterface $translator
      * @param UrlGeneratorInterface $urlGenerator
+     * @param SerializerInterface $serializer
+     * @param ResponseFactory $responseFactory
      */
     public function __construct(
         Year $year,
@@ -75,7 +89,9 @@ class ContestViewController extends AbstractController
         QuizRepository $quizRepository,
         TieBreakerRepository $tieBreakerRepository,
         TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        SerializerInterface $serializer,
+        ResponseFactory $responseFactory
     ) {
         $this->year = $year;
         $this->contestService = $contestService;
@@ -84,6 +100,8 @@ class ContestViewController extends AbstractController
         $this->tieBreakerRepository = $tieBreakerRepository;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
+        $this->serializer = $serializer;
+        $this->responseFactory = $responseFactory;
 
         $this->contestFormType = new ContestFormType();
     }
@@ -137,6 +155,25 @@ class ContestViewController extends AbstractController
                 'privacy_pdf' => $privacy_pdf,
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function export(): Response
+    {
+        $contestParticipations = $this->contestService->getAll();
+        $contestParticipationsAsCsv = $this->serializer->serialize(
+            $contestParticipations,
+            'csv'
+        );
+
+        $response = $this->responseFactory->createCsvResponse(
+            $contestParticipationsAsCsv,
+            'contest_participations'
+        );
+
+        return $response;
     }
 
     /**

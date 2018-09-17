@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Contest\Service;
 
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
+use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Contest\Repositories\ContestParticipationRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
@@ -39,6 +40,14 @@ class ContestService
         $this->questionResultRepository = $questionResultRepository;
         $this->quizRepository = $quizRepository;
         $this->contestParticipationRepository = $contestParticipationRepository;
+    }
+
+    /**
+     * @return ContestParticipations|null
+     */
+    public function getAll(): ?ContestParticipations
+    {
+        return $this->contestParticipationRepository->getAll();
     }
 
     /**

@@ -223,6 +223,10 @@ Dashboard.average.title: 'Gemiddelde top score van'
 Dashboard.average.all: 'Alle deelnemers'
 
 #Statistics
+Statistics.title.general: 'Algemene Statistieken'
+Statistics.title.partner: 'Partner Statistieken'
+Statistics.title.contest: 'Wedstrijd deelnames'
+
 Statistics.header.individual: 'Individueel'
 Statistics.header.company: 'Bedrijf'
 Statistics.header.partner: 'Partner'
