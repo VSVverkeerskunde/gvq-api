@@ -120,31 +120,58 @@ class StatisticsServiceTest extends TestCase
      */
     public function it_can_get_unique_passed_participant_percentage(): void
     {
-        $this->mockGetCountMethod($this->uniqueParticipantRepository);
-        $this->mockGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
+        $this->uniqueParticipantRepository
+            ->expects($this->exactly(8))
+            ->method('getCount')
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr')
+            )
+            ->willReturnOnConsecutiveCalls(10, 10, 10, 10, 10, 10, 10, 0);
+
+        $this->uniqueParticipantRepository
+            ->expects($this->exactly(8))
+            ->method('getPassedCount')
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr')
+            )
+            ->willReturnOnConsecutiveCalls(1, 2, 2, 4, 3, 6, 1, 0);
 
         $percentages = $this->statisticsService->getPassedUniqueParticipantPercentages();
 
         $this->assertEquals(
             [
-                'individual_nl' => 100.0,
-                'individual_total' => 100.0,
-                'individual_fr' => 100.0,
-                'partner_nl' => 100.0,
-                'partner_total' => 100.0,
-                'partner_fr' => 100.0,
-                'company_nl' => 100.0,
-                'company_total' => 100.0,
-                'company_fr' => 100.0,
-                'cup_nl' => 100.0,
-                'cup_total' => 100.0,
-                'cup_fr' => 100.0,
-                'quiz_total_nl' => 100.0,
-                'quiz_total_fr' => 100.0,
-                'quiz_total' => 100.0,
-                'total_nl' => 100.0,
-                'total_fr' => 100.0,
-                'total' => 100.0,
+                'individual_nl' => 10.0,
+                'individual_total' => 15.0,
+                'individual_fr' => 20.0,
+                'partner_nl' => 20.0,
+                'partner_total' => 30.0,
+                'partner_fr' => 40.0,
+                'company_nl' => 30.0,
+                'company_total' => 45.0,
+                'company_fr' => 60.0,
+                'cup_nl' => 10.0,
+                'cup_total' => 10.0,
+                'cup_fr' => 0,
+                'quiz_total_nl' => 20.0,
+                'quiz_total_fr' => 40.0,
+                'quiz_total' => 30.0,
+                'total_nl' => 18.0,
+                'total_fr' => 40.0,
+                'total' => 27.0,
             ],
             $percentages
         );
