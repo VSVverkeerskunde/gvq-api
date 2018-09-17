@@ -88,4 +88,18 @@ class StatisticsKey extends Enumeration
     {
         return new Language(substr($this->toNative(), -2));
     }
+
+    /**
+     * @return QuizChannel
+     */
+    public function getChannel(): QuizChannel
+    {
+        return new QuizChannel(
+            substr(
+                $this->toNative(),
+                0,
+                strpos($this->toNative(), '_')
+            )
+        );
+    }
 }

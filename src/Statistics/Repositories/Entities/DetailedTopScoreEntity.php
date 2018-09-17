@@ -62,7 +62,7 @@ class DetailedTopScoreEntity
      * @param DetailedTopScore $detailedTopScore
      * @return DetailedTopScoreEntity
      */
-    public static function fromTopScore(
+    public static function fromDetailedTopScore(
         DetailedTopScore $detailedTopScore
     ): DetailedTopScoreEntity {
         return new DetailedTopScoreEntity(

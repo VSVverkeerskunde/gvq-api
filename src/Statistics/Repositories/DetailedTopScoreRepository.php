@@ -19,3 +19,4 @@ interface DetailedTopScoreRepository
      */
     public function getAverageByKey(StatisticsKey $statisticsKey): Average;
 }
+ 
