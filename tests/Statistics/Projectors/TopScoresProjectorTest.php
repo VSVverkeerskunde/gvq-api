@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
+use VSV\GVQ_API\Statistics\Models\DetailedTopScore;
 use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Models\TopScore;
@@ -71,7 +72,7 @@ class TopScoresProjectorTest extends TestCase
             $quiz->getId(),
             0,
             new Metadata(),
-            new QuizFinished($quiz->getId(), 16)
+            new QuizFinished($quiz->getId(), 12)
         );
 
         $this->quizRepository
@@ -82,7 +83,24 @@ class TopScoresProjectorTest extends TestCase
         $this->topScoreRepository
             ->expects($this->once())
             ->method('saveWhenHigher')
-            ->with(new TopScore($email, new NaturalNumber(16)));
+            ->with(
+                new TopScore(
+                    $email,
+                    new NaturalNumber(12)
+                )
+            );
+
+        $this->detailedTopScoreRepository
+            ->expects($this->once())
+            ->method('saveWhenHigher')
+            ->with(
+                new DetailedTopScore(
+                    $email,
+                    $quiz->getLanguage(),
+                    $quiz->getChannel(),
+                    new NaturalNumber(12)
+                )
+            );
 
         $this->topScoresProjector->handle($quizFinishedMessage);
     }
