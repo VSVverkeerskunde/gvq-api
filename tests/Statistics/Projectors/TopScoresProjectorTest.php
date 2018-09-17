@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
@@ -20,6 +21,11 @@ class TopScoresProjectorTest extends TestCase
      * @var TopScoreRepository|MockObject
      */
     private $topScoreRepository;
+
+    /**
+     * @var DetailedTopScoreRepository|MockObject
+     */
+    private $detailedTopScoreRepository;
 
     /**
      * @var QuizRepository|MockObject
@@ -37,12 +43,17 @@ class TopScoresProjectorTest extends TestCase
         $topScoreRepository = $this->createMock(TopScoreRepository::class);
         $this->topScoreRepository = $topScoreRepository;
 
+        /** @var DetailedTopScoreRepository|MockObject $detailedTopScoreRepository */
+        $detailedTopScoreRepository = $this->createMock(DetailedTopScoreRepository::class);
+        $this->detailedTopScoreRepository = $detailedTopScoreRepository;
+
         /** @var QuizRepository|MockObject $quizRepository */
         $quizRepository = $this->createMock(QuizRepository::class);
         $this->quizRepository = $quizRepository;
 
         $this->topScoresProjector = new TopScoresProjector(
             $this->topScoreRepository,
+            $this->detailedTopScoreRepository,
             $this->quizRepository
         );
     }
