@@ -127,7 +127,7 @@ class StatisticsService
     /**
      * @return float[]
      */
-    public function getPassedUniqueParticipantPercentage(): array
+    public function getPassedUniqueParticipantPercentages(): array
     {
         $uniqueParticipantsCounts = $this->getUniqueParticipantCounts();
         $passedUniqueParticipantCounts = $this->getPassedUniqueParticipantCounts();

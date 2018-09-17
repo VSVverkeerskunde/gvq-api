@@ -118,6 +118,41 @@ class StatisticsServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_can_get_unique_passed_participant_percentage(): void
+    {
+        $this->mockGetCountMethod($this->uniqueParticipantRepository);
+        $this->mockGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
+
+        $percentages = $this->statisticsService->getPassedUniqueParticipantPercentages();
+
+        $this->assertEquals(
+            [
+                'individual_nl' => 100.0,
+                'individual_total' => 100.0,
+                'individual_fr' => 100.0,
+                'partner_nl' => 100.0,
+                'partner_total' => 100.0,
+                'partner_fr' => 100.0,
+                'company_nl' => 100.0,
+                'company_total' => 100.0,
+                'company_fr' => 100.0,
+                'cup_nl' => 100.0,
+                'cup_total' => 100.0,
+                'cup_fr' => 100.0,
+                'quiz_total_nl' => 100.0,
+                'quiz_total_fr' => 100.0,
+                'quiz_total' => 100.0,
+                'total_nl' => 100.0,
+                'total_fr' => 100.0,
+                'total' => 100.0,
+            ],
+            $percentages
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_unique_participant_counts_for_partners(): void
     {
         $datsPartner = ModelsFactory::createDatsPartner();
