@@ -57,6 +57,28 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
+    public function it_can_add_a_unique_passed_participant(): void
+    {
+        $quiz = ModelsFactory::createIndividualQuiz();
+        $statisticsKey = new StatisticsKey(StatisticsKey::INDIVIDUAL_NL);
+
+        $this->redis->expects($this->once())
+            ->method('sAdd')
+            ->with(
+                'passed_unique_participants_individual_nl',
+                $quiz->getParticipant()->getEmail()->toNative()
+            );
+
+        $this->uniqueParticipantRepository->addPassed(
+            $statisticsKey,
+            $quiz->getParticipant()
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_can_add_a_unique_participant_for_a_partner(): void
     {
         $quiz = ModelsFactory::createPartnerQuiz();
@@ -91,6 +113,21 @@ class UniqueParticipantRedisRepositoryTest extends TestCase
             ->willReturn(0);
 
         $this->uniqueParticipantRepository->getCount($statisticsKey);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_count_of_passed_unique_participants(): void
+    {
+        $statisticsKey = new StatisticsKey(StatisticsKey::INDIVIDUAL_NL);
+
+        $this->redis->expects($this->once())
+            ->method('sCard')
+            ->with('passed_unique_participants_'.$statisticsKey->toNative())
+            ->willReturn(0);
+
+        $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
     }
 
     /**
