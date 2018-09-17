@@ -106,6 +106,18 @@ class StatisticsServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_can_get_unique_passed_participant_counts(): void
+    {
+        $this->mockGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
+
+        $counts = $this->statisticsService->getPassedUniqueParticipantCounts();
+
+        $this->checkCounts($counts);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_unique_participant_counts_for_partners(): void
     {
         $datsPartner = ModelsFactory::createDatsPartner();
@@ -182,12 +194,15 @@ class StatisticsServiceTest extends TestCase
 
     /**
      * @param CountableRepository|MockObject $statisticsRepository
+     * @param string $method
      */
-    private function mockGetCountMethod(MockObject $statisticsRepository): void
-    {
+    private function mockGetCountMethod(
+        MockObject $statisticsRepository,
+        string $method = 'getCount'
+    ): void {
         $statisticsRepository
             ->expects($this->exactly(8))
-            ->method('getCount')
+            ->method($method)
             ->withConsecutive(
                 new StatisticsKey('individual_nl'),
                 new StatisticsKey('individual_fr'),
