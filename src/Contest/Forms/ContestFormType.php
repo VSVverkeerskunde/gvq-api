@@ -14,6 +14,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
@@ -155,6 +156,7 @@ class ContestFormType extends AbstractType
     /**
      * @param UuidFactoryInterface $uuidFactory
      * @param Year $year
+     * @param Language $language
      * @param QuizChannel $channel
      * @param Email $email
      * @param array $data
@@ -164,6 +166,7 @@ class ContestFormType extends AbstractType
     public function newContestParticipationFromData(
         UuidFactoryInterface $uuidFactory,
         Year $year,
+        Language $language,
         QuizChannel $channel,
         Email $email,
         array $data
@@ -171,6 +174,7 @@ class ContestFormType extends AbstractType
         return new ContestParticipation(
             $uuidFactory->uuid4(),
             $year,
+            $language,
             $channel,
             new ContestParticipant(
                 $email,

@@ -17,6 +17,18 @@ interface UniqueParticipantRepository extends CountableRepository
     /**
      * @param StatisticsKey $statisticsKey
      * @param QuizParticipant $participant
+     */
+    public function addPassed(StatisticsKey $statisticsKey, QuizParticipant $participant): void;
+
+    /**
+     * @param StatisticsKey $statisticsKey
+     * @return int
+     */
+    public function getPassedCount(StatisticsKey $statisticsKey): int;
+
+    /**
+     * @param StatisticsKey $statisticsKey
+     * @param QuizParticipant $participant
      * @param Partner $partner
      */
     public function addForPartner(StatisticsKey $statisticsKey, QuizParticipant $participant, Partner $partner): void;

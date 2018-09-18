@@ -46,9 +46,16 @@ class UniqueParticipantProjector implements EventListener
             $statisticsKey = StatisticsKey::createFromQuiz($quiz);
 
             $this->uniqueParticipantRepository->add(
-                StatisticsKey::createFromQuiz($quiz),
+                $statisticsKey,
                 $quiz->getParticipant()
             );
+
+            if ($payload->getScore() >= 11) {
+                $this->uniqueParticipantRepository->addPassed(
+                    $statisticsKey,
+                    $quiz->getParticipant()
+                );
+            }
 
             if ($quiz->getChannel()->toNative() === QuizChannel::PARTNER &&
                 $quiz->getPartner() !== null) {

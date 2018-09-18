@@ -2,17 +2,22 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
+use Aws\Lambda\LambdaClient;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\Statistics\ValueObjects\Average;
 
 class StatisticsServiceTest extends TestCase
 {
@@ -41,6 +46,11 @@ class StatisticsServiceTest extends TestCase
      */
     private $partnerRepository;
 
+    /**
+     * @var DetailedTopScoreRepository|MockObject
+     */
+    private $detailedTopScoreRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -59,11 +69,16 @@ class StatisticsServiceTest extends TestCase
         $partnerRepository = $this->createMock(PartnerRepository::class);
         $this->partnerRepository = $partnerRepository;
 
+        /** @var DetailedTopScoreRepository|MockObject $detailedTopScoreRepository */
+        $detailedTopScoreRepository = $this->createMock(DetailedTopScoreRepository::class);
+        $this->detailedTopScoreRepository = $detailedTopScoreRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
-            $this->partnerRepository
+            $this->partnerRepository,
+            $this->detailedTopScoreRepository
         );
     }
 
@@ -101,6 +116,189 @@ class StatisticsServiceTest extends TestCase
         $counts = $this->statisticsService->getUniqueParticipantCounts();
 
         $this->checkCounts($counts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_unique_passed_participant_counts(): void
+    {
+        $this->mockGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
+
+        $counts = $this->statisticsService->getPassedUniqueParticipantCounts();
+
+        $this->checkCounts($counts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_unique_passed_participant_percentage(): void
+    {
+        $this->uniqueParticipantRepository
+            ->expects($this->exactly(8))
+            ->method('getCount')
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr')
+            )
+            ->willReturnOnConsecutiveCalls(10, 10, 10, 10, 10, 10, 10, 0);
+
+        $this->uniqueParticipantRepository
+            ->expects($this->exactly(8))
+            ->method('getPassedCount')
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr')
+            )
+            ->willReturnOnConsecutiveCalls(1, 2, 2, 4, 3, 6, 1, 0);
+
+        $percentages = $this->statisticsService->getPassedUniqueParticipantPercentages();
+
+        $this->assertEquals(
+            [
+                'individual_nl' => 10.0,
+                'individual_total' => 15.0,
+                'individual_fr' => 20.0,
+                'partner_nl' => 20.0,
+                'partner_total' => 30.0,
+                'partner_fr' => 40.0,
+                'company_nl' => 30.0,
+                'company_total' => 45.0,
+                'company_fr' => 60.0,
+                'cup_nl' => 10.0,
+                'cup_total' => 10.0,
+                'cup_fr' => 0,
+                'quiz_total_nl' => 20.0,
+                'quiz_total_fr' => 40.0,
+                'quiz_total' => 30.0,
+                'total_nl' => 18.0,
+                'total_fr' => 40.0,
+                'total' => 27.0,
+            ],
+            $percentages
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_detailed_top_score_averages(): void
+    {
+        $this->detailedTopScoreRepository
+            ->expects($this->exactly(8))
+            ->method('getAverageByKey')
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr')
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Average(10),
+                new Average(12),
+                new Average(10),
+                new Average(12),
+                new Average(10),
+                new Average(12),
+                new Average(10),
+                new Average(12)
+            );
+
+        $this->detailedTopScoreRepository
+            ->expects($this->exactly(4))
+            ->method('getAverageByChannel')
+            ->withConsecutive(
+                new QuizChannel(QuizChannel::INDIVIDUAL),
+                new QuizChannel(QuizChannel::COMPANY),
+                new QuizChannel(QuizChannel::PARTNER),
+                new QuizChannel(QuizChannel::CUP)
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Average(11),
+                new Average(11),
+                new Average(11),
+                new Average(11)
+            );
+
+        $this->detailedTopScoreRepository
+            ->expects($this->exactly(3))
+            ->method('getQuizAverage')
+            ->withConsecutive(
+                [
+                    new Language(Language::NL),
+                ],
+                [
+                    new Language(Language::FR),
+                ],
+                [
+                    null,
+                ]
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Average(11),
+                new Average(12),
+                new Average(11.5)
+            );
+
+        $this->detailedTopScoreRepository
+            ->expects($this->exactly(2))
+            ->method('getAverageByLanguage')
+            ->withConsecutive(
+                new Language(Language::NL),
+                new Language(Language::FR)
+            )
+            ->willReturnOnConsecutiveCalls(
+                new Average(11),
+                new Average(12)
+            );
+
+        $this->detailedTopScoreRepository
+            ->expects($this->once())
+            ->method('getTotalAverage')
+            ->willReturn(new Average(11.5));
+
+        $averages = $this->statisticsService->getDetailedTopScoreAverages();
+
+        $this->assertEquals(
+            [
+                'individual_nl' => 10.0,
+                'individual_fr' => 12.0,
+                'individual_total' => 11.0,
+                'partner_nl' => 10.0,
+                'partner_fr' => 12.0,
+                'partner_total' => 11.0,
+                'company_nl' => 10.0,
+                'company_fr' => 12.0,
+                'company_total' => 11.0,
+                'cup_nl' => 10.0,
+                'cup_fr' => 12.0,
+                'cup_total' => 11.0,
+                'quiz_total_nl' => 11.0,
+                'quiz_total_fr' => 12.0,
+                'quiz_total' => 11.5,
+                'total_nl' => 11.0,
+                'total_fr' => 12.0,
+                'total' => 11.5,
+            ],
+            $averages
+        );
     }
 
     /**
@@ -182,12 +380,15 @@ class StatisticsServiceTest extends TestCase
 
     /**
      * @param CountableRepository|MockObject $statisticsRepository
+     * @param string $method
      */
-    private function mockGetCountMethod(MockObject $statisticsRepository): void
-    {
+    private function mockGetCountMethod(
+        MockObject $statisticsRepository,
+        string $method = 'getCount'
+    ): void {
         $statisticsRepository
             ->expects($this->exactly(8))
-            ->method('getCount')
+            ->method($method)
             ->withConsecutive(
                 new StatisticsKey('individual_nl'),
                 new StatisticsKey('individual_fr'),

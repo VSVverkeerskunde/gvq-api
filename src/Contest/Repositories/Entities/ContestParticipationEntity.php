@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Contest\Repositories\Entities;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\Entities\Entity;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -22,6 +23,13 @@ class ContestParticipationEntity extends Entity
      * @ORM\Column(type="smallint", nullable=false)
      */
     private $year;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2, nullable=false)
+     */
+    private $language;
 
     /**
      * @var string
@@ -76,6 +84,7 @@ class ContestParticipationEntity extends Entity
     /**
      * @param string $id
      * @param int $year
+     * @param string $language
      * @param string $channel
      * @param ContestParticipantEmbeddable $contestParticipant
      * @param AddressEmbeddable $address
@@ -87,6 +96,7 @@ class ContestParticipationEntity extends Entity
     private function __construct(
         string $id,
         int $year,
+        string $language,
         string $channel,
         ContestParticipantEmbeddable $contestParticipant,
         AddressEmbeddable $address,
@@ -98,6 +108,7 @@ class ContestParticipationEntity extends Entity
         parent::__construct($id);
 
         $this->year = $year;
+        $this->language = $language;
         $this->channel = $channel;
         $this->contestParticipant = $contestParticipant;
         $this->address = $address;
@@ -117,6 +128,7 @@ class ContestParticipationEntity extends Entity
         return new ContestParticipationEntity(
             $contestParticipation->getId()->toString(),
             $contestParticipation->getYear()->toNative(),
+            $contestParticipation->getLanguage()->toNative(),
             $contestParticipation->getChannel()->toNative(),
             ContestParticipantEmbeddable::fromContestParticipation(
                 $contestParticipation->getContestParticipant()
@@ -139,6 +151,7 @@ class ContestParticipationEntity extends Entity
         return new ContestParticipation(
             Uuid::fromString($this->getId()),
             new Year($this->year),
+            new Language($this->language),
             new QuizChannel($this->channel),
             $this->contestParticipant->toContestParticipant(),
             $this->address->toAddress(),

@@ -26,15 +26,25 @@ class EmployeeParticipationEntity
     private $email;
 
     /**
+     * @param string $companyId
+     * @param string $email
+     */
+    private function __construct(string $companyId, string $email)
+    {
+        $this->companyId = $companyId;
+        $this->email = $email;
+    }
+
+    /**
      * @param EmployeeParticipation $employeeParticipation
      * @return EmployeeParticipationEntity
      */
-    public static function fromEmployeeParticipation(EmployeeParticipation $employeeParticipation): self
-    {
-        $entity = new self();
-        $entity->companyId = $employeeParticipation->getCompanyId()->toString();
-        $entity->email = $employeeParticipation->getEmail()->toNative();
-
-        return $entity;
+    public static function fromEmployeeParticipation(
+        EmployeeParticipation $employeeParticipation
+    ): EmployeeParticipationEntity {
+        return new EmployeeParticipationEntity(
+            $employeeParticipation->getCompanyId()->toString(),
+            $employeeParticipation->getEmail()->toNative()
+        );
     }
 }

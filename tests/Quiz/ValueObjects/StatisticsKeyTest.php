@@ -182,4 +182,62 @@ class StatisticsKeyTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider statisticsKeyChannelProvider
+     * @param StatisticsKey $statisticsKey
+     * @param QuizChannel $channel
+     */
+    public function it_can_get_the_channel_of_a_key(
+        StatisticsKey $statisticsKey,
+        QuizChannel $channel
+    ): void {
+        $this->assertEquals(
+            $channel,
+            $statisticsKey->getChannel()
+        );
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function statisticsKeyChannelProvider(): array
+    {
+        return [
+            [
+                new StatisticsKey(StatisticsKey::INDIVIDUAL_NL),
+                new QuizChannel(QuizChannel::INDIVIDUAL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::INDIVIDUAL_FR),
+                new QuizChannel(QuizChannel::INDIVIDUAL),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::COMPANY_NL),
+                new QuizChannel(QuizChannel::COMPANY),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::COMPANY_FR),
+                new QuizChannel(QuizChannel::COMPANY),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::PARTNER_NL),
+                new QuizChannel(QuizChannel::PARTNER),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::PARTNER_FR),
+                new QuizChannel(QuizChannel::PARTNER),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::CUP_NL),
+                new QuizChannel(QuizChannel::CUP),
+            ],
+            [
+                new StatisticsKey(StatisticsKey::CUP_FR),
+                new QuizChannel(QuizChannel::CUP),
+            ],
+        ];
+    }
 }
