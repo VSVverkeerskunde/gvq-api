@@ -41,6 +41,7 @@ class StatisticsViewController extends AbstractController
         $uniqueParticipantCounts = $this->statisticsService->getUniqueParticipantCounts();
         $passedUniqueParticipantCounts = $this->statisticsService->getPassedUniqueParticipantCounts();
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
+        $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
         $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear($this->year);
 
         return $this->render(
@@ -51,6 +52,7 @@ class StatisticsViewController extends AbstractController
                 'uniqueParticipantCounts' => $uniqueParticipantCounts,
                 'passedUniqueParticipantCounts' => $passedUniqueParticipantCounts,
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
+                'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'partnersCounts' => $partnersCounts,
             ]
         );

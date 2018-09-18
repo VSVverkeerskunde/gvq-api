@@ -6,6 +6,8 @@ use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
@@ -34,6 +36,11 @@ class StatisticsService
     private $partnerRepository;
 
     /**
+     * @var DetailedTopScoreRepository
+     */
+    private $detailedTopScoreRepository;
+
+    /**
      * @var StatisticsKey[]
      */
     private $statisticsKeys;
@@ -53,17 +60,20 @@ class StatisticsService
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
      * @param PartnerRepository $partnerRepository
+     * @param DetailedTopScoreRepository $detailedTopScoreRepository
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
         UniqueParticipantRepository $uniqueParticipantRepository,
-        PartnerRepository $partnerRepository
+        PartnerRepository $partnerRepository,
+        DetailedTopScoreRepository $detailedTopScoreRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
         $this->partnerRepository = $partnerRepository;
+        $this->detailedTopScoreRepository = $detailedTopScoreRepository;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -145,6 +155,56 @@ class StatisticsService
         }
 
         return $passedUniqueParticipantPercentage;
+    }
+
+    /**
+     * @return float[]
+     */
+    public function getDetailedTopScoreAverages(): array
+    {
+        $averages = [];
+
+        foreach ($this->statisticsKeys as $statisticsKey) {
+            $average = $this->detailedTopScoreRepository->getAverageByKey($statisticsKey);
+            $averages[$statisticsKey->toNative()] = $average->toNative();
+        }
+
+        $averages['individual_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
+            new QuizChannel(QuizChannel::INDIVIDUAL)
+        )->toNative();
+        $averages['company_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
+            new QuizChannel(QuizChannel::COMPANY)
+        )->toNative();
+        $averages['partner_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
+            new QuizChannel(QuizChannel::PARTNER)
+        )->toNative();
+        $averages['cup_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
+            new QuizChannel(QuizChannel::CUP)
+        )->toNative();
+
+        $averages['quiz_total_nl'] = $this->detailedTopScoreRepository->getQuizAverage(
+            new Language('nl')
+        )->toNative();
+        $averages['quiz_total_fr'] = $this->detailedTopScoreRepository->getQuizAverage(
+            new Language('fr')
+        )->toNative();
+        $averages['quiz_total'] = $this->detailedTopScoreRepository->getQuizAverage(
+            null
+        )->toNative();
+
+        $averages['total_nl'] = $this->detailedTopScoreRepository->getAverageByLanguage(
+            new Language('nl')
+        )->toNative();
+        $averages['total_fr'] = $this->detailedTopScoreRepository->getAverageByLanguage(
+            new Language('fr')
+        )->toNative();
+        $averages['total'] = $this->detailedTopScoreRepository->getTotalAverage()->toNative();
+
+        foreach ($averages as $key => $average) {
+            $averages[$key] = round($averages[$key], 2);
+        }
+
+        return $averages;
     }
 
     /**

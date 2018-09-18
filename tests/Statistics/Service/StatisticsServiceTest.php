@@ -8,6 +8,7 @@ use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
@@ -41,6 +42,11 @@ class StatisticsServiceTest extends TestCase
      */
     private $partnerRepository;
 
+    /**
+     * @var DetailedTopScoreRepository|MockObject
+     */
+    private $detailedTopScoreRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -59,11 +65,16 @@ class StatisticsServiceTest extends TestCase
         $partnerRepository = $this->createMock(PartnerRepository::class);
         $this->partnerRepository = $partnerRepository;
 
+        /** @var DetailedTopScoreRepository|MockObject $detailedTopScoreRepository */
+        $detailedTopScoreRepository = $this->createMock(DetailedTopScoreRepository::class);
+        $this->detailedTopScoreRepository = $detailedTopScoreRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
-            $this->partnerRepository
+            $this->partnerRepository,
+            $this->detailedTopScoreRepository
         );
     }
 

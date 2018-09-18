@@ -59,7 +59,11 @@
                 {% trans %}Statistics.row.percentage{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': passedUniqueParticipantPercentage} %}
         </tr>
-
+        <tr class="text-right">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.topscore{% endtrans %}">
+                {% trans %}Statistics.row.topscore{% endtrans %}</th>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': detailedTopScoreAverages} %}
+        </tr>
         </tbody>
     </table>
 

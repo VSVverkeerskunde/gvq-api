@@ -161,4 +161,39 @@ class DetailedTopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryT
             )
         );
     }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function it_can_get_the_average_by_channel(): void
+    {
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByChannel(
+                new QuizChannel(QuizChannel::INDIVIDUAL)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByChannel(
+                new QuizChannel(QuizChannel::COMPANY)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByChannel(
+                new QuizChannel(QuizChannel::PARTNER)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByChannel(
+                new QuizChannel(QuizChannel::CUP)
+            )
+        );
+    }
 }
