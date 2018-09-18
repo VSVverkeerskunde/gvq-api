@@ -7,6 +7,18 @@
 
 {% endblock %}
 
+{% block gtag %}
+    {% if app.request.get('channel') == 'cup' %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125250178-1"></script>
+        <script src="{{ asset('js/gtag.cup.js') }}"></script>
+    {% else %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125171406-1"></script>
+        <script src="{{ asset('js/gtag.quiz.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
@@ -145,17 +157,17 @@
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
     <script>
-        Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
+      Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
-        function getConfigFromUrlParameters() {
-            return decodeURIComponent(window.location.search.substring(1))
-                    .split('&')
-                    .reduce(function (config, urlParameter) {
-                        let keyValue = urlParameter.split('=');
-                        config[keyValue[0]] = keyValue[1];
+      function getConfigFromUrlParameters () {
+        return decodeURIComponent(window.location.search.substring(1))
+          .split('&')
+          .reduce(function (config, urlParameter) {
+            let keyValue = urlParameter.split('=');
+            config[keyValue[0]] = keyValue[1];
 
-                        return config;
-                    }, {});
-        }
+            return config;
+          }, {});
+      }
     </script>
 {% endblock %}
