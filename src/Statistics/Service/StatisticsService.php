@@ -198,6 +198,7 @@ class StatisticsService
         $averages['total_fr'] = $this->detailedTopScoreRepository->getAverageByLanguage(
             new Language('fr')
         )->toNative();
+
         $averages['total'] = $this->detailedTopScoreRepository->getTotalAverage()->toNative();
 
         foreach ($averages as $key => $average) {
