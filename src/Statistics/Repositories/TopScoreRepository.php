@@ -3,9 +3,11 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 interface TopScoreRepository
@@ -39,4 +41,10 @@ interface TopScoreRepository
      * @return Average
      */
     public function getAverageForCompany(UuidInterface $companyId): Average;
+
+    /**
+     * @param NaturalNumber $nrOfPassedEmployees
+     * @return Companies|null
+     */
+    public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): ?Companies;
 }

@@ -4,12 +4,15 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
+use VSV\GVQ_API\Company\Models\Companies;
+use VSV\GVQ_API\Company\Repositories\CompanyDoctrineRepository;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\Statistics\Models\TopScores;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TopScoreEntity;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\User\Repositories\UserDoctrineRepository;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
@@ -154,7 +157,7 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
     public function it_can_get_average_top_score_for_company(): void
     {
         $score = $this->topScoreDoctrineRepository->getAverageForCompany(
-            Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e')
+            Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106')
         );
 
         $this->assertEquals(
@@ -169,6 +172,34 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
         $this->assertEquals(
             new Average(12.5),
             $score
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_top_companies(): void
+    {
+        $userRepository = new UserDoctrineRepository(
+            $this->entityManager
+        );
+        $userRepository->save(ModelsFactory::createUser());
+
+        $companyRepository = new CompanyDoctrineRepository(
+            $this->entityManager
+        );
+        $companyRepository->save(ModelsFactory::createCompany());
+        $companyRepository->save(ModelsFactory::createAwsrCompany());
+
+        $companies = $this->topScoreDoctrineRepository->getTopCompanies(
+            new NaturalNumber(2)
+        );
+
+        $this->assertEquals(
+            new Companies(
+                ModelsFactory::createAwsrCompany()
+            ),
+            $companies
         );
     }
 }
