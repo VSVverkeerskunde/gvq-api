@@ -132,32 +132,28 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             ->getQuery()
             ->getResult();
 
-        if (empty($result)) {
+        if (!empty($result)) {
+            /** @var CompanyEntity[] $companyEntities */
+            $companyEntities = $this->entityManager->createQueryBuilder()
+                ->select('c, u')
+                ->from(CompanyEntity::class, 'c')
+                ->innerJoin('c.translatedAliasEntities', 'a')
+                ->innerJoin('c.userEntity', 'u')
+                ->where('c.id IN (:ids)')
+                ->setParameter('ids', $result)
+                ->getQuery()
+                ->getResult();
+
+            return new Companies(
+                ...array_map(
+                    function (CompanyEntity $companyEntity) {
+                        return $companyEntity->toCompany();
+                    },
+                    $companyEntities
+                )
+            );
+        } else {
             return null;
         }
-
-        /** @var CompanyEntity[] $companyEntities */
-        $companyEntities = $this->entityManager->createQueryBuilder()
-            ->select('c, u')
-            ->from(CompanyEntity::class, 'c')
-            ->innerJoin('c.translatedAliasEntities', 'a')
-            ->innerJoin('c.userEntity', 'u')
-            ->where('c.id IN (:ids)')
-            ->setParameter('ids', $result)
-            ->getQuery()
-            ->getResult();
-
-        if (empty($companyEntities)) {
-            return null;
-        }
-
-        return new Companies(
-            ...array_map(
-                function (CompanyEntity $companyEntity) {
-                    return $companyEntity->toCompany();
-                },
-                $companyEntities
-            )
-        );
     }
 }
