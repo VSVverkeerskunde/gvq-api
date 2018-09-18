@@ -414,8 +414,6 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Document\Controllers\DocumentViewController:
-      arguments:
-        $documentsPath: '%kernel.project_dir%/public/documents/'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Contest\Controllers\ContestViewController:
