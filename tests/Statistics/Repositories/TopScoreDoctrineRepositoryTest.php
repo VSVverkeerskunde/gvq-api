@@ -202,4 +202,19 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             $companies
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_no_top_companies(): void
+    {
+        $companies = $this->topScoreDoctrineRepository->getTopCompanies(
+            new NaturalNumber(3)
+        );
+
+        $this->assertEquals(
+            null,
+            $companies
+        );
+    }
 }
