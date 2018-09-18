@@ -38,6 +38,7 @@ class ContestParticipationNormalizer implements NormalizerInterface
         return [
             'id' => $contestParticipation->getId()->toString(),
             'year' => $contestParticipation->getYear()->toNative(),
+            'language' => $contestParticipation->getLanguage()->toNative(),
             'channel' => $contestParticipation->getChannel()->toNative(),
             'contestParticipant' => $this->contestParticipantNormalizer->normalize(
                 $contestParticipation->getContestParticipant(),

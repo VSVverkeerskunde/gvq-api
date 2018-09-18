@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Contest\Models;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
 use VSV\GVQ_API\Contest\ValueObjects\Address;
 use VSV\GVQ_API\Contest\ValueObjects\ContestParticipant;
@@ -20,6 +21,11 @@ class ContestParticipation
      * @var Year
      */
     private $year;
+
+    /**
+     * @var Language
+     */
+    private $language;
 
     /**
      * @var QuizChannel
@@ -59,6 +65,7 @@ class ContestParticipation
     /**
      * @param UuidInterface $id
      * @param Year $year
+     * @param Language $language
      * @param QuizChannel $channel
      * @param ContestParticipant $contestParticipant
      * @param Address $address
@@ -70,6 +77,7 @@ class ContestParticipation
     public function __construct(
         UuidInterface $id,
         Year $year,
+        Language $language,
         QuizChannel $channel,
         ContestParticipant $contestParticipant,
         Address $address,
@@ -83,6 +91,7 @@ class ContestParticipation
 
         $this->id = $id;
         $this->year = $year;
+        $this->language = $language;
         $this->channel = $channel;
         $this->contestParticipant = $contestParticipant;
         $this->address = $address;
@@ -106,6 +115,14 @@ class ContestParticipation
     public function getYear(): Year
     {
         return $this->year;
+    }
+
+    /**
+     * @return Language
+     */
+    public function getLanguage(): Language
+    {
+        return $this->language;
     }
 
     /**
