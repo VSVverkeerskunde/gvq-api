@@ -196,4 +196,63 @@ class DetailedTopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryT
             )
         );
     }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function it_can_get_average_by_language(): void
+    {
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByLanguage(
+                new Language(Language::NL)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getAverageByLanguage(
+                new Language(Language::FR)
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function it_can_get_the_quiz_average(): void
+    {
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getQuizAverage(
+                new Language(Language::NL)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getQuizAverage(
+                new Language(Language::FR)
+            )
+        );
+
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getQuizAverage(null)
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function it_can_get_total_average(): void
+    {
+        $this->assertEquals(
+            new Average(11),
+            $this->detailedTopScoreDoctrineRepository->getTotalAverage()
+        );
+    }
 }
