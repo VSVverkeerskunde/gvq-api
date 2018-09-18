@@ -17,19 +17,21 @@ class DetailedTopScoreEntity
 {
     /**
      * @var string
-     * @ORM\Id()
+     * @ORm\Id()
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $email;
 
     /**
      * @var string
+     * @ORm\Id()
      * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $language;
 
     /**
      * @var string
+     * @ORm\Id()
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $channel;
