@@ -11,7 +11,7 @@
     <ul>
         {% for file in files %}
             <li>
-                <a href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
+                <a target="_blank" href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
             </li>
         {% endfor %}
     </ul>
