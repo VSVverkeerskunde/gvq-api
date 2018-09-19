@@ -197,6 +197,39 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    answered_correct_questions:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: 'answered_correct_questions'
+
+    answered_correct_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $key: '@answered_correct_questions'
+
+    answered_incorrect_questions:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: 'answered_incorrect_questions'
+
+    answered_incorrect_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $key: '@answered_incorrect_questions'
+
+    answered_too_late_questions:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: 'answered_too_late_questions'
+
+    answered_too_late_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $key: '@answered_too_late_questions'
+
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
@@ -246,6 +279,13 @@ services:
         $teamParticipationRepository: '@team_participation_redis_repository'
         $quizRepository: '@quiz_redis_repository'
 
+    question_difficulty_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\QuestionDifficultyProjector
+      arguments:
+        $questionCorrectRepository: '@answered_correct_redis_repository'
+        $questionInCorrectRepository: '@answered_incorrect_redis_repository'
+        $questionTooLateRepository: '@answered_too_late_redis_repository'
+
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
 
@@ -283,6 +323,9 @@ services:
         - method: subscribe
           arguments:
             - '@team_participations_projector'
+        - method: subscribe
+          arguments:
+            - '@question_difficulty_projector'
       public: true
 
     quiz_aggregate_repository:

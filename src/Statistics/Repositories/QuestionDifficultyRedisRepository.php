@@ -44,7 +44,7 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
     public function increment(Question $question): void
     {
         $this->redis->zIncrBy(
-            $this->key,
+            $this->key->toNative(),
             1.0,
             $question->getId()->toString()
         );
