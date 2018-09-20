@@ -14,6 +14,7 @@ use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class StatisticsService
 {
@@ -267,7 +268,9 @@ class StatisticsService
      */
     public function getCorrectQuestions(): QuestionDifficulties
     {
-        return $this->questionCorrectRepository->getRange();
+        return $this->questionCorrectRepository->getRange(
+            new NaturalNumber(4)
+        );
     }
 
     /**
@@ -275,7 +278,9 @@ class StatisticsService
      */
     public function getInCorrectQuestions(): QuestionDifficulties
     {
-        return $this->questionInCorrectRepository->getRange();
+        return $this->questionInCorrectRepository->getRange(
+            new NaturalNumber(4)
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 interface QuestionDifficultyRepository
 {
@@ -13,7 +14,8 @@ interface QuestionDifficultyRepository
     public function increment(Question $question): void;
 
     /**
+     * @param NaturalNumber $end
      * @return QuestionDifficulties
      */
-    public function getRange(): QuestionDifficulties;
+    public function getRange(NaturalNumber $end): QuestionDifficulties;
 }
