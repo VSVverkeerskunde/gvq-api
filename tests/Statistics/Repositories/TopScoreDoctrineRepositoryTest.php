@@ -55,11 +55,15 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
             ),
             new TopScore(
                 new Email('john@awsr.be'),
+                new NaturalNumber(12)
+            ),
+            new TopScore(
+                new Email('john@awsr.be'),
                 new NaturalNumber(13)
             ),
             new TopScore(
                 new Email('john@awsr.be'),
-                new NaturalNumber(12)
+                new NaturalNumber(11)
             ),
             new TopScore(
                 new Email('andy@awsr.be'),

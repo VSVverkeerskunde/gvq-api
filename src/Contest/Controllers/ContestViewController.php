@@ -133,6 +133,7 @@ class ContestViewController extends AbstractController
             $contestParticipation = $this->contestFormType->newContestParticipationFromData(
                 $this->uuidFactory,
                 $this->year,
+                $quiz->getLanguage(),
                 $quiz->getChannel(),
                 $quiz->getParticipant()->getEmail(),
                 $data

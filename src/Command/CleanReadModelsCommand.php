@@ -57,6 +57,11 @@ class CleanReadModelsCommand extends ContainerAwareCommand
             'DELETE FROM top_score;'
         );
 
+        $output->writeln('Cleaning detailed_top_score table...');
+        $this->entityManager->getConnection()->exec(
+            'DELETE FROM detailed_top_score;'
+        );
+
         $output->writeln('Cleaning Redis...');
         /** @var \Redis $redis */
         $redis = $this->getContainer()->get('redis_service');
