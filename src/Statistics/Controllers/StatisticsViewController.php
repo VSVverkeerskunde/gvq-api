@@ -43,6 +43,8 @@ class StatisticsViewController extends AbstractController
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
         $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
         $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear($this->year);
+        $correctQuestions = $this->statisticsService->getCorrectQuestions()->toArray();
+        $inCorrectQuestions = $this->statisticsService->getInCorrectQuestions()->toArray();
 
         return $this->render(
             'statistics/statistics.html.twig',
@@ -54,6 +56,8 @@ class StatisticsViewController extends AbstractController
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'partnersCounts' => $partnersCounts,
+                'correctQuestions' => $correctQuestions,
+                'inCorrectQuestions' => $inCorrectQuestions,
             ]
         );
     }

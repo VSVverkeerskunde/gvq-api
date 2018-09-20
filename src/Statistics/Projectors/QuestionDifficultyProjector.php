@@ -11,13 +11,19 @@ use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 
 class QuestionDifficultyProjector implements EventListener
 {
-    /** @var QuestionDifficultyRepository */
+    /**
+     * @var QuestionDifficultyRepository
+     */
     private $questionCorrectRepository;
 
-    /** @var QuestionDifficultyRepository */
+    /**
+     * @var QuestionDifficultyRepository
+     */
     private $questionInCorrectRepository;
 
-    /** @var QuestionDifficultyRepository */
+    /**
+     * @var QuestionDifficultyRepository
+     */
     private $questionTooLateRepository;
 
     /**

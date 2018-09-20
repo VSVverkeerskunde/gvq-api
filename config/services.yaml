@@ -364,6 +364,8 @@ services:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
+        $questionCorrectRepository: '@answered_correct_redis_repository'
+        $questionInCorrectRepository: '@answered_incorrect_redis_repository'
 
     contest_service:
       class: VSV\GVQ_API\Contest\Service\ContestService

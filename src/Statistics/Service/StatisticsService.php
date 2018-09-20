@@ -7,8 +7,10 @@ use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
@@ -41,6 +43,16 @@ class StatisticsService
     private $detailedTopScoreRepository;
 
     /**
+     * @var QuestionDifficultyRepository
+     */
+    private $questionCorrectRepository;
+
+    /**
+     * @var QuestionDifficultyRepository
+     */
+    private $questionInCorrectRepository;
+
+    /**
      * @var StatisticsKey[]
      */
     private $statisticsKeys;
@@ -61,19 +73,25 @@ class StatisticsService
      * @param UniqueParticipantRepository $uniqueParticipantRepository
      * @param PartnerRepository $partnerRepository
      * @param DetailedTopScoreRepository $detailedTopScoreRepository
+     * @param QuestionDifficultyRepository $questionCorrectRepository
+     * @param QuestionDifficultyRepository $questionInCorrectRepository
      */
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
         UniqueParticipantRepository $uniqueParticipantRepository,
         PartnerRepository $partnerRepository,
-        DetailedTopScoreRepository $detailedTopScoreRepository
+        DetailedTopScoreRepository $detailedTopScoreRepository,
+        QuestionDifficultyRepository $questionCorrectRepository,
+        QuestionDifficultyRepository $questionInCorrectRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
         $this->partnerRepository = $partnerRepository;
         $this->detailedTopScoreRepository = $detailedTopScoreRepository;
+        $this->questionCorrectRepository = $questionCorrectRepository;
+        $this->questionInCorrectRepository = $questionInCorrectRepository;
 
         $this->statisticsKeys = StatisticsKey::getAllKeys();
     }
@@ -242,6 +260,22 @@ class StatisticsService
         }
 
         return $counts;
+    }
+
+    /**
+     * @return QuestionDifficulties
+     */
+    public function getCorrectQuestions(): QuestionDifficulties
+    {
+        return $this->questionCorrectRepository->getRange();
+    }
+
+    /**
+     * @return QuestionDifficulties
+     */
+    public function getInCorrectQuestions(): QuestionDifficulties
+    {
+        return $this->questionInCorrectRepository->getRange();
     }
 
     /**

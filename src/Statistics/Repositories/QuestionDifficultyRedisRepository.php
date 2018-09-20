@@ -55,8 +55,8 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
      */
     public function getRange(): QuestionDifficulties
     {
-        $questionsAndScores = $this->redis->zRange(
-            $this->key,
+        $questionsAndScores = $this->redis->zRevRange(
+            $this->key->toNative(),
             0,
             4,
             true
@@ -68,7 +68,7 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
             if ($question) {
                 $questionDifficulties[] = new QuestionDifficulty(
                     $question,
-                    new NaturalNumber($score)
+                    new NaturalNumber((int)$score)
                 );
             }
         }
