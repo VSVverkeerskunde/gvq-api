@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
-use Aws\Lambda\LambdaClient;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
@@ -13,6 +12,7 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
@@ -51,6 +51,16 @@ class StatisticsServiceTest extends TestCase
      */
     private $detailedTopScoreRepository;
 
+    /**
+     * @var QuestionDifficultyRepository|MockObject
+     */
+    private $questionCorrectRepository;
+
+    /**
+     * @var QuestionDifficultyRepository|MockObject
+     */
+    private $questionInCorrectRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -73,12 +83,22 @@ class StatisticsServiceTest extends TestCase
         $detailedTopScoreRepository = $this->createMock(DetailedTopScoreRepository::class);
         $this->detailedTopScoreRepository = $detailedTopScoreRepository;
 
+        /** @var QuestionDifficultyRepository|MockObject $questionCorrectRepository */
+        $questionCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
+        $this->questionCorrectRepository = $questionCorrectRepository;
+
+        /** @var QuestionDifficultyRepository|MockObject $questionInCorrectRepository */
+        $questionInCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
+        $this->questionInCorrectRepository = $questionInCorrectRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
             $this->partnerRepository,
-            $this->detailedTopScoreRepository
+            $this->detailedTopScoreRepository,
+            $this->questionCorrectRepository,
+            $this->questionInCorrectRepository
         );
     }
 
