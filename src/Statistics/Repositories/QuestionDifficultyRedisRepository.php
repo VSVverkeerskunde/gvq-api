@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\Uuid;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
@@ -44,7 +45,7 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
     public function increment(Question $question): void
     {
         $this->redis->zIncrBy(
-            $this->key->toNative(),
+            $this->createKey($question->getLanguage()),
             1.0,
             $question->getId()->toString()
         );
@@ -53,10 +54,12 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
     /**
      * @inheritdoc
      */
-    public function getRange(NaturalNumber $end): QuestionDifficulties
-    {
+    public function getRange(
+        Language $language,
+        NaturalNumber $end
+    ): QuestionDifficulties {
         $questionsAndScores = $this->redis->zRevRange(
-            $this->key->toNative(),
+            $this->createKey($language),
             0,
             $end->toNative(),
             true
@@ -74,5 +77,14 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
         }
 
         return new QuestionDifficulties(...$questionDifficulties);
+    }
+
+    /**
+     * @param Language $language
+     * @return string
+     */
+    private function createKey(Language $language): string
+    {
+        return $this->key->toNative().'_'.$language->toNative();
     }
 }

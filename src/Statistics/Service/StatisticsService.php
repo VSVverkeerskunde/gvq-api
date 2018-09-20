@@ -264,21 +264,25 @@ class StatisticsService
     }
 
     /**
+     * @param Language $language
      * @return QuestionDifficulties
      */
-    public function getCorrectQuestions(): QuestionDifficulties
+    public function getCorrectQuestions(Language $language): QuestionDifficulties
     {
         return $this->questionCorrectRepository->getRange(
+            $language,
             new NaturalNumber(4)
         );
     }
 
     /**
+     * @param Language $language
      * @return QuestionDifficulties
      */
-    public function getInCorrectQuestions(): QuestionDifficulties
+    public function getInCorrectQuestions(Language $language): QuestionDifficulties
     {
         return $this->questionInCorrectRepository->getRange(
+            $language,
             new NaturalNumber(4)
         );
     }

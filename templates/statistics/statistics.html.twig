@@ -101,17 +101,31 @@
         {% trans %}Button.export{% endtrans %}
     </a>
 
-    <h3>Best beantwoorde vragen</h3>
+    <h3>Best beantwoorde NL vragen</h3>
     <ul>
-        {% for correctQuestion in correctQuestions %}
-            <li>{{ correctQuestion.count.toNative }} - {{ correctQuestion.question.text.toNative }}</li>
+        {% for correctNlQuestion in correctNlQuestions %}
+            <li>{{ correctNlQuestion.count.toNative }} - {{ correctNlQuestion.question.text.toNative }}</li>
         {% endfor %}
     </ul>
 
-    <h3>Slechts beantwoorde vragen</h3>
+    <h3>Slechts beantwoorde NL vragen</h3>
     <ul>
-        {% for inCorrectQuestion in inCorrectQuestions %}
-            <li>{{ inCorrectQuestion.count.toNative }} - {{ inCorrectQuestion.question.text.toNative }}</li>
+        {% for inCorrectNlQuestion in inCorrectNlQuestions %}
+            <li>{{ inCorrectNlQuestion.count.toNative }} - {{ inCorrectNlQuestion.question.text.toNative }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Best beantwoorde FR vragen</h3>
+    <ul>
+        {% for correctFrQuestion in correctFrQuestions %}
+            <li>{{ correctFrQuestion.count.toNative }} - {{ correctFrQuestion.question.text.toNative }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Slechts beantwoorde FR vragen</h3>
+    <ul>
+        {% for inCorrectFrQuestion in inCorrectFrQuestions %}
+            <li>{{ inCorrectFrQuestion.count.toNative }} - {{ inCorrectFrQuestion.question.text.toNative }}</li>
         {% endfor %}
     </ul>
 

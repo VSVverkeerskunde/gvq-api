@@ -219,17 +219,6 @@ services:
         $redis: '@redis_service'
         $key: '@answered_incorrect_questions'
 
-    answered_too_late_questions:
-      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
-      arguments:
-        $value: 'answered_too_late_questions'
-
-    answered_too_late_redis_repository:
-      class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
-      arguments:
-        $redis: '@redis_service'
-        $key: '@answered_too_late_questions'
-
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
       arguments:
@@ -284,7 +273,6 @@ services:
       arguments:
         $questionCorrectRepository: '@answered_correct_redis_repository'
         $questionInCorrectRepository: '@answered_incorrect_redis_repository'
-        $questionTooLateRepository: '@answered_too_late_redis_repository'
 
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
