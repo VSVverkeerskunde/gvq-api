@@ -10,6 +10,8 @@ use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
+use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
@@ -18,6 +20,7 @@ use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class StatisticsServiceTest extends TestCase
 {
@@ -395,6 +398,68 @@ class StatisticsServiceTest extends TestCase
 
         $this->assertNull(
             $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018))
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_correct_questions(): void
+    {
+        $questionDifficulties = new QuestionDifficulties(
+            new QuestionDifficulty(
+                ModelsFactory::createAccidentQuestion(),
+                new NaturalNumber(2)
+            )
+        );
+
+        $this->questionCorrectRepository->expects($this->once())
+            ->method('getRange')
+            ->with(
+                new Language(Language::FR),
+                new NaturalNumber(4)
+            )
+            -> willReturn(
+                $questionDifficulties
+            );
+
+        $this->assertEquals(
+            $questionDifficulties,
+            $this->statisticsService->getCorrectQuestions(
+                new Language(Language::FR)
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_incorrect_questions(): void
+    {
+        $questionDifficulties = new QuestionDifficulties(
+            new QuestionDifficulty(
+                ModelsFactory::createAccidentQuestion(),
+                new NaturalNumber(2)
+            )
+        );
+
+        $this->questionInCorrectRepository->expects($this->once())
+            ->method('getRange')
+            ->with(
+                new Language(Language::FR),
+                new NaturalNumber(4)
+            )
+            -> willReturn(
+                $questionDifficulties
+            );
+
+        $this->assertEquals(
+            $questionDifficulties,
+            $this->statisticsService->getInCorrectQuestions(
+                new Language(Language::FR)
+            )
         );
     }
 
