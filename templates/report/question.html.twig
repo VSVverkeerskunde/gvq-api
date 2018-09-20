@@ -1,0 +1,17 @@
+<tr>
+    <td>
+        <img src="{{ uploadPath ~ question.imageFileName.toNative }}"
+             width="200">
+    </td>
+    <td>
+        <strong>{{ question.text.toNative }}</strong>
+        <ul>
+            {% for answer in question.answers.toArray %}
+                <li class="{{ answer.correct ? 'text-success' : '' }}">
+                    {{ answer.text.toNative }}
+                </li>
+            {% endfor %}
+        </ul>
+        <p>{{ question.feedback.toNative }}</p>
+    </td>
+</tr>

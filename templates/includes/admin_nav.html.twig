@@ -19,4 +19,9 @@
            href="{{ path('statistics') }}">{% trans %}Statistics{% endtrans %}
         </a>
     </li>
+    <li class="nav-item {% if 'report' in app.request.get('_route') %}active{% endif %}">
+        <a class="nav-link {% if 'report' in app.request.get('_route') %}active{% endif %}"
+           href="{{ path('report') }}">{% trans %}Report{% endtrans %}
+        </a>
+    </li>
 </ul>

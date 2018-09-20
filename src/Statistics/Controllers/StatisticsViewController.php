@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Statistics\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 
@@ -44,10 +43,6 @@ class StatisticsViewController extends AbstractController
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
         $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
         $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear($this->year);
-        $correctNlQuestions = $this->statisticsService->getCorrectQuestions(new Language(Language::NL))->toArray();
-        $inCorrectNlQuestions = $this->statisticsService->getInCorrectQuestions(new Language(Language::NL))->toArray();
-        $correctFrQuestions = $this->statisticsService->getCorrectQuestions(new Language(Language::FR))->toArray();
-        $inCorrectFrQuestions = $this->statisticsService->getInCorrectQuestions(new Language(Language::FR))->toArray();
 
         return $this->render(
             'statistics/statistics.html.twig',
@@ -59,10 +54,6 @@ class StatisticsViewController extends AbstractController
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'partnersCounts' => $partnersCounts,
-                'correctNlQuestions' => $correctNlQuestions,
-                'inCorrectNlQuestions' => $inCorrectNlQuestions,
-                'correctFrQuestions' => $correctFrQuestions,
-                'inCorrectFrQuestions' => $inCorrectFrQuestions,
             ]
         );
     }

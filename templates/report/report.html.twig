@@ -4,8 +4,20 @@
 
 {% block content %}
 
+    {% include '/includes/flash.html.twig' %}
+
     <h1 class="page-title">{% trans %}Report{% endtrans %}</h1>
 
-    {% include '/includes/flash.html.twig' %}
-    
+    <h3>{% trans %}Report.best.questions.nl{% endtrans %}</h3>
+    {% include 'report/questions.html.twig' with {'questionDifficulties': correctNlQuestions} %}
+
+    <h3>{% trans %}Report.worst.questions.nl{% endtrans %}</h3>
+    {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectNlQuestions} %}
+
+    <h3>{% trans %}Report.best.questions.fr{% endtrans %}</h3>
+    {% include 'report/questions.html.twig' with {'questionDifficulties': correctFrQuestions} %}
+
+    <h3>{% trans %}Report.worst.questions.fr{% endtrans %}</h3>
+    {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectFrQuestions} %}
+
 {% endblock %}
