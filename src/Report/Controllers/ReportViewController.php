@@ -5,21 +5,21 @@ namespace VSV\GVQ_API\Report\Controllers;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Statistics\Service\StatisticsService;
+use VSV\GVQ_API\Report\Service\ReportService;
 
 class ReportViewController extends AbstractController
 {
     /**
-     * @var StatisticsService
+     * @var ReportService
      */
-    private $statisticsService;
+    private $reportService;
 
     /**
-     * @param StatisticsService $statisticsService
+     * @param ReportService $reportService
      */
-    public function __construct(StatisticsService $statisticsService)
+    public function __construct(ReportService $reportService)
     {
-        $this->statisticsService = $statisticsService;
+        $this->reportService = $reportService;
     }
 
     /**
@@ -27,19 +27,19 @@ class ReportViewController extends AbstractController
      */
     public function report(): Response
     {
-        $correctNlQuestions = $this->statisticsService->getCorrectQuestions(
+        $correctNlQuestions = $this->reportService->getCorrectQuestions(
             new Language(Language::NL)
         )->toArray();
 
-        $inCorrectNlQuestions = $this->statisticsService->getInCorrectQuestions(
+        $inCorrectNlQuestions = $this->reportService->getInCorrectQuestions(
             new Language(Language::NL)
         )->toArray();
 
-        $correctFrQuestions = $this->statisticsService->getCorrectQuestions(
+        $correctFrQuestions = $this->reportService->getCorrectQuestions(
             new Language(Language::FR)
         )->toArray();
 
-        $inCorrectFrQuestions = $this->statisticsService->getInCorrectQuestions(
+        $inCorrectFrQuestions = $this->reportService->getInCorrectQuestions(
             new Language(Language::FR)
         )->toArray();
 
