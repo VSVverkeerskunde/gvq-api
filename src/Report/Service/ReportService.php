@@ -120,18 +120,18 @@ class ReportService
             $language
         )->toNative();
 
-        $inCorrectCount = $this->categoryCorrectRepository->getCount(
+        $inCorrectCount = $this->categoryInCorrectRepository->getCount(
             $category,
             $language
         )->toNative();
 
+        $divider = $correctCount + $inCorrectCount;
+        $percentage = $divider !== 0 ? (float)$correctCount/(float)$divider : 0.0;
+
         return new CategoryPercentage(
             $category,
             $language,
-            round(
-                $correctCount / $correctCount + $inCorrectCount,
-                2
-            )
+            round($percentage, 2) * 100
         );
     }
 }

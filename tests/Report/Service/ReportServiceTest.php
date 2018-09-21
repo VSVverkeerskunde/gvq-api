@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
+use VSV\GVQ_API\Report\ValueObjects\CategoryPercentage;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRepository;
@@ -134,6 +135,50 @@ class ReportServiceTest extends TestCase
             $questionDifficulties,
             $this->reportService->getInCorrectQuestions(
                 new Language(Language::FR)
+            )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_categories_percentages(): void
+    {
+        $this->categoryRepository->expects($this->once())
+            ->method('getAll')
+            ->willReturn(
+                ModelsFactory::createCategories()
+            );
+
+        $this->categoryCorrectRepository->expects($this->exactly(2))
+            ->method('getCount')
+            ->willReturnOnConsecutiveCalls(
+                new NaturalNumber(7),
+                new NaturalNumber(8)
+            );
+
+        $this->categoryInCorrectRepository->expects($this->exactly(2))
+            ->method('getCount')
+            ->willReturnOnConsecutiveCalls(
+                new NaturalNumber(3),
+                new NaturalNumber(2)
+            );
+
+        $this->assertEquals(
+            [
+                new CategoryPercentage(
+                    ModelsFactory::createAccidentCategory(),
+                    new Language(Language::NL),
+                    70.0
+                ),
+                new CategoryPercentage(
+                    ModelsFactory::createGeneralCategory(),
+                    new Language(Language::NL),
+                    80.0
+                )
+            ],
+            $this->reportService->getCategoriesPercentages(
+                new Language(Language::NL)
             )
         );
     }
