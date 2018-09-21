@@ -46,6 +46,14 @@ class CategoryPercentage
     }
 
     /**
+     * @return Language
+     */
+    public function getLanguage(): Language
+    {
+        return $this->language;
+    }
+
+    /**
      * @return float
      */
     public function getPercentage(): float
