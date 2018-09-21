@@ -175,8 +175,25 @@ class ReportServiceTest extends TestCase
                     ModelsFactory::createGeneralCategory(),
                     new Language(Language::NL),
                     80.0
-                )
+                ),
             ],
+            $this->reportService->getCategoriesPercentages(
+                new Language(Language::NL)
+            )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_return_empty_array_when_no_categories(): void
+    {
+        $this->categoryRepository->expects($this->once())
+            ->method('getAll')
+            ->willReturn(null);
+
+        $this->assertEquals(
+            [],
             $this->reportService->getCategoriesPercentages(
                 new Language(Language::NL)
             )
