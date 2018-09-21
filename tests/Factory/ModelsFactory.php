@@ -1324,6 +1324,52 @@ class ModelsFactory
     }
 
     /**
+     * @param Quiz $quiz
+     * @param Question $question
+     * @return DomainMessage
+     * @throws \Exception
+     */
+    public static function createAnsweredCorrectDomainMessage(
+        Quiz $quiz,
+        Question $question
+    ): DomainMessage {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new AnsweredCorrect(
+                $quiz->getId(),
+                $question,
+                $question->getAnswers()->getCorrectAnswer(),
+                new \DateTimeImmutable()
+            )
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @param Question $question
+     * @return DomainMessage
+     * @throws \Exception
+     */
+    public static function createAnsweredInCorrectDomainMessage(
+        Quiz $quiz,
+        Question $question
+    ): DomainMessage {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new AnsweredInCorrect(
+                $quiz->getId(),
+                $question,
+                $question->getAnswers()->getCorrectAnswer(),
+                new \DateTimeImmutable()
+            )
+        );
+    }
+
+    /**
      * @param string $model
      * @return string
      */

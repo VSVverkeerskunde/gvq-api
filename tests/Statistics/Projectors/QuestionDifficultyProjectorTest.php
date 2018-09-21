@@ -68,16 +68,9 @@ class QuestionDifficultyProjectorTest extends TestCase
      */
     public function it_can_handle_answered_correct(): void
     {
-        $answeredCorrectDomainMessage = DomainMessage::recordNow(
-            $this->quiz->getId(),
-            0,
-            new Metadata(),
-            new AnsweredCorrect(
-                $this->quiz->getId(),
-                $this->question,
-                $this->question->getAnswers()->getCorrectAnswer(),
-                new \DateTimeImmutable()
-            )
+        $answeredCorrectDomainMessage = ModelsFactory::createAnsweredCorrectDomainMessage(
+            $this->quiz,
+            $this->question
         );
 
         $this->questionCorrectRepository->expects($this->once())
@@ -96,16 +89,9 @@ class QuestionDifficultyProjectorTest extends TestCase
      */
     public function it_can_handle_answered_incorrect(): void
     {
-        $answeredInCorrectDomainMessage = DomainMessage::recordNow(
-            $this->quiz->getId(),
-            0,
-            new Metadata(),
-            new AnsweredIncorrect(
-                $this->quiz->getId(),
-                $this->question,
-                $this->question->getAnswers()->getCorrectAnswer(),
-                new \DateTimeImmutable()
-            )
+        $answeredInCorrectDomainMessage = ModelsFactory::createAnsweredInCorrectDomainMessage(
+            $this->quiz,
+            $this->question
         );
 
         $this->questionCorrectRepository->expects($this->never())
