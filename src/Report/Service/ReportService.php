@@ -91,6 +91,10 @@ class ReportService
     {
         $categories = $this->categoryRepository->getAll();
 
+        if (empty($categories)) {
+            return [];
+        }
+
         $percentages = [];
         foreach ($categories as $category) {
             $percentages[] = $this->getCategoryPercentage(

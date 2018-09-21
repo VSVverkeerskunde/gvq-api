@@ -6,8 +6,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
+use VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
@@ -24,6 +26,21 @@ class ReportServiceTest extends TestCase
     private $questionInCorrectRepository;
 
     /**
+     * @var CategoryDifficultyRepository|MockObject
+     */
+    private $categoryCorrectRepository;
+
+    /**
+     * @var CategoryDifficultyRepository|MockObject
+     */
+    private $categoryInCorrectRepository;
+
+    /**
+     * @var CategoryRepository|MockObject
+     */
+    private $categoryRepository;
+
+    /**
      * @var ReportService
      */
     private $reportService;
@@ -38,9 +55,24 @@ class ReportServiceTest extends TestCase
         $questionInCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
         $this->questionInCorrectRepository = $questionInCorrectRepository;
 
+        /** @var CategoryDifficultyRepository|MockObject $categoryCorrectRepository */
+        $categoryCorrectRepository = $this->createMock(CategoryDifficultyRepository::class);
+        $this->categoryCorrectRepository = $categoryCorrectRepository;
+
+        /** @var CategoryDifficultyRepository|MockObject $categoryInCorrectRepository */
+        $categoryInCorrectRepository = $this->createMock(CategoryDifficultyRepository::class);
+        $this->categoryInCorrectRepository = $categoryInCorrectRepository;
+
+        /** @var CategoryRepository|MockObject $categoryRepository */
+        $categoryRepository = $this->createMock(CategoryRepository::class);
+        $this->categoryRepository = $categoryRepository;
+
         $this->reportService = new ReportService(
             $this->questionCorrectRepository,
-            $this->questionInCorrectRepository
+            $this->questionInCorrectRepository,
+            $this->categoryCorrectRepository,
+            $this->categoryInCorrectRepository,
+            $this->categoryRepository
         );
     }
 
