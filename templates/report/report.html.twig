@@ -20,4 +20,15 @@
     <h3>{% trans %}Report.worst.questions.fr{% endtrans %}</h3>
     {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectFrQuestions} %}
 
+    <div class="row">
+        <div class="col-6">
+            <h3>{% trans %}Report.percentages.categories.nl{% endtrans %}</h3>
+            {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesNl} %}
+        </div>
+        <div class="col-6">
+            <h3>{% trans %}Report.percentages.categories.fr{% endtrans %}</h3>
+            {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesFr} %}
+        </div>
+    </div>
+
 {% endblock %}

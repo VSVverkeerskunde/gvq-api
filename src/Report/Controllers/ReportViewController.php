@@ -30,7 +30,6 @@ class ReportViewController extends AbstractController
         $correctNlQuestions = $this->reportService->getCorrectQuestions(
             new Language(Language::NL)
         )->toArray();
-
         $inCorrectNlQuestions = $this->reportService->getInCorrectQuestions(
             new Language(Language::NL)
         )->toArray();
@@ -38,10 +37,16 @@ class ReportViewController extends AbstractController
         $correctFrQuestions = $this->reportService->getCorrectQuestions(
             new Language(Language::FR)
         )->toArray();
-
         $inCorrectFrQuestions = $this->reportService->getInCorrectQuestions(
             new Language(Language::FR)
         )->toArray();
+
+        $categoriesPercentagesNl = $this->reportService->getCategoriesPercentages(
+            new Language(Language::NL)
+        );
+        $categoriesPercentagesFr = $this->reportService->getCategoriesPercentages(
+            new Language(Language::FR)
+        );
 
         return $this->render(
             'report/report.html.twig',
@@ -50,6 +55,8 @@ class ReportViewController extends AbstractController
                 'inCorrectNlQuestions' => $inCorrectNlQuestions,
                 'correctFrQuestions' => $correctFrQuestions,
                 'inCorrectFrQuestions' => $inCorrectFrQuestions,
+                'categoriesPercentagesNl' => $categoriesPercentagesNl,
+                'categoriesPercentagesFr' => $categoriesPercentagesFr,
                 'uploadPath' => getenv('UPLOAD_PATH'),
             ]
         );

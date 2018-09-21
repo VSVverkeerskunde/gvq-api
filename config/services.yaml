@@ -379,6 +379,8 @@ services:
       arguments:
         $questionCorrectRepository: '@question_answered_correct_redis_repository'
         $questionInCorrectRepository: '@question_answered_incorrect_redis_repository'
+        $categoryCorrectRepository: '@category_answered_correct_redis_repository'
+        $categoryInCorrectRepository: '@category_answered_incorrect_redis_repository'
 
     contest_service:
       class: VSV\GVQ_API\Contest\Service\ContestService
@@ -484,6 +486,7 @@ services:
         $quizRepository: '@quiz_redis_repository'
         $tieBreakerRepository: '@tie_breaker_yaml_repository'
       tags: ['controller.service_arguments']
+
     VSV\GVQ_API\Team\Controllers\TeamController:
       arguments:
         $teamService: '@team_service'
