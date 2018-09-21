@@ -197,27 +197,39 @@ services:
       arguments:
         $redis: '@redis_service'
 
-    answered_correct_questions:
+    answered_correct:
       class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
       arguments:
-        $value: 'answered_correct_questions'
+        $value: 'answered_correct'
 
-    answered_correct_redis_repository:
+    answered_incorrect:
+      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
+      arguments:
+        $value: 'answered_incorrect'
+
+    question_answered_correct_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
       arguments:
         $redis: '@redis_service'
-        $key: '@answered_correct_questions'
+        $key: '@answered_correct'
 
-    answered_incorrect_questions:
-      class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
-      arguments:
-        $value: 'answered_incorrect_questions'
-
-    answered_incorrect_redis_repository:
+    question_answered_incorrect_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
       arguments:
         $redis: '@redis_service'
-        $key: '@answered_incorrect_questions'
+        $key: '@answered_incorrect'
+
+    category_answered_correct_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $key: '@answered_correct'
+
+    category_answered_incorrect_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $key: '@answered_incorrect'
 
     question_result_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuestionResultProjector
@@ -271,8 +283,14 @@ services:
     question_difficulty_projector:
       class: VSV\GVQ_API\Statistics\Projectors\QuestionDifficultyProjector
       arguments:
-        $questionCorrectRepository: '@answered_correct_redis_repository'
-        $questionInCorrectRepository: '@answered_incorrect_redis_repository'
+        $questionCorrectRepository: '@question_answered_correct_redis_repository'
+        $questionInCorrectRepository: '@question_answered_incorrect_redis_repository'
+
+    category_difficulty_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\CategoryDifficultyProjector
+      arguments:
+        $categoryCorrectRepository: '@category_answered_correct_redis_repository'
+        $categoryInCorrectRepository: '@category_answered_incorrect_redis_repository'
 
     in_memory_event_store:
       class: Broadway\EventStore\InMemoryEventStore
@@ -314,6 +332,9 @@ services:
         - method: subscribe
           arguments:
             - '@question_difficulty_projector'
+        - method: subscribe
+          arguments:
+            - '@category_difficulty_projector'
       public: true
 
     quiz_aggregate_repository:
@@ -352,8 +373,8 @@ services:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
-        $questionCorrectRepository: '@answered_correct_redis_repository'
-        $questionInCorrectRepository: '@answered_incorrect_redis_repository'
+        $questionCorrectRepository: '@question_answered_correct_redis_repository'
+        $questionInCorrectRepository: '@question_answered_incorrect_redis_repository'
 
     contest_service:
       class: VSV\GVQ_API\Contest\Service\ContestService
