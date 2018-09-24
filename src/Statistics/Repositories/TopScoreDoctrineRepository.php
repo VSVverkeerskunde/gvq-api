@@ -121,8 +121,8 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
      */
     public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): ?Companies
     {
-        $result = $this->entityManager->createQueryBuilder()
-            ->select('employee.companyId')
+        $companyIdsWithCount = $this->entityManager->createQueryBuilder()
+            ->select('employee.companyId, count(employee.companyId) AS nrOfPastEmployees')
             ->from(EmployeeParticipationEntity::class, 'employee')
             ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
             ->groupBy('employee.companyId')
@@ -132,7 +132,14 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             ->getQuery()
             ->getResult();
 
-        if (!empty($result)) {
+        $companyIds = [];
+        $nrOfPastEmployees = [];
+        foreach ($companyIdsWithCount as $companyIdWithCount) {
+            $companyIds[] = $companyIdWithCount['companyId'];
+            $nrOfPastEmployees[$companyIdWithCount['companyId']] = (int)$companyIdWithCount['nrOfPastEmployees'];
+        }
+
+        if (!empty($companyIds)) {
             /** @var CompanyEntity[] $companyEntities */
             $companyEntities = $this->entityManager->createQueryBuilder()
                 ->select('c, u')
@@ -140,14 +147,19 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
                 ->innerJoin('c.translatedAliasEntities', 'a')
                 ->innerJoin('c.userEntity', 'u')
                 ->where('c.id IN (:ids)')
-                ->setParameter('ids', $result)
+                ->setParameter('ids', $companyIds)
                 ->getQuery()
                 ->getResult();
 
             return new Companies(
                 ...array_map(
-                    function (CompanyEntity $companyEntity) {
-                        return $companyEntity->toCompany();
+                    function (CompanyEntity $companyEntity) use ($nrOfPastEmployees) {
+                        $company = $companyEntity->toCompany();
+                        return $company->withNrOfPassedEmployees(
+                            new NaturalNumber(
+                                $nrOfPastEmployees[$company->getId()->toString()]
+                            )
+                        );
                     },
                     $companyEntities
                 )

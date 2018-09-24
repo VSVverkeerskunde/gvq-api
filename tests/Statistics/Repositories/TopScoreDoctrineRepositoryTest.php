@@ -201,7 +201,9 @@ class TopScoreDoctrineRepositoryTest extends AbstractDoctrineRepositoryTest
 
         $this->assertEquals(
             new Companies(
-                ModelsFactory::createAwsrCompany()
+                ModelsFactory::createAwsrCompany()->withNrOfPassedEmployees(
+                    new NaturalNumber(2)
+                )
             ),
             $companies
         );

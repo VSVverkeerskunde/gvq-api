@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\Serializers\UserDenormalizer;
 use VSV\GVQ_API\User\Serializers\UserNormalizer;
 
@@ -17,16 +18,6 @@ class CompanySerializerTest extends TestCase
      * @var SerializerInterface
      */
     private $serializer;
-
-    /**
-     * @var string
-     */
-    private $companyAsJson;
-
-    /**
-     * @var Company
-     */
-    private $company;
 
     protected function setUp(): void
     {
@@ -45,42 +36,69 @@ class CompanySerializerTest extends TestCase
         ];
 
         $this->serializer = new Serializer($normalizers, $encoders);
-
-        $this->companyAsJson = ModelsFactory::createJson('company');
-
-        $this->company = ModelsFactory::createCompany();
     }
 
     /**
      * @test
+     * @dataProvider companyDataProvider
+     * @param Company $company
+     * @param string $companyAsJson
      */
-    public function it_can_serialize_to_json(): void
-    {
+    public function it_can_serialize_to_json(
+        Company $company,
+        string $companyAsJson
+    ): void {
         $actualJson = $this->serializer->serialize(
-            $this->company,
+            $company,
             'json'
         );
 
         $this->assertEquals(
-            $this->companyAsJson,
+            $companyAsJson,
             $actualJson
         );
     }
 
     /**
      * @test
+     * @dataProvider companyDataProvider
+     * @param Company $company
+     * @param string $companyAsJson
      */
-    public function it_can_deserialize_to_company(): void
-    {
+    public function it_can_deserialize_to_company(
+        Company $company,
+        string $companyAsJson
+    ): void {
         $actualCompany = $this->serializer->deserialize(
-            $this->companyAsJson,
+            $companyAsJson,
             Company::class,
             'json'
         );
 
         $this->assertEquals(
-            $this->company,
+            $company,
             $actualCompany
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function companyDataProvider(): array
+    {
+        return [
+            [
+                ModelsFactory::createCompany(),
+                ModelsFactory::createJson('company'),
+            ],
+            [
+                ModelsFactory::createCompany()->withNrOfPassedEmployees(
+                    new NaturalNumber(4)
+                ),
+                ModelsFactory::createJson(
+                    'company_with_nr_of_passed_employees'
+                ),
+            ],
+        ];
     }
 }

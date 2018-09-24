@@ -50,7 +50,7 @@ class CompaniesSerializerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_serialize_users_to_json()
+    public function it_can_serialize_companies_to_json()
     {
         $actualJson = $this->serializer->serialize(
             $this->companies,
@@ -66,7 +66,7 @@ class CompaniesSerializerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_serialize_users_to_csv()
+    public function it_can_serialize_companies_to_csv()
     {
         $actualCsv = $this->serializer->serialize(
             $this->companies,
