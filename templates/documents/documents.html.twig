@@ -7,5 +7,13 @@
     <h1 class="page-title">{% trans %}Documents{% endtrans %}</h1>
 
     {% include '/includes/flash.html.twig' %}
-    
+
+    <ul>
+        {% for file in files %}
+            <li>
+                <a target="_blank" href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

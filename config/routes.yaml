@@ -221,9 +221,9 @@ documents_kickoff:
   methods: [GET]
 
 privacy_pdf_nl:
-  path: /documents/privacy_policy-nl.pdf
+  path: /documents/nl/privacy_policy-nl.pdf
 privacy_pdf_fr:
-  path: /documents/privacy_policy-fr.pdf
+  path: /documents/fr/privacy_policy-fr.pdf
 
 contacts_view_edit:
   path: /{_locale}/view/contacts/edit/{id}
