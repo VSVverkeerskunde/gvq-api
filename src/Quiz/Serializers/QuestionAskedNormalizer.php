@@ -24,6 +24,7 @@ class QuestionAskedNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      * @param QuestionAsked $questionAsked
+     * @throws \Exception
      */
     public function normalize($questionAsked, $format = null, array $context = [])
     {

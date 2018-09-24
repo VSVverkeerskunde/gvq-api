@@ -24,6 +24,7 @@ class QuestionResultNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      * @param QuestionResult $questionResult
+     * @throws \Exception
      */
     public function normalize($questionResult, $format = null, array $context = [])
     {
