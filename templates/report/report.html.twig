@@ -8,27 +8,100 @@
 
     <h1 class="page-title">{% trans %}Report{% endtrans %}</h1>
 
-    <h3>{% trans %}Report.best.questions.nl{% endtrans %}</h3>
-    {% include 'report/questions.html.twig' with {'questionDifficulties': correctNlQuestions} %}
+    <ul class="nav nav-pills nav-justified mb-4" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active"
+               id="best-nl-tab"
+               data-toggle="pill"
+               href="#best-nl"
+               role="tab"
+               aria-controls="best-nl"
+               aria-selected="true">{% trans %}Report.best.questions.nl{% endtrans %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"
+               id="worst-nl-tab"
+               data-toggle="pill"
+               href="#worst-nl"
+               role="tab"
+               aria-controls="pills-profile"
+               aria-selected="false">{% trans %}Report.worst.questions.nl{% endtrans %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"
+               id="best-fr-tab"
+               data-toggle="pill"
+               href="#best-fr"
+               role="tab"
+               aria-controls="pills-profile">{% trans %}Report.best.questions.fr{% endtrans %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"
+               id="worst-fr-tab"
+               data-toggle="pill"
+               href="#worst-fr"
+               role="tab"
+               aria-controls="pills-profile">{% trans %}Report.worst.questions.fr{% endtrans %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"
+               id="categories-tab"
+               data-toggle="pill"
+               href="#categories"
+               role="tab"
+               aria-controls="pills-profile">{% trans %}Report.percentages.categories{% endtrans %}</a>
+        </li>
+    </ul>
 
-    <h3>{% trans %}Report.worst.questions.nl{% endtrans %}</h3>
-    {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectNlQuestions} %}
-
-    <h3>{% trans %}Report.best.questions.fr{% endtrans %}</h3>
-    {% include 'report/questions.html.twig' with {'questionDifficulties': correctFrQuestions} %}
-
-    <h3>{% trans %}Report.worst.questions.fr{% endtrans %}</h3>
-    {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectFrQuestions} %}
-
-    <div class="row">
-        <div class="col-6">
-            <h3>{% trans %}Report.percentages.categories.nl{% endtrans %}</h3>
-            {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesNl} %}
+    <div class="tab-content" id="pills-tab-content">
+        <div class="tab-pane fade show active"
+             id="best-nl"
+             role="tabpanel"
+             aria-labelledby="best-nl-tab">
+            <h3>{% trans %}Report.best.questions.nl{% endtrans %}</h3>
+            {% include 'report/questions.html.twig' with {'questionDifficulties': correctNlQuestions} %}
         </div>
-        <div class="col-6">
-            <h3>{% trans %}Report.percentages.categories.fr{% endtrans %}</h3>
-            {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesFr} %}
+
+        <div class="tab-pane fade"
+             id="worst-nl"
+             role="tabpanel"
+             aria-labelledby="worst-nl-tab">
+            <h3>{% trans %}Report.worst.questions.nl{% endtrans %}</h3>
+            {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectNlQuestions} %}
         </div>
+
+        <div class="tab-pane fade"
+             id="best-fr"
+             role="tabpanel"
+             aria-labelledby="best-fr-tab">
+            <h3>{% trans %}Report.best.questions.fr{% endtrans %}</h3>
+            {% include 'report/questions.html.twig' with {'questionDifficulties': correctFrQuestions} %}
+        </div>
+
+        <div class="tab-pane fade"
+             id="worst-fr"
+             role="tabpanel"
+             aria-labelledby="worst-fr-tab">
+            <h3>{% trans %}Report.worst.questions.fr{% endtrans %}</h3>
+            {% include 'report/questions.html.twig' with {'questionDifficulties': inCorrectFrQuestions} %}
+        </div>
+
+        <div class="tab-pane fade"
+             id="categories"
+             role="tabpanel"
+             aria-labelledby="categories-tab">
+            <div class="row">
+                <div class="col-6">
+                    <h3>{% trans %}Report.percentages.categories.nl{% endtrans %}</h3>
+                    {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesNl} %}
+                </div>
+                <div class="col-6">
+                    <h3>{% trans %}Report.percentages.categories.fr{% endtrans %}</h3>
+                    {% include 'report/categories_percentages.html.twig' with {categoriesPercentages: categoriesPercentagesFr} %}
+                </div>
+            </div>
+        </div>
+
     </div>
 
 {% endblock %}
