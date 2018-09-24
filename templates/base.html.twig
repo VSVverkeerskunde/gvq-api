@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% block gtag %}{% endblock %}
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     {% block stylesheets %}
@@ -13,13 +14,13 @@
 
 <body>
 
-    {% block body %}{% endblock %}
+{% block body %}{% endblock %}
 
-    {% block javascripts %}
-        <script src="{{ asset('js/jquery.js') }}"></script>
-        <script src="{{ asset('js/popper.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-    {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+{% endblock %}
 
 </body>
 
