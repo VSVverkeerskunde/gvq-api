@@ -227,6 +227,7 @@ Dashboard.average.all: 'Alle deelnemers'
 Statistics.title.general: 'Algemene Statistieken'
 Statistics.title.partner: 'Partner Statistieken'
 Statistics.title.contest: 'Wedstrijd deelnames'
+Statistics.title.topCompanies: 'Top bedrijven'
 
 Statistics.header.individual: 'Individueel'
 Statistics.header.company: 'Bedrijf'

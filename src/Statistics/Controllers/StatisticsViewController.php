@@ -4,6 +4,8 @@ namespace VSV\GVQ_API\Statistics\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 
@@ -20,15 +22,31 @@ class StatisticsViewController extends AbstractController
     private $statisticsService;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
+     * @var ResponseFactory
+     */
+    private $responseFactory;
+
+    /**
      * @param Year $year
      * @param StatisticsService $statisticsService
+     * @param SerializerInterface $serializer
+     * @param ResponseFactory $responseFactory
      */
     public function __construct(
         Year $year,
-        StatisticsService $statisticsService
+        StatisticsService $statisticsService,
+        SerializerInterface $serializer,
+        ResponseFactory $responseFactory
     ) {
         $this->year = $year;
         $this->statisticsService = $statisticsService;
+        $this->serializer = $serializer;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -56,5 +74,29 @@ class StatisticsViewController extends AbstractController
                 'partnersCounts' => $partnersCounts,
             ]
         );
+    }
+
+    /**
+     * @return Response
+     */
+    public function export(): Response
+    {
+        $companies = $this->statisticsService->getTopCompanies();
+
+        if ($companies) {
+            $companiesAsCsv = $this->serializer->serialize(
+                $companies,
+                'csv'
+            );
+        } else {
+            $companiesAsCsv = '';
+        }
+
+        $response = $this->responseFactory->createCsvResponse(
+            $companiesAsCsv,
+            'top_companies'
+        );
+
+        return $response;
     }
 }

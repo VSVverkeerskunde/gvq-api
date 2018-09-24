@@ -227,6 +227,7 @@ Dashboard.average.all: __Alle deelnemers
 Statistics.title.general: __Algemene Statistieken
 Statistics.title.partner: __Partner Statistieken
 Statistics.title.contest: __Wedstrijd deelnames
+Statistics.title.topCompanies: __Top bedrijven
 
 Statistics.header.individual: __Individueel
 Statistics.header.company: __Bedrijf
