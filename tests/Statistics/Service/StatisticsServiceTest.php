@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Statistics\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Partner\Models\Partners;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
@@ -14,9 +15,11 @@ use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\CountableRepository;
+use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 use VSV\GVQ_API\Statistics\ValueObjects\Average;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class StatisticsServiceTest extends TestCase
 {
@@ -50,6 +53,11 @@ class StatisticsServiceTest extends TestCase
      */
     private $detailedTopScoreRepository;
 
+    /**
+     * @var TopScoreRepository|MockObject
+     */
+    private $topScoreRepository;
+
     protected function setUp(): void
     {
         /** @var StartedQuizRepository|MockObject $startedQuizRepository */
@@ -72,12 +80,17 @@ class StatisticsServiceTest extends TestCase
         $detailedTopScoreRepository = $this->createMock(DetailedTopScoreRepository::class);
         $this->detailedTopScoreRepository = $detailedTopScoreRepository;
 
+        /** @var TopScoreRepository|MockObject $opScoreRepository */
+        $opScoreRepository = $this->createMock(TopScoreRepository::class);
+        $this->topScoreRepository = $opScoreRepository;
+
         $this->statisticsService = new StatisticsService(
             $this->startedQuizRepository,
             $this->finishedQuizRepository,
             $this->uniqueParticipantRepository,
             $this->partnerRepository,
-            $this->detailedTopScoreRepository
+            $this->detailedTopScoreRepository,
+            $this->topScoreRepository
         );
     }
 
@@ -374,6 +387,26 @@ class StatisticsServiceTest extends TestCase
 
         $this->assertNull(
             $this->statisticsService->getUniqueParticipantCountsForPartnersByYear(new Year(2018))
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_top_score_companies(): void
+    {
+        $this->topScoreRepository->expects($this->once())
+            ->method('getTopCompanies')
+            ->with(new NaturalNumber(10))
+            ->willReturn(
+                new Companies(ModelsFactory::createCompany())
+            );
+
+        $topScoreCompanies = $this->statisticsService->getTopCompanies();
+
+        $this->assertEquals(
+            new Companies(ModelsFactory::createCompany()),
+            $topScoreCompanies
         );
     }
 

@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Company\ValueObjects;
 
 class PositiveNumber
 {
-
     /**
      * @var int
      */
