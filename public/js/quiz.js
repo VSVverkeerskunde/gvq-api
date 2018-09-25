@@ -32,7 +32,7 @@
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
       EMAIL: 'E-mail',
       SHARE_TITLE: 'Goede of slechte score?',
-      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag ze uit om beter te doen!',
+      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag hen uit om beter te doen!'',
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
