@@ -6,6 +6,7 @@ use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\Models\User;
 
 class Company
@@ -34,6 +35,11 @@ class Company
      * @var User
      */
     private $user;
+
+    /**
+     * @var NaturalNumber
+     */
+    private $nrOfPassedEmployees;
 
     /**
      * @param UuidInterface $id
@@ -96,6 +102,25 @@ class Company
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * @param NaturalNumber $nrOfPassedEmployees
+     * @return Company
+     */
+    public function withNrOfPassedEmployees(NaturalNumber $nrOfPassedEmployees): Company
+    {
+        $c = clone $this;
+        $c->nrOfPassedEmployees = $nrOfPassedEmployees;
+        return $c;
+    }
+
+    /**
+     * @return NaturalNumber|null
+     */
+    public function getNrOfPassedEmployees(): ?NaturalNumber
+    {
+        return $this->nrOfPassedEmployees;
     }
 
     /**

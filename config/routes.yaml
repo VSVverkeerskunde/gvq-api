@@ -201,6 +201,12 @@ statistics:
   methods: [GET]
   requirements:
     _locale: nl|fr
+statistics_export_top_companies:
+  path: /{_locale}/csv/top-companies
+  controller: VSV\GVQ_API\Statistics\Controllers\StatisticsViewController::export
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 report:
   path: /{_locale}/view/report

@@ -33,7 +33,8 @@ PostalCode: __Postcode
 Town: __Gemeente
 Rank: __Rank
 Score: __Score
-Top.scores: __Top Scores
+Percentage: __Percentage
+Top.scores: __Topscores
 
 Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
@@ -226,6 +227,7 @@ Dashboard.average.all: __Alle deelnemers
 Statistics.title.general: __Algemene Statistieken
 Statistics.title.partner: __Partner Statistieken
 Statistics.title.contest: __Wedstrijd deelnames
+Statistics.title.topCompanies: __Top bedrijven
 
 Statistics.header.individual: __Individueel
 Statistics.header.company: __Bedrijf
@@ -253,3 +255,12 @@ Statistics.info.passed: __Aantal unieke en geslaagde spelers dat de quiz heeft u
 Statistics.info.percentage: __Percentage van geslaagde spelers (geslaagd is 11/15 of meer). Dubbele deelnames zijn hier uitgefilterd.
 Statistics.info.topscore: __Het gemiddelde van de topscores.
 Statistics.info.partners.unique: __Aantal unieke spelers dat de quiz heeft uitgespeeld voor deze partner.
+
+#Report
+Report.best.questions.nl: __Best beantwoorde Nederlandstalige vragen
+Report.best.questions.fr: __Best beantwoorde Franstalige vragen
+Report.worst.questions.nl: __Slechts beantwoorde Nederlandstalige vragen
+Report.worst.questions.fr: __Slechts beantwoorde Franstalige vragen
+Report.percentages.categories: __Percentages per thema (Nederlands en Frans)
+Report.percentages.categories.nl: __Percentages per thema Nederlandstalig
+Report.percentages.categories.fr: __Percentages per thema Franstalig

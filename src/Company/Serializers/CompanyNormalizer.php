@@ -52,13 +52,19 @@ class CompanyNormalizer implements NormalizerInterface
             $format
         );
 
-        return [
+        $normalizedCompany = [
             'id' => $company->getId()->toString(),
             'name' => $company->getName()->toNative(),
             'numberOfEmployees' => $company->getNumberOfEmployees()->toNative(),
             'aliases' => $aliases,
             'user' => $user,
         ];
+
+        if ($company->getNrOfPassedEmployees()) {
+            $normalizedCompany['nrOfPassedEmployees'] = $company->getNrOfPassedEmployees()->toNative();
+        }
+
+        return $normalizedCompany;
     }
 
     /**

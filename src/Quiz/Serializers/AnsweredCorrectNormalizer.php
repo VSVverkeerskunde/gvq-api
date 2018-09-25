@@ -9,6 +9,7 @@ class AnsweredCorrectNormalizer extends AbstractAnsweredEventNormalizer
     /**
      * @inheritdoc
      * @param AnsweredCorrect $answeredCorrect
+     * @throws \Exception
      */
     public function normalize($answeredCorrect, $format = null, array $context = []): array
     {

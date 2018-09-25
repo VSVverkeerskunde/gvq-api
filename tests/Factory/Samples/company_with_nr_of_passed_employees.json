@@ -1,0 +1,27 @@
+{
+  "id": "85fec50a-71ed-4d12-8a69-28a3cf5eb106",
+  "name": "Vlaamse Stichting Verkeerskunde",
+  "numberOfEmployees": 49,
+  "aliases": [
+    {
+      "id": "827a7945-ffd0-433e-b843-721c98ab72b8",
+      "language": "nl",
+      "alias": "vsv"
+    },
+    {
+      "id": "f99c7747-7c27-4388-b0ec-dba380363d23",
+      "language": "fr",
+      "alias": "awsr"
+    }
+  ],
+  "user": {
+    "id": "3ffc0f85-78ee-496b-bc61-17be1326c768",
+    "email": "john@gvq.be",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "contact",
+    "language": "nl",
+    "active": true
+  },
+  "nrOfPassedEmployees": 4
+}

@@ -71,6 +71,20 @@ class ModelsFactory
     /**
      * @return Company
      */
+    public static function createAwsrCompany(): Company
+    {
+        return new Company(
+            Uuid::fromString('6e25425c-77cd-4899-9bfd-c2b8defb339f'),
+            new NotEmptyString('AWSR'),
+            new PositiveNumber(10),
+            self::createTranslatedAliases(),
+            self::createUser()
+        );
+    }
+
+    /**
+     * @return Company
+     */
     public static function createUpdatedCompany(): Company
     {
         return new Company(
@@ -1267,15 +1281,15 @@ class ModelsFactory
     {
         return [
             new EmployeeParticipation(
-                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
                 new Email('jane@vsv.be')
             ),
             new EmployeeParticipation(
-                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
                 new Email('jane@vsv.be')
             ),
             new EmployeeParticipation(
-                Uuid::fromString('da5f2e1f-43c9-4ffc-90c1-761c2bc2453e'),
+                Uuid::fromString('85fec50a-71ed-4d12-8a69-28a3cf5eb106'),
                 new Email('elli@vsv.be')
             ),
             new EmployeeParticipation(
@@ -1305,6 +1319,52 @@ class ModelsFactory
             new QuizFinished(
                 $quiz->getId(),
                 $score
+            )
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @param Question $question
+     * @return DomainMessage
+     * @throws \Exception
+     */
+    public static function createAnsweredCorrectDomainMessage(
+        Quiz $quiz,
+        Question $question
+    ): DomainMessage {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new AnsweredCorrect(
+                $quiz->getId(),
+                $question,
+                $question->getAnswers()->getCorrectAnswer(),
+                new \DateTimeImmutable()
+            )
+        );
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @param Question $question
+     * @return DomainMessage
+     * @throws \Exception
+     */
+    public static function createAnsweredInCorrectDomainMessage(
+        Quiz $quiz,
+        Question $question
+    ): DomainMessage {
+        return DomainMessage::recordNow(
+            $quiz->getId(),
+            0,
+            new Metadata(),
+            new AnsweredInCorrect(
+                $quiz->getId(),
+                $question,
+                $question->getAnswers()->getCorrectAnswer(),
+                new \DateTimeImmutable()
             )
         );
     }

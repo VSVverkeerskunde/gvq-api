@@ -1,0 +1,13 @@
+<table class="table table-responsive-md">
+    <thead class="thead-dark thead-primary">
+    <tr>
+        <th>{% trans %}Image{% endtrans %}</th>
+        <th>{% trans %}Question{% endtrans %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for questionDifficulty in questionDifficulties %}
+        {% include 'report/question.html.twig' with {'question': questionDifficulty.question} %}
+    {% endfor %}
+    </tbody>
+</table>

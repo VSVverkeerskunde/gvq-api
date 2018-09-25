@@ -9,6 +9,7 @@ use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Models\TranslatedAlias;
 use VSV\GVQ_API\Company\Models\TranslatedAliases;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\Models\User;
 use VSV\GVQ_API\User\Serializers\UserDenormalizer;
 
@@ -59,13 +60,21 @@ class CompanyDenormalizer implements DenormalizerInterface
             $context
         );
 
-        return new Company(
+        $company = new Company(
             Uuid::fromString($data['id']),
             new NotEmptyString($data['name']),
             new PositiveNumber($data['numberOfEmployees']),
             new TranslatedAliases(...$translatedAliases),
             $user
         );
+
+        if (isset($data['nrOfPassedEmployees'])) {
+            $company = $company->withNrOfPassedEmployees(
+                new NaturalNumber($data['nrOfPassedEmployees'])
+            );
+        }
+
+        return $company;
     }
 
     /**

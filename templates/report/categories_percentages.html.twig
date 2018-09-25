@@ -1,0 +1,20 @@
+<table class="table table-responsive-md">
+    <thead class="thead-dark thead-primary">
+    <tr>
+        <th>{% trans %}Category{% endtrans %}</th>
+        <th>{% trans %}Percentage{% endtrans %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for categoryPercentage in categoriesPercentages %}
+        <tr>
+            <td>
+                {{ categoryPercentage.category.name.toNative }}
+            </td>
+            <td>
+                {{ categoryPercentage.percentage }} %
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

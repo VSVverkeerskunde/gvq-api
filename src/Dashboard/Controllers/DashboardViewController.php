@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Dashboard\Controllers;
 
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Common\Controllers\CompanyAwareController;
