@@ -122,7 +122,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): ?Companies
     {
         $companyIdsWithCount = $this->entityManager->createQueryBuilder()
-            ->select('employee.companyId, count(employee.companyId) AS nrOfPastEmployees')
+            ->select('employee.companyId, count(employee.companyId) AS nrOfPassedEmployees')
             ->from(EmployeeParticipationEntity::class, 'employee')
             ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
             ->groupBy('employee.companyId')
@@ -133,10 +133,10 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             ->getResult();
 
         $companyIds = [];
-        $nrOfPastEmployees = [];
+        $nrOfPassedEmployees = [];
         foreach ($companyIdsWithCount as $companyIdWithCount) {
             $companyIds[] = $companyIdWithCount['companyId'];
-            $nrOfPastEmployees[$companyIdWithCount['companyId']] = (int)$companyIdWithCount['nrOfPastEmployees'];
+            $nrOfPassedEmployees[$companyIdWithCount['companyId']] = (int)$companyIdWithCount['nrOfPassedEmployees'];
         }
 
         if (!empty($companyIds)) {
@@ -153,11 +153,11 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
 
             return new Companies(
                 ...array_map(
-                    function (CompanyEntity $companyEntity) use ($nrOfPastEmployees) {
+                    function (CompanyEntity $companyEntity) use ($nrOfPassedEmployees) {
                         $company = $companyEntity->toCompany();
                         return $company->withNrOfPassedEmployees(
                             new NaturalNumber(
-                                $nrOfPastEmployees[$company->getId()->toString()]
+                                $nrOfPassedEmployees[$company->getId()->toString()]
                             )
                         );
                     },
