@@ -252,7 +252,7 @@ Statistics.info.started: Nombre de fois où le quiz a été débuté.
 Statistics.info.finished: Nombre de fois où le quiz a été effectué
 Statistics.info.unique: Nombre de participants uniques qui ont joué au quiz sans les doublons
 Statistics.info.passed: Nombre de participants uniques qui ont obtenu 11/15 ou plus. Les doubles participations ont été filtrées ici
-Statistics.info.percentage: Pourcentage de participants ayant obtenu 11/15 ou plus.Snas les doublons
+Statistics.info.percentage: Pourcentage de participants ayant obtenu 11/15 ou plus. Sans les doublons
 Statistics.info.topscore: Moyenne des meilleurs scores
 Statistics.info.partners.unique: Nombre total des participants qui ont joué via ce partenaire
 
