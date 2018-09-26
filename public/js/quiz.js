@@ -32,7 +32,7 @@
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
       EMAIL: 'E-mail',
       SHARE_TITLE: 'Goede of slechte score?',
-      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag ze uit om beter te doen!',
+      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag hen uit om beter te doen!',
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -41,15 +41,15 @@
       NEXT_QUESTION: 'Question suivante',
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
-      PLAY_AGAIN: 'Jouer encore une fois',
-      PLAY_CONTEST: 'Participer à la compétition',
+      PLAY_AGAIN: 'Rejouer',
+      PLAY_CONTEST: 'Participer au concours',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
-      CHOOSE_TEAM: 'Sélectionnez un club de votre choix',
+      CHOOSE_TEAM: 'Choisissez votre club',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
-      SHARE_SUB_TITLE: 'Faites savoir à vos amis comment vous avez réussi et défiez-les de faire mieux!',
+      SHARE_SUB_TITLE: 'Faites savoir à vos amis que vous avez réussi et défiez-les de faire mieux!',
     }
   };
   let cachedConfig = {};
