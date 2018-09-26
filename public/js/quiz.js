@@ -41,15 +41,15 @@
       NEXT_QUESTION: 'Question suivante',
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
-      PLAY_AGAIN: 'Jouer encore une fois',
+      PLAY_AGAIN: 'Rejouer',
       PLAY_CONTEST: 'Participer à la compétition',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
-      CHOOSE_TEAM: 'Sélectionnez un club de votre choix',
+      CHOOSE_TEAM: 'Choisissez votre club',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
-      SHARE_SUB_TITLE: 'Faites savoir à vos amis comment vous avez réussi et défiez-les de faire mieux!',
+      SHARE_SUB_TITLE: 'Faites savoir à vos amis que vous avez réussi et défiez-les de faire mieux!',
     }
   };
   let cachedConfig = {};

@@ -26,11 +26,11 @@ Alias.french: URL FR
 Actions: Actions
 Email: Email
 Password: Mot de passe
-DateOfBirth: __Geboortedatum
-Street: __Straat
-Number: __Nummer
-PostalCode: __Postcode
-Town: __Gemeente
+DateOfBirth: Date de naissance
+Street: Rue
+Number: Numéro
+PostalCode: Code postal
+Town: Commune
 Rank: __Rank
 Score: __Score
 Percentage: __Percentage
@@ -143,7 +143,7 @@ Question.delete.confirmation: Etes-vous sûr de vouloir supprimer la question?
 Question.delete.submit: Supprimer
 
 Question.archive.title: Archiver la question
-Question.archive.confirmation: Etes-vous sûr de vouloir archiver la question?
+Question.archive.confirmation: Etes-vous sûr de vouloir archiver cette question?
 Question.archive.submit: Archiver
 
 Question.edit.image.title: Modifier la photo
@@ -158,12 +158,12 @@ Company.add.submit: Conserver
 Contact.edit.title: Modifier les données
 Contact.edit.success: Vos données ont été modifiées
 
-Contest.title: __Wedstrijd
-Contest.details: __Uw gegevens
-Contest.questions: __Wedstrijdvragen
-Contest.submit: __Deelnemen
-Contest.thanks: __Bedankt
-Contest.success: __Bedankt om deel te nemen aan de wedstrijd en veel succes!
+Contest.title: Concours
+Contest.details: Vos données
+Contest.questions: Questions du concours
+Contest.submit: Participer
+Contest.thanks: Merci
+Contest.success: Merci d'avoir participé au concours et bonne chance!
 Contest.gdpr1: J'ai lu et j’accepte le règlement du Quiz de la Route 2018 et la déclaration relative à la protection des données à caractère personnel.
 Contest.gdpr2: J’autorise l’AWSR à conserver mes données pour rester informé-e des actualités, projets, concours de l’AWSR. Conformément au au règlement (UE) 2016/679 sur la protection des personnes physiques à l’égard du traitement de données à caractère personnel, vous avez notamment le droit d’accéder, de corriger ou de supprimer à tout moment vos données. Vos données ne seront pas transmises à des tiers.
 
@@ -224,43 +224,43 @@ Dashboard.average.title: __Gemiddelde top score van
 Dashboard.average.all: __Alle deelnemers
 
 #Statistics
-Statistics.title.general: __Algemene Statistieken
-Statistics.title.partner: __Partner Statistieken
-Statistics.title.contest: __Wedstrijd deelnames
-Statistics.title.topCompanies: __Top bedrijven
+Statistics.title.general: Statistiques générales
+Statistics.title.partner: Statistiques des partenaires
+Statistics.title.contest: Participations au concours
+Statistics.title.topCompanies: Meilleures entreprises
 
-Statistics.header.individual: __Individueel
-Statistics.header.company: __Bedrijf
-Statistics.header.partner: __Partner
-Statistics.header.quiz.total: __Quiz totaal
-Statistics.header.cup: __Cup
-Statistics.header.total: __Totaal
+Statistics.header.individual: Individuel
+Statistics.header.company: Entreprise
+Statistics.header.partner: Partenaire
+Statistics.header.quiz.total: Total quiz
+Statistics.header.cup: Coupe
+Statistics.header.total: Total
 
-Statistics.subheader.NL: __NL
-Statistics.subheader.FR: __FR
-Statistics.subheader.Total: __Totaal
+Statistics.subheader.NL: NL
+Statistics.subheader.FR: FR
+Statistics.subheader.Total: Total
 
-Statistics.row.started: __Gestart
-Statistics.row.finished: __Beëindigd
-Statistics.row.unique: __Unieke deelnemers
-Statistics.row.passed: __Unieke geslaagde deelnemers
-Statistics.row.percentage: __Slagingspercentage
-Statistics.row.topscore: __Topscore
+Statistics.row.started: Débuté
+Statistics.row.finished: Terminé
+Statistics.row.unique: Participants uniques
+Statistics.row.passed: Participants uniques qui ont obtenu au moins 11/15
+Statistics.row.percentage: Taux de réussite
+Statistics.row.topscore: Meilleurs scores
 
-Statistics.info.tooltip: __Zweef over de rijtitels voor meer uitleg.
-Statistics.info.started: __Aantal keer dat een quiz werd gestart.
-Statistics.info.finished: __Aantal keer dat een quiz werd uitgespeeld.
-Statistics.info.unique: __Aantal unieke spelers dat de quiz heeft uitgespeeld. Dubbele deelnames zijn hier uitgefilterd.
-Statistics.info.passed: __Aantal unieke en geslaagde spelers dat de quiz heeft uitgespeeld (geslaagd is 11/15 of meer). Dubbele deelnames zijn hier uitgefilterd.
-Statistics.info.percentage: __Percentage van geslaagde spelers (geslaagd is 11/15 of meer). Dubbele deelnames zijn hier uitgefilterd.
-Statistics.info.topscore: __Het gemiddelde van de topscores.
-Statistics.info.partners.unique: __Aantal unieke spelers dat de quiz heeft uitgespeeld voor deze partner.
+Statistics.info.tooltip: Placer le curseur sur les titres pour plus d'informations
+Statistics.info.started: Nombre de fois où le quiz a été débuté.
+Statistics.info.finished: Nombre de fois où le quiz a été effectué
+Statistics.info.unique: Nombre de participants uniques qui ont joué au quiz sans les doublons
+Statistics.info.passed: Nombre de participants uniques qui ont obtenu 11/15 ou plus. Les doubles participations ont été filtrées ici
+Statistics.info.percentage: Pourcentage de participants ayant obtenu 11/15 ou plus.Snas les doublons
+Statistics.info.topscore: Moyenne des meilleurs scores
+Statistics.info.partners.unique: Nombre total des participants qui ont joué via ce partenaire
 
 #Report
-Report.best.questions.nl: __Best beantwoorde Nederlandstalige vragen
-Report.best.questions.fr: __Best beantwoorde Franstalige vragen
-Report.worst.questions.nl: __Slechts beantwoorde Nederlandstalige vragen
-Report.worst.questions.fr: __Slechts beantwoorde Franstalige vragen
-Report.percentages.categories: __Percentages per thema (Nederlands en Frans)
-Report.percentages.categories.nl: __Percentages per thema Nederlandstalig
-Report.percentages.categories.fr: __Percentages per thema Franstalig
+Report.best.questions.nl: Meilleures réponses NL
+Report.best.questions.fr: Meilleures réponses FR
+Report.worst.questions.nl: Moins bonnes réponses NL
+Report.worst.questions.fr: Moins bonnes réponses FR
+Report.percentages.categories: Pourcentage par thème (FR et NL)
+Report.percentages.categories.nl: Pourcentage par thème NL
+Report.percentages.categories.fr: Pourcentage par thème FR
