@@ -42,7 +42,7 @@
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Rejouer',
-      PLAY_CONTEST: 'Participer à la compétition',
+      PLAY_CONTEST: 'Participer au concours',
       ANSWERED_CORRECT: 'Correct',
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
