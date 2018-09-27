@@ -243,7 +243,7 @@ Statistics.subheader.Total: Total
 Statistics.row.started: Débuté
 Statistics.row.finished: Terminé
 Statistics.row.unique: Participants uniques
-Statistics.row.passed: Participants uniques qui ont obtenu au moins 11/15
+Statistics.row.passed: Participants uniques (moins 11/15)
 Statistics.row.percentage: Taux de réussite
 Statistics.row.topscore: Meilleurs scores
 
