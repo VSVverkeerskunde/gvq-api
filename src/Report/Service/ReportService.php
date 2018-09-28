@@ -16,12 +16,7 @@ class ReportService
     /**
      * @var QuestionDifficultyRepository
      */
-    private $questionCorrectRepository;
-
-    /**
-     * @var QuestionDifficultyRepository
-     */
-    private $questionInCorrectRepository;
+    private $questionDifficultyRepository;
 
     /**
      * @var CategoryDifficultyRepository
@@ -39,21 +34,18 @@ class ReportService
     private $categoryRepository;
 
     /**
-     * @param QuestionDifficultyRepository $questionCorrectRepository
-     * @param QuestionDifficultyRepository $questionInCorrectRepository
+     * @param QuestionDifficultyRepository $questionDifficultyRepository
      * @param CategoryDifficultyRepository $categoryCorrectRepository
      * @param CategoryDifficultyRepository $categoryInCorrectRepository
      * @param CategoryRepository $categoryRepository
      */
     public function __construct(
-        QuestionDifficultyRepository $questionCorrectRepository,
-        QuestionDifficultyRepository $questionInCorrectRepository,
+        QuestionDifficultyRepository $questionDifficultyRepository,
         CategoryDifficultyRepository $categoryCorrectRepository,
         CategoryDifficultyRepository $categoryInCorrectRepository,
         CategoryRepository $categoryRepository
     ) {
-        $this->questionCorrectRepository = $questionCorrectRepository;
-        $this->questionInCorrectRepository = $questionInCorrectRepository;
+        $this->questionDifficultyRepository = $questionDifficultyRepository;
         $this->categoryCorrectRepository = $categoryCorrectRepository;
         $this->categoryInCorrectRepository = $categoryInCorrectRepository;
         $this->categoryRepository = $categoryRepository;
@@ -65,7 +57,7 @@ class ReportService
      */
     public function getCorrectQuestions(Language $language): QuestionDifficulties
     {
-        return $this->questionCorrectRepository->getRange(
+        return $this->questionDifficultyRepository->getBestRange(
             $language,
             new NaturalNumber(4)
         );
@@ -77,7 +69,7 @@ class ReportService
      */
     public function getInCorrectQuestions(Language $language): QuestionDifficulties
     {
-        return $this->questionInCorrectRepository->getRange(
+        return $this->questionDifficultyRepository->getWorstRange(
             $language,
             new NaturalNumber(4)
         );

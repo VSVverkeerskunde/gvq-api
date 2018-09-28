@@ -6,30 +6,39 @@ use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
+use VSV\GVQ_API\Statistics\Repositories\QuestionCounterRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 
 class QuestionDifficultyProjector implements EventListener
 {
     /**
-     * @var QuestionDifficultyRepository
+     * @var QuestionCounterRepository
      */
-    private $questionCorrectRepository;
+    private $questionAnsweredCorrectRepository;
+
+    /**
+     * @var QuestionCounterRepository
+     */
+    private $questionAnsweredInCorrectRepository;
 
     /**
      * @var QuestionDifficultyRepository
      */
-    private $questionInCorrectRepository;
+    private $questionDifficultyRepository;
 
     /**
-     * @param QuestionDifficultyRepository $questionCorrectRepository
-     * @param QuestionDifficultyRepository $questionInCorrectRepository
+     * @param QuestionDifficultyRepository $questionDifficultyRepository
+     * @param QuestionCounterRepository $questionAnsweredCorrectRepository
+     * @param QuestionCounterRepository $questionAnsweredInCorrectRepository
      */
     public function __construct(
-        QuestionDifficultyRepository $questionCorrectRepository,
-        QuestionDifficultyRepository $questionInCorrectRepository
+        QuestionDifficultyRepository $questionDifficultyRepository,
+        QuestionCounterRepository $questionAnsweredCorrectRepository,
+        QuestionCounterRepository $questionAnsweredInCorrectRepository
     ) {
-        $this->questionCorrectRepository = $questionCorrectRepository;
-        $this->questionInCorrectRepository = $questionInCorrectRepository;
+        $this->questionDifficultyRepository = $questionDifficultyRepository;
+        $this->questionAnsweredCorrectRepository = $questionAnsweredCorrectRepository;
+        $this->questionAnsweredInCorrectRepository = $questionAnsweredInCorrectRepository;
     }
 
     /**
@@ -40,9 +49,11 @@ class QuestionDifficultyProjector implements EventListener
         $payload = $domainMessage->getPayload();
 
         if ($payload instanceof AnsweredCorrect) {
-            $this->questionCorrectRepository->increment($payload->getQuestion());
+            $this->questionAnsweredCorrectRepository->increment($payload->getQuestion());
+            $this->questionDifficultyRepository->update($payload->getQuestion());
         } elseif ($payload instanceof AnsweredIncorrect) {
-            $this->questionInCorrectRepository->increment($payload->getQuestion());
+            $this->questionAnsweredInCorrectRepository->increment($payload->getQuestion());
+            $this->questionDifficultyRepository->update($payload->getQuestion());
         }
     }
 }

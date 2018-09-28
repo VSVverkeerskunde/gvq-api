@@ -13,10 +13,18 @@ use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
 class QuestionDifficultyRedisRepository extends AbstractRedisRepository implements QuestionDifficultyRepository
 {
+    private const ANSWERED_CORRECT = 'answered_correct';
+    private const ANSWERED_INCORRECT = 'answered_incorrect';
+
     /**
-     * @var NotEmptyString
+     * @var QuestionCounterRepository
      */
-    private $key;
+    private $answeredCorrectRepository;
+
+    /**
+     * @var QuestionCounterRepository
+     */
+    private $answeredInCorrectRepository;
 
     /**
      * @var QuestionRepository
@@ -25,41 +33,100 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
 
     /**
      * @param \Redis $redis
-     * @param NotEmptyString $key
+     * @param QuestionCounterRepository $answeredCorrectRepository
+     * @param QuestionCounterRepository $answeredInCorrectRepository
      * @param QuestionRepository $questionRepository
      */
     public function __construct(
         \Redis $redis,
-        NotEmptyString $key,
+        QuestionCounterRepository $answeredCorrectRepository,
+        QuestionCounterRepository $answeredInCorrectRepository,
         QuestionRepository $questionRepository
     ) {
         parent::__construct($redis);
 
-        $this->key = $key;
+        $this->answeredCorrectRepository = $answeredCorrectRepository;
+        $this->answeredInCorrectRepository = $answeredInCorrectRepository;
         $this->questionRepository = $questionRepository;
     }
 
     /**
      * @inheritdoc
      */
-    public function increment(Question $question): void
+    public function update(Question $question): void
     {
-        $this->redis->zIncrBy(
-            $this->createKey($question->getLanguage()),
-            1.0,
+        $answeredCorrectCount = $this->answeredCorrectRepository->getCount($question);
+        $answeredInCorrectCount = $this->answeredInCorrectRepository->getCount($question);
+
+        $divider = $answeredCorrectCount->toNative() + $answeredInCorrectCount->toNative();
+
+        $this->redis->zAdd(
+            $this->createKey(
+                new NotEmptyString(self::ANSWERED_CORRECT),
+                $question->getLanguage()
+            ),
+            (float)$answeredCorrectCount->toNative()/(float)$divider,
+            $question->getId()->toString()
+        );
+
+        $this->redis->zAdd(
+            $this->createKey(
+                new NotEmptyString(self::ANSWERED_INCORRECT),
+                $question->getLanguage()
+            ),
+            (float)$answeredInCorrectCount->toNative()/(float)$divider,
             $question->getId()->toString()
         );
     }
 
     /**
-     * @inheritdoc
+     * @param Language $language
+     * @param NaturalNumber $end
+     * @return QuestionDifficulties
      */
-    public function getRange(
+    public function getBestRange(
+        Language $language,
+        NaturalNumber $end
+    ): QuestionDifficulties {
+        return $this->getRange(
+            new NotEmptyString(self::ANSWERED_CORRECT),
+            $language,
+            $end
+        );
+    }
+
+    /**
+     * @param Language $language
+     * @param NaturalNumber $end
+     * @return QuestionDifficulties
+     */
+    public function getWorstRange(
+        Language $language,
+        NaturalNumber $end
+    ): QuestionDifficulties {
+        return $this->getRange(
+            new NotEmptyString(self::ANSWERED_INCORRECT),
+            $language,
+            $end
+        );
+    }
+
+    /**
+     * @param NotEmptyString $prefix
+     * @param Language $language
+     * @param NaturalNumber $end
+     * @return QuestionDifficulties
+     */
+    private function getRange(
+        NotEmptyString $prefix,
         Language $language,
         NaturalNumber $end
     ): QuestionDifficulties {
         $questionsAndScores = $this->redis->zRevRange(
-            $this->createKey($language),
+            $this->createKey(
+                $prefix,
+                $language
+            ),
             0,
             $end->toNative(),
             true
@@ -71,7 +138,7 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
             if ($question) {
                 $questionDifficulties[] = new QuestionDifficulty(
                     $question,
-                    new NaturalNumber((int)$score)
+                    new NaturalNumber((int)($score * 100))
                 );
             }
         }
@@ -80,11 +147,12 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
     }
 
     /**
+     * @param NotEmptyString $prefix
      * @param Language $language
      * @return string
      */
-    private function createKey(Language $language): string
+    private function createKey(NotEmptyString $prefix, Language $language): string
     {
-        return $this->key->toNative().'_'.$language->toNative();
+        return $prefix->toNative().'_'.$language->toNative();
     }
 }

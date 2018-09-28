@@ -5,7 +5,6 @@ namespace VSV\GVQ_API\Statistics\Repositories;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
-use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
@@ -18,6 +17,16 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
      * @var \Redis|MockObject
      */
     private $redis;
+
+    /**
+     * @var QuestionCounterRepository|MockObject
+     */
+    private $answeredCorrectRepository;
+
+    /**
+     * @var QuestionCounterRepository|MockObject
+     */
+    private $answeredInCorrectRepository;
 
     /**
      * @var QuestionRepository|MockObject
@@ -39,9 +48,18 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
         $questionRepository = $this->createMock(QuestionRepository::class);
         $this->questionRepository = $questionRepository;
 
+        /** @var QuestionCounterRepository|MockObject $answeredCorrectRepository */
+        $answeredCorrectRepository = $this->createMock(QuestionCounterRepository::class);
+        $this->answeredCorrectRepository = $answeredCorrectRepository;
+
+        /** @var QuestionCounterRepository|MockObject $answeredInCorrectRepository */
+        $answeredInCorrectRepository = $this->createMock(QuestionCounterRepository::class);
+        $this->answeredInCorrectRepository = $answeredInCorrectRepository;
+
         $this->questionDifficultyRedisRepository = new QuestionDifficultyRedisRepository(
             $this->redis,
-            new NotEmptyString('answered_correct'),
+            $this->answeredCorrectRepository,
+            $this->answeredInCorrectRepository,
             $this->questionRepository
         );
     }
@@ -54,22 +72,39 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
     {
         $question = ModelsFactory::createAccidentQuestion();
 
-        $this->redis->expects($this->once())
-            ->method('zIncrBy')
-            ->with(
-                'answered_correct_fr',
-                1.0,
-                $question->getId()->toString()
+        $this->answeredCorrectRepository->expects($this->once())
+            ->method('getCount')
+            ->with($question)
+            ->willReturn(new NaturalNumber(6));
+
+        $this->answeredInCorrectRepository->expects($this->once())
+            ->method('getCount')
+            ->with($question)
+            ->willReturn(new NaturalNumber(4));
+
+        $this->redis->expects($this->exactly(2))
+            ->method('zAdd')
+            ->withConsecutive(
+                [
+                    'answered_correct_fr',
+                    0.6,
+                    $question->getId()->toString(),
+                ],
+                [
+                    'answered_incorrect_fr',
+                    0.4,
+                    $question->getId()->toString()
+                ]
             );
 
-        $this->questionDifficultyRedisRepository->increment($question);
+        $this->questionDifficultyRedisRepository->update($question);
     }
 
     /**
      * @test
      * @throws \Exception
      */
-    public function it_can_get_range_of_questions_for_language(): void
+    public function it_can_get_best_range_of_questions_for_language(): void
     {
         $accidentQuestion = ModelsFactory::createAccidentQuestion();
         $generalQuestion = ModelsFactory::createGeneralQuestion();
@@ -84,8 +119,8 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
             )
             ->willReturn(
                 [
-                    $accidentQuestion->getId()->toString() => 3,
-                    $generalQuestion->getId()->toString() => 2,
+                    $accidentQuestion->getId()->toString() => 0.6,
+                    $generalQuestion->getId()->toString() => 0.7,
                 ]
             );
 
@@ -100,7 +135,7 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
                 $generalQuestion
             );
 
-        $questionDifficulties = $this->questionDifficultyRedisRepository->getRange(
+        $questionDifficulties = $this->questionDifficultyRedisRepository->getBestRange(
             new Language(Language::FR),
             new NaturalNumber(1)
         );
@@ -109,11 +144,66 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
             new QuestionDifficulties(
                 new QuestionDifficulty(
                     $accidentQuestion,
-                    new NaturalNumber(3)
+                    new NaturalNumber(60)
                 ),
                 new QuestionDifficulty(
                     $generalQuestion,
-                    new NaturalNumber(2)
+                    new NaturalNumber(70)
+                )
+            ),
+            $questionDifficulties
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_get_worst_range_of_questions_for_language(): void
+    {
+        $accidentQuestion = ModelsFactory::createAccidentQuestion();
+        $generalQuestion = ModelsFactory::createGeneralQuestion();
+
+        $this->redis->expects($this->once())
+            ->method('zRevRange')
+            ->with(
+                'answered_incorrect_fr',
+                0,
+                1,
+                true
+            )
+            ->willReturn(
+                [
+                    $accidentQuestion->getId()->toString() => 0.11,
+                    $generalQuestion->getId()->toString() => 0.22,
+                ]
+            );
+
+        $this->questionRepository->expects($this->exactly(2))
+            ->method('getById')
+            ->withConsecutive(
+                $accidentQuestion->getId(),
+                $generalQuestion->getId()
+            )
+            ->willReturnOnConsecutiveCalls(
+                $accidentQuestion,
+                $generalQuestion
+            );
+
+        $questionDifficulties = $this->questionDifficultyRedisRepository->getWorstRange(
+            new Language(Language::FR),
+            new NaturalNumber(1)
+        );
+
+        $this->assertEquals(
+            new QuestionDifficulties(
+                new QuestionDifficulty(
+                    $accidentQuestion,
+                    new NaturalNumber(11)
+                ),
+                new QuestionDifficulty(
+                    $generalQuestion,
+                    new NaturalNumber(22)
                 )
             ),
             $questionDifficulties

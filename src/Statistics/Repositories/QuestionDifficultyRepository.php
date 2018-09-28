@@ -12,14 +12,24 @@ interface QuestionDifficultyRepository
     /**
      * @param Question $question
      */
-    public function increment(Question $question): void;
+    public function update(Question $question): void;
 
     /**
      * @param Language $language
      * @param NaturalNumber $end
      * @return QuestionDifficulties
      */
-    public function getRange(
+    public function getBestRange(
+        Language $language,
+        NaturalNumber $end
+    ): QuestionDifficulties;
+
+    /**
+     * @param Language $language
+     * @param NaturalNumber $end
+     * @return QuestionDifficulties
+     */
+    public function getWorstRange(
         Language $language,
         NaturalNumber $end
     ): QuestionDifficulties;
