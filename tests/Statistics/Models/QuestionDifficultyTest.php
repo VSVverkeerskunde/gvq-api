@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Statistics\Models;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class QuestionDifficultyTest extends TestCase
 {
@@ -20,7 +21,7 @@ class QuestionDifficultyTest extends TestCase
     {
         $this->questionDifficulty = new QuestionDifficulty(
             ModelsFactory::createGeneralQuestion(),
-            new NaturalNumber(2)
+            new Percentage(0.66)
         );
     }
 
@@ -43,8 +44,8 @@ class QuestionDifficultyTest extends TestCase
     public function it_stores_a_count(): void
     {
         $this->assertEquals(
-            new NaturalNumber(2),
-            $this->questionDifficulty->getCount()
+            new Percentage(0.66),
+            $this->questionDifficulty->getPercentage()
         );
     }
 }

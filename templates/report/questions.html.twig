@@ -3,11 +3,13 @@
     <tr>
         <th>{% trans %}Image{% endtrans %}</th>
         <th>{% trans %}Question{% endtrans %}</th>
+        <th>{% trans %}Percentage{% endtrans %}</th>
     </tr>
     </thead>
     <tbody>
     {% for questionDifficulty in questionDifficulties %}
-        {% include 'report/question.html.twig' with {'question': questionDifficulty.question} %}
+        {% include 'report/question.html.twig'
+            with {'question': questionDifficulty.question, 'percentage': questionDifficulty.percentage.toPercentage} %}
     {% endfor %}
     </tbody>
 </table>

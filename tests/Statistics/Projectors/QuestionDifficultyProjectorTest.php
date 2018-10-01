@@ -2,15 +2,12 @@
 
 namespace VSV\GVQ_API\Statistics\Projectors;
 
-use Broadway\Domain\DomainMessage;
-use Broadway\Domain\Metadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
-use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Models\Quiz;
+use VSV\GVQ_API\Statistics\Repositories\QuestionCounterRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 
 class QuestionDifficultyProjectorTest extends TestCase
@@ -18,12 +15,17 @@ class QuestionDifficultyProjectorTest extends TestCase
     /**
      * @var QuestionDifficultyRepository|MockObject
      */
-    private $questionCorrectRepository;
+    private $questionDifficultyRepository;
 
     /**
-     * @var QuestionDifficultyRepository|MockObject
+     * @var QuestionCounterRepository|MockObject
      */
-    private $questionInCorrectRepository;
+    private $questionAnsweredCorrectRepository;
+
+    /**
+     * @var QuestionCounterRepository|MockObject
+     */
+    private $questionAnsweredInCorrectRepository;
 
     /**
      * @var QuestionDifficultyProjector
@@ -45,17 +47,22 @@ class QuestionDifficultyProjectorTest extends TestCase
      */
     protected function setUp(): void
     {
-        /** @var QuestionDifficultyRepository|MockObject $questionCorrectRepository */
-        $questionCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
-        $this->questionCorrectRepository = $questionCorrectRepository;
+        /** @var QuestionDifficultyRepository|MockObject $questionDifficultyRepository */
+        $questionDifficultyRepository = $this->createMock(QuestionDifficultyRepository::class);
+        $this->questionDifficultyRepository = $questionDifficultyRepository;
 
-        /** @var QuestionDifficultyRepository|MockObject $questionInCorrectRepository */
-        $questionInCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
-        $this->questionInCorrectRepository = $questionInCorrectRepository;
+        /** @var QuestionCounterRepository|MockObject $questionAnsweredCorrectRepository */
+        $questionAnsweredCorrectRepository = $this->createMock(QuestionCounterRepository::class);
+        $this->questionAnsweredCorrectRepository = $questionAnsweredCorrectRepository;
+
+        /** @var QuestionCounterRepository|MockObject $questionAnsweredInCorrectRepository */
+        $questionAnsweredInCorrectRepository = $this->createMock(QuestionCounterRepository::class);
+        $this->questionAnsweredInCorrectRepository = $questionAnsweredInCorrectRepository;
 
         $this->questionDifficultyProjector = new QuestionDifficultyProjector(
-            $this->questionCorrectRepository,
-            $this->questionInCorrectRepository
+            $this->questionDifficultyRepository,
+            $this->questionAnsweredCorrectRepository,
+            $this->questionAnsweredInCorrectRepository
         );
 
         $this->quiz = ModelsFactory::createCompanyQuiz();
@@ -73,12 +80,16 @@ class QuestionDifficultyProjectorTest extends TestCase
             $this->question
         );
 
-        $this->questionCorrectRepository->expects($this->once())
+        $this->questionAnsweredCorrectRepository->expects($this->once())
             ->method('increment')
             ->with($this->question);
 
-        $this->questionInCorrectRepository->expects($this->never())
+        $this->questionAnsweredInCorrectRepository->expects($this->never())
             ->method('increment');
+
+        $this->questionDifficultyRepository->expects($this->once())
+            ->method('update')
+            ->with($this->question);
 
         $this->questionDifficultyProjector->handle($answeredCorrectDomainMessage);
     }
@@ -94,11 +105,15 @@ class QuestionDifficultyProjectorTest extends TestCase
             $this->question
         );
 
-        $this->questionCorrectRepository->expects($this->never())
+        $this->questionAnsweredCorrectRepository->expects($this->never())
             ->method('increment');
 
-        $this->questionInCorrectRepository->expects($this->once())
+        $this->questionAnsweredInCorrectRepository->expects($this->once())
             ->method('increment')
+            ->with($this->question);
+
+        $this->questionDifficultyRepository->expects($this->once())
+            ->method('update')
             ->with($this->question);
 
         $this->questionDifficultyProjector->handle($answeredInCorrectDomainMessage);

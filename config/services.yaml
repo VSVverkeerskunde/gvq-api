@@ -202,22 +202,29 @@ services:
       arguments:
         $value: 'answered_correct'
 
+    question_answered_correct_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\QuestionCounterRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $keyPrefix: '@answered_correct'
+
     answered_incorrect:
       class: VSV\GVQ_API\Common\ValueObjects\NotEmptyString
       arguments:
         $value: 'answered_incorrect'
 
-    question_answered_correct_redis_repository:
-      class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
-      arguments:
-        $redis: '@redis_service'
-        $key: '@answered_correct'
-
     question_answered_incorrect_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\QuestionCounterRedisRepository
+      arguments:
+        $redis: '@redis_service'
+        $keyPrefix: '@answered_incorrect'
+
+    question_difficulty_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRedisRepository
       arguments:
         $redis: '@redis_service'
-        $key: '@answered_incorrect'
+        $answeredCorrectRepository: '@question_answered_correct_redis_repository'
+        $answeredInCorrectRepository: '@question_answered_incorrect_redis_repository'
 
     category_answered_correct_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRedisRepository
@@ -283,8 +290,9 @@ services:
     question_difficulty_projector:
       class: VSV\GVQ_API\Statistics\Projectors\QuestionDifficultyProjector
       arguments:
-        $questionCorrectRepository: '@question_answered_correct_redis_repository'
-        $questionInCorrectRepository: '@question_answered_incorrect_redis_repository'
+        $questionDifficultyRepository: '@question_difficulty_redis_repository'
+        $questionAnsweredCorrectRepository: '@question_answered_correct_redis_repository'
+        $questionAnsweredInCorrectRepository: '@question_answered_incorrect_redis_repository'
 
     category_difficulty_projector:
       class: VSV\GVQ_API\Statistics\Projectors\CategoryDifficultyProjector
@@ -377,8 +385,7 @@ services:
     report_service:
       class: VSV\GVQ_API\Report\Service\ReportService
       arguments:
-        $questionCorrectRepository: '@question_answered_correct_redis_repository'
-        $questionInCorrectRepository: '@question_answered_incorrect_redis_repository'
+        $questionDifficultyRepository: '@question_difficulty_redis_repository'
         $categoryCorrectRepository: '@category_answered_correct_redis_repository'
         $categoryInCorrectRepository: '@category_answered_incorrect_redis_repository'
 

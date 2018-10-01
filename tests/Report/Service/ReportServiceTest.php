@@ -13,18 +13,14 @@ use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class ReportServiceTest extends TestCase
 {
     /**
      * @var QuestionDifficultyRepository|MockObject
      */
-    private $questionCorrectRepository;
-
-    /**
-     * @var QuestionDifficultyRepository|MockObject
-     */
-    private $questionInCorrectRepository;
+    private $questionDifficultyRepository;
 
     /**
      * @var CategoryDifficultyRepository|MockObject
@@ -48,13 +44,9 @@ class ReportServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        /** @var QuestionDifficultyRepository|MockObject $questionCorrectRepository */
-        $questionCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
-        $this->questionCorrectRepository = $questionCorrectRepository;
-
-        /** @var QuestionDifficultyRepository|MockObject $questionInCorrectRepository */
-        $questionInCorrectRepository = $this->createMock(QuestionDifficultyRepository::class);
-        $this->questionInCorrectRepository = $questionInCorrectRepository;
+        /** @var QuestionDifficultyRepository|MockObject $questionDifficultyRepository */
+        $questionDifficultyRepository = $this->createMock(QuestionDifficultyRepository::class);
+        $this->questionDifficultyRepository = $questionDifficultyRepository;
 
         /** @var CategoryDifficultyRepository|MockObject $categoryCorrectRepository */
         $categoryCorrectRepository = $this->createMock(CategoryDifficultyRepository::class);
@@ -69,8 +61,7 @@ class ReportServiceTest extends TestCase
         $this->categoryRepository = $categoryRepository;
 
         $this->reportService = new ReportService(
-            $this->questionCorrectRepository,
-            $this->questionInCorrectRepository,
+            $this->questionDifficultyRepository,
             $this->categoryCorrectRepository,
             $this->categoryInCorrectRepository,
             $this->categoryRepository
@@ -86,12 +77,12 @@ class ReportServiceTest extends TestCase
         $questionDifficulties = new QuestionDifficulties(
             new QuestionDifficulty(
                 ModelsFactory::createAccidentQuestion(),
-                new NaturalNumber(2)
+                new Percentage(0.66)
             )
         );
 
-        $this->questionCorrectRepository->expects($this->once())
-            ->method('getRange')
+        $this->questionDifficultyRepository->expects($this->once())
+            ->method('getBestRange')
             ->with(
                 new Language(Language::FR),
                 new NaturalNumber(4)
@@ -117,12 +108,12 @@ class ReportServiceTest extends TestCase
         $questionDifficulties = new QuestionDifficulties(
             new QuestionDifficulty(
                 ModelsFactory::createAccidentQuestion(),
-                new NaturalNumber(2)
+                new Percentage(0.24)
             )
         );
 
-        $this->questionInCorrectRepository->expects($this->once())
-            ->method('getRange')
+        $this->questionDifficultyRepository->expects($this->once())
+            ->method('getWorstRange')
             ->with(
                 new Language(Language::FR),
                 new NaturalNumber(4)
@@ -169,12 +160,12 @@ class ReportServiceTest extends TestCase
                 new CategoryPercentage(
                     ModelsFactory::createAccidentCategory(),
                     new Language(Language::NL),
-                    70.0
+                    new Percentage(0.70)
                 ),
                 new CategoryPercentage(
                     ModelsFactory::createGeneralCategory(),
                     new Language(Language::NL),
-                    80.0
+                    new Percentage(0.80)
                 ),
             ],
             $this->reportService->getCategoriesPercentages(

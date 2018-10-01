@@ -3,7 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Models;
 
 use VSV\GVQ_API\Question\Models\Question;
-use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class QuestionDifficulty
 {
@@ -13,18 +13,18 @@ class QuestionDifficulty
     private $question;
 
     /**
-     * @var NaturalNumber
+     * @var Percentage
      */
-    private $count;
+    private $percentage;
 
     /**
      * @param Question $question
-     * @param NaturalNumber $count
+     * @param Percentage $percentage
      */
-    public function __construct(Question $question, NaturalNumber $count)
+    public function __construct(Question $question, Percentage $percentage)
     {
         $this->question = $question;
-        $this->count = $count;
+        $this->percentage = $percentage;
     }
 
     /**
@@ -36,10 +36,10 @@ class QuestionDifficulty
     }
 
     /**
-     * @return NaturalNumber
+     * @return Percentage
      */
-    public function getCount(): NaturalNumber
+    public function getPercentage(): Percentage
     {
-        return $this->count;
+        return $this->percentage;
     }
 }
