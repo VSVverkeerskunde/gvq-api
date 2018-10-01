@@ -60,22 +60,18 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
 
         $divider = $answeredCorrectCount->toNative() + $answeredInCorrectCount->toNative();
 
-        $this->redis->zAdd(
-            $this->createKey(
-                new NotEmptyString(self::ANSWERED_CORRECT),
-                $question->getLanguage()
-            ),
-            (float)$answeredCorrectCount->toNative()/(float)$divider,
-            $question->getId()->toString()
+        $this->add(
+            $question,
+            new NotEmptyString(self::ANSWERED_CORRECT),
+            $answeredCorrectCount->toNative(),
+            $divider
         );
 
-        $this->redis->zAdd(
-            $this->createKey(
-                new NotEmptyString(self::ANSWERED_INCORRECT),
-                $question->getLanguage()
-            ),
-            (float)$answeredInCorrectCount->toNative()/(float)$divider,
-            $question->getId()->toString()
+        $this->add(
+            $question,
+            new NotEmptyString(self::ANSWERED_INCORRECT),
+            $answeredInCorrectCount->toNative(),
+            $divider
         );
     }
 
@@ -108,6 +104,28 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
             new NotEmptyString(self::ANSWERED_INCORRECT),
             $language,
             $end
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param NotEmptyString $keyPrefix
+     * @param float $denominator
+     * @param float $divider
+     */
+    private function add(
+        Question $question,
+        NotEmptyString $keyPrefix,
+        float $denominator,
+        float $divider
+    ): void {
+        $this->redis->zAdd(
+            $this->createKey(
+                $keyPrefix,
+                $question->getLanguage()
+            ),
+            $denominator/$divider,
+            $question->getId()->toString()
         );
     }
 
