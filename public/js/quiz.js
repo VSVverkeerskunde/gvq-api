@@ -120,8 +120,8 @@
 
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
 
-      form.css({
-        'border-top': '30px solid' + teamColor,
+      banner.css({
+        'border-bottom': '10px solid' + teamColor,
       })
 
     }
