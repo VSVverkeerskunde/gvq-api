@@ -10,6 +10,7 @@ use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class QuestionDifficultyRedisRepositoryTest extends TestCase
 {
@@ -144,11 +145,11 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
             new QuestionDifficulties(
                 new QuestionDifficulty(
                     $accidentQuestion,
-                    new NaturalNumber(60)
+                    new Percentage(0.60)
                 ),
                 new QuestionDifficulty(
                     $generalQuestion,
-                    new NaturalNumber(70)
+                    new Percentage(0.7)
                 )
             ),
             $questionDifficulties
@@ -199,11 +200,11 @@ class QuestionDifficultyRedisRepositoryTest extends TestCase
             new QuestionDifficulties(
                 new QuestionDifficulty(
                     $accidentQuestion,
-                    new NaturalNumber(11)
+                    new Percentage(0.11)
                 ),
                 new QuestionDifficulty(
                     $generalQuestion,
-                    new NaturalNumber(22)
+                    new Percentage(0.22)
                 )
             ),
             $questionDifficulties

@@ -10,6 +10,7 @@ use VSV\GVQ_API\Question\Repositories\QuestionRepository;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class QuestionDifficultyRedisRepository extends AbstractRedisRepository implements QuestionDifficultyRepository
 {
@@ -156,7 +157,7 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
             if ($question) {
                 $questionDifficulties[] = new QuestionDifficulty(
                     $question,
-                    new NaturalNumber((int)($score * 100))
+                    new Percentage($score)
                 );
             }
         }

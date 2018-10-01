@@ -13,6 +13,7 @@ use VSV\GVQ_API\Statistics\Models\QuestionDifficulty;
 use VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class ReportServiceTest extends TestCase
 {
@@ -76,7 +77,7 @@ class ReportServiceTest extends TestCase
         $questionDifficulties = new QuestionDifficulties(
             new QuestionDifficulty(
                 ModelsFactory::createAccidentQuestion(),
-                new NaturalNumber(2)
+                new Percentage(0.66)
             )
         );
 
@@ -107,7 +108,7 @@ class ReportServiceTest extends TestCase
         $questionDifficulties = new QuestionDifficulties(
             new QuestionDifficulty(
                 ModelsFactory::createAccidentQuestion(),
-                new NaturalNumber(2)
+                new Percentage(0.24)
             )
         );
 

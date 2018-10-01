@@ -9,7 +9,7 @@
     <tbody>
     {% for questionDifficulty in questionDifficulties %}
         {% include 'report/question.html.twig'
-            with {'question': questionDifficulty.question, 'percentage': questionDifficulty.count} %}
+            with {'question': questionDifficulty.question, 'percentage': questionDifficulty.percentage.toPercentage} %}
     {% endfor %}
     </tbody>
 </table>
