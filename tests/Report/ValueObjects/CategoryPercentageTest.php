@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Report\ValueObjects;
 use PHPUnit\Framework\TestCase;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class CategoryPercentageTest extends TestCase
 {
@@ -18,7 +19,7 @@ class CategoryPercentageTest extends TestCase
         $this->categoryPercentage = new CategoryPercentage(
             ModelsFactory::createGeneralCategory(),
             new Language(Language::NL),
-            60.0
+            new Percentage(0.60)
         );
     }
 
@@ -50,7 +51,7 @@ class CategoryPercentageTest extends TestCase
     public function it_stores_a_percentage(): void
     {
         $this->assertEquals(
-            60.0,
+            new Percentage(0.60),
             $this->categoryPercentage->getPercentage()
         );
     }

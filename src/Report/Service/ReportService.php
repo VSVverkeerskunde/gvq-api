@@ -10,6 +10,7 @@ use VSV\GVQ_API\Statistics\Models\QuestionDifficulties;
 use VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRepository;
 use VSV\GVQ_API\Statistics\Repositories\QuestionDifficultyRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\Statistics\ValueObjects\Percentage;
 
 class ReportService
 {
@@ -123,7 +124,7 @@ class ReportService
         return new CategoryPercentage(
             $category,
             $language,
-            round($percentage, 2) * 100
+            new Percentage($percentage)
         );
     }
 }

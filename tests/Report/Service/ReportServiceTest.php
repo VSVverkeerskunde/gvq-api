@@ -160,12 +160,12 @@ class ReportServiceTest extends TestCase
                 new CategoryPercentage(
                     ModelsFactory::createAccidentCategory(),
                     new Language(Language::NL),
-                    70.0
+                    new Percentage(0.70)
                 ),
                 new CategoryPercentage(
                     ModelsFactory::createGeneralCategory(),
                     new Language(Language::NL),
-                    80.0
+                    new Percentage(0.80)
                 ),
             ],
             $this->reportService->getCategoriesPercentages(
