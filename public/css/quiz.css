@@ -124,6 +124,14 @@ svg {
   #gvq-quiz .card-header,
   #gvq-quiz .card-footer {
     border: none; }
+  #gvq-quiz .card-header,
+  #gvq-quiz .card-body,
+  #gvq-quiz .card-footer {
+    padding: 1.5em 0 0; }
+
+.participation-form > .container {
+  max-width: 500px;
+  margin: auto; }
 
 ul.gvq-answers {
   counter-reset: numbering; }

@@ -19,6 +19,17 @@
   .card-footer {
     border: none;
   }
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: 1.5em 0 0;
+  }
+}
+
+// Quiz login
+.participation-form > .container {
+  max-width: 500px;
+  margin: auto;
 }
 
   // Quiz answers
@@ -141,8 +152,4 @@ ul.gvq-answers li.is-correct {
   &:active {
     background-color: darken(#00aced, 10%);
   }
-}
-
-.gvq-play-contest {
-
 }
