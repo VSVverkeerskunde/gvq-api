@@ -120,6 +120,10 @@ svg {
   #gvq-quiz h2 {
     color: #6cc4e9;
     text-transform: uppercase; }
+  #gvq-quiz .card,
+  #gvq-quiz .card-header,
+  #gvq-quiz .card-footer {
+    border: none; }
 
 ul.gvq-answers {
   counter-reset: numbering; }

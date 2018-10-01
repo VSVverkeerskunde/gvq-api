@@ -12,6 +12,13 @@
     color: $color-primary;
     text-transform: uppercase;
   }
+
+  // Override gray borders on cards only within Quiz
+  .card,
+  .card-header,
+  .card-footer {
+    border: none;
+  }
 }
 
   // Quiz answers
