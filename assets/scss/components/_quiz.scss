@@ -12,6 +12,24 @@
     color: $color-primary;
     text-transform: uppercase;
   }
+
+  // Override gray borders on cards only within Quiz
+  .card,
+  .card-header,
+  .card-footer {
+    border: none;
+  }
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: 1.5em 0 0;
+  }
+}
+
+// Quiz login
+.participation-form > .container {
+  max-width: 500px;
+  margin: auto;
 }
 
   // Quiz answers
@@ -81,7 +99,7 @@ ul.gvq-answers li.is-correct {
 }
 
 .gvq-team-banner img {
-  height: 150px;
+  max-height: 150px;
   width: auto;
   margin: auto;
   display: block;

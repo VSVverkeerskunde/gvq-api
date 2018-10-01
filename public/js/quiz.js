@@ -112,13 +112,18 @@
 
       let colorPrimary = team ? team['primary'] : 'white';
       let colorSecondary = team ? team['secondary'] : 'white';
+      var teamColor = colorPrimary;
+      if(colorPrimary == '#fff') {
+        teamColor = colorSecondary;
+        console.log('primary is wit');
+      }
 
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
-      form.css({
-        'background-color': colorSecondary,
-        'background': 'linear-gradient(' + colorSecondary + ',' + colorPrimary + ')',
-        'border': '1px solid' + colorSecondary + '!important',
+
+      banner.css({
+        'border-bottom': '10px solid' + teamColor,
       })
+
     }
 
     let views = {
