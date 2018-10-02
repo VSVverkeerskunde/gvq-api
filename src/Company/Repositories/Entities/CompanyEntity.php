@@ -34,7 +34,7 @@ class CompanyEntity extends Entity
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="TranslatedAliasEntity", mappedBy="companyEntity", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="TranslatedAliasEntity", mappedBy="companyEntity", cascade={"all"}, fetch="EAGER")
      *
      */
     private $translatedAliasEntities;
