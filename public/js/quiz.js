@@ -154,8 +154,9 @@
           }
 
           if (cupModeOn) {
+            quizConfig['teams'].sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);});
             $.each(quizConfig['teams'], function (id, team) {
-              teamSelect.append($('<option>', {value: id, text: team.name}));
+              teamSelect.append($('<option>', {value: team.id, text: team.name}));
             });
             teamSelect.val(quizConfig['team']);
 
