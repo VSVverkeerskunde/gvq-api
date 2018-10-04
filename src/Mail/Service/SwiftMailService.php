@@ -125,7 +125,7 @@ class SwiftMailService implements MailService
         $message
             ->attach(
                 \Swift_Attachment::fromPath(
-                    'documents/dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+                    'documents/Briefing_bedrijven_2018-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
                 )
             );
 
