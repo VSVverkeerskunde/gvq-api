@@ -81,6 +81,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
+
       }
 
       oldView.append(oldContent);
@@ -337,4 +338,28 @@
   }
 
   window.Quiz = Quiz;
+
+    function getDocHeight (doc) {
+      doc = doc || document;
+      // from http://stackoverflow.com/questions/1145850/get-height-of-entire-document-with-javascript
+      var body = doc.body, html = doc.documentElement;
+      var height = Math.max(body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight);
+      return height;
+    }
+
+// send docHeight onload
+    function sendDocHeightMsg (e) {
+      var ht = getDocHeight();
+      parent.postMessage(JSON.stringify({'docHeight': ht}), '*');
+    }
+
+
+
+    var quizDiv = $("#gvq-quiz .gvq-quiz-view");
+  if (quizDiv.addEventListener) {
+    quizDiv.addEventListener('resize', sendDocHeightMsg, false);
+  } else if (quizDiv.attachEvent) { // ie8
+    quizDiv.attachEvent('onload', sendDocHeightMsg);
+  }
 }(window, document, jQuery));

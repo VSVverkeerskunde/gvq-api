@@ -156,6 +156,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
+    <script src="{{ asset('js/iframe.js') }}"></script>
     <script>
       Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
