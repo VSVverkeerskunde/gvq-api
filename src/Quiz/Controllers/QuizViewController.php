@@ -3,7 +3,6 @@
 namespace VSV\GVQ_API\Quiz\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
@@ -31,8 +30,11 @@ class QuizViewController extends AbstractController
      * @param TeamRepository $teamRepository
      * @param TeamsNormalizer $teamsNormalizer
      */
-    public function __construct(Year $year, TeamRepository $teamRepository, TeamsNormalizer $teamsNormalizer)
-    {
+    public function __construct(
+        Year $year,
+        TeamRepository $teamRepository,
+        TeamsNormalizer $teamsNormalizer
+    ) {
         $this->year = $year;
         $this->teamRepository = $teamRepository;
         $this->teamsNormalizer = $teamsNormalizer;
