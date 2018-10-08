@@ -3,10 +3,10 @@
 namespace VSV\GVQ_API\Quiz\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Yaml;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Team\Repositories\TeamRepository;
-use VSV\GVQ_API\Team\Serializers\TeamsNormalizer;
 
 class QuizViewController extends AbstractController
 {
@@ -16,43 +16,27 @@ class QuizViewController extends AbstractController
     private $year;
 
     /**
-     * @var TeamRepository
-     */
-    private $teamRepository;
-
-    /**
-     * @var TeamsNormalizer
-     */
-    private $teamsNormalizer;
-
-    /**
      * @param Year $year
-     * @param TeamRepository $teamRepository
-     * @param TeamsNormalizer $teamsNormalizer
      */
-    public function __construct(
-        Year $year,
-        TeamRepository $teamRepository,
-        TeamsNormalizer $teamsNormalizer
-    ) {
+    public function __construct(Year $year)
+    {
         $this->year = $year;
-        $this->teamRepository = $teamRepository;
-        $this->teamsNormalizer = $teamsNormalizer;
     }
 
     /**
+     * @param ContainerInterface $container
      * @return Response
      */
-    public function showQuiz(): Response
+    public function showQuiz(ContainerInterface $container): Response
     {
-        $teams = $this->teamRepository->getAllByYear($this->year);
-
-        $teamsAsJson = $teams ? $this->teamsNormalizer->normalize($teams) : null;
+        $teams = Yaml::parseFile(
+            $container->getParameter('kernel.project_dir').'/config/teams.yaml'
+        );
 
         return $this->render(
             'quiz/quiz.html.twig',
             [
-                'teams' => $teamsAsJson,
+                'teams' => (object) $teams[$this->year->toNative()],
             ]
         );
     }
