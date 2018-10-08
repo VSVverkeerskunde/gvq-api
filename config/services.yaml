@@ -466,6 +466,7 @@ services:
     VSV\GVQ_API\Quiz\Controllers\QuizViewController:
       arguments:
         $year: '@quiz_year'
+        $teamRepository: '@team_repository'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:
