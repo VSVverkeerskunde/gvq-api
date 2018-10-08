@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 
 class DocumentViewController extends AbstractController
 {
@@ -28,14 +29,16 @@ class DocumentViewController extends AbstractController
      */
     public function documents(Request $request): Response
     {
-        $language = $request->getLocale();
         $finder = new Finder();
-        $finder->files()->in($this->documentsPath.$language);
+        $dutchFiles = $finder->files()->in($this->documentsPath.Language::NL);
+        $finder = new Finder();
+        $frenchFiles = $finder->files()->in($this->documentsPath.Language::FR);
 
         return $this->render(
             'documents/documents.html.twig',
             [
-                'files' => $finder,
+                'dutchFiles' => $dutchFiles,
+                'frenchFiles' => $frenchFiles,
             ]
         );
     }

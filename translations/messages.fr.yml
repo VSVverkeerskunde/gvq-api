@@ -167,6 +167,9 @@ Contest.success: Merci d'avoir participé au concours et bonne chance!
 Contest.gdpr1: J'ai lu et j’accepte le règlement du Quiz de la Route 2018 et la déclaration relative à la protection des données à caractère personnel.
 Contest.gdpr2: J’autorise l’AWSR à conserver mes données pour rester informé-e des actualités, projets, concours de l’AWSR. Conformément au au règlement (UE) 2016/679 sur la protection des personnes physiques à l’égard du traitement de données à caractère personnel, vous avez notamment le droit d’accéder, de corriger ou de supprimer à tout moment vos données. Vos données ne seront pas transmises à des tiers.
 
+Documents.title.nl: Documents néerlandais
+Documents.title.fr: Documents français
+
 #Mails 
 Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
 Password.reset.mail.subject: Demande de récupération de mot de passe
