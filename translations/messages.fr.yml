@@ -31,10 +31,10 @@ Street: Rue
 Number: Numéro
 PostalCode: Code postal
 Town: Commune
-Rank: __Rank
-Score: __Score
-Percentage: __Percentage
-Top.scores: __Topscores
+Rank: Rang
+Score: Score
+Percentage: Pourcentage
+Top.scores: Meilleurs scores
 
 Password.confirm: Confirmer le mot de passe
 Password.old: Mot de passe actuel
@@ -69,13 +69,14 @@ Button.edit.picture: Changer la photo
 Button.remove: Supprimer
 Button.export: Exporter
 Button.archive: Archiver
-Button.apply: __Toepassen
+Button.apply: Appliquer
 
 #Links 
 To.login: Se connecter
 To.request.password: Mot de passe oublié
 To.site: Vers quizdelaroute.be
 To.info: Plus d’infos sur le quiz
+To.privacy.policy: Voir la déclaration relative à la protection des données à caractère personnel
 
 #Actions 
 Registration.title: S'inscrire
@@ -219,9 +220,9 @@ User.edit.success: L'utilisateur %id% est modifié.
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
 Dashboard.welcome: A partir du 18 octobre, vous pourrez suivre les statistiques de votre entreprise ici.
-Dashboard.ratio.title: __Aantal werknemers die de grote verkeersquiz hebben gespeeld
-Dashboard.average.title: __Gemiddelde top score van
-Dashboard.average.all: __Alle deelnemers
+Dashboard.ratio.title: Nombre de travailleurs qui ont participé au quiz
+Dashboard.average.title: Score moyen de
+Dashboard.average.all: Tous les participants
 
 #Statistics
 Statistics.title.general: Statistiques générales
@@ -243,11 +244,10 @@ Statistics.subheader.Total: Total
 Statistics.row.started: Débuté
 Statistics.row.finished: Terminé
 Statistics.row.unique: Participants uniques
-Statistics.row.passed: Participants uniques (moins 11/15)
+Statistics.row.passed: Participants uniques (au moins 11/15)
 Statistics.row.percentage: Taux de réussite
-Statistics.row.topscore: Meilleurs scores
+Statistics.row.topscore: Moyenne des meilleurs scores
 
-Statistics.info.tooltip: Placer le curseur sur les titres pour plus d'informations
 Statistics.info.started: Nombre de fois où le quiz a été débuté.
 Statistics.info.finished: Nombre de fois où le quiz a été effectué
 Statistics.info.unique: Nombre de participants uniques qui ont joué au quiz sans les doublons
