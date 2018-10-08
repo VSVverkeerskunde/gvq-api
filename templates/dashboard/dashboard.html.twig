@@ -59,30 +59,32 @@
                 </div>
             </div>
 
-            {% if topScores|length > 0 %}
+            {% if showTopScoresCard %}
                 <div class="card text-center mb-4">
                     <div class="card-header">
                         <h3 class="card-title">{% trans %}Top.scores{% endtrans %}</h3>
                     </div>
 
-                    <table class="card-body table">
-                        <thead class="thead-dark thead-primary text-center">
-                        <tr>
-                            <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
-                            <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
-                            <th scope="col" class="border-bottom">{% trans %}Score{% endtrans %}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for topScore in topScores %}
+                    {% if topScores|length > 0 %}
+                        <table class="card-body table">
+                            <thead class="thead-dark thead-primary text-center">
                             <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ topScore.email.toNative }}</td>
-                                <td>{{ topScore.score.toNative }}</td>
+                                <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
+                                <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
+                                <th scope="col" class="border-bottom">{% trans %}Score{% endtrans %}</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for topScore in topScores %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ topScore.email.toNative }}</td>
+                                    <td>{{ topScore.score.toNative }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
 
                     <div class="card-footer text-right">
                         <a role="button"

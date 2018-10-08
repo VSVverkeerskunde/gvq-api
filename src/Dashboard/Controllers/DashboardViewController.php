@@ -9,6 +9,7 @@ use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Dashboard\Service\DashboardService;
+use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
 class DashboardViewController extends CompanyAwareController
@@ -68,13 +69,16 @@ class DashboardViewController extends CompanyAwareController
 
         $average = $this->dashboardService->getAverageTopScore();
 
+        /** @var TopScore[] $allTopScores */
         $allTopScores = $this->dashboardService->getTopScoresByCompany(
             $activeCompany->getId()
         )->toArray();
 
         $firstTenTopScores = [];
         for ($i = 0; $i < 10 && $i < count($allTopScores); $i++) {
-            $firstTenTopScores[] = $allTopScores[$i];
+            if ($allTopScores[$i]->getScore()->toNative() >= 11) {
+                $firstTenTopScores[] = $allTopScores[$i];
+            }
         }
 
         return $this->render(
@@ -85,7 +89,8 @@ class DashboardViewController extends CompanyAwareController
                 'employeeParticipationRatio' => $employeeParticipationRatio,
                 'companyAverage' => $companyAverage,
                 'average' => $average,
-                'topScores' => $firstTenTopScores
+                'topScores' => $firstTenTopScores,
+                'showTopScoresCard' => count($allTopScores) > 0,
             ]
         );
     }
