@@ -2,11 +2,11 @@
 
 namespace VSV\GVQ_API\Mail\Service;
 
-use \Swift_Mailer;
-use \Swift_Message;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use \Twig_Environment;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig_Environment;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Mail\Models\Sender;
 use VSV\GVQ_API\Registration\Models\Registration;
@@ -122,10 +122,15 @@ class SwiftMailService implements MailService
 
         $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
 
+        if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
+            $documentPath = 'documents/fr/dummy-fr.pdf';
+        } else {
+            $documentPath = 'documents/nl/Briefing_bedrijven_2018.pdf';
+        }
         $message
             ->attach(
                 \Swift_Attachment::fromPath(
-                    'documents/Briefing_bedrijven_2018-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
+                    $documentPath
                 )
             );
 
