@@ -18,6 +18,7 @@ use VSV\GVQ_API\Contest\Repositories\TieBreakerRepository;
 use VSV\GVQ_API\Contest\Service\ContestService;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 
 class ContestViewController extends AbstractController
 {
@@ -114,6 +115,8 @@ class ContestViewController extends AbstractController
      */
     public function contest(Request $request, string $quizId): Response
     {
+        $quiz = $this->quizRepository->getById(Uuid::fromString($quizId));
+
         $canParticipate = $this->contestService->canParticipate(
             $this->year,
             Uuid::fromString($quizId)
@@ -129,7 +132,6 @@ class ContestViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $quiz = $this->quizRepository->getById(Uuid::fromString($quizId));
             $contestParticipation = $this->contestFormType->newContestParticipationFromData(
                 $this->uuidFactory,
                 $this->year,
@@ -144,7 +146,7 @@ class ContestViewController extends AbstractController
             return $this->render('contest/contest_success.html.twig');
         }
 
-        $tieBreakers = $this->getTieBreakerByLocale($request->getLocale());
+        $tieBreakers = $this->getTieBreakerByLocaleAndChannel($request->getLocale(), $quiz->getChannel());
         $privacy_pdf = $this->generatePrivacyPdfUrl($request->getLocale());
 
         return $this->render(
@@ -209,10 +211,15 @@ class ContestViewController extends AbstractController
 
     /**
      * @param string $locale
+     * @param QuizChannel $channel
      * @return TieBreaker[]
      */
-    private function getTieBreakerByLocale(string $locale): array
+    private function getTieBreakerByLocaleAndChannel(string $locale, QuizChannel $channel): array
     {
+        if (!$channel->equals(new QuizChannel(QuizChannel::CUP))) {
+            $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        }
+
         $tieBreakers = $this->tieBreakerRepository->getAllByYear($this->year);
 
         $tieBreakersArray = [];
@@ -220,7 +227,8 @@ class ContestViewController extends AbstractController
         if ($tieBreakers !== null) {
             /** @var TieBreaker $tieBreaker */
             foreach ($tieBreakers as $tieBreaker) {
-                if ($tieBreaker->getLanguage()->toNative() === $locale) {
+                if ($tieBreaker->getLanguage()->toNative() === $locale &&
+                    $tieBreaker->getChannel()->equals($channel)) {
                     $tieBreakersArray[] = $tieBreaker;
                 }
             }

@@ -1,56 +1,92 @@
 2018:
-  5c128cad-8727-4e3e-bfba-c51929ae14c4:
-    name: 'Royal Antwerp FC'
-    primary: '#fff'
-    secondary: '#b80000'
-  b4a02894-f4d9-4c12-be5b-c228ec69e1c5:
-    name: 'RSC Anderlecht'
-    primary: '#7200ff'
-    secondary: '#fff'
-  a3f38c05-5d36-43fc-8cf7-2ca682e53420:
-    name: 'KAA Gent'
-    primary: '#1347dc'
+  e36005ae-9e83-4620-8484-d03ce0106b2e:
+    name: 'AFC Tubize'
+    primary: '#ffe32b'
+    secondary: '#df372c'
+  8bdd0b90-3337-4408-871f-258658c53280:
+    name: 'Beerschot-Wilrijk'
+    primary: '#663e8b'
     secondary: '#fff'
   cbc295ac-fad8-4811-b296-3cb41eb592a3:
     name: 'Cercle Brugge KSV'
     primary: '#009e47'
     secondary: '#3c3c3c'
-  35a453a5-175b-4e52-ab24-2023a581f47a:
-    name: 'Sporting De Charleroi'
-    primary: '#3c3c3c'
-    secondary: '#fff'
   922391c4-fc5b-4148-b69d-d347d48caaef:
     name: 'Club Brugge KV'
     primary: '#387cda'
     secondary: '#3c3c3c'
+  84d02f01-dc54-4a6d-a7d4-eaad91de8a7b:
+    name: 'Excel Mouscron'
+    primary: '#264fc4'
+    secondary: '#b80000'
+  a3f38c05-5d36-43fc-8cf7-2ca682e53420:
+    name: 'KAA Gent'
+    primary: '#1347dc'
+    secondary: '#fff'
   9a5649ab-8e81-45e3-afe7-4307409e37d8:
     name: 'KAS Eupen'
+    primary: '#3c3c3c'
+    secondary: '#fff'
+  395b3906-9855-4db7-9e4c-6672ecabfe1b:
+    name: 'KRC Genk'
+    primary: '#fff'
+    secondary: '#214ec1'
+  4224d2c4-7ba7-4ff8-901e-f4265d24b09d:
+    name: 'KSV Roeselare'
     primary: '#3c3c3c'
     secondary: '#fff'
   55c67d9e-6fdf-4458-9f3b-1697b1f2e96e:
     name: 'KV Kortrijk'
     primary: '#fff'
     secondary: '#b80000'
+  03fb7797-ab23-4a2d-8998-5b728952103b:
+    name: 'KV Mechelen'
+    primary: '#ffd200'
+    secondary: '#b80000'
   1cc14493-69ce-4884-896d-fbfd721f2f2b:
     name: 'KV Oostende'
     primary: '#ffd200'
     secondary: '#b80000'
-  debe61b8-3021-445d-b275-73fc99702510:
-    name: 'Sporting Lokeren'
+  a9cc1dd9-0d65-454d-83a2-9f66ba1d6430:
+    name: 'KVC Westerlo'
+    primary: '#0e52f1'
+    secondary: '#ffea00'
+  924f1974-6eff-4ad2-abb2-d5d38826d884:
+    name: 'Lommel SK'
+    primary: '#fff'
+    secondary: '#35a454'
+  9c2c62c3-655a-4444-89e5-6c493cf2c684:
+    name: 'OH Leuven'
     primary: '#3c3c3c'
     secondary: '#fff'
-  84d02f01-dc54-4a6d-a7d4-eaad91de8a7b:
-    name: 'Excel Mouscron'
-    primary: '#264fc4'
-    secondary: '#b80000'
-  395b3906-9855-4db7-9e4c-6672ecabfe1b:
-    name: 'KRC Genk'
+  6b57b57d-f9eb-45cb-aa51-f1681f13ff0e:
+    name: 'R Union Saint-Gilloise'
+    primary: '#fed430'
+    secondary: '#15599f'
+  b4a02894-f4d9-4c12-be5b-c228ec69e1c5:
+    name: 'RSC Anderlecht'
+    primary: '#7200ff'
+    secondary: '#fff'
+  5c128cad-8727-4e3e-bfba-c51929ae14c4:
+    name: 'Royal Antwerp FC'
     primary: '#fff'
-    secondary: '#214ec1'
+    secondary: '#b80000'
   2e97a234-eb94-4c0f-b9f8-680c2a71580e:
     name: 'STVV'
     primary: '#1a5cc0'
     secondary: '#ffea00'
+  d8b04678-8228-4aba-9fdc-644f52d1a4da:
+    name: 'SV Zulte Waregem'
+    primary: '#056c00'
+    secondary: '#b80000'
+  35a453a5-175b-4e52-ab24-2023a581f47a:
+    name: 'Sporting De Charleroi'
+    primary: '#3c3c3c'
+    secondary: '#fff'
+  debe61b8-3021-445d-b275-73fc99702510:
+    name: 'Sporting Lokeren'
+    primary: '#3c3c3c'
+    secondary: '#fff'
   46acc61b-c989-40e4-91be-77ed9c12eaea:
     name: 'Standard De Liège'
     primary: '#fff'
@@ -59,39 +95,3 @@
     name: 'Waasland-Beveren'
     primary: '#ffd200'
     secondary: '#2359c6'
-  d8b04678-8228-4aba-9fdc-644f52d1a4da:
-    name: 'SV Zulte Waregem'
-    primary: '#056c00'
-    secondary: '#b80000'
-  e36005ae-9e83-4620-8484-d03ce0106b2e:
-    name: 'AFC Tubize'
-    primary: '#ffe32b'
-    secondary: '#df372c'
-  03fb7797-ab23-4a2d-8998-5b728952103b:
-    name: 'KV Mechelen'
-    primary: '#ffd200'
-    secondary: '#b80000'
-  9c2c62c3-655a-4444-89e5-6c493cf2c684:
-    name: 'OH Leuven'
-    primary: '#3c3c3c'
-    secondary: '#fff'
-  8bdd0b90-3337-4408-871f-258658c53280:
-    name: 'Beerschot-Wilrijk'
-    primary: '#663e8b'
-    secondary: '#fff'
-  6b57b57d-f9eb-45cb-aa51-f1681f13ff0e:
-    name: 'R Union Saint-Gilloise'
-    primary: '#fed430'
-    secondary: '#15599f'
-  924f1974-6eff-4ad2-abb2-d5d38826d884:
-    name: 'Lommel SK'
-    primary: '#fff'
-    secondary: '#35a454'
-  a9cc1dd9-0d65-454d-83a2-9f66ba1d6430:
-    name: 'KVC Westerlo'
-    primary: '#0e52f1'
-    secondary: '#ffea00'
-  4224d2c4-7ba7-4ff8-901e-f4265d24b09d:
-    name: 'KSV Roeselare'
-    primary: '#3c3c3c'
-    secondary: '#fff'
