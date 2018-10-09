@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Mail\Service;
 
+use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -127,12 +128,8 @@ class SwiftMailService implements MailService
         } else {
             $documentPath = 'documents/nl/Briefing_bedrijven_2018.pdf';
         }
-        $message
-            ->attach(
-                \Swift_Attachment::fromPath(
-                    $documentPath
-                )
-            );
+
+        $message->attach(Swift_Attachment::fromPath($documentPath));
 
         $this->swiftMailer->send($message);
     }
