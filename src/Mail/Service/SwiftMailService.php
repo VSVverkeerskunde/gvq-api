@@ -123,11 +123,13 @@ class SwiftMailService implements MailService
 
         $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
 
+        // @codeCoverageIgnoreStart
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
             $documentPath = 'documents/fr/dummy-fr.pdf';
         } else {
             $documentPath = 'documents/nl/Briefing_bedrijven_2018.pdf';
         }
+        // @codeCoverageIgnoreEnd
 
         $message->attach(Swift_Attachment::fromPath($documentPath));
 
