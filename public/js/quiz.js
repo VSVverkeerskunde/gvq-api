@@ -81,6 +81,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
+        sendDocHeightMsg();
       }
 
       oldView.append(oldContent);
@@ -126,7 +127,28 @@
 
     }
 
-    let views = {
+    function getDocHeight() {
+      let body = document.body;
+      let html = document.documentElement;
+
+      return Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+    }
+
+    function sendDocHeightMsg() {
+      let ht = getDocHeight();
+      let message = JSON.stringify({'docHeight': ht});
+      console.log('postMessage: ' + message);
+      parent.postMessage(message, '*');
+    }
+
+
+      let views = {
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
