@@ -238,7 +238,7 @@ class ModelsFactory
             new NotEmptyString('Français'),
             new NotEmptyString('Académie'),
             new Role('contact'),
-            new Language('nl'),
+            new Language('fr'),
             true
         );
     }

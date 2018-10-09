@@ -166,7 +166,7 @@ class SwiftMailServiceTest extends KernelTestCase
     {
         $registration = ModelsFactory::createRegistration();
         $url = 'http://www.gvq.be/nl/view/accounts/login';
-        $documentUrl = 'http://www.gvq.be/documents/dummy-nl.pdf';
+        $documentUrl = 'http://www.gvq.be/nl/documents/Briefing_bedrijven_2018.pdf';
 
         $this->urlGenerator
             ->expects($this->exactly(2))
@@ -182,7 +182,8 @@ class SwiftMailServiceTest extends KernelTestCase
                 [
                     'documents_kickoff',
                     [
-                        'document' => 'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf',
+                        'document' => 'Briefing_bedrijven_2018.pdf',
+                        '_locale' => 'nl',
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL,
                 ]

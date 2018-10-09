@@ -168,6 +168,9 @@ Contest.success: 'Bedankt om deel te nemen aan de wedstrijd en veel succes!'
 Contest.gdpr1: 'Ik geef mijn toestemming dat de VSV mijn gegevens bewaart en gebruikt om de dienstverlening in het kader van dit project zo optimaal mogelijk te laten verlopen en u over dit project op de hoogte te houden.'
 Contest.gdpr2: 'Ik geef mijn toestemming dat de VSV mijn gegevens gebruikt om me te informeren over (nieuwe) VSV-projecten, -producten en -diensten. Overeenkomstig de Europese Algemene Verordening Gegevensbescherming van 27 april 2016 heb je recht op onder meer inzage, correctie en schrapping van de door ons bewaarde informatie. We geven je gegevens niet door aan derden.'
 
+Documents.title.nl: 'Nederlandstalige documenten'
+Documents.title.fr: 'Franstalige documenten'
+
 #Mails
 Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
