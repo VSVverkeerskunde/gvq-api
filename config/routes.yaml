@@ -223,8 +223,10 @@ documents:
     _locale: nl|fr
 
 documents_kickoff:
-  path: /documents/{document}
+  path: /documents/{_locale}/{document}
   methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 privacy_pdf_nl:
   path: /documents/nl/privacy_policy-nl.pdf

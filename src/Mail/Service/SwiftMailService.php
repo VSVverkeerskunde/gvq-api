@@ -124,10 +124,11 @@ class SwiftMailService implements MailService
         $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
 
         // @codeCoverageIgnoreStart
+        $documentName = $this->getKickOffDocumentName($registration);
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            $documentPath = 'documents/fr/dummy-fr.pdf';
+            $documentPath = 'documents/fr/'.$documentName;
         } else {
-            $documentPath = 'documents/nl/Briefing_bedrijven_2018.pdf';
+            $documentPath = 'documents/nl/'.$documentName;
         }
         // @codeCoverageIgnoreEnd
 
@@ -275,12 +276,9 @@ class SwiftMailService implements MailService
         return [
             'registration' => $registration,
             'loginUrl' => $this->generateLoginUrl($registration),
-            'documentUrl' => $this->generateDocumentUrl(
-                'dummy-'.$registration->getUser()->getLanguage()->toNative().'.pdf'
-            ),
+            'documentUrl' => $this->generateKickOffDocumentUrl($registration),
         ];
     }
-
 
     /**
      * @param Registration $registration
@@ -315,14 +313,32 @@ class SwiftMailService implements MailService
     }
 
     /**
-     * @param string $documentName
+     * @param Registration $registration
      * @return string
      */
-    private function generateDocumentUrl(string $documentName): string
+    private function getKickOffDocumentName(Registration $registration): string
     {
+        // @codeCoverageIgnoreStart
+        if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
+            return 'dummy-fr.pdf';
+        } else {
+            return 'Briefing_bedrijven_2018.pdf';
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param Registration $registration
+     * @return string
+     */
+    private function generateKickOffDocumentUrl(Registration $registration): string
+    {
+        $documentName = $this->getKickOffDocumentName($registration);
+
         return $this->urlGenerator->generate(
             'documents_kickoff',
             [
+                '_locale' => $registration->getUser()->getLanguage()->toNative(),
                 'document' => $documentName,
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
