@@ -28,10 +28,10 @@ class DocumentViewController extends AbstractController
     public function documents(): Response
     {
         $finder = new Finder();
-        $dutchFiles = $finder->files()->in($this->documentsPath.Language::NL);
+        $dutchFiles = $finder->files()->in($this->documentsPath.Language::NL)->sortByName();
 
         $finder = new Finder();
-        $frenchFiles = $finder->files()->in($this->documentsPath.Language::FR);
+        $frenchFiles = $finder->files()->in($this->documentsPath.Language::FR)->sortByName();
 
         return $this->render(
             'documents/documents.html.twig',
