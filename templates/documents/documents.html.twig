@@ -9,31 +9,13 @@
     {% include '/includes/flash.html.twig' %}
 
     {% if app.request.locale == 'nl' %}
-    <h3>{% trans %}Documents.title.nl{% endtrans %}</h3>
-    <ul>
-        {% for file in dutchFiles %}
-            <li>
-                <a target="_blank" href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles } %}
     {% endif %}
-    <h3>{% trans %}Documents.title.fr{% endtrans %}</h3>
-    <ul>
-        {% for file in frenchFiles %}
-            <li>
-                <a target="_blank" href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+
+    {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.fr', 'files': frenchFiles } %}
+
     {% if app.request.locale == 'fr' %}
-        <h3>{% trans %}Documents.title.nl{% endtrans %}</h3>
-        <ul>
-            {% for file in dutchFiles %}
-                <li>
-                    <a target="_blank" href="/documents/{{ app.request.locale }}/{{ file.relativePathName }}">{{ file.relativePathName }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles } %}
     {% endif %}
+
 {% endblock %}
