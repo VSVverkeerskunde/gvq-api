@@ -320,7 +320,7 @@ class SwiftMailService implements MailService
     {
         // @codeCoverageIgnoreStart
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            return 'dummy-fr.pdf';
+            return 'Briefing_entreprise_2018.pdf';
         } else {
             return 'Briefing_bedrijven_2018.pdf';
         }
