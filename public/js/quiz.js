@@ -1,4 +1,6 @@
 (function (window, document, $) {
+  var logoOffsetCounter = 0;
+
   let defaultQuizConfig = {
     'channel': 'individual',
     'company': null,
@@ -116,7 +118,6 @@
       var teamColor = colorPrimary;
       if(colorPrimary == '#fff') {
         teamColor = colorSecondary;
-        console.log('primary is wit');
       }
 
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
@@ -125,6 +126,10 @@
         'border-bottom': '10px solid' + teamColor,
       })
 
+      if (logoOffsetCounter < 2) {
+        sendQuizHeight(150);
+        logoOffsetCounter++;
+      }
     }
 
       let views = {
