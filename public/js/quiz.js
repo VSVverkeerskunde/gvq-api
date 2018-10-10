@@ -81,6 +81,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
+        sendQuizHeight();
       }
 
       oldView.append(oldContent);
@@ -126,7 +127,19 @@
 
     }
 
-    let views = {
+    function getQuizHeight() {
+      let quizElement = document.getElementById('gvq-quiz');
+      return quizElement.offsetHeight;
+    }
+
+    function sendQuizHeight() {
+      let height = getQuizHeight();
+      let message = JSON.stringify({'quizHeight': height});
+      parent.postMessage(message, '*');
+    }
+
+
+      let views = {
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
