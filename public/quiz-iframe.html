@@ -1,19 +1,18 @@
 <script>
-    function setIframeHeight(id, ht) {
-        var ifrm = document.getElementById(id);
-        ifrm.style.visibility = 'hidden';
+    function setFrameHeight(id, height) {
+        var frame = document.getElementById(id);
+        frame.style.visibility = 'hidden';
         // some IE versions need a bit added or scrollbar appears
-        ifrm.style.height = ht + 4 + "px";
-        ifrm.style.visibility = 'visible';
+        frame.style.height = height + 4 + "px";
+        frame.style.visibility = 'visible';
     }
 
-    function handleDocHeightMsg(e) {
-        console.log('Received post');
-        let data = JSON.parse( e.data );
-        setIframeHeight('quizframe', data['docHeight']);
+    function handleQuizHeightMsg(e) {
+        var data = JSON.parse(e.data);
+        setFrameHeight('quizframe', data['quizHeight']);
     }
 
-    window.addEventListener('message', handleDocHeightMsg, false);
+    window.addEventListener('message', handleQuizHeightMsg, false);
 </script>
 
 <iframe src="http://localhost:8000/quiz?language=nl&amp;channel=individual"

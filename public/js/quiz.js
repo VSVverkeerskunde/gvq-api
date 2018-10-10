@@ -81,7 +81,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
-        sendDocHeightMsg();
+        sendQuizHeight();
       }
 
       oldView.append(oldContent);
@@ -127,23 +127,14 @@
 
     }
 
-    function getDocHeight() {
-      let body = document.body;
-      let html = document.documentElement;
-
-      return Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
-      );
+    function getQuizHeight() {
+      let quizElement = document.getElementById('gvq-quiz');
+      return quizElement.offsetHeight;
     }
 
-    function sendDocHeightMsg() {
-      let ht = getDocHeight();
-      let message = JSON.stringify({'docHeight': ht});
-      console.log('postMessage: ' + message);
+    function sendQuizHeight() {
+      let height = getQuizHeight();
+      let message = JSON.stringify({'quizHeight': height});
       parent.postMessage(message, '*');
     }
 
