@@ -12,3 +12,9 @@ RUN touch /usr/share/nginx/html/.env && \
     chown www-data:www-data /usr/share/nginx/html/public/uploads && \
     chown -R www-data:www-data /usr/share/nginx/html/var && \
     chown -R www-data:www-data /var/lib/php/sessions
+
+# Increase Nginx worker processes from 2 to 4.
+RUN sed -i -e "s/worker_processes 2/worker_processes 4/g" /etc/nginx/nginx.conf
+
+# Tuned php-fpm configuration
+ADD ./docker/files/etc/php/fpm/pool.d/www.conf ${PHP_CONFIG_DIR}/fpm/pool.d/www.conf
