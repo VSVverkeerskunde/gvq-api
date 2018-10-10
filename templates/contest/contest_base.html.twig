@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/quiz.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/iFrameSize.js') }}"></script>
+    <script>
+        $(document).ready(
+            function () {
+                sendQuizHeight();
+            }
+        );
+    </script>
+{% endblock %}
