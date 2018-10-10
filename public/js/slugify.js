@@ -30,9 +30,9 @@ function slugify(text) {
         {to: '-', from: '[·/_,:;\']'}
     ];
 
-    sets.forEach(set => {
-        text = text.replace(new RegExp(set.from,'gi'), set.to)
-    });
+    for (let i = 0; i < sets.length; i++) {
+        text = text.replace(new RegExp(sets[i].from, 'gi'), sets[i].to);
+    }
 
     return text
         .replace(/\s+/g, '-')    // Replace spaces with -
