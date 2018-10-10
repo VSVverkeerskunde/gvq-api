@@ -9,7 +9,9 @@
 
     function handleQuizHeightMsg(e) {
         var data = JSON.parse(e.data);
-        setFrameHeight('quizframe', data['quizHeight']);
+        if (data['quizHeight']) {
+            setFrameHeight('quizframe', data['quizHeight']);
+        }
     }
 
     window.addEventListener('message', handleQuizHeightMsg, false);
