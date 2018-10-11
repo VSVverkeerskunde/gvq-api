@@ -76,7 +76,7 @@
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
     let cupModeOn = ('cup' === quizConfig.channel);
 
-    function renderView (viewName, ...args) {
+    function renderView (viewName, quizId, questionNr, answerId) {
       let oldContent = view.children();
       let newContent = $(views[viewName].template).hide();
 
@@ -88,7 +88,7 @@
 
       oldView.append(oldContent);
       view.append(newContent);
-      views[viewName].controller(...args).done(showNewContent);
+      views[viewName].controller(quizId, questionNr, answerId).done(showNewContent);
     }
 
     function setViewValue (name, value) {
