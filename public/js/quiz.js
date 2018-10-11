@@ -83,7 +83,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
-        sendQuizHeight();
+        sendQuizHeight(0);
       }
 
       oldView.append(oldContent);

@@ -3,7 +3,7 @@ function getQuizHeight() {
     return quizElement.offsetHeight;
 }
 
-function sendQuizHeight(offset = 0) {
+function sendQuizHeight(offset) {
     let height = getQuizHeight() + offset;
     let message = JSON.stringify({'quizHeight': height});
     parent.postMessage(message, '*');
