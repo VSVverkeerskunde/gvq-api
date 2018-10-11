@@ -127,6 +127,7 @@ svg {
   #gvq-quiz .card-header,
   #gvq-quiz .card-body,
   #gvq-quiz .card-footer {
+    overflow: hidden;
     padding: 1.5em 0 0; }
 
 .participation-form > .container {
