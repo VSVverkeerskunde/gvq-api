@@ -158,7 +158,7 @@
     <script src="{{ asset('js/quiz.js') }}"></script>
     <script src="{{ asset('js/iFrameSize.js') }}"></script>
     <script>
-      Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
+      Quiz($.extend({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
       function getConfigFromUrlParameters () {
         return decodeURIComponent(window.location.search.substring(1))

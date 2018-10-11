@@ -70,7 +70,7 @@
   }
 
   function Quiz (quizConfig) {
-    quizConfig = Object.assign({}, defaultQuizConfig, quizConfig || cachedConfig);
+    quizConfig = $.extend({}, defaultQuizConfig, quizConfig || cachedConfig);
     cachedConfig = quizConfig;
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
