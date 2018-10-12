@@ -18,3 +18,6 @@ RUN sed -i -e "s/worker_processes 2/worker_processes 4/g" /etc/nginx/nginx.conf
 
 # Tuned php-fpm configuration
 ADD ./docker/files/etc/php/fpm/pool.d/www.conf ${PHP_CONFIG_DIR}/fpm/pool.d/www.conf
+
+# Turn off nginx access log
+RUN sed -i -e "s/access_log .*/access_log off;/g" /etc/nginx/nginx.conf
