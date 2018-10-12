@@ -55,11 +55,11 @@
       CHOOSE_TEAM: 'Choisissez votre club',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
-      SHARE_TITLE_VERY_BAD: 'Oei, dat ziet er niet goed uit. Probeer het nog eens en fris je verkeerskennis op. Vanaf 11/15 maak je trouwens kans op 1 van de geweldige prijzen.',
-      SHARE_TITLE_BAD: 'Dat kan beter. Probeer nog eens en ga voor een hogere score. Vanaf 11/15 maak je kans op een reischeque van 1000 euro. Wie niet waagt...',
-      SHARE_TITLE_GOOD: 'Goed bezig! Maar alles kan beter 😉. Probeer nog eens en laat zien dat je een échte verkeersexpert bent.',
-      SHARE_TITLE_VERY_GOOD: 'Wat een topscore! Jij hebt duidelijk een echt verkeersbrein.',
-      SHARE_SUB_TITLE: '__Deel je score met je vrienden en daag hen uit om beter te doen.',
+      SHARE_TITLE_VERY_BAD: 'Aie, retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
+      SHARE_TITLE_BAD: 'Vous pouvez faire mieux! Retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
+      SHARE_TITLE_GOOD: 'Bien joué ! C\'est suffisant pour participer au concours mais pas encore pour être un véritable expert! Serez-vous capable de faire mieux?',
+      SHARE_TITLE_VERY_GOOD: 'Quel score!  Le code de la route n\'a pas de secret pour vous, bravo.',
+      SHARE_SUB_TITLE: 'Partagez votre score avec vos amis et défiez-les de faire mieux!',
     }
   };
   let cachedConfig = {};
