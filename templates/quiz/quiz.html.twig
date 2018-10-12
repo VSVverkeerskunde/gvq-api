@@ -19,6 +19,14 @@
     {% endif %}
 {% endblock %}
 
+{% block fbp %}
+    {% if app.request.get('channel') == 'cup' %}
+        <script src="{{ asset('js/fbp.cup.js') }}"></script>
+    {% else %}
+        <script src="{{ asset('js/fbp.quiz.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
