@@ -34,7 +34,11 @@
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
       EMAIL: 'E-mail',
       SHARE_TITLE: 'Goede of slechte score?',
-      SHARE_SUB_TITLE: 'Laat je vrienden weten hoe je het er vanaf bracht en daag hen uit om beter te doen!',
+      SHARE_TITLE_VERY_BAD: 'Oei, dat ziet er niet goed uit. Probeer het nog eens en fris je verkeerskennis op. Vanaf 11/15 maak je trouwens kans op 1 van de geweldige prijzen.',
+      SHARE_TITLE_BAD: 'Dat kan beter. Probeer nog eens en ga voor een hogere score. Vanaf 11/15 maak je kans op een reischeque van 1000 euro. Wie niet waagt...',
+      SHARE_TITLE_GOOD: 'Goed bezig! Maar alles kan beter 😉. Probeer nog eens en laat zien dat je een échte verkeersexpert bent.',
+      SHARE_TITLE_VERY_GOOD: 'Wat een topscore! Jij hebt duidelijk een echt verkeersbrein.',
+      SHARE_SUB_TITLE: 'Deel je score met je vrienden en daag hen uit om beter te doen.',
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
@@ -51,7 +55,11 @@
       CHOOSE_TEAM: 'Choisissez votre club',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
-      SHARE_SUB_TITLE: 'Faites savoir à vos amis que vous avez réussi et défiez-les de faire mieux!',
+      SHARE_TITLE_VERY_BAD: 'Oei, dat ziet er niet goed uit. Probeer het nog eens en fris je verkeerskennis op. Vanaf 11/15 maak je trouwens kans op 1 van de geweldige prijzen.',
+      SHARE_TITLE_BAD: 'Dat kan beter. Probeer nog eens en ga voor een hogere score. Vanaf 11/15 maak je kans op een reischeque van 1000 euro. Wie niet waagt...',
+      SHARE_TITLE_GOOD: 'Goed bezig! Maar alles kan beter 😉. Probeer nog eens en laat zien dat je een échte verkeersexpert bent.',
+      SHARE_TITLE_VERY_GOOD: 'Wat een topscore! Jij hebt duidelijk een echt verkeersbrein.',
+      SHARE_SUB_TITLE: '__Deel je score met je vrienden en daag hen uit om beter te doen.',
     }
   };
   let cachedConfig = {};
@@ -332,6 +340,34 @@
           view.find('button.gvq-play-contest').on('click', function () {
               $(location).attr("href", contestUrl);
           });
+
+          if (cupModeOn) {
+            view.find('#share-quiz').remove();
+          } else {
+            view.find('#share-cup').remove();
+
+            if (score <= 7) {
+              view.find('#share-title-very-bad').show();
+              view.find('#share-title-bad').hide();
+              view.find('#share-title-good').hide();
+              view.find('#share-title-very-good').hide();
+            } else if (score <=10 ) {
+              view.find('#share-title-very-bad').hide();
+              view.find('#share-title-bad').show();
+              view.find('#share-title-good').hide();
+              view.find('#share-title-very-good').hide();
+            } else if (score <= 13) {
+              view.find('#share-title-very-bad').hide();
+              view.find('#share-title-bad').hide();
+              view.find('#share-title-good').show();
+              view.find('#share-title-very-good').hide();
+            } else {
+              view.find('#share-title-very-bad').hide();
+              view.find('#share-title-bad').hide();
+              view.find('#share-title-good').hide();
+              view.find('#share-title-very-good').show();
+            }
+          }
 
           return $.Deferred().resolve().promise();
         },
