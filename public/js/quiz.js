@@ -51,8 +51,9 @@
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
       CHOOSE_TEAM: 'Choisissez votre club',
-      RECRUITMENT_TITLE: '__Test je verkeerskennis en ga aan de haal met 1 van de vele topprijzen.',
-      RECRUITMENT_SUBTITLE: '__5 minuutjes, 15 vragen en misschien win jij wel een reischeque van 1000 euro!',      EMAIL: 'Email',
+      RECRUITMENT_TITLE: 'Testez vos connaissances du code de la route et gagnez un de nos 200 prix!',
+      RECRUITMENT_SUBTITLE: '5 minutes, 15 questions et vous gagnerez peut-être un chèque-voyage de 1000 euros!',
+      EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
       SHARE_SUB_TITLE: 'Faites savoir à vos amis que vous avez réussi et défiez-les de faire mieux!',
     }
