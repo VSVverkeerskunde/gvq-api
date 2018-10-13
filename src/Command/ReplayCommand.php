@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Command;
 
+use Broadway\Domain\DomainEventStream;
+use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\SimpleEventBus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,7 +38,17 @@ class ReplayCommand extends ContainerAwareCommand
         /** @var SimpleEventBus $simpleEventBus */
         $simpleEventBus = $this->getContainer()->get('simple_event_bus');
 
-        $simpleEventBus->publish($doctrineEventStore->getFullDomainEventStream());
+        /** @var DomainMessage $domainMessage */
+        $index = 0;
+        foreach ($doctrineEventStore->getTraversableDomainMessages() as $domainMessage) {
+            $output->writeln(
+                $index++.' - ' .$domainMessage->getId()
+                .' - '.$domainMessage->getRecordedOn()->toString()
+                .' - '.$domainMessage->getType()
+            );
+            $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
+        }
+
         $output->writeln('Finished replay...');
     }
 }
