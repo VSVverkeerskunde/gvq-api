@@ -20,12 +20,9 @@ services:
       - BUCKET_NAME=${BUCKET_NAME}
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
+      - REDIS_HOST
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always
     tmpfs:
       - /tmp
-
-  redis:
-    image: redis:alpine
-    restart: always

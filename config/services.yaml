@@ -9,6 +9,8 @@ parameters:
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
     team_file : '%kernel.project_dir%/config/teams.yaml'
+    env(REDIS_HOST): 'redis'
+    env(REDIS_PORT): 6379
 
 services:
     # default configuration for services in *this* file
@@ -158,8 +160,8 @@ services:
       calls:
         - method: connect
           arguments:
-            - 'redis'
-            - 6379
+            - '%env(resolve:REDIS_HOST)%'
+            - '%env(resolve:REDIS_PORT)%'
       public: true
 
     quiz_redis_repository:
