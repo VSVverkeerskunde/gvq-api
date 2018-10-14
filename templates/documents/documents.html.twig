@@ -9,13 +9,13 @@
     {% include '/includes/flash.html.twig' %}
 
     {% if app.request.locale == 'nl' %}
-        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles } %}
+        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles, 'locale': 'nl'} %}
     {% endif %}
 
-    {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.fr', 'files': frenchFiles } %}
+    {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.fr', 'files': frenchFiles, 'locale': 'fr'} %}
 
     {% if app.request.locale == 'fr' %}
-        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles } %}
+        {% include 'documents/documents_list.html.twig' with {'title': 'Documents.title.nl', 'files': dutchFiles, 'locale': 'nl'} %}
     {% endif %}
 
 {% endblock %}

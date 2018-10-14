@@ -1,4 +1,6 @@
 (function (window, document, $) {
+  var logoOffsetCounter = 0;
+
   let defaultQuizConfig = {
     'channel': 'individual',
     'company': null,
@@ -68,24 +70,25 @@
   }
 
   function Quiz (quizConfig) {
-    quizConfig = Object.assign({}, defaultQuizConfig, quizConfig || cachedConfig);
+    quizConfig = $.extend({}, defaultQuizConfig, quizConfig || cachedConfig);
     cachedConfig = quizConfig;
     let view = $('#gvq-quiz .gvq-quiz-view');
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
     let cupModeOn = ('cup' === quizConfig.channel);
 
-    function renderView (viewName, ...args) {
+    function renderView (viewName, quizId, questionNr, answerId) {
       let oldContent = view.children();
       let newContent = $(views[viewName].template).hide();
 
       function showNewContent () {
         oldContent.remove();
         newContent.show();
+        sendQuizHeight(0);
       }
 
       oldView.append(oldContent);
       view.append(newContent);
-      views[viewName].controller(...args).done(showNewContent);
+      views[viewName].controller(quizId, questionNr, answerId).done(showNewContent);
     }
 
     function setViewValue (name, value) {
@@ -115,18 +118,21 @@
       var teamColor = colorPrimary;
       if(colorPrimary == '#fff') {
         teamColor = colorSecondary;
-        console.log('primary is wit');
       }
 
       banner.find('img').attr('src', team ? (quizConfig.imageDirectory+'teams/'+teamId+'.png') : '');
 
       banner.css({
-        'border-bottom': '10px solid' + teamColor,
-      })
+        'border-bottom': '10px solid ' + teamColor,
+      });
 
+      if (logoOffsetCounter < 2) {
+        sendQuizHeight(150);
+        logoOffsetCounter++;
+      }
     }
 
-    let views = {
+      let views = {
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');

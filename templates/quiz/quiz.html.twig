@@ -19,6 +19,14 @@
     {% endif %}
 {% endblock %}
 
+{% block fbp %}
+    {% if app.request.get('channel') == 'cup' %}
+        <script src="{{ asset('js/fbp.cup.js') }}"></script>
+    {% else %}
+        <script src="{{ asset('js/fbp.quiz.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
@@ -103,6 +111,8 @@
                                     <li class="list-group-item list-group-item-action" data-value="answer3"></li>
                                 </ul>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-12">
                                 <p class="gvq-question-feedback" data-value="feedback"></p>
                             </div>
@@ -156,8 +166,9 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/quiz.js') }}"></script>
+    <script src="{{ asset('js/iFrameSize.js') }}"></script>
     <script>
-      Quiz(Object.assign({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
+      Quiz($.extend({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
       function getConfigFromUrlParameters () {
         return decodeURIComponent(window.location.search.substring(1))

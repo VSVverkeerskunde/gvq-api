@@ -1,0 +1,29 @@
+<script>
+    function setFrameHeight(id, height) {
+        var frame = document.getElementById(id);
+        frame.style.visibility = 'hidden';
+        // some IE versions need a bit added or scrollbar appears
+        frame.style.height = height + 4 + "px";
+        frame.style.visibility = 'visible';
+    }
+
+    function handleQuizHeightMsg(e) {
+        var data = JSON.parse(e.data);
+        if (data['quizHeight']) {
+            setFrameHeight('quizframe', data['quizHeight']);
+        }
+    }
+
+    window.addEventListener('message', handleQuizHeightMsg, false);
+</script>
+
+<iframe src="http://localhost:8000/quiz?language=nl&amp;channel=individual"
+        id="quizframe"
+        class="embed-quiz"
+        frameborder="0"
+        scrolling="yes"
+        style="margin-top:2em;
+        width:100%;
+        overflow-x: hidden;
+        overflow-y: scroll;">
+</iframe>
