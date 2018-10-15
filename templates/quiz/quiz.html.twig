@@ -136,7 +136,15 @@
                         </span>
 
                         <div class="social text-center p-4">
-                            <h4 data-translate="SHARE_TITLE">Good or bad score?</h4>
+                            <div id="share-cup">
+                                <h4 id="share-title" data-translate="SHARE_TITLE">Good or bad score?</h4>
+                            </div>
+                            <div id="share-quiz">
+                                <h4 id="share-title-very-bad" data-translate="SHARE_TITLE_VERY_BAD">Very bad score</h4>
+                                <h4 id="share-title-bad" data-translate="SHARE_TITLE_BAD">Bad score</h4>
+                                <h4 id="share-title-good" data-translate="SHARE_TITLE_GOOD">Good score</h4>
+                                <h4 id="share-title-very-good" data-translate="SHARE_TITLE_VERY_GOOD">Very good</h4>
+                            </div>
                             <p data-translate="SHARE_SUB_TITLE">Let your friends know how you scored!</p>
                             <p>
                                 {% if app.request.get('language') == 'fr' %}
