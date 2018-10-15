@@ -32,6 +32,7 @@
       ANSWERED_WRONG: 'Fout',
       ANSWERED_LATE: 'Te laat',
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
+      RECRUITMENT_TITLE: 'Test je verkeerskennis en ga aan de haal met 1 van de vele topprijzen. 5 minuutjes, 15 vragen en misschien win jij wel een reischeque van 1000 euro!',
       EMAIL: 'E-mail',
       SHARE_TITLE: 'Goede of slechte score?',
       SHARE_TITLE_VERY_BAD: 'Oei, dat ziet er niet goed uit. Probeer het nog eens en fris je verkeerskennis op. Vanaf 11/15 maak je trouwens kans op 1 van de geweldige prijzen.',
@@ -53,6 +54,7 @@
       ANSWERED_WRONG: 'Faux',
       ANSWERED_LATE: 'Trop tard',
       CHOOSE_TEAM: 'Choisissez votre club',
+      RECRUITMENT_TITLE: 'Testez vos connaissances du code de la route et gagnez un de nos 200 prix! 5 minutes, 15 questions et vous gagnerez peut-être un chèque-voyage de 1000 euros!',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
       SHARE_TITLE_VERY_BAD: 'Aie, retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
@@ -151,6 +153,8 @@
           emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
           emailInput.val(quizConfig['email']);
 
+          let recruitment = view.find('#recruitment');
+
           function start (email, team) {
             $.post(quizConfig.apiUrl + '/quiz', JSON.stringify({
               channel: quizConfig['channel'],
@@ -168,6 +172,8 @@
           }
 
           if (cupModeOn) {
+            recruitment.remove();
+
             $.each(quizConfig['teams'], function (id, team) {
               teamSelect.append($('<option>', {value: id, text: team.name}));
             });
