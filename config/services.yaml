@@ -11,6 +11,7 @@ parameters:
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
+    quiz_allow_anonymous: '%env(QUIZ_ALLOW_ANONYMOUS)%'
 
 services:
     # default configuration for services in *this* file
@@ -468,6 +469,7 @@ services:
     VSV\GVQ_API\Quiz\Controllers\QuizViewController:
       arguments:
         $year: '@quiz_year'
+        $allowAnonymous: '%quiz_allow_anonymous%'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:

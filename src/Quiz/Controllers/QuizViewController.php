@@ -16,11 +16,20 @@ class QuizViewController extends AbstractController
     private $year;
 
     /**
-     * @param Year $year
+     * @var bool
      */
-    public function __construct(Year $year)
-    {
+    private $allowAnonymous;
+
+    /**
+     * @param Year $year
+     * @param bool $allowAnonymous
+     */
+    public function __construct(
+        Year $year,
+        bool $allowAnonymous
+    ) {
         $this->year = $year;
+        $this->allowAnonymous = $allowAnonymous;
     }
 
     /**
@@ -29,15 +38,32 @@ class QuizViewController extends AbstractController
      */
     public function showQuiz(ContainerInterface $container): Response
     {
-        $teams = Yaml::parseFile(
-            $container->getParameter('kernel.project_dir').'/config/teams.yaml'
-        );
+        if ($this->canPlayQuiz()) {
+            $teams = Yaml::parseFile(
+                $container->getParameter('kernel.project_dir') . '/config/teams.yaml'
+            );
 
-        return $this->render(
-            'quiz/quiz.html.twig',
-            [
-                'teams' => (object) $teams[$this->year->toNative()],
-            ]
-        );
+            return $this->render(
+                'quiz/quiz.html.twig',
+                [
+                    'teams' => (object)$teams[$this->year->toNative()],
+                ]
+            );
+        } else {
+            return $this->redirectToRoute('accounts_view_login');
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function canPlayQuiz(): bool
+    {
+        if ($this->allowAnonymous) {
+            return true;
+        } else {
+            return $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ||
+                $this->get('security.authorization_checker')->isGranted('ROLE_VSV');
+        }
     }
 }

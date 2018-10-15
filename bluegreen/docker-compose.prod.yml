@@ -21,6 +21,7 @@ services:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
       - REDIS_HOST
+      - QUIZ_ALLOW_ANONYMOUS=${QUIZ_ALLOW_ANONYMOUS}
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always
