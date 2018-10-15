@@ -54,6 +54,7 @@ class QuizViewController extends AbstractController
         } else {
             $language = $request->get('language');
             $channel = $request->get('channel') === 'cup' ? 'cup' : 'quiz';
+
             return $this->render(
                 'quiz/quiz-placeholder.html.twig',
                 [
