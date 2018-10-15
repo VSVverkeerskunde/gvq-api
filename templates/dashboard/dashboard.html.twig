@@ -96,11 +96,43 @@
                     </div>
                 </div>
             {% endif %}
-
-
         </div>
+
         <div class="col-md-6 col-lg-4">
-            <!-- ADD SECOND COL CONTENT HERE -->
+            <div class="card text-center mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans %}Statistics.title.general{% endtrans %}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <thead class="thead-dark thead-primary text-center">
+                        <tr>
+                            <td class="border-0"></td>
+                            <th>{% trans %}Statistics.subheader.NL{% endtrans %}</th>
+                            <th>{% trans %}Statistics.subheader.FR{% endtrans %}</th>
+                            <th class="border-right">{% trans %}Statistics.subheader.Total{% endtrans %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="border-top">
+                            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.passed{% endtrans %}">
+                                {% trans %}Statistics.row.passed{% endtrans %}</th>
+                            {% include 'dashboard/statistics_row.html.twig' with {'counts': passedUniqueParticipantCounts} %}
+                        </tr>
+                        <tr class="border-top">
+                            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.percentage{% endtrans %}">
+                                {% trans %}Statistics.row.percentage{% endtrans %}</th>
+                            {% include 'dashboard/statistics_row.html.twig' with {'counts': passedUniqueParticipantPercentage} %}
+                        </tr>
+                        <tr class="border-top">
+                            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.topscore{% endtrans %}">
+                                {% trans %}Statistics.row.topscore{% endtrans %}</th>
+                            {% include 'dashboard/statistics_row.html.twig' with {'counts': detailedTopScoreAverages} %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -110,6 +142,8 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
             $('#company').change(function () {
                 var url = $("#apply").attr('href').slice(0, -36);
                 url = url + $('#company').val();

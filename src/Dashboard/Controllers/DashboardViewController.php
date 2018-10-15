@@ -9,15 +9,27 @@ use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Dashboard\Service\DashboardService;
+use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\Service\StatisticsService;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
 class DashboardViewController extends CompanyAwareController
 {
     /**
+     * @var Year
+     */
+    private $year;
+
+    /**
      * @var DashboardService
      */
     private $dashboardService;
+
+    /**
+     * @var StatisticsService
+     */
+    private $statisticsService;
 
     /**
      * @var SerializerInterface
@@ -30,22 +42,28 @@ class DashboardViewController extends CompanyAwareController
     private $responseFactory;
 
     /**
+     * @param Year $year
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
      * @param DashboardService $dashboardService
+     * @param StatisticsService $statisticsService
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
      */
     public function __construct(
+        Year $year,
         UserRepository $userRepository,
         CompanyRepository $companyRepository,
         DashboardService $dashboardService,
+        StatisticsService $statisticsService,
         SerializerInterface $serializer,
         ResponseFactory $responseFactory
     ) {
         parent::__construct($userRepository, $companyRepository);
 
+        $this->year = $year;
         $this->dashboardService = $dashboardService;
+        $this->statisticsService = $statisticsService;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
     }
@@ -81,6 +99,10 @@ class DashboardViewController extends CompanyAwareController
             }
         }
 
+        $passedUniqueParticipantCounts = $this->statisticsService->getPassedUniqueParticipantCounts();
+        $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
+        $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
+
         return $this->render(
             'dashboard/dashboard.html.twig',
             [
@@ -91,6 +113,9 @@ class DashboardViewController extends CompanyAwareController
                 'average' => $average,
                 'topScores' => $firstTenTopScores,
                 'showTopScoresCard' => count($allTopScores) > 0,
+                'passedUniqueParticipantCounts' => $passedUniqueParticipantCounts,
+                'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
+                'detailedTopScoreAverages' => $detailedTopScoreAverages,
             ]
         );
     }
