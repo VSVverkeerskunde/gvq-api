@@ -6,5 +6,17 @@
 {% endblock %}
 
 {% block body %}
-
+    {% if language == 'nl' %}
+        <p>
+            De Grote Verkeers{{ channel }} loopt van 18 oktober tot en met 18 november 2018
+        </p>
+    {% else %}
+        {% if channel == 'cup' %}
+            <p>
+                Le Coupe de la Sécurité routière commence le 18 octobre et se termine le 18 novembre 2018.
+            </p>
+        {% else %}
+            <p>Le Grand Quiz de la Route commence le 18 octobre et se termine le 18 novembre 2018.</p>
+        {% endif %}
+    {% endif %}
 {% endblock %}

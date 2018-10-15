@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Quiz\Controllers;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -34,9 +35,10 @@ class QuizViewController extends AbstractController
 
     /**
      * @param ContainerInterface $container
+     * @param Request $request
      * @return Response
      */
-    public function showQuiz(ContainerInterface $container): Response
+    public function showQuiz(ContainerInterface $container, Request $request): Response
     {
         if ($this->canPlayQuiz()) {
             $teams = Yaml::parseFile(
@@ -50,7 +52,15 @@ class QuizViewController extends AbstractController
                 ]
             );
         } else {
-            return $this->redirectToRoute('accounts_view_login');
+            $language = $request->get('language');
+            $channel = $request->get('channel') === 'cup' ? 'cup' : 'quiz';
+            return $this->render(
+                'quiz/quiz-placeholder.html.twig',
+                [
+                    'language' => $language,
+                    'channel' => $channel,
+                ]
+            );
         }
     }
 
