@@ -57,19 +57,20 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
     }
 
     /**
-     * @return DomainEventStream
+     * @return \Traversable
      */
-    public function getFullDomainEventStream(): DomainEventStream
+    public function getTraversableDomainMessages(): \Traversable
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder->select('e')
+        $query = $queryBuilder->select('e')
             ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
-            ->orderBy('e.id', 'ASC');
+            ->orderBy('e.id', 'ASC')
+            ->getQuery();
 
-        $eventEntities = $queryBuilder->getQuery()->getResult();
-
-        return $this->createDomainEventStream($eventEntities);
+        foreach ($query->iterate() as $eventEntities) {
+            yield $this->createDomainMessage($eventEntities[0]);
+        }
     }
 
     /**

@@ -197,11 +197,15 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
             new DomainEventStream($domainEvents)
         );
 
-        $domainEventStream = $this->doctrineEventStore->getFullDomainEventStream();
+        $allDomainMessages = [];
+        $domainMessages = $this->doctrineEventStore->getTraversableDomainMessages();
+        foreach ($domainMessages as $domainMessage) {
+            $allDomainMessages[] = $domainMessage;
+        }
 
         $this->assertEquals(
             new DomainEventStream($domainEvents),
-            $domainEventStream
+            new DomainEventStream($allDomainMessages)
         );
     }
 
