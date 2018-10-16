@@ -156,6 +156,12 @@
                                     {% include 'quiz/share-nl.html.twig' %}
                                 {% endif %}
                             </p>
+
+                            {% if app.request.locale == 'nl' %}
+                                <p class="pt-4">{% trans %}Contest.success.link{% endtrans %}
+                                    <a href="https://www.veiligverkeer.be" target="_blank">www.veiligverkeer.be</a>
+                                </p>
+                            {% endif %}
                         </div>
 
                     </div>
