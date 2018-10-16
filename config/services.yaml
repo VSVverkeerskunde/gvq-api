@@ -12,6 +12,7 @@ parameters:
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
     quiz_allow_anonymous: '%env(QUIZ_ALLOW_ANONYMOUS)%'
+    report_allow_contact: '%env(REPORT_ALLOW_CONTACT)%'
 
 services:
     # default configuration for services in *this* file
@@ -484,6 +485,7 @@ services:
     VSV\GVQ_API\Report\Controllers\ReportViewController:
       arguments:
         $reportService: '@report_service'
+        $allowContact: '%report_allow_contact%'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Document\Controllers\DocumentViewController:
