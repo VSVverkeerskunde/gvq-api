@@ -11,7 +11,10 @@ parameters:
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
+    env(QUIZ_ALLOW_ANONYMOUS): 0
     quiz_allow_anonymous: '%env(QUIZ_ALLOW_ANONYMOUS)%'
+    env(REPORT_ALLOW_CONTACT): 0
+    report_allow_contact: '%env(REPORT_ALLOW_CONTACT)%'
 
 services:
     # default configuration for services in *this* file
@@ -479,11 +482,15 @@ services:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:
+      arguments:
+        $year: '@quiz_year'
+        $statisticsService: '@statistics_service'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Report\Controllers\ReportViewController:
       arguments:
         $reportService: '@report_service'
+        $allowContact: '%report_allow_contact%'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Document\Controllers\DocumentViewController:

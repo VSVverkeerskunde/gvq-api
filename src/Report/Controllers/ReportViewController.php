@@ -15,11 +15,20 @@ class ReportViewController extends AbstractController
     private $reportService;
 
     /**
-     * @param ReportService $reportService
+     * @var bool
      */
-    public function __construct(ReportService $reportService)
-    {
+    private $allowContact;
+
+    /**
+     * @param ReportService $reportService
+     * @param bool $allowContact
+     */
+    public function __construct(
+        ReportService $reportService,
+        bool $allowContact
+    ) {
         $this->reportService = $reportService;
+        $this->allowContact = $allowContact;
     }
 
     /**
@@ -27,38 +36,56 @@ class ReportViewController extends AbstractController
      */
     public function report(): Response
     {
-        $correctNlQuestions = $this->reportService->getCorrectQuestions(
-            new Language(Language::NL)
-        )->toArray();
-        $inCorrectNlQuestions = $this->reportService->getInCorrectQuestions(
-            new Language(Language::NL)
-        )->toArray();
+        if ($this->canViewReport()) {
+            $correctNlQuestions = $this->reportService->getCorrectQuestions(
+                new Language(Language::NL)
+            )->toArray();
+            $inCorrectNlQuestions = $this->reportService->getInCorrectQuestions(
+                new Language(Language::NL)
+            )->toArray();
 
-        $correctFrQuestions = $this->reportService->getCorrectQuestions(
-            new Language(Language::FR)
-        )->toArray();
-        $inCorrectFrQuestions = $this->reportService->getInCorrectQuestions(
-            new Language(Language::FR)
-        )->toArray();
+            $correctFrQuestions = $this->reportService->getCorrectQuestions(
+                new Language(Language::FR)
+            )->toArray();
+            $inCorrectFrQuestions = $this->reportService->getInCorrectQuestions(
+                new Language(Language::FR)
+            )->toArray();
 
-        $categoriesPercentagesNl = $this->reportService->getCategoriesPercentages(
-            new Language(Language::NL)
-        );
-        $categoriesPercentagesFr = $this->reportService->getCategoriesPercentages(
-            new Language(Language::FR)
-        );
+            $categoriesPercentagesNl = $this->reportService->getCategoriesPercentages(
+                new Language(Language::NL)
+            );
+            $categoriesPercentagesFr = $this->reportService->getCategoriesPercentages(
+                new Language(Language::FR)
+            );
 
-        return $this->render(
-            'report/report.html.twig',
-            [
-                'correctNlQuestions' => $correctNlQuestions,
-                'inCorrectNlQuestions' => $inCorrectNlQuestions,
-                'correctFrQuestions' => $correctFrQuestions,
-                'inCorrectFrQuestions' => $inCorrectFrQuestions,
-                'categoriesPercentagesNl' => $categoriesPercentagesNl,
-                'categoriesPercentagesFr' => $categoriesPercentagesFr,
-                'uploadPath' => getenv('UPLOAD_PATH'),
-            ]
-        );
+            return $this->render(
+                'report/report.html.twig',
+                [
+                    'correctNlQuestions' => $correctNlQuestions,
+                    'inCorrectNlQuestions' => $inCorrectNlQuestions,
+                    'correctFrQuestions' => $correctFrQuestions,
+                    'inCorrectFrQuestions' => $inCorrectFrQuestions,
+                    'categoriesPercentagesNl' => $categoriesPercentagesNl,
+                    'categoriesPercentagesFr' => $categoriesPercentagesFr,
+                    'uploadPath' => getenv('UPLOAD_PATH'),
+                ]
+            );
+        } else {
+            return $this->redirectToRoute('dashboard');
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function canViewReport(): bool
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_CONTACT')) {
+            return $this->allowContact;
+        } else {
+            // Security on the route is still in place.
+            // So this point is admin or vsv role.
+            return true;
+        }
     }
 }
