@@ -57,7 +57,7 @@
       RECRUITMENT_TITLE: 'Testez vos connaissances du code de la route et gagnez un de nos 200 prix! 5 minutes, 15 questions et vous gagnerez peut-être un chèque-voyage de 1000 euros!',
       EMAIL: 'Email',
       SHARE_TITLE: 'Bon ou mauvais score?',
-      SHARE_TITLE_VERY_BAD: 'Aie, retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
+      SHARE_TITLE_VERY_BAD: 'Aïe, retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
       SHARE_TITLE_BAD: 'Vous pouvez faire mieux! Retentez vite votre chance! Vous devez obtenir 11/15 minimum pour tenter de gagner un des prix mis en jeu.',
       SHARE_TITLE_GOOD: 'Bien joué ! C\'est suffisant pour participer au concours mais pas encore pour être un véritable expert! Serez-vous capable de faire mieux?',
       SHARE_TITLE_VERY_GOOD: 'Quel score!  Le code de la route n\'a pas de secret pour vous, bravo.',

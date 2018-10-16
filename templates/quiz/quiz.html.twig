@@ -157,11 +157,17 @@
                                 {% endif %}
                             </p>
 
-                            {% if app.request.locale == 'nl' %}
-                                <p class="pt-4">{% trans %}Contest.success.link{% endtrans %}
+                            {% if app.request.get('language') == 'nl' %}
+                                <p class="pt-4">Meer weten over verkeer en mobiliteit? Neem eens een kijkje op
                                     <a href="https://www.veiligverkeer.be" target="_blank">www.veiligverkeer.be</a>
                                 </p>
+                            {% else %}
+                                <p class="pt-4">Plus d’infos sur l’AWSR ?
+                                    <a href="https://www.awsr.be" target="_blank">www.awsr.be</a>,
+                                    <a href="http://www.tousconcernés.be" target="_blank">www.tousconcernés.be</a>
+                                </p>
                             {% endif %}
+
                         </div>
 
                     </div>
