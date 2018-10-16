@@ -11,7 +11,9 @@ parameters:
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
+    env(QUIZ_ALLOW_ANONYMOUS): 0
     quiz_allow_anonymous: '%env(QUIZ_ALLOW_ANONYMOUS)%'
+    env(REPORT_ALLOW_CONTACT): 0
     report_allow_contact: '%env(REPORT_ALLOW_CONTACT)%'
 
 services:
