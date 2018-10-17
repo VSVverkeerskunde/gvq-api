@@ -15,10 +15,6 @@
     name: 'Club Brugge KV'
     primary: '#387cda'
     secondary: '#3c3c3c'
-  84d02f01-dc54-4a6d-a7d4-eaad91de8a7b:
-    name: 'Excel Mouscron'
-    primary: '#264fc4'
-    secondary: '#b80000'
   a3f38c05-5d36-43fc-8cf7-2ca682e53420:
     name: 'KAA Gent'
     primary: '#1347dc'
@@ -70,6 +66,10 @@
   5c128cad-8727-4e3e-bfba-c51929ae14c4:
     name: 'Royal Antwerp FC'
     primary: '#fff'
+    secondary: '#b80000'
+  84d02f01-dc54-4a6d-a7d4-eaad91de8a7b:
+    name: 'Royal Excelsior Mouscron'
+    primary: '#264fc4'
     secondary: '#b80000'
   2e97a234-eb94-4c0f-b9f8-680c2a71580e:
     name: 'STVV'
