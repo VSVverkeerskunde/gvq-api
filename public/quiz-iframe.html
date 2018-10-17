@@ -1,16 +1,18 @@
 <script>
-    function setFrameHeight(id, height) {
-        var frame = document.getElementById(id);
-        frame.style.visibility = 'hidden';
+    function setIframeHeight(id, height) {
+        var iframe = document.getElementById(id);
+        iframe.style.visibility = 'hidden';
         // some IE versions need a bit added or scrollbar appears
-        frame.style.height = height + 4 + "px";
-        frame.style.visibility = 'visible';
+        iframe.style.height = height + 4 + "px";
+        iframe.style.visibility = 'visible';
     }
 
     function handleQuizHeightMsg(e) {
-        var data = JSON.parse(e.data);
-        if (data['quizHeight']) {
-            setFrameHeight('quizframe', data['quizHeight']);
+        if (e.data && typeof e.data === 'string' && e.data.search("quizHeight")) {
+            var data = JSON.parse(e.data);
+            if (data['quizHeight']) {
+                setIframeHeight('quizframe', data['quizHeight']);
+            }
         }
     }
 
@@ -21,9 +23,9 @@
         id="quizframe"
         class="embed-quiz"
         frameborder="0"
-        scrolling="yes"
+        scrolling="no"
         style="margin-top:2em;
-        width:100%;
-        overflow-x: hidden;
-        overflow-y: scroll;">
+               width:100%;
+               overflow-x: hidden;
+               overflow-y: scroll;">
 </iframe>
