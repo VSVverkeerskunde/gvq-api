@@ -113,8 +113,10 @@ svg {
 
 #gvq-quiz {
   margin: auto;
-  max-width: 1200px;
-  padding: 1em; }
+  max-width: 1200px; }
+  @media (min-width: 576px) {
+    #gvq-quiz {
+      padding: 1em; } }
   #gvq-quiz input, #gvq-quiz button, #gvq-quiz select, #gvq-quiz optgroup, #gvq-quiz textarea {
     max-width: 100%; }
   #gvq-quiz h2 {
@@ -133,6 +135,10 @@ svg {
 .participation-form > .container {
   max-width: 500px;
   margin: auto; }
+  @media (max-width: 767px) {
+    .participation-form > .container {
+      padding-left: 0;
+      padding-right: 0; } }
 
 ul.gvq-answers {
   counter-reset: numbering; }

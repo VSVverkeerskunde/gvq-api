@@ -212,6 +212,13 @@ input, button, select, optgroup, textarea {
 .form-group.small label {
   line-height: 1.65em; }
 
+#form_dateOfBirth {
+  margin-left: -10px;
+  margin-right: -10px; }
+  #form_dateOfBirth .form-control {
+    margin: 0 10px;
+    width: auto !important; }
+
 .fixed-table-pagination {
   margin-top: 20px; }
 

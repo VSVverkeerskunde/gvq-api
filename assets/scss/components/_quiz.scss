@@ -2,7 +2,10 @@
 #gvq-quiz {
   margin: auto;
   max-width: 1200px;
-  padding: 1em;
+
+    @include breakpoint(map-get($breakpoints, sml)) {
+        padding: 1em;
+    }
 
   input, button, select, optgroup, textarea {
     max-width: 100%;
@@ -31,6 +34,10 @@
 .participation-form > .container {
   max-width: 500px;
   margin: auto;
+  @include breakpoint(map-get($breakpoints, med), max-width) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
   // Quiz answers
