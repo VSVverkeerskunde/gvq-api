@@ -129,6 +129,17 @@ input, button, select, optgroup, textarea {
     line-height: 1.65em;
 }
 
+// date of birth fields
+#form_dateOfBirth {
+    margin-left: -10px;
+    margin-right: -10px;
+
+    .form-control {
+        margin: 0 10px;
+        width: auto !important;
+    }
+}
+
 // Pager
 
 .fixed-table-pagination {
