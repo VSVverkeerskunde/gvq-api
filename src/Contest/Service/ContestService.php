@@ -9,6 +9,7 @@ use VSV\GVQ_API\Contest\Repositories\ContestParticipationRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
+use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 
 class ContestService
 {
@@ -65,10 +66,15 @@ class ContestService
         }
 
         $quiz = $this->quizRepository->getById($quizId);
+        $channel = $quiz->getChannel();
+        if ($channel->toNative() !== QuizChannel::CUP) {
+            $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        }
+
         $contestParticipation = $this->contestParticipationRepository->getByYearAndEmailAndChannel(
             $year,
             $quiz->getParticipant()->getEmail(),
-            $quiz->getChannel()
+            $channel
         );
 
         return $contestParticipation === null;

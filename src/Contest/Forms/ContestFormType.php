@@ -177,6 +177,10 @@ class ContestFormType extends AbstractType
         Email $email,
         array $data
     ): ContestParticipation {
+        if ($channel->toNative() !== QuizChannel::CUP) {
+            $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        }
+
         return new ContestParticipation(
             $uuidFactory->uuid4(),
             $year,
