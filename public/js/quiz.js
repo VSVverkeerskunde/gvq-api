@@ -166,6 +166,9 @@
             }))
               .done(function (data) {
                 renderView('askQuestion', data.id, 1);
+              })
+              .fail(function (data) {
+                alert(data.responseText);
               });
             quizConfig['email'] = email;
             quizConfig['team'] = team;

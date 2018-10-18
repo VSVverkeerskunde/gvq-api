@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Partner\Repositories\PartnerRepository;
 use VSV\GVQ_API\Question\Repositories\AnswerRepository;
@@ -95,17 +96,28 @@ class QuizController
      */
     public function start(Request $request): Response
     {
-        /** @var StartQuiz $startQuiz */
-        $startQuiz = $this->serializer->deserialize(
-            $request->getContent(),
-            StartQuiz::class,
-            'json'
-        );
+        try {
+            /** @var StartQuiz $startQuiz */
+            $startQuiz = $this->serializer->deserialize(
+                $request->getContent(),
+                StartQuiz::class,
+                'json'
+            );
+        } catch (\InvalidArgumentException $exception) {
+            return new Response(
+                'Invalid company alias found. Please check the provided company alias inside the link.',
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
-        $company = $startQuiz->getCompanyAlias() ?
-            $this->companyRepository->getByAlias(
-                $startQuiz->getCompanyAlias()
-            ) : null;
+        try {
+            $company = $this->guardedGetCompany($startQuiz);
+        } catch (\InvalidArgumentException $exception) {
+            return new Response(
+                $exception->getMessage(),
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         $partner = $startQuiz->getPartnerAlias() ?
             $this->partnerRepository->getByYearAndAlias(
@@ -201,5 +213,28 @@ class QuizController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * @param StartQuiz $startQuiz
+     * @return null|Company
+     */
+    private function guardedGetCompany(StartQuiz $startQuiz): ?Company
+    {
+        $companyAlias = $startQuiz->getCompanyAlias();
+
+        if ($companyAlias === null) {
+            return null;
+        }
+
+        $company = $this->companyRepository->getByAlias($companyAlias);
+        if ($company === null) {
+            throw new \InvalidArgumentException(
+                'No company found for alias "'.$companyAlias->toNative().'".'
+                .' Please check the provided company alias inside the link.'
+            );
+        }
+
+        return $company;
     }
 }
