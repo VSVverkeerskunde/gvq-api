@@ -21,8 +21,8 @@ class StartQuizDenormalizer implements DenormalizerInterface
         return new StartQuiz(
             new QuizParticipant(new Email($data['email'])),
             new QuizChannel($data['channel']),
-            $data['company'] ? new Alias($data['company']) : null,
-            $data['partner'] ? new Alias($data['partner']) : null,
+            $data['company'] ? new Alias(strtolower($data['company'])) : null,
+            $data['partner'] ? new Alias(strtolower($data['partner'])) : null,
             $data['team'] ? Uuid::fromString($data['team']) : null,
             new Language($data['language'])
         );
