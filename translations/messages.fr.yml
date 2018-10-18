@@ -181,6 +181,7 @@ Kickoff.mail.subject: Le quiz de la route 2018, c'est pour bientôt!
 Field.empty: Ce champ est obligatoire.
 Field.email.pattern: Cette adresse n'est pas valide.
 Field.email.in.use: Cette adresse mail est déjà utilisée.
+Field.tiebreaker.min: Ce champ doit être plus grand que 0.
 Field.length.max: Ce champ peut contenir {{ limit }} caractères maximum.
 Field.length.min: Ce champ doit contenir {{ limit }} caractères minimum.
 Field.passwords.different: Les mots de passe ne correspondent pas.

@@ -14,6 +14,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
 use VSV\GVQ_API\Company\ValueObjects\PositiveNumber;
@@ -108,6 +109,12 @@ class ContestFormType extends AbstractType
                                 'message' => $translator->trans('Field.empty'),
                             ]
                         ),
+                        new Range(
+                            [
+                                'min' => 1,
+                                'minMessage' => $translator->trans('Field.tiebreaker.min'),
+                            ]
+                        )
                     ],
                 ]
             )
@@ -121,6 +128,12 @@ class ContestFormType extends AbstractType
                                 'message' => $translator->trans('Field.empty'),
                             ]
                         ),
+                        new Range(
+                            [
+                                'min' => 1,
+                                'minMessage' => $translator->trans('Field.tiebreaker.min'),
+                            ]
+                        )
                     ],
                 ]
             )
