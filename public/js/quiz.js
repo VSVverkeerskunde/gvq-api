@@ -341,6 +341,7 @@
             Quiz();
           });
 
+          view.find('button.gvq-play-contest').hide();
           let contestUrl = quizConfig.language+'/view/contest/'+quizId;
           $.get(contestUrl).done(function () {
               view.find('button.gvq-play-contest').show();
