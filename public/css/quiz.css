@@ -131,6 +131,8 @@ svg {
   #gvq-quiz .card-footer {
     overflow: hidden;
     padding: 1.5em 0 0; }
+  #gvq-quiz .card-footer button {
+    margin-bottom: 0.5em !important; }
 
 .participation-form > .container {
   max-width: 500px;

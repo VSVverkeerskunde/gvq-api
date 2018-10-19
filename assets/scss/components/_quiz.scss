@@ -28,6 +28,11 @@
     overflow: hidden;
     padding: 1.5em 0 0;
   }
+  .card-footer {
+    button {
+      margin-bottom: 0.5em !important;
+    }
+  }
 }
 
 // Quiz login
