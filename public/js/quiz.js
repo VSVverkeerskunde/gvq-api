@@ -93,7 +93,7 @@
       function showNewContent () {
         oldContent.remove();
         newContent.show();
-        sendQuizHeight(0);
+        sendQuizHeight(50);
       }
 
       oldView.append(oldContent);
@@ -345,7 +345,7 @@
           let contestUrl = quizConfig.language+'/view/contest/'+quizId;
           $.get(contestUrl).done(function () {
               view.find('button.gvq-play-contest').show();
-              sendQuizHeight();
+              sendQuizHeight(50);
           });
 
           view.find('button.gvq-play-contest').on('click', function () {
