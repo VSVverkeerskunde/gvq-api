@@ -157,8 +157,14 @@ class QuizController
     public function askQuestion(
         string $quizId
     ): Response {
-        /** @var QuizAggregate $quizAggregate */
-        $quizAggregate = $this->quizAggregateRepository->load($quizId);
+        $quizAggregate = $this->safeLoadQuizAggregate($quizId);
+
+        if ($quizAggregate === null) {
+            return new Response(
+                'No quiz with id '.$quizId.'.',
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         $quizAggregate->askQuestion(new \DateTimeImmutable());
 
@@ -189,8 +195,14 @@ class QuizController
             }
         }
 
-        /** @var QuizAggregate $quizAggregate */
-        $quizAggregate = $this->quizAggregateRepository->load($quizId);
+        $quizAggregate = $this->safeLoadQuizAggregate($quizId);
+
+        if ($quizAggregate === null) {
+            return new Response(
+                'No quiz with id '.$quizId.'.',
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
         $quizAggregate->answerQuestion(new \DateTimeImmutable(), $answer);
 
@@ -236,5 +248,22 @@ class QuizController
         }
 
         return $company;
+    }
+
+    /**
+     * @param string $quizId
+     * @return QuizAggregate|null
+     */
+    private function safeLoadQuizAggregate(
+        string $quizId
+    ): ?QuizAggregate {
+        try {
+            /** @var QuizAggregate|null $quizAggregate */
+            $quizAggregate = $this->quizAggregateRepository->load($quizId);
+
+            return $quizAggregate;
+        } catch (\InvalidArgumentException $e) {
+            return null;
+        }
     }
 }

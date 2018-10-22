@@ -92,6 +92,10 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
 
         $eventEntities = $queryBuilder->getQuery()->getResult();
 
+        if ($eventEntities === null || count($eventEntities) === 0) {
+            throw new \InvalidArgumentException('Aggregate with id ' . $id . ' does not exist.');
+        }
+
         return $this->createDomainEventStream($eventEntities);
     }
 
