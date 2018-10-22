@@ -42,7 +42,11 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     ): void {
         $questionResultAsJson = $this->serializer->serialize($questionResult, 'json', $context);
 
-        $this->redis->set($this->createKey($quizId), $questionResultAsJson);
+        $this->redis->setex(
+            $this->createKey($quizId),
+            3600,
+            $questionResultAsJson
+        );
     }
 
     /**
