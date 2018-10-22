@@ -59,7 +59,7 @@ class QuizRedisRepositoryTest extends TestCase
             ->method('setex')
             ->with(
                 'quiz_'.$quiz->getId()->toString(),
-                3600,
+                3600 * 12,
                 $quizAsJson
             );
 
