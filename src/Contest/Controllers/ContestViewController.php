@@ -117,18 +117,18 @@ class ContestViewController extends AbstractController
     public function contest(Request $request, string $quizId): Response
     {
         try {
-          $quiz = $this->quizRepository->getById(Uuid::fromString($quizId));
+            $quiz = $this->quizRepository->getById(Uuid::fromString($quizId));
 
-          $canParticipate = $this->contestService->canParticipate(
-            $this->year,
-            Uuid::fromString($quizId)
-          );
+            $canParticipate = $this->contestService->canParticipate(
+                $this->year,
+                Uuid::fromString($quizId)
+            );
         } catch (Exception $e) {
-          return $this->render('contest/contest_gone.html.twig');
+            return $this->render('contest/contest_gone.html.twig');
         }
 
         if (!$canParticipate) {
-          return new Response('Can\'t participate', Response::HTTP_FORBIDDEN);
+            return new Response('Can\'t participate', Response::HTTP_FORBIDDEN);
         }
 
         $form = $this->createContestForm();
