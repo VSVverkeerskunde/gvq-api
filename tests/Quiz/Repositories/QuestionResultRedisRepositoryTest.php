@@ -58,8 +58,12 @@ class QuestionResultRedisRepositoryTest extends TestCase
             ->willReturn($questionResultAsJson);
 
         $this->redis->expects($this->once())
-            ->method('set')
-            ->with('question_result_'.$quizId->toString(), $questionResultAsJson);
+            ->method('setex')
+            ->with(
+                'question_result_'.$quizId->toString(),
+                3600,
+                $questionResultAsJson
+            );
 
         $this->questionResultRedisRepository->save(
             $quizId,

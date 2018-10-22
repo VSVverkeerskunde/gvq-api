@@ -39,8 +39,9 @@ class QuizRedisRepository implements QuizRepository
     {
         $quizAsJson = $this->serializer->serialize($quiz, 'json');
 
-        $this->redis->set(
+        $this->redis->setex(
             $this->createKey($quiz->getId()),
+            3600,
             $quizAsJson
         );
     }
