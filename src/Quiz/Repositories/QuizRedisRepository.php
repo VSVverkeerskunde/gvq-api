@@ -41,7 +41,7 @@ class QuizRedisRepository implements QuizRepository
 
         $this->redis->setex(
             $this->createKey($quiz->getId()),
-            3600,
+            (3600 * 12),
             $quizAsJson
         );
     }

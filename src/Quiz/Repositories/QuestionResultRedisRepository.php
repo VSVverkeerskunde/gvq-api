@@ -44,7 +44,7 @@ class QuestionResultRedisRepository implements QuestionResultRepository
 
         $this->redis->setex(
             $this->createKey($quizId),
-            3600,
+            (3600 * 10),
             $questionResultAsJson
         );
     }
