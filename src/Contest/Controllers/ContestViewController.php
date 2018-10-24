@@ -190,7 +190,7 @@ class ContestViewController extends AbstractController
             $handle = fopen('php://output', 'r+');
             fwrite(
                 $handle,
-                $this->convertEncoding('sep=,'.PHP_EOL)
+                chr(0xFF).chr(0xFE).$this->convertEncoding('sep=,'.PHP_EOL)
             );
 
             $headerSet = false;
@@ -227,7 +227,7 @@ class ContestViewController extends AbstractController
      */
     private function convertEncoding(string $string): string
     {
-        return chr(0xFF).chr(0xFE).mb_convert_encoding($string, 'UTF-16LE', 'UTF-8');
+        return mb_convert_encoding($string, 'UTF-16LE', 'UTF-8');
     }
 
     /**
