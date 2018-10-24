@@ -70,7 +70,7 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
     public function getAllAsTraversable(): \Traversable
     {
         $batchSize = 10;
-        $lastId = 0;
+        $firstResult = 0;
 
         do {
             $queryBuilder = $this->entityManager->createQueryBuilder();
@@ -80,12 +80,9 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
                     'VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity',
                     'e'
                 )
-                ->where(
-                    $queryBuilder->expr()->gt('e.id', ':previous_id')
-                )
                 ->orderBy('e.id', 'ASC')
                 ->setMaxResults($batchSize)
-                ->setParameter('previous_id', $lastId)
+                ->setFirstResult($firstResult)
                 ->getQuery();
 
             $currentBatchItemCount = 0;
@@ -94,6 +91,8 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
                 $currentBatchItemCount++;
                 yield $contestParticipationEntities[0]->toContestParticipation();
             }
+
+            $firstResult += $batchSize;
         } while ($currentBatchItemCount == $batchSize);
     }
 
