@@ -170,7 +170,7 @@ class ContestViewController extends AbstractController
     /**
      * @return StreamedResponse
      */
-    public function export(): StreamedResponse
+    public function export(): Response
     {
         $traversableContestParticipations = $this->contestService->getTraversableContestParticipations();
 
@@ -190,52 +190,25 @@ class ContestViewController extends AbstractController
             $handle = fopen('php://output', 'r+');
             fwrite($handle, 'sep=,'.PHP_EOL);
 
-            $header = [
-                'id',
-                'year',
-                'language',
-                'channel',
-                'email',
-                'firstName',
-                'LastName',
-                'dateOfBirth',
-                'street',
-                'number',
-                'postalCode',
-                'town',
-                'answer1',
-                'answer2',
-                'isGdpr1',
-                'isGdpr2',
-            ];
-
-            fputcsv($handle, $header, ",");
-
+            $headerSet = false;
             foreach ($traversableContestParticipations as $contestParticipation) {
                 /** @var ContestParticipation $contestParticipation */
-                $row = [
-                    $contestParticipation->getId()->toString(),
-                    $contestParticipation->getYear()->toNative(),
-                    $contestParticipation->getLanguage()->toNative(),
-                    $contestParticipation->getChannel()->toNative(),
-                    $contestParticipation->getContestParticipant()->getEmail()->toNative(),
-                    $contestParticipation->getContestParticipant()->getFirstName()->toNative(),
-                    $contestParticipation->getContestParticipant()->getLastName()->toNative(),
-                    $contestParticipation->getContestParticipant()->getDateOfBirth()->format(DATE_ATOM),
-                    $contestParticipation->getAddress()->getStreet()->toNative(),
-                    $contestParticipation->getAddress()->getNumber()->toNative(),
-                    $contestParticipation->getAddress()->getPostalCode()->toNative(),
-                    $contestParticipation->getAddress()->getTown()->toNative(),
-                    $contestParticipation->getAnswer1()->toNative(),
-                    $contestParticipation->getAnswer2()->toNative(),
-                    $contestParticipation->isGdpr1(),
-                    $contestParticipation->isGdpr2(),
-                ];
 
-                fputcsv(
+                $contestParticipationAsCsv = $this->serializer->serialize(
+                    $contestParticipation,
+                    'csv'
+                );
+                $headerValuesArray = explode("\n", $contestParticipationAsCsv);
+
+                if (!$headerSet) {
+                    $header = $headerValuesArray[0];
+                    fwrite($handle, $header.PHP_EOL);
+                    $headerSet = true;
+                }
+
+                fwrite(
                     $handle,
-                    $row,
-                    ","
+                    $headerValuesArray[1].PHP_EOL
                 );
             }
             fclose($handle);
