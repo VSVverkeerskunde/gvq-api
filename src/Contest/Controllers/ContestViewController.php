@@ -184,11 +184,14 @@ class ContestViewController extends AbstractController
      * @param \Traversable $traversableContestParticipations
      * @return \Closure
      */
-    private function createCallBackForStreamedCsvResponse(\Traversable $traversableContestParticipations
-    ): \Closure {
+    private function createCallBackForStreamedCsvResponse(\Traversable $traversableContestParticipations): \Closure
+    {
         return function () use ($traversableContestParticipations) {
             $handle = fopen('php://output', 'r+');
-            fwrite($handle, 'sep=,'.PHP_EOL);
+            fwrite(
+                $handle,
+                $this->convertEncoding('sep=,'.PHP_EOL)
+            );
 
             $headerSet = false;
             foreach ($traversableContestParticipations as $contestParticipation) {
@@ -202,17 +205,29 @@ class ContestViewController extends AbstractController
 
                 if (!$headerSet) {
                     $header = $headerValuesArray[0];
-                    fwrite($handle, $header.PHP_EOL);
+                    fwrite(
+                        $handle,
+                        $this->convertEncoding($header.PHP_EOL)
+                    );
                     $headerSet = true;
                 }
 
                 fwrite(
                     $handle,
-                    $headerValuesArray[1].PHP_EOL
+                    $this->convertEncoding($headerValuesArray[1].PHP_EOL)
                 );
             }
             fclose($handle);
         };
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    private function convertEncoding(string $string): string
+    {
+        return chr(0xFF).chr(0xFE).mb_convert_encoding($string, 'UTF-16LE', 'UTF-8');
     }
 
     /**
