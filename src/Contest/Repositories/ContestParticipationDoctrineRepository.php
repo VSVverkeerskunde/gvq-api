@@ -69,17 +69,32 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
      */
     public function getAllAsTraversable(): \Traversable
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $batchSize = 10;
+        $lastId = 0;
 
-        $query = $queryBuilder->select('e')
-            ->from('VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity', 'e')
-            ->orderBy('e.id', 'ASC')
-            ->getQuery();
+        do {
+            $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        foreach ($query->iterate() as $contestParticipationEntities) {
-            /** @var ContestParticipationEntity $contestParticipationEntity */
-            yield $contestParticipationEntities[0]->toContestParticipation();
-        }
+            $query = $queryBuilder->select('e')
+                ->from(
+                    'VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity',
+                    'e'
+                )
+                ->where(
+                    $queryBuilder->expr()->gt('e.id', ':previous_id')
+                )
+                ->orderBy('e.id', 'ASC')
+                ->setMaxResults($batchSize)
+                ->setParameter('previous_id', $lastId)
+                ->getQuery();
+
+            $currentBatchItemCount = 0;
+
+            foreach ($query->iterate() as $contestParticipationEntities) {
+                $currentBatchItemCount++;
+                yield $contestParticipationEntities[0]->toContestParticipation();
+            }
+        } while ($currentBatchItemCount == $batchSize);
     }
 
     /**
