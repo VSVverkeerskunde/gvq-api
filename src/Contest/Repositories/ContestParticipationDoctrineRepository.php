@@ -65,6 +65,24 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
     }
 
     /**
+     * @return \Traversable
+     */
+    public function getAllAsTraversable(): \Traversable
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $query = $queryBuilder->select('e')
+            ->from('VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity', 'e')
+            ->orderBy('e.id', 'ASC')
+            ->getQuery();
+
+        foreach ($query->iterate() as $contestParticipationEntities) {
+            /** @var ContestParticipationEntity $contestParticipationEntity */
+            yield $contestParticipationEntities[0]->toContestParticipation();
+        }
+    }
+
+    /**
      * @param Year $year
      * @param Email $email
      * @return null|ContestParticipations

@@ -52,6 +52,14 @@ class ContestService
     }
 
     /**
+     * @return \Traversable
+     */
+    public function getTraversableContestParticipations(): \Traversable
+    {
+        return $this->contestParticipationRepository->getAllAsTraversable();
+    }
+
+    /**
      * Can only participate if 11 or more and no previous participation for given channel.
      *
      * @param Year $year
