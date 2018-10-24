@@ -9,11 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Contest\Forms\ContestFormType;
+use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Contest\Repositories\TieBreakerRepository;
 use VSV\GVQ_API\Contest\Service\ContestService;
@@ -166,22 +168,66 @@ class ContestViewController extends AbstractController
     }
 
     /**
-     * @return Response
+     * @return StreamedResponse
      */
     public function export(): Response
     {
-        $contestParticipations = $this->contestService->getAll();
-        $contestParticipationsAsCsv = $this->serializer->serialize(
-            $contestParticipations,
-            'csv'
-        );
+        $traversableContestParticipations = $this->contestService->getTraversableContestParticipations();
 
-        $response = $this->responseFactory->createCsvResponse(
-            $contestParticipationsAsCsv,
-            'contest_participations'
-        );
+        $callback = $this->createCallBackForStreamedCsvResponse($traversableContestParticipations);
+        $response = $this->responseFactory->createStreamedCsvResponse($callback, 'contest_participations');
 
         return $response;
+    }
+
+    /**
+     * @param \Traversable $traversableContestParticipations
+     * @return \Closure
+     */
+    private function createCallBackForStreamedCsvResponse(\Traversable $traversableContestParticipations): \Closure
+    {
+        return function () use ($traversableContestParticipations) {
+            $handle = fopen('php://output', 'r+');
+            fwrite(
+                $handle,
+                chr(0xFF).chr(0xFE).$this->convertEncoding('sep=,'.PHP_EOL)
+            );
+
+            $headerSet = false;
+            foreach ($traversableContestParticipations as $contestParticipation) {
+                /** @var ContestParticipation $contestParticipation */
+
+                $contestParticipationAsCsv = $this->serializer->serialize(
+                    $contestParticipation,
+                    'csv'
+                );
+                $headerValuesArray = explode("\n", $contestParticipationAsCsv);
+
+                if (!$headerSet) {
+                    $header = $headerValuesArray[0];
+                    fwrite(
+                        $handle,
+                        $this->convertEncoding($header.PHP_EOL)
+                    );
+                    $headerSet = true;
+                }
+
+                fwrite(
+                    $handle,
+                    $this->convertEncoding($headerValuesArray[1].PHP_EOL)
+                );
+            }
+            fclose($handle);
+        };
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    private function convertEncoding(string $string): string
+    {
+        return mb_convert_encoding($string, 'UTF-16LE', 'UTF-8');
     }
 
     /**
@@ -194,7 +240,7 @@ class ContestViewController extends AbstractController
         $this->contestFormType->buildForm(
             $formBuilder,
             [
-                'translator' => $this->translator
+                'translator' => $this->translator,
             ]
         );
 

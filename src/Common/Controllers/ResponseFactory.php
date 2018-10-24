@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Common\Controllers;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ResponseFactory
 {
@@ -27,6 +28,31 @@ class ResponseFactory
             'Content-Disposition',
             'attachment; filename="'.$fileName.'"'
         );
+
+        return $response;
+    }
+
+    /**
+     * @param \Closure $callBack
+     * @param string $model
+     * @return StreamedResponse
+     */
+    public function createStreamedCsvResponse(\Closure $callBack, string $model): StreamedResponse
+    {
+        $response = new StreamedResponse();
+
+        $response->headers->set('Content-Encoding', 'UTF-8');
+        $response->headers->set('Content-Type', 'application/csv; charset=UTF-8');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        $now = new \DateTime();
+        $fileName = $model.'_'.$now->format(\DateTime::ATOM).'.csv';
+        $response->headers->set(
+            'Content-Disposition',
+            'attachment; filename="'.$fileName.'"'
+        );
+
+        $response->setCallback($callBack);
 
         return $response;
     }

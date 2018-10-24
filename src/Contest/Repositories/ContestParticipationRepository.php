@@ -33,6 +33,11 @@ interface ContestParticipationRepository
     public function getAll(): ?ContestParticipations;
 
     /**
+     * @return \Traversable
+     */
+    public function getAllAsTraversable(): \Traversable;
+
+    /**
      * @param Year $year
      * @param Email $email
      * @return null|ContestParticipations
