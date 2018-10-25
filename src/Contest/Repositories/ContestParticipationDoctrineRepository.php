@@ -89,7 +89,12 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
 
             foreach ($query->iterate() as $contestParticipationEntities) {
                 $currentBatchItemCount++;
-                yield $contestParticipationEntities[0]->toContestParticipation();
+
+                /** @var ContestParticipationEntity $entity */
+                $entity = $contestParticipationEntities[0];
+                $this->entityManager->detach($entity);
+
+                yield $entity->toContestParticipation();
             }
 
             $firstResult += $batchSize;
