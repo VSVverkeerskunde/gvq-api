@@ -135,7 +135,7 @@ class StatisticsService
     public function getPassedUniqueParticipantCounts(): array
     {
         if ($this->passedUniqueParticipantsCount === null) {
-            $this->passedUniqueParticipantsCount = $this->getCountsFromRepository(
+            $this->passedUniqueParticipantsCount = $this->getUniqueCountsFromRepository(
                 function (StatisticsKey $statisticsKey) {
                     return $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
                 }

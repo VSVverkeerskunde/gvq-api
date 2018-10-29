@@ -123,11 +123,11 @@ class StatisticsServiceTest extends TestCase
      */
     public function it_can_get_unique_participant_counts(): void
     {
-        $this->mockGetCountMethod($this->uniqueParticipantRepository);
+        $this->mockUniqueGetCountMethod($this->uniqueParticipantRepository);
 
         $counts = $this->statisticsService->getUniqueParticipantCounts();
 
-        $this->checkCounts($counts);
+        $this->checkUniqueCounts($counts);
     }
 
     /**
@@ -135,11 +135,11 @@ class StatisticsServiceTest extends TestCase
      */
     public function it_can_get_unique_passed_participant_counts(): void
     {
-        $this->mockGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
+        $this->mockUniqueGetCountMethod($this->uniqueParticipantRepository, 'getPassedCount');
 
         $counts = $this->statisticsService->getPassedUniqueParticipantCounts();
 
-        $this->checkCounts($counts);
+        $this->checkUniqueCounts($counts);
     }
 
     /**
@@ -148,57 +148,115 @@ class StatisticsServiceTest extends TestCase
     public function it_can_get_unique_passed_participant_percentage(): void
     {
         $this->uniqueParticipantRepository
-            ->expects($this->exactly(8))
+            ->expects($this->exactly(18))
             ->method('getCount')
             ->withConsecutive(
                 new StatisticsKey('individual_nl'),
                 new StatisticsKey('individual_fr'),
+                new StatisticsKey('individual_total'),
                 new StatisticsKey('partner_nl'),
                 new StatisticsKey('partner_fr'),
+                new StatisticsKey('partner_total'),
                 new StatisticsKey('company_nl'),
                 new StatisticsKey('company_fr'),
+                new StatisticsKey('company_total'),
+                new StatisticsKey('quiz_total_nl'),
+                new StatisticsKey('quiz_total_fr'),
+                new StatisticsKey('quiz_total'),
                 new StatisticsKey('cup_nl'),
-                new StatisticsKey('cup_fr')
+                new StatisticsKey('cup_fr'),
+                new StatisticsKey('cup_total'),
+                new StatisticsKey('total_nl'),
+                new StatisticsKey('total_fr'),
+                new StatisticsKey('total')
             )
-            ->willReturnOnConsecutiveCalls(10, 10, 10, 10, 10, 10, 10, 0);
+            ->willReturnOnConsecutiveCalls(
+                2,
+                4,
+                6,
+                8,
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                22,
+                24,
+                26,
+                28,
+                30,
+                32,
+                34,
+                36
+            );
 
         $this->uniqueParticipantRepository
-            ->expects($this->exactly(8))
+            ->expects($this->exactly(18))
             ->method('getPassedCount')
             ->withConsecutive(
                 new StatisticsKey('individual_nl'),
                 new StatisticsKey('individual_fr'),
+                new StatisticsKey('individual_total'),
                 new StatisticsKey('partner_nl'),
                 new StatisticsKey('partner_fr'),
+                new StatisticsKey('partner_total'),
                 new StatisticsKey('company_nl'),
                 new StatisticsKey('company_fr'),
+                new StatisticsKey('company_total'),
+                new StatisticsKey('quiz_total_nl'),
+                new StatisticsKey('quiz_total_fr'),
+                new StatisticsKey('quiz_total'),
                 new StatisticsKey('cup_nl'),
-                new StatisticsKey('cup_fr')
+                new StatisticsKey('cup_fr'),
+                new StatisticsKey('cup_total'),
+                new StatisticsKey('total_nl'),
+                new StatisticsKey('total_fr'),
+                new StatisticsKey('total')
             )
-            ->willReturnOnConsecutiveCalls(1, 2, 2, 4, 3, 6, 1, 0);
+            ->willReturnOnConsecutiveCalls(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18
+            );
 
         $percentages = $this->statisticsService->getPassedUniqueParticipantPercentages();
 
         $this->assertEquals(
             [
-                'individual_nl' => 10.0,
-                'individual_total' => 15.0,
-                'individual_fr' => 20.0,
-                'partner_nl' => 20.0,
-                'partner_total' => 30.0,
-                'partner_fr' => 40.0,
-                'company_nl' => 30.0,
-                'company_total' => 45.0,
-                'company_fr' => 60.0,
-                'cup_nl' => 10.0,
-                'cup_total' => 10.0,
-                'cup_fr' => 0,
-                'quiz_total_nl' => 20.0,
-                'quiz_total_fr' => 40.0,
-                'quiz_total' => 30.0,
-                'total_nl' => 18.0,
-                'total_fr' => 40.0,
-                'total' => 27.0,
+                'individual_nl' => 50.0,
+                'individual_total' => 50.0,
+                'individual_fr' => 50.0,
+                'partner_nl' => 50.0,
+                'partner_total' => 50.0,
+                'partner_fr' => 50.0,
+                'company_nl' => 50.0,
+                'company_total' => 50.0,
+                'company_fr' => 50.0,
+                'cup_nl' => 50.0,
+                'cup_total' => 50.0,
+                'cup_fr' => 50.0,
+                'quiz_total_nl' => 50.0,
+                'quiz_total_fr' => 50.0,
+                'quiz_total' => 50.0,
+                'total_nl' => 50.0,
+                'total_fr' => 50.0,
+                'total' => 50.0,
             ],
             $percentages
         );
@@ -435,6 +493,59 @@ class StatisticsServiceTest extends TestCase
     }
 
     /**
+     * @param CountableRepository|MockObject $statisticsRepository
+     * @param string $method
+     */
+    private function mockUniqueGetCountMethod(
+        MockObject $statisticsRepository,
+        string $method = 'getCount'
+    ): void {
+        $statisticsRepository
+            ->expects($this->exactly(18))
+            ->method($method)
+            ->withConsecutive(
+                new StatisticsKey('individual_nl'),
+                new StatisticsKey('individual_fr'),
+                new StatisticsKey('individual_total'),
+                new StatisticsKey('partner_nl'),
+                new StatisticsKey('partner_fr'),
+                new StatisticsKey('partner_total'),
+                new StatisticsKey('company_nl'),
+                new StatisticsKey('company_fr'),
+                new StatisticsKey('company_total'),
+                new StatisticsKey('quiz_total_nl'),
+                new StatisticsKey('quiz_total_fr'),
+                new StatisticsKey('quiz_total'),
+                new StatisticsKey('cup_nl'),
+                new StatisticsKey('cup_fr'),
+                new StatisticsKey('cup_total'),
+                new StatisticsKey('total_nl'),
+                new StatisticsKey('total_fr'),
+                new StatisticsKey('total')
+            )
+            ->willReturnOnConsecutiveCalls(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18
+            );
+    }
+
+    /**
      * @param array $counts
      */
     private function checkCounts(array $counts): void
@@ -459,6 +570,36 @@ class StatisticsServiceTest extends TestCase
                 'total_nl' => 16,
                 'total_fr' => 20,
                 'total' => 36,
+            ],
+            $counts
+        );
+    }
+
+    /**
+     * @param array $counts
+     */
+    private function checkUniqueCounts(array $counts): void
+    {
+        $this->assertArraySubset(
+            [
+                'individual_nl' => 1,
+                'individual_fr' => 2,
+                'individual_total' => 3,
+                'partner_nl' => 4,
+                'partner_fr' => 5,
+                'partner_total' => 6,
+                'company_nl' => 7,
+                'company_fr' => 8,
+                'company_total' => 9,
+                'quiz_total_nl' => 10,
+                'quiz_total_fr' => 11,
+                'quiz_total' => 12,
+                'cup_nl' => 13,
+                'cup_fr' => 14,
+                'cup_total' => 15,
+                'total_nl' => 16,
+                'total_fr' => 17,
+                'total' => 18,
             ],
             $counts
         );
