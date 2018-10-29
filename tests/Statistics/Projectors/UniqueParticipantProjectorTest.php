@@ -43,11 +43,80 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
 
         $this->mockQuizRepositoryGetById($quiz);
 
-        $this->uniqueParticipantRepository->expects($this->once())
+        $this->uniqueParticipantRepository->expects($this->exactly(6))
             ->method('add')
-            ->with(
-                StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createQuizTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
+            );
+
+        $this->uniqueParticipantRepository->expects($this->never())
+            ->method('addPassed');
+
+        $this->uniqueParticipantProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_handles_fr_quiz_finished(): void
+    {
+        $quiz = ModelsFactory::createIndividualFrQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
+
+        $this->uniqueParticipantRepository->expects($this->exactly(6))
+            ->method('add')
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createQuizTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
             );
 
         $this->uniqueParticipantRepository->expects($this->never())
@@ -68,11 +137,33 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
 
         $this->mockQuizRepositoryGetById($quiz);
 
-        $this->uniqueParticipantRepository->expects($this->once())
+        $this->uniqueParticipantRepository->expects($this->exactly(6))
             ->method('add')
-            ->with(
-                StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createQuizTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
             );
 
         $this->uniqueParticipantRepository->expects($this->once())
@@ -97,11 +188,33 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
 
         $this->mockQuizRepositoryGetById($quiz);
 
-        $this->uniqueParticipantRepository->expects($this->once())
+        $this->uniqueParticipantRepository->expects($this->exactly(6))
             ->method('add')
-            ->with(
-                StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createQuizTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
             );
 
         $this->uniqueParticipantRepository->expects($this->once())
@@ -111,6 +224,45 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
                 $quiz->getParticipant(),
                 $quiz->getPartner()
             );
+
+        $this->uniqueParticipantProjector->handle(
+            ModelsFactory::createQuizFinishedDomainMessage($quiz)
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_handles_quiz_finished_for_cup_channel(): void
+    {
+        $quiz = ModelsFactory::createCupQuiz();
+
+        $this->mockQuizRepositoryGetById($quiz);
+
+        $this->uniqueParticipantRepository->expects($this->exactly(4))
+            ->method('add')
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
+            );
+
+        $this->uniqueParticipantRepository->expects($this->never())
+            ->method('addForPartner');
 
         $this->uniqueParticipantProjector->handle(
             ModelsFactory::createQuizFinishedDomainMessage($quiz)
