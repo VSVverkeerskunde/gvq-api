@@ -10,22 +10,22 @@ class StatisticsKey extends Enumeration
 {
     const INDIVIDUAL_NL = 'individual_nl';
     const INDIVIDUAL_FR = 'individual_fr';
-    const INDIVIDUAL_TOT = 'individual_tot';
+    const INDIVIDUAL_TOT = 'individual_total';
     const PARTNER_NL = 'partner_nl';
     const PARTNER_FR = 'partner_fr';
-    const PARTNER_TOT = 'partner_tot';
+    const PARTNER_TOT = 'partner_total';
     const COMPANY_NL = 'company_nl';
     const COMPANY_FR = 'company_fr';
-    const COMPANY_TOT = 'company_tot';
-    const QUIZ_NL_TOT = 'quiz_nl_tot';
-    const QUIZ_FR_TOT = 'quiz_fr_tot';
-    const QUIZ_TOT = 'quiz_tot';
+    const COMPANY_TOT = 'company_total';
+    const QUIZ_NL_TOT = 'quiz_total_nl';
+    const QUIZ_FR_TOT = 'quiz_total_fr';
+    const QUIZ_TOT = 'quiz_total';
     const CUP_NL = 'cup_nl';
     const CUP_FR = 'cup_fr';
-    const CUP_TOT = 'cup_tot';
-    const OVERALL_NL = 'overall_nl';
-    const OVERALL_FR = 'overall_fr';
-    const OVERALL_TOT = 'overall_tot';
+    const CUP_TOT = 'cup_total';
+    const OVERALL_NL = 'total_nl';
+    const OVERALL_FR = 'total_fr';
+    const OVERALL_TOT = 'total';
 
     /**
      * @inheritdoc
