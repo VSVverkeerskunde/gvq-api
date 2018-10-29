@@ -10,12 +10,22 @@ class StatisticsKey extends Enumeration
 {
     const INDIVIDUAL_NL = 'individual_nl';
     const INDIVIDUAL_FR = 'individual_fr';
+    const INDIVIDUAL_TOT = 'individual_tot';
     const PARTNER_NL = 'partner_nl';
     const PARTNER_FR = 'partner_fr';
+    const PARTNER_TOT = 'partner_tot';
     const COMPANY_NL = 'company_nl';
     const COMPANY_FR = 'company_fr';
+    const COMPANY_TOT = 'company_tot';
+    const QUIZ_NL_TOT = 'quiz_nl_tot';
+    const QUIZ_FR_TOT = 'quiz_fr_tot';
+    const QUIZ_TOT = 'quiz_tot';
     const CUP_NL = 'cup_nl';
     const CUP_FR = 'cup_fr';
+    const CUP_TOT = 'cup_tot';
+    const OVERALL_NL = 'overall_nl';
+    const OVERALL_FR = 'overall_fr';
+    const OVERALL_TOT = 'overall_tot';
 
     /**
      * @inheritdoc
@@ -25,12 +35,22 @@ class StatisticsKey extends Enumeration
         return [
             self::INDIVIDUAL_NL,
             self::INDIVIDUAL_FR,
+            self::INDIVIDUAL_TOT,
             self::PARTNER_NL,
             self::PARTNER_FR,
+            self::PARTNER_TOT,
             self::COMPANY_NL,
             self::COMPANY_FR,
+            self::COMPANY_TOT,
+            self::QUIZ_NL_TOT,
+            self::QUIZ_FR_TOT,
+            self::QUIZ_TOT,
             self::CUP_NL,
             self::CUP_FR,
+            self::CUP_TOT,
+            self::OVERALL_NL,
+            self::OVERALL_FR,
+            self::OVERALL_TOT,
         ];
     }
 
@@ -59,6 +79,68 @@ class StatisticsKey extends Enumeration
                 $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::CUP_NL : self::CUP_FR;
                 break;
+        }
+
+        return new StatisticsKey($statisticsKey);
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return StatisticsKey
+     */
+    public static function createChannelTotalFromQuiz(Quiz $quiz): StatisticsKey
+    {
+        $statisticsKey = '';
+
+        switch ($quiz->getChannel()->toNative()) {
+            case QuizChannel::INDIVIDUAL:
+                $statisticsKey = self::INDIVIDUAL_TOT;
+                break;
+            case QuizChannel::COMPANY:
+                $statisticsKey = self::COMPANY_TOT;
+                break;
+            case QuizChannel::PARTNER:
+                $statisticsKey = self::PARTNER_TOT;
+                break;
+            case QuizChannel::CUP:
+                $statisticsKey = self::CUP_TOT;
+                break;
+        }
+
+        return new StatisticsKey($statisticsKey);
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return StatisticsKey
+     */
+    public static function createQuizTotalFromQuiz(Quiz $quiz): StatisticsKey
+    {
+        if ($quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
+            throw new\InvalidArgumentException(
+                'Cup does not count in quiz total.'
+            );
+        }
+
+        if ($quiz->getLanguage()->equals(new Language(Language::NL))) {
+            $statisticsKey = self::QUIZ_NL_TOT;
+        } else {
+            $statisticsKey = self::QUIZ_FR_TOT;
+        }
+
+        return new StatisticsKey($statisticsKey);
+    }
+
+    /**
+     * @param Quiz $quiz
+     * @return StatisticsKey
+     */
+    public static function createOverallTotalFromQuiz(Quiz $quiz): StatisticsKey
+    {
+        if ($quiz->getLanguage()->equals(new Language(Language::NL))) {
+            $statisticsKey = self::OVERALL_NL;
+        } else {
+            $statisticsKey = self::OVERALL_FR;
         }
 
         return new StatisticsKey($statisticsKey);

@@ -43,10 +43,46 @@ class UniqueParticipantProjector implements EventListener
 
         if ($payload instanceof QuizFinished) {
             $quiz = $this->quizRepository->getById($payload->getId());
-            $statisticsKey = StatisticsKey::createFromQuiz($quiz);
 
+            // All unique participations per channel and language.
+            $statisticsKey = StatisticsKey::createFromQuiz($quiz);
             $this->uniqueParticipantRepository->add(
                 $statisticsKey,
+                $quiz->getParticipant()
+            );
+
+            // All unique participations per channel, regardless of language.
+            $totalStatisticsKey = StatisticsKey::createChannelTotalFromQuiz($quiz);
+            $this->uniqueParticipantRepository->add(
+                $totalStatisticsKey,
+                $quiz->getParticipant()
+            );
+
+            if (!$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
+                // All unique participations for quiz (not cup) and language.
+                $quizTotalStatisticsKey = StatisticsKey::createQuizTotalFromQuiz($quiz);
+                $this->uniqueParticipantRepository->add(
+                    $quizTotalStatisticsKey,
+                    $quiz->getParticipant()
+                );
+
+                // All unique participations for quiz (not cup), regardless of language.
+                $this->uniqueParticipantRepository->add(
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant()
+                );
+            }
+
+            // Overall unique participations per language.
+            $overallTotalStatisticsKey = StatisticsKey::createOverallTotalFromQuiz($quiz);
+            $this->uniqueParticipantRepository->add(
+                $overallTotalStatisticsKey,
+                $quiz->getParticipant()
+            );
+
+            // Overall unique participations regardless of language.
+            $this->uniqueParticipantRepository->add(
+                new StatisticsKey(StatisticsKey::OVERALL_TOT),
                 $quiz->getParticipant()
             );
 
