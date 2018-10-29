@@ -354,9 +354,12 @@ services:
     simple_unique_replay_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
-      - method: subscribe
-        arguments:
-        - '@unique_participant_projector'
+        - method: subscribe
+          arguments:
+          - '@quiz_projector'
+        - method: subscribe
+          arguments:
+          - '@unique_participant_projector'
       public: true
 
     quiz_aggregate_repository:

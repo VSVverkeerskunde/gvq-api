@@ -20,10 +20,11 @@ class ReplayCommand extends ContainerAwareCommand
             ->setDescription('Replay all current events.');
 
         $this->addOption(
-            'unique',
-            'u',
+            'projector',
+            'p',
             InputOption::VALUE_OPTIONAL,
-            'Only replay to unique projector'
+            'Pass the projector to replay (all|unique)',
+            'all'
         );
     }
 
@@ -45,7 +46,8 @@ class ReplayCommand extends ContainerAwareCommand
 
         /** @var SimpleEventBus $simpleEventBus */
         $simpleEventBus = $this->getContainer()->get('simple_event_bus');
-        if ($input->getOption('unique')) {
+        $output->writeln('Option projector: '.$input->getOption('projector'));
+        if ($input->getOption('projector') === 'unique') {
             $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
         }
 
