@@ -166,11 +166,33 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
                 ]
             );
 
-        $this->uniqueParticipantRepository->expects($this->once())
+        $this->uniqueParticipantRepository->expects($this->exactly(6))
             ->method('addPassed')
-            ->with(
-                StatisticsKey::createFromQuiz($quiz),
-                $quiz->getParticipant()
+            ->withConsecutive(
+                [
+                    StatisticsKey::createFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createChannelTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createQuizTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    StatisticsKey::createOverallTotalFromQuiz($quiz),
+                    $quiz->getParticipant(),
+                ],
+                [
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
+                    $quiz->getParticipant(),
+                ]
             );
 
         $this->uniqueParticipantProjector->handle(

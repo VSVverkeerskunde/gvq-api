@@ -87,8 +87,44 @@ class UniqueParticipantProjector implements EventListener
             );
 
             if ($payload->getScore() >= 11) {
+                // All unique participations per channel and language.
                 $this->uniqueParticipantRepository->addPassed(
                     $statisticsKey,
+                    $quiz->getParticipant()
+                );
+
+                // All unique participations per channel, regardless of language.
+                $totalStatisticsKey = StatisticsKey::createChannelTotalFromQuiz($quiz);
+                $this->uniqueParticipantRepository->addPassed(
+                    $totalStatisticsKey,
+                    $quiz->getParticipant()
+                );
+
+                if (!$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
+                    // All unique participations for quiz (not cup) and language.
+                    $quizTotalStatisticsKey = StatisticsKey::createQuizTotalFromQuiz($quiz);
+                    $this->uniqueParticipantRepository->addPassed(
+                        $quizTotalStatisticsKey,
+                        $quiz->getParticipant()
+                    );
+
+                    // All unique participations for quiz (not cup), regardless of language.
+                    $this->uniqueParticipantRepository->addPassed(
+                        new StatisticsKey(StatisticsKey::QUIZ_TOT),
+                        $quiz->getParticipant()
+                    );
+                }
+
+                // Overall unique participations per language.
+                $overallTotalStatisticsKey = StatisticsKey::createOverallTotalFromQuiz($quiz);
+                $this->uniqueParticipantRepository->addPassed(
+                    $overallTotalStatisticsKey,
+                    $quiz->getParticipant()
+                );
+
+                // Overall unique participations regardless of language.
+                $this->uniqueParticipantRepository->addPassed(
+                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
                     $quiz->getParticipant()
                 );
             }
