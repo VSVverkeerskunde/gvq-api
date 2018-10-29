@@ -7,6 +7,7 @@ use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\SimpleEventBus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore;
@@ -17,6 +18,13 @@ class ReplayCommand extends ContainerAwareCommand
     {
         $this->setName('gvq:replay')
             ->setDescription('Replay all current events.');
+
+        $this->addOption(
+            'unique',
+            'u',
+            InputOption::VALUE_OPTIONAL,
+            'Only replay to unique projector'
+        );
     }
 
     /**
@@ -37,6 +45,9 @@ class ReplayCommand extends ContainerAwareCommand
 
         /** @var SimpleEventBus $simpleEventBus */
         $simpleEventBus = $this->getContainer()->get('simple_event_bus');
+        if ($input->getOption('unique')) {
+            $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
+        }
 
         /** @var DomainMessage $domainMessage */
         $index = 0;

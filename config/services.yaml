@@ -351,6 +351,14 @@ services:
             - '@category_difficulty_projector'
       public: true
 
+    simple_unique_replay_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+      - method: subscribe
+        arguments:
+        - '@unique_participant_projector'
+      public: true
+
     quiz_aggregate_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
       arguments:
