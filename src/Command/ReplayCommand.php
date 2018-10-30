@@ -48,6 +48,7 @@ class ReplayCommand extends ContainerAwareCommand
         $simpleEventBus = $this->getContainer()->get('simple_event_bus');
         $output->writeln('Option projector: '.$input->getOption('projector'));
         if ($input->getOption('projector') === 'unique') {
+            /** @var SimpleEventBus $simpleEventBus */
             $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
         }
 
