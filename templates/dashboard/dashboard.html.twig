@@ -144,7 +144,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
             $('#company').change(function () {
                 var url = $("#apply").attr('href').slice(0, -36);
