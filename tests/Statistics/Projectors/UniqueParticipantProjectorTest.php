@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use VSV\GVQ_API\Factory\ModelsFactory;
+use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 
@@ -35,12 +36,11 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
 
     /**
      * @test
-     * @throws \Exception
+     * @param Quiz $quiz
+     * @dataProvider quizProvider
      */
-    public function it_handles_quiz_finished(): void
+    public function it_handles_quiz_finished(Quiz $quiz): void
     {
-        $quiz = ModelsFactory::createIndividualQuiz();
-
         $this->mockQuizRepositoryGetById($quiz);
 
         $this->uniqueParticipantRepository->expects($this->exactly(6))
@@ -81,50 +81,22 @@ class UniqueParticipantProjectorTest extends MockedQuizRepositoryTest
     }
 
     /**
-     * @test
+     * @return Quiz[][]
      * @throws \Exception
      */
-    public function it_handles_fr_quiz_finished(): void
+    public function quizProvider(): array
     {
-        $quiz = ModelsFactory::createIndividualFrQuiz();
-
-        $this->mockQuizRepositoryGetById($quiz);
-
-        $this->uniqueParticipantRepository->expects($this->exactly(6))
-            ->method('add')
-            ->withConsecutive(
-                [
-                    StatisticsKey::createFromQuiz($quiz),
-                    $quiz->getParticipant(),
-                ],
-                [
-                    StatisticsKey::createChannelTotalFromQuiz($quiz),
-                    $quiz->getParticipant(),
-                ],
-                [
-                    StatisticsKey::createQuizTotalFromQuiz($quiz),
-                    $quiz->getParticipant(),
-                ],
-                [
-                    new StatisticsKey(StatisticsKey::QUIZ_TOT),
-                    $quiz->getParticipant(),
-                ],
-                [
-                    StatisticsKey::createOverallTotalFromQuiz($quiz),
-                    $quiz->getParticipant(),
-                ],
-                [
-                    new StatisticsKey(StatisticsKey::OVERALL_TOT),
-                    $quiz->getParticipant(),
-                ]
-            );
-
-        $this->uniqueParticipantRepository->expects($this->never())
-            ->method('addPassed');
-
-        $this->uniqueParticipantProjector->handle(
-            ModelsFactory::createQuizFinishedDomainMessage($quiz)
-        );
+        return  [
+            [
+                ModelsFactory::createIndividualQuiz(),
+            ],
+            [
+                ModelsFactory::createIndividualFrQuiz(),
+            ],
+            [
+                ModelsFactory::createCompanyQuiz(),
+            ],
+        ];
     }
 
     /**
