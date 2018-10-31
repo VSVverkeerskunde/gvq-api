@@ -19,6 +19,11 @@ interface QuestionResultRepository
     ): void;
 
     /**
+     * @param UuidInterface $id
+     */
+    public function deleteById(UuidInterface $id): void;
+
+    /**
      * @param UuidInterface $quizId
      * @return QuestionResult
      */

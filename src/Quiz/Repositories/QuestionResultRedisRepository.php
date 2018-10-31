@@ -52,6 +52,14 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     /**
      * @inheritdoc
      */
+    public function deleteById(UuidInterface $id): void
+    {
+        $this->redis->del($this->createKey($id));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getById(UuidInterface $quizId): QuestionResult
     {
         $questionResultAsJson = $this->redis->get($this->createKey($quizId));

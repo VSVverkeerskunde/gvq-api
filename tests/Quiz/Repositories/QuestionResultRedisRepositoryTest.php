@@ -71,6 +71,22 @@ class QuestionResultRedisRepositoryTest extends TestCase
         );
     }
 
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_can_delete_a_quiz_by_id(): void
+    {
+        $quizId = Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b');
+
+        $this->redis->expects($this->once())
+            ->method('del')
+            ->with('question_result_'.$quizId->toString());
+
+        $this->questionResultRedisRepository->deleteById($quizId);
+    }
+
     /**
      * @test
      * @throws \Exception
