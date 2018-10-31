@@ -171,7 +171,7 @@ class StatisticsServiceTest extends TestCase
                 new StatisticsKey('total')
             )
             ->willReturnOnConsecutiveCalls(
-                2,
+                0,
                 4,
                 6,
                 8,
