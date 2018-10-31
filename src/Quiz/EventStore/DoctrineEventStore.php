@@ -61,16 +61,27 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
      */
     public function getTraversableDomainMessages(): \Traversable
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $maxResults = 10;
+        $firstResult = 0;
 
-        $query = $queryBuilder->select('e')
-            ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
-            ->orderBy('e.id', 'ASC')
-            ->getQuery();
+        do {
+            $query = $this->entityManager->createQueryBuilder()
+                ->select('e')
+                ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
+                ->setFirstResult($firstResult)
+                ->setMaxResults($maxResults)
+                ->getQuery();
 
-        foreach ($query->iterate() as $eventEntities) {
-            yield $this->createDomainMessage($eventEntities[0]);
-        }
+            $currentBatchSize = 0;
+            foreach ($query->iterate() as $eventEntities) {
+                $currentBatchSize++;
+
+                $this->entityManager->detach($eventEntities[0]);
+                yield $this->createDomainMessage($eventEntities[0]);
+            }
+
+            $firstResult += $maxResults;
+        } while ($currentBatchSize === $maxResults);
     }
 
     /**
