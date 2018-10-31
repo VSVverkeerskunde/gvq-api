@@ -10,7 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore;
+use VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository;
+use VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository;
 
 class ReplayCommand extends ContainerAwareCommand
 {
@@ -52,6 +55,12 @@ class ReplayCommand extends ContainerAwareCommand
             $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
         }
 
+        /** @var QuizRedisRepository $quizRedisRepository */
+        $quizRedisRepository = $this->getContainer()->get('quiz_redis_repository');
+
+        /** @var QuestionResultRedisRepository $questionResultRedisRepository */
+        $questionResultRedisRepository = $this->getContainer()->get('question_result_redis_repository');
+
         /** @var DomainMessage $domainMessage */
         $index = 0;
         foreach ($doctrineEventStore->getTraversableDomainMessages() as $domainMessage) {
@@ -61,6 +70,14 @@ class ReplayCommand extends ContainerAwareCommand
                 .' - '.$domainMessage->getType()
             );
             $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
+
+            if ($domainMessage->getPayload() instanceof QuizFinished) {
+                $output->writeln('--- Deleting quiz and question result projection...');
+                /** @var QuizFinished $quizFinished */
+                $quizFinished = $domainMessage->getPayload();
+                $quizRedisRepository->deleteById($quizFinished->getId());
+                $questionResultRedisRepository->deleteById($quizFinished->getId());
+            }
         }
 
         $output->writeln('Finished replay...');

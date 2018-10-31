@@ -172,6 +172,7 @@ services:
       class: VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository
       arguments:
         $redis: '@redis_service'
+      public: true
 
     started_quiz_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\StartedQuizRedisRepository
@@ -187,6 +188,7 @@ services:
       class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
       arguments:
         $redis: '@redis_service'
+      public: true
 
     unique_participant_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRedisRepository
