@@ -117,9 +117,7 @@ class StatisticsKey extends Enumeration
     public static function createQuizTotalFromQuiz(Quiz $quiz): StatisticsKey
     {
         if ($quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
-            throw new\InvalidArgumentException(
-                'Cup does not count in quiz total.'
-            );
+            throw new\InvalidArgumentException('Cup does not count in quiz total.');
         }
 
         if ($quiz->getLanguage()->equals(new Language(Language::NL))) {
