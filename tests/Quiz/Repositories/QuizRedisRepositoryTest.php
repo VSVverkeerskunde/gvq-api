@@ -70,6 +70,21 @@ class QuizRedisRepositoryTest extends TestCase
      * @test
      * @throws \Exception
      */
+    public function it_can_delete_a_quiz_by_id(): void
+    {
+        $quiz = ModelsFactory::createIndividualQuiz();
+
+        $this->redis->expects($this->once())
+            ->method('del')
+            ->with('quiz_'.$quiz->getId()->toString());
+
+        $this->quizRedisRepository->deleteById($quiz->getId());
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_can_get_a_quiz_by_id(): void
     {
         $quiz = ModelsFactory::createIndividualQuiz();

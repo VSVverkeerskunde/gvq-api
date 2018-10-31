@@ -14,6 +14,11 @@ interface QuizRepository
 
     /**
      * @param UuidInterface $id
+     */
+    public function deleteById(UuidInterface $id): void;
+
+    /**
+     * @param UuidInterface $id
      * @return Quiz
      */
     public function getById(UuidInterface $id): Quiz;

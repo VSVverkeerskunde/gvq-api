@@ -49,6 +49,14 @@ class QuizRedisRepository implements QuizRepository
     /**
      * @inheritdoc
      */
+    public function deleteById(UuidInterface $id): void
+    {
+        $this->redis->del($this->createKey($id));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getById(UuidInterface $id): Quiz
     {
         $quizAsJson = $this->redis->get($this->createKey($id));
