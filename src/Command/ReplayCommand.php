@@ -37,7 +37,7 @@ class ReplayCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Continue with replaying all current events? ', false);
+        $question = new ConfirmationQuestion('Continue with replaying all current events? ', true);
 
         if (!$helper->ask($input, $output, $question)) {
             return;
