@@ -215,9 +215,9 @@ class StatisticsServiceTest extends TestCase
                 new StatisticsKey('total')
             )
             ->willReturnOnConsecutiveCalls(
-                1,
-                2,
-                3,
+                0,
+                0,
+                0,
                 4,
                 5,
                 6,
@@ -239,9 +239,9 @@ class StatisticsServiceTest extends TestCase
 
         $this->assertEquals(
             [
-                'individual_nl' => 50.0,
-                'individual_total' => 50.0,
-                'individual_fr' => 50.0,
+                'individual_nl' => 0.0,
+                'individual_total' => 0.0,
+                'individual_fr' => 0.0,
                 'partner_nl' => 50.0,
                 'partner_total' => 50.0,
                 'partner_fr' => 50.0,
