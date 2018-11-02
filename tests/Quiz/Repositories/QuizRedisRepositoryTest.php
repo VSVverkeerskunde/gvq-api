@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 
@@ -50,6 +51,10 @@ class QuizRedisRepositoryTest extends TestCase
         $quiz = ModelsFactory::createIndividualQuiz();
         $quizAsJson = ModelsFactory::createJson('quiz_individual');
 
+        $quizRedisRepository = $this->quizRedisRepository->withTtl(
+            new Ttl(2 * 3600)
+        );
+
         $this->serializer->expects($this->once())
             ->method('serialize')
             ->with($quiz, 'json')
@@ -59,11 +64,11 @@ class QuizRedisRepositoryTest extends TestCase
             ->method('setex')
             ->with(
                 'quiz_'.$quiz->getId()->toString(),
-                3600 * 12,
+                2 * 3600,
                 $quizAsJson
             );
 
-        $this->quizRedisRepository->save($quiz);
+        $quizRedisRepository->save($quiz);
     }
 
     /**

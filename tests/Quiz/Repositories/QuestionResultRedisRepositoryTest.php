@@ -6,6 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Factory\ModelsFactory;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
@@ -52,6 +53,10 @@ class QuestionResultRedisRepositoryTest extends TestCase
         $questionResult = ModelsFactory::createQuestionResult();
         $questionResultAsJson = ModelsFactory::createJson('question_result');
 
+        $questionResultRedisRepository = $this->questionResultRedisRepository->withTtl(
+            new Ttl(2 * 3600)
+        );
+
         $this->serializer->expects($this->once())
             ->method('serialize')
             ->with($questionResult, 'json')
@@ -61,11 +66,11 @@ class QuestionResultRedisRepositoryTest extends TestCase
             ->method('setex')
             ->with(
                 'question_result_'.$quizId->toString(),
-                3600 * 10,
+                2 * 3600,
                 $questionResultAsJson
             );
 
-        $this->questionResultRedisRepository->save(
+        $questionResultRedisRepository->save(
             $quizId,
             $questionResult
         );

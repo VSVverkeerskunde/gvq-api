@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Quiz\ValueObjects\QuestionResult;
 
 class QuestionResultRedisRepository implements QuestionResultRepository
@@ -21,6 +22,11 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     private $serializer;
 
     /**
+     * @var Ttl;
+     */
+    private $ttl;
+
+    /**
      * @param \Redis $redis
      * @param SerializerInterface $serializer
      */
@@ -30,6 +36,17 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     ) {
         $this->redis = $redis;
         $this->serializer = $serializer;
+        $this->ttl = new Ttl(10 * 3600);
+    }
+    /**
+     * @param Ttl $ttl
+     * @return QuestionResultRedisRepository
+     */
+    public function withTtl(Ttl $ttl): QuestionResultRedisRepository
+    {
+        $c = clone $this;
+        $c->ttl = $ttl;
+        return $c;
     }
 
     /**
@@ -44,7 +61,7 @@ class QuestionResultRedisRepository implements QuestionResultRepository
 
         $this->redis->setex(
             $this->createKey($quizId),
-            (3600 * 10),
+            $this->ttl->toNative(),
             $questionResultAsJson
         );
     }
