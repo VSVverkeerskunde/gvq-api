@@ -53,9 +53,7 @@ class QuestionResultRedisRepositoryTest extends TestCase
         $questionResult = ModelsFactory::createQuestionResult();
         $questionResultAsJson = ModelsFactory::createJson('question_result');
 
-        $questionResultRedisRepository = $this->questionResultRedisRepository->withTtl(
-            new Ttl(2 * 3600)
-        );
+        $this->questionResultRedisRepository->updateTtl(new Ttl(2 * 3600));
 
         $this->serializer->expects($this->once())
             ->method('serialize')
@@ -70,7 +68,7 @@ class QuestionResultRedisRepositoryTest extends TestCase
                 $questionResultAsJson
             );
 
-        $questionResultRedisRepository->save(
+        $this->questionResultRedisRepository->save(
             $quizId,
             $questionResult
         );

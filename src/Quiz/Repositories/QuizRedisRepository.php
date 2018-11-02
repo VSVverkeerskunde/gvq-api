@@ -41,13 +41,10 @@ class QuizRedisRepository implements QuizRepository
 
     /**
      * @param Ttl $ttl
-     * @return QuizRedisRepository
      */
-    public function withTtl(Ttl $ttl): QuizRedisRepository
+    public function updateTtl(Ttl $ttl): void
     {
-        $c = clone $this;
-        $c->ttl = $ttl;
-        return $c;
+        $this->ttl = $ttl;
     }
 
     /**

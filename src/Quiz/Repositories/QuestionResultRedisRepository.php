@@ -40,13 +40,10 @@ class QuestionResultRedisRepository implements QuestionResultRepository
     }
     /**
      * @param Ttl $ttl
-     * @return QuestionResultRedisRepository
      */
-    public function withTtl(Ttl $ttl): QuestionResultRedisRepository
+    public function updateTtl(Ttl $ttl): void
     {
-        $c = clone $this;
-        $c->ttl = $ttl;
-        return $c;
+        $this->ttl = $ttl;
     }
 
     /**

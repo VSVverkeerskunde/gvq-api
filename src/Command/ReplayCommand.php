@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository;
@@ -29,6 +30,13 @@ class ReplayCommand extends ContainerAwareCommand
             'Pass the projector to replay (all|unique)',
             'all'
         );
+
+        $this->addOption(
+            'ttl',
+            't',
+            InputOption::VALUE_OPTIONAL,
+            'Pass the ttl in seconds'
+        );
     }
 
     /**
@@ -44,25 +52,14 @@ class ReplayCommand extends ContainerAwareCommand
         }
 
         $output->writeln('Starting replay...');
-        /** @var DoctrineEventStore $doctrineEventStore */
-        $doctrineEventStore = $this->getContainer()->get('doctrine_event_store');
 
-        /** @var SimpleEventBus $simpleEventBus */
-        $simpleEventBus = $this->getContainer()->get('simple_event_bus');
-        $output->writeln('Option projector: '.$input->getOption('projector'));
-        if ($input->getOption('projector') === 'unique') {
-            /** @var SimpleEventBus $simpleEventBus */
-            $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
-        }
+        $doctrineEventStore = $this->getDoctrineEventStore();
+        $simpleEventBus = $this->getEventBus($input);
+        $quizRedisRepository = $this->getQuizRedisRepository($input);
+        $questionResultRedisRepository = $this->getQuestionResultRedisRepository($input);
 
-        /** @var QuizRedisRepository $quizRedisRepository */
-        $quizRedisRepository = $this->getContainer()->get('quiz_redis_repository');
-
-        /** @var QuestionResultRedisRepository $questionResultRedisRepository */
-        $questionResultRedisRepository = $this->getContainer()->get('question_result_redis_repository');
-
-        /** @var DomainMessage $domainMessage */
         $index = 0;
+        /** @var DomainMessage $domainMessage */
         foreach ($doctrineEventStore->getTraversableDomainMessages() as $domainMessage) {
             $output->writeln(
                 $index++.' - ' .$domainMessage->getId()
@@ -72,7 +69,6 @@ class ReplayCommand extends ContainerAwareCommand
             $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
 
             if ($domainMessage->getPayload() instanceof QuizFinished) {
-                $output->writeln('--- Deleting quiz and question result projection...');
                 /** @var QuizFinished $quizFinished */
                 $quizFinished = $domainMessage->getPayload();
                 $quizRedisRepository->deleteById($quizFinished->getId());
@@ -81,5 +77,77 @@ class ReplayCommand extends ContainerAwareCommand
         }
 
         $output->writeln('Finished replay...');
+    }
+
+    /**
+     * @return DoctrineEventStore
+     */
+    private function getDoctrineEventStore(): DoctrineEventStore
+    {
+        /** @var DoctrineEventStore $doctrineEventStore */
+        $doctrineEventStore = $this->getContainer()->get('doctrine_event_store');
+        return $doctrineEventStore;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return QuestionResultRedisRepository
+     */
+    private function getQuestionResultRedisRepository(InputInterface $input): QuestionResultRedisRepository
+    {
+        /** @var QuestionResultRedisRepository $questionResultRedisRepository */
+        $questionResultRedisRepository = $this->getContainer()->get('question_result_redis_repository');
+
+        if ($this->getTtl($input)) {
+            $questionResultRedisRepository->updateTtl($this->getTtl($input));
+        }
+
+        return $questionResultRedisRepository;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return QuizRedisRepository
+     */
+    private function getQuizRedisRepository(InputInterface $input): QuizRedisRepository
+    {
+        /** @var QuizRedisRepository $quizRedisRepository */
+        $quizRedisRepository = $this->getContainer()->get('quiz_redis_repository');
+
+        if ($this->getTtl($input)) {
+            $quizRedisRepository->updateTtl($this->getTtl($input));
+        }
+
+        return $quizRedisRepository;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return SimpleEventBus
+     */
+    private function getEventBus(InputInterface $input): SimpleEventBus
+    {
+        /** @var SimpleEventBus $simpleEventBus */
+        $simpleEventBus = $this->getContainer()->get('simple_event_bus');
+
+        if ($input->getOption('projector') === 'unique') {
+            /** @var SimpleEventBus $simpleEventBus */
+            $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
+        }
+
+        return $simpleEventBus;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return null|Ttl
+     */
+    private function getTtl(InputInterface $input): ?Ttl
+    {
+        if (!empty($input->getOption('ttl'))) {
+            return new Ttl((int)$input->getOption('ttl'));
+        }
+
+        return null;
     }
 }

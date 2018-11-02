@@ -51,9 +51,7 @@ class QuizRedisRepositoryTest extends TestCase
         $quiz = ModelsFactory::createIndividualQuiz();
         $quizAsJson = ModelsFactory::createJson('quiz_individual');
 
-        $quizRedisRepository = $this->quizRedisRepository->withTtl(
-            new Ttl(2 * 3600)
-        );
+        $this->quizRedisRepository->updateTtl(new Ttl(2 * 3600));
 
         $this->serializer->expects($this->once())
             ->method('serialize')
@@ -68,7 +66,7 @@ class QuizRedisRepositoryTest extends TestCase
                 $quizAsJson
             );
 
-        $quizRedisRepository->save($quiz);
+        $this->quizRedisRepository->save($quiz);
     }
 
     /**
