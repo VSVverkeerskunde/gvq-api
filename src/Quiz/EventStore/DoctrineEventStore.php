@@ -65,8 +65,12 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
         int $lastId = NULL,
         callable $eventEntityFeedback = NULL
     ): \Traversable {
-        $maxResults = 10;
-        $firstResult = 0;
+        $maxResults = 100;
+
+        $nextId = 0;
+        if ($firstId) {
+            $nextId = $firstId;
+        }
 
         do {
             $queryBuilder = $this->entityManager->createQueryBuilder();
@@ -74,31 +78,31 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 ->select('e')
                 ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e');
 
+            if ($lastId) {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->between('e.id', $nextId, $lastId)
+                );
+            }
+            else {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->gte('e.id', $nextId)
+                );
+            }
+
             if (!empty($types)) {
                 $queryBuilder->andWhere(
                     $queryBuilder->expr()->in('e.type', $types)
                 );
             }
 
-            if ($firstId) {
-                $queryBuilder->andWhere(
-                    $queryBuilder->expr()->gte('e.id', $firstId)
-                );
-            }
-
-            if ($lastId) {
-                $queryBuilder->andWhere(
-                    $queryBuilder->expr()->lte('e.id', $lastId)
-                );
-            }
-
             $queryBuilder
-                ->setFirstResult($firstResult)
+                ->orderBy('e.id', 'ASC')
                 ->setMaxResults($maxResults);
 
             $query = $queryBuilder->getQuery();
 
             $currentBatchSize = 0;
+            /** @var \VSV\GVQ_API\Quiz\EventStore\EventEntity[] $eventEntities */
             foreach ($query->iterate() as $eventEntities) {
                 $currentBatchSize++;
 
@@ -109,9 +113,9 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 }
 
                 yield $this->createDomainMessage($eventEntities[0]);
-            }
 
-            $firstResult += $maxResults;
+                $nextId = $eventEntities[0]->getId() + 1;
+            }
         } while ($currentBatchSize === $maxResults);
     }
 
