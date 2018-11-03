@@ -59,24 +59,55 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
     /**
      * @return \Traversable
      */
-    public function getTraversableDomainMessages(): \Traversable
-    {
+    public function getTraversableDomainMessages(
+        array $types = [],
+        int $firstId = NULL,
+        int $lastId = NULL,
+        callable $eventEntityFeedback = NULL
+    ): \Traversable {
         $maxResults = 10;
         $firstResult = 0;
 
         do {
-            $query = $this->entityManager->createQueryBuilder()
+            $queryBuilder = $this->entityManager->createQueryBuilder();
+            $queryBuilder
                 ->select('e')
-                ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
+                ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e');
+
+            if (!empty($types)) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->in('e.type', $types)
+                );
+            }
+
+            if ($firstId) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->gte('e.id', $firstId)
+                );
+            }
+
+            if ($lastId) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->lte('e.id', $lastId)
+                );
+            }
+
+            $queryBuilder
                 ->setFirstResult($firstResult)
-                ->setMaxResults($maxResults)
-                ->getQuery();
+                ->setMaxResults($maxResults);
+
+            $query = $queryBuilder->getQuery();
 
             $currentBatchSize = 0;
             foreach ($query->iterate() as $eventEntities) {
                 $currentBatchSize++;
 
                 $this->entityManager->detach($eventEntities[0]);
+
+                if ($eventEntityFeedback) {
+                    $eventEntityFeedback($eventEntities[0]);
+                }
+
                 yield $this->createDomainMessage($eventEntities[0]);
             }
 
