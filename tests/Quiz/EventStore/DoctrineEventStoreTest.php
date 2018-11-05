@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Quiz\EventStore;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
+use Generator;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepositoryTest;
@@ -114,9 +115,14 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
 
         $serializer = new Serializer($normalizers, $encoders);
 
+        // We explicitly set the items per page low to make the tests cover
+        // the paging logic just enough as needed for now
+        // (if the expected results are ok, then the paging works).
+        $itemsPerPage = 2;
         $this->doctrineEventStore = new DoctrineEventStore(
             $this->entityManager,
-            $serializer
+            $serializer,
+            $itemsPerPage
         );
     }
 
@@ -200,25 +206,31 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
      * @test
      * @throws \Exception
      */
-    public function it_can_get_a_full_domain_event_stream()
+    public function it_can_get_a_stream_of_domain_messages()
     {
         $quiz = ModelsFactory::createIndividualQuiz();
         $domainEvents = $this->createDomainEvents($quiz);
+        $partnerQuiz = ModelsFactory::createPartnerQuiz();
+        $domainEvents[] = DomainMessage::recordNow(
+            $partnerQuiz->getId()->toString(),
+            0,
+            new Metadata(),
+            new QuizStarted($partnerQuiz->getId(), $quiz)
+        );
 
         $this->doctrineEventStore->append(
             $quiz->getId()->toString(),
             new DomainEventStream($domainEvents)
         );
 
-        $allDomainMessages = [];
         $domainMessages = $this->doctrineEventStore->getTraversableDomainMessages();
-        foreach ($domainMessages as $domainMessage) {
-            $allDomainMessages[] = $domainMessage;
-        }
+        $this->assertInstanceOf(Generator::class, $domainMessages);
+
+        $allDomainMessages = iterator_to_array($domainMessages);
 
         $this->assertEquals(
-            new DomainEventStream($domainEvents),
-            new DomainEventStream($allDomainMessages)
+            $domainEvents,
+            $allDomainMessages
         );
     }
 

@@ -20,16 +20,24 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
     private $serializer;
 
     /**
+     * @var int
+     */
+    private $itemsPerPage;
+
+    /**
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
+     * @param int $itemsPerPage
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        int $itemsPerPage = 100
     ) {
         parent::__construct($entityManager);
 
         $this->serializer = $serializer;
+        $this->itemsPerPage = $itemsPerPage;
     }
 
     /**
@@ -65,7 +73,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
         int $lastId = null,
         callable $eventEntityFeedback = null
     ): \Traversable {
-        $maxResults = 100;
+        $maxResults = $this->itemsPerPage;
 
         $nextId = 0;
         if ($firstId) {
