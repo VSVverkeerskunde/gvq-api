@@ -61,9 +61,9 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
      */
     public function getTraversableDomainMessages(
         array $types = [],
-        int $firstId = NULL,
-        int $lastId = NULL,
-        callable $eventEntityFeedback = NULL
+        int $firstId = null,
+        int $lastId = null,
+        callable $eventEntityFeedback = null
     ): \Traversable {
         $maxResults = 100;
 
@@ -82,8 +82,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 $queryBuilder->where(
                     $queryBuilder->expr()->between('e.id', $nextId, $lastId)
                 );
-            }
-            else {
+            } else {
                 $queryBuilder->where(
                     $queryBuilder->expr()->gte('e.id', $nextId)
                 );

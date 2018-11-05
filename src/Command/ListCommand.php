@@ -63,14 +63,14 @@ class ListCommand extends ContainerAwareCommand
         };
 
         $firstId = $input->getOption('first-id');
-        if (NULL !== $firstId) {
+        if (null !== $firstId) {
             $firstId = (int) $firstId;
 
             $output->writeln('from first id: ' . $firstId);
         }
 
         $lastId = $input->getOption('last-id');
-        if (NULL !== $lastId) {
+        if (null !== $lastId) {
             $lastId = (int) $lastId;
 
             $output->writeln('to last id: ' . $lastId);
@@ -88,7 +88,9 @@ class ListCommand extends ContainerAwareCommand
 
         /** @var DomainMessage $domainMessage */
         foreach ($domainMessages as $domainMessage) {
-            $output->writeln($domainMessage->getId() . ':' . $domainMessage->getPlayhead() . ' ' . $domainMessage->getType());
+            $output->writeln(
+                $domainMessage->getId() . ':' . $domainMessage->getPlayhead() . ' ' . $domainMessage->getType()
+            );
             $event = $domainMessage->getPayload();
             if ($event instanceof QuizStarted) {
                 $company = $event->getQuiz()->getCompany();
@@ -105,9 +107,10 @@ class ListCommand extends ContainerAwareCommand
                     'score' => '!!! not finished !!!',
                 ];
 
-                $output->writeln($event->getQuiz()->getParticipant()->getEmail()->toNative());
-            }
-            else if ($event instanceof QuizFinished) {
+                $output->writeln(
+                    $event->getQuiz()->getParticipant()->getEmail()->toNative()
+                );
+            } elseif ($event instanceof QuizFinished) {
                 if (isset($list[$event->getId()->toString()])) {
                     $list[$event->getId()->toString()]['score'] = $event->getScore();
                 }
