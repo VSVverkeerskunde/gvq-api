@@ -59,28 +59,63 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
     /**
      * @return \Traversable
      */
-    public function getTraversableDomainMessages(): \Traversable
-    {
-        $maxResults = 10;
-        $firstResult = 0;
+    public function getTraversableDomainMessages(
+        array $types = [],
+        int $firstId = NULL,
+        int $lastId = NULL,
+        callable $eventEntityFeedback = NULL
+    ): \Traversable {
+        $maxResults = 100;
+
+        $nextId = 0;
+        if ($firstId) {
+            $nextId = $firstId;
+        }
 
         do {
-            $query = $this->entityManager->createQueryBuilder()
+            $queryBuilder = $this->entityManager->createQueryBuilder();
+            $queryBuilder
                 ->select('e')
-                ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e')
-                ->setFirstResult($firstResult)
-                ->setMaxResults($maxResults)
-                ->getQuery();
+                ->from('VSV\GVQ_API\Quiz\EventStore\EventEntity', 'e');
+
+            if ($lastId) {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->between('e.id', $nextId, $lastId)
+                );
+            }
+            else {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->gte('e.id', $nextId)
+                );
+            }
+
+            if (!empty($types)) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->in('e.type', $types)
+                );
+            }
+
+            $queryBuilder
+                ->orderBy('e.id', 'ASC')
+                ->setMaxResults($maxResults);
+
+            $query = $queryBuilder->getQuery();
 
             $currentBatchSize = 0;
+            /** @var \VSV\GVQ_API\Quiz\EventStore\EventEntity[] $eventEntities */
             foreach ($query->iterate() as $eventEntities) {
                 $currentBatchSize++;
 
                 $this->entityManager->detach($eventEntities[0]);
-                yield $this->createDomainMessage($eventEntities[0]);
-            }
 
-            $firstResult += $maxResults;
+                if ($eventEntityFeedback) {
+                    $eventEntityFeedback($eventEntities[0]);
+                }
+
+                yield $this->createDomainMessage($eventEntities[0]);
+
+                $nextId = $eventEntities[0]->getId() + 1;
+            }
         } while ($currentBatchSize === $maxResults);
     }
 
