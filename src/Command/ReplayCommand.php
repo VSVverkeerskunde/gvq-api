@@ -13,6 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore;
+use VSV\GVQ_API\Quiz\EventStore\EventEntity;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRedisRepository;
 
@@ -20,23 +21,36 @@ class ReplayCommand extends ContainerAwareCommand
 {
     protected function configure(): void
     {
-        $this->setName('gvq:replay')
-            ->setDescription('Replay all current events.');
-
-        $this->addOption(
-            'projector',
-            'p',
-            InputOption::VALUE_OPTIONAL,
-            'Pass the projector to replay (all|unique)',
-            'all'
-        );
-
-        $this->addOption(
-            'ttl',
-            't',
-            InputOption::VALUE_OPTIONAL,
-            'Pass the ttl in seconds'
-        );
+        $this
+            ->setName('gvq:replay')
+            ->setDescription('Replay all current events.')
+            ->addOption(
+                'projector',
+                'p',
+                InputOption::VALUE_OPTIONAL,
+                'Pass the projector to replay (all|unique)',
+                'all'
+            )
+            ->addOption(
+                'first-id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '',
+                null
+            )
+            ->addOption(
+                'last-id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '',
+                null
+            )
+            ->addOption(
+                'ttl',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'Pass the ttl in seconds'
+            );
     }
 
     /**
@@ -44,6 +58,20 @@ class ReplayCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        $firstId = $input->getOption('first-id');
+        if (null !== $firstId) {
+            $firstId = (int) $firstId;
+
+            $output->writeln('from first id: ' . $firstId);
+        }
+
+        $lastId = $input->getOption('last-id');
+        if (null !== $lastId) {
+            $lastId = (int) $lastId;
+
+            $output->writeln('to last id: ' . $lastId);
+        }
+
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue with replaying all current events? ', true);
 
@@ -59,8 +87,23 @@ class ReplayCommand extends ContainerAwareCommand
         $questionResultRedisRepository = $this->getQuestionResultRedisRepository($input);
 
         $index = 0;
-        /** @var DomainMessage $domainMessage */
-        foreach ($doctrineEventStore->getTraversableDomainMessages() as $domainMessage) {
+
+        $eventEntityFeedback = function (EventEntity $event) use ($output) {
+            $id = $event->getId();
+            if ($id) {
+                $output->writeln((string)$id);
+            }
+        };
+
+        /** @var DomainMessage[] $domainMessages */
+        $domainMessages = $doctrineEventStore->getTraversableDomainMessages(
+            [],
+            $firstId,
+            $lastId,
+            $eventEntityFeedback
+        );
+
+        foreach ($domainMessages as $domainMessage) {
             $output->writeln(
                 $index++.' - ' .$domainMessage->getId()
                 .' - '.$domainMessage->getRecordedOn()->toString()
