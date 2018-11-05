@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Quiz\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use VSV\GVQ_API\Common\ValueObjects\Ttl;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 
 class QuizRedisRepository implements QuizRepository
@@ -21,6 +22,11 @@ class QuizRedisRepository implements QuizRepository
     private $serializer;
 
     /**
+     * @var Ttl
+     */
+    private $ttl;
+
+    /**
      * @param \Redis $redis
      * @param SerializerInterface $serializer
      */
@@ -30,6 +36,15 @@ class QuizRedisRepository implements QuizRepository
     ) {
         $this->redis = $redis;
         $this->serializer = $serializer;
+        $this->ttl = new Ttl(12 * 3600);
+    }
+
+    /**
+     * @param Ttl $ttl
+     */
+    public function updateTtl(Ttl $ttl): void
+    {
+        $this->ttl = $ttl;
     }
 
     /**
@@ -41,9 +56,17 @@ class QuizRedisRepository implements QuizRepository
 
         $this->redis->setex(
             $this->createKey($quiz->getId()),
-            (3600 * 12),
+            $this->ttl->toNative(),
             $quizAsJson
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteById(UuidInterface $id): void
+    {
+        $this->redis->del($this->createKey($id));
     }
 
     /**

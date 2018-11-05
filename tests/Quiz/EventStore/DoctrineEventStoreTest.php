@@ -185,6 +185,19 @@ class DoctrineEventStoreTest extends AbstractDoctrineRepositoryTest
 
     /**
      * @test
+     */
+    public function it_throws_when_loading_missing_aggregate(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Aggregate with id bfe0b4db-37dc-470f-a5c7-168bd0ce4112 does not exist.'
+        );
+
+        $this->doctrineEventStore->load('bfe0b4db-37dc-470f-a5c7-168bd0ce4112');
+    }
+
+    /**
+     * @test
      * @throws \Exception
      */
     public function it_can_get_a_full_domain_event_stream()

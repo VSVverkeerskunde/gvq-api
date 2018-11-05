@@ -82,6 +82,23 @@ class ContestServiceTest extends TestCase
      * @test
      * @throws \Exception
      */
+    public function it_can_export_all_contest_participations_as_traversable(): void
+    {
+        $traversable = $this->createMock(\Traversable::class);
+
+        $this->contestParticipationRepository->expects($this->once())
+            ->method('getAllAsTraversable')
+            ->willReturn($traversable);
+
+        $actualTraversable = $this->contestService->getTraversableContestParticipations();
+
+        $this->assertEquals($traversable, $actualTraversable);
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_is_possible_to_participate_when_no_previous_participation_present(): void
     {
         $passedQuestionResult = ModelsFactory::createCustomQuestionResult(

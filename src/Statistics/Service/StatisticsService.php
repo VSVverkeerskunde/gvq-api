@@ -119,7 +119,7 @@ class StatisticsService
     public function getUniqueParticipantCounts(): array
     {
         if ($this->uniqueParticipantsCount === null) {
-            $this->uniqueParticipantsCount = $this->getCountsFromRepository(
+            $this->uniqueParticipantsCount = $this->getUniqueCountsFromRepository(
                 function (StatisticsKey $statisticsKey) {
                     return $this->uniqueParticipantRepository->getCount($statisticsKey);
                 }
@@ -135,7 +135,7 @@ class StatisticsService
     public function getPassedUniqueParticipantCounts(): array
     {
         if ($this->passedUniqueParticipantsCount === null) {
-            $this->passedUniqueParticipantsCount = $this->getCountsFromRepository(
+            $this->passedUniqueParticipantsCount = $this->getUniqueCountsFromRepository(
                 function (StatisticsKey $statisticsKey) {
                     return $this->uniqueParticipantRepository->getPassedCount($statisticsKey);
                 }
@@ -300,6 +300,23 @@ class StatisticsService
         $counts['total_fr'] = $totalFR;
         $counts['total'] = $totalNL + $totalFR;
 
+
+        return $counts;
+    }
+
+    /**
+     * @param callable $countFunction
+     * @return array
+     */
+    private function getUniqueCountsFromRepository(callable $countFunction): array
+    {
+        $counts = [];
+
+        $tmpStatisticsKey = new StatisticsKey(StatisticsKey::OVERALL_TOT);
+
+        foreach ($tmpStatisticsKey->getAllowedValues() as $statisticsKey) {
+            $counts[$statisticsKey] = $countFunction(new StatisticsKey($statisticsKey));
+        }
 
         return $counts;
     }

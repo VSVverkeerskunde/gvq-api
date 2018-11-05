@@ -706,6 +706,22 @@ class ModelsFactory
      * @return Quiz
      * @throws \Exception
      */
+    public static function createIndividualFrQuiz(): Quiz
+    {
+        return self::createCustomQuiz(
+            Uuid::fromString('f604152c-3cc5-4888-be87-af371ac3aa6b'),
+            new QuizChannel(QuizChannel::INDIVIDUAL),
+            null,
+            null,
+            null,
+            new Language(Language::FR)
+        );
+    }
+
+    /**
+     * @return Quiz
+     * @throws \Exception
+     */
     public static function createCompanyQuiz(): Quiz
     {
         return self::createCustomQuiz(

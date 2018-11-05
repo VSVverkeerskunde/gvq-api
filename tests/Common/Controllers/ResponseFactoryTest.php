@@ -53,4 +53,33 @@ class ResponseFactoryTest extends TestCase
             $csvResponse->getContent()
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_streamed_csv_response()
+    {
+        $csvResponse = $this->responseFactory->createStreamedCsvResponse(
+            function () {
+            },
+            'users'
+        );
+
+        $this->assertEquals(
+            'UTF-8',
+            $csvResponse->headers->get('Content-Encoding')
+        );
+        $this->assertEquals(
+            'application/csv; charset=UTF-8',
+            $csvResponse->headers->get('Content-Type')
+        );
+        $this->assertEquals(
+            'binary',
+            $csvResponse->headers->get('Content-Transfer-Encoding')
+        );
+        $this->assertContains(
+            'attachment; filename="users_',
+            $csvResponse->headers->get('Content-Disposition')
+        );
+    }
 }

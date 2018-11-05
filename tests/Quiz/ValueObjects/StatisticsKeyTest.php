@@ -240,4 +240,16 @@ class StatisticsKeyTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
+    public function it_throws_when_creating_quiz_total_for_channel_cup(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cup does not count in quiz total.');
+
+        StatisticsKey::createQuizTotalFromQuiz(ModelsFactory::createCupQuiz());
+    }
 }

@@ -56,6 +56,33 @@ class ContestParticipationDoctrineRepositoryTest extends AbstractDoctrineReposit
      * @test
      * @throws \Exception
      */
+    public function it_can_iterate_over_contest_participations(): void
+    {
+        $contestParticipations = [
+            ModelsFactory::createQuizContestParticipation(),
+            ModelsFactory::createCupContestParticipation(),
+        ];
+
+        foreach ($contestParticipations as $contestParticipation) {
+            $this->contestParticipationDoctrineRepository->save($contestParticipation);
+        }
+
+        $traversable = $this->contestParticipationDoctrineRepository->getAllAsTraversable();
+        $actualContestParticipations = [];
+        foreach ($traversable as $contestParticipation) {
+            $actualContestParticipations[] = $contestParticipation;
+        }
+
+        $this->assertEquals(
+            $contestParticipations,
+            $actualContestParticipations
+        );
+    }
+
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function it_returns_null_when_no_contest_participations_present(): void
     {
         $contestParticipations = $this->contestParticipationDoctrineRepository->getAll();
