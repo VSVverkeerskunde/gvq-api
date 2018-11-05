@@ -59,7 +59,10 @@ class ListCommand extends ContainerAwareCommand
         ];
 
         $eventEntityFeedback = function (EventEntity $event) use ($output) {
-            $output->writeln($event->getId());
+            $id = $event->getId();
+            if ($id) {
+                $output->writeln((string)$id);
+            }
         };
 
         $firstId = $input->getOption('first-id');
