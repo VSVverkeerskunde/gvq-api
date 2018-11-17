@@ -29,18 +29,26 @@ class ContestService
     private $contestParticipationRepository;
 
     /**
+     * @var bool
+     */
+    private $closed;
+
+    /**
      * @param QuestionResultRepository $questionResultRepository
      * @param QuizRepository $quizRepository
      * @param ContestParticipationRepository $contestParticipationRepository
+     * @param bool $closed
      */
     public function __construct(
         QuestionResultRepository $questionResultRepository,
         QuizRepository $quizRepository,
-        ContestParticipationRepository $contestParticipationRepository
+        ContestParticipationRepository $contestParticipationRepository,
+        bool $closed = false
     ) {
         $this->questionResultRepository = $questionResultRepository;
         $this->quizRepository = $quizRepository;
         $this->contestParticipationRepository = $contestParticipationRepository;
+        $this->closed = $closed;
     }
 
     /**
@@ -68,6 +76,10 @@ class ContestService
      */
     public function canParticipate(Year $year, UuidInterface $quizId): bool
     {
+        if ($this->closed) {
+            return false;
+        }
+
         $questionResult = $this->questionResultRepository->getById($quizId);
         if ($questionResult->getScore() < 11) {
             return false;
@@ -93,6 +105,10 @@ class ContestService
      */
     public function save(ContestParticipation $contestParticipation): void
     {
+        if ($this->closed) {
+            return;
+        }
+
         $existingParticipation = $this->contestParticipationRepository->getByYearAndEmailAndChannel(
             $contestParticipation->getYear(),
             $contestParticipation->getContestParticipant()->getEmail(),

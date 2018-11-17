@@ -31,6 +31,7 @@ services:
       - APP_SECRET=${APP_SECRET}
       - QUIZ_ALLOW_ANONYMOUS=${QUIZ_ALLOW_ANONYMOUS}
       - REPORT_ALLOW_CONTACT=${REPORT_ALLOW_CONTACT}
+      - CONTEST_CLOSED
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always
