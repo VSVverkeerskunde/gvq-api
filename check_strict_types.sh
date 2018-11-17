@@ -15,6 +15,7 @@ if [ "$length" -gt 0 ]; then
     for i in "${missing[@]}"
     do
         printf "$i\n"
+        cat $i;
     done
     printf '\n'
     exit 1;
