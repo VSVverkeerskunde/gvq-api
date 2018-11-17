@@ -4,7 +4,7 @@ NC='\033[0m'
 
 printf 'Searching for missing strict_types...\n'
 
-for i in $(find src tests -type f -name '*.php'); do
+for i in $(find src tests -type f -name '*.php' -not -name '.bootstrap.php'); do
     missing+=(`head -n 1 ${i} | (grep -q '<?php declare(strict_types=1);' || echo ${i});`)
 done
 
@@ -15,7 +15,6 @@ if [ "$length" -gt 0 ]; then
     for i in "${missing[@]}"
     do
         printf "$i\n"
-        cat $i;
     done
     printf '\n'
     exit 1;
