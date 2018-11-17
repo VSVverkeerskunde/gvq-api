@@ -263,6 +263,12 @@
               deferredRender.resolve();
               startCountdown();
             };
+
+            questionImage.onerror = function () {
+              deferredRender.resolve();
+              startCountdown();
+            };
+
             questionImage.src = imageLocation;
           }
 
