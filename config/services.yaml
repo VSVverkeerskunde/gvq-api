@@ -14,6 +14,7 @@ parameters:
     env(QUIZ_ALLOW_ANONYMOUS): 'false'
     env(REPORT_ALLOW_CONTACT): 'false'
     env(CONTEST_CLOSED): 'false'
+    env(REGISTRATIONS_CLOSED): 'false'
 
 services:
     # default configuration for services in *this* file
@@ -435,6 +436,7 @@ services:
       arguments:
         $uuidFactory: '@uuid_factory'
         $quizStartDate: '@quiz_start_date'
+        $registrationsClosed: '%env(bool:REGISTRATIONS_CLOSED)%'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Question\Controllers\CategoryController:

@@ -24,6 +24,7 @@ services:
       - QUIZ_ALLOW_ANONYMOUS=${QUIZ_ALLOW_ANONYMOUS}
       - REPORT_ALLOW_CONTACT=${REPORT_ALLOW_CONTACT}
       - CONTEST_CLOSED
+      - REGISTRATIONS_CLOSED
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always

@@ -1,11 +1,13 @@
 <h1 class="text-center">De Grote Verkeersquiz voor bedrijven</h1>
 
+{% if not registrations_closed %}
 <p class="text-center">
     <a role="button"
        class="btn btn-primary btn-lg m-3"
        href="{{ path('accounts_inschrijven') }}">{% trans %}Registration.submit{% endtrans %}
     </a><br>
 </p>
+{% endif %}
 
 <h3>Daag je collega’s uit</h3>
 <p>De Grote Verkeersquiz van de VSV (Vlaamse Stichting Verkeerskunde) is met zijn negende editie intussen voor heel wat mensen een vaste waarde. Net als de voorbije vier jaar geven we ook dit jaar bedrijven en organisaties de kans om hun verkeerskennis te testen. Neem het op tegen je collega’s en laat zien dat jij de beste bent.</p>
@@ -57,12 +59,14 @@
 <h3>Vragen?</h3>
 <p>VSV, Ellen Loos, <a href="mailto:groteverkeersquiz@vsv.be">groteverkeersquiz@vsv.be</a></p>
 
+{% if not registrations_closed %}
 <p class="text-center">
     <a role="button"
        class="btn btn-primary btn-lg mt-1 mb-5"
        href="{{ path('accounts_inschrijven') }}">{% trans %}Registration.submit{% endtrans %}
     </a><br>
 </p>
+{% endif %}
 
 <h3>Op zoek naar meer? Safe2Work!</h3>
 <p>Jaarlijks telt ons land meer dan 15.000 arbeidsongevallen in het verkeer. Die hebben vaak ernstigere gevolgen dan ongelukken buiten het verkeer: bijna de helft van alle dodelijke arbeidsongevallen gebeurt op de weg.</p>

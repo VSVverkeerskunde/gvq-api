@@ -97,6 +97,11 @@ class AccountViewController extends AbstractController
     private $quizStartDate;
 
     /**
+     * @var bool
+     */
+    private $registrationsClosed;
+
+    /**
      * @param TranslatorInterface $translator
      * @param UuidFactoryInterface $uuidFactory
      * @param UserRepository $userRepository
@@ -105,6 +110,7 @@ class AccountViewController extends AbstractController
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
      * @param \DateTimeImmutable $quizStartDate
+     * @param bool $registrationsClosed
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -114,7 +120,8 @@ class AccountViewController extends AbstractController
         RegistrationRepository $registrationRepository,
         UrlSuffixGenerator $urlSuffixGenerator,
         MailService $mailService,
-        \DateTimeImmutable $quizStartDate
+        \DateTimeImmutable $quizStartDate,
+        bool $registrationsClosed = false
     ) {
         $this->translator = $translator;
         $this->uuidFactory = $uuidFactory;
@@ -124,6 +131,7 @@ class AccountViewController extends AbstractController
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
         $this->quizStartDate = $quizStartDate;
+        $this->registrationsClosed = $registrationsClosed;
 
         $this->registrationFormType = new RegistrationFormType();
         $this->requestPasswordFormType = new RequestPasswordFormType();
@@ -140,6 +148,14 @@ class AccountViewController extends AbstractController
         return $this->redirectToLandingPage();
     }
 
+    private function canRegister(): bool
+    {
+        return
+            !$this->registrationsClosed ||
+            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ||
+            $this->get('security.authorization_checker')->isGranted('ROLE_VSV');
+    }
+
     /**
      * @param Request $request
      * @return Response
@@ -147,6 +163,10 @@ class AccountViewController extends AbstractController
      */
     public function register(Request $request): Response
     {
+        if (!$this->canRegister()) {
+            return new Response('', Response::HTTP_FORBIDDEN);
+        }
+
         $form = $this->createRegisterForm();
         $form->handleRequest($request);
 
@@ -197,7 +217,12 @@ class AccountViewController extends AbstractController
      */
     public function info(): Response
     {
-        return $this->render('accounts/info.html.twig');
+        return $this->render(
+            'accounts/info.html.twig',
+            [
+                'registrations_closed' => $this->registrationsClosed,
+            ]
+        );
     }
 
     /**

@@ -1,11 +1,13 @@
 <h1 class="text-center">{% trans %}Info.title{% endtrans %}</h1>
 
+{% if not registrations_closed %}
 <p class="text-center">
     <a role="button"
        class="btn btn-primary btn-lg m-3"
        href="{{ path('accounts_inscription') }}">{% trans %}Registration.submit{% endtrans %}
     </a><br>
 </p>
+{% endif %}
 
 <h4>METTEZ VOS COLLÈGUES AU DÉFI!</h4>
 
@@ -44,8 +46,10 @@
 
 <h4>MATÉRIEL DE PROMOTION</h4>
 <ul>
+    {% if not registrations_closed %}
     <li>Vous inscrivez préalablement votre entreprise sur <a href="{{ path('accounts_inscription') }}">https://app.quizdelaroute.be/fr/inscription</a>.
     </li>
+    {% endif %}
     <li>Un hyperlien personnalisé sera automatiquement généré, via lequel vos collègues pourront jouer à partir du 18
         octobre (p. ex. <a href="https://www.quizdelaroute.be/quiz/awsr">https://www.quizdelaroute.be/quiz/awsr</a>).
     </li>
