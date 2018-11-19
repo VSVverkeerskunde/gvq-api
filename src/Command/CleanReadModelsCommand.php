@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRedisRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRedisRepository;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRedisRepository;
@@ -100,6 +101,15 @@ class CleanReadModelsCommand extends ContainerAwareCommand
                 'answered_correct_',
                 'answered_incorrect_',
             ];
+
+            // Unfortunately the difficulty per category is not properly prefixed,
+            // starts with category ids which are UUIDs.
+            $categoryRepo = $this->entityManager->getRepository(CategoryEntity::class);
+
+            /** @var CategoryEntity $category */
+            foreach ($categoryRepo->findAll() as $category) {
+                $prefixesOfKeysToClear[] = $category->getId() . '_';
+            }
 
             foreach ($prefixesOfKeysToClear as $prefix) {
                 $output->writeln('keys starting with ' . $prefix);
