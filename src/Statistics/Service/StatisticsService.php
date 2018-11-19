@@ -256,9 +256,9 @@ class StatisticsService
     }
 
     /**
-     * @return Companies|null
+     * @return iterable
      */
-    public function getTopCompanies(): ?Companies
+    public function getTopCompanies(): iterable
     {
         return $this->topScoreRepository->getTopCompanies(new NaturalNumber(10));
     }

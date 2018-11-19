@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
+use VSV\GVQ_API\Common\CsvResponse;
 use VSV\GVQ_API\Contest\Forms\ContestFormType;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\Models\TieBreaker;
@@ -172,8 +173,14 @@ class ContestViewController extends AbstractController
      */
     public function export(): Response
     {
-        $traversableContestParticipations = $this->contestService->getTraversableContestParticipations();
+        $rows = $this->contestService->getTraversableContestParticipations();
 
+        $now = new \DateTime();
+        $response = new CsvResponse(
+            'contest_participations_' . $now->format(\DateTime::ATOM) . '.csv',
+            $headings,
+            $rows
+        );
         $callback = $this->createCallBackForStreamedCsvResponse($traversableContestParticipations);
         $response = $this->responseFactory->createStreamedCsvResponse($callback, 'contest_participations');
 

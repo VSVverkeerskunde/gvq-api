@@ -2,6 +2,8 @@
 
 namespace VSV\GVQ_API\Statistics\Repositories;
 
+use function array_chunk;
+use function array_slice;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
@@ -119,7 +121,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     /**
      * @inheritdoc
      */
-    public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): ?Companies
+    public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): iterable
     {
         $companyIdsWithCount = $this->entityManager->createQueryBuilder()
             ->select('employee.companyId, count(employee.companyId) AS nrOfPassedEmployees')
@@ -139,7 +141,14 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             $nrOfPassedEmployees[$companyIdWithCount['companyId']] = (int)$companyIdWithCount['nrOfPassedEmployees'];
         }
 
+        // @todo move this to a separate service, which bundles the company info with the top scores
+        // and use this service in the StatisticsViewController
+        // return companies one by one with yield, so we can stream results back to the browser
+        // easily.
         if (!empty($companyIds)) {
+            //foreach ($companyIds as $companyId) {
+            //    $company = $this->companyRepository->getById(Uuid::fromString($companyId));
+            //}
             /** @var CompanyEntity[] $companyEntities */
             $companyEntities = $this->entityManager->createQueryBuilder()
                 ->select('c, u')
@@ -165,7 +174,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
                 )
             );
         } else {
-            return null;
+            return new Companies();
         }
     }
 }

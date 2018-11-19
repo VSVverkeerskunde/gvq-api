@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
+use VSV\GVQ_API\Common\CsvResponse;
+use VSV\GVQ_API\Company\CompaniesCsvData;
+use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 
@@ -83,20 +86,9 @@ class StatisticsViewController extends AbstractController
     {
         $companies = $this->statisticsService->getTopCompanies();
 
-        if ($companies) {
-            $companiesAsCsv = $this->serializer->serialize(
-                $companies,
-                'csv'
-            );
-        } else {
-            $companiesAsCsv = '';
-        }
-
-        $response = $this->responseFactory->createCsvResponse(
-            $companiesAsCsv,
-            'top_companies'
+        return new CsvResponse(
+            'top_companies.csv',
+            new CompaniesCsvData($companies->getIterator(), $this->serializer)
         );
-
-        return $response;
     }
 }

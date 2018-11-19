@@ -44,7 +44,7 @@ interface TopScoreRepository
 
     /**
      * @param NaturalNumber $nrOfPassedEmployees
-     * @return Companies|null
+     * @return iterable
      */
-    public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): ?Companies;
+    public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): iterable;
 }

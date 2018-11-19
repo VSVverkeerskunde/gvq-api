@@ -72,6 +72,6 @@ class CompanyNormalizer implements NormalizerInterface
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ($data instanceof Company) && ($format === 'json' || $format === 'csv');
+        return ($data instanceof Company) && in_array($format, ['json', 'csv', NULL]);
     }
 }
