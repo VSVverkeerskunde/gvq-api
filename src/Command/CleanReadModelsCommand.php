@@ -6,8 +6,14 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRedisRepository;
+use VSV\GVQ_API\Statistics\Repositories\StartedQuizRedisRepository;
+use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRedisRepository;
+use VSV\GVQ_API\Statistics\Repositories\TeamTotalScoreRedisRepository;
+use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRedisRepository;
 
 class CleanReadModelsCommand extends ContainerAwareCommand
 {
@@ -28,8 +34,21 @@ class CleanReadModelsCommand extends ContainerAwareCommand
 
     protected function configure(): void
     {
-        $this->setName('gvq:clean-read-models')
-            ->setDescription('Clean all read models (both MySQL and Redis).');
+        $this
+            ->setName('gvq:clean-read-models')
+            ->setDescription('Clean all read models (both MySQL and Redis).')
+            ->addOption(
+                'no-mysql',
+                null,
+                InputOption::VALUE_NONE,
+                'Do not clear MySQL read models'
+            )
+            ->addOption(
+                'only-contest-related',
+                '',
+                InputOption::VALUE_NONE,
+                'Only clear read models that are related to the contest, not the ones needed for quizes that are in progress'
+            );
     }
 
     /**
@@ -47,25 +66,54 @@ class CleanReadModelsCommand extends ContainerAwareCommand
 
         $output->writeln('Start cleaning read models...');
 
-        $output->writeln('Cleaning employee_participation...');
-        $this->entityManager->getConnection()->exec(
-            'DELETE FROM employee_participation;'
-        );
+        if (!$input->getOption('no-mysql')) {
+            $tables = [
+                'employee_participation',
+                'team_participant',
+                'top_score',
+                'detailed_top_score',
+            ];
 
-        $output->writeln('Cleaning top_score table...');
-        $this->entityManager->getConnection()->exec(
-            'DELETE FROM top_score;'
-        );
+            foreach ($tables as $table) {
+                $output->writeln("Cleaning ${table} table ...");
 
-        $output->writeln('Cleaning detailed_top_score table...');
-        $this->entityManager->getConnection()->exec(
-            'DELETE FROM detailed_top_score;'
-        );
+                $this->entityManager->getConnection()->exec(
+                    "DELETE FROM ${table};"
+                );
+            }
+        }
 
-        $output->writeln('Cleaning Redis...');
         /** @var \Redis $redis */
         $redis = $this->getContainer()->get('redis_service');
-        $redis->flushDB();
+
+        if ($input->getOption('only-contest-related')) {
+            $output->writeln('Cleaning Redis selectively...');
+
+            $prefixesOfKeysToClear = [
+                StartedQuizRedisRepository::KEY_PREFIX,
+                FinishedQuizRedisRepository::KEY_PREFIX,
+                UniqueParticipantRedisRepository::KEY_PREFIX,
+                'passed_' . UniqueParticipantRedisRepository::KEY_PREFIX,
+                TeamTotalScoreRedisRepository::KEY_PREFIX,
+                TeamParticipationRedisRepository::KEY_PREFIX,
+
+                'answered_correct_',
+                'answered_incorrect_',
+            ];
+
+            foreach ($prefixesOfKeysToClear as $prefix) {
+                $output->writeln('keys starting with ' . $prefix);
+                foreach ($redis->keys($prefix . '*') as $key) {
+                    $output->writeln($key);
+
+                    $redis->del($key);
+                }
+            }
+        }
+        else {
+            $output->writeln('Cleaning Redis...');
+            $redis->flushDB();
+        }
 
         $output->writeln('Finished cleaning read models...');
     }

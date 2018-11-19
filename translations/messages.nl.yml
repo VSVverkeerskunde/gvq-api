@@ -236,6 +236,7 @@ Statistics.title.general: 'Algemene Statistieken'
 Statistics.title.partner: 'Partner Statistieken'
 Statistics.title.contest: 'Wedstrijd deelnames'
 Statistics.title.topCompanies: 'Top bedrijven'
+Statistics.title.cup: 'Cup'
 
 Statistics.header.individual: 'Individueel'
 Statistics.header.company: 'Bedrijf'

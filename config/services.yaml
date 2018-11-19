@@ -282,6 +282,11 @@ services:
       class: VSV\GVQ_API\Statistics\Projectors\EmployeeParticipationProjector
       arguments:
         $quizRepository: '@quiz_redis_repository'
+
+    team_participant_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\TeamParticipantProjector
+      arguments:
+        $quizRepository: '@quiz_redis_repository'
         
     team_total_score_projector:
       class: VSV\GVQ_API\Statistics\Projectors\TeamTotalScoreProjector
@@ -320,6 +325,17 @@ services:
       calls:
         - method: subscribe
           arguments:
+            - '@question_result_projector'
+        - method: subscribe
+          arguments:
+            - '@quiz_projector'
+      public: true
+
+    contest_closed_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+        - method: subscribe
+          arguments:
             - '@started_quizzes_projector'
         - method: subscribe
           arguments:
@@ -341,6 +357,9 @@ services:
             - '@employee_participation_projector'
         - method: subscribe
           arguments:
+            - '@team_participant_projector'
+        - method: subscribe
+          arguments:
             - '@team_total_score_projector'
         - method: subscribe
           arguments:
@@ -353,15 +372,58 @@ services:
             - '@category_difficulty_projector'
       public: true
 
+    all_redis_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+      - method: subscribe
+        arguments:
+        - '@started_quizzes_projector'
+      - method: subscribe
+        arguments:
+        - '@question_result_projector'
+      - method: subscribe
+        arguments:
+        - '@quiz_projector'
+      - method: subscribe
+        arguments:
+        - '@finished_quizzes_projector'
+      - method: subscribe
+        arguments:
+        - '@unique_participant_projector'
+      - method: subscribe
+        arguments:
+        - '@team_total_score_projector'
+      - method: subscribe
+        arguments:
+        - '@team_participations_projector'
+      - method: subscribe
+        arguments:
+        - '@question_difficulty_projector'
+      - method: subscribe
+        arguments:
+        - '@category_difficulty_projector'
+      public: true
+
     simple_unique_replay_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
         - method: subscribe
           arguments:
-          - '@quiz_projector'
+            - '@quiz_projector'
         - method: subscribe
           arguments:
-          - '@unique_participant_projector'
+            - '@unique_participant_projector'
+      public: true
+
+    team_participant_replay_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+        - method: subscribe
+          arguments:
+            - '@quiz_projector'
+        - method: subscribe
+          arguments:
+            - '@team_participant_projector'
       public: true
 
     quiz_aggregate_repository:
@@ -494,6 +556,7 @@ services:
       arguments:
         $year : '@quiz_year'
         $statisticsService: '@statistics_service'
+        $teamRepository: '@team_repository'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:

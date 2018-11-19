@@ -1,21 +1,19 @@
 <?php
 
-namespace VSV\GVQ_API\Company;
+namespace VSV\GVQ_API\Contest;
 
-use function array_replace;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use VSV\GVQ_API\Common\CsvData;
-use VSV\GVQ_API\Company\Models\Company;
+use VSV\GVQ_API\Contest\Models\ContestParticipation;
 
-class CompaniesCsvData
+class ContestParticipationCsvData
 {
     /**
-     * @var \VSV\GVQ_API\Company\Models\Company[]
+     * @var \VSV\GVQ_API\Contest\Models\ContestParticipation[]
      */
-    private $companies;
+    private $contestParticipations;
 
     /**
-     * @var NormalizerInterface
+     * @var \Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     private $normalizer;
 
@@ -24,24 +22,27 @@ class CompaniesCsvData
      */
     private $headers;
 
-    public function __construct(iterable $companies, NormalizerInterface $normalizer)
+    public function __construct(iterable $contestParticipations, NormalizerInterface $normalizer)
     {
-        $this->companies = $companies;
+        $this->contestParticipations = $contestParticipations;
         $this->normalizer = $normalizer;
 
         $this->headers = [
             'id',
-            'name',
-            'numberOfEmployees',
-            'aliases.0.language',
-            'aliases.0.alias',
-            'aliases.1.language',
-            'aliases.1.alias',
-            'user.email',
-            'user.firstName',
-            'user.lastName',
-            'user.language',
-            'nrOfPassedEmployees'
+            'language',
+            'channel',
+            'contestParticipant.email',
+            'contestParticipant.firstName',
+            'contestParticipant.lastName',
+            'contestParticipant.dateOfBirth',
+            'address.street',
+            'address.number',
+            'address.postal',
+            'address.town',
+            'answer1',
+            'answer2',
+            'gdpr1',
+            'gdpr2',
         ];
     }
 
@@ -49,13 +50,13 @@ class CompaniesCsvData
     {
         yield $this->headers;
 
-        foreach ($this->companies as $company) {
-           yield $this->getValues($company);
+        foreach ($this->contestParticipations as $contestParticipation) {
+            yield $this->getValues($contestParticipation);
         }
     }
 
-    private function getValues(Company $company) {
-        $data = $this->normalizer->normalize($company);
+    private function getValues(ContestParticipation $contestParticipation) {
+        $data = $this->normalizer->normalize($contestParticipation);
 
         $values = [];
 

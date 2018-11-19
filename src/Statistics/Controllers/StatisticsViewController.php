@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\CompaniesCsvData;
 use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
+use VSV\GVQ_API\Team\Repositories\TeamRepository;
 
 class StatisticsViewController extends AbstractController
 {
@@ -35,21 +36,29 @@ class StatisticsViewController extends AbstractController
     private $responseFactory;
 
     /**
+     * @var TeamRepository
+     */
+    private $teamRepository;
+
+    /**
      * @param Year $year
      * @param StatisticsService $statisticsService
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
+     * @param TeamRepository $teamRepository
      */
     public function __construct(
         Year $year,
         StatisticsService $statisticsService,
         SerializerInterface $serializer,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        TeamRepository $teamRepository
     ) {
         $this->year = $year;
         $this->statisticsService = $statisticsService;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
+        $this->teamRepository = $teamRepository;
     }
 
     /**
@@ -64,6 +73,7 @@ class StatisticsViewController extends AbstractController
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
         $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
         $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear($this->year);
+        $teams = $this->teamRepository->getAllByYear($this->year);
 
         return $this->render(
             'statistics/statistics.html.twig',
@@ -75,6 +85,7 @@ class StatisticsViewController extends AbstractController
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'partnersCounts' => $partnersCounts,
+                'teams' => $teams,
             ]
         );
     }
@@ -86,9 +97,11 @@ class StatisticsViewController extends AbstractController
     {
         $companies = $this->statisticsService->getTopCompanies();
 
+        $csvData = new CompaniesCsvData($companies->getIterator(), $this->serializer);
+
         return new CsvResponse(
             'top_companies.csv',
-            new CompaniesCsvData($companies->getIterator(), $this->serializer)
+            $csvData->rows()
         );
     }
 }

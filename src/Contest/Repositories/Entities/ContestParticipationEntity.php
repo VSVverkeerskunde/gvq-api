@@ -13,7 +13,12 @@ use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="contest_participation")
+ * @ORM\Table(
+ *     name="contest_participation",
+ *     indexes={
+ *         @ORM\Index(name="email_index", columns={"participant_email"})
+ *     }
+ * )
  */
 class ContestParticipationEntity extends Entity
 {
@@ -76,7 +81,6 @@ class ContestParticipationEntity extends Entity
 
     /**
      * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $gdpr2;

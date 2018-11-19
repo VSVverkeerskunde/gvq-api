@@ -60,6 +60,6 @@ class ContestParticipationNormalizer implements NormalizerInterface
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ($data instanceof ContestParticipation) && ($format === 'json' || $format === 'csv');
+        return ($data instanceof ContestParticipation) && (in_array($format, ['json', 'csv', null]));
     }
 }

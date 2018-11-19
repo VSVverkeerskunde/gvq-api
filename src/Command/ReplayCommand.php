@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Command;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\SimpleEventBus;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,7 +29,7 @@ class ReplayCommand extends ContainerAwareCommand
                 'projector',
                 'p',
                 InputOption::VALUE_OPTIONAL,
-                'Pass the projector to replay (all|unique)',
+                'Pass the projector to replay (all|unique|all-redis|contest-closed|team-participant)',
                 'all'
             )
             ->addOption(
@@ -72,6 +73,9 @@ class ReplayCommand extends ContainerAwareCommand
             $output->writeln('to last id: ' . $lastId);
         }
 
+        $doctrineEventStore = $this->getDoctrineEventStore();
+        $simpleEventBus = $this->getEventBus($input);
+
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue with replaying all current events? ', true);
 
@@ -81,8 +85,6 @@ class ReplayCommand extends ContainerAwareCommand
 
         $output->writeln('Starting replay...');
 
-        $doctrineEventStore = $this->getDoctrineEventStore();
-        $simpleEventBus = $this->getEventBus($input);
         $quizRedisRepository = $this->getQuizRedisRepository($input);
         $questionResultRedisRepository = $this->getQuestionResultRedisRepository($input);
 
@@ -170,15 +172,34 @@ class ReplayCommand extends ContainerAwareCommand
      */
     private function getEventBus(InputInterface $input): SimpleEventBus
     {
-        /** @var SimpleEventBus $simpleEventBus */
-        $simpleEventBus = $this->getContainer()->get('simple_event_bus');
+        $name = $input->getOption('projector');
 
-        if ($input->getOption('projector') === 'unique') {
-            /** @var SimpleEventBus $simpleEventBus */
-            $simpleEventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
+        $eventBus = null;
+
+        switch ($name) {
+            case 'unique':
+                $eventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
+                break;
+            case 'all':
+                $eventBus = $this->getContainer()->get('simple_event_bus');
+                break;
+            case 'all-redis':
+                $eventBus = $this->getContainer()->get('all_redis_event_bus');
+                break;
+            case 'contest-closed':
+                $eventBus = $this->getContainer()->get('contest_closed_event_bus');
+                break;
+            case 'team-participant':
+                $eventBus = $this->getContainer()->get('team_participant_replay_event_bus');
+                break;
+            default:
         }
 
-        return $simpleEventBus;
+        if (!$eventBus) {
+            throw new InvalidArgumentException('invalid event bus specified: ' . $name);
+        }
+
+        return $eventBus;
     }
 
     /**

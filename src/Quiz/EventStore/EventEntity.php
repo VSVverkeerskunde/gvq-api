@@ -6,7 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="event_store", indexes={@ORM\Index(name="uuid_index", columns={"uuid"})})
+ * @ORM\Table(
+ *     name="event_store",
+ *     indexes={
+ *       @ORM\Index(name="uuid_index", columns={"uuid"}),
+ *       @ORM\Index(name="type_index", columns={"type"})
+ *     }
+ * )
  */
 class EventEntity
 {

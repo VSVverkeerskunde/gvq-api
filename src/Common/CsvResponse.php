@@ -22,13 +22,13 @@ class CsvResponse extends Response
     private $filename;
 
     /**
-     * @var \VSV\GVQ_API\Common\CsvData
+     * @var iterable
      */
     private $csvData;
 
     public function __construct(
         string $filename,
-        CsvData $csvData
+        iterable $csvData
     ) {
         parent::__construct(NULL, 200);
 
@@ -91,7 +91,7 @@ class CsvResponse extends Response
         $this->writeBOM($f);
         $this->writeSeparatorHintLine($f);
 
-        foreach ($this->csvData->rows() as $row) {
+        foreach ($this->csvData as $row) {
             $this->writeCells($f, $row);
         }
 
