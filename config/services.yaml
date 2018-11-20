@@ -331,6 +331,14 @@ services:
             - '@quiz_projector'
       public: true
 
+    quiz_replay_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+        - method: subscribe
+          arguments:
+            - '@quiz_projector'
+      public: true
+
     contest_closed_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:

@@ -29,7 +29,7 @@ class ReplayCommand extends ContainerAwareCommand
                 'projector',
                 'p',
                 InputOption::VALUE_OPTIONAL,
-                'Pass the projector to replay (all|unique|all-redis|contest-closed|team-participant)',
+                'Pass the projector to replay (all|unique|all-redis|contest-closed|team-participant|quiz)',
                 'all'
             )
             ->addOption(
@@ -126,7 +126,7 @@ class ReplayCommand extends ContainerAwareCommand
                     );
                     $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
 
-                    if ($domainMessage->getPayload() instanceof QuizFinished) {
+                    if ($input->getOption('projector') !== 'quiz' && $domainMessage->getPayload() instanceof QuizFinished) {
                         /** @var QuizFinished $quizFinished */
                         $quizFinished = $domainMessage->getPayload();
                         $quizRedisRepository->deleteById($quizFinished->getId());
@@ -152,7 +152,7 @@ class ReplayCommand extends ContainerAwareCommand
                 );
                 $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
 
-                if ($domainMessage->getPayload() instanceof QuizFinished) {
+                if ($input->getOption('projector') !== 'quiz' && $domainMessage->getPayload() instanceof QuizFinished) {
                     /** @var QuizFinished $quizFinished */
                     $quizFinished = $domainMessage->getPayload();
                     $quizRedisRepository->deleteById($quizFinished->getId());
@@ -231,6 +231,9 @@ class ReplayCommand extends ContainerAwareCommand
                 break;
             case 'team-participant':
                 $eventBus = $this->getContainer()->get('team_participant_replay_event_bus');
+                break;
+            case 'quiz':
+                $eventBus = $this->getContainer()->get('quiz_replay_event_bus');
                 break;
             default:
         }
