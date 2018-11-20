@@ -103,7 +103,7 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
                 );
             }
 
-            if (!empty($uuidStart)) {
+            if (NULL !== $uuidStart) {
                 $queryBuilder->andWhere(
                     $queryBuilder->expr()->like('e.uuid', $queryBuilder->expr()->literal($uuidStart . '%'))
                 );
