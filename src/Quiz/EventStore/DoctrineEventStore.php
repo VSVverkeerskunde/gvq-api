@@ -71,7 +71,8 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
         array $types = [],
         int $firstId = null,
         int $lastId = null,
-        callable $eventEntityFeedback = null
+        callable $eventEntityFeedback = null,
+        string $uuidStart = null
     ): \Traversable {
         $maxResults = $this->itemsPerPage;
 
@@ -99,6 +100,12 @@ class DoctrineEventStore extends AbstractDoctrineRepository implements EventStor
             if (!empty($types)) {
                 $queryBuilder->andWhere(
                     $queryBuilder->expr()->in('e.type', $types)
+                );
+            }
+
+            if (!empty($uuidStart)) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->like('e.uuid', $queryBuilder->expr()->literal($uuidStart . '%'))
                 );
             }
 

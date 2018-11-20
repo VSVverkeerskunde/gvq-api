@@ -51,6 +51,12 @@ class ReplayCommand extends ContainerAwareCommand
                 't',
                 InputOption::VALUE_REQUIRED,
                 'Pass the ttl in seconds'
+            )
+            ->addOption(
+                'uuid-start',
+                null,
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'one or more start letters of the uuid'
             );
     }
 
@@ -97,27 +103,61 @@ class ReplayCommand extends ContainerAwareCommand
             }
         };
 
-        /** @var DomainMessage[] $domainMessages */
-        $domainMessages = $doctrineEventStore->getTraversableDomainMessages(
-            [],
-            $firstId,
-            $lastId,
-            $eventEntityFeedback
-        );
+        $uuidStarts = $input->getOption('uuid-start');
 
-        foreach ($domainMessages as $domainMessage) {
-            $output->writeln(
-                $index++.' - ' .$domainMessage->getId()
-                .' - '.$domainMessage->getRecordedOn()->toString()
-                .' - '.$domainMessage->getType()
+        if ($uuidStarts) {
+            foreach ($uuidStarts as $uuidStart) {
+                $output->writeln('partition with uuids starting with ' . $uuidStart);
+
+                /** @var DomainMessage[] $domainMessages */
+                $domainMessages = $doctrineEventStore->getTraversableDomainMessages(
+                    [],
+                    $firstId,
+                    $lastId,
+                    $eventEntityFeedback,
+                    $uuidStart
+                );
+
+                foreach ($domainMessages as $domainMessage) {
+                    $output->writeln(
+                        $index++.' - ' .$domainMessage->getId()
+                        .' - '.$domainMessage->getRecordedOn()->toString()
+                        .' - '.$domainMessage->getType()
+                    );
+                    $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
+
+                    if ($domainMessage->getPayload() instanceof QuizFinished) {
+                        /** @var QuizFinished $quizFinished */
+                        $quizFinished = $domainMessage->getPayload();
+                        $quizRedisRepository->deleteById($quizFinished->getId());
+                        $questionResultRedisRepository->deleteById($quizFinished->getId());
+                    }
+                }
+            }
+        }
+        else {
+            /** @var DomainMessage[] $domainMessages */
+            $domainMessages = $doctrineEventStore->getTraversableDomainMessages(
+                [],
+                $firstId,
+                $lastId,
+                $eventEntityFeedback
             );
-            $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
 
-            if ($domainMessage->getPayload() instanceof QuizFinished) {
-                /** @var QuizFinished $quizFinished */
-                $quizFinished = $domainMessage->getPayload();
-                $quizRedisRepository->deleteById($quizFinished->getId());
-                $questionResultRedisRepository->deleteById($quizFinished->getId());
+            foreach ($domainMessages as $domainMessage) {
+                $output->writeln(
+                    $index++.' - ' .$domainMessage->getId()
+                    .' - '.$domainMessage->getRecordedOn()->toString()
+                    .' - '.$domainMessage->getType()
+                );
+                $simpleEventBus->publish(new DomainEventStream(array($domainMessage)));
+
+                if ($domainMessage->getPayload() instanceof QuizFinished) {
+                    /** @var QuizFinished $quizFinished */
+                    $quizFinished = $domainMessage->getPayload();
+                    $quizRedisRepository->deleteById($quizFinished->getId());
+                    $questionResultRedisRepository->deleteById($quizFinished->getId());
+                }
             }
         }
 
