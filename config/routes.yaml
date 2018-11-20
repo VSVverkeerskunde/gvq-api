@@ -260,6 +260,13 @@ contest_export:
   methods: [GET]
   requirements:
     _locale: nl|fr
+contest_cup_team_export:
+  path: /{_locale}/csv/cup-team/{teamId}
+  controller: VSV\GVQ_API\Contest\Controllers\ContestViewController::exportCupTeam
+  methods: [GET]
+  defaults: { teamId: null }
+  requirements:
+    _locale: nl|fr
 
 #
 # API

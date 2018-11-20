@@ -187,6 +187,25 @@ class ContestViewController extends AbstractController
     }
 
     /**
+     * @return StreamedResponse
+     */
+    public function exportCupTeam(string $teamId): Response
+    {
+        $teamId = Uuid::fromString($teamId);
+        $rows = $this->contestService->getContestParticipantsInTeam($teamId);
+
+        $csvData = new ContestParticipationCsvData($rows, $this->serializer);
+
+        $now = new \DateTime();
+        $response = new CsvResponse(
+            'contest_participations_' . $teamId->toString() . '_' . $now->format(\DateTime::ATOM) . '.csv',
+            $csvData->rows()
+        );
+
+        return $response;
+    }
+
+    /**
      * @return FormInterface
      */
     private function createContestForm(): FormInterface

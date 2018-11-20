@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Contest\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -46,4 +47,10 @@ interface ContestParticipationRepository
         Year $year,
         Email $email
     ): ?ContestParticipations;
+
+    /**
+     * @param \Ramsey\Uuid\UuidInterface $uuid
+     * @return \Traversable
+     */
+    public function getParticipantsInTeam(UuidInterface $uuid): \Traversable;
 }

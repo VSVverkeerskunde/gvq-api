@@ -68,6 +68,14 @@ class ContestService
     }
 
     /**
+     * @return \Traversable
+     */
+    public function getContestParticipantsInTeam(UuidInterface $teamId): \Traversable
+    {
+        return $this->contestParticipationRepository->getParticipantsInTeam($teamId);
+    }
+
+    /**
      * Can only participate if 11 or more and no previous participation for given channel.
      *
      * @param Year $year

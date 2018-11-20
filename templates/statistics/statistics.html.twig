@@ -118,7 +118,7 @@
                 <td>
                     <a role="button"
                        class="btn btn-primary"
-                       href="{{ path('statistics_export_top_companies', [ team.id ]) }}" ><span class="oi oi-data-transfer-download"></span>
+                       href="{{ path('contest_cup_team_export', {'teamId': team.id}) }}" ><span class="oi oi-data-transfer-download"></span>
                         {% trans %}Button.export{% endtrans %}
                     </a>
                 </td>

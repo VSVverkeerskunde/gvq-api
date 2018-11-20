@@ -2,12 +2,15 @@
 
 namespace VSV\GVQ_API\Contest\Repositories;
 
+use Doctrine\ORM\Query\Expr\Join;
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Contest\Models\ContestParticipation;
 use VSV\GVQ_API\Contest\Models\ContestParticipations;
 use VSV\GVQ_API\Contest\Repositories\Entities\ContestParticipationEntity;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
+use VSV\GVQ_API\Statistics\Repositories\Entities\TeamParticipantEntity;
 use VSV\GVQ_API\User\ValueObjects\Email;
 
 class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository implements
@@ -83,6 +86,44 @@ class ContestParticipationDoctrineRepository extends AbstractDoctrineRepository 
                 ->orderBy('e.id', 'ASC')
                 ->setMaxResults($batchSize)
                 ->setFirstResult($firstResult)
+                ->getQuery();
+
+            $currentBatchItemCount = 0;
+
+            foreach ($query->iterate() as $contestParticipationEntities) {
+                $currentBatchItemCount++;
+
+                /** @var ContestParticipationEntity $entity */
+                $entity = $contestParticipationEntities[0];
+                $this->entityManager->detach($entity);
+
+                yield $entity->toContestParticipation();
+            }
+
+            $firstResult += $batchSize;
+        } while ($currentBatchItemCount == $batchSize);
+    }
+
+    public function getParticipantsInTeam(UuidInterface $teamId): \Traversable
+    {
+        $batchSize = 10;
+        $firstResult = 0;
+
+        do {
+            $queryBuilder = $this->entityManager->createQueryBuilder();
+
+            $query = $queryBuilder->select('e')
+                ->from(
+                    ContestParticipationEntity::class,
+                    'e'
+                )
+                ->where($queryBuilder->expr()->eq('e.channel', ':channel'))
+                ->innerJoin(TeamParticipantEntity::class, 't', Join::WITH, 'e.contestParticipant.email = t.email AND t.teamId=:team_id')
+                ->orderBy('e.id', 'ASC')
+                ->setMaxResults($batchSize)
+                ->setFirstResult($firstResult)
+                ->setParameter('team_id', $teamId->toString())
+                ->setParameter('channel', 'cup')
                 ->getQuery();
 
             $currentBatchItemCount = 0;
