@@ -97,7 +97,7 @@ class StatisticsViewController extends AbstractController
     {
         $companies = $this->statisticsService->getTopCompanies();
 
-        $csvData = new CompaniesCsvData($companies->getIterator(), $this->serializer);
+        $csvData = new CompaniesCsvData($companies, $this->serializer);
 
         return new CsvResponse(
             'top_companies.csv',

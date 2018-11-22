@@ -123,58 +123,59 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
      */
     public function getTopCompanies(NaturalNumber $nrOfPassedEmployees): iterable
     {
-        $companyIdsWithCount = $this->entityManager->createQueryBuilder()
-            ->select('employee.companyId, count(employee.companyId) AS nrOfPassedEmployees')
-            ->from(EmployeeParticipationEntity::class, 'employee')
-            ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
-            ->groupBy('employee.companyId')
-            ->having('count(employee.companyId) >= :nrOfPassedEmployees')
-            ->where('topScore.score >= 11')
-            ->setParameter('nrOfPassedEmployees', $nrOfPassedEmployees->toNative())
-            ->getQuery()
-            ->getResult();
+        $batchSize = 10;
+        $firstResult = 0;
 
-        $companyIds = [];
-        $nrOfPassedEmployees = [];
-        foreach ($companyIdsWithCount as $companyIdWithCount) {
-            $companyIds[] = $companyIdWithCount['companyId'];
-            $nrOfPassedEmployees[$companyIdWithCount['companyId']] = (int)$companyIdWithCount['nrOfPassedEmployees'];
-        }
+        $minimalScoreToSucceed = 11;
 
-        // @todo move this to a separate service, which bundles the company info with the top scores
-        // and use this service in the StatisticsViewController
-        // return companies one by one with yield, so we can stream results back to the browser
-        // easily.
-        if (!empty($companyIds)) {
-            //foreach ($companyIds as $companyId) {
-            //    $company = $this->companyRepository->getById(Uuid::fromString($companyId));
-            //}
-            /** @var CompanyEntity[] $companyEntities */
-            $companyEntities = $this->entityManager->createQueryBuilder()
-                ->select('c, u')
-                ->from(CompanyEntity::class, 'c')
-                ->innerJoin('c.translatedAliasEntities', 'a')
-                ->innerJoin('c.userEntity', 'u')
-                ->where('c.id IN (:ids)')
-                ->setParameter('ids', $companyIds)
-                ->getQuery()
-                ->getResult();
+        do {
+            $queryBuilder = $this->entityManager->createQueryBuilder();
 
-            return new Companies(
-                ...array_map(
-                    function (CompanyEntity $companyEntity) use ($nrOfPassedEmployees) {
-                        $company = $companyEntity->toCompany();
-                        return $company->withNrOfPassedEmployees(
-                            new NaturalNumber(
-                                $nrOfPassedEmployees[$company->getId()->toString()]
-                            )
-                        );
-                    },
-                    $companyEntities
+            $query = $queryBuilder->select('c')
+                ->from(
+                    CompanyEntity::class,
+                    'c'
                 )
-            );
-        } else {
-            return new Companies();
-        }
+                ->setMaxResults($batchSize)
+                ->setFirstResult($firstResult)
+                ->getQuery();
+
+            $currentBatchItemCount = 0;
+
+            foreach ($query->iterate() as $companyEntities) {
+                $currentBatchItemCount++;
+                /** @var CompanyEntity $companyEntity */
+                $companyEntity = $companyEntities[0];
+
+                $qb = $this->entityManager->createQueryBuilder();
+                $succeededEmployeesCount = $qb->select('count(employee.companyId) AS nrOfPassedEmployees')
+                    ->from(EmployeeParticipationEntity::class, 'employee')
+                    ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
+                    ->where($qb->expr()->gte('topScore.score', ':minimal_score_to_succeed'))
+                    ->andWhere($qb->expr()->eq('employee.companyId', ':company_id'))
+                    ->setParameter('company_id', $companyEntity->getId())
+                    ->setParameter('minimal_score_to_succeed', $minimalScoreToSucceed)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+                $succeededEmployeesCount = (int) $succeededEmployeesCount;
+
+                if ($succeededEmployeesCount < $nrOfPassedEmployees->toNative()) {
+                    $this->entityManager->detach($companyEntity);
+                    continue;
+                }
+
+                $company = $companyEntity->toCompany();
+                $this->entityManager->detach($companyEntity);
+
+                yield $company->withNrOfPassedEmployees(
+                    new NaturalNumber(
+                        $succeededEmployeesCount
+                    )
+                );
+            }
+
+            $firstResult += $batchSize;
+        } while ($currentBatchItemCount == $batchSize);
     }
 }
