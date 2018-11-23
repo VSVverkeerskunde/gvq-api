@@ -184,6 +184,11 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    company_played_quizzes_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\CompanyPlayedQuizzesRepository
+      arguments:
+        $redis: '@redis_service'
+
     question_result_redis_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuestionResultRedisRepository
       arguments:
@@ -261,6 +266,11 @@ services:
       arguments:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
         $quizRepository: '@quiz_redis_repository'
+
+    company_played_quizzes_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\CompanyPlayedQuizzesProjector
+      arguments:
+        $companyPlayedQuizzesRepository: '@company_played_quizzes_repository'
 
     quiz_projector:
       class: VSV\GVQ_API\Quiz\Projectors\QuizProjector
@@ -423,6 +433,14 @@ services:
             - '@unique_participant_projector'
       public: true
 
+    company_played_quizzes_replay_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+      - method: subscribe
+        arguments:
+        - '@company_played_quizzes_projector'
+      public: true
+
     team_participant_replay_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
@@ -565,6 +583,7 @@ services:
         $year : '@quiz_year'
         $statisticsService: '@statistics_service'
         $teamRepository: '@team_repository'
+        $companyPlayedQuizzesRepository: '@company_played_quizzes_repository'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Dashboard\Controllers\DashboardViewController:

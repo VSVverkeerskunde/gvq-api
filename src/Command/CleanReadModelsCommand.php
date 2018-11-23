@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use VSV\GVQ_API\Question\Repositories\Entities\CategoryEntity;
+use VSV\GVQ_API\Statistics\Repositories\CompanyPlayedQuizzesRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRedisRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRedisRepository;
 use VSV\GVQ_API\Statistics\Repositories\TeamParticipationRedisRepository;
@@ -97,6 +98,7 @@ class CleanReadModelsCommand extends ContainerAwareCommand
                 'passed_' . UniqueParticipantRedisRepository::KEY_PREFIX,
                 TeamTotalScoreRedisRepository::KEY_PREFIX,
                 TeamParticipationRedisRepository::KEY_PREFIX,
+                CompanyPlayedQuizzesRepository::KEY_PREFIX,
 
                 'answered_correct_',
                 'answered_incorrect_',

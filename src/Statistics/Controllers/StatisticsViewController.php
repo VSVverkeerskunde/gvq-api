@@ -8,8 +8,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
 use VSV\GVQ_API\Common\CsvResponse;
 use VSV\GVQ_API\Company\CompaniesCsvData;
-use VSV\GVQ_API\Company\Models\Companies;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\Repositories\CompanyPlayedQuizzesRepository;
+use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
+use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
 
@@ -41,24 +43,48 @@ class StatisticsViewController extends AbstractController
     private $teamRepository;
 
     /**
+     * @var CompanyPlayedQuizzesRepository
+     */
+    private $companyPlayedQuizzesRepository;
+
+    /**
+     * @var EmployeeParticipationRepository
+     */
+    private $employeeParticipationRepository;
+
+    /**
+     * @var TopScoreRepository
+     */
+    private $topScoreRepository;
+
+    /**
      * @param Year $year
      * @param StatisticsService $statisticsService
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
      * @param TeamRepository $teamRepository
+     * @param CompanyPlayedQuizzesRepository $companyPlayedQuizzesRepository
+     * @param \VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository $employeeParticipationRepository
+     * @param \VSV\GVQ_API\Statistics\Repositories\TopScoreRepository $topScoreRepository
      */
     public function __construct(
         Year $year,
         StatisticsService $statisticsService,
         SerializerInterface $serializer,
         ResponseFactory $responseFactory,
-        TeamRepository $teamRepository
+        TeamRepository $teamRepository,
+        CompanyPlayedQuizzesRepository $companyPlayedQuizzesRepository,
+        EmployeeParticipationRepository $employeeParticipationRepository,
+        TopScoreRepository $topScoreRepository
     ) {
         $this->year = $year;
         $this->statisticsService = $statisticsService;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
         $this->teamRepository = $teamRepository;
+        $this->companyPlayedQuizzesRepository = $companyPlayedQuizzesRepository;
+        $this->employeeParticipationRepository = $employeeParticipationRepository;
+        $this->topScoreRepository = $topScoreRepository;
     }
 
     /**
@@ -97,7 +123,13 @@ class StatisticsViewController extends AbstractController
     {
         $companies = $this->statisticsService->getTopCompanies();
 
-        $csvData = new CompaniesCsvData($companies, $this->serializer);
+        $csvData = new CompaniesCsvData(
+            $companies,
+            $this->companyPlayedQuizzesRepository,
+            $this->employeeParticipationRepository,
+            $this->topScoreRepository,
+            $this->serializer
+        );
 
         return new CsvResponse(
             'top_companies.csv',

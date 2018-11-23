@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Statistics\Repositories;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 
@@ -18,4 +19,6 @@ interface EmployeeParticipationRepository
      * @return NaturalNumber
      */
     public function countByCompany(UuidInterface $companyId): NaturalNumber;
+
+    public function countByCompanyAndLanguage(UuidInterface $companyId, Language $language): int;
 }
