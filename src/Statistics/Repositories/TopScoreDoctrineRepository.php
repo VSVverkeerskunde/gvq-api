@@ -148,10 +148,9 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
                 $companyEntity = $companyEntities[0];
 
                 $qb = $this->entityManager->createQueryBuilder();
-                $succeededEmployeesCount = $qb->select('count(employee.companyId) AS nrOfPassedEmployees')
+                $succeededEmployeesCount = $qb->select('count(distinct employee.email) AS nrOfPassedEmployees')
                     ->from(EmployeeParticipationEntity::class, 'employee')
-                    ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email')
-                    ->where($qb->expr()->gte('topScore.score', ':minimal_score_to_succeed'))
+                    ->innerJoin(TopScoreEntity::class, 'topScore', Join::WITH, 'employee.email = topScore.email AND topScore.score >= :minimal_score_to_succeed')
                     ->andWhere($qb->expr()->eq('employee.companyId', ':company_id'))
                     ->setParameter('company_id', $companyEntity->getId())
                     ->setParameter('minimal_score_to_succeed', $minimalScoreToSucceed)
