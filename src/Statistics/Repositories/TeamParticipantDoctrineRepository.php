@@ -5,6 +5,7 @@
 
 namespace VSV\GVQ_API\Statistics\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\Repositories\AbstractDoctrineRepository;
 use VSV\GVQ_API\Statistics\Models\TeamParticipant;
 use VSV\GVQ_API\Statistics\Repositories\Entities\TeamParticipantEntity;
@@ -38,5 +39,20 @@ class TeamParticipantDoctrineRepository extends AbstractDoctrineRepository imple
 
         $this->entityManager->persist(TeamParticipantEntity::fromTeamParticipant($teamParticipant));
         $this->entityManager->flush();
+    }
+
+    public function getParticipantCount(UuidInterface $teamId): int
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $count = $qb
+            ->select('count(distinct p.email)')
+            ->from(TeamParticipantEntity::class, 'p')
+            ->where($qb->expr()->eq('p.teamId', ':team'))
+            ->setParameter('team', $teamId->toString())
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return (int) $count;
     }
 }

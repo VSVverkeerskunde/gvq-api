@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Statistics\Repositories;
 
+use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Statistics\Models\TeamParticipant;
 
 interface TeamParticipantRepository
@@ -10,4 +11,6 @@ interface TeamParticipantRepository
      * @param TeamParticipant $participant
      */
     public function save(TeamParticipant $participant): void;
+
+    public function getParticipantCount(UuidInterface $teamId): int;
 }

@@ -107,6 +107,8 @@
         <tr>
             <th scope="col">Team</th>
             <th scope="col">Wedstrijd deelnames</th>
+            <th data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+                {% trans %}Statistics.row.unique{% endtrans %}</th>
         </tr>
         </thead>
         <tbody>
@@ -121,6 +123,9 @@
                        href="{{ path('contest_cup_team_export', {'teamId': team.id}) }}" ><span class="oi oi-data-transfer-download"></span>
                         {% trans %}Button.export{% endtrans %}
                     </a>
+                </td>
+                <td>
+                    {{ teamParticipants[team.id.toString] }}
                 </td>
             </tr>
         {% endfor %}

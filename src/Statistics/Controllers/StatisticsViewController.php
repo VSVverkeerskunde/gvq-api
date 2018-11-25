@@ -11,6 +11,7 @@ use VSV\GVQ_API\Company\CompaniesCsvData;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Statistics\Repositories\CompanyPlayedQuizzesRepository;
 use VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository;
+use VSV\GVQ_API\Statistics\Repositories\TeamParticipantRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
@@ -58,6 +59,11 @@ class StatisticsViewController extends AbstractController
     private $topScoreRepository;
 
     /**
+     * @var TeamParticipantRepository
+     */
+    private $teamParticipantRepository;
+
+    /**
      * @param Year $year
      * @param StatisticsService $statisticsService
      * @param SerializerInterface $serializer
@@ -66,6 +72,7 @@ class StatisticsViewController extends AbstractController
      * @param CompanyPlayedQuizzesRepository $companyPlayedQuizzesRepository
      * @param \VSV\GVQ_API\Statistics\Repositories\EmployeeParticipationRepository $employeeParticipationRepository
      * @param \VSV\GVQ_API\Statistics\Repositories\TopScoreRepository $topScoreRepository
+     * @param TeamParticipantRepository $teamParticipantRepository
      */
     public function __construct(
         Year $year,
@@ -75,7 +82,8 @@ class StatisticsViewController extends AbstractController
         TeamRepository $teamRepository,
         CompanyPlayedQuizzesRepository $companyPlayedQuizzesRepository,
         EmployeeParticipationRepository $employeeParticipationRepository,
-        TopScoreRepository $topScoreRepository
+        TopScoreRepository $topScoreRepository,
+        TeamParticipantRepository $teamParticipantRepository
     ) {
         $this->year = $year;
         $this->statisticsService = $statisticsService;
@@ -85,6 +93,7 @@ class StatisticsViewController extends AbstractController
         $this->companyPlayedQuizzesRepository = $companyPlayedQuizzesRepository;
         $this->employeeParticipationRepository = $employeeParticipationRepository;
         $this->topScoreRepository = $topScoreRepository;
+        $this->teamParticipantRepository = $teamParticipantRepository;
     }
 
     /**
@@ -101,6 +110,15 @@ class StatisticsViewController extends AbstractController
         $partnersCounts = $this->statisticsService->getUniqueParticipantCountsForPartnersByYear($this->year);
         $teams = $this->teamRepository->getAllByYear($this->year);
 
+        $teamParticipants = [];
+        /** @var \VSV\GVQ_API\Team\Models\Team[] $teams */
+        foreach ($teams as $team) {
+            $teamParticipants[$team->getId()->toString()] =
+                $this->teamParticipantRepository->getParticipantCount(
+                    $team->getId()
+                );
+        }
+
         return $this->render(
             'statistics/statistics.html.twig',
             [
@@ -112,6 +130,7 @@ class StatisticsViewController extends AbstractController
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'partnersCounts' => $partnersCounts,
                 'teams' => $teams,
+                'teamParticipants' => $teamParticipants,
             ]
         );
     }
