@@ -18,18 +18,6 @@ class TopScores implements Collection
     public function __construct(TopScore ...$topScores)
     {
         $this->topScores = $topScores;
-
-        usort(
-            $this->topScores,
-            function (TopScore $t1, TopScore $t2) {
-                if ($t1->getScore()->toNative() === $t2->getScore()->toNative()) {
-                    // One e-mail always has one top score. So no equal needed.
-                    return $t1->getEmail()->toNative() > $t2->getEmail()->toNative();
-                }
-
-                return $t1->getScore()->toNative() <  $t2->getScore()->toNative();
-            }
-        );
     }
 
     /**

@@ -7,7 +7,7 @@ class NaturalNumber
     /**
      * @var int
      */
-    private $value;
+    protected $value;
 
     /**
      * @param int $value

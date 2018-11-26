@@ -49,55 +49,15 @@
                     <div class="row">
                         <div class="col-6 border-right">
                             <h3>{{ activeCompany.name.toNative }}</h3>
-                            <h2>{{ companyAverage.toNative }}</h2>
+                            <h2>{{ companyAverage.toNative|number_format(2,',','') }}</h2>
                         </div>
                         <div class="col-6">
                             <h3>{% trans %}Dashboard.average.all{% endtrans %}</h3>
-                            <h2>{{ average.toNative }}</h2>
+                            <h2>{{ average.toNative|number_format(2,',','') }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {% if showTopScoresCard %}
-                <div class="card text-center mb-4">
-                    <div class="card-header">
-                        <h3 class="card-title">{% trans %}Top.scores{% endtrans %}</h3>
-                    </div>
-
-                    {% if topScores|length > 0 %}
-                        <table class="card-body table">
-                            <thead class="thead-dark thead-primary text-center">
-                            <tr>
-                                <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
-                                <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
-                                <th scope="col" class="border-bottom">{% trans %}Score{% endtrans %}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for topScore in topScores %}
-                                <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ topScore.email.toNative }}</td>
-                                    <td>{{ topScore.score.toNative }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endif %}
-
-                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
-                    <div class="card-footer text-right">
-                        <a role="button"
-                           class="btn btn-primary"
-                           href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}"><span
-                                    class="oi oi-data-transfer-download"></span>
-                            {% trans %}Button.export{% endtrans %}
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-            {% endif %}
         </div>
 
         <div class="col-md-6 col-lg-5">
@@ -117,6 +77,11 @@
                         </thead>
                         <tbody>
                         <tr class="border-top">
+                            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">
+                                {% trans %}Statistics.row.unique{% endtrans %}</th>
+                            {% include 'dashboard/statistics_row.html.twig' with {'counts': uniqueParticipantCounts} %}
+                        </tr>
+                        <tr class="border-top">
                             <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.passed{% endtrans %}">
                                 {% trans %}Statistics.row.passed{% endtrans %}</th>
                             {% include 'dashboard/statistics_row.html.twig' with {'counts': passedUniqueParticipantCounts} %}
@@ -129,11 +94,87 @@
                         <tr class="border-top">
                             <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.topscore{% endtrans %}">
                                 {% trans %}Statistics.row.topscore{% endtrans %}</th>
-                            {% include 'dashboard/statistics_row.html.twig' with {'counts': detailedTopScoreAverages} %}
+                            {% include 'dashboard/statistics_row_for_float.html.twig' with {'counts': detailedTopScoreAverages} %}
                         </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-md-10 col-lg-8">
+            <div class="card text-center mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans %}Dashboard.tiebreakers.title{% endtrans %}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 border-right">
+                            <h3>{% trans %}Dashboard.tiebreakers.1.title{% endtrans %}</h3>
+                            <h2>{{ tiebreaker1Answer.toNative }}</h2>
+                        </div>
+                        <div class="col-6">
+                            <h3>{% trans %}Dashboard.tiebreakers.2.title{% endtrans %}</h3>
+                            <h2>{{ tiebreaker2Answer.toNative }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card text-center mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans %}Top.scores{% endtrans %}</h3>
+                </div>
+
+                {% if topScores|length > 0 %}
+                    <table class="card-body table">
+                        <thead class="thead-dark thead-primary text-center">
+                        <tr>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Rank{% endtrans %}</th>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Email{% endtrans %}</th>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Score{% endtrans %}</th>
+                            <th scope="col" class="border-right border-bottom">{% trans %}Dashboard.topscores.tiebreakers.1.title{% endtrans %}</th>
+                            <th scope="col" class="border-bottom">{% trans %}Dashboard.topscores.tiebreakers.2.title{% endtrans %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for topScore in topScores %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ topScore.email.toNative }}</td>
+                                <td>{{ topScore.score.toNative }}</td>
+                                <td>
+                                    {% if topScore.answer1 %}
+                                        {{ topScore.answer1.toNative }}
+                                    {% else %}
+                                        /
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if topScore.answer2 %}
+                                        {{ topScore.answer2.toNative }}
+                                    {% else %}
+                                        /
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
+                    <div class="card-footer text-right">
+                    <a role="button"
+                       class="btn btn-primary"
+                       href="{{ path('dashboard_export_topscores', {'companyId': activeCompany.id.toString}) }}"><span
+                                class="oi oi-data-transfer-download"></span>
+                        {% trans %}Button.export{% endtrans %}
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

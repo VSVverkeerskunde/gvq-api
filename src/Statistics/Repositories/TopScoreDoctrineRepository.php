@@ -61,7 +61,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
     /**
      * @inheritdoc
      */
-    public function getAllByCompany(UuidInterface $companyId): TopScores
+    public function getAllByCompany(UuidInterface $companyId): array
     {
         /** @var TopScoreEntity[] $topScoreEntities */
         $topScoreEntities = $this->entityManager->createQueryBuilder()
@@ -78,7 +78,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
             $topScores[] = $topScoreEntity->toTopScore();
         }
 
-        return new TopScores(...$topScores);
+        return $topScores;
     }
 
     /**

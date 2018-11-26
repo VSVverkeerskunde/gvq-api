@@ -231,6 +231,12 @@ Dashboard.ratio.title: 'Aantal werknemers die de grote verkeersquiz hebben gespe
 Dashboard.average.title: 'Gemiddelde top score van'
 Dashboard.average.all: 'Alle deelnemers'
 
+Dashboard.tiebreakers.title: 'Juiste antwoorden schiftingsvragen'
+Dashboard.tiebreakers.1.title: 'Hoeveel unieke deelnemers zullen op zondag 18 november 2018 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
+Dashboard.tiebreakers.2.title: 'Hoeveel van hen behaalden 11/15 of meer?'
+Dashboard.topscores.tiebreakers.1.title: 'Antwoord schiftingsvraag 1'
+Dashboard.topscores.tiebreakers.2.title: 'Antwoord schiftingsvraag 2'
+
 #Statistics
 Statistics.title.general: 'Algemene Statistieken'
 Statistics.title.partner: 'Partner Statistieken'

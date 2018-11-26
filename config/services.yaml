@@ -349,6 +349,11 @@ services:
             - '@quiz_projector'
       public: true
 
+    company_participant_ranker:
+      class: VSV\GVQ_API\Statistics\Service\CompanyParticipantRanker
+      arguments:
+        $uniqueParticipantRepository: '@unique_participant_redis_repository'
+
     contest_closed_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
@@ -590,6 +595,7 @@ services:
       arguments:
         $year: '@quiz_year'
         $statisticsService: '@statistics_service'
+        $companyParticipantRanker: '@company_participant_ranker'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Report\Controllers\ReportViewController:

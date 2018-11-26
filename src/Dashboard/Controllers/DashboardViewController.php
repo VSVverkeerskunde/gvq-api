@@ -10,7 +10,7 @@ use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Dashboard\Service\DashboardService;
 use VSV\GVQ_API\Question\ValueObjects\Year;
-use VSV\GVQ_API\Statistics\Models\TopScore;
+use VSV\GVQ_API\Statistics\Service\CompanyParticipantRanker;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
@@ -42,6 +42,11 @@ class DashboardViewController extends CompanyAwareController
     private $responseFactory;
 
     /**
+     * @var CompanyParticipantRanker
+     */
+    private $companyParticipantRanker;
+
+    /**
      * @param Year $year
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
@@ -49,6 +54,7 @@ class DashboardViewController extends CompanyAwareController
      * @param StatisticsService $statisticsService
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
+     * @param CompanyParticipantRanker $companyParticipantRanker
      */
     public function __construct(
         Year $year,
@@ -57,7 +63,8 @@ class DashboardViewController extends CompanyAwareController
         DashboardService $dashboardService,
         StatisticsService $statisticsService,
         SerializerInterface $serializer,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        CompanyParticipantRanker $companyParticipantRanker
     ) {
         parent::__construct($userRepository, $companyRepository);
 
@@ -66,6 +73,7 @@ class DashboardViewController extends CompanyAwareController
         $this->statisticsService = $statisticsService;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
+        $this->companyParticipantRanker = $companyParticipantRanker;
     }
 
     /**
@@ -87,21 +95,15 @@ class DashboardViewController extends CompanyAwareController
 
         $average = $this->dashboardService->getAverageTopScore();
 
-        /** @var TopScore[] $allTopScores */
-        $allTopScores = $this->dashboardService->getTopScoresByCompany(
-            $activeCompany->getId()
-        )->toArray();
+        $topTen = $this->companyParticipantRanker->getTopTenOfPassedCompanyParticipants($activeCompany->getId());
 
-        $firstTenTopScores = [];
-        for ($i = 0; $i < 10 && $i < count($allTopScores); $i++) {
-            if ($allTopScores[$i]->getScore()->toNative() >= 11) {
-                $firstTenTopScores[] = $allTopScores[$i];
-            }
-        }
-
+        $uniqueParticipantCounts = $this->statisticsService->getUniqueParticipantCounts();
         $passedUniqueParticipantCounts = $this->statisticsService->getPassedUniqueParticipantCounts();
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
         $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
+
+        $tiebreaker1Answer = $this->companyParticipantRanker->getTiebreaker1Answer();
+        $tiebreaker2Answer = $this->companyParticipantRanker->getTiebreaker2Answer();
 
         return $this->render(
             'dashboard/dashboard.html.twig',
@@ -111,11 +113,13 @@ class DashboardViewController extends CompanyAwareController
                 'employeeParticipationRatio' => $employeeParticipationRatio,
                 'companyAverage' => $companyAverage,
                 'average' => $average,
-                'topScores' => $firstTenTopScores,
-                'showTopScoresCard' => count($allTopScores) > 0,
+                'topScores' => $topTen,
+                'uniqueParticipantCounts' => $uniqueParticipantCounts,
                 'passedUniqueParticipantCounts' => $passedUniqueParticipantCounts,
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
+                'tiebreaker1Answer' => $tiebreaker1Answer,
+                'tiebreaker2Answer' => $tiebreaker2Answer,
             ]
         );
     }
@@ -128,8 +132,8 @@ class DashboardViewController extends CompanyAwareController
     {
         $activeCompany = $this->getCompany($companyId);
 
-        $topScores = $this->dashboardService->getTopScoresByCompany($activeCompany->getId());
-        $topScoresAsCsv = $this->serializer->serialize($topScores, 'csv');
+        $rankedParticipants = $this->companyParticipantRanker->getRankedCompanyParticipants($activeCompany->getId());
+        $topScoresAsCsv = $this->serializer->serialize($rankedParticipants, 'csv');
 
         $response = $this->responseFactory->createCsvResponse(
             $topScoresAsCsv,

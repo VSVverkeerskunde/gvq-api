@@ -230,6 +230,12 @@ Dashboard.ratio.title: Nombre de travailleurs qui ont participé au quiz
 Dashboard.average.title: Score moyen de
 Dashboard.average.all: Tous les participants
 
+Dashboard.tiebreakers.title: 'Réponses correctes aux questions de suspension'
+Dashboard.tiebreakers.1.title: 'Combien de personnes auront entièrement participé au Quiz de la Route le dimanche 18 novembre 2018 à minuit (en français et en néerlandais)?'
+Dashboard.tiebreakers.2.title: 'Combien d’entre elles auront obtenu un score de 11/15 ou plus?'
+Dashboard.topscores.tiebreakers.1.title: 'Réponse à la question de suspension 1'
+Dashboard.topscores.tiebreakers.2.title: 'Réponse à la question de suspension 2'
+
 #Statistics
 Statistics.title.general: Statistiques générales
 Statistics.title.partner: Statistiques des partenaires

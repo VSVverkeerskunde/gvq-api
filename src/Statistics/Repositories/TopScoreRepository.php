@@ -27,9 +27,9 @@ interface TopScoreRepository
 
     /**
      * @param UuidInterface $companyId
-     * @return TopScores
+     * @return array|TopScore[]
      */
-    public function getAllByCompany(UuidInterface $companyId): TopScores;
+    public function getAllByCompany(UuidInterface $companyId): array;
 
     /**
      * @return Average
