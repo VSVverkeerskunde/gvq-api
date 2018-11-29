@@ -11,6 +11,7 @@ use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
 use VSV\GVQ_API\Statistics\Repositories\Entities\DetailedTopScoreEntity;
 use VSV\GVQ_API\Statistics\Repositories\Entities\EmployeeParticipationEntity;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository implements
     EmployeeParticipationRepository
@@ -79,5 +80,16 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
         return (int) $result;
     }
 
+    public function getByEmail(Email $email): iterable
+    {
+        $participations = $this->objectRepository->findBy(
+            [
+                'email' => $email->toNative(),
+            ]
+        );
 
+        foreach ($participations as $participation) {
+            yield $participation->toEmployeeParticipation();
+        }
+    }
 }

@@ -33,22 +33,31 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
     private $questionRepository;
 
     /**
+     * @var null|NotEmptyString
+     */
+    private $keyPrefix;
+
+    /**
      * @param \Redis $redis
      * @param QuestionCounterRepository $answeredCorrectRepository
      * @param QuestionCounterRepository $answeredInCorrectRepository
      * @param QuestionRepository $questionRepository
+     * @param null|NotEmptyString $keyPrefix
      */
     public function __construct(
         \Redis $redis,
         QuestionCounterRepository $answeredCorrectRepository,
         QuestionCounterRepository $answeredInCorrectRepository,
-        QuestionRepository $questionRepository
+        QuestionRepository $questionRepository,
+        NotEmptyString $keyPrefix = null
     ) {
         parent::__construct($redis);
 
         $this->answeredCorrectRepository = $answeredCorrectRepository;
         $this->answeredInCorrectRepository = $answeredInCorrectRepository;
         $this->questionRepository = $questionRepository;
+
+        $this->keyPrefix = $keyPrefix;
     }
 
     /**
@@ -172,6 +181,14 @@ class QuestionDifficultyRedisRepository extends AbstractRedisRepository implemen
      */
     private function createKey(NotEmptyString $prefix, Language $language): string
     {
-        return $prefix->toNative().'_'.$language->toNative();
+        $key = '';
+
+        if (null !== $this->keyPrefix) {
+            $key .= $this->keyPrefix->toNative() . '_';
+        }
+
+        $key .= $prefix->toNative() . '_' . $language->toNative();
+
+        return $key;
     }
 }

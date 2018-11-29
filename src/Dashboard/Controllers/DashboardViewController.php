@@ -6,12 +6,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use VSV\GVQ_API\Common\Controllers\CompanyAwareController;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Dashboard\Service\DashboardService;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Statistics\Repositories\CompanyQuestionDifficultyRepositoryFactory;
 use VSV\GVQ_API\Statistics\Service\CompanyParticipantRanker;
 use VSV\GVQ_API\Statistics\Service\StatisticsService;
+use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
 use VSV\GVQ_API\User\Repositories\UserRepository;
 
 class DashboardViewController extends CompanyAwareController
@@ -47,6 +50,11 @@ class DashboardViewController extends CompanyAwareController
     private $companyParticipantRanker;
 
     /**
+     * @var CompanyQuestionDifficultyRepositoryFactory
+     */
+    private $questionDifficultyRepositoryFactory;
+
+    /**
      * @param Year $year
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
@@ -55,6 +63,7 @@ class DashboardViewController extends CompanyAwareController
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
      * @param CompanyParticipantRanker $companyParticipantRanker
+     * @param CompanyQuestionDifficultyRepositoryFactory $questionDifficultyRepositoryFactory
      */
     public function __construct(
         Year $year,
@@ -64,7 +73,8 @@ class DashboardViewController extends CompanyAwareController
         StatisticsService $statisticsService,
         SerializerInterface $serializer,
         ResponseFactory $responseFactory,
-        CompanyParticipantRanker $companyParticipantRanker
+        CompanyParticipantRanker $companyParticipantRanker,
+        CompanyQuestionDifficultyRepositoryFactory $questionDifficultyRepositoryFactory
     ) {
         parent::__construct($userRepository, $companyRepository);
 
@@ -74,6 +84,7 @@ class DashboardViewController extends CompanyAwareController
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
         $this->companyParticipantRanker = $companyParticipantRanker;
+        $this->questionDifficultyRepositoryFactory = $questionDifficultyRepositoryFactory;
     }
 
     /**
@@ -105,6 +116,16 @@ class DashboardViewController extends CompanyAwareController
         $tiebreaker1Answer = $this->companyParticipantRanker->getTiebreaker1Answer();
         $tiebreaker2Answer = $this->companyParticipantRanker->getTiebreaker2Answer();
 
+        $questionDifficultyRepository = $this->questionDifficultyRepositoryFactory->forCompany($activeCompany->getId());
+        $range = new NaturalNumber(4);
+        $nl = new Language('nl');
+        $fr = new Language('fr');
+
+        $correctNlQuestions = $questionDifficultyRepository->getBestRange($nl, $range)->toArray();
+        $inCorrectNlQuestions = $questionDifficultyRepository->getWorstRange($nl, $range)->toArray();
+        $correctFrQuestions = $questionDifficultyRepository->getBestRange($fr, $range)->toArray();
+        $inCorrectFrQuestions = $questionDifficultyRepository->getWorstRange($fr, $range)->toArray();
+
         return $this->render(
             'dashboard/dashboard.html.twig',
             [
@@ -120,6 +141,11 @@ class DashboardViewController extends CompanyAwareController
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
                 'tiebreaker1Answer' => $tiebreaker1Answer,
                 'tiebreaker2Answer' => $tiebreaker2Answer,
+                'correctNlQuestions' => $correctNlQuestions,
+                'inCorrectNlQuestions' => $inCorrectNlQuestions,
+                'correctFrQuestions' => $correctFrQuestions,
+                'inCorrectFrQuestions' => $inCorrectFrQuestions,
+                'uploadPath' => getenv('UPLOAD_PATH'),
             ]
         );
     }

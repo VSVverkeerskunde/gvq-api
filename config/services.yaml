@@ -238,6 +238,35 @@ services:
         $redis: '@redis_service'
         $answeredCorrectRepository: '@question_answered_correct_redis_repository'
         $answeredInCorrectRepository: '@question_answered_incorrect_redis_repository'
+        $keyPrefix: ~
+
+    company_question_answered_correct_repository_factory:
+      class: VSV\GVQ_API\Statistics\Repositories\CompanyQuestionCounterRepositoryFactory
+      arguments:
+        $redis: '@redis_service'
+        $keyPrefix: '@answered_correct'
+
+    company_question_answered_incorrect_repository_factory:
+      class: VSV\GVQ_API\Statistics\Repositories\CompanyQuestionCounterRepositoryFactory
+      arguments:
+        $redis: '@redis_service'
+        $keyPrefix: '@answered_incorrect'
+
+    company_question_difficulty_repository_factory:
+      class: VSV\GVQ_API\Statistics\Repositories\CompanyQuestionDifficultyRepositoryFactory
+      arguments:
+        $redis: '@redis_service'
+        $answeredCorrectRepositoryFactory: '@company_question_answered_correct_repository_factory'
+        $answeredInCorrectRepositoryFactory: '@company_question_answered_incorrect_repository_factory'
+
+    company_question_difficulty_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\CompanyQuestionDifficultyProjector
+      arguments:
+        $questionDifficultyRepositoryFactory: '@company_question_difficulty_repository_factory'
+        $questionAnsweredCorrectRepositoryFactory: '@company_question_answered_correct_repository_factory'
+        $questionAnsweredInCorrectRepositoryFactory: '@company_question_answered_incorrect_repository_factory'
+        $quizRepository: '@quiz_redis_repository'
+
 
     category_answered_correct_redis_repository:
       class: VSV\GVQ_API\Statistics\Repositories\CategoryDifficultyRedisRepository
@@ -347,6 +376,17 @@ services:
         - method: subscribe
           arguments:
             - '@quiz_projector'
+      public: true
+
+    company_question_difficulty_replay_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      calls:
+      - method: subscribe
+        arguments:
+          - '@quiz_projector'
+      - method: subscribe
+        arguments:
+          - '@company_question_difficulty_projector'
       public: true
 
     company_participant_ranker:
@@ -596,6 +636,7 @@ services:
         $year: '@quiz_year'
         $statisticsService: '@statistics_service'
         $companyParticipantRanker: '@company_participant_ranker'
+        $questionDifficultyRepositoryFactory: '@company_question_difficulty_repository_factory'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Report\Controllers\ReportViewController:

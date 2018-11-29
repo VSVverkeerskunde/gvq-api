@@ -3,7 +3,9 @@
 namespace VSV\GVQ_API\Statistics\Repositories\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 /**
  * @ORM\Entity()
@@ -45,6 +47,14 @@ class EmployeeParticipationEntity
         return new EmployeeParticipationEntity(
             $employeeParticipation->getCompanyId()->toString(),
             $employeeParticipation->getEmail()->toNative()
+        );
+    }
+
+    public function toEmployeeParticipation(): EmployeeParticipation
+    {
+        return new EmployeeParticipation(
+            Uuid::fromString($this->companyId),
+            new Email($this->email)
         );
     }
 }
