@@ -262,7 +262,7 @@ Statistics.row.finished: 'Beëindigd'
 Statistics.row.unique: 'Unieke deelnemers'
 Statistics.row.passed: 'Geslaagde deelnemers'
 Statistics.row.percentage: 'Slaagpercentage'
-Statistics.row.topscore: 'Gemiddelde Topscore'
+Statistics.row.topscore: 'Gemiddelde topscore'
 
 Statistics.info.started: 'Aantal keer dat een quiz werd gestart.'
 Statistics.info.finished: 'Aantal keer dat een quiz werd uitgespeeld.'
