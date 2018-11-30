@@ -21,7 +21,28 @@ interface EmployeeParticipationRepository
      */
     public function countByCompany(UuidInterface $companyId): NaturalNumber;
 
-    public function countByCompanyAndLanguage(UuidInterface $companyId, Language $language): int;
+    public function countByCompanyAndLanguage(
+        UuidInterface $companyId,
+        Language $language
+    ): int;
+
+
+    public function countPassedByCompany(
+        UuidInterface $companyId
+    ): int;
+
+    public function countPassedByCompanyAndLanguage(
+        UuidInterface $companyId,
+        Language $language
+    ): int;
+
+    /**
+     * @inheritdoc
+     */
+    public function getAverageTopScoreForCompanyAndLanguage(
+        UuidInterface $companyId,
+        Language $language
+    ): float;
 
     /**
      * @param \VSV\GVQ_API\User\ValueObjects\Email $email

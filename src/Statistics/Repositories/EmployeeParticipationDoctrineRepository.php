@@ -2,6 +2,9 @@
 
 namespace VSV\GVQ_API\Statistics\Repositories;
 
+use function array_map;
+use function array_sum;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
@@ -80,6 +83,38 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
         return (int) $result;
     }
 
+    public function countPassedByCompany(
+        UuidInterface $companyId
+    ): int {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('count(distinct participation.email)')
+            ->from($this->getRepositoryName(), 'participation')
+            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.score >= 11')
+            ->where($qb->expr()->eq('participation.companyId', ':companyId'))
+            ->setParameter('companyId', $companyId->toString());
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+        return (int) $result;
+    }
+
+    public function countPassedByCompanyAndLanguage(
+        UuidInterface $companyId,
+        Language $language
+    ): int {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('count(distinct participation.email)')
+            ->from($this->getRepositoryName(), 'participation')
+            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.language = :language AND score.score >= 11')
+            ->where($qb->expr()->eq('participation.companyId', ':companyId'))
+            ->setParameter('companyId', $companyId->toString())
+            ->setParameter('language', $language->toNative());
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+        return (int) $result;
+    }
+
     public function getByEmail(Email $email): iterable
     {
         $participations = $this->objectRepository->findBy(
@@ -91,5 +126,36 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
         foreach ($participations as $participation) {
             yield $participation->toEmployeeParticipation();
         }
+    }
+
+    public function getAverageTopScoreForCompanyAndLanguage(
+        UuidInterface $companyId,
+        Language $language
+    ): float {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select('max(score.score) maxScore')
+            ->from($this->getRepositoryName(), 'participation')
+            ->where('participation.companyId = :companyId')
+            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'participation.email = score.email AND score.language = :language')
+            ->groupBy('participation.email')
+            ->setParameter('companyId', $companyId->toString())
+            ->setParameter('language', $language->toNative());
+
+        $result = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR);
+
+        $numbers = array_map(
+            function ($result) {
+                return floatval($result['maxScore']);
+            },
+            $result
+        );
+
+        $avg = 0;
+        if (!empty($numbers)) {
+            $avg = array_sum($numbers)/count($numbers);
+        }
+
+        return $avg;
     }
 }

@@ -126,6 +126,12 @@ class DashboardViewController extends CompanyAwareController
         $correctFrQuestions = $questionDifficultyRepository->getBestRange($fr, $range)->toArray();
         $inCorrectFrQuestions = $questionDifficultyRepository->getWorstRange($fr, $range)->toArray();
 
+        $companyUniqueParticipantCounts = $this->dashboardService->uniqueParticipants($activeCompany->getId());
+        $companyPassedUniqueParticipantCounts = $this->dashboardService->uniquePassedParticipants($activeCompany->getId());
+        $companyPassedUniqueParticipantPercentage = $this->dashboardService->uniquePassedParticipantsPercentages($activeCompany->getId());
+        $companyDetailedTopScoreAverages = $this->dashboardService->averageTopscores($activeCompany->getId());
+
+
         return $this->render(
             'dashboard/dashboard.html.twig',
             [
@@ -146,6 +152,10 @@ class DashboardViewController extends CompanyAwareController
                 'correctFrQuestions' => $correctFrQuestions,
                 'inCorrectFrQuestions' => $inCorrectFrQuestions,
                 'uploadPath' => getenv('UPLOAD_PATH'),
+                'companyUniqueParticipantCounts' => $companyUniqueParticipantCounts,
+                'companyPassedUniqueParticipantCounts' => $companyPassedUniqueParticipantCounts,
+                'companyPassedUniqueParticipantPercentage' => $companyPassedUniqueParticipantPercentage,
+                'companyDetailedTopScoreAverages' => $companyDetailedTopScoreAverages,
             ]
         );
     }

@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Dashboard\Service;
 
 use Ramsey\Uuid\UuidInterface;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
 use VSV\GVQ_API\Statistics\Models\TopScores;
@@ -56,6 +57,59 @@ class DashboardService
             $this->employeeParticipationRepository->countByCompany($companyId),
             $company->getNumberOfEmployees()
         );
+    }
+
+    public function uniqueParticipants(UuidInterface $companyId): array
+    {
+        return [
+            'quiz_total_nl' => $this->employeeParticipationRepository->countByCompanyAndLanguage($companyId, new Language('nl')),
+            'quiz_total_fr' => $this->employeeParticipationRepository->countByCompanyAndLanguage($companyId, new Language('fr')),
+            'quiz_total' => $this->employeeParticipationRepository->countByCompany($companyId)->toNative(),
+        ];
+    }
+
+    public function uniquePassedParticipants(UuidInterface $companyId): array
+    {
+        return [
+            'quiz_total_nl' => $this->employeeParticipationRepository->countPassedByCompanyAndLanguage($companyId, new Language('nl')),
+            'quiz_total_fr' => $this->employeeParticipationRepository->countPassedByCompanyAndLanguage($companyId, new Language('fr')),
+            'quiz_total' => $this->employeeParticipationRepository->countPassedByCompany($companyId),
+        ];
+    }
+
+    /**
+     * Copied and adapted from StatisticsService::getPassedUniqueParticipantPercentages().
+     *
+     * @param \Ramsey\Uuid\UuidInterface $companyId
+     * @return array
+     */
+    public function uniquePassedParticipantsPercentages(UuidInterface $companyId): array
+    {
+        $uniqueParticipantsCounts = $this->uniqueParticipants($companyId);
+        $passedUniqueParticipantCounts = $this->uniquePassedParticipants($companyId);
+
+        $passedUniqueParticipantPercentage = [];
+        foreach ($uniqueParticipantsCounts as $key => $uniqueParticipantsCount) {
+            if (empty($uniqueParticipantsCounts[$key])) {
+                $passedUniqueParticipantPercentage[$key] = 0;
+            } else {
+                $passedUniqueParticipantPercentage[$key] = round(
+                        (float)$passedUniqueParticipantCounts[$key] / (float)$uniqueParticipantsCounts[$key],
+                        2
+                    ) * 100;
+            }
+        }
+
+        return $passedUniqueParticipantPercentage;
+    }
+
+    public function averageTopscores(UuidInterface $companyId): array
+    {
+        return [
+            'quiz_total_nl' => $this->employeeParticipationRepository->getAverageTopScoreForCompanyAndLanguage($companyId, new Language('nl')),
+            'quiz_total_fr' => $this->employeeParticipationRepository->getAverageTopScoreForCompanyAndLanguage($companyId, new Language('fr')),
+            'quiz_total' => $this->topScoreRepository->getAverageForCompany($companyId)->toNative(),
+        ];
     }
 
     /**

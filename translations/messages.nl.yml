@@ -226,10 +226,12 @@ User.edit.not.found: 'Geen gebruiker gevonden met id %id% om aan te passen.'
 User.edit.success: 'Gebruiker %id% is aangepast.'
 User.id.invalid: 'Geen gebruiker gevonden met id %id%.'
 
-Dashboard.welcome: 'De quiz start op 18 oktober. Vanaf dan kan je hier de statistieken van je bedrijf opvolgen.'
+Dashboard.welcome: ''
 Dashboard.ratio.title: 'Aantal werknemers die de grote verkeersquiz hebben gespeeld'
-Dashboard.average.title: 'Gemiddelde top score van'
+Dashboard.average.title: 'Gemiddelde topscore van'
 Dashboard.average.all: 'Alle deelnemers'
+
+Statistics.title.company: 'Statistieken van het bedrijf'
 
 Dashboard.tiebreakers.title: 'Juiste antwoorden schiftingsvragen'
 Dashboard.tiebreakers.1.title: 'Hoeveel unieke deelnemers zullen op zondag 18 november 2018 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'

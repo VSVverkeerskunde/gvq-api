@@ -50,6 +50,7 @@ Statistics: Statistiques
 Dashboard: Dashboard
 Documents: Documents
 Report: Rapport final
+Cijfers: Chifres
 
 #Dropdown menu
 Menu.change.password: Modifier mon mot de passe
@@ -225,10 +226,12 @@ User.edit.not.found: Aucun utilisateur %id% n'a été trouvé.
 User.edit.success: L'utilisateur %id% est modifié.
 User.id.invalid: L'utilisateur %id% n'a pas été trouvé.
 
-Dashboard.welcome: A partir du 18 octobre, vous pourrez suivre les statistiques de votre entreprise ici.
+Dashboard.welcome: ''
 Dashboard.ratio.title: Nombre de travailleurs qui ont participé au quiz
 Dashboard.average.title: Score moyen de
 Dashboard.average.all: Tous les participants
+
+Statistics.title.company: Statistiques de l'entreprise
 
 Dashboard.tiebreakers.title: 'Réponses des questions subsidiaires'
 Dashboard.tiebreakers.1.title: 'Combien de personnes auront entièrement participé au Quiz de la Route le dimanche 18 novembre 2018 à minuit (en français et en néerlandais)?'
