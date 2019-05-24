@@ -62,7 +62,7 @@ class CompanyParticipantRanker
         $rankedCompanyParticipants = array_map(
             function (TopScore $topScore) {
                 $contestParticipation = $this->contestParticipationRepository->getByYearAndEmailAndChannel(
-                    new Year(2018),
+                    new Year(2019),
                     $topScore->getEmail(),
                     new QuizChannel(QuizChannel::INDIVIDUAL)
                 );

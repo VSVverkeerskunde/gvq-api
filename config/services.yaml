@@ -3,9 +3,9 @@
 parameters:
     locale: 'nl'
     sender_email_nl: 'quiz@vsv.be'
-    sender_name_nl: 'Grote verkeersquiz 2018'
+    sender_name_nl: 'Grote verkeersquiz 2019'
     sender_email_fr: 'quiz@awsr.be'
-    sender_name_fr: 'Quiz de la Route 2018'
+    sender_name_fr: 'Quiz de la Route 2019'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
     team_file : '%kernel.project_dir%/config/teams.yaml'
@@ -98,7 +98,7 @@ services:
     quiz_year:
       class: \VSV\GVQ_API\Question\ValueObjects\Year
       arguments:
-        $value: 2018
+        $value: 2019
 
     quiz_start_date:
       class: \DateTimeImmutable
