@@ -11,6 +11,7 @@ parameters:
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
+    env(REDIS_DBINDEX): 0
     env(QUIZ_ALLOW_ANONYMOUS): 'false'
     env(REPORT_ALLOW_CONTACT): 'false'
     env(CONTEST_CLOSED): 'false'
@@ -166,6 +167,9 @@ services:
           arguments:
             - '%env(resolve:REDIS_HOST)%'
             - '%env(resolve:REDIS_PORT)%'
+        - method: select
+          arguments:
+            - '%env(resolve:REDIS_DBINDEX)%'
       public: true
 
     quiz_redis_repository:
