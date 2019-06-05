@@ -1,32 +1,67 @@
 <div class="form-group">
-    <div class="row">
-        {% if app.request.locale == 'fr' %}
-            <div class="col-sm-6">
+    {% if app.request.locale == 'fr' %}
+        <div class="row">
+            <div class="col-sm-12">
                 <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
-                {{ form_widget(form.aliasFr) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">https://www.quizdelaroute.be/quiz/</span>
+                    </div>
+                    {{ form_widget(form.aliasFr) }}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Copier l'URL</button>
+                    </div>
+                </div>
                 {{ form_errors(form.aliasFr) }}
-                <small id="form_alias_url_fr" class="form-text font-weight-bold"></small>
             </div>
-            <div class="col-sm-6">
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
                 <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
-                {{ form_widget(form.aliasNl) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">https://www.degroteverkeersquiz.be/quiz/</span>
+                    </div>
+                    {{ form_widget(form.aliasNl) }}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Copier l'URL</button>
+                    </div>
+                </div>
                 {{ form_errors(form.aliasNl) }}
-                <small id="form_alias_url_nl" class="form-text font-weight-bold"></small>
             </div>
-        {% else %}
-            <div class="col-sm-6">
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-12">
                 <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
-                {{ form_widget(form.aliasNl) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">https://www.degroteverkeersquiz.be/quiz/</span>
+                    </div>
+                    {{ form_widget(form.aliasNl) }}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Kopieer URL</button>
+                    </div>
+                </div>
                 {{ form_errors(form.aliasNl) }}
-                <small id="form_alias_url_nl" class="form-text font-weight-bold"></small>
             </div>
-            <div class="col-sm-6">
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
                 <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
-                {{ form_widget(form.aliasFr) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">https://www.quizdelaroute.be/quiz/</span>
+                    </div>
+                    {{ form_widget(form.aliasFr) }}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Kopieer URL</button>
+                    </div>
+                </div>
                 {{ form_errors(form.aliasFr) }}
-                <small id="form_alias_url_fr" class="form-text font-weight-bold"></small>
             </div>
-        {% endif %}
-    </div>
-    <small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
+        </div>
+    {% endif %}
+</div>
+<small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
 </div>

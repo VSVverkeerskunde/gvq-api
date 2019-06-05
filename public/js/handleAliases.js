@@ -1,7 +1,3 @@
-// Make sure to init the URLs
-handleNlUrlState();
-handleFrUrlState();
-
 // Handle company name change => only when alias empty
 $("#form_companyName").focusout(function () {
 
@@ -9,43 +5,26 @@ $("#form_companyName").focusout(function () {
 
     if ($("#form_aliasNl").val().trim() === '') {
         $("#form_aliasNl").val(slug);
-        handleNlUrlState();
     }
 
     if ($("#form_aliasFr").val().trim() === '') {
         $("#form_aliasFr").val(slug);
-        handleFrUrlState();
     }
 });
 
-// Handle NL alias changes => always update URL
-$("#form_aliasNl").focusout(function () {
-    handleNlUrlState();
-});
+$('.btn-copy-url').click(
+    function () {
+        var inputGroup = $(this).closest('.input-group');
+        var fullUrl = inputGroup.find('.input-group-prepend .input-group-text').text() + inputGroup.find('input').val();
 
-// Handle FR alias change => always change URL
-$("#form_aliasFr").focusout(function () {
-    handleFrUrlState();
-});
-
-// Set the Nl URL
-function handleNlUrlState() {
-    let aliasNl = $("#form_aliasNl").val().trim();
-
-    if (aliasNl !== '') {
-        $("#form_alias_url_nl").text('www.degroteverkeersquiz.be/quiz/' + aliasNl);
-    } else {
-        $("#form_alias_url_nl").text('');
+        var el = document.createElement('textarea');
+        el.value = fullUrl;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     }
-}
-
-// Set the Fr URL
-function handleFrUrlState() {
-    let aliasFr = $("#form_aliasFr").val().trim();
-
-    if (aliasFr !== '') {
-        $("#form_alias_url_fr").text('www.quizdelaroute.be/quiz/' + aliasFr);
-    } else {
-        $("#form_alias_url_fr").text('');
-    }
-}
+);
