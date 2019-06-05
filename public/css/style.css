@@ -259,6 +259,10 @@ input, button, select, optgroup, textarea {
       border-color: #98d6f0; }
   .btn:focus {
     color: #ffffff; }
+  .btn.btn-outline-secondary:focus {
+    color: #6c757d; }
+  .btn.btn-outline-secondary:hover {
+    color: #fff; }
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
   background-color: #40b2e2;

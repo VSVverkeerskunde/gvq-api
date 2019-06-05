@@ -201,6 +201,12 @@ input, button, select, optgroup, textarea {
     &:focus {
         color: $white;
     }
+    &.btn-outline-secondary:focus {
+        color: #6c757d;
+    }
+    &.btn-outline-secondary:hover {
+        color: #fff;
+    }
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
     background-color: darken($color-primary, 10%);
