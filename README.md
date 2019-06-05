@@ -90,3 +90,7 @@ values unchanged:
 UPLOAD_TARGET=local
 UPLOAD_PATH=/uploads/
 ```
+
+### Altering styling / CSS
+
+See the documentation in assets/README.md.
