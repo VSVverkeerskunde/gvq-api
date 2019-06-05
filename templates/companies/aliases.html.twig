@@ -1,5 +1,5 @@
-<div class="form-group">
     {% if app.request.locale == 'fr' %}
+    <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
                 <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
@@ -9,12 +9,14 @@
                     </div>
                     {{ form_widget(form.aliasFr) }}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Copier l'URL</button>
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button" title="Copier dans le presse papier" data-copied-title="Copié!">Copier</button>
                     </div>
                 </div>
                 {{ form_errors(form.aliasFr) }}
             </div>
         </div>
+    </div>
+    <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
                 <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
@@ -24,13 +26,16 @@
                     </div>
                     {{ form_widget(form.aliasNl) }}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Copier l'URL</button>
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button" title="Copier dans le presse papier" data-copied-title="Copié!">Copier</button>
                     </div>
                 </div>
                 {{ form_errors(form.aliasNl) }}
             </div>
         </div>
+        <small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
+    </div>
     {% else %}
+    <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
                 <label for="form_aliasNl">{% trans %}Alias.dutch{% endtrans %}</label>
@@ -40,12 +45,14 @@
                     </div>
                     {{ form_widget(form.aliasNl) }}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Kopieer URL</button>
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button" title="Kopieer naar klembord" data-copied-title="Gekopieerd!">Kopieer</button>
                     </div>
                 </div>
                 {{ form_errors(form.aliasNl) }}
             </div>
         </div>
+    </div>
+    <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
                 <label for="form_aliasFr">{% trans %}Alias.french{% endtrans %}</label>
@@ -55,13 +62,12 @@
                     </div>
                     {{ form_widget(form.aliasFr) }}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary btn-copy-url" type="button">Kopieer URL</button>
+                        <button class="btn btn-outline-secondary btn-copy-url" type="button" title="Kopieer naar klembord" data-copied-title="Gekopieerd!">Kopieer</button>
                     </div>
                 </div>
                 {{ form_errors(form.aliasFr) }}
             </div>
         </div>
+        <small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
+    </div>
     {% endif %}
-</div>
-<small id="form_alias_info" class="form-text text-muted mt-3">{% trans %}Field.alias.info{% endtrans %}</small>
-</div>
