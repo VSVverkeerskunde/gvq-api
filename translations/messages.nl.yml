@@ -1,5 +1,5 @@
 #General translations
-GVQ.title: 'Grote Verkeersquiz - 2018'
+GVQ.title: 'Grote Verkeersquiz - 2019'
 
 Id: 'Id'
 LastName: 'Achternaam'
@@ -175,10 +175,10 @@ Documents.title.nl: 'Nederlandstalige documenten'
 Documents.title.fr: 'Franstalige documenten'
 
 #Mails
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2018'
+Activation.mail.subject: 'Activatie Grote Verkeersquiz 2019'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
-Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2018'
-Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2018'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2019'
+Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2019'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht.'
@@ -234,7 +234,7 @@ Dashboard.average.all: 'Alle deelnemers'
 Statistics.title.company: 'Statistieken van het bedrijf'
 
 Dashboard.tiebreakers.title: 'Juiste antwoorden schiftingsvragen'
-Dashboard.tiebreakers.1.title: 'Hoeveel unieke deelnemers zullen op zondag 18 november 2018 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
+Dashboard.tiebreakers.1.title: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
 Dashboard.tiebreakers.2.title: 'Hoeveel van hen behaalden 11/15 of meer?'
 Dashboard.topscores.tiebreakers.1.title: 'Antwoord schiftingsvraag 1'
 Dashboard.topscores.tiebreakers.2.title: 'Antwoord schiftingsvraag 2'

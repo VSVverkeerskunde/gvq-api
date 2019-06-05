@@ -52,7 +52,7 @@
     id: '37016b79-2bc7-43f5-8bab-725957f8aa16'
     channel: 'individual'
     language: 'nl'
-    question: 'Hoeveel unieke deelnemers zullen op zondag 18 november 2018 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
+    question: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
     answer: null
   1:
     id: '8715743f-10ca-46cd-951c-d5e707a6530b'
@@ -64,7 +64,7 @@
     id: '7f1e1b4d-01b9-4b00-840f-6a8605fa4944'
     channel: 'cup'
     language: 'nl'
-    question: 'Hoeveel unieke deelnemers zullen op zondag 18 november 2018 middernacht De Grote Verkeerscup volledig hebben uitgespeeld (in alle beschikbare talen)?'
+    question: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeerscup volledig hebben uitgespeeld (in alle beschikbare talen)?'
     answer: null
   3:
     id: '481ad5d9-fc33-471d-8bd0-1e017121bd9c'
@@ -76,7 +76,7 @@
     id: '0e597b02-6999-475d-a263-7fee6d1071d3'
     channel: 'individual'
     language: 'fr'
-    question: 'Combien de personnes auront entièrement participé au Quiz de la Route le dimanche 18 novembre 2018 à minuit (en français et en néerlandais)?'
+    question: 'Combien de personnes auront entièrement participé au Quiz de la Route le jeudi 31 octobre 2019 à minuit (en français et en néerlandais)?'
     answer: null
   5:
     id: 'de741524-5107-420e-9826-1b874b220d89'
@@ -88,7 +88,7 @@
     id: 'f83e5283-9b8e-4aeb-b810-f889cefcd083'
     channel: 'cup'
     language: 'fr'
-    question: 'Combien de personnes auront entièrement participé à la Coupe de la Sécurité Routière le dimanche 18 novembre 2018 à minuit (en français et en néerlandais)?'
+    question: 'Combien de personnes auront entièrement participé à la Coupe de la Sécurité Routière le jeudi 31 octobre 2019 à minuit (en français et en néerlandais)?'
     answer: null
   7:
     id: '374acef4-41ca-45f2-9eca-8d4060012d86'

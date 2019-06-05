@@ -1,5 +1,5 @@
 #General translations
-GVQ.title: Quiz de la route - 2018
+GVQ.title: Quiz de la route - 2019
 
 Id: Id
 LastName: Nom
@@ -168,17 +168,17 @@ Contest.thanks: Merci
 Contest.success: Merci d'avoir participé au concours et bonne chance!
 Contest.gone.title: Dommage!
 Contest.gone.description: Il semble que vous ayez attendu trop longtemps pour participer au concours. Ce lien a maintenant expiré. Voulez-vous toujours gagner l'un des grands prix? Puis refais le quiz.
-Contest.gdpr1: J'ai lu et j’accepte le règlement du Quiz de la Route 2018 et la déclaration relative à la protection des données à caractère personnel.
+Contest.gdpr1: J'ai lu et j’accepte le règlement du Quiz de la Route 2019 et la déclaration relative à la protection des données à caractère personnel.
 Contest.gdpr2: J’autorise l’AWSR à conserver mes données pour rester informé-e des actualités, projets, concours de l’AWSR. Conformément au au règlement (UE) 2016/679 sur la protection des personnes physiques à l’égard du traitement de données à caractère personnel, vous avez notamment le droit d’accéder, de corriger ou de supprimer à tout moment vos données. Vos données ne seront pas transmises à des tiers.
 
 Documents.title.nl: Documents néerlandais
 Documents.title.fr: Documents français
 
 #Mails 
-Activation.mail.subject: Quiz de la Route 2018 - Activation de votre compte
+Activation.mail.subject: Quiz de la Route 2019 - Activation de votre compte
 Password.reset.mail.subject: Demande de récupération de mot de passe
-Welcome.mail.subject: Bienvenue au Quiz de la Route 2018
-Kickoff.mail.subject: Le quiz de la route 2018, c'est pour bientôt!
+Welcome.mail.subject: Bienvenue au Quiz de la Route 2019
+Kickoff.mail.subject: Le quiz de la route 2019, c'est pour bientôt!
 
 #Input 
 Field.empty: Ce champ est obligatoire.
@@ -234,7 +234,7 @@ Dashboard.average.all: Tous les participants
 Statistics.title.company: Statistiques de l'entreprise
 
 Dashboard.tiebreakers.title: 'Réponses des questions subsidiaires'
-Dashboard.tiebreakers.1.title: 'Combien de personnes auront entièrement participé au Quiz de la Route le dimanche 18 novembre 2018 à minuit (en français et en néerlandais)?'
+Dashboard.tiebreakers.1.title: 'Combien de personnes auront entièrement participé au Quiz de la Route le jeudi 31 octobre 2019 à minuit (en français et en néerlandais)?'
 Dashboard.tiebreakers.2.title: 'Combien d’entre elles auront obtenu un score de 11/15 ou plus?'
 Dashboard.topscores.tiebreakers.1.title: 'Réponse à la question subsidiaire 1'
 Dashboard.topscores.tiebreakers.2.title: 'Réponse à la question subsidiaire 2'
