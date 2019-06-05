@@ -3,6 +3,8 @@
 {% block title %}{% trans %}Registration.title{% endtrans %}{% endblock %}
 
 {% block content %}
+<div class="card">
+    <div class="card-body">
     {{ form_start(form, {'attr': {'novalidate': 'novalidate','class': 'form-register'}}) }}
     <div class="form-group">
         <div class="row">
@@ -80,6 +82,8 @@
         <button type="submit" class="btn btn-primary">{% trans %}Registration.submit{% endtrans %}</button>
     </div>
     {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
