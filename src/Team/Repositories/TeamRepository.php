@@ -18,7 +18,7 @@ interface TeamRepository
 
     /**
      * @param Year $year
-     * @return Teams|null
+     * @return Teams
      */
-    public function getAllByYear(Year $year): ?Teams;
+    public function getAllByYear(Year $year): Teams;
 }

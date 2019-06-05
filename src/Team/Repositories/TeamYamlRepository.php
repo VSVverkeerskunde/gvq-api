@@ -47,10 +47,10 @@ class TeamYamlRepository implements TeamRepository
     /**
      * @inheritdoc
      */
-    public function getAllByYear(Year $year): ?Teams
+    public function getAllByYear(Year $year): Teams
     {
         if (!key_exists($year->toNative(), $this->teamsAsYml)) {
-            return null;
+            return new Teams();
         }
 
         $teams = [];
