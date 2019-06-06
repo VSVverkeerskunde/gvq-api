@@ -4,4 +4,4 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
-        report_allow_contact: '%env(REPORT_ALLOW_CONTACT)%'
+        report_allow_contact: '%env(bool:REPORT_ALLOW_CONTACT)%'

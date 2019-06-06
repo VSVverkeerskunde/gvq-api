@@ -200,6 +200,8 @@
 
     <div class="row justify-content-around">
         <div class="col-md-10 col-lg-8">
+
+            {% if showTiebreakerAnswers %}
             <div class="card text-center mb-4">
                 <div class="card-header">
                     <h3 class="card-title">{% trans %}Dashboard.tiebreakers.title{% endtrans %}</h3>
@@ -217,6 +219,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
             <div class="card text-center mb-4">
                 <div class="card-header">

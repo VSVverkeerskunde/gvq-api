@@ -30,7 +30,9 @@
            data-page-list="[5, 10, 25, 50]">
         <thead class="thead-dark thead-primary">
             <tr>
+                {% if is_granted("ROLE_ADMIN") %}
                 <th data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                {% endif %}
                 <th data-sortable="true">{% trans %}Company.name{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Employees{% endtrans %}</th>
                 <th data-sortable="true">{% trans %}Alias.dutch{% endtrans %}</th>
@@ -42,21 +44,26 @@
         <tbody>
             {% for company in companies %}
                 <tr>
+                    {% if is_granted("ROLE_ADMIN") %}
                     <td>
                         <a href="{{ path('dashboard', {'companyId': company.id.toString}) }}"
                            target="_blank" >{{ company.id.toString }}</a>
                     </td>
+                    {% endif %}
                     <td>
+                        <a href="{{ path('dashboard', {'companyId': company.id.toString}) }}"
+                           target="_blank" >
                         {{ company.name.toNative }}
+                        </a>
                     </td>
                     <td>
                         {{ company.numberOfEmployees.toNative }}
                     </td>
                     <td>
-                        {{ company.translatedAliases | getAliasByLanguage('nl') }}
+                        <a href="https://www.degroteverkeersquiz.be/quiz/{{ company.translatedAliases | getAliasByLanguage('nl') }}" target="_blank">https://www.degroteverkeersquiz.be/quiz/{{ company.translatedAliases | getAliasByLanguage('nl') }}</a>
                     </td>
                     <td>
-                        {{ company.translatedAliases | getAliasByLanguage('fr') }}
+                        <a href="https://www.quizdelaroute.be/quiz/{{ company.translatedAliases | getAliasByLanguage('fr') }}" target="_blank">https://www.quizdelaroute.be/quiz/{{ company.translatedAliases | getAliasByLanguage('fr') }}</a>
                     </td>
                     <td>
                         {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}

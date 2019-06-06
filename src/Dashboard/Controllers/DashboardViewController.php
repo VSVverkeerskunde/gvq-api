@@ -55,6 +55,11 @@ class DashboardViewController extends CompanyAwareController
     private $questionDifficultyRepositoryFactory;
 
     /**
+     * @var bool
+     */
+    private $allowContact;
+
+    /**
      * @param Year $year
      * @param UserRepository $userRepository
      * @param CompanyRepository $companyRepository
@@ -64,6 +69,7 @@ class DashboardViewController extends CompanyAwareController
      * @param ResponseFactory $responseFactory
      * @param CompanyParticipantRanker $companyParticipantRanker
      * @param CompanyQuestionDifficultyRepositoryFactory $questionDifficultyRepositoryFactory
+     * @param bool $allowContact
      */
     public function __construct(
         Year $year,
@@ -74,7 +80,8 @@ class DashboardViewController extends CompanyAwareController
         SerializerInterface $serializer,
         ResponseFactory $responseFactory,
         CompanyParticipantRanker $companyParticipantRanker,
-        CompanyQuestionDifficultyRepositoryFactory $questionDifficultyRepositoryFactory
+        CompanyQuestionDifficultyRepositoryFactory $questionDifficultyRepositoryFactory,
+        bool $allowContact
     ) {
         parent::__construct($userRepository, $companyRepository);
 
@@ -85,6 +92,7 @@ class DashboardViewController extends CompanyAwareController
         $this->responseFactory = $responseFactory;
         $this->companyParticipantRanker = $companyParticipantRanker;
         $this->questionDifficultyRepositoryFactory = $questionDifficultyRepositoryFactory;
+        $this->allowContact = $allowContact;
     }
 
     /**
@@ -113,8 +121,12 @@ class DashboardViewController extends CompanyAwareController
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
         $detailedTopScoreAverages = $this->statisticsService->getDetailedTopScoreAverages();
 
-        $tiebreaker1Answer = $this->companyParticipantRanker->getTiebreaker1Answer();
-        $tiebreaker2Answer = $this->companyParticipantRanker->getTiebreaker2Answer();
+        $tiebreaker1Answer = 0;
+        $tiebreaker2Answer = 0;
+        if ($this->allowContact) {
+            $tiebreaker1Answer = $this->companyParticipantRanker->getTiebreaker1Answer();
+            $tiebreaker2Answer = $this->companyParticipantRanker->getTiebreaker2Answer();
+        }
 
         $questionDifficultyRepository = $this->questionDifficultyRepositoryFactory->forCompany($activeCompany->getId());
         $range = new NaturalNumber(4);
@@ -145,6 +157,7 @@ class DashboardViewController extends CompanyAwareController
                 'passedUniqueParticipantCounts' => $passedUniqueParticipantCounts,
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,
                 'detailedTopScoreAverages' => $detailedTopScoreAverages,
+                'showTiebreakerAnswers' => $this->allowContact,
                 'tiebreaker1Answer' => $tiebreaker1Answer,
                 'tiebreaker2Answer' => $tiebreaker2Answer,
                 'correctNlQuestions' => $correctNlQuestions,
