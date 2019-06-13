@@ -33,18 +33,14 @@
     name: 'Dats24'
     alias: 'dats24'
   2:
-    id: '3f938c54-5b36-4f95-90d1-8d5684c143cb'
-    name: 'JoeFM'
-    alias: 'joefm'
-  3:
     id: 'b7e9064d-c8af-4b75-b726-7c7dc9e31083'
     name: 'SudPresse'
     alias: 'sudpresse'
-  4:
+  3:
     id: '16d50ab6-c9a5-472e-ad1b-6795102c3063'
     name: 'UWE'
     alias: 'uwe'
-  5:
+  4:
     id: '333d7bc8-6f64-4508-b0db-9a47d38467db'
     name: 'Decathlon'
     alias: 'decathlon'
