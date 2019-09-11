@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Question\Controllers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -143,7 +144,18 @@ class QuestionViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $fileName = $this->imageController->handleImage($data['image']);
+            try {
+                $fileName = $this->imageController->handleImage($data['image']);
+            } catch (\InvalidArgumentException $e) {
+                $form->get('image')->addError(new FormError($e->getMessage()));
+
+                return $this->render(
+                  'questions/add.html.twig',
+                  [
+                    'form' => $form->createView(),
+                  ]
+                );
+            }
 
             $question = $this->questionFormType->newQuestionFromData(
                 $this->uuidFactory,
@@ -264,7 +276,19 @@ class QuestionViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $fileName = $this->imageController->handleImage($data['image']);
+            try {
+                $fileName = $this->imageController->handleImage($data['image']);
+            } catch (\InvalidArgumentException $e) {
+                $form->get('image')->addError(new FormError($e->getMessage()));
+
+                return $this->render(
+                  'questions/edit_image.html.twig',
+                  [
+                    'form' => $form->createView(),
+                  ]
+                );
+            }
+
             $this->imageController->delete($question->getImageFileName());
 
             $question = $this->updateQuestionImage(
