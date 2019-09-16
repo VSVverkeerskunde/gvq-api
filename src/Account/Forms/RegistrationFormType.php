@@ -224,7 +224,8 @@ class RegistrationFormType extends CompanyFormType
                     new Alias($data['aliasFr'])
                 )
             ),
-            $user
+            $user,
+            new \DateTime('now')
         );
     }
 

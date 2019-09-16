@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Models;
 
+use DateTime;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Common\ValueObjects\NotEmptyString;
@@ -42,18 +43,25 @@ class Company
     private $nrOfPassedEmployees;
 
     /**
+     * @var DateTime
+     */
+    private $created;
+
+    /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
      * @param PositiveNumber $numberOfEmployees
      * @param TranslatedAliases $translatedAliases
      * @param User $user
+     * @param DateTime $created
      */
     public function __construct(
         UuidInterface $id,
         NotEmptyString $name,
         PositiveNumber $numberOfEmployees,
         TranslatedAliases $translatedAliases,
-        User $user
+        User $user,
+        DateTime $created
     ) {
         $this->guardTranslatedAliases($translatedAliases);
 
@@ -62,6 +70,7 @@ class Company
         $this->numberOfEmployees = $numberOfEmployees;
         $this->translatedAliases = $translatedAliases;
         $this->user = $user;
+        $this->created = $created;
     }
 
     /**
@@ -102,6 +111,14 @@ class Company
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreated(): DateTime
+    {
+        return $this->created;
     }
 
     /**

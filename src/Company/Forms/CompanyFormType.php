@@ -154,7 +154,8 @@ class CompanyFormType extends AbstractType
                     new Alias($data['aliasFr'])
                 )
             ),
-            $company->getUser()
+            $company->getUser(),
+            $company->getCreated()
         );
     }
 

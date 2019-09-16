@@ -114,7 +114,12 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
     public function getAll(): ?Companies
     {
         /** @var CompanyEntity[] $companyEntities */
-        $companyEntities = $this->objectRepository->findAll();
+        $companyEntities = $this->objectRepository->findBy(
+            [],
+            [
+                'created' => 'DESC',
+            ]
+        );
 
         return $this->toCompanies($companyEntities);
     }
@@ -128,6 +133,9 @@ class CompanyDoctrineRepository extends AbstractDoctrineRepository implements Co
         $companyEntities = $this->objectRepository->findBy(
             [
                 'userEntity' => UserEntity::fromUser($user),
+            ],
+            [
+                'created' => 'DESC',
             ]
         );
 

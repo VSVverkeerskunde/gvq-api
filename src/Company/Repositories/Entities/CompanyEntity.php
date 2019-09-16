@@ -2,6 +2,7 @@
 
 namespace VSV\GVQ_API\Company\Repositories\Entities;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,12 @@ use VSV\GVQ_API\User\Repositories\Entities\UserEntity;
  */
 class CompanyEntity extends Entity
 {
+    /**
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
@@ -52,13 +59,15 @@ class CompanyEntity extends Entity
      * @param int $numberOfEmployees
      * @param Collection $translatedAliasEntities
      * @param UserEntity $user
+     * @param DateTime $created
      */
     public function __construct(
         string $id,
         string $name,
         int $numberOfEmployees,
         Collection $translatedAliasEntities,
-        UserEntity $user
+        UserEntity $user,
+        DateTime $created
     ) {
         parent::__construct($id);
 
@@ -66,6 +75,7 @@ class CompanyEntity extends Entity
         $this->numberOfEmployees = $numberOfEmployees;
         $this->translatedAliasEntities = $translatedAliasEntities;
         $this->userEntity = $user;
+        $this->created = $created;
 
         foreach ($translatedAliasEntities as $translatedAliasEntity) {
             $translatedAliasEntity->setCompanyEntity($this);
@@ -91,7 +101,8 @@ class CompanyEntity extends Entity
             $company->getName()->toNative(),
             $company->getNumberOfEmployees()->toNative(),
             new ArrayCollection($translatedAliasEntities),
-            UserEntity::fromUser($company->getUser())
+            UserEntity::fromUser($company->getUser()),
+            $company->getCreated()
         );
 
         return $companyEntity;
@@ -116,7 +127,8 @@ class CompanyEntity extends Entity
             new NotEmptyString($this->getName()),
             new PositiveNumber($this->getNumberOfEmployees()),
             $translatedAliases,
-            $this->getUserEntity()->toUser()
+            $this->getUserEntity()->toUser(),
+            $this->created
         );
     }
 
