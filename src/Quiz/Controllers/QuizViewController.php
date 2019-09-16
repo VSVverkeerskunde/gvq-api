@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
+use VSV\GVQ_API\Company\Repositories\CompanyRepository;
+use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Question\ValueObjects\Year;
 
 class QuizViewController extends AbstractController
@@ -22,15 +24,22 @@ class QuizViewController extends AbstractController
     private $allowAnonymous;
 
     /**
+     * @var CompanyRepository
+     */
+    private $companyRepository;
+
+    /**
      * @param Year $year
      * @param bool $allowAnonymous
      */
     public function __construct(
         Year $year,
-        bool $allowAnonymous
+        bool $allowAnonymous,
+        CompanyRepository $companyRepository
     ) {
         $this->year = $year;
         $this->allowAnonymous = $allowAnonymous;
+        $this->companyRepository = $companyRepository;
     }
 
     /**
@@ -40,6 +49,24 @@ class QuizViewController extends AbstractController
      */
     public function showQuiz(ContainerInterface $container, Request $request): Response
     {
+        if ($request->query->get('channel') === 'company') {
+            $companyAlias = $request->query->get('company');
+
+            $company = $this->companyRepository->getByAlias(new Alias($companyAlias));
+
+            $language = $request->get('language');
+
+            if (!$company) {
+                return $this->render(
+                    'quiz/company_not_found.html.twig',
+                    [
+                        'company_alias' => $companyAlias,
+                        'language' => $language,
+                    ]
+                );
+            }
+        }
+
         if ($this->canPlayQuiz()) {
             $teams = Yaml::parseFile(
                 $container->getParameter('kernel.project_dir') . '/config/teams.yaml'

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/quiz.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+    {% if language == 'nl' %}
+        <p>Er is geen bedrijf ingeschreven met alias '{{ company_alias }}'.</p>
+    {% else %}
+        <p>Aucune entreprise n'est enregistrée avec un alias '{{ company_alias }}'.</p>
+    {% endif %}
+    </div>
+{% endblock %}
