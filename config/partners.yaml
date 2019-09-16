@@ -44,3 +44,11 @@
     id: '333d7bc8-6f64-4508-b0db-9a47d38467db'
     name: 'Decathlon'
     alias: 'decathlon'
+  5:
+    id: 'a928f431-cba9-4353-a932-9bb9ff66bd8e'
+    name: 'Touring'
+    alias: 'touring'
+  6:
+    id: '362be9b6-d8b9-4632-9733-f740d4449b40'
+    name: 'Metro'
+    alias: 'metro'
