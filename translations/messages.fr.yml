@@ -96,6 +96,10 @@ Activation.success.subtitle: Votre compte a été activé avec succès.
 Activation.success.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe.
 Activation.success.extra: Vous recevrez prochainement un mail avec toutes les informations utiles sur le Quiz de la Route.
 
+Activation.already_used.title: Lien d'activation déjà utilisé!
+Activation.already_used.subtitle: Ce lien d'activation a déjà été utilisé pour activer votre compte.
+Activation.already_used.text: Vous pouvez maintenant vous identifier avec votre adresse mail et votre mot de passe.
+
 Activation.error.title: Erreur
 Activation.error.subtitle: Votre compte n'a pas pu être activé.
 Activation.error.text: Vérifiez attentivement si vous avez cliqué sur le bon lien d'activation dans le mail.

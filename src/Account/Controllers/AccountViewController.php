@@ -393,11 +393,16 @@ class AccountViewController extends AbstractController
             new UrlSuffix($urlSuffix)
         );
 
-        if ($registration) {
+        if ($registration && $registration->isUsed()) {
+            return $this->render('accounts/activate_already_used.html.twig');
+        }
+        elseif ($registration) {
             $user = $registration->getUser()->activate();
             $this->userRepository->update($user);
 
-            $this->registrationRepository->delete($registration->getId());
+            $registration->setUsed();
+            $this->registrationRepository->save($registration);
+
             $this->mailService->sendWelcomeMail($registration);
 
             if (new \DateTimeImmutable() >= $this->quizStartDate) {

@@ -33,24 +33,32 @@ class Registration
     private $passwordReset;
 
     /**
+     * @var bool
+     */
+    private $used;
+
+    /**
      * @param UuidInterface $id
      * @param UrlSuffix $hashCode
      * @param User $user
      * @param \DateTimeImmutable $createdOn
      * @param bool $passwordReset
+     * @param bool $used
      */
     public function __construct(
         UuidInterface $id,
         UrlSuffix $hashCode,
         User $user,
         \DateTimeImmutable $createdOn,
-        bool $passwordReset
+        bool $passwordReset,
+        bool $used = false
     ) {
         $this->id = $id;
         $this->urlSuffix = $hashCode;
         $this->user = $user;
         $this->createdOn = $createdOn;
         $this->passwordReset = $passwordReset;
+        $this->used = $used;
     }
 
     /**
@@ -91,5 +99,18 @@ class Registration
     public function isPasswordReset(): bool
     {
         return $this->passwordReset;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->used;
+    }
+
+    public function setUsed()
+    {
+        $this->used = true;
     }
 }

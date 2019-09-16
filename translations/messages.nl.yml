@@ -95,6 +95,10 @@ Activation.success.subtitle: 'Je activatie is gelukt.'
 Activation.success.text: 'Je kan nu inloggen met je e-mailadres en zelfgekozen wachtwoord.'
 Activation.success.extra: 'Binnenkort ontvang je van ons een e-mail met daarin alle details over De Grote Verkeersquiz en al het digitale promotiemateriaal dat je nodig hebt.'
 
+Activation.already_used.title: 'Activatielink reeds gebruikt!'
+Activation.already_used.subtitle: 'Deze activatielink werd reeds eerder gebruikt om de account te activeren.'
+Activation.already_used.text: 'Je kan nu inloggen met je e-mailadres en zelfgekozen wachtwoord.'
+
 Activation.error.title: 'Activatie mislukt!'
 Activation.error.subtitle: 'Je activatie is niet gelukt.'
 Activation.error.text: 'Kijk goed na of je op de juiste link geklikt hebt in je activatiemail.'

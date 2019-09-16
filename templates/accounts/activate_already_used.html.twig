@@ -1,0 +1,17 @@
+{% extends 'anonymous_base.html.twig' %}
+
+{% block title %}{% trans %}Activation.title{% endtrans %}{% endblock %}
+
+{% block content %}
+    <h1 class="visually-hidden">{% trans %}Activation.title{% endtrans %}</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{% trans %}Activation.already_used.title{% endtrans %}</h2>
+            <h3 class="card-subtitle text-muted">{% trans %}Activation.already_used.subtitle{% endtrans %}</h3>
+            <hr>
+            <p class="card-text">{% trans %}Activation.already_used.text{% endtrans %}</p>
+            <hr>
+            <a href="{{ path('accounts_view_login') }}" class="card-link">{% trans %}To.login{% endtrans %}</a>
+        </div>
+    </div>
+{% endblock %}

@@ -44,24 +44,33 @@ class RegistrationEntity extends Entity
     private $passwordReset;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false, options={"default" : 0})
+     */
+    private $used;
+
+    /**
      * @param string $id
      * @param string $hashCode
      * @param UserEntity $userEntity
      * @param \DateTimeImmutable $createdOn
      * @param bool $passwordReset
+     * @param bool $used
      */
     public function __construct(
         string $id,
         string $hashCode,
         UserEntity $userEntity,
         \DateTimeImmutable $createdOn,
-        bool $passwordReset
+        bool $passwordReset,
+        bool $used
     ) {
         parent::__construct($id);
         $this->urlSuffix = $hashCode;
         $this->userEntity = $userEntity;
         $this->createdOn = $createdOn;
         $this->passwordReset = $passwordReset;
+        $this->used = $used;
     }
 
 
@@ -76,7 +85,8 @@ class RegistrationEntity extends Entity
             $registration->getUrlSuffix()->toNative(),
             UserEntity::fromUser($registration->getUser()),
             $registration->getCreatedOn(),
-            $registration->isPasswordReset()
+            $registration->isPasswordReset(),
+            $registration->isUsed()
         );
     }
 
@@ -90,7 +100,8 @@ class RegistrationEntity extends Entity
             new UrlSuffix($this->getUrlSuffix()),
             $this->getUserEntity()->toUser(),
             $this->getCreatedOn(),
-            $this->isPasswordReset()
+            $this->isPasswordReset(),
+            $this->used
         );
     }
 
@@ -124,5 +135,13 @@ class RegistrationEntity extends Entity
     public function isPasswordReset(): bool
     {
         return $this->passwordReset;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->used;
     }
 }
