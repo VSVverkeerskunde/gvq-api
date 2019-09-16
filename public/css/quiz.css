@@ -180,10 +180,12 @@ ul.gvq-answers li.is-correct {
   height: auto;
   width: 100%; }
 
-.gvq-next-question,
 .gvq-view-score {
   float: right;
   clear: both;
+  display: none; }
+
+.gvq-next-question {
   display: none; }
 
 .gvq-quiz-old-view {
