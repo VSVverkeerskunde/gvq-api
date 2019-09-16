@@ -72,10 +72,12 @@ class QuizViewController extends AbstractController
                 $container->getParameter('kernel.project_dir') . '/config/teams.yaml'
             );
 
+            $currentYearTeams = $teams[$this->year->toNative()] ?? [];
+
             return $this->render(
                 'quiz/quiz.html.twig',
                 [
-                    'teams' => (object)$teams[$this->year->toNative()],
+                    'teams' => (object)$currentYearTeams,
                 ]
             );
         } else {
