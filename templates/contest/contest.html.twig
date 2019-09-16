@@ -1,10 +1,28 @@
 {% extends 'contest/contest_base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('css/quiz.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
 
             {% include '/includes/flash.html.twig' %}
+
+            <div class="show-result card">
+                <div class="gvq-question-counter card-header text-center">
+                    <h2><span>{% trans %}Score{% endtrans %}</span></h2>
+                </div>
+                <div class="card-body text-center">
+                <span class="gvq-score mb-4">
+                    <span class="right-answers">{{ score }}</span>/<span class="total-questions">{{ totalQuestions }}</span>
+                </span>
+                </div>
+            </div>
 
             <h2 class="m-4">{% trans %}Contest.title{% endtrans %}</h2>
 

@@ -662,6 +662,7 @@ services:
         $uuidFactory: '@uuid_factory'
         $quizRepository: '@quiz_redis_repository'
         $tieBreakerRepository: '@tie_breaker_yaml_repository'
+        $questionResultRepository: '@question_result_redis_repository'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Team\Controllers\TeamController:

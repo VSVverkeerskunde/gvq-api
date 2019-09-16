@@ -350,8 +350,9 @@
           view.find('button.gvq-play-contest').hide();
           let contestUrl = quizConfig.language+'/view/contest/'+quizId;
           $.get(contestUrl).done(function () {
-              view.find('button.gvq-play-contest').show();
-              sendQuizHeight(50);
+              $(location).attr("href", contestUrl);
+              //view.find('button.gvq-play-contest').show();
+              //sendQuizHeight(50);
           });
 
           view.find('button.gvq-play-contest').on('click', function () {

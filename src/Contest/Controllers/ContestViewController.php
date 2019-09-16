@@ -21,6 +21,7 @@ use VSV\GVQ_API\Contest\Models\TieBreaker;
 use VSV\GVQ_API\Contest\Repositories\TieBreakerRepository;
 use VSV\GVQ_API\Contest\Service\ContestService;
 use VSV\GVQ_API\Question\ValueObjects\Year;
+use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 
@@ -77,6 +78,11 @@ class ContestViewController extends AbstractController
     private $responseFactory;
 
     /**
+     * @var QuestionResultRepository
+     */
+    private $questionResultRepository;
+
+    /**
      * @param Year $year
      * @param ContestService $contestService
      * @param UuidFactoryInterface $uuidFactory
@@ -86,6 +92,7 @@ class ContestViewController extends AbstractController
      * @param UrlGeneratorInterface $urlGenerator
      * @param SerializerInterface $serializer
      * @param ResponseFactory $responseFactory
+     * @param QuestionResultRepository $questionResultRepository
      */
     public function __construct(
         Year $year,
@@ -96,7 +103,8 @@ class ContestViewController extends AbstractController
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         SerializerInterface $serializer,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        QuestionResultRepository $questionResultRepository
     ) {
         $this->year = $year;
         $this->contestService = $contestService;
@@ -107,6 +115,7 @@ class ContestViewController extends AbstractController
         $this->urlGenerator = $urlGenerator;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
+        $this->questionResultRepository = $questionResultRepository;
 
         $this->contestFormType = new ContestFormType();
     }
@@ -134,6 +143,14 @@ class ContestViewController extends AbstractController
             return new Response('Can\'t participate', Response::HTTP_FORBIDDEN);
         }
 
+        // We need to show the score and total questions at top of the contest form.
+        $questionResult = $this->questionResultRepository->getById(
+            Uuid::fromString($quizId)
+        );
+
+        $totalQuestions = $quiz->getQuestions()->count();
+        $score = $questionResult->getScore();
+
         $form = $this->createContestForm();
         $form->handleRequest($request);
 
@@ -160,6 +177,8 @@ class ContestViewController extends AbstractController
         return $this->render(
             'contest/contest.html.twig',
             [
+                'score' => $score,
+                'totalQuestions' => $totalQuestions,
                 'form' => $form->createView(),
                 'tieBreaker1' => $tieBreakers[0],
                 'tieBreaker2' => $tieBreakers[1],
