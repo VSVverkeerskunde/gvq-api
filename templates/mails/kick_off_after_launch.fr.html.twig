@@ -1,0 +1,10 @@
+{% extends 'base_mail.html.twig' %}
+
+{% block content %}
+    <p>Madame, Monsieur,</p>
+    <p>Vous avez inscrit votre entreprise au Quiz de la Route 2019 et nous vous en remercions!</p>
+    <p>Le quiz est lancé depuis le 1er octobre. Vous trouverez toutes les informations pratiques via ce lien: <a href="{{ documentsUrl }}">{{ documentsUrl }}</a></p>
+    <p>Pour vous connecter, il vous suffit de cliquer sur ce lien: <a href="{{ loginUrl }}">{{ loginUrl }}</a></p>
+    <p>Bonne chance!</p>
+    <p>L’équipe du Quiz de la Route</p>
+{% endblock %}

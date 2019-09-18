@@ -34,6 +34,7 @@ services:
       - CONTEST_CLOSED
       - REGISTRATIONS_CLOSED
       - KICK_OFF_DATE
+      - START_DATE
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always

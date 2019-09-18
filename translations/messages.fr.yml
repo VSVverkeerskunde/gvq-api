@@ -183,6 +183,7 @@ Activation.mail.subject: Quiz de la Route 2019 - Activation de votre compte
 Password.reset.mail.subject: Demande de récupération de mot de passe
 Welcome.mail.subject: Bienvenue au Quiz de la Route 2019
 Kickoff.mail.subject: Le quiz de la route 2019, c'est pour bientôt!
+Kickoff.after.launch.mail.subject: Le Quiz de la Route 2019, c'est parti!
 
 #Input 
 Field.empty: Ce champ est obligatoire.

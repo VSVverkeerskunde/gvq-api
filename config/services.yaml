@@ -8,6 +8,7 @@ parameters:
     sender_name_fr: 'Quiz de la Route 2019'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
+    start_date: '%env(START_DATE)%'
     kick_off_date: '%env(KICK_OFF_DATE)%'
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
@@ -18,6 +19,7 @@ parameters:
     env(CONTEST_CLOSED): 'false'
     env(REGISTRATIONS_CLOSED): 'false'
     env(KICK_OFF_DATE): '2019-09-30'
+    env(START_DATE): '2019-10-01'
 
 services:
     # default configuration for services in *this* file
@@ -106,7 +108,7 @@ services:
     quiz_start_date:
       class: \DateTimeImmutable
       arguments:
-        $time: '2019-10-01'
+        $time: '%start_date%'
         $timezone: '@time_zone'
 
     quiz_kick_off_date:

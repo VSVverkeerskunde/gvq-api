@@ -117,7 +117,7 @@ class SwiftMailService implements MailService
      */
     public function sendKickOffMailAfterLaunch(Registration $registration): void
     {
-        $subjectId = 'Kickoff.mail.subject';
+        $subjectId = 'Kickoff.after.launch.mail.subject';
         $templateName = 'kick_off_after_launch';
         $templateParameters = $this->generateKickOffTemplateParameters($registration);
 
@@ -203,16 +203,6 @@ class SwiftMailService implements MailService
                     $templateParameters
                 ),
                 'text/html'
-            )
-            ->addPart(
-                $this->twig->render(
-                    $this->getTextTemplate(
-                        $registration->getUser()->getLanguage(),
-                        $templateName
-                    ),
-                    $templateParameters
-                ),
-                'text/plain'
             );
     }
 

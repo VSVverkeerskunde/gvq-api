@@ -183,6 +183,7 @@ Activation.mail.subject: 'Activatie Grote Verkeersquiz 2019'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
 Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2019'
 Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2019'
+Kickoff.after.launch.mail.subject: 'Kick-off Grote Verkeersquiz 2019'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht.'
