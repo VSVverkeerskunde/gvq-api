@@ -97,6 +97,11 @@ class AccountViewController extends AbstractController
     private $quizStartDate;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $quizKickOffDate;
+
+    /**
      * @var bool
      */
     private $registrationsClosed;
@@ -110,6 +115,7 @@ class AccountViewController extends AbstractController
      * @param UrlSuffixGenerator $urlSuffixGenerator
      * @param MailService $mailService
      * @param \DateTimeImmutable $quizStartDate
+     * @param \DateTimeImmutable $quizKickOffDate
      * @param bool $registrationsClosed
      */
     public function __construct(
@@ -121,6 +127,7 @@ class AccountViewController extends AbstractController
         UrlSuffixGenerator $urlSuffixGenerator,
         MailService $mailService,
         \DateTimeImmutable $quizStartDate,
+        \DateTimeImmutable $quizKickOffDate,
         bool $registrationsClosed = false
     ) {
         $this->translator = $translator;
@@ -131,6 +138,7 @@ class AccountViewController extends AbstractController
         $this->registrationRepository = $registrationRepository;
         $this->mailService = $mailService;
         $this->quizStartDate = $quizStartDate;
+        $this->quizKickOffDate = $quizKickOffDate;
         $this->registrationsClosed = $registrationsClosed;
 
         $this->registrationFormType = new RegistrationFormType();
@@ -405,7 +413,11 @@ class AccountViewController extends AbstractController
 
             $this->mailService->sendWelcomeMail($registration);
 
-            if (new \DateTimeImmutable() >= $this->quizStartDate) {
+            $now = new \DateTimeImmutable();
+
+            if ($now >= $this->quizStartDate) {
+                $this->mailService->sendKickOffMailAfterLaunch($registration);
+            } elseif ($now >= $this->quizKickOffDate) {
                 $this->mailService->sendKickOffMail($registration);
             }
 

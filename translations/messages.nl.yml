@@ -255,6 +255,7 @@ Statistics.header.company: 'Bedrijf'
 Statistics.header.partner: 'Partner'
 Statistics.header.quiz.total: 'Quiz totaal'
 Statistics.header.cup: 'Cup'
+Statistics.header.league: 'League'
 Statistics.header.total: 'Totaal'
 
 Statistics.subheader.NL: 'NL'

@@ -72,7 +72,10 @@ class CompanyQuestionDifficultyProjector  implements EventListener
         }
 
         $quiz = $this->quizRepository->getById($payload->getId());
-        if ($quiz->getChannel()->toNative() === QuizChannel::CUP) {
+        if (
+            $quiz->getChannel()->toNative() === QuizChannel::CUP ||
+            $quiz->getChannel()->toNative() === QuizChannel::LEAGUE
+        ) {
             return;
         }
 

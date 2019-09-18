@@ -187,10 +187,10 @@ class ContestParticipation
     private function guardChannel(QuizChannel $quizChannel): void
     {
         if (!$quizChannel->equals(new QuizChannel(QuizChannel::INDIVIDUAL)) &&
-            !$quizChannel->equals(new QuizChannel(QuizChannel::CUP))) {
+            !$quizChannel->equals(new QuizChannel(QuizChannel::LEAGUE))) {
             throw new \InvalidArgumentException(
                 'Invalid value "'.$quizChannel->toNative().'" for quiz channel.'.
-                ' Allowed values are '.QuizChannel::INDIVIDUAL.' and '.QuizChannel::CUP.'.'
+                ' Allowed values are '.QuizChannel::INDIVIDUAL.' and '.QuizChannel::LEAGUE.'.'
             );
         }
     }

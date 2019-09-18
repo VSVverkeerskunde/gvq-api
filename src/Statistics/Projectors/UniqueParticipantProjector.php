@@ -58,15 +58,18 @@ class UniqueParticipantProjector implements EventListener
                 $quiz->getParticipant()
             );
 
-            if (!$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
-                // All unique participations for quiz (not cup) and language.
+            if (
+                !$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP)) &&
+                !$quiz->getChannel()->equals(new QuizChannel(QuizChannel::LEAGUE))
+            ) {
+                // All unique participations for quiz (not cup or league) and language.
                 $quizTotalStatisticsKey = StatisticsKey::createQuizTotalFromQuiz($quiz);
                 $this->uniqueParticipantRepository->add(
                     $quizTotalStatisticsKey,
                     $quiz->getParticipant()
                 );
 
-                // All unique participations for quiz (not cup), regardless of language.
+                // All unique participations for quiz (not cup or league), regardless of language.
                 $this->uniqueParticipantRepository->add(
                     new StatisticsKey(StatisticsKey::QUIZ_TOT),
                     $quiz->getParticipant()
@@ -100,15 +103,18 @@ class UniqueParticipantProjector implements EventListener
                     $quiz->getParticipant()
                 );
 
-                if (!$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
-                    // All unique participations for quiz (not cup) and language.
+                if (
+                    !$quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP)) &&
+                    !$quiz->getChannel()->equals(new QuizChannel(QuizChannel::LEAGUE))
+                ) {
+                    // All unique participations for quiz (not cup or league) and language.
                     $quizTotalStatisticsKey = StatisticsKey::createQuizTotalFromQuiz($quiz);
                     $this->uniqueParticipantRepository->addPassed(
                         $quizTotalStatisticsKey,
                         $quiz->getParticipant()
                     );
 
-                    // All unique participations for quiz (not cup), regardless of language.
+                    // All unique participations for quiz (not cup or league), regardless of language.
                     $this->uniqueParticipantRepository->addPassed(
                         new StatisticsKey(StatisticsKey::QUIZ_TOT),
                         $quiz->getParticipant()

@@ -23,6 +23,9 @@ class StatisticsKey extends Enumeration
     const CUP_NL = 'cup_nl';
     const CUP_FR = 'cup_fr';
     const CUP_TOT = 'cup_total';
+    const LEAGUE_NL = 'league_nl';
+    const LEAGUE_FR = 'league_fr';
+    const LEAGUE_TOT = 'league_total';
     const OVERALL_NL = 'total_nl';
     const OVERALL_FR = 'total_fr';
     const OVERALL_TOT = 'total';
@@ -48,6 +51,9 @@ class StatisticsKey extends Enumeration
             self::CUP_NL,
             self::CUP_FR,
             self::CUP_TOT,
+            self::LEAGUE_NL,
+            self::LEAGUE_FR,
+            self::LEAGUE_TOT,
             self::OVERALL_NL,
             self::OVERALL_FR,
             self::OVERALL_TOT,
@@ -79,6 +85,10 @@ class StatisticsKey extends Enumeration
                 $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
                     self::CUP_NL : self::CUP_FR;
                 break;
+            case QuizChannel::LEAGUE:
+                $statisticsKey = $quiz->getLanguage()->toNative() === Language::NL ?
+                    self::LEAGUE_NL : self::LEAGUE_FR;
+                break;
         }
 
         return new StatisticsKey($statisticsKey);
@@ -105,6 +115,9 @@ class StatisticsKey extends Enumeration
             case QuizChannel::CUP:
                 $statisticsKey = self::CUP_TOT;
                 break;
+            case QuizChannel::LEAGUE:
+                $statisticsKey = self::LEAGUE_TOT;
+                break;
         }
 
         return new StatisticsKey($statisticsKey);
@@ -116,8 +129,11 @@ class StatisticsKey extends Enumeration
      */
     public static function createQuizTotalFromQuiz(Quiz $quiz): StatisticsKey
     {
-        if ($quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP))) {
-            throw new\InvalidArgumentException('Cup does not count in quiz total.');
+        if (
+            $quiz->getChannel()->equals(new QuizChannel(QuizChannel::CUP)) ||
+            $quiz->getChannel()->equals(new QuizChannel(QuizChannel::LEAGUE))
+        ) {
+            throw new\InvalidArgumentException('Cup or league do not count in quiz total.');
         }
 
         if ($quiz->getLanguage()->equals(new Language(Language::NL))) {
@@ -156,8 +172,8 @@ class StatisticsKey extends Enumeration
             new StatisticsKey(self::PARTNER_FR),
             new StatisticsKey(self::COMPANY_NL),
             new StatisticsKey(self::COMPANY_FR),
-            new StatisticsKey(self::CUP_NL),
-            new StatisticsKey(self::CUP_FR),
+            new StatisticsKey(self::LEAGUE_NL),
+            new StatisticsKey(self::LEAGUE_FR),
         ];
     }
 

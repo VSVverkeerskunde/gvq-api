@@ -261,7 +261,7 @@ class ContestViewController extends AbstractController
      */
     private function getTieBreakerByLocaleAndChannel(string $locale, QuizChannel $channel): array
     {
-        if (!$channel->equals(new QuizChannel(QuizChannel::CUP))) {
+        if (!$channel->equals(new QuizChannel(QuizChannel::LEAGUE))) {
             $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
         }
 

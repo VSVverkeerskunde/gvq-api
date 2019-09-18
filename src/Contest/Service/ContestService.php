@@ -95,7 +95,7 @@ class ContestService
 
         $quiz = $this->quizRepository->getById($quizId);
         $channel = $quiz->getChannel();
-        if ($channel->toNative() !== QuizChannel::CUP) {
+        if ($channel->toNative() !== QuizChannel::LEAGUE) {
             $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
         }
 

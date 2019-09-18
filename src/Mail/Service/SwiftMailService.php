@@ -115,6 +115,32 @@ class SwiftMailService implements MailService
      * @inheritdoc
      * @throws \Twig_Error
      */
+    public function sendKickOffMailAfterLaunch(Registration $registration): void
+    {
+        $subjectId = 'Kickoff.mail.subject';
+        $templateName = 'kick_off_after_launch';
+        $templateParameters = $this->generateKickOffTemplateParameters($registration);
+
+        $message = $this->generateMessage($registration, $subjectId, $templateName, $templateParameters);
+
+        // @codeCoverageIgnoreStart
+        $documentName = $this->getKickOffDocumentName($registration);
+        if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
+            $documentPath = 'documents/fr/'.$documentName;
+        } else {
+            $documentPath = 'documents/nl/'.$documentName;
+        }
+        // @codeCoverageIgnoreEnd
+
+        $message->attach(Swift_Attachment::fromPath($documentPath));
+
+        $this->swiftMailer->send($message);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Twig_Error
+     */
     public function sendKickOffMail(Registration $registration): void
     {
         $subjectId = 'Kickoff.mail.subject';
@@ -276,6 +302,7 @@ class SwiftMailService implements MailService
         return [
             'registration' => $registration,
             'loginUrl' => $this->generateLoginUrl($registration),
+            'documentsUrl' => $this->generateDocumentsUrl($registration),
             'documentUrl' => $this->generateKickOffDocumentUrl($registration),
         ];
     }
@@ -320,11 +347,26 @@ class SwiftMailService implements MailService
     {
         // @codeCoverageIgnoreStart
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            return 'Briefing_entreprise_2018.pdf';
+            return 'Briefing_entreprise_2019.pdf';
         } else {
-            return 'Briefing_bedrijven_2018.pdf';
+            return 'Briefing_bedrijven_2019.pdf';
         }
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param Registration $registration
+     * @return string
+     */
+    private function generateDocumentsUrl(Registration $registration): string
+    {
+        return $this->urlGenerator->generate(
+            'documents',
+            [
+                '_locale' => $registration->getUser()->getLanguage()->toNative(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     /**

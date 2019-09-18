@@ -8,6 +8,7 @@ parameters:
     sender_name_fr: 'Quiz de la Route 2019'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
+    kick_off_date: '%env(KICK_OFF_DATE)%'
     team_file : '%kernel.project_dir%/config/teams.yaml'
     env(REDIS_HOST): 'redis'
     env(REDIS_PORT): 6379
@@ -16,6 +17,7 @@ parameters:
     env(REPORT_ALLOW_CONTACT): 'false'
     env(CONTEST_CLOSED): 'false'
     env(REGISTRATIONS_CLOSED): 'false'
+    env(KICK_OFF_DATE): '2019-09-30'
 
 services:
     # default configuration for services in *this* file
@@ -105,6 +107,12 @@ services:
       class: \DateTimeImmutable
       arguments:
         $time: '2019-10-01'
+        $timezone: '@time_zone'
+
+    quiz_kick_off_date:
+      class: \DateTimeImmutable
+      arguments:
+        $time: '%kick_off_date%'
         $timezone: '@time_zone'
 
     sender_email_nl:
@@ -368,10 +376,34 @@ services:
       calls:
         - method: subscribe
           arguments:
+            - '@started_quizzes_projector'
+        - method: subscribe
+          arguments:
             - '@question_result_projector'
         - method: subscribe
           arguments:
             - '@quiz_projector'
+        - method: subscribe
+          arguments:
+            - '@finished_quizzes_projector'
+        - method: subscribe
+          arguments:
+            - '@unique_participant_projector'
+        - method: subscribe
+          arguments:
+            - '@top_score_projector'
+        - method: subscribe
+          arguments:
+            - '@employee_participation_projector'
+        - method: subscribe
+          arguments:
+            - '@question_difficulty_projector'
+        - method: subscribe
+          arguments:
+            - '@company_question_difficulty_projector'
+        - method: subscribe
+          arguments:
+            - '@category_difficulty_projector'
       public: true
 
     quiz_replay_event_bus:
@@ -388,9 +420,7 @@ services:
       - method: subscribe
         arguments:
           - '@quiz_projector'
-      - method: subscribe
-        arguments:
-          - '@company_question_difficulty_projector'
+
       public: true
 
     company_participant_ranker:
@@ -424,15 +454,6 @@ services:
             - '@employee_participation_projector'
         - method: subscribe
           arguments:
-            - '@team_participant_projector'
-        - method: subscribe
-          arguments:
-            - '@team_total_score_projector'
-        - method: subscribe
-          arguments:
-            - '@team_participations_projector'
-        - method: subscribe
-          arguments:
             - '@question_difficulty_projector'
         - method: subscribe
           arguments:
@@ -457,12 +478,6 @@ services:
       - method: subscribe
         arguments:
         - '@unique_participant_projector'
-      - method: subscribe
-        arguments:
-        - '@team_total_score_projector'
-      - method: subscribe
-        arguments:
-        - '@team_participations_projector'
       - method: subscribe
         arguments:
         - '@question_difficulty_projector'
@@ -573,6 +588,7 @@ services:
       arguments:
         $uuidFactory: '@uuid_factory'
         $quizStartDate: '@quiz_start_date'
+        $quizKickOffDate: '@quiz_kick_off_date'
         $registrationsClosed: '%env(bool:REGISTRATIONS_CLOSED)%'
       tags: ['controller.service_arguments']
 

@@ -189,8 +189,8 @@ class StatisticsService
         $averages['partner_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
             new QuizChannel(QuizChannel::PARTNER)
         )->toNative();
-        $averages['cup_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
-            new QuizChannel(QuizChannel::CUP)
+        $averages['league_total'] = $this->detailedTopScoreRepository->getAverageByChannel(
+            new QuizChannel(QuizChannel::LEAGUE)
         )->toNative();
 
         $averages['quiz_total_nl'] = $this->detailedTopScoreRepository->getQuizAverage(
@@ -293,8 +293,8 @@ class StatisticsService
             }
         }
 
-        $counts['quiz_total_nl'] = $totalNL - $counts['cup_nl'];
-        $counts['quiz_total_fr'] = $totalFR - $counts['cup_fr'];
+        $counts['quiz_total_nl'] = $totalNL - $counts['league_nl'];
+        $counts['quiz_total_fr'] = $totalFR - $counts['league_fr'];
         $counts['quiz_total'] = $counts['quiz_total_nl'] + $counts['quiz_total_fr'];
         $counts['total_nl'] = $totalNL;
         $counts['total_fr'] = $totalFR;

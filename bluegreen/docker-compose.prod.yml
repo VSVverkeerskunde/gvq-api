@@ -26,6 +26,7 @@ services:
       - REPORT_ALLOW_CONTACT=${REPORT_ALLOW_CONTACT}
       - CONTEST_CLOSED
       - REGISTRATIONS_CLOSED
+      - KICK_OFF_DATE
     ports:
       - ${DOCKER_HOST_IP}::80
     restart: always

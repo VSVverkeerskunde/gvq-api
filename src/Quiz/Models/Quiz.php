@@ -193,6 +193,7 @@ class Quiz
     {
         switch ($channel->toNative()) {
             case QuizChannel::INDIVIDUAL:
+            case QuizChannel::LEAGUE:
                 $this->checkForDisallowedTeam($channel, $team);
                 $this->checkForDisallowedCompany($channel, $company);
                 $this->checkForDisallowedPartner($channel, $partner);
