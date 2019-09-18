@@ -17,3 +17,9 @@ public/uploads
 
 #private configuration data
 extra/
+
+/assets/.sass-cache
+.env.test
+phpcs.xml.dist
+phpunit.xml.dist
+/*.sql
