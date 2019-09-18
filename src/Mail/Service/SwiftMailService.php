@@ -35,6 +35,11 @@ class SwiftMailService implements MailService
     private $urlGenerator;
 
     /**
+     * @var string
+     */
+    private $projectDir;
+
+    /**
      * @var Sender[]
      */
     private $senders;
@@ -51,12 +56,14 @@ class SwiftMailService implements MailService
         Twig_Environment $twig,
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
+        string $projectDir,
         Sender ...$senders
     ) {
         $this->swiftMailer = $swiftMailer;
         $this->twig = $twig;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
+        $this->projectDir = $projectDir;
         $this->senders = $senders;
     }
 
@@ -126,9 +133,9 @@ class SwiftMailService implements MailService
         // @codeCoverageIgnoreStart
         $documentName = $this->getKickOffDocumentName($registration);
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            $documentPath = 'documents/fr/'.$documentName;
+            $documentPath = $this->projectDir . '/public/documents/fr/'.$documentName;
         } else {
-            $documentPath = 'documents/nl/'.$documentName;
+            $documentPath = $this->projectDir . '/public/documents/nl/'.$documentName;
         }
         // @codeCoverageIgnoreEnd
 
@@ -152,9 +159,9 @@ class SwiftMailService implements MailService
         // @codeCoverageIgnoreStart
         $documentName = $this->getKickOffDocumentName($registration);
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            $documentPath = 'documents/fr/'.$documentName;
+            $documentPath = $this->projectDir . '/public/documents/fr/'.$documentName;
         } else {
-            $documentPath = 'documents/nl/'.$documentName;
+            $documentPath = $this->projectDir . '/public/documents/nl/'.$documentName;
         }
         // @codeCoverageIgnoreEnd
 

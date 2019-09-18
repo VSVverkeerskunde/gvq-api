@@ -101,4 +101,33 @@ class RegistrationDoctrineRepository extends AbstractDoctrineRepository implemen
 
         return $registrationEntity;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUsedRegistrationsCreatedBefore(\DateTimeImmutable $kickOffDate): array
+    {
+        $registrations = $this->objectRepository->findBy(
+            [
+                'passwordReset' => false,
+                'used' => true,
+            ]
+        );
+
+        $registrations = array_map(
+            function (RegistrationEntity $registration) {
+                return $registration->toRegistration();
+            },
+            $registrations
+        );
+
+        $registrations = array_filter(
+            $registrations,
+            function (Registration $registration) use ($kickOffDate) {
+                return $registration->getCreatedOn() < $kickOffDate;
+            }
+        );
+
+        return $registrations;
+    }
 }

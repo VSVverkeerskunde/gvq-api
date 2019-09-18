@@ -35,4 +35,10 @@ interface RegistrationRepository
      * @return null|Registration
      */
     public function getByUserId(UuidInterface $id): ?Registration;
+
+    /**
+     * @param \DateTimeImmutable $kickOffDate
+     * @return Registration[]
+     */
+    public function getUsedRegistrationsCreatedBefore(\DateTimeImmutable $kickOffDate): array;
 }

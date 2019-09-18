@@ -164,6 +164,7 @@ services:
     VSV\GVQ_API\Mail\Service\SwiftMailService:
       arguments:
         $senders: ['@sender_nl', '@sender_fr']
+        $projectDir: '%kernel.project_dir%'
 
     partner_yaml_repository:
       class: VSV\GVQ_API\Partner\Repositories\PartnerYamlRepository
@@ -689,3 +690,7 @@ services:
         $teamFile: '%team_file%'
         $year: '@quiz_year'
       tags: ['controller.service_arguments']
+
+    VSV\GVQ_API\Command\SendKickOffEmailCommand:
+      arguments:
+        $quizKickOffDate: '@quiz_kick_off_date'
