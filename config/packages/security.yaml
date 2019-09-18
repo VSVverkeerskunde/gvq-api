@@ -27,7 +27,6 @@ security:
         - { path: '^/(nl|fr)/view/contacts', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/dashboard', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/report', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
-        - { path: '^/(nl|fr)/view/documents', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/view/accounts/password/edit', roles: [ROLE_CONTACT, ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/csv/contests', roles: [ROLE_VSV, ROLE_ADMIN] }
         - { path: '^/(nl|fr)/csv/top-companies', roles: [ROLE_VSV, ROLE_ADMIN] }
