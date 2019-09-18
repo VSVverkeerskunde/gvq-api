@@ -321,19 +321,37 @@ class SwiftMailService implements MailService
         );
     }
 
+    private function generateAbsoluteUrl(Registration $registration, $name, $parameters = [])
+    {
+        $lang = $registration->getUser()->getLanguage()->toNative();
+        $parameters['_locale'] = $lang;
+
+        $oldHost = null;
+        if ($lang == Language::FR) {
+            $oldHost = $this->urlGenerator->getContext()->getHost();
+            $this->urlGenerator->getContext()->setHost('app.quizdelaroute.be');
+        }
+
+        $url = $this->urlGenerator->generate(
+            $name,
+            $parameters,
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        if ($oldHost) {
+            $this->urlGenerator->getContext()->setHost($oldHost);
+        }
+
+        return $url;
+    }
+
     /**
      * @param Registration $registration
      * @return string
      */
     private function generateLoginUrl(Registration $registration): string
     {
-        return $this->urlGenerator->generate(
-            'accounts_view_login',
-            [
-                '_locale' => $registration->getUser()->getLanguage()->toNative(),
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        return $this->generateAbsoluteUrl($registration, 'accounts_view_login');
     }
 
     /**
@@ -357,13 +375,7 @@ class SwiftMailService implements MailService
      */
     private function generateDocumentsUrl(Registration $registration): string
     {
-        return $this->urlGenerator->generate(
-            'documents',
-            [
-                '_locale' => $registration->getUser()->getLanguage()->toNative(),
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        return $this->generateAbsoluteUrl($registration, 'documents');
     }
 
     /**
@@ -374,13 +386,13 @@ class SwiftMailService implements MailService
     {
         $documentName = $this->getKickOffDocumentName($registration);
 
-        return $this->urlGenerator->generate(
+        return $this->generateAbsoluteUrl(
+            $registration,
             'documents_kickoff',
             [
-                '_locale' => $registration->getUser()->getLanguage()->toNative(),
+
                 'document' => $documentName,
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
+            ]
         );
     }
 }
