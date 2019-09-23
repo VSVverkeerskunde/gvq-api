@@ -9,6 +9,7 @@ class Role extends Enumeration
     const ADMIN = 'admin';
     const VSV = 'vsv';
     const CONTACT = 'contact';
+    const TEST = 'test';
 
     /**
      * @inheritdoc
@@ -19,6 +20,7 @@ class Role extends Enumeration
             self::ADMIN,
             self::VSV,
             self::CONTACT,
+            self::TEST,
         ];
     }
 }

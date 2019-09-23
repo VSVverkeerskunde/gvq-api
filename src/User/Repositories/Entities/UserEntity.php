@@ -216,6 +216,10 @@ class UserEntity extends Entity implements UserInterface
             $roles[] = 'ROLE_ADMIN';
         }
 
+        if ($this->role === Role::TEST) {
+            $roles[] = 'ROLE_TEST';
+        }
+
         return $roles;
     }
 

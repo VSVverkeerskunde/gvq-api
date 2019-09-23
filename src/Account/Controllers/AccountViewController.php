@@ -653,8 +653,11 @@ class AccountViewController extends AbstractController
      */
     private function redirectToLandingPage(): RedirectResponse
     {
-        if ($this->get('security.authorization_checker')->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
+        $authChecker = $this->get('security.authorization_checker');
+        if ($authChecker->isGranted(['ROLE_VSV', 'ROLE_ADMIN'])) {
             return $this->redirectToRoute('questions_view_index');
+        } elseif ($authChecker->isGranted('ROLE_TEST')) {
+            return $this->redirectToRoute('documents');
         } else {
             return $this->redirectToRoute('dashboard');
         }

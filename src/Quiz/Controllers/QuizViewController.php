@@ -102,8 +102,17 @@ class QuizViewController extends AbstractController
         if ($this->allowAnonymous) {
             return true;
         } else {
-            return $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ||
-                $this->get('security.authorization_checker')->isGranted('ROLE_VSV');
+            $authChecker = $this->get('security.authorization_checker');
+
+            $allowedRoles = ['ROLE_ADMIN', 'ROLE_VSV', 'ROLE_TEST'];
+
+            foreach ($allowedRoles as $allowedRole) {
+                if ($authChecker->isGranted($allowedRole)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

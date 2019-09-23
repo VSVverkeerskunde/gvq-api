@@ -35,6 +35,8 @@
                         </a>
                         {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_VSV") %}
                             {% include '/includes/admin_nav_dropdown.html.twig' %}
+                        {% elseif is_granted("ROLE_TEST") %}
+                            {% include '/includes/test_nav_dropdown.html.twig' %}
                         {% elseif is_granted("ROLE_CONTACT") %}
                             {% include '/includes/contact_nav_dropdown.html.twig' %}
                         {% endif %}
