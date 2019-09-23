@@ -181,8 +181,6 @@ ul.gvq-answers li.is-correct {
   width: 100%; }
 
 .gvq-view-score {
-  float: right;
-  clear: both;
   display: none; }
 
 .gvq-next-question {
