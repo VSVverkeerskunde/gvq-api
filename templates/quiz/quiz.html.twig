@@ -28,8 +28,8 @@
 {% endblock %}
 
 {% block gtm %}
-    {% if app.request.get('channel') == 'cup' %}
-        <script src="{{ asset('js/gtm.cup.js') }}"></script>
+    {% if app.request.get('channel') == 'league' %}
+        <script src="{{ asset('js/gtm.league.js') }}"></script>
     {% else %}
         <script src="{{ asset('js/gtm.quiz.js') }}"></script>
     {% endif %}
