@@ -62,13 +62,13 @@
     answer: null
   2:
     id: '7f1e1b4d-01b9-4b00-840f-6a8605fa4944'
-    channel: 'cup'
+    channel: 'league'
     language: 'nl'
-    question: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeerscup volledig hebben uitgespeeld (in alle beschikbare talen)?'
+    question: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeersleague volledig hebben uitgespeeld?'
     answer: null
   3:
     id: '481ad5d9-fc33-471d-8bd0-1e017121bd9c'
-    channel: 'cup'
+    channel: 'league'
     language: 'nl'
     question: 'Hoeveel van hen behaalden 11/15 of meer?'
     answer: null
@@ -81,18 +81,6 @@
   5:
     id: 'de741524-5107-420e-9826-1b874b220d89'
     channel: 'individual'
-    language: 'fr'
-    question: 'Combien d’entre elles auront obtenu un score de 11/15 ou plus?'
-    answer: null
-  6:
-    id: 'f83e5283-9b8e-4aeb-b810-f889cefcd083'
-    channel: 'cup'
-    language: 'fr'
-    question: 'Combien de personnes auront entièrement participé à la Coupe de la Sécurité Routière le jeudi 31 octobre 2019 à minuit (en français et en néerlandais)?'
-    answer: null
-  7:
-    id: '374acef4-41ca-45f2-9eca-8d4060012d86'
-    channel: 'cup'
     language: 'fr'
     question: 'Combien d’entre elles auront obtenu un score de 11/15 ou plus?'
     answer: null
