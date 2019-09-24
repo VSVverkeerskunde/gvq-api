@@ -43,7 +43,7 @@ class RequestPasswordFormType extends AbstractType
                 TextType::class,
                 [
                     'attr' => [
-                        'autocomplete' => "null",
+                        'autocomplete' => "off",
                     ],
                 ]
             );

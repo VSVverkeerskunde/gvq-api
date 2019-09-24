@@ -149,7 +149,7 @@ class RegistrationFormType extends CompanyFormType
                 TextType::class,
                 [
                     'attr' => [
-                        'autocomplete' => "null",
+                        'autocomplete' => "off",
                     ],
                 ]
             );
