@@ -53,15 +53,6 @@ class LoginFormType extends AbstractType
                         ),
                     ],
                 ]
-            )
-            ->add(
-                'azijnpotje',
-                TextType::class,
-                [
-                    'attr' => [
-                        'autocomplete' => "off",
-                    ],
-                ]
             );
     }
 

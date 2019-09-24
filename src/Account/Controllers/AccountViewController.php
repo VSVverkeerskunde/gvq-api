@@ -356,10 +356,6 @@ class AccountViewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if ($this->honeypotTricked($data)) {
-                return $this->handleHoneypotField('accounts_view_login');
-            }
-
             $user = $this->userRepository->getByEmail(new Email($data['email']));
 
             if ($user && $user->getPassword() && $user->getPassword()->verifies($data['password'])) {
