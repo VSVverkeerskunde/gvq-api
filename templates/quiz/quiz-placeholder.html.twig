@@ -8,17 +8,13 @@
 {% block body %}
     <div class="text-center">
     {% if language == 'nl' %}
-        {% if channel == 'cup' %}
-            <p>De Grote Verkeerscup loopt van 1 oktober tot en met 31 oktober 2019.</p>
+        {% if channel == 'league' %}
+            <p>De Grote Verkeersleague loopt van 1 oktober tot en met 31 oktober 2019.</p>
         {% else %}
             <p>De Grote Verkeersquiz loopt van 1 oktober tot en met 31 oktober 2019.</p>
         {% endif %}
     {% else %}
-        {% if channel == 'cup' %}
-            <p>Le Coupe de la Sécurité routière commence le 1 octobre et se termine le 31 octobre 2019.</p>
-        {% else %}
-            <p>Le Grand Quiz de la Route commence le 1 octobre et se termine le 31 octobre 2019.</p>
-        {% endif %}
+        <p>Le Grand Quiz de la Route commence le 1 octobre et se termine le 31 octobre 2019.</p>
     {% endif %}
     </div>
 {% endblock %}
