@@ -1,7 +1,7 @@
 <!-- Sharingbutton Facebook -->
 <a class="btn btn-facebook text-white"
-    {% if app.request.get('channel') == 'cup' %}
-        href="https://facebook.com/sharer/sharer.php?u=https://www.lacoupedelasecuriteroutiere.be"
+    {% if app.request.get('channel') == 'league' %}
+        href="https://facebook.com/sharer/sharer.php?u=https://www.degroteverkeersleague.be"
     {% else %}
         href="https://facebook.com/sharer/sharer.php?u=https://www.quizdelaroute.be"
     {% endif %}
@@ -18,8 +18,8 @@
 
 <!-- Sharingbutton Twitter -->
 <a class="btn btn-twitter text-white"
-    {% if app.request.get('channel') == 'cup' %}
-        href="https://twitter.com/intent/tweet/?text=J'ai participé à la coupe de la securite routiere. Tentez votre chance et voyez si vous pouvez faire mieux!&url=https://www.lacoupedelasecuriteroutiere.be"
+    {% if app.request.get('channel') == 'league' %}
+        href="https://twitter.com/intent/tweet/?text=J'ai participé à la grand league de la route. Tentez votre chance et voyez si vous pouvez faire mieux!&url=https://www.degroteverkeersleague.be"
     {% else %}
         href="https://twitter.com/intent/tweet/?text=J'ai participé au quiz de la route. Tentez votre chance et voyez si vous pouvez faire mieux!&url=https://www.quizdelaroute.be"
     {% endif %}

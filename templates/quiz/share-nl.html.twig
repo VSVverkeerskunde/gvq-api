@@ -1,7 +1,7 @@
 <!-- Sharingbutton Facebook -->
 <a class="btn btn-facebook text-white"
-    {% if app.request.get('channel') == 'cup' %}
-        href="https://facebook.com/sharer/sharer.php?u=https://www.degroteverkeerscup.be"
+    {% if app.request.get('channel') == 'league' %}
+        href="https://facebook.com/sharer/sharer.php?u=https://www.degroteverkeersleague.be"
     {% else %}
         href="https://facebook.com/sharer/sharer.php?u=https://www.degroteverkeersquiz.be"
     {% endif %}
@@ -18,10 +18,10 @@
 
 <!-- Sharingbutton Twitter -->
 <a class="btn btn-twitter text-white"
-    {% if app.request.get('channel') == 'cup' %}
-        href="https://twitter.com/intent/tweet/?text=Ik deed mee aan De Grote Verkeerscup. Doe ook mee en kijk of je beter kan!&url=https://www.degroteverkeerscup.be"
+    {% if app.request.get('channel') == 'league' %}
+        href="https://twitter.com/intent/tweet/?text=Ik deed mee aan De Grote Verkeersleague. Doe jij het beter%3F&url=https://www.degroteverkeersleague.be"
     {% else %}
-        href="https://twitter.com/intent/tweet/?text=Ik deed mee aan De Grote Verkeersquiz. Doe ook mee en kijk of je beter kan!&url=https://www.degroteverkeersquiz.be"
+        href="https://twitter.com/intent/tweet/?text=Ik deed mee aan De Grote Verkeersquiz. Doe jij het beter%3F&url=https://www.degroteverkeersquiz.be"
     {% endif %}
    target="popup-2"
    aria-label="Delen op Twitter"

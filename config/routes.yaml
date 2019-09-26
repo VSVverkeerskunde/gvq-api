@@ -254,6 +254,8 @@ contest:
   path: /{_locale}/view/contest/{quizId}
   controller: VSV\GVQ_API\Contest\Controllers\ContestViewController::contest
   methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
 contest_export:
   path: /{_locale}/csv/contests
   controller: VSV\GVQ_API\Contest\Controllers\ContestViewController::export

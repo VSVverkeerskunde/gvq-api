@@ -7,13 +7,31 @@
                 <div class="card-header"><h2 class="card-title">{% trans %}Contest.thanks{% endtrans %}</h2></div>
                 <div class="card-body">
                     <p>{% trans %}Contest.success{% endtrans %}</p>
-                    {% if app.request.locale == 'nl' %}
-                        <p>{% trans %}Contest.success.link{% endtrans %}
-                        <a href="https://www.veiligverkeer.be" target="_blank">www.veiligverkeer.be</a>
+
+                    <div>
+                        <p>{% trans %}Contest.share{% endtrans %}</p>
+                        <p>
+                            {% if app.request.get('language') == 'fr' %}
+                                {% include 'quiz/share-fr.html.twig' %}
+                            {% else %}
+                                {% include 'quiz/share-nl.html.twig' %}
+                            {% endif %}
                         </p>
-                    {% endif %}
+
+                        {% if app.request.getLocale() == 'nl' %}
+                            <p class="pt-4">Meer weten over verkeer en mobiliteit? Neem eens een kijkje op
+                                <a href="https://www.veiligverkeer.be" target="_blank">www.veiligverkeer.be</a>
+                            </p>
+                        {% else %}
+                            <p class="pt-4">Plus d’infos sur l’AWSR ?
+                                <a href="https://www.awsr.be" target="_blank">www.awsr.be</a>,
+                                <a href="http://www.tousconcernés.be" target="_blank">www.tousconcernés.be</a>
+                            </p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
