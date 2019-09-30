@@ -173,6 +173,13 @@ ul.gvq-answers li.is-correct {
   ul.gvq-answers li.is-correct:before {
     color: #ffffff; }
 
+.gvq-countdown.hide-on-mobile {
+  display: none; }
+@media (min-width: 576px) {
+  .gvq-countdown {
+    display: block; }
+    .gvq-countdown.hide-on-mobile {
+      display: block; } }
 .gvq-countdown.finished {
   color: #e40521; }
 

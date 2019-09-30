@@ -3,8 +3,21 @@ function getQuizHeight() {
     return quizElement.offsetHeight;
 }
 
-function sendQuizHeight(offset) {
-    let height = getQuizHeight() + offset;
-    let message = JSON.stringify({'quizHeight': height});
+function sendQuizHeight(offset, scroll) {
+    let height = getQuizHeight() + offset + 100;
+    if (height < 900) {
+        height = 900;
+    }
+    let message = JSON.stringify({'quizHeight': height, 'scroll': scroll});
+    parent.postMessage(message, '*');
+}
+
+function sendCounterState(state) {
+    let message = JSON.stringify({'counterState': state});
+    parent.postMessage(message, '*');
+}
+
+function sendCounter(counter) {
+    let message = JSON.stringify({'counter': counter});
     parent.postMessage(message, '*');
 }

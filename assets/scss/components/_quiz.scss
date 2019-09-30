@@ -86,8 +86,22 @@ ul.gvq-answers li.is-correct {
 }
 
 // Quiz header
-.gvq-countdown.finished {
-  color: $brand-red;
+.gvq-countdown {
+  &.hide-on-mobile {
+    display: none;
+  }
+
+  @include breakpoint(map-get($breakpoints, sml)) {
+    display: block;
+
+    &.hide-on-mobile {
+      display: block;
+    }
+  }
+
+  &.finished {
+    color: $brand-red;
+  }
 }
 
 .gvq-question-image {

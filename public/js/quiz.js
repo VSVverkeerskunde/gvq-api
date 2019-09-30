@@ -6,6 +6,7 @@
     'company': null,
     'partner': null,
     'language': 'nl',
+    'hideCountdownOnMobile': 'no',
     'imageDirectory': 'https://s3-eu-west-1.amazonaws.com/verkeersquiz/',
     'teams': {
       '922391c4-fc5b-4148-b69d-d347d48caaef': {
@@ -86,14 +87,14 @@
     let oldView = $('#gvq-quiz .gvq-quiz-old-view');
     let cupModeOn = ('cup' === quizConfig.channel);
 
-    function renderView (viewName, quizId, questionNr, answerId) {
+    function renderView (viewName, quizId, questionNr, answerId, scroll) {
       let oldContent = view.children();
       let newContent = $(views[viewName].template).hide();
 
       function showNewContent () {
         oldContent.remove();
         newContent.show();
-        sendQuizHeight(50);
+        sendQuizHeight(50, scroll);
       }
 
       oldView.append(oldContent);
@@ -165,7 +166,7 @@
               team: team
             }))
               .done(function (data) {
-                renderView('askQuestion', data.id, 1);
+                renderView('askQuestion', data.id, 1, null, true);
               })
               .fail(function (data) {
                 alert(data.responseText);
@@ -228,15 +229,21 @@
           let counterInterval;
 
           function startCountdown () {
+            if (quizConfig.hideCountdownOnMobile === 'yes') {
+              view.find('.gvq-countdown').addClass('hide-on-mobile');
+            }
             let counter = view.find('.gvq-time-left');
+            sendCounterState('started');
             counterInterval = window.setInterval(function () {
               let secondsLeft = parseInt(counter.text(), 10) - 1;
               if (0 === secondsLeft) {
                 clearInterval(counterInterval);
                 view.find('.gvq-countdown').addClass('finished');
-                renderView('showAnswer', quizId, questionNr);
+                sendCounterState('finished');
+                renderView('showAnswer', quizId, questionNr, null, false);
               }
               counter.text(secondsLeft);
+              sendCounter(secondsLeft);
             }, 1000);
           }
 
@@ -253,7 +260,8 @@
               .on('click', 'li', function () {
                 let chosenAnswer = data.question.answers[$(this).index()];
                 clearInterval(counterInterval);
-                renderView('showAnswer', quizId, questionNr, chosenAnswer.id);
+                sendCounterState('finished');
+                renderView('showAnswer', quizId, questionNr, chosenAnswer.id, false);
               });
 
             questionImage.onload = function () {
@@ -316,13 +324,25 @@
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
                 .on('click', function () {
-                  renderView('showResult', quizId, data.score, questionNr);
+                  let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+                  if (data.score >= 11) {
+                    var contestCheck = $.get(contestUrl);
+                    contestCheck.done(function () {
+                      $(location).attr("href", contestUrl);
+                    });
+                    contestCheck.fail(function () {
+                      renderView('showResult', quizId, data.score, questionNr, null, true);
+                    });
+                  }
+                  else {
+                    renderView('showResult', quizId, data.score, questionNr, null, true);
+                  }
                 })
                 .show();
             } else {
               view.find('button.gvq-next-question')
                 .on('click', function () {
-                  renderView('askQuestion', quizId, ++questionNr);
+                  renderView('askQuestion', quizId, ++questionNr, null, true);
                 })
                 .show();
             }
@@ -348,12 +368,7 @@
           });
 
           view.find('button.gvq-play-contest').hide();
-          let contestUrl = quizConfig.language+'/view/contest/'+quizId;
-          $.get(contestUrl).done(function () {
-              $(location).attr("href", contestUrl);
-              //view.find('button.gvq-play-contest').show();
-              //sendQuizHeight(50);
-          });
+
 
           view.find('button.gvq-play-contest').on('click', function () {
               $(location).attr("href", contestUrl);
@@ -393,7 +408,7 @@
       }
     };
 
-    renderView('participationForm');
+    renderView('participationForm', null, null, null, false);
   }
 
   window.Quiz = Quiz;
