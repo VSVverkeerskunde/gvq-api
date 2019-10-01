@@ -16,7 +16,15 @@
         }
     }
 
+    function handlePlayAgainMsg(e) {
+        if (e.data && typeof e.data === 'string' && e.data.search("playAgain") > -1) {
+            var iframe = document.getElementById('quizframe');
+            iframe.src = iframe.src;
+        }
+    }
+
     window.addEventListener('message', handleQuizHeightMsg, false);
+    window.addEventListener('message', handlePlayAgainMsg, false);
 </script>
 
 <iframe src="http://localhost:8000/quiz?language=nl&amp;channel=individual"
