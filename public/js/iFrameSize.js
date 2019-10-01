@@ -21,3 +21,8 @@ function sendCounter(counter) {
     let message = JSON.stringify({'counter': counter});
     parent.postMessage(message, '*');
 }
+
+function playAgain() {
+    let message = JSON.stringify({'playAgain': 'now'});
+    parent.postMessage(message, '*')
+}
