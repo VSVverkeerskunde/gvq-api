@@ -168,6 +168,7 @@ class ContestFormType extends AbstractType
         $resolver->setDefaults(
             [
                 'translator' => null,
+                'csrf_protection' => false,
             ]
         );
     }
