@@ -6,6 +6,7 @@ use Exception;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -169,6 +170,13 @@ class ContestViewController extends AbstractController
             $this->contestService->save($contestParticipation);
 
             return $this->render('contest/contest_success.html.twig');
+        } elseif ($form->isSubmitted() && $request->query->has('debug')) {
+            /** @var FormError[] $errors */
+            $errors = $form->getErrors(true, true);
+            foreach ($errors as $error) {
+                var_dump($error->getMessage());
+            }
+            exit;
         }
 
         $tieBreakers = $this->getTieBreakerByLocaleAndChannel($request->getLocale(), $quiz->getChannel());
