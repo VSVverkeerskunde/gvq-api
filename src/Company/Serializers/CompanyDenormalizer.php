@@ -60,12 +60,15 @@ class CompanyDenormalizer implements DenormalizerInterface
             $context
         );
 
+        $created = isset($data['created']) ? \DateTime::createFromFormat(\DateTime::ISO8601, $data['created']) : new \DateTime();
+
         $company = new Company(
             Uuid::fromString($data['id']),
             new NotEmptyString($data['name']),
             new PositiveNumber($data['numberOfEmployees']),
             new TranslatedAliases(...$translatedAliases),
-            $user
+            $user,
+            $created
         );
 
         if (isset($data['nrOfPassedEmployees'])) {

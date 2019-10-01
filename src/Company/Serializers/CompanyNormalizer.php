@@ -58,6 +58,7 @@ class CompanyNormalizer implements NormalizerInterface
             'numberOfEmployees' => $company->getNumberOfEmployees()->toNative(),
             'aliases' => $aliases,
             'user' => $user,
+            'created' => $company->getCreated()->format(\DateTime::ISO8601),
         ];
 
         if ($company->getNrOfPassedEmployees()) {
