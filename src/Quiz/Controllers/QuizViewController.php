@@ -49,12 +49,24 @@ class QuizViewController extends AbstractController
      */
     public function showQuiz(ContainerInterface $container, Request $request): Response
     {
+        $language = $request->get('language');
+
         if ($request->query->get('channel') === 'company') {
             $companyAlias = $request->query->get('company');
 
-            $company = $this->companyRepository->getByAlias(new Alias($companyAlias));
+            try {
+                $alias = new Alias($companyAlias);
+            } catch (\InvalidArgumentException $e) {
+                return $this->render(
+                    'quiz/company_not_found.html.twig',
+                    [
+                        'company_alias' => $companyAlias,
+                        'language' => $language,
+                    ]
+                );
+            }
 
-            $language = $request->get('language');
+            $company = $this->companyRepository->getByAlias($alias);
 
             if (!$company) {
                 return $this->render(
@@ -81,7 +93,6 @@ class QuizViewController extends AbstractController
                 ]
             );
         } else {
-            $language = $request->get('language');
             $channel = $request->get('channel') === 'league' ? 'league' : 'quiz';
 
             return $this->render(
