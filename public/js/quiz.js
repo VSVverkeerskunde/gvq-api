@@ -214,7 +214,7 @@
 
           startButton.on('click', function () {
             start(
-              emailInput.val(),
+              emailInput.val().toLowerCase(),
               cupModeOn ? teamSelect.val() : null
             );
           });
