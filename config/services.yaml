@@ -411,6 +411,9 @@ services:
         - method: subscribe
           arguments:
             - '@category_difficulty_projector'
+        - method: subscribe
+          arguments:
+            - '@company_played_quizzes_projector'
       public: true
 
     quiz_replay_event_bus:
@@ -427,7 +430,6 @@ services:
       - method: subscribe
         arguments:
           - '@quiz_projector'
-
       public: true
 
     company_participant_ranker:
