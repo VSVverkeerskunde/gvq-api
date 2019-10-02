@@ -29,7 +29,7 @@ class ReplayCommand extends ContainerAwareCommand
                 'projector',
                 'p',
                 InputOption::VALUE_OPTIONAL,
-                'Pass the projector to replay (all|unique|all-redis|contest-closed|team-participant|quiz|company-played-quizzes|company-question-difficulty)',
+                'Pass the projector to replay (all|unique|all-redis|contest-closed|team-participant|quiz|company-played-quizzes|company-question-difficulty|participant-quiz)',
                 'all'
             )
             ->addOption(
@@ -240,6 +240,9 @@ class ReplayCommand extends ContainerAwareCommand
                 break;
             case 'company-question-difficulty':
                 $eventBus = $this->getContainer()->get('company_question_difficulty_replay_event_bus');
+                break;
+            case 'participant-quiz':
+                $eventBus = $this->getContainer()->get('participant_quiz_replay_event_bus');
                 break;
             default:
         }
