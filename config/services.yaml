@@ -345,6 +345,9 @@ services:
       class: VSV\GVQ_API\Statistics\Projectors\TeamParticipantProjector
       arguments:
         $quizRepository: '@quiz_redis_repository'
+
+    participant_quiz_projector:
+      class: VSV\GVQ_API\Statistics\Projectors\ParticipantQuizProjector
         
     team_total_score_projector:
       class: VSV\GVQ_API\Statistics\Projectors\TeamTotalScoreProjector
@@ -414,6 +417,9 @@ services:
         - method: subscribe
           arguments:
             - '@company_played_quizzes_projector'
+        - method: subscribe
+          arguments:
+            - '@participant_quiz_projector'
       public: true
 
     quiz_replay_event_bus:
