@@ -8,6 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="event_store",
+ *     uniqueConstraints={
+ *       @ORM\UniqueConstraint(
+ *         name="uuid_playhead_index",
+ *         columns={"uuid", "playhead"}
+ *       )
+ *     },
  *     indexes={
  *       @ORM\Index(name="uuid_index", columns={"uuid"}),
  *       @ORM\Index(name="type_index", columns={"type"})
