@@ -125,7 +125,8 @@ class CompanyFormType extends AbstractType
                     new Alias($data['aliasFr'])
                 )
             ),
-            $user
+            $user,
+            new \DateTime()
         );
     }
 
