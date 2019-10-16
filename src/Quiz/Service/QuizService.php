@@ -92,6 +92,12 @@ class QuizService
         ?Team $team,
         Language $language
     ): Quiz {
+        $questions = $this->getFixedQuestionsForTestParticipant($participant, $language);
+
+        if (count($questions) === 0) {
+            $questions = $this->generateQuestions($language, $this->year);
+        }
+
         $quiz = new Quiz(
             $this->uuidFactory->uuid4(),
             $participant,
@@ -102,10 +108,50 @@ class QuizService
             $language,
             $this->year,
             $this->allowedDelay,
-            $this->generateQuestions($language, $this->year)
+            $questions
         );
 
         return $quiz;
+    }
+
+    private function getFixedQuestionsForTestParticipant(QuizParticipant $participant, Language $language) {
+        $questionIds = [];
+
+        $emailPartForFixedQuestions = substr($participant->getEmail()->toNative(), -50);
+
+        if ($emailPartForFixedQuestions !== false) {
+            switch ($emailPartForFixedQuestions) {
+                case '0348ef09-501a-4350-b463-71875cad98e0@2dotstwice.be':
+                    $questionIds = [
+                        'c9d80098-05f7-4e40-8c1c-cbafcde49c9f',
+                        'edf61d91-62e0-45ba-9515-da8eb5c3719b',
+                        '57f69ef0-6231-4624-8b55-f62cc29c9f4c',
+                        'c0687c0e-59c9-4485-ac7d-4aac88ffe237',
+                        '3f0c1f68-1f06-4c6e-8fe6-d085f574cd08',
+                        'eb0122be-c3c7-4380-8dcc-fc642a8242ef',
+                        '6ea6f72a-3484-4ee0-86da-e99183ab28a1',
+                        'c30dbd5b-96f0-4056-bdc1-2e10f2529e41',
+                        '0812ff5d-c283-4d8a-9956-712cb90bacab',
+                        '8bf3b547-2a07-4541-8a9a-d8fb8b46c858',
+                        '085b725b-ec1d-40d6-8f74-e74cb374e2d2',
+                        '7b95bda0-7d1c-4ea5-980a-acc22d03f939',
+                        '437c1746-c72f-47f8-8db9-112360266465',
+                        'a4bd516c-84e8-4e21-a75e-2e56d78fde8d',
+                        'd9f67669-4d2c-463f-9e30-eefc90b03d8a',
+                    ];
+                    break;
+            }
+        }
+
+        $pickedQuestions = [];
+        foreach ($questionIds as $questionId) {
+            $pickedQuestion = $this->questionRepository->getById($this->uuidFactory->fromString($questionId));
+            if ($pickedQuestion) {
+                $pickedQuestions[] = $pickedQuestion;
+            }
+        }
+
+        return new Questions(...$pickedQuestions);
     }
 
     /**
