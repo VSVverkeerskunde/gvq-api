@@ -173,6 +173,9 @@
     "symfony/asset": {
         "version": "v4.1.0"
     },
+    "symfony/contracts": {
+        "version": "v1.1.7"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.0.9"
     },

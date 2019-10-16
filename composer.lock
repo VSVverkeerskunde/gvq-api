@@ -3308,6 +3308,83 @@
             "time": "2018-07-26T11:24:31+00:00"
         },
         {
+            "name": "symfony/contracts",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/contracts.git",
+                "reference": "9cb52490dd60e0f50dbcdbdb3a6dbcb31f3a363e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/9cb52490dd60e0f50dbcdbdb3a6dbcb31f3a363e",
+                "reference": "9cb52490dd60e0f50dbcdbdb3a6dbcb31f3a363e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "psr/cache": "^1.0",
+                "psr/container": "^1.0"
+            },
+            "replace": {
+                "symfony/cache-contracts": "self.version",
+                "symfony/event-dispatcher-contracts": "self.version",
+                "symfony/http-client-contracts": "self.version",
+                "symfony/service-contracts": "self.version",
+                "symfony/translation-contracts": "self.version"
+            },
+            "require-dev": {
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
+            "suggest": {
+                "psr/event-dispatcher": "When using the EventDispatcher contracts",
+                "symfony/cache-implementation": "",
+                "symfony/event-dispatcher-implementation": "",
+                "symfony/http-client-implementation": "",
+                "symfony/service-implementation": "",
+                "symfony/translation-implementation": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\": ""
+                },
+                "exclude-from-classmap": [
+                    "**/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A set of abstractions extracted out of the Symfony components",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "time": "2019-10-04T21:43:27+00:00"
+        },
+        {
             "name": "symfony/debug",
             "version": "v4.1.3",
             "source": {
@@ -3436,36 +3513,44 @@
         },
         {
             "name": "symfony/doctrine-bridge",
-            "version": "v4.1.3",
+            "version": "v4.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/doctrine-bridge.git",
-                "reference": "3ecf9bddd49f6cd3a1088babf5db5c67aa05f27e"
+                "reference": "5e8d62453eda38a523a12cc918031cc8f48e4b65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/3ecf9bddd49f6cd3a1088babf5db5c67aa05f27e",
-                "reference": "3ecf9bddd49f6cd3a1088babf5db5c67aa05f27e",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/5e8d62453eda38a523a12cc918031cc8f48e4b65",
+                "reference": "5e8d62453eda38a523a12cc918031cc8f48e4b65",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "~2.4@stable",
+                "doctrine/collections": "~1.0",
+                "doctrine/event-manager": "~1.0",
+                "doctrine/persistence": "~1.0",
                 "php": "^7.1.3",
+                "symfony/contracts": "^1.0",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "conflict": {
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0",
-                "symfony/dependency-injection": "<3.4"
+                "symfony/dependency-injection": "<3.4",
+                "symfony/messenger": "<4.2"
             },
             "require-dev": {
+                "doctrine/annotations": "~1.0",
+                "doctrine/cache": "~1.6",
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.4",
                 "doctrine/orm": "^2.4.5",
+                "doctrine/reflection": "~1.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/expression-language": "~3.4|~4.0",
                 "symfony/form": "~3.4|~4.0",
                 "symfony/http-kernel": "~3.4|~4.0",
+                "symfony/messenger": "~4.2",
                 "symfony/property-access": "~3.4|~4.0",
                 "symfony/property-info": "~3.4|~4.0",
                 "symfony/proxy-manager-bridge": "~3.4|~4.0",
@@ -3485,7 +3570,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -3512,7 +3597,7 @@
             ],
             "description": "Symfony Doctrine Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T11:24:31+00:00"
+            "time": "2019-07-27T06:08:43+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
