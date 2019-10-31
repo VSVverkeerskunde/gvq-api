@@ -221,7 +221,7 @@ class ReplayCommand extends ContainerAwareCommand
                 $eventBus = $this->getContainer()->get('simple_unique_replay_event_bus');
                 break;
             case 'all':
-                $eventBus = $this->getContainer()->get('simple_event_bus');
+                $eventBus = $this->getContainer()->get('contest_open_event_bus');
                 break;
             case 'all-redis':
                 $eventBus = $this->getContainer()->get('all_redis_event_bus');

@@ -381,7 +381,11 @@ services:
       class: VSV\GVQ_API\Quiz\EventStore\DoctrineEventStore
       public: true
 
-    simple_event_bus:
+    quiz_event_bus:
+      class: Broadway\EventHandling\SimpleEventBus
+      factory: 'VSV\GVQ_API\Contest\EventBusFactory:createEventBus'
+
+    contest_open_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
       calls:
         - method: subscribe
@@ -448,31 +452,10 @@ services:
       calls:
         - method: subscribe
           arguments:
-            - '@started_quizzes_projector'
-        - method: subscribe
-          arguments:
             - '@question_result_projector'
         - method: subscribe
           arguments:
             - '@quiz_projector'
-        - method: subscribe
-          arguments:
-            - '@finished_quizzes_projector'
-        - method: subscribe
-          arguments:
-            - '@unique_participant_projector'
-        - method: subscribe
-          arguments:
-            - '@top_score_projector'
-        - method: subscribe
-          arguments:
-            - '@employee_participation_projector'
-        - method: subscribe
-          arguments:
-            - '@question_difficulty_projector'
-        - method: subscribe
-          arguments:
-            - '@category_difficulty_projector'
       public: true
 
     all_redis_event_bus:
@@ -543,7 +526,7 @@ services:
       class: VSV\GVQ_API\Quiz\Repositories\QuizAggregateRepository
       arguments:
         $eventStore: '@doctrine_event_store'
-        $eventBus: '@simple_event_bus'
+        $eventBus: '@quiz_event_bus'
 
     quiz_composition_repository:
       class: VSV\GVQ_API\Quiz\Repositories\QuizCompositionYamlRepository
@@ -714,3 +697,11 @@ services:
     VSV\GVQ_API\Command\SendKickOffEmailCommand:
       arguments:
         $quizKickOffDate: '@quiz_kick_off_date'
+
+    VSV\GVQ_API\Contest\EventBusFactory:
+      arguments:
+        $contestClosed: '%env(bool:CONTEST_CLOSED)%'
+        $serviceWhenContestOpen: contest_open_event_bus
+        $serviceWhenContestClosed: contest_closed_event_bus
+
+
