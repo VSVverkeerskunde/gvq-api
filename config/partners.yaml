@@ -52,3 +52,32 @@
     id: '362be9b6-d8b9-4632-9733-f740d4449b40'
     name: 'Metro'
     alias: 'metro'
+2020:
+  0:
+    id: 'b00bfa30-97e4-4972-bd65-24b371f75718'
+    name: 'Nieuwsblad'
+    alias: 'nieuwsblad'
+  1:
+    id: 'adf0796d-4f9f-470e-9bbe-17d4d9c900cd'
+    name: 'Dats24'
+    alias: 'dats24'
+  2:
+    id: 'b7e9064d-c8af-4b75-b726-7c7dc9e31083'
+    name: 'SudPresse'
+    alias: 'sudpresse'
+  3:
+    id: '16d50ab6-c9a5-472e-ad1b-6795102c3063'
+    name: 'UWE'
+    alias: 'uwe'
+  4:
+    id: '333d7bc8-6f64-4508-b0db-9a47d38467db'
+    name: 'Decathlon'
+    alias: 'decathlon'
+  5:
+    id: 'a928f431-cba9-4353-a932-9bb9ff66bd8e'
+    name: 'Touring'
+    alias: 'touring'
+  6:
+    id: '362be9b6-d8b9-4632-9733-f740d4449b40'
+    name: 'Metro'
+    alias: 'metro'
