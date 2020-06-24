@@ -7,7 +7,7 @@
     'partner': null,
     'language': 'nl',
     'hideCountdownOnMobile': 'no',
-    'imageDirectory': 'https://s3-eu-west-1.amazonaws.com/verkeersquiz/',
+    'imageDirectory': 'https://s3-eu-west-1.amazonaws.com/verkeersquiz-2019/',
     'teams': {
       '922391c4-fc5b-4148-b69d-d347d48caaef': {
         'name': 'Club Brugge KV',
