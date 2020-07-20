@@ -126,7 +126,7 @@ class TopScoreDoctrineRepository extends AbstractDoctrineRepository implements T
         $batchSize = 10;
         $firstResult = 0;
 
-        $minimalScoreToSucceed = 11;
+        $minimalScoreToSucceed = 7;
 
         do {
             $queryBuilder = $this->entityManager->createQueryBuilder();
