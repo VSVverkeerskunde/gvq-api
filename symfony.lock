@@ -191,6 +191,9 @@
     "symfony/intl": {
         "version": "v4.1.0"
     },
+    "symfony/mime": {
+        "version": "v5.1.2"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.1.0"
     },
@@ -215,8 +218,14 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.8.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.13.2"
+    },
     "symfony/polyfill-php72": {
         "version": "v1.8.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.18.0"
     },
     "symfony/process": {
         "version": "v4.0.9"
@@ -277,6 +286,9 @@
     },
     "symfony/var-dumper": {
         "version": "v4.1.0"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.4.10"
     },
     "symfony/web-profiler-bundle": {
         "version": "3.3",
