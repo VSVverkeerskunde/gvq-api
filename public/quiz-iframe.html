@@ -1,4 +1,40 @@
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<style type="text/css">
+#gvq-countdown {
+    padding: 0.6em;
+    background-color: white;
+    border-top: 1px solid lightgray;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+    z-index: 500;
+
+    display: none;
+}
+
+#gvq-countdown-seconds {
+    background-color: #e40521;
+    border-radius: 100%;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 2.2rem;
+    height: 2.2rem;
+    width: 2.2rem;
+    text-align: center;
+}
+
+@media (max-width: 630px) {
+    #gvq-countdown.started {
+        display: block;
+    }
+}
+</style>
 <script>
+(function ($, window) {
     function setIframeHeight(id, height) {
         var iframe = document.getElementById(id);
         iframe.style.visibility = 'hidden';
@@ -23,11 +59,42 @@
         }
     }
 
-    window.addEventListener('message', handleQuizHeightMsg, false);
-    window.addEventListener('message', handlePlayAgainMsg, false);
+    function handleCounterMsg(e) {
+        if (e.data && typeof e.data === 'string' && e.data.search("counter")) {
+            var data = JSON.parse(e.data);
+            if (data['counter']) {
+                $('#gvq-countdown-seconds').text(data['counter']);
+            }
+        }
+    }
+
+    function handleCounterStateMsg(e) {
+        if (e.data && typeof e.data === 'string' && e.data.search("counterState")) {
+            var data = JSON.parse(e.data);
+            if (data['counterState']) {
+                if (data['counterState'] === 'started') {
+                    $('#gvq-countdown-seconds').text(40);
+                }
+                $('#gvq-countdown')
+                    .removeClass('finished')
+                    .removeClass('started')
+                    .addClass(data['counterState']);
+            }
+        }
+    }
+
+    $(document).ready(
+        function () {
+            window.addEventListener('message', handleQuizHeightMsg, false);
+            window.addEventListener('message', handleCounterMsg, false);
+            window.addEventListener('message', handleCounterStateMsg, false);
+            window.addEventListener('message', handlePlayAgainMsg, false);
+        }
+    );
+}) (jQuery, window);
 </script>
 
-<iframe src="http://localhost:8000/quiz?language=nl&amp;channel=individual"
+<iframe src="http://localhost:8000/quiz?language=nl&amp;channel=individual&amp;hideCountdownOnMobile=yes"
         id="quizframe"
         class="embed-quiz"
         frameborder="0"
@@ -37,3 +104,8 @@
                overflow-x: hidden;
                overflow-y: scroll;">
 </iframe>
+
+<div id="gvq-countdown" class="finished">
+    <span id="gvq-countdown-time-left">Time left:</span>
+    <span id="gvq-countdown-seconds">40</span>
+</div>
