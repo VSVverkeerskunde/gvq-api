@@ -1,5 +1,5 @@
 #General translations
-GVQ.title: 'Grote Verkeersquiz - 2019'
+GVQ.title: 'Grote Verkeersquiz - 2020'
 
 Id: 'Id'
 LastName: 'Achternaam'
@@ -181,11 +181,11 @@ Documents.title.nl: 'Nederlandstalige documenten'
 Documents.title.fr: 'Franstalige documenten'
 
 #Mails
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2019'
+Activation.mail.subject: 'Activatie Grote Verkeersquiz 2020'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
-Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2019'
-Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2019'
-Kickoff.after.launch.mail.subject: 'Kick-off Grote Verkeersquiz 2019'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2020'
+Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2020'
+Kickoff.after.launch.mail.subject: 'Kick-off Grote Verkeersquiz 2020'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht.'
