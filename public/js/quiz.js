@@ -17,7 +17,8 @@
     },
     'apiUrl': '/api',
     'email': '',
-    'team': ''
+    'team': '',
+    'startquestion': null
   };
   let translations = {
     nl: {
@@ -162,6 +163,7 @@
               company: quizConfig['company'],
               partner: quizConfig['partner'],
               language: quizConfig['language'],
+              first_question: quizConfig['startquestion'],
               email: email,
               team: team
             }))

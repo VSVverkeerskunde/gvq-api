@@ -2,11 +2,13 @@
 
 namespace VSV\GVQ_API\Quiz\Service;
 
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactoryInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Partner\Models\Partner;
 use VSV\GVQ_API\Question\Models\Categories;
+use VSV\GVQ_API\Question\Models\Category;
 use VSV\GVQ_API\Question\Models\Questions;
 use VSV\GVQ_API\Question\Repositories\CategoryRepository;
 use VSV\GVQ_API\Question\Repositories\QuestionRepository;
@@ -81,6 +83,7 @@ class QuizService
      * @param null|Partner $partner
      * @param null|Team $team
      * @param Language $language
+     * @param string|null $firstQuestionId
      * @return Quiz
      * @throws \Exception
      */
@@ -90,12 +93,13 @@ class QuizService
         ?Company $company,
         ?Partner $partner,
         ?Team $team,
-        Language $language
+        Language $language,
+        string $firstQuestionId = null
     ): Quiz {
         $questions = $this->getFixedQuestionsForTestParticipant($participant, $language);
 
         if (count($questions) === 0) {
-            $questions = $this->generateQuestions($language, $this->year);
+            $questions = $this->generateQuestions($language, $this->year, $firstQuestionId);
         }
 
         $quiz = new Quiz(
@@ -157,13 +161,24 @@ class QuizService
     /**
      * @param Language $language
      * @param Year $year
+     * @param string|null $firstQuestionId
      * @return Questions
      */
-    private function generateQuestions(Language $language, Year $year): Questions
+    private function generateQuestions(Language $language, Year $year, ?string $firstQuestionId): Questions
     {
         $pickedQuestions = [];
+        $firstQuestion = null;
 
-        /** @var Categories $categories */
+        if ($firstQuestionId) {
+            $firstQuestion = $this->questionRepository->getById(Uuid::fromString($firstQuestionId));
+
+            // Ignore first question passed if it doesn't meet the conditions.
+            if ($firstQuestion and ($firstQuestion->isArchived() || !$firstQuestion->getYear()->equals($year) || !$firstQuestion->getLanguage()->equals($language))) {
+                $firstQuestion = null;
+            }
+        }
+
+        /** @var Categories|Category[] $categories */
         $categories = $this->categoryRepository->getAll();
 
         foreach ($categories as $category) {
@@ -177,6 +192,11 @@ class QuizService
                 );
 
                 if ($questions !== null) {
+                    if ($firstQuestion && $firstQuestion->getCategory()->getId()->equals($category->getId())) {
+                        $questionCount--;
+                        $questions = $questions->without($firstQuestion);
+                    }
+
                     $questionPool = $questions->toArray();
 
                     shuffle($questionPool);
@@ -190,6 +210,10 @@ class QuizService
         }
 
         shuffle($pickedQuestions);
+
+        if ($firstQuestion) {
+            array_unshift($pickedQuestions, $firstQuestion);
+        }
 
         return new Questions(...$pickedQuestions);
     }

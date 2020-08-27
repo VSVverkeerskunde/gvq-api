@@ -137,7 +137,8 @@ class QuizController
             $company,
             $partner,
             $team,
-            $startQuiz->getLanguage()
+            $startQuiz->getLanguage(),
+            $startQuiz->getFirstQuestionId()
         );
 
         $quizAggregate = QuizAggregate::start($quiz);

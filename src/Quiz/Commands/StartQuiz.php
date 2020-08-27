@@ -41,6 +41,11 @@ class StartQuiz
     private $language;
 
     /**
+     * @var string|null $firstQuestionId
+     */
+    private $firstQuestionId;
+
+    /**
      * StartQuiz constructor.
      * @param QuizParticipant $participant
      * @param QuizChannel $quizChannel
@@ -55,7 +60,8 @@ class StartQuiz
         ?Alias $companyAlias,
         ?Alias $partnerAlias,
         ?UuidInterface $teamId,
-        Language $language
+        Language $language,
+        ?string $firstQuestionId
     ) {
         $this->participant = $participant;
         $this->quizChannel = $quizChannel;
@@ -63,6 +69,7 @@ class StartQuiz
         $this->partnerAlias = $partnerAlias;
         $this->teamId = $teamId;
         $this->language = $language;
+        $this->firstQuestionId = $firstQuestionId;
     }
 
     /**
@@ -111,5 +118,13 @@ class StartQuiz
     public function getLanguage(): Language
     {
         return $this->language;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFirstQuestionId(): ?string
+    {
+        return $this->firstQuestionId;
     }
 }

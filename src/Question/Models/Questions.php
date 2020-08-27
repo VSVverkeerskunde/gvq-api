@@ -65,4 +65,16 @@ class Questions implements Collection
 
         return $this;
     }
+
+    public function without(Question $questionToRemove): Questions
+    {
+        $questions = array_filter(
+            $this->questions,
+            function (Question $presentQuestion) use ($questionToRemove) {
+                return !$presentQuestion->getId()->equals($questionToRemove->getId());
+            }
+        );
+
+        return new static(...$questions);
+    }
 }
