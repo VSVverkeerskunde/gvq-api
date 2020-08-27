@@ -241,8 +241,8 @@ Dashboard.average.all: 'Alle deelnemers'
 Statistics.title.company: 'Statistieken van het bedrijf'
 
 Dashboard.tiebreakers.title: 'Juiste antwoorden schiftingsvragen'
-Dashboard.tiebreakers.1.title: 'Hoeveel unieke deelnemers zullen op donderdag 31 oktober 2019 middernacht De Grote Verkeersquiz volledig hebben uitgespeeld (in alle beschikbare talen)?'
-Dashboard.tiebreakers.2.title: 'Hoeveel van hen behaalden 7/10 of meer?'
+Dashboard.tiebreakers.1.title: 'Hoeveel keer zal De Grote Verkeersquiz volledig uitgespeeld zijn op zondag 15 november 2020 middernacht (in het Nederlands en het Frans)?'
+Dashboard.tiebreakers.2.title: 'Hoeveel keer werd er een score van minimum 7/10 behaald?'
 Dashboard.topscores.tiebreakers.1.title: 'Antwoord schiftingsvraag 1'
 Dashboard.topscores.tiebreakers.2.title: 'Antwoord schiftingsvraag 2'
 

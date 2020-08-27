@@ -241,8 +241,8 @@ Dashboard.average.all: Tous les participants
 Statistics.title.company: Statistiques de l'entreprise
 
 Dashboard.tiebreakers.title: 'Réponses des questions subsidiaires'
-Dashboard.tiebreakers.1.title: 'Combien de personnes auront entièrement participé au Quiz de la Route le jeudi 31 octobre 2019 à minuit (en français et en néerlandais)?'
-Dashboard.tiebreakers.2.title: 'Combien d’entre elles auront obtenu un score de 7/10 ou plus?'
+Dashboard.tiebreakers.1.title: 'Combien de fois le Quiz de la Route aura t’il été complétement terminé entre le 15 octobre et le 15 novembre à minuit (en français et en néerlandais)?'
+Dashboard.tiebreakers.2.title: 'Combien de fois un score de 7/10 ou plus a-t-il été obtenu?'
 Dashboard.topscores.tiebreakers.1.title: 'Réponse à la question subsidiaire 1'
 Dashboard.topscores.tiebreakers.2.title: 'Réponse à la question subsidiaire 2'
 
