@@ -107,5 +107,5 @@
     id: 'de741524-5107-420e-9826-1b874b220d89'
     channel: 'individual'
     language: 'fr'
-    question: 'Combien de fois un score de 7/10 ou plus a-t-il été obtenu?'
+    question: 'Combien de fois le score minimum de 7/10 aura-t-il été atteint?'
     answer: null

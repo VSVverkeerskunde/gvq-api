@@ -242,7 +242,7 @@ Statistics.title.company: Statistiques de l'entreprise
 
 Dashboard.tiebreakers.title: 'Réponses des questions subsidiaires'
 Dashboard.tiebreakers.1.title: 'Combien de fois le Quiz de la Route aura t’il été complétement terminé entre le 15 octobre et le 15 novembre à minuit (en français et en néerlandais)?'
-Dashboard.tiebreakers.2.title: 'Combien de fois un score de 7/10 ou plus a-t-il été obtenu?'
+Dashboard.tiebreakers.2.title: 'Combien de fois le score minimum de 7/10 aura-t-il été atteint?'
 Dashboard.topscores.tiebreakers.1.title: 'Réponse à la question subsidiaire 1'
 Dashboard.topscores.tiebreakers.2.title: 'Réponse à la question subsidiaire 2'
 
