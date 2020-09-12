@@ -21,7 +21,7 @@ class Quiz
     private $id;
 
     /**
-     * @var QuizParticipant
+     * @var QuizParticipant|null
      */
     private $participant;
 
@@ -66,8 +66,12 @@ class Quiz
     private $questions;
 
     /**
+     * @var int
+     */
+    private $score = 0;
+
+    /**
      * @param UuidInterface $id
-     * @param QuizParticipant $participant
      * @param QuizChannel $channel
      * @param null|Company $company
      * @param null|Partner $partner
@@ -79,7 +83,6 @@ class Quiz
      */
     public function __construct(
         UuidInterface $id,
-        QuizParticipant $participant,
         QuizChannel $channel,
         ?Company $company,
         ?Partner $partner,
@@ -92,7 +95,6 @@ class Quiz
         $this->guardChannel($channel, $company, $partner, $team);
 
         $this->id = $id;
-        $this->participant = $participant;
         $this->channel = $channel;
         $this->company = $company;
         $this->partner = $partner;
@@ -112,11 +114,28 @@ class Quiz
     }
 
     /**
-     * @return QuizParticipant
+     * @return QuizParticipant|null
      */
-    public function getParticipant(): QuizParticipant
+    public function getParticipant(): ?QuizParticipant
     {
         return $this->participant;
+    }
+
+    /**
+     * @return Quiz
+     */
+    public function withParticipant(QuizParticipant $participant): Quiz
+    {
+        $c = clone $this;
+        $c->participant = $participant;
+        return $c;
+    }
+
+    public function withScore(int $score): Quiz
+    {
+        $c = clone $this;
+        $c->score = $score;
+        return $c;
     }
 
     /**
@@ -267,5 +286,13 @@ class Quiz
                 ' given.'
             );
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getScore(): int
+    {
+        return $this->score;
     }
 }

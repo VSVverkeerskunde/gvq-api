@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\EmailRegistered;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Models\DetailedTopScore;
@@ -51,22 +52,22 @@ class TopScoresProjector implements EventListener
     {
         $payload = $domainMessage->getPayload();
 
-        if ($payload instanceof QuizFinished) {
+        if ($payload instanceof EmailRegistered) {
             $quiz = $this->quizRepository->getById($payload->getId());
 
             $this->topScoreRepository->saveWhenHigher(
                 new TopScore(
-                    $quiz->getParticipant()->getEmail(),
-                    new NaturalNumber($payload->getScore())
+                    $payload->getEmail(),
+                    new NaturalNumber($quiz->getScore())
                 )
             );
 
             $this->detailedTopScoreRepository->saveWhenHigher(
                 new DetailedTopScore(
-                    $quiz->getParticipant()->getEmail(),
+                    $payload->getEmail(),
                     $quiz->getLanguage(),
                     $quiz->getChannel(),
-                    new NaturalNumber($payload->getScore())
+                    new NaturalNumber($quiz->getScore())
                 )
             );
         }

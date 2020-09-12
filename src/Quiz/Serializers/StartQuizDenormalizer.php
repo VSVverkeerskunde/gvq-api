@@ -19,7 +19,6 @@ class StartQuizDenormalizer implements DenormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = array()): StartQuiz
     {
         return new StartQuiz(
-            new QuizParticipant(new Email($data['email'])),
             new QuizChannel($data['channel']),
             $data['company'] ? new Alias(strtolower($data['company'])) : null,
             $data['partner'] ? new Alias(strtolower($data['partner'])) : null,

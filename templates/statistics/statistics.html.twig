@@ -20,12 +20,10 @@
             <th scope="col" colspan="3" class="border-right border-bottom">{% trans %}Statistics.header.partner{% endtrans %}</th>
             <th scope="col" colspan="3"
                 class="border-right border-bottom">{% trans %}Statistics.header.quiz.total{% endtrans %}</th>
-            <th scope="col" colspan="3" class="border-right border-bottom">{% trans %}Statistics.header.league{% endtrans %}</th>
-            <th scope="col" colspan="3" class="border-right border-bottom">{% trans %}Statistics.header.total{% endtrans %}</th>
         </tr>
         <tr>
             <td class="border-0"></td>
-            {% for i in range(1,6) %}
+            {% for i in range(1,4) %}
                 <th>{% trans %}Statistics.subheader.NL{% endtrans %}</th>
                 <th>{% trans %}Statistics.subheader.FR{% endtrans %}</th>
                 <th class="border-right">{% trans %}Statistics.subheader.Total{% endtrans %}</th>
@@ -42,6 +40,11 @@
             <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.finished{% endtrans %}">
                 {% trans %}Statistics.row.finished{% endtrans %}</th>
             {% include '/statistics/includes/statistics_row.html.twig' with {'counts': finishedCounts} %}
+        </tr>
+        <tr class="text-right">
+            <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.passed_quizes{% endtrans %}">
+                {% trans %}Statistics.row.passed_quizes{% endtrans %}</th>
+            {% include '/statistics/includes/statistics_row.html.twig' with {'counts': passedCounts} %}
         </tr>
         <tr class="text-right">
             <th class="fit" scope="row" data-toggle="tooltip" title="{% trans %}Statistics.info.unique{% endtrans %}">

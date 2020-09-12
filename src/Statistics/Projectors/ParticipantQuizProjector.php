@@ -17,7 +17,6 @@ class ParticipantQuizProjector implements EventListener
     private $participantQuizDoctrineRepository;
 
     /**
-     * @param TeamParticipantRepository $teamParticipationRepository
      * @param QuizRepository $quizRepository
      */
     public function __construct(

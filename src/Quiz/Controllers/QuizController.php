@@ -16,6 +16,7 @@ use VSV\GVQ_API\Quiz\Commands\StartQuiz;
 use VSV\GVQ_API\Quiz\Repositories\QuestionResultRepository;
 use VSV\GVQ_API\Quiz\Service\QuizService;
 use VSV\GVQ_API\Team\Repositories\TeamRepository;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizController
 {
@@ -132,7 +133,6 @@ class QuizController
             ) : null;
 
         $quiz = $this->quizService->generateQuiz(
-            $startQuiz->getParticipant(),
             $startQuiz->getQuizChannel(),
             $company,
             $partner,
@@ -210,6 +210,32 @@ class QuizController
         $this->quizAggregateRepository->save($quizAggregate);
 
         return $this->createCurrentQuestionResponse($quizId);
+    }
+
+    /**
+     * @param string $quizId
+     * @param string $email
+     * @return Response
+     * @throws \Exception
+     */
+    public function registerEmail(
+        string $quizId,
+        string $email
+    ): Response {
+        $quizAggregate = $this->safeLoadQuizAggregate($quizId);
+
+        if ($quizAggregate === null) {
+            return new Response(
+                'No quiz with id '.$quizId.'.',
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $quizAggregate->registerEmail(new Email($email));
+
+        $this->quizAggregateRepository->save($quizAggregate);
+
+        return new Response();
     }
 
     /**

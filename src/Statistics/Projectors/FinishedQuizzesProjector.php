@@ -8,6 +8,7 @@ use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
+use VSV\GVQ_API\Statistics\Repositories\PassedQuizRepository;
 
 class FinishedQuizzesProjector implements EventListener
 {
@@ -22,14 +23,21 @@ class FinishedQuizzesProjector implements EventListener
     private $quizRepository;
 
     /**
+     * @var PassedQuizRepository
+     */
+    private $passedQuizRepository;
+
+    /**
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param QuizRepository $quizRepository
      */
     public function __construct(
         FinishedQuizRepository $finishedQuizRepository,
+        PassedQuizRepository $passedQuizRepository,
         QuizRepository $quizRepository
     ) {
         $this->finishedQuizzesRepository = $finishedQuizRepository;
+        $this->passedQuizRepository = $passedQuizRepository;
         $this->quizRepository = $quizRepository;
     }
 
@@ -46,6 +54,12 @@ class FinishedQuizzesProjector implements EventListener
             $this->finishedQuizzesRepository->incrementCount(
                 StatisticsKey::createFromQuiz($quiz)
             );
+
+            if ($payload->getScore() >= 7) {
+                $this->passedQuizRepository->incrementCount(
+                    StatisticsKey::createFromQuiz($quiz)
+                );
+            }
         }
     }
 }

@@ -103,6 +103,7 @@ class StatisticsViewController extends AbstractController
     {
         $startedCounts = $this->statisticsService->getStartedQuizCounts();
         $finishedCounts = $this->statisticsService->getFinishedQuizCounts();
+        $passedCounts = $this->statisticsService->getPassedQuizCounts();
         $uniqueParticipantCounts = $this->statisticsService->getUniqueParticipantCounts();
         $passedUniqueParticipantCounts = $this->statisticsService->getPassedUniqueParticipantCounts();
         $passedUniqueParticipantPercentage = $this->statisticsService->getPassedUniqueParticipantPercentages();
@@ -124,6 +125,7 @@ class StatisticsViewController extends AbstractController
             [
                 'startedCounts' => $startedCounts,
                 'finishedCounts' => $finishedCounts,
+                'passedCounts' => $passedCounts,
                 'uniqueParticipantCounts' => $uniqueParticipantCounts,
                 'passedUniqueParticipantCounts' => $passedUniqueParticipantCounts,
                 'passedUniqueParticipantPercentage' => $passedUniqueParticipantPercentage,

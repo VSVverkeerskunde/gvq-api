@@ -10,6 +10,7 @@ use VSV\GVQ_API\Question\ValueObjects\Year;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
 use VSV\GVQ_API\Statistics\Repositories\DetailedTopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\FinishedQuizRepository;
+use VSV\GVQ_API\Statistics\Repositories\PassedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\StartedQuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
@@ -64,6 +65,11 @@ class StatisticsService
     private $passedUniqueParticipantsCount;
 
     /**
+     * @var PassedQuizRepository
+     */
+    private $passedQuizRepository;
+
+    /**
      * @param StartedQuizRepository $startedQuizRepository
      * @param FinishedQuizRepository $finishedQuizRepository
      * @param UniqueParticipantRepository $uniqueParticipantRepository
@@ -74,12 +80,14 @@ class StatisticsService
     public function __construct(
         StartedQuizRepository $startedQuizRepository,
         FinishedQuizRepository $finishedQuizRepository,
+        PassedQuizRepository $passedQuizRepository,
         UniqueParticipantRepository $uniqueParticipantRepository,
         PartnerRepository $partnerRepository,
         DetailedTopScoreRepository $detailedTopScoreRepository,
         TopScoreRepository $topScoreRepository
     ) {
         $this->startedQuizRepository = $startedQuizRepository;
+        $this->passedQuizRepository = $passedQuizRepository;
         $this->finishedQuizRepository = $finishedQuizRepository;
         $this->uniqueParticipantRepository = $uniqueParticipantRepository;
         $this->partnerRepository = $partnerRepository;
@@ -109,6 +117,18 @@ class StatisticsService
         return $this->getCountsFromRepository(
             function (StatisticsKey $statisticsKey) {
                 return $this->finishedQuizRepository->getCount($statisticsKey);
+            }
+        );
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPassedQuizCounts(): array
+    {
+        return $this->getCountsFromRepository(
+            function (StatisticsKey $statisticsKey) {
+                return $this->passedQuizRepository->getCount($statisticsKey);
             }
         );
     }

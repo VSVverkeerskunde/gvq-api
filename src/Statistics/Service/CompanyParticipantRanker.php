@@ -97,7 +97,7 @@ class CompanyParticipantRanker
         $topTen = [];
 
         for ($i = 0; $i < 10 && $i < count($rankedParticipants); $i++) {
-            if ($rankedParticipants[$i]->getScore()->toNative() >= 11) {
+            if ($rankedParticipants[$i]->getScore()->toNative() >= 7) {
                 $topTen[] = $rankedParticipants[$i];
             }
         }

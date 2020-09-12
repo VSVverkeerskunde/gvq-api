@@ -23,6 +23,7 @@
   let translations = {
     nl: {
       START_QUIZ: 'Start de quiz',
+      CONTINUE: 'Verdergaan',
       QUESTION: 'Vraag',
       TIME_LEFT: 'Resterende tijd',
       NEXT_QUESTION: 'Volgende vraag',
@@ -45,6 +46,7 @@
     },
     fr: {
       START_QUIZ: 'Commencer le quiz',
+      CONTINUE: 'Continuez',
       QUESTION: 'Question',
       TIME_LEFT: 'Temps restant',
       NEXT_QUESTION: 'Question suivante',
@@ -151,20 +153,15 @@
 
           let teamSelect = view.find('select[name="choose-team"]');
 
-          let emailInput = view.find('input#gvq-participant-email');
-          emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
-          emailInput.val(quizConfig['email']);
-
           let recruitment = view.find('#recruitment');
 
-          function start (email, team) {
+          function start (team) {
             $.post(quizConfig.apiUrl + '/quiz', JSON.stringify({
               channel: quizConfig['channel'],
               company: quizConfig['company'],
               partner: quizConfig['partner'],
               language: quizConfig['language'],
               first_question: quizConfig['startquestion'],
-              email: email,
               team: team
             }))
               .done(function (data) {
@@ -173,7 +170,6 @@
               .fail(function (data) {
                 alert(data.responseText);
               });
-            quizConfig['email'] = email;
             quizConfig['team'] = team;
           }
 
@@ -187,27 +183,14 @@
 
             teamSelect
               .on('change', function () {
-                startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
+                startButton.prop('disabled', (checkTeamSelect()) === false);
                 renderTeamBanner(teamSelect.val());
               })
               .trigger('change');
 
-            emailInput.on('keyup change', function () {
-              startButton.prop('disabled', (checkTeamSelect() && checkEmail()) === false);
-            }).trigger('change');
-
           } else {
             renderTeamBanner(false);
             teamSelect.remove();
-            emailInput.on('keyup change', function () {
-              startButton.prop('disabled', checkEmail() === false);
-            })
-              .trigger('change');
-          }
-
-          function checkEmail () {
-            let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
-            return emailRegex.test(emailInput.val());
           }
 
           function checkTeamSelect () {
@@ -216,7 +199,6 @@
 
           startButton.on('click', function () {
             start(
-              emailInput.val().toLowerCase(),
               cupModeOn ? teamSelect.val() : null
             );
           });
@@ -224,6 +206,50 @@
           return $.Deferred().resolve().promise();
         },
         template: loadTemplate('participation-form', quizConfig.language)
+      },
+      askEmail: {
+        controller: function (quizId, score, totalQuestions) {
+          function checkEmail () {
+            let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
+            return emailRegex.test(emailInput.val());
+          }
+
+          let registerEmailButton = view.find('button.gvq-register-email-button');
+
+          let emailInput = view.find('input#gvq-participant-email');
+          emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
+          emailInput.val(quizConfig['email']);
+
+          emailInput.on('keyup change', function () {
+            registerEmailButton.prop('disabled', checkEmail() === false);
+          }).trigger('change');
+
+          function showResult() {
+            let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+
+            if (score >= 7) {
+              var contestCheck = $.get(contestUrl);
+              contestCheck.done(function () {
+                $(location).attr("href", contestUrl);
+              });
+              contestCheck.fail(function () {
+                renderView('showResult', quizId, score, totalQuestions, null, true);
+              });
+            }
+            else {
+              renderView('showResult', quizId, score, totalQuestions, null, true);
+            }
+          }
+
+          registerEmailButton.on('click', function () {
+            $.post(quizConfig.apiUrl + '/quiz/' + quizId + '/email/' + emailInput.val().toLowerCase()).done(
+                showResult
+            );
+          });
+
+          return $.Deferred().resolve().promise();
+        },
+        template: loadTemplate('ask-email', quizConfig.language)
       },
       askQuestion: {
         controller: function (quizId, questionNr) {
@@ -326,19 +352,7 @@
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
                 .on('click', function () {
-                  let contestUrl = quizConfig.language+'/view/contest/'+quizId;
-                  if (data.score >= 11) {
-                    var contestCheck = $.get(contestUrl);
-                    contestCheck.done(function () {
-                      $(location).attr("href", contestUrl);
-                    });
-                    contestCheck.fail(function () {
-                      renderView('showResult', quizId, data.score, questionNr, null, true);
-                    });
-                  }
-                  else {
-                    renderView('showResult', quizId, data.score, questionNr, null, true);
-                  }
+                  renderView('askEmail', quizId, data.score, questionNr, null, true);
                 })
                 .show();
             } else {
@@ -381,17 +395,17 @@
           } else {
             view.find('#share-cup').remove();
 
-            if (score <= 7) {
+            if (score <= 4) {
               view.find('#share-title-very-bad').show();
               view.find('#share-title-bad').hide();
               view.find('#share-title-good').hide();
               view.find('#share-title-very-good').hide();
-            } else if (score <=10 ) {
+            } else if (score <= 6) {
               view.find('#share-title-very-bad').hide();
               view.find('#share-title-bad').show();
               view.find('#share-title-good').hide();
               view.find('#share-title-very-good').hide();
-            } else if (score <= 13) {
+            } else if (score <= 8) {
               view.find('#share-title-very-bad').hide();
               view.find('#share-title-bad').hide();
               view.find('#share-title-good').show();

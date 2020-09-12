@@ -90,7 +90,7 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
 
         $qb->select('count(distinct participation.email)')
             ->from($this->getRepositoryName(), 'participation')
-            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.score >= 11')
+            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.score >= 7')
             ->where($qb->expr()->eq('participation.companyId', ':companyId'))
             ->setParameter('companyId', $companyId->toString());
 
@@ -106,7 +106,7 @@ class EmployeeParticipationDoctrineRepository extends AbstractDoctrineRepository
 
         $qb->select('count(distinct participation.email)')
             ->from($this->getRepositoryName(), 'participation')
-            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.language = :language AND score.score >= 11')
+            ->innerJoin(DetailedTopScoreEntity::class, 'score', Join::WITH, 'score.email = participation.email AND score.language = :language AND score.score >= 7')
             ->where($qb->expr()->eq('participation.companyId', ':companyId'))
             ->setParameter('companyId', $companyId->toString())
             ->setParameter('language', $language->toNative());

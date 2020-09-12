@@ -9,11 +9,13 @@ use VSV\GVQ_API\Question\Models\Question;
 use VSV\GVQ_API\Quiz\Events\AnsweredCorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredIncorrect;
 use VSV\GVQ_API\Quiz\Events\AnsweredTooLate;
+use VSV\GVQ_API\Quiz\Events\EmailRegistered;
 use VSV\GVQ_API\Quiz\Events\QuestionAsked;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Events\QuizStarted;
 use VSV\GVQ_API\Quiz\Models\Quiz;
 use VSV\GVQ_API\Quiz\ValueObjects\AllowedDelay;
+use VSV\GVQ_API\User\ValueObjects\Email;
 
 class QuizAggregate extends EventSourcedAggregateRoot
 {
@@ -216,5 +218,14 @@ class QuizAggregate extends EventSourcedAggregateRoot
     private function getCurrentQuestion(): Question
     {
         return $this->quiz->getQuestions()->toArray()[$this->questionIndex];
+    }
+
+    public function registerEmail(Email $email) {
+        $this->apply(
+            new EmailRegistered(
+                $this->quiz->getId(),
+                $email
+            )
+        );
     }
 }

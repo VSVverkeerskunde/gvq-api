@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\EmailRegistered;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Models\EmployeeParticipation;
@@ -39,7 +40,7 @@ class EmployeeParticipationProjector implements EventListener
     {
         $payload = $domainMessage->getPayload();
 
-        if ($payload instanceof QuizFinished) {
+        if ($payload instanceof EmailRegistered) {
             $quiz = $this->quizRepository->getById($payload->getId());
             $company = $quiz->getCompany();
 
@@ -47,7 +48,7 @@ class EmployeeParticipationProjector implements EventListener
                 $this->employeeParticipationRepository->save(
                     new EmployeeParticipation(
                         $company->getId(),
-                        $quiz->getParticipant()->getEmail()
+                        $payload->getEmail()
                     )
                 );
             }

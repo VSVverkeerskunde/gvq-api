@@ -203,6 +203,11 @@ services:
       arguments:
         $redis: '@redis_service'
 
+    passed_quiz_redis_repository:
+      class: VSV\GVQ_API\Statistics\Repositories\PassedQuizRedisRepository
+      arguments:
+        $redis: '@redis_service'
+
     company_played_quizzes_repository:
       class: VSV\GVQ_API\Statistics\Repositories\CompanyPlayedQuizzesRepository
       arguments:
@@ -313,6 +318,7 @@ services:
       class: VSV\GVQ_API\Statistics\Projectors\FinishedQuizzesProjector
       arguments:
         $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $passedQuizRepository: '@passed_quiz_redis_repository'
         $quizRepository: '@quiz_redis_repository'
 
     company_played_quizzes_projector:
@@ -421,9 +427,6 @@ services:
         - method: subscribe
           arguments:
             - '@company_played_quizzes_projector'
-        - method: subscribe
-          arguments:
-            - '@participant_quiz_projector'
       public: true
 
     quiz_replay_event_bus:
@@ -556,6 +559,7 @@ services:
       arguments:
         $startedQuizRepository: '@started_quiz_redis_repository'
         $finishedQuizRepository: '@finished_quiz_redis_repository'
+        $passedQuizRepository: '@passed_quiz_redis_repository'
         $uniqueParticipantRepository: '@unique_participant_redis_repository'
         $partnerRepository: '@partner_yaml_repository'
 

@@ -6,15 +6,9 @@ use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\ValueObjects\Alias;
 use VSV\GVQ_API\Quiz\ValueObjects\QuizChannel;
-use VSV\GVQ_API\Quiz\ValueObjects\QuizParticipant;
 
 class StartQuiz
 {
-    /**
-     * @var QuizParticipant
-     */
-    private $participant;
-
     /**
      * @var QuizChannel
      */
@@ -47,7 +41,6 @@ class StartQuiz
 
     /**
      * StartQuiz constructor.
-     * @param QuizParticipant $participant
      * @param QuizChannel $quizChannel
      * @param null|Alias $companyAlias
      * @param null|Alias $partnerAlias
@@ -55,7 +48,6 @@ class StartQuiz
      * @param Language $language
      */
     public function __construct(
-        QuizParticipant $participant,
         QuizChannel $quizChannel,
         ?Alias $companyAlias,
         ?Alias $partnerAlias,
@@ -63,21 +55,12 @@ class StartQuiz
         Language $language,
         ?string $firstQuestionId
     ) {
-        $this->participant = $participant;
         $this->quizChannel = $quizChannel;
         $this->companyAlias = $companyAlias;
         $this->partnerAlias = $partnerAlias;
         $this->teamId = $teamId;
         $this->language = $language;
         $this->firstQuestionId = $firstQuestionId;
-    }
-
-    /**
-     * @return QuizParticipant
-     */
-    public function getParticipant(): QuizParticipant
-    {
-        return $this->participant;
     }
 
     /**

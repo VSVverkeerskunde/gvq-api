@@ -98,9 +98,8 @@ class QuizDenormalizer implements DenormalizerInterface
             $context
         ) : null;
 
-        return new Quiz(
+        $quiz = new Quiz(
             Uuid::fromString($data['id']),
-            new QuizParticipant(new Email($data['participant'])),
             new QuizChannel($data['channel']),
             $company,
             $partner,
@@ -110,6 +109,16 @@ class QuizDenormalizer implements DenormalizerInterface
             new AllowedDelay($data['allowedDelay']),
             new Questions(...$questions)
         );
+
+        if (isset($data['participant'])) {
+            $quiz = $quiz->withParticipant(new QuizParticipant(new Email($data['participant'])));
+        }
+
+        if (isset($data['score']) && $data['score'] > 0) {
+            $quiz = $quiz->withScore($data['score']);
+        }
+
+        return $quiz;
     }
 
     /**

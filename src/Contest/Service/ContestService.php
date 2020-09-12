@@ -76,7 +76,7 @@ class ContestService
     }
 
     /**
-     * Can only participate if 11 or more and no previous participation for given channel.
+     * Can only participate if 7 or more and no previous participation for given channel.
      *
      * @param Year $year
      * @param UuidInterface $quizId
@@ -89,7 +89,7 @@ class ContestService
         }
 
         $questionResult = $this->questionResultRepository->getById($quizId);
-        if ($questionResult->getScore() < 11) {
+        if ($questionResult->getScore() < 7) {
             return false;
         }
 
@@ -97,6 +97,10 @@ class ContestService
         $channel = $quiz->getChannel();
         if ($channel->toNative() !== QuizChannel::LEAGUE) {
             $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        }
+
+        if (!$quiz->getParticipant()) {
+            return false;
         }
 
         $contestParticipation = $this->contestParticipationRepository->getByYearAndEmailAndChannel(

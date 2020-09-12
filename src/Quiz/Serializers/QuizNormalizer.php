@@ -86,7 +86,7 @@ class QuizNormalizer implements NormalizerInterface
 
         return [
             'id' => $quiz->getId()->toString(),
-            'participant' => $quiz->getParticipant()->getEmail()->toNative(),
+            'participant' => $quiz->getParticipant() ? $quiz->getParticipant()->getEmail()->toNative(): null,
             'channel' => $quiz->getChannel()->toNative(),
             'company' => $company,
             'partner' => $partner,
@@ -95,6 +95,7 @@ class QuizNormalizer implements NormalizerInterface
             'year' => $quiz->getYear()->toNative(),
             'allowedDelay' => $quiz->getAllowedDelay()->toNative(),
             'questions' => $questions,
+            'score' => $quiz->getScore(),
         ];
     }
 

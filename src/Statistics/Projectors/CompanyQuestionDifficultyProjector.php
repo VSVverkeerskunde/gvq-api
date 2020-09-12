@@ -79,23 +79,25 @@ class CompanyQuestionDifficultyProjector  implements EventListener
             return;
         }
 
-        $email = $quiz->getParticipant()->getEmail();
-
-        foreach ($this->employeeParticipationRepository->getByEmail($email) as $employeeParticipation) {
-            $companyId = $employeeParticipation->getCompanyId();
-            if ($payload instanceof AnsweredCorrect) {
-                $this->questionAnsweredCorrectRepositoryFactory
-                    ->forCompany($companyId)
-                    ->increment($payload->getQuestion());
-            } elseif ($payload instanceof AnsweredIncorrect) {
-                $this->questionAnsweredInCorrectRepositoryFactory
-                    ->forCompany($companyId)
-                    ->increment($payload->getQuestion());
-            }
-
-            $this->questionDifficultyRepositoryFactory
-                ->forCompany($companyId)
-                ->update($payload->getQuestion());
+        $company = $quiz->getCompany();
+        if (!$company) {
+            return;
         }
+
+        $companyId = $quiz->getCompany()->getId();
+
+        if ($payload instanceof AnsweredCorrect) {
+            $this->questionAnsweredCorrectRepositoryFactory
+                ->forCompany($companyId)
+                ->increment($payload->getQuestion());
+        } elseif ($payload instanceof AnsweredIncorrect) {
+            $this->questionAnsweredInCorrectRepositoryFactory
+                ->forCompany($companyId)
+                ->increment($payload->getQuestion());
+        }
+
+        $this->questionDifficultyRepositoryFactory
+            ->forCompany($companyId)
+            ->update($payload->getQuestion());
     }
 }

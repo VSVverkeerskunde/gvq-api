@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Statistics\Projectors;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListener;
+use VSV\GVQ_API\Quiz\Events\EmailRegistered;
 use VSV\GVQ_API\Quiz\Events\QuizFinished;
 use VSV\GVQ_API\Quiz\Repositories\QuizRepository;
 use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
@@ -41,8 +42,14 @@ class UniqueParticipantProjector implements EventListener
     {
         $payload = $domainMessage->getPayload();
 
-        if ($payload instanceof QuizFinished) {
+        if ($payload instanceof EmailRegistered) {
             $quiz = $this->quizRepository->getById($payload->getId());
+
+            // normally quiz should have its participant by now,
+            // but better safe than sorry and exit if not.
+            if (!$quiz->getParticipant()) {
+                return;
+            }
 
             // All unique participations per channel and language.
             $statisticsKey = StatisticsKey::createFromQuiz($quiz);
@@ -89,7 +96,7 @@ class UniqueParticipantProjector implements EventListener
                 $quiz->getParticipant()
             );
 
-            if ($payload->getScore() >= 11) {
+            if ($quiz->getScore() >= 7) {
                 // All unique participations per channel and language.
                 $this->uniqueParticipantRepository->addPassed(
                     $statisticsKey,
