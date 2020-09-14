@@ -94,22 +94,27 @@ class ContestService
         }
 
         $quiz = $this->quizRepository->getById($quizId);
-        $channel = $quiz->getChannel();
-        if ($channel->toNative() !== QuizChannel::LEAGUE) {
-            $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
-        }
-
         if (!$quiz->getParticipant()) {
             return false;
         }
 
+        return true;
+    }
+
+    public function hasParticipatedBefore(Year $year, UuidInterface $quizId): bool
+    {
+        $quiz = $this->quizRepository->getById($quizId);
+        $channel = $quiz->getChannel();
+        if ($channel->toNative() !== QuizChannel::LEAGUE) {
+            $channel = new QuizChannel(QuizChannel::INDIVIDUAL);
+        }
         $contestParticipation = $this->contestParticipationRepository->getByYearAndEmailAndChannel(
             $year,
             $quiz->getParticipant()->getEmail(),
             $channel
         );
 
-        return $contestParticipation === null;
+        return $contestParticipation !== null;
     }
 
     /**

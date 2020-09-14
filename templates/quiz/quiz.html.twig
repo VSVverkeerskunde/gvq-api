@@ -66,14 +66,51 @@
                     </div>
                 </div>
 
-                <div class="ask-email form pt-4 pb-4" data-template="ask-email">
-                    <div class="container">
-                        <div class="form-group row">
-                            <div class="col-sm mb-2">
-                                <input class="gvq-participant-email form-control" id="gvq-participant-email">
+                <div class="ask-email card" data-template="ask-email">
+                    <div class="gvq-question-counter card-header text-center">
+                        <h2><span data-translate="SCORE">Score</span></h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <span class="gvq-score mb-4">
+                            <span class="right-answers" data-value="score"></span>/<span class="total-questions"
+                                                                                         data-value="totalQuestions"></span>
+                        </span>
+
+                        <div class="container">
+                            {% if app.request.get('language') == 'nl' %}
+                                <p class="pt-4">__ Info voor deelname individuelen komt hier __</p>
+                            {% else %}
+                                <p class="pt-4">__ Info voor deelname individuelen komt hier __</p>
+                            {% endif %}
+
+                            <div class="form-group row">
+                                <div class="col-sm mb-2">
+                                    <input class="gvq-participant-email form-control" id="gvq-participant-email">
+                                </div>
+                                <div class="col-sm-auto mb-2">
+                                    <button class="gvq-register-email-button btn btn-primary" data-translate="PLAY_CONTEST">Play contest</button>
+                                </div>
                             </div>
-                            <div class="col-sm-auto mb-2">
-                                <button class="gvq-register-email-button btn btn-primary" data-translate="VIEW_SCORE">Show score</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ask-email card" data-template="ask-email-company">
+                    <div class="card-body text-center">
+                        <div class="container">
+                            {% if app.request.get('language') == 'nl' %}
+                                <p class="pt-4">__ Info voor deelname bedrijven komt hier __</p>
+                            {% else %}
+                                <p class="pt-4">__ Info voor deelname bedrijven komt hier __</p>
+                            {% endif %}
+
+                            <div class="form-group row">
+                                <div class="col-sm mb-2">
+                                    <input class="gvq-participant-email form-control" id="gvq-participant-email">
+                                </div>
+                                <div class="col-sm-auto mb-2">
+                                    <button class="gvq-register-email-button btn btn-primary" data-translate="VIEW_SCORE">View score</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,10 +230,6 @@
                     </div>
                     <div class="card-footer text-center">
                         <button class="gvq-play-again btn btn-primary btn-lg" data-translate="PLAY_AGAIN">Play again
-                        </button>
-                        <button class="gvq-play-contest btn btn-success btn-lg" data-translate="PLAY_CONTEST"
-                                style="display: none">Play
-                            contest
                         </button>
                     </div>
                 </div>

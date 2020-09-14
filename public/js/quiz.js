@@ -209,6 +209,9 @@
       },
       askEmail: {
         controller: function (quizId, score, totalQuestions) {
+          setViewValue('score', score);
+          setViewValue('totalQuestions', totalQuestions);
+
           function checkEmail () {
             let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
             return emailRegex.test(emailInput.val());
@@ -225,16 +228,9 @@
           }).trigger('change');
 
           function showResult() {
-            let contestUrl = quizConfig.language+'/view/contest/'+quizId;
-
             if (score >= 7) {
-              var contestCheck = $.get(contestUrl);
-              contestCheck.done(function () {
-                $(location).attr("href", contestUrl);
-              });
-              contestCheck.fail(function () {
-                renderView('showResult', quizId, score, totalQuestions, null, true);
-              });
+              let contestUrl = quizConfig.language+'/view/contest/'+quizId;
+              $(location).attr("href", contestUrl);
             }
             else {
               renderView('showResult', quizId, score, totalQuestions, null, true);
@@ -249,7 +245,7 @@
 
           return $.Deferred().resolve().promise();
         },
-        template: loadTemplate('ask-email', quizConfig.language)
+        template: loadTemplate(quizConfig['company'] ? 'ask-email-company' : 'ask-email', quizConfig.language)
       },
       askQuestion: {
         controller: function (quizId, questionNr) {
@@ -352,7 +348,8 @@
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
                 .on('click', function () {
-                  renderView('askEmail', quizId, data.score, questionNr, null, true);
+                  let viewName = quizConfig['company'] || data.score >= 7 ? 'askEmail': 'showResult';
+                  renderView(viewName, quizId, data.score, questionNr, null, true);
                 })
                 .show();
             } else {
@@ -381,13 +378,6 @@
 
           view.find('button.gvq-play-again').on('click', function () {
             Quiz();
-          });
-
-          view.find('button.gvq-play-contest').hide();
-
-
-          view.find('button.gvq-play-contest').on('click', function () {
-              $(location).attr("href", contestUrl);
           });
 
           if (cupModeOn) {
