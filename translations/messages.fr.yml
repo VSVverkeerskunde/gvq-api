@@ -267,6 +267,7 @@ Statistics.subheader.Total: Total
 
 Statistics.row.started: Débuté
 Statistics.row.finished: Terminé
+Statistics.row.passed_quizes: Réussi
 Statistics.row.unique: Participants uniques
 Statistics.row.passed: Participants uniques (au moins 7/10)
 Statistics.row.percentage: Taux de réussite
@@ -274,6 +275,7 @@ Statistics.row.topscore: Moyenne des meilleurs scores
 
 Statistics.info.started: Nombre de fois où le quiz a été débuté.
 Statistics.info.finished: Nombre de fois où le quiz a été effectué
+Statistics.info.passed_quizes: Nombre de fois où le score de 7/10 au moins a été atteint
 Statistics.info.unique: Nombre de participants uniques qui ont joué au quiz sans les doublons
 Statistics.info.passed: Nombre de participants uniques qui ont obtenu 7/10 ou plus. Les doubles participations ont été filtrées ici
 Statistics.info.percentage: Pourcentage de participants ayant obtenu 7/10 ou plus. Sans les doublons
