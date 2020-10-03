@@ -156,7 +156,7 @@ class ContestViewController extends AbstractController
         $totalQuestions = $quiz->getQuestions()->count();
         $score = $questionResult->getScore();
 
-        $form = $this->createContestForm();
+        $form = $this->createContestForm($request->getLocale() === 'nl');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -239,7 +239,7 @@ class ContestViewController extends AbstractController
     /**
      * @return FormInterface
      */
-    private function createContestForm(): FormInterface
+    private function createContestForm(bool $association): FormInterface
     {
         $formBuilder = $this->createFormBuilder();
 
@@ -247,6 +247,7 @@ class ContestViewController extends AbstractController
             $formBuilder,
             [
                 'translator' => $this->translator,
+                'association' => $association,
             ]
         );
 

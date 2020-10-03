@@ -86,6 +86,12 @@ class ContestParticipationEntity extends Entity
     private $gdpr2;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $associationMember;
+
+    /**
      * @param string $id
      * @param int $year
      * @param string $language
@@ -96,6 +102,7 @@ class ContestParticipationEntity extends Entity
      * @param int $answer2
      * @param bool $gdpr1
      * @param bool $gdpr2
+     * @param bool $associationMember
      */
     private function __construct(
         string $id,
@@ -107,7 +114,8 @@ class ContestParticipationEntity extends Entity
         int $answer1,
         int $answer2,
         bool $gdpr1,
-        bool $gdpr2
+        bool $gdpr2,
+        ?bool $associationMember = false
     ) {
         parent::__construct($id);
 
@@ -120,6 +128,7 @@ class ContestParticipationEntity extends Entity
         $this->answer2 = $answer2;
         $this->gdpr1 = $gdpr1;
         $this->gdpr2 = $gdpr2;
+        $this->associationMember = $associationMember;
     }
 
     /**
@@ -143,7 +152,8 @@ class ContestParticipationEntity extends Entity
             $contestParticipation->getAnswer1()->toNative(),
             $contestParticipation->getAnswer2()->toNative(),
             $contestParticipation->isGdpr1(),
-            $contestParticipation->isGdpr2()
+            $contestParticipation->isGdpr2(),
+            $contestParticipation->isAssociationMember()
         );
     }
 
@@ -162,7 +172,8 @@ class ContestParticipationEntity extends Entity
             new PositiveNumber($this->answer1),
             new PositiveNumber($this->answer2),
             $this->gdpr1,
-            $this->gdpr2
+            $this->gdpr2,
+            $this->associationMember
         );
     }
 }

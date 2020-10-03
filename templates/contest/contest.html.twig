@@ -135,6 +135,17 @@
                 </div>
             </div>
 
+            {% if app.request.locale == 'nl' %}
+            <div class="form-group small">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_widget(form.association) }}
+                        {{ form_errors(form.association) }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">{% trans %}Contest.submit{% endtrans %}</button>
             </div>

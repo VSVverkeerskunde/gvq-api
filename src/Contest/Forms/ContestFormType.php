@@ -158,6 +158,16 @@ class ContestFormType extends AbstractType
                     'label' => $translator->trans('Contest.gdpr2'),
                 ]
             );
+
+        if ($options['association']) {
+            $builder->add(
+                'association',
+                CheckboxType::class,
+                [
+                    'label' => $translator->trans('Contest.association'),
+                ]
+            );
+        }
     }
 
     /**
@@ -169,6 +179,7 @@ class ContestFormType extends AbstractType
             [
                 'translator' => null,
                 'csrf_protection' => false,
+                'association' => false,
             ]
         );
     }
@@ -215,7 +226,8 @@ class ContestFormType extends AbstractType
             new PositiveNumber($data['answer1']),
             new PositiveNumber($data['answer2']),
             $data['gdpr1'],
-            $data['gdpr2']
+            $data['gdpr2'],
+            isset($data['association']) ? $data['association'] : false
         );
     }
 

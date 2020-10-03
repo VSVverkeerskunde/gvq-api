@@ -63,6 +63,11 @@ class ContestParticipation
     private $gdpr2;
 
     /**
+     * @var bool|null
+     */
+    private $associationMember;
+
+    /**
      * @param UuidInterface $id
      * @param Year $year
      * @param Language $language
@@ -73,6 +78,7 @@ class ContestParticipation
      * @param PositiveNumber $answer2
      * @param bool $gdpr1
      * @param bool $gdpr2
+     * @param bool $associationMember
      */
     public function __construct(
         UuidInterface $id,
@@ -84,7 +90,8 @@ class ContestParticipation
         PositiveNumber $answer1,
         PositiveNumber $answer2,
         bool $gdpr1,
-        bool $gdpr2
+        bool $gdpr2,
+        ?bool $associationMember = false
     ) {
         $this->guardChannel($channel);
         $this->guardGdpr($gdpr1);
@@ -99,6 +106,8 @@ class ContestParticipation
         $this->answer2 = $answer2;
         $this->gdpr1 = $gdpr1;
         $this->gdpr2 = $gdpr2;
+
+        $this->associationMember = $associationMember;
     }
 
     /**
@@ -179,6 +188,18 @@ class ContestParticipation
     public function isGdpr2(): bool
     {
         return $this->gdpr2;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAssociationMember(): bool
+    {
+        if (is_null($this->associationMember)) {
+            return false;
+        }
+
+        return $this->associationMember;
     }
 
     /**

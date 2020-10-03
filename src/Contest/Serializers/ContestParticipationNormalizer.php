@@ -52,6 +52,7 @@ class ContestParticipationNormalizer implements NormalizerInterface
             'answer2' => $contestParticipation->getAnswer2()->toNative(),
             'gdpr1' => $contestParticipation->isGdpr1(),
             'gdpr2' => $contestParticipation->isGdpr2(),
+            'association' => $contestParticipation->isAssociationMember(),
         ];
     }
 

@@ -43,6 +43,7 @@ class ContestParticipationCsvData
             'answer2',
             'gdpr1',
             'gdpr2',
+            'association'
         ];
     }
 
