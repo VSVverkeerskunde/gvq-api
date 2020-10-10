@@ -22,7 +22,7 @@
   };
   let translations = {
     nl: {
-      START_QUIZ: 'Start de quiz',
+      START_QUIZ: 'Start!',
       CONTINUE: 'Verdergaan',
       QUESTION: 'Vraag',
       TIME_LEFT: 'Resterende tijd',
@@ -45,7 +45,7 @@
       SHARE_SUB_TITLE: 'Deel je score met je vrienden en daag hen uit om beter te doen.',
     },
     fr: {
-      START_QUIZ: 'Commencer le quiz',
+      START_QUIZ: 'Commencer',
       CONTINUE: 'Continuez',
       QUESTION: 'Question',
       TIME_LEFT: 'Temps restant',
