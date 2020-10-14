@@ -3,6 +3,19 @@
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
+            {% if score is defined and totalQuestions is defined %}
+                <div class="show-result card">
+                    <div class="gvq-question-counter card-header text-center">
+                        <h2><span>{% trans %}Score{% endtrans %}</span></h2>
+                    </div>
+                    <div class="card-body text-center">
+                            <span class="gvq-score mb-4">
+                                <span class="right-answers">{{ score }}</span>/<span class="total-questions">{{ totalQuestions }}</span>
+                            </span>
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="card m-4">
                 <div class="card-header"><h2 class="card-title">{% trans %}Contest.thanks{% endtrans %}</h2></div>
                 <div class="card-body">

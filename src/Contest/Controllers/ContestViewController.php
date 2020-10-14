@@ -144,10 +144,6 @@ class ContestViewController extends AbstractController
             return new Response('Can\'t participate', Response::HTTP_FORBIDDEN);
         }
 
-        if ($this->contestService->hasParticipatedBefore($this->year, Uuid::fromString($quizId))) {
-            return $this->render('contest/contest_success.html.twig');
-        }
-
         // We need to show the score and total questions at top of the contest form.
         $questionResult = $this->questionResultRepository->getById(
             Uuid::fromString($quizId)
@@ -155,6 +151,17 @@ class ContestViewController extends AbstractController
 
         $totalQuestions = $quiz->getQuestions()->count();
         $score = $questionResult->getScore();
+
+        if ($this->contestService->hasParticipatedBefore($this->year, Uuid::fromString($quizId))) {
+            return $this->render(
+                'contest/contest_success.html.twig',
+                [
+                    'score' => $score,
+                    'totalQuestions' => $totalQuestions,
+                ]
+
+            );
+        }
 
         $form = $this->createContestForm($request->getLocale() === 'nl');
         $form->handleRequest($request);
