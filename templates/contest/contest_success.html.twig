@@ -24,10 +24,10 @@
                     <div>
                         <p>{% trans %}Contest.share{% endtrans %}</p>
                         <p>
-                            {% if app.request.get('language') == 'fr' %}
-                                {% include 'quiz/share-fr.html.twig' %}
-                            {% else %}
+                            {% if app.request.getLocale() == 'nl' %}
                                 {% include 'quiz/share-nl.html.twig' %}
+                            {% else %}
+                                {% include 'quiz/share-fr.html.twig' %}
                             {% endif %}
                         </p>
 
