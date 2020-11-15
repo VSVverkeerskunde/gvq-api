@@ -2,7 +2,6 @@
 
 namespace VSV\GVQ_API\Statistics\Service;
 
-use function array_map;
 use Ramsey\Uuid\UuidInterface;
 use VSV\GVQ_API\Contest\Repositories\ContestParticipationRepository;
 use VSV\GVQ_API\Question\ValueObjects\Year;
@@ -11,8 +10,8 @@ use VSV\GVQ_API\Quiz\ValueObjects\StatisticsKey;
 use VSV\GVQ_API\Statistics\Models\RankedCompanyParticipant;
 use VSV\GVQ_API\Statistics\Models\TopScore;
 use VSV\GVQ_API\Statistics\Repositories\TopScoreRepository;
-use VSV\GVQ_API\Statistics\Repositories\UniqueParticipantRepository;
 use VSV\GVQ_API\Statistics\ValueObjects\NaturalNumber;
+use function array_map;
 
 class CompanyParticipantRanker
 {
@@ -27,23 +26,23 @@ class CompanyParticipantRanker
     private $contestParticipationRepository;
 
     /**
-     * @var UniqueParticipantRepository
-     */
-    private $uniqueParticipantRepository;
-
-    /**
      * @var StatisticsKey
      */
     private $statisticsKey;
 
+    /**
+     * @var StatisticsService
+     */
+    private $statisticsService;
+
     public function __construct(
         TopScoreRepository $topScoreRepository,
         ContestParticipationRepository $contestParticipationRepository,
-        UniqueParticipantRepository $uniqueParticipantRepository
+        StatisticsService $statisticsService
     ) {
         $this->topScoreRepository = $topScoreRepository;
         $this->contestParticipationRepository = $contestParticipationRepository;
-        $this->uniqueParticipantRepository = $uniqueParticipantRepository;
+        $this->statisticsService = $statisticsService;
 
         $this->statisticsKey = new StatisticsKey(StatisticsKey::QUIZ_TOT);
     }
@@ -108,17 +107,14 @@ class CompanyParticipantRanker
     public function getTiebreaker1Answer(): NaturalNumber
     {
         return new NaturalNumber(
-            $this->uniqueParticipantRepository->getCount(
-                $this->statisticsKey
-            ));
+            $this->statisticsService->getFinishedQuizCounts()[$this->statisticsKey->toNative()]
+        );
     }
 
     public function getTiebreaker2Answer(): NaturalNumber
     {
         return new NaturalNumber(
-            $this->uniqueParticipantRepository->getPassedCount(
-                $this->statisticsKey
-            )
+            $this->statisticsService->getPassedQuizCounts()[$this->statisticsKey->toNative()]
         );
     }
 }

@@ -448,7 +448,7 @@ services:
     company_participant_ranker:
       class: VSV\GVQ_API\Statistics\Service\CompanyParticipantRanker
       arguments:
-        $uniqueParticipantRepository: '@unique_participant_redis_repository'
+        $statisticsService: '@statistics_service'
 
     contest_closed_event_bus:
       class: Broadway\EventHandling\SimpleEventBus
