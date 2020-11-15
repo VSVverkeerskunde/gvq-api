@@ -210,6 +210,7 @@
                         </span>
 
                         <div class="social text-center p-4">
+                            {% if not contest_closed %}
                             {% if app.request.get('language') == 'nl' %}
                             <p class="pt-4">
                                 Jammer! Dat kan ongetwijfeld beter. Probeer nog eens en verbeter je score. Vanaf 7 op 10 maak je
@@ -220,6 +221,7 @@
                                     Dommage! Vous voulez faire mieux? Jouez encore une fois!
                                     Si vous obtenez 7/10 au moins, vous pourrez tenter votre chance pour gagner un des 200 prix mis en jeu!
                                 </p>
+                            {% endif %}
                             {% endif %}
 
                             <p data-translate="SHARE_SUB_TITLE">Let your friends know how you scored!</p>
@@ -262,7 +264,7 @@
     <script src="{{ asset('js/quiz.js') }}"></script>
     <script src="{{ asset('js/iFrameSize.js') }}"></script>
     <script>
-      Quiz($.extend({teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
+      Quiz($.extend({contestClosed: {{contest_closed ? 'true' : 'false'}}, teams: {{ teams|json_encode|raw }}}, getConfigFromUrlParameters()));
 
       function getConfigFromUrlParameters () {
         return decodeURIComponent(window.location.search.substring(1))

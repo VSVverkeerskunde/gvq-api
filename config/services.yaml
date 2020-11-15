@@ -651,6 +651,7 @@ services:
       arguments:
         $year: '@quiz_year'
         $allowAnonymous: '%env(bool:QUIZ_ALLOW_ANONYMOUS)%'
+        $contestClosed: '%env(bool:CONTEST_CLOSED)%'
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Statistics\Controllers\StatisticsViewController:

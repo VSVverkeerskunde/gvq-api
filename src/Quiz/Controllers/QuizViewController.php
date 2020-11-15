@@ -24,6 +24,11 @@ class QuizViewController extends AbstractController
     private $allowAnonymous;
 
     /**
+     * @var bool
+     */
+    private $contestClosed;
+
+    /**
      * @var CompanyRepository
      */
     private $companyRepository;
@@ -31,14 +36,18 @@ class QuizViewController extends AbstractController
     /**
      * @param Year $year
      * @param bool $allowAnonymous
+     * @param bool $contestClosed
+     * @param CompanyRepository $companyRepository
      */
     public function __construct(
         Year $year,
         bool $allowAnonymous,
+        bool $contestClosed,
         CompanyRepository $companyRepository
     ) {
         $this->year = $year;
         $this->allowAnonymous = $allowAnonymous;
+        $this->contestClosed = $contestClosed;
         $this->companyRepository = $companyRepository;
     }
 
@@ -90,6 +99,7 @@ class QuizViewController extends AbstractController
                 'quiz/quiz.html.twig',
                 [
                     'teams' => (object)$currentYearTeams,
+                    'contest_closed' => $this->contestClosed,
                 ]
             );
         } else {

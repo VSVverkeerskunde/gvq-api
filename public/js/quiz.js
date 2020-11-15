@@ -18,7 +18,8 @@
     'apiUrl': '/api',
     'email': '',
     'team': '',
-    'startquestion': null
+    'startquestion': null,
+    'contestClosed': false
   };
   let translations = {
     nl: {
@@ -348,7 +349,7 @@
             if (typeof data.score === 'number') {
               view.find('button.gvq-view-score')
                 .on('click', function () {
-                  let viewName = quizConfig['company'] || data.score >= 7 ? 'askEmail': 'showResult';
+                  let viewName = ((quizConfig['company'] || data.score >= 7) && quizConfig['contestClosed'] === false) ? 'askEmail': 'showResult';
                   renderView(viewName, quizId, data.score, questionNr, null, true);
                 })
                 .show();
