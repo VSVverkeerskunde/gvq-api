@@ -35,6 +35,13 @@ class ReportService
     private $categoryRepository;
 
     /**
+     * Amount of questions to report.
+     *
+     * @var int
+     */
+    private $amount;
+
+    /**
      * @param QuestionDifficultyRepository $questionDifficultyRepository
      * @param CategoryDifficultyRepository $categoryCorrectRepository
      * @param CategoryDifficultyRepository $categoryInCorrectRepository
@@ -50,6 +57,8 @@ class ReportService
         $this->categoryCorrectRepository = $categoryCorrectRepository;
         $this->categoryInCorrectRepository = $categoryInCorrectRepository;
         $this->categoryRepository = $categoryRepository;
+
+        $this->amount = 10;
     }
 
     /**
@@ -60,7 +69,7 @@ class ReportService
     {
         return $this->questionDifficultyRepository->getBestRange(
             $language,
-            new NaturalNumber(4)
+            new NaturalNumber($this->amount - 1)
         );
     }
 
@@ -72,7 +81,7 @@ class ReportService
     {
         return $this->questionDifficultyRepository->getWorstRange(
             $language,
-            new NaturalNumber(4)
+            new NaturalNumber($this->amount - 1)
         );
     }
 
