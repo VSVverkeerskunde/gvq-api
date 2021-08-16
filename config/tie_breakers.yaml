@@ -109,3 +109,28 @@
     language: 'fr'
     question: 'Combien de fois le score minimum de 7/10 aura-t-il été atteint?'
     answer: null
+2021:
+  0:
+    id: '37016b79-2bc7-43f5-8bab-725957f8aa16'
+    channel: 'individual'
+    language: 'nl'
+    question: 'Hoeveel keer zal De Grote Verkeersquiz volledig uitgespeeld zijn op maandag 15 november 2021 om 23:59 (in het Nederlands en het Frans)?'
+    answer: null
+  1:
+    id: '8715743f-10ca-46cd-951c-d5e707a6530b'
+    channel: 'individual'
+    language: 'nl'
+    question: 'Hoeveel keer werd er een score van minimum 7/10 behaald?'
+    answer: null
+  2:
+    id: '0e597b02-6999-475d-a263-7fee6d1071d3'
+    channel: 'individual'
+    language: 'fr'
+    question: 'Combien de fois le Quiz de la Route aura t’il été complétement terminé entre le 15 octobre et le 15 novembre à minuit (en français et en néerlandais)?'
+    answer: null
+  3:
+    id: 'de741524-5107-420e-9826-1b874b220d89'
+    channel: 'individual'
+    language: 'fr'
+    question: 'Combien de fois le score minimum de 7/10 aura-t-il été atteint?'
+    answer: null

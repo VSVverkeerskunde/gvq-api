@@ -362,9 +362,9 @@ class SwiftMailService implements MailService
     {
         // @codeCoverageIgnoreStart
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
-            return 'Briefing_entreprise_2020.pdf';
+            return 'Briefing_entreprise_2021.pdf';
         } else {
-            return 'Briefing_bedrijven_2020.pdf';
+            return 'Briefing_bedrijven_2021.pdf';
         }
         // @codeCoverageIgnoreEnd
     }

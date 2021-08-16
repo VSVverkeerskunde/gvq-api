@@ -1,5 +1,5 @@
 #General translations
-GVQ.title: 'Grote Verkeersquiz - 2020'
+GVQ.title: 'Grote Verkeersquiz - 2021'
 
 Id: 'Id'
 LastName: 'Achternaam'
@@ -182,11 +182,11 @@ Documents.title.nl: 'Nederlandstalige documenten'
 Documents.title.fr: 'Franstalige documenten'
 
 #Mails
-Activation.mail.subject: 'Activatie Grote Verkeersquiz 2020'
+Activation.mail.subject: 'Activatie Grote Verkeersquiz 2021'
 Password.reset.mail.subject: 'Aanvraag tot herstel wachtwoord'
-Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2020'
-Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2020'
-Kickoff.after.launch.mail.subject: 'Kick-off Grote Verkeersquiz 2020'
+Welcome.mail.subject: 'Welkom op De Grote Verkeersquiz 2021'
+Kickoff.mail.subject: 'Kick-off Grote Verkeersquiz 2021'
+Kickoff.after.launch.mail.subject: 'Kick-off Grote Verkeersquiz 2021'
 
 #Input constraints
 Field.empty: 'Dit veld is verplicht.'
@@ -242,7 +242,7 @@ Dashboard.average.all: 'Alle deelnemers'
 Statistics.title.company: 'Statistieken van het bedrijf'
 
 Dashboard.tiebreakers.title: 'Juiste antwoorden schiftingsvragen'
-Dashboard.tiebreakers.1.title: 'Hoeveel keer zal De Grote Verkeersquiz volledig uitgespeeld zijn op zondag 15 november 2020 om 23:59 (in het Nederlands en het Frans)?'
+Dashboard.tiebreakers.1.title: 'Hoeveel keer zal De Grote Verkeersquiz volledig uitgespeeld zijn op maandag 15 november 2021 om 23:59 (in het Nederlands en het Frans)?'
 Dashboard.tiebreakers.2.title: 'Hoeveel keer werd er een score van minimum 7/10 behaald?'
 Dashboard.topscores.tiebreakers.1.title: 'Antwoord schiftingsvraag 1'
 Dashboard.topscores.tiebreakers.2.title: 'Antwoord schiftingsvraag 2'

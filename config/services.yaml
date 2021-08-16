@@ -3,9 +3,9 @@
 parameters:
     locale: 'nl'
     sender_email_nl: 'quiz@vsv.be'
-    sender_name_nl: 'Grote verkeersquiz 2020'
+    sender_name_nl: 'Grote verkeersquiz 2021'
     sender_email_fr: 'quiz@awsr.be'
-    sender_name_fr: 'Quiz de la Route 2020'
+    sender_name_fr: 'Quiz de la Route 2021'
     bucket_name: '%env(BUCKET_NAME)%'
     upload_target: '%env(UPLOAD_TARGET)%'
     start_date: '%env(START_DATE)%'
@@ -18,8 +18,8 @@ parameters:
     env(REPORT_ALLOW_CONTACT): 'false'
     env(CONTEST_CLOSED): 'false'
     env(REGISTRATIONS_CLOSED): 'false'
-    env(KICK_OFF_DATE): '2020-09-30'
-    env(START_DATE): '2020-10-15'
+    env(KICK_OFF_DATE): '2021-09-30'
+    env(START_DATE): '2021-10-15'
     env(MAILER_URL): 'smtp://mailhog:1025'
     router.request_context.host: 'app.degroteverkeersquiz.be'
     router.request_context.scheme: 'https'
@@ -107,7 +107,7 @@ services:
     quiz_year:
       class: \VSV\GVQ_API\Question\ValueObjects\Year
       arguments:
-        $value: 2020
+        $value: 2021
 
     quiz_start_date:
       class: \DateTimeImmutable
