@@ -30,4 +30,4 @@ framework:
         #app: cache.adapter.apcu
 
     assets:
-        version: 'v5'
+        version: 'v6'
