@@ -21,11 +21,17 @@
                 {%  elseif categoryPercentage.category.id.toString == '67844067-82ca-4698-a713-b5fbd4c729c5' %}
                     Signaux routiers
                 {%  elseif categoryPercentage.category.id.toString == '6f0c9e04-1e84-4ba4-be54-ab5747111754' %}
-                    Sécurité routière
+                    Conseils de sécurité
                 {%  elseif categoryPercentage.category.id.toString == '9677995d-5fc5-48cd-a251-565b626cb7c1' %}
                     Véhicule / Technique
                 {%  elseif categoryPercentage.category.id.toString == '58ee6bd3-a3f4-42bc-ba81-82491cec55b9' %}
                     Règles de priorité
+                {%  if categoryPercentage.category.id.toString == '8de1ab10-4ccd-404d-8dbd-6cdc9f759e8d' %}
+                    Véhicules motorisés
+                {%  elseif categoryPercentage.category.id.toString == '8dea38e0-9d61-4d81-ab20-5a4a9632ea29' %}
+                    Véhicules spéciaux
+                {%  elseif categoryPercentage.category.id.toString == '0dcd5005-80b3-499b-bdef-caf86bc6334b' %}
+                    Divers
                 {% else %}
                     {{ categoryPercentage.category.name.toNative }}
                 {% endif %}
