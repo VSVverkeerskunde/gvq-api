@@ -56,6 +56,7 @@ class CompanyNormalizer implements NormalizerInterface
             'id' => $company->getId()->toString(),
             'name' => $company->getName()->toNative(),
             'numberOfEmployees' => $company->getNumberOfEmployees()->toNative(),
+            'type' => $company->getType(),
             'aliases' => $aliases,
             'user' => $user,
             'created' => $company->getCreated()->format(\DateTime::ISO8601),

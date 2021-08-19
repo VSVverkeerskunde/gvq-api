@@ -50,6 +50,7 @@ class CompaniesCsvData
             'id',
             'name',
             'numberOfEmployees',
+            'type',
             'aliases.0.language',
             'aliases.0.alias',
             'aliases.1.language',

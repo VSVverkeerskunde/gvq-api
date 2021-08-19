@@ -48,6 +48,11 @@ class Company
     private $created;
 
     /**
+     * @var string|null
+     */
+    private $type;
+
+    /**
      * @param UuidInterface $id
      * @param NotEmptyString $name
      * @param PositiveNumber $numberOfEmployees
@@ -141,6 +146,16 @@ class Company
     }
 
     /**
+     * @param string|null $type
+     * @return Company
+     */
+    public function withType(?string $type): Company {
+        $c = clone $this;
+        $c->type = $type;
+        return $c;
+    }
+
+    /**
      * @param TranslatedAliases $aliases
      */
     private function guardTranslatedAliases(TranslatedAliases $aliases): void
@@ -162,5 +177,13 @@ class Company
                 '. Exactly one alias per language (nl and fr) required.'
             );
         }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
     }
 }

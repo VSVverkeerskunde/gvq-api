@@ -5,6 +5,7 @@ namespace VSV\GVQ_API\Company\Forms;
 use Ramsey\Uuid\UuidFactoryInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -53,7 +54,26 @@ class CompanyFormType extends AbstractType
                     'data' => $company ? $company->getNumberOfEmployees()->toNative() : null,
                     'constraints' => $this->createNrOfEmployeesConstraints($translator),
                 ]
-            )
+            );
+
+        if ($options['use_company_type'] === true) {
+            $builder->add(
+                'type',
+                ChoiceType::class,
+                [
+                    'expanded' => true,
+                    'multiple' => false,
+                    'data' => $company ? $company->getType() : null,
+                    'choices' => [
+                        'een bedrijf' => 'company',
+                        'een vereniging' => 'association',
+                    ],
+                    'required' => true,
+                ]
+            );
+        }
+
+        $builder
             ->add(
                 'aliasNl',
                 TextType::class,
@@ -92,6 +112,7 @@ class CompanyFormType extends AbstractType
         $resolver->setDefaults(
             [
                 'company' => null,
+                'use_company_type' => false,
                 'translator' => null,
             ]
         );
@@ -139,7 +160,7 @@ class CompanyFormType extends AbstractType
         Company $company,
         array $data
     ): Company {
-        return new Company(
+        $updated_company = new Company(
             $company->getId(),
             new NotEmptyString($data['companyName']),
             new PositiveNumber($data['nrOfEmployees']),
@@ -158,6 +179,14 @@ class CompanyFormType extends AbstractType
             $company->getUser(),
             $company->getCreated()
         );
+
+        $updated_company = $updated_company->withType($company->getType());
+
+        if (isset($data['type'])) {
+            $updated_company = $updated_company->withType($data['type']);
+        }
+
+        return $updated_company;
     }
 
     /**

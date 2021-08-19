@@ -23,6 +23,18 @@
             </div>
         </div>
 
+        {% if form.type %}
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="form_type">Wij zijn:</label>
+                    {{ form_widget(form.type) }}
+                    {{ form_errors(form.type) }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         {% include 'companies/aliases.html.twig' %}
 
         <div class="form-group">

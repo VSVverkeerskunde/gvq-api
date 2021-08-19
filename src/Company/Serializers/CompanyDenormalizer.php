@@ -71,6 +71,10 @@ class CompanyDenormalizer implements DenormalizerInterface
             $created
         );
 
+        if (isset($data['type'])) {
+            $company = $company->withType($data['type']);
+        }
+
         if (isset($data['nrOfPassedEmployees'])) {
             $company = $company->withNrOfPassedEmployees(
                 new NaturalNumber($data['nrOfPassedEmployees'])

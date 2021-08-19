@@ -175,7 +175,7 @@ class AccountViewController extends AbstractController
             return new Response('', Response::HTTP_FORBIDDEN);
         }
 
-        $form = $this->createRegisterForm();
+        $form = $this->createRegisterForm($request->getLocale() == 'nl');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -518,7 +518,7 @@ class AccountViewController extends AbstractController
     /**
      * @return FormInterface
      */
-    private function createRegisterForm(): FormInterface
+    private function createRegisterForm(bool $use_company_type = false): FormInterface
     {
         $formBuilder = $this->createFormBuilder(
             null,
@@ -535,6 +535,7 @@ class AccountViewController extends AbstractController
         $this->registrationFormType->buildForm(
             $formBuilder,
             [
+                'use_company_type' => $use_company_type,
                 'translator' => $this->translator,
             ]
         );

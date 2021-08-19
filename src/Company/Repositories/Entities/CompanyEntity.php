@@ -54,6 +54,12 @@ class CompanyEntity extends Entity
     private $userEntity;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, unique=false, nullable=true)
+     */
+    private $type;
+
+    /**
      * @param string $id
      * @param string $name
      * @param int $numberOfEmployees
@@ -105,6 +111,8 @@ class CompanyEntity extends Entity
             $company->getCreated()
         );
 
+        $companyEntity->type = $company->getType();
+
         return $companyEntity;
     }
 
@@ -122,7 +130,7 @@ class CompanyEntity extends Entity
             )
         );
 
-        return new Company(
+        $company = new Company(
             Uuid::fromString($this->getId()),
             new NotEmptyString($this->getName()),
             new PositiveNumber($this->getNumberOfEmployees()),
@@ -130,6 +138,12 @@ class CompanyEntity extends Entity
             $this->getUserEntity()->toUser(),
             $this->created
         );
+
+        if ($this->type) {
+            $company = $company->withType($this->type);
+        }
+
+        return $company;
     }
 
     /**

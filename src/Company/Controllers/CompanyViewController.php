@@ -91,7 +91,7 @@ class CompanyViewController extends CompanyAwareController
      */
     public function add(Request $request): Response
     {
-        $form = $this->createCompanyForm(null);
+        $form = $this->createCompanyForm(null, $request->getLocale() == 'nl');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -142,7 +142,7 @@ class CompanyViewController extends CompanyAwareController
             return $this->redirectToRoute('companies_view_index');
         }
 
-        $form = $this->createCompanyForm($company);
+        $form = $this->createCompanyForm($company, $request->getLocale() == 'nl');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -193,7 +193,7 @@ class CompanyViewController extends CompanyAwareController
      * @param null|Company $company
      * @return FormInterface
      */
-    private function createCompanyForm(?Company $company): FormInterface
+    private function createCompanyForm(?Company $company, bool $useType): FormInterface
     {
         $formBuilder = $this->createFormBuilder(
             null,
@@ -211,6 +211,7 @@ class CompanyViewController extends CompanyAwareController
             $formBuilder,
             [
                 'company' => $company,
+                'use_company_type' => $useType,
                 'translator' => $this->translator,
             ]
         );

@@ -3,6 +3,7 @@
 namespace VSV\GVQ_API\Account\Forms;
 
 use Ramsey\Uuid\UuidFactoryInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -122,7 +123,30 @@ class RegistrationFormType extends CompanyFormType
                 [
                     'constraints' => $this->createCompanyNameConstraints($translator, null),
                 ]
-            )
+            );
+
+        if ($options['use_company_type'] === true) {
+            if ($options['use_company_type'] === true) {
+                $builder->add(
+                    'type',
+                    ChoiceType::class,
+                    [
+                        'expanded' => true,
+                        'multiple' => false,
+                        'choices' => [
+                            'een bedrijf' => 'company',
+                            'een vereniging' => 'association',
+                        ],
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ]
+                    ]
+                );
+            }
+        }
+
+        $builder
             ->add(
                 'numberOfEmployees',
                 IntegerType::class,
@@ -163,6 +187,7 @@ class RegistrationFormType extends CompanyFormType
         $resolver->setDefaults(
             [
                 'translator' => null,
+                'use_company_type' => false,
             ]
         );
     }
@@ -208,7 +233,7 @@ class RegistrationFormType extends CompanyFormType
         array $data,
         User $user
     ): Company {
-        return new Company(
+        $company = new Company(
             $uuidFactory->uuid4(),
             new NotEmptyString($data['companyName']),
             new PositiveNumber($data['numberOfEmployees']),
@@ -227,6 +252,12 @@ class RegistrationFormType extends CompanyFormType
             $user,
             new \DateTime('now')
         );
+
+        if (isset($data['type'])) {
+            $company = $company->withType($data['type']);
+        }
+
+        return $company;
     }
 
     /**
