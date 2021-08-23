@@ -34,9 +34,9 @@ class ContestParticipantEmbeddable
     private $lastName;
 
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTimeImmutable|null
      *
-     * @ORM\Column(type="datetime_immutable", name="date_of_birth", nullable=false)
+     * @ORM\Column(type="datetime_immutable", name="date_of_birth", nullable=true)
      */
     private $dateOfBirth;
 
@@ -44,13 +44,13 @@ class ContestParticipantEmbeddable
      * @param string $email
      * @param string $firstName
      * @param string $lastName
-     * @param \DateTimeImmutable $dateOfBirth
+     * @param \DateTimeImmutable|null $dateOfBirth
      */
     private function __construct(
         string $email,
         string $firstName,
         string $lastName,
-        \DateTimeImmutable $dateOfBirth
+        ?\DateTimeImmutable $dateOfBirth
     ) {
         $this->email = $email;
         $this->firstName = $firstName;

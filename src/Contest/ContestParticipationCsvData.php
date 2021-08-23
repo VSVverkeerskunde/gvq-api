@@ -34,7 +34,6 @@ class ContestParticipationCsvData
             'contestParticipant.email',
             'contestParticipant.firstName',
             'contestParticipant.lastName',
-            'contestParticipant.dateOfBirth',
             'answer1',
             'answer2',
             'gdpr1',

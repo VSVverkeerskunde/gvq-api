@@ -17,7 +17,7 @@ class ContestParticipantNormalizer implements NormalizerInterface
             'email' => $contestParticipant->getEmail()->toNative(),
             'firstName' => $contestParticipant->getFirstName()->toNative(),
             'lastName' => $contestParticipant->getLastName()->toNative(),
-            'dateOfBirth' => $contestParticipant->getDateOfBirth()->format(DATE_ATOM),
+            'dateOfBirth' => $contestParticipant->getDateOfBirth() ? $contestParticipant->getDateOfBirth()->format(DATE_ATOM) : null,
         ];
     }
 

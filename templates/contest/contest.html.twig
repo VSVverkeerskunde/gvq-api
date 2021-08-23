@@ -49,9 +49,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label for="form_dateOfBirth">{% trans %}DateOfBirth{% endtrans %}</label>
-                        {{ form_widget(form.dateOfBirth) }}
-                        {{ form_errors(form.dateOfBirth) }}
+                        {{ form_widget(form.confirm18years) }}
                     </div>
                 </div>
             </div>
@@ -90,7 +88,6 @@
                 <div class="row">
                     <div class="col-sm-12">
                         {{ form_widget(form.gdpr1) }}
-                        {{ form_errors(form.gdpr1) }}
                         <a href="{{ privacy_pdf }}" target="_blank" class="ml-4">{% trans %}To.privacy.policy{% endtrans %}</a>
                     </div>
                 </div>
@@ -100,7 +97,6 @@
                 <div class="row">
                     <div class="col-sm-12">
                         {{ form_widget(form.gdpr2) }}
-                        {{ form_errors(form.gdpr2) }}
                     </div>
                 </div>
             </div>
@@ -110,7 +106,6 @@
                 <div class="row">
                     <div class="col-sm-12">
                         {{ form_widget(form.association) }}
-                        {{ form_errors(form.association) }}
                     </div>
                 </div>
             </div>

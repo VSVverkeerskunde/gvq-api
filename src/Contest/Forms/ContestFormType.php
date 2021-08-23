@@ -4,7 +4,6 @@ namespace VSV\GVQ_API\Contest\Forms;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,17 +50,11 @@ class ContestFormType extends AbstractType
                 ]
             )
             ->add(
-                'dateOfBirth',
-                BirthdayType::class,
+                'confirm18years',
+                CheckboxType::class,
                 [
-                    'widget' => 'choice',
-                    'format' => 'dd/MM/yyyy',
-                    'years' =>  range(date('Y'), 1898),
-                    'placeholder' =>[
-                        'year' => '----',
-                        'month' => '--',
-                        'day' => '--',
-                    ],
+                    'label' => $translator->trans('Contest.18years'),
+                    'required' => 'true',
                     'constraints' => [
                         new NotBlank(
                             [
@@ -187,7 +180,8 @@ class ContestFormType extends AbstractType
                 $email,
                 new NotEmptyString($data['firstName']),
                 new NotEmptyString($data['lastName']),
-                \DateTimeImmutable::createFromMutable($data['dateOfBirth'])
+                // We do not ask for the birth date in edition 2021.
+                null
             ),
             // We do not ask for the address in edition 2021.
             null,

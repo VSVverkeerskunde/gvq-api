@@ -23,7 +23,7 @@ class ContestParticipant
     private $lastName;
 
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTimeImmutable|null
      */
     private $dateOfBirth;
 
@@ -31,13 +31,13 @@ class ContestParticipant
      * @param Email $email
      * @param NotEmptyString $firstName
      * @param NotEmptyString $lastName
-     * @param \DateTimeImmutable $dateOfBirth
+     * @param \DateTimeImmutable|null $dateOfBirth
      */
     public function __construct(
         Email $email,
         NotEmptyString $firstName,
         NotEmptyString $lastName,
-        \DateTimeImmutable $dateOfBirth
+        ?\DateTimeImmutable $dateOfBirth
     ) {
         $this->email = $email;
         $this->firstName = $firstName;
@@ -70,9 +70,9 @@ class ContestParticipant
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return \DateTimeImmutable|null
      */
-    public function getDateOfBirth(): \DateTimeImmutable
+    public function getDateOfBirth(): ?\DateTimeImmutable
     {
         return $this->dateOfBirth;
     }
