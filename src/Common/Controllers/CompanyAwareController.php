@@ -22,7 +22,7 @@ abstract class CompanyAwareController extends AbstractController
     /**
      * @var CompanyRepository
      */
-    private $companyRepository;
+    protected $companyRepository;
 
     /**
      * @param UserRepository $userRepository

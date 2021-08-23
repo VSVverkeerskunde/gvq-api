@@ -4,6 +4,7 @@ namespace VSV\GVQ_API\Company\Controllers;
 
 use Ramsey\Uuid\UuidFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use VSV\GVQ_API\Common\Controllers\CompanyAwareController;
 use VSV\GVQ_API\Common\Controllers\ResponseFactory;
+use VSV\GVQ_API\Common\ValueObjects\Language;
 use VSV\GVQ_API\Company\Forms\CompanyFormType;
 use VSV\GVQ_API\Company\Models\Company;
 use VSV\GVQ_API\Company\Repositories\CompanyRepository;
@@ -217,5 +219,20 @@ class CompanyViewController extends CompanyAwareController
         );
 
         return $formBuilder->getForm();
+    }
+
+    public function listAsJson(Request $request) {
+        /** @var Company[] $companies */
+        $companies = $this->companyRepository->getAll();
+
+        $language = new Language($request->getLocale());
+
+        $data = [];
+        foreach ($companies as $company) {
+            $alias = $company->getTranslatedAliases()->getByLanguage($language)->getAlias();
+            $data[$alias->toNative()] = $company->getName()->toNative();
+        }
+
+        return new JsonResponse($data);
     }
 }

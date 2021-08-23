@@ -143,6 +143,12 @@ companies_export:
   methods: [GET]
   requirements:
     _locale: nl|fr
+companies_api:
+  path: /{_locale}/api/companies
+  controller: VSV\GVQ_API\Company\Controllers\CompanyViewController::listAsJson
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 
 users_view_index:
   path: /{_locale}/view/users
