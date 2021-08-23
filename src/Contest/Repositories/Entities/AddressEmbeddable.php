@@ -41,7 +41,7 @@ class AddressEmbeddable
      * @param string $postalCode
      * @param string $town
      */
-    private function __construct(
+    public function __construct(
         string $street,
         string $number,
         string $postalCode,
@@ -68,10 +68,14 @@ class AddressEmbeddable
     }
 
     /**
-     * @return Address
+     * @return Address|null
      */
-    public function toAddress(): Address
+    public function toAddress(): ?Address
     {
+        if (empty($this->street) || empty($this->number || empty($this->postalCode)) || empty($this->town)) {
+            return null;
+        }
+
         return new Address(
             new NotEmptyString($this->street),
             new NotEmptyString($this->number),

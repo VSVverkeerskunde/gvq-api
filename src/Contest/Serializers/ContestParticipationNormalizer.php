@@ -44,10 +44,10 @@ class ContestParticipationNormalizer implements NormalizerInterface
                 $contestParticipation->getContestParticipant(),
                 'json'
             ),
-            'address' => $this->addressNormalizer->normalize(
+            'address' => $contestParticipation->getAddress() ? $this->addressNormalizer->normalize(
                 $contestParticipation->getAddress(),
                 'json'
-            ),
+            ) : null,
             'answer1' => $contestParticipation->getAnswer1()->toNative(),
             'answer2' => $contestParticipation->getAnswer2()->toNative(),
             'gdpr1' => $contestParticipation->isGdpr1(),

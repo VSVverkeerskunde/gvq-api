@@ -72,34 +72,6 @@ class ContestFormType extends AbstractType
                 ]
             )
             ->add(
-                'street',
-                TextType::class,
-                [
-                    'constraints' => $this->createTextConstraint($translator),
-                ]
-            )
-            ->add(
-                'number',
-                TextType::class,
-                [
-                    'constraints' => $this->createTextConstraint($translator),
-                ]
-            )
-            ->add(
-                'postalCode',
-                TextType::class,
-                [
-                    'constraints' => $this->createTextConstraint($translator),
-                ]
-            )
-            ->add(
-                'town',
-                TextType::class,
-                [
-                    'constraints' => $this->createTextConstraint($translator),
-                ]
-            )
-            ->add(
                 'answer1',
                 IntegerType::class,
                 [
@@ -217,12 +189,8 @@ class ContestFormType extends AbstractType
                 new NotEmptyString($data['lastName']),
                 \DateTimeImmutable::createFromMutable($data['dateOfBirth'])
             ),
-            new Address(
-                new NotEmptyString($data['street']),
-                new NotEmptyString($data['number']),
-                new NotEmptyString($data['postalCode']),
-                new NotEmptyString($data['town'])
-            ),
+            // We do not ask for the address in edition 2021.
+            null,
             new PositiveNumber($data['answer1']),
             new PositiveNumber($data['answer2']),
             $data['gdpr1'],

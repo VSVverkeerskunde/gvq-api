@@ -38,7 +38,7 @@ class ContestParticipation
     private $contestParticipant;
 
     /**
-     * @var Address
+     * @var Address|null
      */
     private $address;
 
@@ -86,7 +86,7 @@ class ContestParticipation
         Language $language,
         QuizChannel $channel,
         ContestParticipant $contestParticipant,
-        Address $address,
+        ?Address $address,
         PositiveNumber $answer1,
         PositiveNumber $answer2,
         bool $gdpr1,
@@ -151,9 +151,9 @@ class ContestParticipation
     }
 
     /**
-     * @return Address
+     * @return Address|null
      */
-    public function getAddress(): Address
+    public function getAddress(): ?Address
     {
         return $this->address;
     }

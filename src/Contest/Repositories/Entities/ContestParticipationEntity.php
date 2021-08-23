@@ -138,6 +138,19 @@ class ContestParticipationEntity extends Entity
     public static function fromContestParticipation(
         ContestParticipation $contestParticipation
     ): ContestParticipationEntity {
+        if ($contestParticipation->getAddress()) {
+            $address = AddressEmbeddable::fromAddress(
+                $contestParticipation->getAddress()
+            );
+        } else {
+            $address = new AddressEmbeddable(
+                '',
+                '',
+                '',
+                ''
+            );
+        }
+
         return new ContestParticipationEntity(
             $contestParticipation->getId()->toString(),
             $contestParticipation->getYear()->toNative(),
@@ -146,9 +159,7 @@ class ContestParticipationEntity extends Entity
             ContestParticipantEmbeddable::fromContestParticipation(
                 $contestParticipation->getContestParticipant()
             ),
-            AddressEmbeddable::fromAddress(
-                $contestParticipation->getAddress()
-            ),
+            $address,
             $contestParticipation->getAnswer1()->toNative(),
             $contestParticipation->getAnswer2()->toNative(),
             $contestParticipation->isGdpr1(),
