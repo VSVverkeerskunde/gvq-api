@@ -276,9 +276,17 @@
             let imageLocation = quizConfig.imageDirectory + data.question.imageFileName;
             let questionImage = new Image();
             setViewValue('questionText', data.question.text);
+
+            for (var i = 1; i <= 3; i++) {
+              view.find('[data-value="answer' + i + '"]').hide();
+            }
+
             $.each(data.question.answers, function (index, answer) {
               setViewValue('answer' + answer.index, answer.text);
+              view.find('[data-value="answer' + answer.index + '"]').show();
             });
+
+
 
             view
               .find('ul.gvq-answers')
@@ -318,12 +326,17 @@
           function renderAnsweredQuestion (data) {
             let answerResult = 'wrong';
 
+            for (var i = 1; i <= 3; i++) {
+              view.find('[data-value="answer' + i + '"]').hide();
+            }
+
             setViewValue('questionText', data.question.text);
             $.each(data.question.answers, function (index, answer) {
               if (answerId && answer.correct && answerId === answer.id) {
                 answerResult = 'correct';
               }
               setViewValue('answer' + answer.index, answer.text);
+              view.find('[data-value="answer' + answer.index + '"]').show();
               view.find('[data-value="answer' + answer.index + '"]')
                 .toggleClass('selected-answer', answer.id === answerId)
                 .toggleClass('is-correct', answer.correct);
