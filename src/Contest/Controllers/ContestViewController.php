@@ -163,7 +163,7 @@ class ContestViewController extends AbstractController
             );
         }
 
-        $form = $this->createContestForm($request->getLocale() === 'nl');
+        $form = $this->createContestForm(false);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
