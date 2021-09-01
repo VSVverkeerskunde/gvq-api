@@ -14,3 +14,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include '/includes/linkedin-insight-tag.html.twig' %}
+{% endblock %}
