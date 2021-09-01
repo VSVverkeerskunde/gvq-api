@@ -148,6 +148,65 @@
     }
 
       let views = {
+        startTimer: {
+          controller: function () {
+            var sequences = [
+              {pct: 20, label: '4'},
+              {pct: 40, label: '3'},
+              {pct: 60, label: '2'},
+              {pct: 80, label: '1'},
+              {pct: 100, label: 'start!', css_class: 'start'}
+            ];
+
+            function progress(val, label, css_class, bar, cont) {
+              var r = bar.attr('r');
+              var c = Math.PI*(r*2);
+
+              if (val < 0) { val = 0;}
+              if (val > 100) { val = 100;}
+
+              var offset = ((100-val)/100)*c;
+              console.log(offset);
+
+              bar.css({ strokeDashoffset: offset});
+
+              cont.attr('data-pct',label)
+
+              if (css_class) {
+                cont.addClass(css_class);
+              }
+            }
+
+            function start () {
+              $.post(quizConfig.apiUrl + '/quiz', JSON.stringify({
+                channel: quizConfig['channel'],
+                company: quizConfig['company'],
+                partner: quizConfig['partner'],
+                language: quizConfig['language'],
+                first_question: quizConfig['startquestion'],
+                team: null
+              }))
+                  .done(function (data) {
+                    renderView('askQuestion', data.id, 1, null, true);
+                  })
+                  .fail(function (data) {
+                    alert(data.responseText);
+                  });
+            }
+
+            let cont = view.find('.cont');
+            let bar = view.find('.bar');
+
+            for (var i = 0; i < sequences.length; i++) {
+              setTimeout(progress, 500 * (i+1), sequences[i].pct, sequences[i].label, sequences[i].css_class ?? null, bar, cont);
+            }
+
+            setTimeout(start, (500 * sequences.length+1) + 300);
+
+            return $.Deferred().resolve().promise();
+          },
+          template: loadTemplate('start-timer', quizConfig.language)
+        },
       participationForm: {
         controller: function () {
           let startButton = view.find('button.gvq-start-button');
@@ -428,7 +487,7 @@
       }
     };
 
-    renderView('participationForm', null, null, null, false);
+    renderView('startTimer', null, null, null, false);
   }
 
   window.Quiz = Quiz;

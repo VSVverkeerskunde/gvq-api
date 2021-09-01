@@ -112,6 +112,7 @@ svg {
   float: right; }
 
 #gvq-quiz {
+  font-family: museo-sans-rounded, sans-serif;
   margin: auto;
   max-width: 1200px; }
   @media (min-width: 576px) {
@@ -311,5 +312,44 @@ ul.gvq-answers li.is-correct {
   table.print tfoot img {
     height: 50px;
     width: auto; } }
+.start-timer {
+  color: #464646;
+  text-transform: uppercase;
+  font-weight: 900; }
+  .start-timer .intro {
+    font-size: 2em;
+    margin-bottom: 1em; }
+  .start-timer svg {
+    transform: rotate(-90deg); }
+    .start-timer svg circle {
+      transition: stroke-dashoffset 0.25s linear;
+      stroke: #464646;
+      stroke-width: 1em; }
+      .start-timer svg circle.bar {
+        stroke: #F7AA08; }
+  .start-timer .cont {
+    display: block;
+    height: 200px;
+    width: 200px;
+    margin: auto auto;
+    border-radius: 100%;
+    position: relative; }
+    .start-timer .cont:after {
+      position: absolute;
+      display: block;
+      height: 160px;
+      width: 160px;
+      left: 50%;
+      top: 50%;
+      content: attr(data-pct);
+      margin-top: -80px;
+      margin-left: -80px;
+      border-radius: 100%;
+      line-height: 160px;
+      font-size: 4em;
+      font-weight: 900; }
+    .start-timer .cont.start:after {
+      font-size: 2em;
+      color: #40B2D6; }
 
 /*# sourceMappingURL=quiz.css.map */
