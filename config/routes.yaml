@@ -4,6 +4,18 @@
 accounts_view_index:
   path: /
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::index
+accounts_register_iframe:
+  path: /{_locale}/iframe/register
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::registerIframe
+  methods: [GET, POST]
+  requirements:
+    _locale: nl|fr
+accounts_view_register_success_iframe:
+  path: /{_locale}/iframe/register/success
+  controller: VSV\GVQ_API\Account\Controllers\AccountViewController::registerSuccessIframe
+  methods: [GET]
+  requirements:
+    _locale: nl|fr
 accounts_inschrijven:
   path: /{_locale}/inschrijven
   controller: VSV\GVQ_API\Account\Controllers\AccountViewController::register

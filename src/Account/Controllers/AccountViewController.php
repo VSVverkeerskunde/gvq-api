@@ -169,6 +169,62 @@ class AccountViewController extends AbstractController
      * @return Response
      * @throws \Exception
      */
+    public function registerIframe(Request $request): Response
+    {
+        if (!$this->canRegister()) {
+            return new Response('', Response::HTTP_FORBIDDEN);
+        }
+
+        $form = $this->createRegisterForm($request->getLocale() == 'nl');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if ($this->honeypotTricked($data)) {
+                return $this->handleHoneypotField('accounts_view_register');
+            }
+
+            $language = $request->getLocale();
+
+            $user = $this->registrationFormType->createUserFromData(
+                $this->uuidFactory,
+                $data,
+                $language
+            );
+            $this->userRepository->save($user);
+
+            $company = $this->registrationFormType->createCompanyFromData(
+                $this->uuidFactory,
+                $data,
+                $user
+            );
+            $this->companyRepository->save($company);
+
+            $registration = $this->createRegistrationForUser(
+                $user,
+                false
+            );
+            $this->registrationRepository->save($registration);
+
+            $this->mailService->sendActivationMail($registration);
+
+            return $this->redirectToRoute('accounts_view_register_success_iframe');
+        }
+
+        return $this->render(
+            'accounts/register_iframe.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
     public function register(Request $request): Response
     {
         if (!$this->canRegister()) {
@@ -239,6 +295,14 @@ class AccountViewController extends AbstractController
     public function registerSuccess(): Response
     {
         return $this->render('accounts/register_success.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function registerSuccessIframe(): Response
+    {
+        return $this->render('accounts/register_success_iframe.html.twig');
     }
 
     /**
