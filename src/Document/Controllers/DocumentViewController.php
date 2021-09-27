@@ -6,20 +6,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use VSV\GVQ_API\Common\ValueObjects\Language;
+use VSV\GVQ_API\Document\Service\DocumentRepository;
 
 class DocumentViewController extends AbstractController
 {
     /**
-     * @var string
+     * @var DocumentRepository
      */
-    private $documentsPath;
+    private $documentRepository;
 
     /**
      * @param string $documentsPath
      */
-    public function __construct(string $documentsPath)
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->documentsPath = $documentsPath;
+        $this->documentRepository = $documentRepository;
     }
 
     /**
@@ -27,17 +28,13 @@ class DocumentViewController extends AbstractController
      */
     public function documents(): Response
     {
-        $finder = new Finder();
-        $dutchFiles = $finder->files()->in($this->documentsPath.Language::NL)->sortByName();
-
-        $finder = new Finder();
-        $frenchFiles = $finder->files()->in($this->documentsPath.Language::FR)->sortByName();
+        $files = $this->documentRepository->getFiles();
 
         return $this->render(
             'documents/documents.html.twig',
             [
-                'dutchFiles' => $dutchFiles,
-                'frenchFiles' => $frenchFiles,
+                'dutchFiles' => $files['nl'],
+                'frenchFiles' => $files['fr'],
             ]
         );
     }

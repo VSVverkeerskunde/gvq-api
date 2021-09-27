@@ -677,9 +677,11 @@ services:
         $allowContact: '%env(bool:REPORT_ALLOW_CONTACT)%'
       tags: ['controller.service_arguments']
 
-    VSV\GVQ_API\Document\Controllers\DocumentViewController:
+    VSV\GVQ_API\Document\Service\DocumentRepository:
       arguments:
-        $documentsPath: '%kernel.project_dir%/public/documents/'
+        $configFilePath: '%kernel.project_dir%/config/documents.yaml'
+
+    VSV\GVQ_API\Document\Controllers\DocumentViewController:
       tags: ['controller.service_arguments']
 
     VSV\GVQ_API\Contest\Controllers\ContestViewController:

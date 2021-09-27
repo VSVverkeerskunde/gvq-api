@@ -1,0 +1,8 @@
+nl:
+  - relativePathName: privacy_policy-nl.pdf
+    title: Privacy Policy
+fr:
+  - relativePathName: briefing_entreprise.pdf
+    title: Briefing Entreprises
+  - relativePathName: privacy_policy-fr.pdf
+    title: Déclaration relative à la protection des données à caractère personnel
