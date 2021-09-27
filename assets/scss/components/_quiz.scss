@@ -17,6 +17,13 @@ body.route-quiz {
     max-width: 100%;
   }
 
+  .card-header {
+    p.h4 {
+      margin-top: 0.8em;
+      margin-bottom: 0em;
+    }
+  }
+
   .card, .card-header, .card-footer {
     background-color: inherit;
   }
@@ -37,7 +44,12 @@ body.route-quiz {
     color: $color-primary;
     text-transform: none;
     font-weight: 900;
-    font-size: 2.6em;
+
+    font-size: 1.8em;
+
+    @include breakpoint(map-get($breakpoints, sml)) {
+      font-size: 2.6em;
+    }
 
     .badge {
       text-transform: uppercase;
@@ -51,8 +63,13 @@ body.route-quiz {
   p.h4 {
     font-weight: 900;
     color: $gray-50;
-    font-size: 1.8em;
-    margin-bottom: 1.8em;
+
+    font-size: 1.4em;
+
+    @include breakpoint(map-get($breakpoints, sml)) {
+      font-size: 1.8em;
+      margin-bottom: 1.8em;
+    }
   }
 
   // Override gray borders on cards only within Quiz

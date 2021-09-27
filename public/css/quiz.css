@@ -123,6 +123,9 @@ body.route-quiz {
       padding: 1em; } }
   #gvq-quiz input, #gvq-quiz button, #gvq-quiz select, #gvq-quiz optgroup, #gvq-quiz textarea {
     max-width: 100%; }
+  #gvq-quiz .card-header p.h4 {
+    margin-top: 0.8em;
+    margin-bottom: 0em; }
   #gvq-quiz .card, #gvq-quiz .card-header, #gvq-quiz .card-footer {
     background-color: inherit; }
   #gvq-quiz .card-footer {
@@ -137,7 +140,10 @@ body.route-quiz {
     color: #6cc4e9;
     text-transform: none;
     font-weight: 900;
-    font-size: 2.6em; }
+    font-size: 1.8em; }
+    @media (min-width: 576px) {
+      #gvq-quiz h2 {
+        font-size: 2.6em; } }
     #gvq-quiz h2 .badge {
       text-transform: uppercase;
       border-radius: 0.8rem;
@@ -147,8 +153,11 @@ body.route-quiz {
   #gvq-quiz p.h4 {
     font-weight: 900;
     color: #65696b;
-    font-size: 1.8em;
-    margin-bottom: 1.8em; }
+    font-size: 1.4em; }
+    @media (min-width: 576px) {
+      #gvq-quiz p.h4 {
+        font-size: 1.8em;
+        margin-bottom: 1.8em; } }
   #gvq-quiz .card,
   #gvq-quiz .card-header,
   #gvq-quiz .card-footer {
