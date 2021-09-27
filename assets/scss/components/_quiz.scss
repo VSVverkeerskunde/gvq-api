@@ -1,3 +1,7 @@
+body.route-quiz {
+  background-color: #F9F9F9;
+}
+
 // General
 #gvq-quiz {
   font-family: museo-sans-rounded, sans-serif;
@@ -13,9 +17,42 @@
     max-width: 100%;
   }
 
+  .card, .card-header, .card-footer {
+    background-color: inherit;
+  }
+
+  .card-footer {
+    text-align: center;
+  }
+
+  .card-footer .btn {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1.3em;
+    border-radius: 0.6rem;
+    padding: 0.5em 0.8em;
+  }
+
   h2 {
     color: $color-primary;
-    text-transform: uppercase;
+    text-transform: none;
+    font-weight: 900;
+    font-size: 2.6em;
+
+    .badge {
+      text-transform: uppercase;
+      border-radius: 0.8rem;
+      padding: 0.8em;
+      font-size: 50%;
+      font-weight: 900;
+    }
+  }
+
+  p.h4 {
+    font-weight: 900;
+    color: $gray-50;
+    font-size: 1.8em;
+    margin-bottom: 1.8em;
   }
 
   // Override gray borders on cards only within Quiz
@@ -53,15 +90,35 @@ ul.gvq-answers {
 }
 
 ul.gvq-answers li {
-  padding-left: 2rem;
+  padding-left: 4rem;
   position: relative;
+
+  &.list-group-item {
+    margin-bottom: 0.5em;
+    border: 1px solid darken($gray-25, 5%);
+    box-shadow: 0 0 2px 2px $gray-25;
+    border-radius: 0.8rem;
+    font-size: 1.2em;
+    padding-right: 3em;
+
+    &:first-child {
+      border-radius: 0.8rem;
+    }
+
+    &:last-child {
+      border-radius: 0.8rem;
+    }
+  }
+
   &:after {
-    content: counter(numbering, lower-alpha) ".";
+    content: counter(numbering, upper-alpha) ".";
     counter-increment: numbering;
-    font-weight: bold;
-    left: .5rem;
+    font-weight: 900;
+    left: 1rem;
     position: absolute;
     top: 0.75rem;
+    color: $gray-50;
+    font-size: 1.3em;
   }
 }
 
@@ -69,19 +126,27 @@ ul.gvq-answers li:hover {
   cursor: pointer;
 }
 
-ul.gvq-answers li.selected-answer:before {
-  content: '\2713';
-  font-weight: bold;
-  padding-right: .5em;
-}
-
 ul.gvq-answers li.selected-answer:not(.is-correct) {
-  color: $brand-red;
+  background-color: $brand-red;
+  color: $white;
+
+  &:after {
+    color: $white;
+  }
+
+  &:before {
+    color: $white;
+  }
 }
 
 ul.gvq-answers li.is-correct {
   background-color: $brand-green;
   color: $white;
+
+  &:after {
+    color: $white;
+  }
+
   &:before {
     color: $white;
   }

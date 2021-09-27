@@ -23,11 +23,12 @@
   };
   let translations = {
     nl: {
+      STARTING: 'De quiz start over',
       START_QUIZ: 'Start!',
       CONTINUE: 'Verdergaan',
       QUESTION: 'Vraag',
       TIME_LEFT: 'Resterende tijd',
-      NEXT_QUESTION: 'Volgende vraag',
+      NEXT_QUESTION: 'Volgende vraag >',
       VIEW_SCORE: 'Bekijk score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Speel nog eens',
@@ -46,11 +47,12 @@
       SHARE_SUB_TITLE: 'Deel je score met je vrienden en daag hen uit om beter te doen.',
     },
     fr: {
+      STARTING: 'Vous êtes prêt?',
       START_QUIZ: 'Commencer',
       CONTINUE: 'Continuez',
       QUESTION: 'Question',
       TIME_LEFT: 'Temps restant',
-      NEXT_QUESTION: 'Question suivante',
+      NEXT_QUESTION: 'Question suivante >',
       VIEW_SCORE: 'Voir mon score',
       SCORE: 'Score',
       PLAY_AGAIN: 'Rejouer',
@@ -155,7 +157,7 @@
               {pct: 40, label: '3'},
               {pct: 60, label: '2'},
               {pct: 80, label: '1'},
-              {pct: 100, label: 'start!', css_class: 'start'}
+              {pct: 100, label: quizConfig['language'] == 'nl' ? 'start!' : 'C’est parti', css_class: 'start'}
             ];
 
             function progress(val, label, css_class, bar, cont) {

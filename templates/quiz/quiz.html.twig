@@ -38,7 +38,6 @@
 {% block body %}
     <div class="container-fluid">
         <div id="gvq-quiz">
-            <div class="gvq-team-banner"><img src="" alt=""></div>
             <div class="gvq-quiz-old-view"></div>
             <div class="gvq-quiz-view"></div>
             <div class="gvq-templates" data-language="nl" style="display: none;">
@@ -148,8 +147,8 @@
                                 <img class="gvq-question-image" src="">
                             </figure>
                             <div class="gvq-question-text col-sm-6 mb-3">
-                                <p class="text-dark h4" data-value="questionText"></p>
-                                <ul class="gvq-answers list-group list-group-flush">
+                                <p class="h4" data-value="questionText"></p>
+                                <ul class="gvq-answers list-group">
                                     <li class="list-group-item list-group-item-action" data-value="answer1"></li>
                                     <li class="list-group-item list-group-item-action" data-value="answer2"></li>
                                     <li class="list-group-item list-group-item-action" data-value="answer3"></li>
@@ -178,8 +177,8 @@
                                 <img class="gvq-question-image" src="">
                             </figure>
                             <div class="gvq-question-text col-sm-6 mb-3">
-                                <p class="text-dark h4" data-value="questionText"></p>
-                                <ul class="gvq-answers list-group list-group-flush">
+                                <p class="h4" data-value="questionText"></p>
+                                <ul class="gvq-answers list-group">
                                     <li class="list-group-item list-group-item-action" data-value="answer1"></li>
                                     <li class="list-group-item list-group-item-action" data-value="answer2"></li>
                                     <li class="list-group-item list-group-item-action" data-value="answer3"></li>
@@ -256,7 +255,7 @@
 
                 <div class="start-timer card" data-template="start-timer">
                     <div class="card-body text-center">
-                        <div class="intro">De quiz start over</div>
+                        <div class="intro" data-translate="STARTING">De quiz start over</div>
                         <div class="cont" data-pct="5">
                             <svg width="200" height="200" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
