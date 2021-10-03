@@ -1,8 +1,79 @@
 nl:
+  - relativePathName: Briefing voor bedrijven 2021.pdf
+    title: Briefing voor bedrijven 2021
+  - relativePathName: DeGroteVerkeersquiz-2021-personaliseerbare flyer-A5.pdf
+    title: Personaliseerbare flyer
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-collega's-v1.jpg
+    title: Visual collega's 1
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-collega's-v2.jpg
+    title: Visual collega's 2
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-quizvraag1.jpg
+    title: Visual quizvraag 1
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-quizvraag2.jpg
+    title: Visual quizvraag 2
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-vereniging-v1.jpg
+    title: Visual vereniging 1
+  - relativePathName: DeGroteVerkeersquiz-2021-visual-vereniging-v2.jpg
+    title: Visual vereniging 2
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-160x600-v2.jpg
+    title: Banner speedpedelec 160x600
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-160x600-v1.jpg
+    title: Banner fietsstraat 160x600
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-1500x450-v1.jpg
+    title: Banner rotonde 1500x450
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-1500x450-v2.jpg
+    title: Banner rood fietslicht 1500x450
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-1920x560-v1.jpg
+    title: Banner rotonde 1920x560
+  - relativePathName: DeGroteVerkeersquiz-2021-banner-1920x560-v2.jpg
+    title: Banner rood fietslicht 1920x560
+  - relativePathName: DeGroteVerkeersquiz-2021-E-mail signatuur-600x160-v1.jpg
+    title: E-mailsignatuur rotonde 600x160
+  - relativePathName: DeGroteVerkeersquiz-2021-E-mail signatuur-600x160-v2.jpg
+    title: E-mailsignatuur rood fietslicht 600x160
+  - relativePathName: DeGroteVerkeersquiz-2021-E-mail signatuur-800x174-v1.jpg
+    title: E-mailsignatuur rotonde 800x174
+  - relativePathName: DeGroteVerkeersquiz-2021-E-mail signatuur-800x174-v2.jpg
+    title: E-mailsignatuur rood fietslicht 800x174
   - relativePathName: privacy_policy-nl.pdf
     title: Privacy Policy
+
 fr:
   - relativePathName: briefing_entreprise.pdf
-    title: Briefing Entreprises
+    title: Briefing Entreprises 2021
+  - relativePathName: QuizdelaRoute-2021-Flyer-A5.pdf
+    title: Flyer personnalisable
+  - relativePathName: QuizdelaRoute-2021-visual-collègues-v1.jpg
+    title: Visual collègues 1
+  - relativePathName: QuizdelaRoute-2021-visual-collègues-v2.jpg
+    title: Visual collègues 2
+  - relativePathName: QuizdelaRoute-2021-visual-collègues-v3.jpg
+    title: Visual collègues 3
+  - relativePathName: QuizdelaRoute-2021-visual-collègues-v4.jpg
+    title: Visual collègues 4
+  - relativePathName: QuizdelaRoute-2021-visual-question 1.jpg
+    title: Visual question 1
+  - relativePathName: QuizdelaRoute-2021-visual-question 2.jpg
+    title: Visual question 2
+  - relativePathName: QuizdelaRoute-2021-webbanner-160x600-v1.jpg
+    title: Banner voiture électrique 160x600
+  - relativePathName: QuizdelaRoute-2021-webbanner-160x600-v2.jpg
+    title: Banner zone 30 160x600
+  - relativePathName: QuizdelaRoute-2021-webbanner-1500x450-v1.jpg
+    title: Banner rond-point 1500x450
+  - relativePathName: QuizdelaRoute-2021-webbanner-1500x450-v2.jpg
+    title: Banner couloir de secours 1500x450
+  - relativePathName: QuizdelaRoute-2021-webbanner-1920x560-v1.jpg
+    title: Banner rond-point 1920x560
+  - relativePathName: QuizdelaRoute-2021-webbanner-1920x560-v2.jpg
+    title: Banner couloir de secours 1920x560
+  - relativePathName: QuizdelaRoute-2021-signature mail-600x160-v1.jpg
+    title: Signature mail rond-point 600x160
+  - relativePathName: QuizdelaRoute-2021-signature mail-600x160-v2.jpg
+    title: Signature mail couloir de secours 600x160
+  - relativePathName: QuizdelaRoute-2021-signature mail-800x174-v1.jpg
+    title: Signature mail rond-point 800x174
+  - relativePathName: QuizdelaRoute-2021-signature mail-800x174-v2.jpg
+    title: Signature mail couloir de secours 800x174
   - relativePathName: privacy_policy-fr.pdf
     title: Déclaration relative à la protection des données à caractère personnel

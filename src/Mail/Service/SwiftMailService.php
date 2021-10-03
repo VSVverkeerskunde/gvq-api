@@ -364,7 +364,7 @@ class SwiftMailService implements MailService
         if ($registration->getUser()->getLanguage()->toNative() === Language::FR) {
             return 'briefing_entreprise.pdf';
         } else {
-            return 'Briefing_bedrijven_2021.pdf';
+            return 'Briefing voor bedrijven 2021.pdf';
         }
         // @codeCoverageIgnoreEnd
     }
