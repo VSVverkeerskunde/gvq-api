@@ -38,7 +38,8 @@
       ANSWERED_LATE: 'Te laat',
       CHOOSE_TEAM: 'Selecteer een club naar keuze',
       RECRUITMENT_TITLE: 'Test je verkeerskennis en ga aan de haal met 1 van de vele topprijzen. 5 minuutjes, 10 vragen en misschien win jij wel een reischeque van 1000 euro!',
-      EMAIL: 'E-mail',
+      EMAIL: 'E-mail:',
+      EMAIL_CONFIRM: 'Bevestiging e-mail:',
       SHARE_TITLE: 'Goede of slechte score?',
       SHARE_TITLE_VERY_BAD: 'Oei, dat ziet er niet goed uit. Probeer het nog eens en fris je verkeerskennis op. Vanaf 7/10 maak je trouwens kans op 1 van de geweldige prijzen.',
       SHARE_TITLE_BAD: 'Dat kan beter. Probeer nog eens en ga voor een hogere score. Vanaf 7/10 maak je kans op een reischeque van 1000 euro. Wie niet waagt...',
@@ -62,7 +63,8 @@
       ANSWERED_LATE: 'Trop tard',
       CHOOSE_TEAM: 'Choisissez votre club',
       RECRUITMENT_TITLE: 'Testez vos connaissances du code de la route et gagnez un de nos 200 prix! 5 minutes, 10 questions et vous gagnerez peut-être un chèque-voyage de 1000 euros!',
-      EMAIL: 'Email',
+      EMAIL: 'Email:',
+      EMAIL_CONFIRM: 'Confirmation email:',
       SHARE_TITLE: 'Bon ou mauvais score?',
       SHARE_TITLE_VERY_BAD: 'Aïe, retentez vite votre chance! Vous devez obtenir 7/10 minimum pour tenter de gagner un des prix mis en jeu.',
       SHARE_TITLE_BAD: 'Vous pouvez faire mieux! Retentez vite votre chance! Vous devez obtenir 7/10 minimum pour tenter de gagner un des prix mis en jeu.',
@@ -276,16 +278,22 @@
 
           function checkEmail () {
             let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
-            return emailRegex.test(emailInput.val());
+            return emailRegex.test(emailInput.val()) &&
+              emailRegex.test(emailInputConfirmation.val()) &&
+              emailInput.val() === emailInputConfirmation.val();
           }
 
           let registerEmailButton = view.find('button.gvq-register-email-button');
 
           let emailInput = view.find('input#gvq-participant-email');
-          emailInput.attr('placeholder', translations[quizConfig['language']]['EMAIL']);
+          let emailInputConfirmation = view.find('input#gvq-participant-email-confirm');
           emailInput.val(quizConfig['email']);
 
           emailInput.on('keyup change', function () {
+            registerEmailButton.prop('disabled', checkEmail() === false);
+          }).trigger('change');
+
+          emailInputConfirmation.on('keyup change', function () {
             registerEmailButton.prop('disabled', checkEmail() === false);
           }).trigger('change');
 
