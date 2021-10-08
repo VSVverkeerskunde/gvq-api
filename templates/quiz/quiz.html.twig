@@ -76,7 +76,7 @@
                         </span>
 
                         <div class="container">
-                            {% if app.request.get('language') == 'nl' %}
+                            {% if app.request.get('language') != 'fr' %}
                                 <p class="pt-4">Wow! Proficiat met je mooie score! Neem snel deel aan de wedstrijd en maak kans op een lading geweldige prijzen, zoals een e-bike ter waarde van 2149 euro.</p>
                                 <p class="pt-4">Hoe deelnemen? Vul hieronder je e-mailadres in en geef bij de volgende stap je gegevens door. Misschien fiets jij dan binnenkort iedereen voorbij op je nieuwe e-bike.</p>
                                 <p class="pt-4">Nam je al deel aan de wedstrijd, maar verbeterde je je topscore? Geef dan hieronder je e-mailadres opnieuw in. Zo kunnen wij je nieuwe topscore koppelen aan je eerdere wedstrijddeelname.</p>
@@ -108,7 +108,7 @@
                 <div class="ask-email card" data-template="ask-email-company">
                     <div class="card-body text-center">
                         <div class="container">
-                            {% if app.request.get('language') == 'nl' %}
+                            {% if app.request.get('language') != 'fr' %}
                                 <p class="pt-4">Bedankt voor je deelname!</p>
                                 <p class="pt-4">Voordat we je score tonen, hebben we nog even je e-mailadres nodig. Zo kunnen we je gegevens
                                     toevoegen aan de statistieken van het bedrijf of de vereniging voorwaar je speelde en maken jullie
@@ -226,7 +226,7 @@
 
                         <div class="social text-center p-4">
                             {% if not contest_closed %}
-                            {% if app.request.get('language') == 'nl' %}
+                            {% if app.request.get('language') != 'fr' %}
                             <p class="pt-4">
                                 Jammer! Dat kan ongetwijfeld beter. Probeer nog eens en verbeter je score. Vanaf 7 op 10 maak je
                                 kans of een lading geweldige prijzen, zoals een fiets ter waarde van 2149 euro!
@@ -248,7 +248,7 @@
                                 {% endif %}
                             </p>
 
-                            {% if app.request.get('language') == 'nl' %}
+                            {% if app.request.get('language') != 'fr' %}
                                 <p class="pt-4">
                                     Nog meer quizzen? Fris je verkeerskennis het hele jaar door op met De Kleinste Verkeersquiz.<br/>
                                     <a href="https://www.veiligverkeer.be" target="_blank">Schrijf je nu in</a> en krijg elke donderdag één vraag over verkeer. Ga de uitdaging aan!

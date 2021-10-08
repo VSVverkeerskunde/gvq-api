@@ -48,7 +48,7 @@
       SHARE_SUB_TITLE: 'Deel je score met je vrienden en daag hen uit om beter te doen.',
     },
     fr: {
-      STARTING: 'Vous êtes prêt?',
+      STARTING: 'Vous êtes prêt ?',
       START_QUIZ: 'Commencer',
       CONTINUE: 'Continuez',
       QUESTION: 'Question',
