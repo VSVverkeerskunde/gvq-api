@@ -113,6 +113,11 @@ class CsvResponse extends Response
     private function writeCells($f, $cells)
     {
         $cells = array_map(
+            [$this, 'convertNullToString'],
+            $cells
+        );
+
+        $cells = array_map(
             [$this, 'convertEncoding'],
             $cells
         );
@@ -146,6 +151,15 @@ class CsvResponse extends Response
     public function getContent()
     {
         return false;
+    }
+
+    private function convertNullToString($value)
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        return $value;
     }
 
     /**
