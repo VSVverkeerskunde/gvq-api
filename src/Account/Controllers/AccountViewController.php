@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
@@ -512,8 +513,9 @@ class AccountViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
+        $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
+
         if ($request->getMethod() === 'POST') {
-            $existingRegistration = $this->registrationRepository->getByUserId($user->getId());
             if ($existingRegistration) {
                 $this->registrationRepository->delete(
                     $existingRegistration->getId()
@@ -541,10 +543,23 @@ class AccountViewController extends AbstractController
             return $this->redirectToRoute('users_view_index');
         }
 
+        $current_activation_url = '';
+        if ($existingRegistration) {
+            $current_activation_url = $this->generateUrl(
+                'accounts_view_activate',
+                [
+                    '_locale' => $existingRegistration->getUser()->getLanguage()->toNative(),
+                    'urlSuffix' => $existingRegistration->getUrlSuffix()->toNative(),
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        }
+
         return $this->render(
             'users/send_activation.html.twig',
             [
                 'email' => $user->getEmail()->toNative(),
+                'current_activation_url' => $current_activation_url,
             ]
         );
     }

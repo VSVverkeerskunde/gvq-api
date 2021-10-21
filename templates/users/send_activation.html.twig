@@ -6,6 +6,8 @@
 
     <h1 class="page-title">{% trans %}Activation.send.title{% endtrans %}</h1>
 
+    <p>{% trans with {'%url%': current_activation_url} %}Activation.send.current_url{% endtrans %}</p>
+
     <p>{% trans with {'%email%': email} %}Activation.send.confirmation{% endtrans %}</p>
 
     <form method="post">

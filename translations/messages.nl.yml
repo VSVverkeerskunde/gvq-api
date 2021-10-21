@@ -106,6 +106,7 @@ Activation.error.extra: 'Voor extra informatie kan je ook contact opnemen met de
 
 Activation.send: 'Stuur activatiemail'
 Activation.send.title: 'Activatiemail sturen'
+Activation.send.current_url: 'Huidige activatie-url: %url%. Opgelet: deze vervalt als je een nieuwe activatiemail verstuurt!'
 Activation.send.confirmation: 'Ben je zeker dat je een activatiemail wil sturen naar %email%?'
 Activation.send.confirm: 'Versturen'
 Activation.send.success: 'Er is een activatiemail verstuurd naar %email%.'
