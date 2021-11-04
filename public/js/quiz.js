@@ -278,9 +278,11 @@
 
           function checkEmail () {
             let emailRegex = new RegExp('^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$');
-            return emailRegex.test(emailInput.val()) &&
-              emailRegex.test(emailInputConfirmation.val()) &&
-              emailInput.val() === emailInputConfirmation.val();
+            var email = emailInput.val().trim();
+            var email_confirmation = emailInputConfirmation.val().trim();
+
+            return emailRegex.test(email) &&
+              email === email_confirmation;
           }
 
           let registerEmailButton = view.find('button.gvq-register-email-button');
@@ -308,7 +310,7 @@
           }
 
           registerEmailButton.on('click', function () {
-            $.post(quizConfig.apiUrl + '/quiz/' + quizId + '/email/' + emailInput.val().toLowerCase()).done(
+            $.post(quizConfig.apiUrl + '/quiz/' + quizId + '/email/' + emailInput.val().toLowerCase().trim()).done(
                 showResult
             );
           });
